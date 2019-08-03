@@ -6,11 +6,7 @@
         <span class="title_border_left"></span>条件筛选
       </el-row>
       <el-row class="chart_body back_white">
-<<<<<<< Updated upstream
-
-=======
         <com-optionselect></com-optionselect>
->>>>>>> Stashed changes
       </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
