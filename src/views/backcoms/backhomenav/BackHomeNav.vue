@@ -6,12 +6,7 @@
     <div>
       <el-row>
         <el-col :span="24">
-          <el-menu
-            default-active="/backhome/datatotal"
-            class="el-menu-vertical-demo"
-            unique-opened
-            router
-          >
+          <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router>
             <el-menu-item index="/backhome/datatotal">
               <i class="iconfont">&#xe639;</i>
               <span slot="title">数据总览</span>
@@ -69,16 +64,12 @@
 </template>
 <script>
 export default {
-  name: 'BackHomeNav',   //左侧导航栏
+  name: "BackHomeNav", //左侧导航栏
   data() {
-    return {
-      activeIndex: '/backhome/datatotal',
-    }
+    return {};
   },
-  methods: {
-
-  }
-}
+  methods: {}
+};
 </script>
 <style>
 .back_home_nav .el-menu {
