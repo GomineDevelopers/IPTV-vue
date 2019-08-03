@@ -16,7 +16,7 @@ export default new Router({
     },
     {
       path: '/backhome',
-      name: 'backhome',
+      // name: 'backhome',
       component: BackHome,
       children: [
         //为后台数据报告页添加二级路由

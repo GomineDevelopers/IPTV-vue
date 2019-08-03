@@ -1,5 +1,5 @@
 <template>
-  <div class="CustomerSegmentation">
+  <div class="CustomerSegmentation"></div>
 
 </template>
 

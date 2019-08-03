@@ -1,5 +1,5 @@
 <template>
-  <div class="InTheNetwork">
+  <div class="InTheNetwork"></div>
 
 </template>
 

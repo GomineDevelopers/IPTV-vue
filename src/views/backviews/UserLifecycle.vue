@@ -6,16 +6,11 @@
         <span class="title_border_left"></span>条件筛选
       </el-row>
       <el-row class="chart_body back_white">
-        <!-- <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="活动性质">
-            <el-checkbox-group v-model="form.type">
-              <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-              <el-checkbox label="地推活动" name="type"></el-checkbox>
-              <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-              <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
-        </el-form>-->
+<<<<<<< Updated upstream
+
+=======
+        <com-optionselect></com-optionselect>
+>>>>>>> Stashed changes
       </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
@@ -26,7 +21,9 @@
         <el-row class="model_title">
           <span class="title_border_left"></span>在册
         </el-row>
-        <el-row class="chart_body back_white"></el-row>
+        <el-row class="chart_body back_white">
+          <com-registered></com-registered>
+        </el-row>
       </el-col>
       <el-col class="user_register_right height_auto" :span="12">
         <el-row class="model_title">
@@ -65,22 +62,29 @@
   </div>
 </template>
 <script>
-// import MyMap from "@/views/backcoms/userlifecycle/MyMap"; // 
-// import MyMap from "@/views/backcoms/userlifecycle/MyMap"; // 
-// import MyMap from "@/views/backcoms/userlifecycle/MyMap"; // 
-// import MyMap from "@/views/backcoms/userlifecycle/MyMap"; // 
-// import MyMap from "@/views/backcoms/userlifecycle/MyMap"; // 
-// import MyMap from "@/views/backcoms/userlifecycle/MyMap"; // 
-
+import OptionSelect from "@/views/backcoms/userlifecycle/OptionSelect"; // 条件筛选
+import Registered from "@/views/backcoms/userlifecycle/Registered"; // 在册
+import Activate from "@/views/backcoms/userlifecycle/Activate"; // 激活
+import InTheNetwork from "@/views/backcoms/userlifecycle/InTheNetwork"; // 在网
+import UserStructure from "@/views/backcoms/userlifecycle/UserStructure"; // 用户结构
+import CustomerSegmentation from "@/views/backcoms/userlifecycle/CustomerSegmentation"; // 用户细分
 
 export default {
-  name: 'UserLifecycle',  //用户生命周期
+  name: "UserLifecycle", //用户生命周期
   data() {
     return {
       form: {}
-    }
+    };
+  },
+  components: {
+    "com-optionselect": OptionSelect,
+    "com-registered": Registered,
+    "com-activate": Activate,
+    "com-inthenetwork": InTheNetwork,
+    "com-userstructure": UserStructure,
+    "com-customersegmentation": CustomerSegmentation,
   }
-}
+};
 </script>
 <style>
 .option_select {

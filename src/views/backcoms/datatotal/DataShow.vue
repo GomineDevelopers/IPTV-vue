@@ -37,7 +37,7 @@ export default {
   display: inline-block;
   height: 100%;
   width: 100%;
-
+  padding: 4px;
   /* width: 16%;
   height: 139px;
   padding: 10px;
@@ -60,9 +60,10 @@ export default {
 }
 .DataShow .info {
   float: right;
+  margin-right: 4px;
 }
 
-.DataShow .Dtop{
+.DataShow .Dtop {
   margin: 0;
 }
 
@@ -73,7 +74,7 @@ export default {
   padding-bottom: 12px;
 }
 
-.DataShow .Dbottom{
+.DataShow .Dbottom {
   margin: 0 0;
 }
 

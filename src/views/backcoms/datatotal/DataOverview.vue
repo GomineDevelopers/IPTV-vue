@@ -1,7 +1,7 @@
 <template>
   <div class="DataOverview">
-    <el-row class="title_row fontBold">
-      <span class="data_total_left"></span>数据总览
+    <el-row class="model_title DO_left">
+      <span class="title_border_left"></span>数据总览
     </el-row>
     <div class="province fontBold">{{province}}</div>
   </div>
@@ -29,7 +29,10 @@ export default {
   width: 100%;
   /* margin: 7px; */
 }
-.DataOverview .fontBold{
+.DataOverview .DO_left{
+  padding-left: 4px;
+}
+.DataOverview .fontBold {
   font-weight: bold;
 }
 .DataOverview .title {
@@ -42,7 +45,7 @@ export default {
   font-family: PingFangSC-Semibold;
   font-size: 24px;
   color: #333333;
-  margin-top: 15%;
+  margin-top: 4%;
   text-align: center;
 }
 </style>
