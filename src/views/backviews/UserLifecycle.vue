@@ -6,7 +6,7 @@
         <span class="title_border_left"></span>条件筛选
       </el-row>
       <el-row class="chart_body back_white">
-        <el-form ref="form" :model="form" label-width="80px">
+        <!-- <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="活动性质">
             <el-checkbox-group v-model="form.type">
               <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
@@ -15,7 +15,7 @@
               <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-        </el-form>
+        </el-form>-->
       </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
@@ -103,10 +103,6 @@ export default {
 .user_segment {
   height: 627px;
   margin-bottom: 50px;
-}
-.chart_body {
-  height: calc(100% - 50px);
-  padding: 0px 10px 10px 10px;
 }
 </style>
 
