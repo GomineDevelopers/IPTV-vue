@@ -1,0 +1,266 @@
+<template>
+  <div class="data_total">
+    <el-row>
+      <el-col class="data_body_left" :span="4" :lg="4" :md="5">
+        <el-row class="data_detail_model data_detail_city back_white">
+          <!-- <el-row class="title_row">
+            <span class="data_total_left"></span>数据总览
+          </el-row>
+          <el-row class="data_detail_cityname">
+            <span>遵义</span>
+          </el-row>-->
+          <com-dataoverview v-bind:province="data.province"></com-dataoverview>
+        </el-row>
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[0].icon"
+            v-bind:title="data.datashow[0].title"
+            v-bind:numT="data.datashow[0].numT"
+            v-bind:content="data.datashow[0].content"
+            v-bind:numC="data.datashow[0].numC"
+          ></com-datashow>
+        </el-row>
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[1].icon"
+            v-bind:title="data.datashow[1].title"
+            v-bind:numT="data.datashow[1].numT"
+            v-bind:content="data.datashow[1].content"
+            v-bind:numC="data.datashow[1].numC"
+          ></com-datashow>
+        </el-row>
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[2].icon"
+            v-bind:title="data.datashow[2].title"
+            v-bind:numT="data.datashow[2].numT"
+            v-bind:content="data.datashow[2].content"
+            v-bind:numC="data.datashow[2].numC"
+          ></com-datashow>
+        </el-row>
+      </el-col>
+      <el-col class="data_body_middle" :span="16" :lg="16" :md="14">
+        <div class="data_map back_white">
+          <com-map @setProvince="setProvince" @setDatashow="setDatashow"></com-map>
+        </div>
+      </el-col>
+      <el-col class="data_body_right" :span="4" :lg="4" :md="5">
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[3].icon"
+            v-bind:title="data.datashow[3].title"
+            v-bind:numT="data.datashow[3].numT"
+            v-bind:content="data.datashow[3].content"
+            v-bind:numC="data.datashow[3].numC"
+          ></com-datashow>
+        </el-row>
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[4].icon"
+            v-bind:title="data.datashow[4].title"
+            v-bind:numT="data.datashow[4].numT"
+            v-bind:content="data.datashow[4].content"
+            v-bind:numC="data.datashow[4].numC"
+          ></com-datashow>
+        </el-row>
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[5].icon"
+            v-bind:title="data.datashow[5].title"
+            v-bind:numT="data.datashow[5].numT"
+            v-bind:content="data.datashow[5].content"
+            v-bind:numC="data.datashow[5].numC"
+          ></com-datashow>
+        </el-row>
+        <el-row class="data_detail_model back_white">
+          <com-datashow
+            v-bind:icon="data.datashow[6].icon"
+            v-bind:title="data.datashow[6].title"
+            v-bind:numT="data.datashow[6].numT"
+            v-bind:content="data.datashow[6].content"
+            v-bind:numC="data.datashow[6].numC"
+          ></com-datashow>
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row class="data_total_bottom">
+      <el-col class="data_bottom_left" :span="12">
+        <div class="user_portrayal back_white">
+          <com-userportrait></com-userportrait>
+        </div>
+      </el-col>
+      <el-col class="data_bottom_right" :span="12">
+        <div class="day_live_tendency back_white">
+          <com-dailylivingtrend></com-dailylivingtrend>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+<script>
+import MyMap from "@/views/backcoms/datatotal/MyMap"; // 地图
+import DataOverview from "@/views/backcoms/datatotal/DataOverview"; // 数据总览
+import DataShow from "@/views/backcoms/datatotal/DataShow"; // 数据展示
+import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画像
+import DailyLivingTrend from "@/views/backcoms/datatotal/DailyLivingTrend"; // 日活趋势
+
+export default {
+  name: "DataTotal", //数据总览
+  components: {
+    "com-map": MyMap,
+    "com-dataoverview": DataOverview,
+    "com-datashow": DataShow,
+    "com-userportrait": UserPortrait,
+    "com-dailylivingtrend": DailyLivingTrend
+  },
+  data() {
+    return {
+      data: {
+        province: "贵阳",
+        datashow: [
+          {
+            icon: "&#xe600;",
+            title: "在册用户",
+            numT: "231.1",
+            content: "每日新增在册用户",
+            numC: "12423"
+          },
+          {
+            icon: "&#xe620;",
+            title: "激活用户",
+            numT: "132.2",
+            content: "激活率",
+            numC: "67%"
+          },
+
+          {
+            icon: "&#xe60c;",
+            title: "开机用户",
+            numT: "23.1",
+            content: "开机率",
+            numC: "32%"
+          },
+          {
+            icon: "&#xe641;",
+            title: "收视用户",
+            numT: "29.1",
+            content: "户均收视次数",
+            numC: "12231"
+          },
+          {
+            icon: "&#xe64f;",
+            title: "付费用户",
+            numT: "18.1",
+            content: "付费转化率",
+            numC: "12423"
+          },
+          {
+            icon: "&#xe612;",
+            title: "停机",
+            numT: "0.7",
+            content: "每日停机户",
+            numC: "32"
+          },
+          {
+            icon: "&#xe601;",
+            title: "销户",
+            numT: "2.5",
+            content: "每日销户数",
+            numC: "25"
+          }
+        ]
+      }
+    };
+  },
+  methods: {
+    setProvince(province) {
+      console.log("~~~~");
+      this.data.province = province;
+    },
+    setDatashow(datashow) {
+      this.data.datashow = datashow;
+    }
+  }
+};
+</script>
+<style scoped>
+/* @font-face {
+  font-family: "iconfont"; 
+  src: url("//at.alicdn.com/t/font_1314644_ambld374co.eot");
+  src: url("//at.alicdn.com/t/font_1314644_ambld374co.eot?#iefix")
+      format("embedded-opentype"),
+    url("//at.alicdn.com/t/font_1314644_ambld374co.woff2") format("woff2"),
+    url("//at.alicdn.com/t/font_1314644_ambld374co.woff") format("woff"),
+    url("//at.alicdn.com/t/font_1314644_ambld374co.ttf") format("truetype"),
+    url("//at.alicdn.com/t/font_1314644_ambld374co.svg#iconfont") format("svg");
+}
+.BackHome {
+  color: rgba(0, 0, 0, 0.65);
+  text-align: left;
+  background-color: #f0f2f5;
+  overflow: scroll;
+} */
+
+.data_total {
+  height: auto;
+  padding-bottom: 24px;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: left;
+}
+.data_total .data_body_left,
+.data_total .data_body_middle,
+.data_total .data_body_right {
+  height: 598px;
+}
+.data_total .data_body_middle {
+  padding: 0 14px;
+}
+.data_body_middle .data_map {
+  width: 100%;
+  height: 100%;
+}
+.data_total .data_detail_model {
+  height: calc((100% - 42px) / 4);
+  margin-bottom: 14px;
+  padding: 10px;
+}
+.data_total .data_detail_model:nth-child(4) {
+  margin-bottom: 0px;
+}
+.data_detail_city {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.data_detail_cityname {
+  height: calc(100% - 25px);
+  display: -webkit-flex;
+  display: flex;
+  flex: 1;
+  -webkit-flex: 1;
+  align-items: center;
+}
+.data_detail_cityname {
+  margin: 0 auto;
+}
+.data_bottom_left,
+.data_bottom_right {
+  height: 352px;
+}
+.data_total_bottom {
+  margin: 14px 0px;
+}
+.data_bottom_left {
+  padding-right: 7px;
+}
+.data_bottom_right {
+  padding-left: 7px;
+}
+.user_portrayal,
+.day_live_tendency {
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+
