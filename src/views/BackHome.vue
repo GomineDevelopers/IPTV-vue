@@ -33,6 +33,7 @@ export default {
 .backHome .backHome_nav {
   width: 230px;
   height: 100%;
+  box-shadow: 2px 0 6px 0 rgba(0, 21, 41, 0.35);
 }
 .backHome .backHome_body {
   background: #f0f2f5;

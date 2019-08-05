@@ -4,19 +4,19 @@
       <div class="epg_page_col" v-for="(list,index2) in item" :key="index2 + 'b'">
         <ul>
           <li>
-            <span>搜索</span>
-            <span>{{list.title}}</span>
+            <span class="classify">{{list.classify}}</span>
+            <span class="list_title">{{list.title}}</span>
           </li>
           <li>
-            <span>上周</span>
+            <span class="classify">上周</span>
             <span>{{list.lastWeek}}</span>
           </li>
           <li>
-            <span>本周</span>
+            <span class="classify">本周</span>
             <span>{{list.thisWeek}}</span>
           </li>
           <li>
-            <span>环比</span>
+            <span class="classify">环比</span>
             <span>{{list.chainIndex}}</span>
           </li>
         </ul>
@@ -31,9 +31,9 @@ export default {
     return {
       programesList: [
         [
-          { title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+          { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
         ],
         [
           { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
@@ -45,17 +45,17 @@ export default {
           { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
         ],
         [
-          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+          { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
         ],
         [
-          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+          { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
         ],
       ]
     }
@@ -96,13 +96,31 @@ export default {
 .epg_page_col ul li {
   height: 27px;
   line-height: 27px;
+  list-style: disc;
+  font-size: 14px;
+}
+.epg_page_col ul li:nth-child(2) {
+  color: #5e70f1;
+}
+.epg_page_col ul li:nth-child(3) {
+  color: #f97e6f;
+}
+.epg_page_col ul li:nth-child(4) {
+  color: #4adbc7;
 }
 .epg_page_col ul li:nth-child(1) {
   list-style: none;
-}
-.epg_page_col ul li span:nth-child(1) {
-  margin-right: 40px;
   color: #333;
+}
+.epg_page_col ul li span.classify {
+  display: inline-block;
+  width: 70px;
+  text-align: left;
+  font-size: 12px;
+  color: #333;
+}
+.epg_page_col ul li .list_title {
+  color: #333 !important;
 }
 .epg_page_col ul li span:nth-child(2) {
   color: #999;
