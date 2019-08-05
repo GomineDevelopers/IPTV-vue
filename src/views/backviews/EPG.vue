@@ -1,5 +1,5 @@
 <template>
-  <div class="epg">
+  <div class="epg_content">
     <!-- 条件筛选开始 -->
     <el-row class="option_select epg">
       <el-row class="model_title">
@@ -73,6 +73,9 @@ export default {
 }
 </script>
 <style scoped>
+.epg_content {
+  margin-bottom: 50px;
+}
 .epg {
   height: 250px;
 }
