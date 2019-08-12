@@ -6,12 +6,14 @@ import {
   Submenu,
   MenuItem,
   MenuItemGroup,
+  Table,
+  TableColumn,
 
   Checkbox,
   CheckboxGroup,
   Button,
   Select,
-  Option
+  Option,
 
 } from 'element-ui'
 
@@ -21,6 +23,8 @@ Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
+Vue.use(Table)
+Vue.use(TableColumn)
 
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)

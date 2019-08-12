@@ -6,7 +6,7 @@ import $ from 'jquery'
 import '@/utils/page.js'
 import '@/utils/element_ui.js';
 
-Vue.prototype.$jquery = $
+Vue.prototype.$ = $
 
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
