@@ -63,6 +63,7 @@ export default {
 }
 .program_searching_content {
   height: 300px;
+  margin-top: 24px;
 }
 .search_notice {
   text-align: left;
