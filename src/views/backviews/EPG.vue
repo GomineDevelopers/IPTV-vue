@@ -5,7 +5,9 @@
       <el-row class="model_title">
         <span class="title_border_left"></span>条件筛选
       </el-row>
-      <el-row class="chart_body back_white">条件.......</el-row>
+      <el-row class="chart_body back_white">
+        <com-optionselectEGB></com-optionselectEGB>
+      </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
 
@@ -41,36 +43,36 @@
   </div>
 </template>
 <script>
-import EpgPageOne from '../backcoms/epg/EpgPageOne'
-import EpgPageTwo from '../backcoms/epg/EpgPageTwo'
+import OptionSelectEPG from "../backcoms/epg/OptionSelectEPG";
+import EpgPageOne from "../backcoms/epg/EpgPageOne";
+import EpgPageTwo from "../backcoms/epg/EpgPageTwo";
 export default {
-  name: 'EPG',   //EPG
+  name: "EPG", //EPG
   components: {
+    "com-optionselectEGB": OptionSelectEPG,
     "epg-page-one": EpgPageOne,
-    "epg-page-two": EpgPageTwo,
+    "epg-page-two": EpgPageTwo
   },
   data() {
     return {
       pageOneShow: true,
-      pageTwoShow: false,
-    }
+      pageTwoShow: false
+    };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     //一级页面与二级页面切换选项卡
     changePage(string) {
-      if (string == 'one') {
-        this.pageOneShow = true
-        this.pageTwoShow = false
-      } else if (string == 'two') {
-        this.pageOneShow = false
-        this.pageTwoShow = true
+      if (string == "one") {
+        this.pageOneShow = true;
+        this.pageTwoShow = false;
+      } else if (string == "two") {
+        this.pageOneShow = false;
+        this.pageTwoShow = true;
       }
     }
   }
-}
+};
 </script>
 <style scoped>
 .epg_content {

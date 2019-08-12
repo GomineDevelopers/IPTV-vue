@@ -25,7 +25,9 @@
         <el-row class="model_title">
           <span class="title_border_left"></span>激活
         </el-row>
-        <el-row class="chart_body back_white"></el-row>
+        <el-row class="chart_body back_white">
+          <com-activate></com-activate>
+        </el-row>
       </el-col>
     </el-row>
     <!-- 在册和激活结束-->

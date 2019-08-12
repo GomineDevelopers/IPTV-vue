@@ -5,7 +5,9 @@
       <el-row class="model_title">
         <span class="title_border_left"></span>条件筛选
       </el-row>
-      <el-row class="chart_body back_white">条件.......</el-row>
+      <el-row class="chart_body back_white">
+        <com-optionselectPR></com-optionselectPR>
+      </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
 
@@ -22,9 +24,14 @@
   </div>
 </template>
 <script>
+import OptionSelectPR from "../backcoms/periodicreport/OptionSelectPR";
+
 export default {
-  name: 'PeriodicReport', //定期报告
-}
+  name: "PeriodicReport", //定期报告
+  components: {
+    "com-optionselectPR": OptionSelectPR
+  }
+};
 </script>
 <style scoped>
 .periodic_report {

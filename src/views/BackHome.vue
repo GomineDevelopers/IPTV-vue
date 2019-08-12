@@ -14,15 +14,22 @@
   </div>
 </template>
 <script>
-import "@/styles/common.css"
-import BackHomeNav from "@/views/backcoms/backhomenav/BackHomeNav"  //左侧导航栏
+import "@/styles/common.css";
+import BackHomeNav from "@/views/backcoms/backhomenav/BackHomeNav"; //左侧导航栏
 export default {
   name: "BackHome",
   components: {
     "back-home-nav": BackHomeNav
   }
-}
+};
 </script>
+
+<style>
+
+</style>
+
+
+
 <style scoped>
 .backHome {
   width: 100%;
