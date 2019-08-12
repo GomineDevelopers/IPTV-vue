@@ -25,7 +25,9 @@ export default {
 </script>
 
 <style>
-
+.backHome_body_main {
+  scroll-behavior: smooth;
+}
 </style>
 
 

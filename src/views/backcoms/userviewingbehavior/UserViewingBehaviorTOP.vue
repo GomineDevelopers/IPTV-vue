@@ -32,7 +32,7 @@
 </template>
 <script>
 export default {
-  name: 'UserViewingBehaviorTOP', //用户收视行为\
+  name: 'UserViewingBehaviorTOP', //用户收视行为
   props: {
     viewingTopList: {
       type: Array,
