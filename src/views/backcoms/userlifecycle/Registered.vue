@@ -120,8 +120,8 @@ export default {
         },
         legend: {
           show: true,
-          top: "0%",
-          left: "90%",
+          top: "5%",
+          left: "80%",
           data: arrName,
           itemWidth: 10,
           itemHeight: 10,

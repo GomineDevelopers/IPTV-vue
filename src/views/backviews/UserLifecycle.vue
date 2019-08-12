@@ -38,13 +38,17 @@
         <el-row class="model_title">
           <span class="title_border_left"></span>在网
         </el-row>
-        <el-row class="chart_body user_online_body back_white"></el-row>
+        <el-row class="chart_body user_online_body back_white">
+          <com-inthenetwork></com-inthenetwork>
+        </el-row>
       </el-col>
       <el-col class="height_auto padding_left" :span="10">
         <el-row class="model_title">
           <span class="title_border_left"></span>用户结构
         </el-row>
-        <el-row class="chart_body user_structure_body back_white"></el-row>
+        <el-row class="chart_body user_structure_body back_white">
+          <com-userstructure></com-userstructure>
+        </el-row>
       </el-col>
     </el-row>
     <!-- 在网结束 -->
@@ -54,7 +58,9 @@
       <el-row class="model_title">
         <span class="title_border_left"></span>用户细分
       </el-row>
-      <el-row class="chart_body padding_10"></el-row>
+      <el-row class="chart_body padding_10">
+        <com-customersegmentation></com-customersegmentation>
+      </el-row>
     </el-row>
     <!-- 用户细分结束 -->
   </div>

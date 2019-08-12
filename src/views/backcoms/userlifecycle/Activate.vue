@@ -2,15 +2,22 @@
   <div class="Activate">
     <div id="echartsAA" class="echarts1 Aleft"></div>
     <div class="Aright">
-      <div id="echartsBB" class="echarts2 Rtop"></div>
-      <div id="echartsBB" class="Rbottom">
+      <div id="echartsBB" :style="{width: '100%',height: '70%'}" class="echarts2 Rtop"></div>
+      <div id="echartsCC" class="Rbottom">
         <p class="title">激活率预警</p>
         <p class="content">
           <span class="sTitle">遵义：</span>
           <span class="percentage">60%</span>
           <span>&nbsp;&nbsp;</span>
           <span class="sTitle">环比下降：</span>
-          <span class="percentage">2.1%</span>
+          <span class="percentage2">2.1%</span>
+        </p>
+        <p class="content">
+          <span class="sTitle">铜仁：</span>
+          <span class="percentage">60%</span>
+          <span>&nbsp;&nbsp;</span>
+          <span class="sTitle">环比下降：</span>
+          <span class="percentage2">5.7%</span>
         </p>
       </div>
     </div>
@@ -53,7 +60,7 @@ export default {
         },
         legend: {
           show: true,
-          top: "0%",
+          top: "5%",
           left: "70%",
           data: arrName,
           itemWidth: 10,
@@ -128,10 +135,10 @@ export default {
     drawLine2() {
       var myChart2 = this.$echarts.init(document.getElementById("echartsBB"));
       var myColor = ["#FF6123"];
-      var arrName = ["48小时激活率"];
+      var arrName = ["本月", "同期"];
       var option2 = {
         title: {
-          text: "激活用户数",
+          text: "48小时激活率",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
@@ -148,20 +155,36 @@ export default {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           }
         },
-        legend: {
-          show: true,
-          top: "0%",
-          left: "80%",
-          data: arrName,
-          itemWidth: 10,
-          itemHeight: 10,
-          width: 40,
-          padding: [0, 5],
-          itemGap: 2,
-          textStyle: {
-            color: "#999999"
+        legend: [
+          {
+            show: true,
+            top: "5%",
+            left: "60%",
+            data: ["本月"],
+            itemWidth: 10,
+            itemHeight: 10,
+            width: 40,
+            padding: [0, 5],
+            itemGap: 2,
+            textStyle: {
+              color: "#999999"
+            }
+          },
+          {
+            show: true,
+            top: "5%",
+            left: "80%",
+            data: ["同期"],
+            itemWidth: 10,
+            itemHeight: 10,
+            width: 40,
+            padding: [0, 5],
+            itemGap: 2,
+            textStyle: {
+              color: "#999999"
+            }
           }
-        },
+        ],
 
         grid: {
           left: "3%",
@@ -203,7 +226,7 @@ export default {
         series: [
           {
             name: arrName[0],
-            type: "bar",
+            type: "line",
             barWidth: "33%", //柱图宽度
             stack: "总量",
             label: {
@@ -213,6 +236,20 @@ export default {
               }
             },
             data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
+            color: myColor[0]
+          },
+          {
+            name: arrName[1],
+            type: "line",
+            barWidth: "33%", //柱图宽度
+            stack: "总量",
+            label: {
+              normal: {
+                show: false,
+                position: "insideRight"
+              }
+            },
+            data: [8000, 7800, 6700, 8800, 5700, 8500, 5600, 6700, 4800],
             color: myColor[0]
           }
         ]
@@ -242,20 +279,18 @@ export default {
   display: inline-block;
 }
 
-.Activate .Aright{
-  margin-top: -10%
+.Activate .Aright {
+  vertical-align: top;
 }
 
 .Activate .Aright .Rtop {
-  height: 60%;
+  /* height: 80%; */
   width: 100%;
-  display: inline-block;
 }
 
 .Activate .Aright .Rbottom {
-  height: 40%;
+  /* height: 20%; */
   width: 100%;
-  display: inline-block;
   text-align: left;
 }
 .Activate .title {
@@ -263,9 +298,11 @@ export default {
   font-size: 14px;
   color: #333333;
   margin: 5px 0;
+  margin-left: 2%;
 }
 .Activate .content {
   margin: 5px 0;
+  margin-left: 7.5%;
 }
 .Activate .sTitle {
   font-family: PingFangSC-Regular;
@@ -273,9 +310,12 @@ export default {
   color: #333333;
 }
 .Activate .percentage {
+  color: #ff4800;
+}
+.Activate .percentage2 {
   font-family: PingFangSC-Regular;
   font-size: 10px;
-  color: #ff4800;
+  color: #3f3f3f;
 }
 
 /* .Activate .echarts1 {
