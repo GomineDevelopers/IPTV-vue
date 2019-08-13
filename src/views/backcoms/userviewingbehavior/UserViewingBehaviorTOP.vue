@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      viewingTopList: this.props.viewingTopList
+
     }
   },
   mounted() {

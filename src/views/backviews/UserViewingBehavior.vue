@@ -18,8 +18,28 @@
         <span class="title_border_left"></span>收视行为
       </el-row>
       <el-row class="chart_body back_white">
-        <el-col class="height_auto" :span="12">收视行为图表1</el-col>
-        <el-col class="height_auto" :span="12">收视行为图表2</el-col>
+        <el-row class="select_option_content">
+          <span>选择指标：</span>
+          <el-select v-model="targetOption" placeholder="请选择">
+            <el-option v-for="(item,index) in target" :key="index+'c'" :label="item" :value="item"></el-option>
+          </el-select>
+        </el-row>
+        <el-col class="height_auto chart_height" :span="12">
+          <el-col class="height_auto" :span="12">
+            <!-- 地区饼图 -->
+            <pie-charts :chartData="regionData"></pie-charts>
+          </el-col>
+          <el-col class="height_auto" :span="12">
+            <!-- 运营商柱状图 -->
+            <bar-graph :chartData="operatorData"></bar-graph>
+          </el-col>
+        </el-col>
+        <el-col class="height_auto chart_height" :span="12">
+          <el-col class="height_auto" :span="12">
+            <pie-charts :chartData="playData"></pie-charts>
+          </el-col>
+          <el-col class="height_auto" :span="12"></el-col>
+        </el-col>
       </el-row>
     </el-row>
     <!-- 收视行为结束 -->
@@ -37,18 +57,71 @@
   </div>
 </template>
 <script>
-import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP";
-import OptionSelectUVB from "@/views/backcoms/userviewingbehavior/OptionSelectUVB"; // 条件筛选
-
+import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"  //收视TOP组件
+import OptionSelectUVB from "@/views/backcoms/userviewingbehavior/OptionSelectUVB" // 条件筛选
+import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
+import BarGraph from "@/views/backcoms/commoncomponents/BarGraph"  //公用柱状图
 
 export default {
   name: "UserViewingBehavior", //用户收视行为
   components: {
     "user-viewing-behavior-top": UserViewingBehaviorTOP,
     "com-optionselectUVB": OptionSelectUVB,
+    "pie-charts": PieCharts,
+    "bar-graph": BarGraph
   },
   data() {
     return {
+      targetOption: '', //存放选择的指标
+      //选择指标数据
+      target: ["观看次数", "观看时长", "户均收视次数", "次均收视次数"],
+      //地区数据
+      regionData: {
+        title: "地区",
+        id: 'regionChart',
+        color: ["#B37CF4", "#DADEEA ", "#CEF1ED", "#FCB84F", "#7ECDF4", "#A9CCDC", "#5E70F1", "#F97E6F", "#4ADBC7"],
+        data: [
+          { value: 1335, name: '贵阳' },
+          { value: 810, name: '遵义' },
+          { value: 648, name: '安顺' },
+          { value: 234, name: '六盘水' },
+          { value: 535, name: '毕节' },
+          { value: 248, name: '铜仁' },
+          { value: 148, name: '黔南' },
+          { value: 108, name: '黔东南' },
+          { value: 348, name: '黔西南' }
+        ],
+      },
+      //运营商数据
+      operatorData: {
+        title: "运营商",
+        id: 'operatorChart',
+        color: ["#FF6123", "#FF8859", "#FFAA89"],
+        data: [
+          ['product', '移动', '联通', '电信'],
+          ['贵阳', 43.3, 85.8, 93.7],
+          ['遵义', 83.1, 73.4, 55.1],
+          ['毕节', 86.4, 65.2, 82.5],
+          ['铜仁', 72.4, 53.9, 39.1],
+          ['六盘水', 43.3, 85.8, 93.7],
+          ['黔南', 83.1, 73.4, 55.1],
+          ['黔东南', 86.4, 65.2, 82.5],
+          ['黔西南', 72.4, 53.9, 39.1],
+          ['安顺', 43.3, 85.8, 93.7],
+        ]
+      },
+      //播放数据
+      playData: {
+        title: "播放",
+        id: 'playChart',
+        color: ["#B37CF4", "#F97E6F ", "#A9CCDC"],
+        data: [
+          { value: 535, name: '直播' },
+          { value: 410, name: '回看' },
+          { value: 348, name: '点播' }
+        ],
+      },
+      //收视TOP数据
       viewingTopList: [
         {
           topNum: 1,
@@ -158,7 +231,7 @@ export default {
       ]
     };
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 <style scoped>
@@ -172,6 +245,18 @@ export default {
 .viewing_top15 {
   height: 520px;
   margin-bottom: 50px;
+}
+.select_option_content {
+  height: 40px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+.select_option_content span {
+  font-weight: bold;
+}
+.chart_height {
+  height: calc(100% - 40px);
 }
 </style>
 
