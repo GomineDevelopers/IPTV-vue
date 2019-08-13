@@ -126,7 +126,11 @@
         </el-row>
         <el-row>
           <!-- <a href="#live_log">直播播放日志</a> -->
-          <a href="javascript:void(0)" @click="goAnchor('#look_back_log')">直播播放日志</a>
+          <a
+            class="anchor_link7"
+            href="javascript:void(0)"
+            @click="goAnchor('#look_back_log')"
+          >直播播放日志</a>
         </el-row>
       </el-col>
     </el-row>
@@ -249,9 +253,9 @@ export default {
     }
   },
   mounted() {
-    $('.backHome_body_main').scroll(function (event) {
+    $('#data_integrity_content').scroll(function (event) {
       //console.log($('.backHome_body_main').scrollTop())
-      let scrollTopHeight = $('.backHome_body_main').scrollTop()
+      let scrollTopHeight = $('#data_integrity_content').scrollTop()
       let boot_log = document.querySelector('#boot_log').offsetTop
       let heartbeat_log = document.querySelector('#heartbeat_log').offsetTop
       let page_access_log = document.querySelector('#page_access_log').offsetTop
@@ -267,44 +271,37 @@ export default {
       // console.log('bunch_planting_log 1768', bunch_planting_log)
       // console.log('look_back_log 2210', look_back_log)
       // console.log('live_log 2652', live_log)
-      if (0 <= scrollTopHeight < 200) {
-        console.log("当前是开机日志")
+      if (0 <= scrollTopHeight) {
         $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
       }
       if (400 <= scrollTopHeight) {
         $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-        console.log("当前是心跳日志")
       }
       if (800 <= scrollTopHeight) {
         $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-        console.log("当前是页面访问日志")
       }
-      if (1300 <= scrollTopHeight) {
+      if (1200 <= scrollTopHeight) {
         $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-        console.log("当前是热力图日志")
       }
-      if (1700 <= scrollTopHeight) {
+      if (1500 <= scrollTopHeight) {
         $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-        console.log("当前是点播播放日志")
       }
-      if (1900 <= scrollTopHeight) {
+      if (1800 <= scrollTopHeight) {
         $(".anchor_link6").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-        console.log("当前是回看播放日志")
       }
-      if (2000 < scrollTopHeight) {
-        $(".anchor_link6").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-        console.log("当前是直播播放日志")
+      if (2100 < scrollTopHeight) {
+        $(".anchor_link7").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
       }
     })
   },
   methods: {
     //点击锚点实现左侧滚动
     goAnchor(selector) {
-      let backHome_body_main = document.querySelector('.backHome_body_main')  //外层滚动容器元素
+      let data_integrity_content = document.querySelector('#data_integrity_content')  //外层滚动容器元素
       //console.log("backHome_body_main", backHome_body_main)
       var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
       //console.log("anchor", anchor)
-      backHome_body_main.scrollTop = anchor.offsetTop
+      data_integrity_content.scrollTop = anchor.offsetTop
 
       $('.anchor_hyperlinks a').on('click', function () {
         $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
@@ -314,6 +311,35 @@ export default {
 }
 </script>
 <style scoped>
+/*webkit内核*/
+#data_integrity_content::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+/*o内核*/
+#data_integrity_content .-o-scrollbar {
+  -moz-appearance: none !important;
+  background: rgba(0, 255, 0, 0) !important;
+}
+/*IE10,IE11,IE12*/
+#data_integrity_content {
+  -ms-scroll-chaining: chained;
+  -ms-overflow-style: none;
+  -ms-content-zooming: zoom;
+  -ms-scroll-rails: none;
+  -ms-content-zoom-limit-min: 100%;
+  -ms-content-zoom-limit-max: 500%;
+  -ms-scroll-snap-type: proximity;
+  -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+  -ms-overflow-style: none;
+  overflow: auto;
+}
+#data_integrity_content {
+  height: 100%;
+  /* overflow: auto; */
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
 .data_integrity_body {
   height: 418px;
   margin-bottom: 24px;
@@ -334,5 +360,8 @@ export default {
 }
 .anchor_hyperlinks .avtive_link {
   color: #ff6123;
+}
+#live_log {
+  margin-bottom: 50px;
 }
 </style>

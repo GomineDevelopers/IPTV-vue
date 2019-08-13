@@ -15,8 +15,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  min-height: 900px;
-  min-width: 1500px;
+  /* min-height: 900px;
+  min-width: 1500px; */
 }
 html,
 body {
