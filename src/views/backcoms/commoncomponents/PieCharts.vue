@@ -34,6 +34,15 @@ export default {
         trigger: 'item',
         formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
+      //图表自带工具
+      toolbox: {
+        show: true,
+        top: "16%",
+        right: "10%",
+        feature: {
+          saveAsImage: {}
+        }
+      },
       series: [
         {
           name: '地区',

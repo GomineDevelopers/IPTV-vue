@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     drawLine() {
-      var barGraphChart = this.$echarts.init(document.getElementById(this.chartData.id));
+      var barChartSingle = this.$echarts.init(document.getElementById(this.chartData.id));
       var option = {
         color: this.chartData.color,
         title: {
@@ -32,14 +32,29 @@ export default {
             fontSize: '14'
           }
         },
+        legend: {
+          top: "18%",
+          right: "20%",
+          itemWidth: 12,
+          itemHeight: 7,
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          top: "16%",
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
+        },
         grid: {
-          top: "18%",
+          top: "35%",
           left: '8%',
           right: '1%',
           bottom: "10%"
@@ -51,8 +66,9 @@ export default {
           type: 'category',
           axisLabel: {//横坐标类目文字
             show: true,
+            interval: 0,  // 坐标轴显示不全问题解决方案
             textStyle: {
-              fontSize: '12'//设置横坐标轴文字颜大小
+              fontSize: '12'//设置横坐标轴文字大小
             }
           },
           axisTick: {
@@ -83,18 +99,16 @@ export default {
           },
           axisTick: {
             show: false  //设置坐标轴刻度不显示
-          },
+          }
         },
         series: [
-          { type: 'bar', stack: '堆叠', barWidth: '12' },
-          { type: 'bar', stack: '堆叠', barWidth: '12' },
-          { type: 'bar', stack: '堆叠', barWidth: '12' }
+          { type: 'bar', barWidth: '12' },
         ]
       };
-      barGraphChart.setOption(option);
+      barChartSingle.setOption(option);
       window.addEventListener("resize", () => {
-        barGraphChart.resize();
-      });
+        barChartSingle.resize();
+      })
     }
   }
 }

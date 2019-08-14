@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       form: {}
-    };
+    }
   },
   components: {
     "com-optionselect": OptionSelect,
@@ -109,7 +109,7 @@ export default {
   margin-bottom: 14px;
 }
 .user_segment {
-  height: 627px;
+  height: 655px;
   margin-bottom: 50px;
 }
 </style>

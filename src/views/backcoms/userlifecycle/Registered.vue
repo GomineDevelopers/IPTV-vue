@@ -30,7 +30,6 @@ export default {
             fontWeight: "normal"
           }
         },
-        //color: ['#FFAA89',"#FF6123"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -38,9 +37,17 @@ export default {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           }
         },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
+        },
         grid: {
-          left: "3%",
-          right: "4%",
+          left: "2%",
+          right: "2%",
           bottom: "3%",
           containLabel: true
         },
@@ -50,15 +57,36 @@ export default {
             data: ["7.08-7.14", "7.15-7.21"],
             axisTick: {
               alignWithLabel: true
-            }
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+              }
+            },
           }
         ],
         yAxis: [
           {
             axisLabel: {
-              formatter: function() {
+              formatter: function () {
                 return ""; // 隐藏Y左边数据
               }
+            },
+            // 刻度线的设置
+            splitLine: {
+              show: false,
+            },
+            axisLine: {
+              show: false,  //Y轴不显示
+              lineStyle: {
+                color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {//横坐标类目文字
+              show: false,
+            },
+            axisTick: {
+              show: false  //设置坐标轴刻度不显示
             }
           }
         ],
@@ -72,7 +100,7 @@ export default {
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function(params) {
+                color: function (params) {
                   let colorList = ["#FFAA89", "#FF6123"];
                   return colorList[params.dataIndex];
                 },
@@ -118,16 +146,21 @@ export default {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           }
         },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "5%",
+          feature: {
+            saveAsImage: {}
+          }
+        },
         legend: {
           show: true,
           top: "5%",
-          left: "80%",
           data: arrName,
-          itemWidth: 10,
-          itemHeight: 10,
-          width: 40,
-          padding: [0, 5],
-          itemGap: 2,
+          itemWidth: 12,
+          itemHeight: 7,
+          itemGap: 10,
           textStyle: {
             color: "#999999"
           }
@@ -135,7 +168,7 @@ export default {
 
         grid: {
           left: "3%",
-          right: "4%",
+          right: "2%",
           bottom: "3%",
           containLabel: true
         },
@@ -144,14 +177,22 @@ export default {
           // axisLabel: {
           //   intervel: 0
           // },
+          axisTick: {
+            alignWithLabel: true
+          },
           axisLabel: {
             //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: "10" //设置横坐标轴文字大小
+              fontSize: "12" //设置横坐标轴文字大小
             },
             interval: 0,  // 坐标轴显示不全问题解决方案
             // rotate: 40  // 旋转效果
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+            }
           },
           data: [
             "贵阳",
@@ -166,7 +207,26 @@ export default {
           ]
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          // 刻度线的设置
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            show: false,  //Y轴不显示
+            lineStyle: {
+              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+            }
+          },
+          axisLabel: {//横坐标类目文字
+            show: true,
+            textStyle: {
+              fontSize: '12'//设置横坐标轴文字颜大小
+            }
+          },
+          axisTick: {
+            show: false  //设置坐标轴刻度不显示
+          }
         },
         series: [
           {

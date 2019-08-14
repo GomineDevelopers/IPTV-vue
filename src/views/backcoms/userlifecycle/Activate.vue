@@ -58,14 +58,21 @@ export default {
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           }
         },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "5%",
+          feature: {
+            saveAsImage: {}
+          }
+        },
         legend: {
           show: true,
-          top: "5%",
-          left: "70%",
+          top: "15%",
+          left: "40%",
           data: arrName,
-          itemWidth: 10,
-          itemHeight: 10,
-          width: 40,
+          itemWidth: 6,
+          itemHeight: 6,
           padding: [0, 5],
           itemGap: 2,
           textStyle: {
@@ -81,9 +88,6 @@ export default {
         },
         xAxis: {
           type: "category",
-          // axisLabel: {
-          //   intervel: 0
-          // },
           axisLabel: {
             //横坐标类目文字
             show: true,
@@ -92,6 +96,14 @@ export default {
             },
             interval: 0 // 坐标轴显示不全问题解决方案
             // rotate: 40  // 旋转效果
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+            }
+          },
+          axisTick: {
+            alignWithLabel: true
           },
           data: [
             "贵阳",
@@ -108,7 +120,26 @@ export default {
         yAxis: {
           type: "value",
           max: 16000,
-          min: 0
+          min: 0,
+          // 刻度线的设置
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            show: false,  //Y轴不显示
+            lineStyle: {
+              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+            }
+          },
+          axisLabel: {//横坐标类目文字
+            show: true,
+            textStyle: {
+              fontSize: '12'//设置横坐标轴文字颜大小
+            }
+          },
+          axisTick: {
+            show: false  //设置坐标轴刻度不显示
+          }
         },
         series: [
           {
@@ -134,7 +165,7 @@ export default {
     },
     drawLine2() {
       var myChart2 = this.$echarts.init(document.getElementById("echartsBB"));
-      var myColor = ["#FF6123"];
+      var myColor = ["#FF6123", "#FF8859"];
       var arrName = ["本月", "同期"];
       var option2 = {
         title: {
@@ -152,18 +183,26 @@ export default {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "5%",
+          feature: {
+            saveAsImage: {}
           }
         },
         legend: [
           {
             show: true,
-            top: "5%",
-            left: "60%",
+            top: "15%",
+            left: "30%",
             data: ["本月"],
-            itemWidth: 10,
-            itemHeight: 10,
-            width: 40,
+            icon: "circle",
+            itemWidth: 6,  // 设置宽度
+            itemHeight: 6, // 设置高度
             padding: [0, 5],
             itemGap: 2,
             textStyle: {
@@ -172,12 +211,12 @@ export default {
           },
           {
             show: true,
-            top: "5%",
-            left: "80%",
+            top: "15%",
+            left: "45%",
             data: ["同期"],
-            itemWidth: 10,
-            itemHeight: 10,
-            width: 40,
+            icon: "circle",
+            itemWidth: 6,  // 设置宽度
+            itemHeight: 6, // 设置高度
             padding: [0, 5],
             itemGap: 2,
             textStyle: {
@@ -185,7 +224,6 @@ export default {
             }
           }
         ],
-
         grid: {
           left: "3%",
           right: "4%",
@@ -194,17 +232,22 @@ export default {
         },
         xAxis: {
           type: "category",
-          // axisLabel: {
-          //   intervel: 0
-          // },
           axisLabel: {
             //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: "10" //设置横坐标轴文字大小
+              fontSize: "12" //设置横坐标轴文字大小
             },
             interval: 0 // 坐标轴显示不全问题解决方案
             // rotate: 40  // 旋转效果
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+            }
+          },
+          axisTick: {
+            alignWithLabel: true
           },
           data: [
             "贵阳",
@@ -221,7 +264,26 @@ export default {
         yAxis: {
           type: "value",
           max: 16000,
-          min: 0
+          min: 0,
+          // 刻度线的设置
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            show: false,  //Y轴不显示
+            lineStyle: {
+              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+            }
+          },
+          axisLabel: {//横坐标类目文字
+            show: true,
+            textStyle: {
+              fontSize: '12'//设置横坐标轴文字颜大小
+            }
+          },
+          axisTick: {
+            show: false  //设置坐标轴刻度不显示
+          }
         },
         series: [
           {
@@ -229,28 +291,30 @@ export default {
             type: "line",
             barWidth: "33%", //柱图宽度
             stack: "总量",
+            symbol: "circle",
+            color: myColor[0],
             label: {
               normal: {
                 show: false,
                 position: "insideRight"
               }
             },
-            data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
-            color: myColor[0]
+            data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
           },
           {
             name: arrName[1],
             type: "line",
             barWidth: "33%", //柱图宽度
             stack: "总量",
+            symbol: "circle",
+            color: myColor[1],
             label: {
               normal: {
                 show: false,
                 position: "insideRight"
               }
             },
-            data: [8000, 7800, 6700, 8800, 5700, 8500, 5600, 6700, 4800],
-            color: myColor[0]
+            data: [8000, 7800, 6700, 8800, 5700, 8500, 5600, 6700, 4800]
           }
         ]
       };

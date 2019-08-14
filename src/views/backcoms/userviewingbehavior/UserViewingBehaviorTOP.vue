@@ -9,8 +9,8 @@
           <el-col :span="6">节目</el-col>
           <el-col :span="6">次数（万）</el-col>
         </el-row>
-        <el-row class="programsTOP_list" id="viewing_top15_body">
-          <el-row class="viewing_top_list" v-for="(item,index) in viewingTopList" :key="index">
+        <el-row class="programsTOP_list" :id="viewingTopList.id">
+          <el-row class="viewing_top_list" v-for="(item,index) in viewingTopList.data" :key="index">
             <el-col :span="3" :offset="2">
               <span>{{item.topNum}}</span>
             </el-col>
@@ -35,7 +35,7 @@ export default {
   name: 'UserViewingBehaviorTOP', //用户收视行为
   props: {
     viewingTopList: {
-      type: Array,
+      type: Object,
     }
   },
   data() {
@@ -44,8 +44,7 @@ export default {
     }
   },
   mounted() {
-    //console.log(this.props.viewingTopList)
-    this.scrollLoopUp('viewing_top15_body')
+    this.scrollLoopUp(this.viewingTopList.id)
   },
   methods: {
     scrollLoopUp: function (id) {
@@ -103,15 +102,13 @@ export default {
 }
 .programsTOP_list {
   height: calc(100% - 45px);
-  color: #999;
+  color: #999 !important;
   padding-left: 8px;
   overflow: hidden;
 }
 .programsTOP_list .viewing_top_list {
   height: 42.5px;
   line-height: 42.5px;
-  /* height: calc(100% / 10); */
-  /* border-bottom: 1px solid rgba(147, 147, 147, 0.2); */
 }
 .programsTOP_list .viewing_top_list .el-col {
   height: 100%;
@@ -120,25 +117,24 @@ export default {
   align-items: center;
 }
 .programsTOP_list .viewing_top_list:nth-child(1) .el-col:nth-child(1) {
-  color: #ff4c75;
+  color: #ff4c75 !important;
 }
 .programsTOP_list .viewing_top_list:nth-child(2) .el-col:nth-child(1) {
-  color: #ff8859;
+  color: #ff8859 !important;
 }
 .programsTOP_list .viewing_top_list:nth-child(3) .el-col:nth-child(1) {
-  color: #ffaa89;
+  color: #ffaa89 !important;
 }
 .programsTOP_list .viewing_top_list:nth-child(16) .el-col:nth-child(1) {
-  color: #ff4c75;
+  color: #ff4c75 !important;
 }
 .programsTOP_list .viewing_top_list:nth-child(17) .el-col:nth-child(1) {
-  color: #ff8859;
+  color: #ff8859 !important;
 }
 .programsTOP_list .viewing_top_list:nth-child(18) .el-col:nth-child(1) {
-  color: #ffaa89;
+  color: #ffaa89 !important;
 }
 .programsTOP_list .viewing_top_list .hotWidth {
-  /* width: 100%; */
   text-align: right !important;
 }
 .programsTOP_list .viewing_top_list .hotWidth span {

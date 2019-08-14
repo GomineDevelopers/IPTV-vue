@@ -28,6 +28,14 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
+        },
         series: [
           {
             type: "pie",
@@ -76,6 +84,14 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
         },
         series: [
           {

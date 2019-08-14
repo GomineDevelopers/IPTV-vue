@@ -1,51 +1,51 @@
 <template>
-  <div class="InTheNetwork">
-    <div class="m_table">
-      <div class="mt_title">
-        <div class="mt_h">
-          <div></div>
-          <div>在网数（万）</div>
-          <div>人均观看时长（小时）</div>
-          <div>平均消费（元）</div>
-          <div>用户画像</div>
-        </div>
-      </div>
-      <div class="mt_row">
-        <div class="mt_h">
-          <div>总体数据</div>
-          <div class="data_num">292</div>
-          <div class="data_num">123</div>
-          <div class="data_num">1232</div>
-          <div id="Net_echartsA" :style="{width: '8vw',height: '8vw'}"></div>
-        </div>
-      </div>
-      <div class="mt_row">
-        <div class="mt_h">
-          <div>活跃</div>
-          <div class="data_num">292</div>
-          <div class="data_num">123</div>
-          <div class="data_num">1232</div>
-          <div id="Net_echartsB" :style="{width: '8vw',height: '8vw'}"></div>
-        </div>
-      </div>
-      <div class="mt_row">
-        <div class="mt_h">
-          <div>沉默</div>
-          <div class="data_num">292</div>
-          <div class="data_num">123</div>
-          <div class="data_num">1232</div>
-          <div id="Net_echartsC" :style="{width: '8vw',height: '8vw'}"></div>
-        </div>
-      </div>
-      <div class="mt_row">
-        <div class="mt_h">
-          <div>停机</div>
-          <div class="data_num">292</div>
-          <div class="data_num">123</div>
-          <div class="data_num">1232</div>
-          <div id="Net_echartsD" :style="{width: '8vw',height: '8vw'}"></div>
-        </div>
-      </div>
+  <div class="height_auto InTheNetwork">
+    <div class="height_auto m_table">
+      <el-row class="mt_title">
+        <el-row class="mt_h">
+          <el-col :span="4"></el-col>
+          <el-col :span="4">在网数（万）</el-col>
+          <el-col :span="5">人均观看时长（小时）</el-col>
+          <el-col :span="4">平均消费（元）</el-col>
+          <el-col :span="7">用户画像</el-col>
+        </el-row>
+      </el-row>
+      <el-row class="mt_row">
+        <el-row class="mt_h">
+          <el-col :span="4">总体数据</el-col>
+          <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="5" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>
+          <el-col :span="7" id="Net_echartsA"></el-col>
+        </el-row>
+      </el-row>
+      <el-row class="mt_row">
+        <el-row class="mt_h">
+          <el-col :span="4">活跃</el-col>
+          <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="5" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>
+          <el-col :span="7" id="Net_echartsB"></el-col>
+        </el-row>
+      </el-row>
+      <el-row class="mt_row">
+        <el-row class="mt_h">
+          <el-col :span="4">沉默</el-col>
+          <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="5" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>
+          <el-col :span="7" id="Net_echartsC"></el-col>
+        </el-row>
+      </el-row>
+      <el-row class="mt_row">
+        <el-row class="mt_h">
+          <el-col :span="4">停机</el-col>
+          <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="5" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>
+          <el-col :span="7" id="Net_echartsD"></el-col>
+        </el-row>
+      </el-row>
     </div>
   </div>
 </template>
@@ -54,13 +54,13 @@
 export default {
   name: "InTheNetwork",
   data() {
-    return {};
+    return {}
   },
   mounted() {
-    this.drawLine1();
-    this.drawLine2();
-    this.drawLine3();
-    this.drawLine4();
+    this.drawLine1()
+    this.drawLine2()
+    this.drawLine3()
+    this.drawLine4()
   },
   methods: {
     drawLine1() {
@@ -68,31 +68,30 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
+          extraCssText: 'width:120px;height:60px',
+          formatter: "{a} <br/>{b}: {c} ({d}%)",
         },
         legend: [
           {
             show: true,
-            top: "0%",
+            top: "15%",
             left: "80%",
             data: ["A", "B", "C", "D"],
-            itemWidth: 5,
-            itemHeight: 5,
+            itemWidth: 12,
+            itemHeight: 6,
             width: 40,
-            padding: [0, 0],
             itemGap: 5,
             textStyle: {
-              color: "rgba(0,0,0,0.45);"
+              color: "rgba(0,0,0,0.45)"
             }
           }
         ],
         series: [
           // 外环
           {
-            name: "访问来源",
+            name: "用户画像",
             type: "pie",
-            radius: ["35%", "45%"], // 大小
-            center: ["40%", "30%"], // 位置
+            radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
               "#BE8FF5",
@@ -111,8 +110,9 @@ export default {
                 show: false
               }
             },
+            hoverAnimation: false, //鼠标移入变大false
             data: [
-              { value: 1035, name: "A" },
+              { value: 1035, name: "A", },
               { value: 979, name: "B" },
               { value: 848, name: "C" },
               { value: 748, name: "D" }
@@ -131,15 +131,15 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
+          extraCssText: 'width:120px;height:60px',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
           // 外环
           {
-            name: "访问来源",
+            name: "用户画像",
             type: "pie",
-            radius: ["35%", "45%"], // 大小
-            center: ["40%", "30%"], // 位置
+            radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
               "#BE8FF5",
@@ -153,6 +153,7 @@ export default {
                 show: false
               }
             },
+            hoverAnimation: false, //鼠标移入变大false
             labelLine: {
               normal: {
                 show: false
@@ -178,15 +179,15 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
+          extraCssText: 'width:120px;height:60px',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
           // 外环
           {
-            name: "访问来源",
+            name: "用户画像",
             type: "pie",
-            radius: ["35%", "45%"], // 大小
-            center: ["40%", "30%"], // 位置
+            radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
               "#BE8FF5",
@@ -195,6 +196,7 @@ export default {
               "#F99184",
               "#7584F2"
             ],
+            hoverAnimation: false, //鼠标移入变大false
             label: {
               normal: {
                 show: false
@@ -225,15 +227,15 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
+          extraCssText: 'width:120px;height:60px',
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
           // 外环
           {
-            name: "访问来源",
+            name: "用户画像",
             type: "pie",
-            radius: ["35%", "45%"], // 大小
-            center: ["40%", "30%"], // 位置
+            radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
               "#BE8FF5",
@@ -242,6 +244,7 @@ export default {
               "#F99184",
               "#7584F2"
             ],
+            hoverAnimation: false, //鼠标移入变大false
             label: {
               normal: {
                 show: false
@@ -267,7 +270,7 @@ export default {
       });
     }
   }
-};
+}
 </script>
 
 <style>
@@ -277,37 +280,38 @@ export default {
   color: #333333;
 }
 .InTheNetwork .mt_title .mt_h {
-  height: 6vh;
+  height: 35px;
+  line-height: 35px;
+  display: -webkit-flex;
+  display: flex;
+}
+.InTheNetwork .mt_title .mt_h div {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+.InTheNetwork .mt_row {
+  height: calc((100% - 35px) / 4);
 }
 .InTheNetwork .mt_row .mt_h {
-  height: 8vh;
-}
-
-.InTheNetwork .mt_title .mt_h div {
-  display: inline-block;
-  width: 20%;
+  height: 100%;
 }
 .InTheNetwork .mt_row .mt_h div {
-  display: inline-block;
-  width: 20%;
-  height: 8vw;
-  vertical-align: top;
+  height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 .InTheNetwork #Net_echartsA,
 .InTheNetwork #Net_echartsB,
 .InTheNetwork #Net_echartsC,
 .InTheNetwork #Net_echartsD {
-  width: 20%;
-  vertical-align: top;
+  height: 100%;
 }
 
 .InTheNetwork .data_num {
   font-size: 12px;
   color: #999999;
 }
-</style>
-
-
-<style scoped>
 </style>
