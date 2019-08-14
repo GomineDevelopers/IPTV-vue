@@ -29,7 +29,7 @@ export default {
   width: 100%;
   /* margin: 7px; */
 }
-.DataOverview .DO_left{
+.DataOverview .DO_left {
   padding-left: 4px;
 }
 .DataOverview .fontBold {

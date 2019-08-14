@@ -2,7 +2,9 @@
   <div class="Activate">
     <div id="echartsAA" class="echarts1 Aleft"></div>
     <div class="Aright">
-      <div id="echartsBB" :style="{width: '100%',height: '70%'}" class="echarts2 Rtop"></div>
+      <div :style="{width: '100%',height: '70%'}" class="echarts2 Rtop">
+        <line-chart-single-prop :lineData="activationRate"></line-chart-single-prop>
+      </div>
       <div id="echartsCC" class="Rbottom">
         <p class="title">激活率预警</p>
         <p class="content">
@@ -25,14 +27,29 @@
 </template>
 
 <script>
+import LineChartSingleProp from '@/views/backcoms/commoncomponents/LineChartSingleProp'  //单数据折线图Y轴显示百分比组件
 export default {
   name: "Activate",
+  components: {
+    "line-chart-single-prop": LineChartSingleProp,
+  },
   data() {
-    return {};
+    return {
+      activationRate: {
+        title: "激活率",
+        id: "newPayingUsers",
+        color: ["#FF6123", "#FF8859"],
+        data:
+          [
+            ['product', '贵阳', '遵义', '毕节', '铜仁', '六盘水', '黔南', '黔东南', '黔西南', '安顺'],
+            ['本月', 30, 40, 30, 70, 90, 50, 80, 30, 40],
+            ['同期', 20, 40, 50, 40, 60, 40, 77, 50, 80]
+          ]
+      }
+    };
   },
   mounted() {
-    this.drawLine();
-    this.drawLine2();
+    this.drawLine()
   },
   methods: {
     drawLine() {
@@ -61,6 +78,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
+          top: '5%',
           right: "5%",
           feature: {
             saveAsImage: {}
@@ -68,7 +86,7 @@ export default {
         },
         legend: {
           show: true,
-          top: "15%",
+          top: "10%",
           left: "40%",
           data: arrName,
           itemWidth: 6,
@@ -92,10 +110,9 @@ export default {
             //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: "10" //设置横坐标轴文字大小
+              fontSize: "12" //设置横坐标轴文字大小
             },
             interval: 0 // 坐标轴显示不全问题解决方案
-            // rotate: 40  // 旋转效果
           },
           axisLine: {
             lineStyle: {
@@ -123,7 +140,12 @@ export default {
           min: 0,
           // 刻度线的设置
           splitLine: {
-            show: false,
+            show: true,
+            lineStyle: {
+              color: "#939393",
+              type: "dotted",
+              opacity: 0.2
+            },
           },
           axisLine: {
             show: false,  //Y轴不显示
@@ -155,166 +177,6 @@ export default {
             },
             data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
             color: myColor[0]
-          }
-        ]
-      };
-      myChart2.setOption(option2);
-      window.addEventListener("resize", () => {
-        myChart2.resize();
-      });
-    },
-    drawLine2() {
-      var myChart2 = this.$echarts.init(document.getElementById("echartsBB"));
-      var myColor = ["#FF6123", "#FF8859"];
-      var arrName = ["本月", "同期"];
-      var option2 = {
-        title: {
-          text: "48小时激活率",
-          textStyle: {
-            //设置主标题风格
-            Color: "#333333", //设置主标题字体颜色
-            fontStyle: "", //主标题文字风格
-            fontSize: 12,
-            fontStyle: "normal",
-            fontWeight: "normal"
-          }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          right: "5%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        legend: [
-          {
-            show: true,
-            top: "15%",
-            left: "30%",
-            data: ["本月"],
-            icon: "circle",
-            itemWidth: 6,  // 设置宽度
-            itemHeight: 6, // 设置高度
-            padding: [0, 5],
-            itemGap: 2,
-            textStyle: {
-              color: "#999999"
-            }
-          },
-          {
-            show: true,
-            top: "15%",
-            left: "45%",
-            data: ["同期"],
-            icon: "circle",
-            itemWidth: 6,  // 设置宽度
-            itemHeight: 6, // 设置高度
-            padding: [0, 5],
-            itemGap: 2,
-            textStyle: {
-              color: "#999999"
-            }
-          }
-        ],
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: {
-          type: "category",
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字大小
-            },
-            interval: 0 // 坐标轴显示不全问题解决方案
-            // rotate: 40  // 旋转效果
-          },
-          axisLine: {
-            lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
-            }
-          },
-          axisTick: {
-            alignWithLabel: true
-          },
-          data: [
-            "贵阳",
-            "遵义",
-            "六盘水",
-            "安顺",
-            "毕节",
-            "铜仁",
-            "黔东南",
-            "黔南",
-            "黔西南"
-          ]
-        },
-        yAxis: {
-          type: "value",
-          max: 16000,
-          min: 0,
-          // 刻度线的设置
-          splitLine: {
-            show: false,
-          },
-          axisLine: {
-            show: false,  //Y轴不显示
-            lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
-            }
-          },
-          axisLabel: {//横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: '12'//设置横坐标轴文字颜大小
-            }
-          },
-          axisTick: {
-            show: false  //设置坐标轴刻度不显示
-          }
-        },
-        series: [
-          {
-            name: arrName[0],
-            type: "line",
-            barWidth: "33%", //柱图宽度
-            stack: "总量",
-            symbol: "circle",
-            color: myColor[0],
-            label: {
-              normal: {
-                show: false,
-                position: "insideRight"
-              }
-            },
-            data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
-          },
-          {
-            name: arrName[1],
-            type: "line",
-            barWidth: "33%", //柱图宽度
-            stack: "总量",
-            symbol: "circle",
-            color: myColor[1],
-            label: {
-              normal: {
-                show: false,
-                position: "insideRight"
-              }
-            },
-            data: [8000, 7800, 6700, 8800, 5700, 8500, 5600, 6700, 4800]
           }
         ]
       };

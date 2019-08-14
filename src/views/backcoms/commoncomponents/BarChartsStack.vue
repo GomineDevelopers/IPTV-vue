@@ -19,7 +19,12 @@ export default {
   },
   methods: {
     drawLine() {
-      var barGraphChart = this.$echarts.init(document.getElementById(this.chartData.id));
+      var barGraphChart = this.$echarts.init(document.getElementById(this.chartData.id))
+      let seriesData = []
+      //设置series数据条数
+      for (let i = 1; i <= this.chartData.data[0].length - 1; i++) {
+        seriesData.push({ type: 'bar', stack: '堆叠', barWidth: '12' })
+      }
       var option = {
         color: this.chartData.color,
         title: {
@@ -42,6 +47,9 @@ export default {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          textStyle: {
+            align: 'left'
           }
         },
         //图表自带工具
@@ -101,13 +109,9 @@ export default {
             show: false  //设置坐标轴刻度不显示
           }
         },
-        series: [
-          { type: 'bar', stack: '堆叠', barWidth: '12' },
-          { type: 'bar', stack: '堆叠', barWidth: '12' },
-          { type: 'bar', stack: '堆叠', barWidth: '12' }
-        ]
+        series: seriesData
       };
-      barGraphChart.setOption(option);
+      barGraphChart.setOption(option)
       window.addEventListener("resize", () => {
         barGraphChart.resize();
       });

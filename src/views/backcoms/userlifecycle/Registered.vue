@@ -40,6 +40,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
+          top: '5%',
           right: "6%",
           feature: {
             saveAsImage: {}
@@ -90,7 +91,6 @@ export default {
             }
           }
         ],
-
         series: [
           {
             name: "在册用户数",
@@ -149,6 +149,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
+          top: '5%',
           right: "5%",
           feature: {
             saveAsImage: {}

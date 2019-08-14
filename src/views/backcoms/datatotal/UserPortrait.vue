@@ -23,11 +23,20 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          top: "10%",
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
+        },
         legend: [
           {
             show: true,
             top: "15%",
-            left: "80%",
+            left: "70%",
             data: ["少儿", "电影", "热剧", "游戏", "纪实", "体育"],
             itemWidth: 5,
             itemHeight: 5,
@@ -97,7 +106,6 @@ export default {
   display: inline-block;
   width: 100%;
   height: 100%;
-
 }
 </style>
 

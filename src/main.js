@@ -4,7 +4,7 @@ import router from './router'
 
 import $ from 'jquery'
 import '@/utils/page.js'
-import '@/utils/element_ui.js';
+import '@/utils/element_ui.js'
 
 Vue.prototype.$ = $
 

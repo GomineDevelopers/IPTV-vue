@@ -3,12 +3,6 @@
     <el-row>
       <el-col class="data_body_left" :span="4" :lg="4" :md="5">
         <el-row class="data_detail_model data_detail_city back_white">
-          <!-- <el-row class="title_row">
-            <span class="data_total_left"></span>数据总览
-          </el-row>
-          <el-row class="data_detail_cityname">
-            <span>遵义</span>
-          </el-row>-->
           <com-dataoverview v-bind:province="data.province"></com-dataoverview>
         </el-row>
         <el-row class="data_detail_model back_white">
@@ -85,13 +79,19 @@
     </el-row>
     <el-row class="data_total_bottom">
       <el-col class="data_bottom_left" :span="12">
-        <div class="user_portrayal back_white">
+        <el-row class="model_title">
+          <span class="title_border_left"></span>用户画像
+        </el-row>
+        <div class="chart_body back_white">
           <com-userportrait></com-userportrait>
         </div>
       </el-col>
       <el-col class="data_bottom_right" :span="12">
-        <div class="day_live_tendency back_white">
-          <com-dailylivingtrend></com-dailylivingtrend>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>日活趋势
+        </el-row>
+        <div class="chart_body back_white">
+          <line-chart-single :lineData="dailyLivingTrendData"></line-chart-single>
         </div>
       </el-col>
     </el-row>
@@ -102,7 +102,7 @@ import MyMap from "@/views/backcoms/datatotal/MyMap"; // 地图
 import DataOverview from "@/views/backcoms/datatotal/DataOverview"; // 数据总览
 import DataShow from "@/views/backcoms/datatotal/DataShow"; // 数据展示
 import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画像
-import DailyLivingTrend from "@/views/backcoms/datatotal/DailyLivingTrend"; // 日活趋势
+import LineChartSingle from '@/views/backcoms/commoncomponents/LineChartSingle'  //单数据折线图组件(日活趋势组件)
 
 export default {
   name: "DataTotal", //数据总览
@@ -111,12 +111,13 @@ export default {
     "com-dataoverview": DataOverview,
     "com-datashow": DataShow,
     "com-userportrait": UserPortrait,
-    "com-dailylivingtrend": DailyLivingTrend
+    "line-chart-single": LineChartSingle,
   },
   data() {
     return {
       data: {
         province: "贵阳",
+        //新增用户概览数据
         datashow: [
           {
             icon: "&#xe600;",
@@ -169,12 +170,22 @@ export default {
             numC: "25"
           }
         ]
+      },
+      dailyLivingTrendData: {
+        title: "",
+        id: "dailyLivingTrend",
+        color: ["#3BA0FF", "#FF6123", "#975FE4"],
+        data: [
+          ['product', "09月", "10月", "11月", "12月", "01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月"],
+          ["中国移动", 140, 170, 180, 200, 234, 240, 259, 265, 270, 284, 298, 300],
+          ["中国联通", 100, 106, 119, 123, 138, 123, 118, 124, 130, 136, 149, 151],
+          ["中国电信", 45, 52, 63, 68, 79, 72, 60, 65, 70, 62, 68, 78, 139, 121]
+        ]
       }
-    };
+    }
   },
   methods: {
     setProvince(province) {
-      console.log("~~~~");
       this.data.province = province;
     },
     setDatashow(datashow) {
@@ -184,26 +195,8 @@ export default {
 };
 </script>
 <style scoped>
-/* @font-face {
-  font-family: "iconfont"; 
-  src: url("//at.alicdn.com/t/font_1314644_ambld374co.eot");
-  src: url("//at.alicdn.com/t/font_1314644_ambld374co.eot?#iefix")
-      format("embedded-opentype"),
-    url("//at.alicdn.com/t/font_1314644_ambld374co.woff2") format("woff2"),
-    url("//at.alicdn.com/t/font_1314644_ambld374co.woff") format("woff"),
-    url("//at.alicdn.com/t/font_1314644_ambld374co.ttf") format("truetype"),
-    url("//at.alicdn.com/t/font_1314644_ambld374co.svg#iconfont") format("svg");
-}
-.BackHome {
-  color: rgba(0, 0, 0, 0.65);
-  text-align: left;
-  background-color: #f0f2f5;
-  overflow: scroll;
-} */
-
 .data_total {
   height: auto;
-  padding-bottom: 24px;
   color: rgba(0, 0, 0, 0.85);
   text-align: left;
 }
@@ -249,6 +242,7 @@ export default {
 }
 .data_total_bottom {
   margin: 14px 0px;
+  margin-bottom: 70px;
 }
 .data_bottom_left {
   padding-right: 7px;

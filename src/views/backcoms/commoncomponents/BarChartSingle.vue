@@ -19,7 +19,12 @@ export default {
   },
   methods: {
     drawLine() {
-      var barChartSingle = this.$echarts.init(document.getElementById(this.chartData.id));
+      var barChartSingle = this.$echarts.init(document.getElementById(this.chartData.id))
+      let seriesData = []
+      //设置series数据条数
+      for (let i = 1; i <= this.chartData.data[0].length - 1; i++) {
+        seriesData.push({ type: 'bar', barWidth: '12' })
+      }
       var option = {
         color: this.chartData.color,
         title: {
@@ -42,6 +47,9 @@ export default {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          textStyle: {
+            align: 'left'
           }
         },
         //图表自带工具
@@ -55,7 +63,7 @@ export default {
         },
         grid: {
           top: "35%",
-          left: '8%',
+          left: '10%',
           right: '1%',
           bottom: "10%"
         },
@@ -83,7 +91,12 @@ export default {
         yAxis: {
           // 刻度线的设置
           splitLine: {
-            show: false,
+            show: true,
+            lineStyle: {
+              color: "#939393",
+              type: "dotted",
+              opacity: 0.2
+            },
           },
           axisLine: {
             show: false,  //Y轴不显示
@@ -101,9 +114,7 @@ export default {
             show: false  //设置坐标轴刻度不显示
           }
         },
-        series: [
-          { type: 'bar', barWidth: '12' },
-        ]
+        series: seriesData
       };
       barChartSingle.setOption(option);
       window.addEventListener("resize", () => {
