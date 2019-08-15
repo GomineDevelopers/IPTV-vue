@@ -238,35 +238,32 @@ export default {
     };
   },
   methods: {}
-};
+}
 </script>
 
 <style>
-
-
 /* elementui 复选框背景色 统一修改 */
-
 .el-checkbox__input.is-checked + .el-checkbox__label {
-  color: #FF6123;
+  color: #ff6123;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #FF6123;
-  border-color: #FF6123;
+  background-color: #ff6123;
+  border-color: #ff6123;
 }
 .el-checkbox__inner:hover {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 .el-checkbox__input.is-focus .el-checkbox__innder {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 
 /* 时间范围 */
-.el-date-table td.end-date span, .el-date-table td.start-date span {
-    background-color: #FF6123;
+.el-date-table td.end-date span,
+.el-date-table td.start-date span {
+  background-color: #ff6123;
 }
 </style>
-
 
 <style scoped>
 .el-checkbox-group {
@@ -301,7 +298,7 @@ export default {
   margin: 0px;
   padding: 0px;
   width: 15vw;
-  margin-right:14px;
+  margin-right: 14px;
 }
 
 .OptionSelectPR .font_title {

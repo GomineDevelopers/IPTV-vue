@@ -272,7 +272,6 @@ export default {
   height: 342px;
 }
 
-
 .option_select {
   height: 342px;
 }
