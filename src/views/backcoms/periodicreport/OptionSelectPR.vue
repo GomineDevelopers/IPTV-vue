@@ -66,16 +66,21 @@
         </el-select>
       </span>
       <div class="space">&nbsp;</div>
+
       <span class="font_choose">月：</span>
       <span>
-        <el-select v-model="time.monthValue" placeholder="请选择">
-          <el-option
-            v-for="item in time.month"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
+        <div class="m_block">
+          <el-date-picker
+            v-model="time.pickervalue"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="time.pickerOptions"
+          ></el-date-picker>
+        </div>
       </span>
     </div>
     <div class="submitP">
@@ -183,57 +188,38 @@ export default {
           }
         ],
         weekValue: "",
-        month: [
-          {
-            value: "选项1",
-            label: "1月"
-          },
-          {
-            value: "选项2",
-            label: "2月"
-          },
-          {
-            value: "选项3",
-            label: "3月"
-          },
-          {
-            value: "选项4",
-            label: "4月"
-          },
-          {
-            value: "选项5",
-            label: "5月"
-          },
-          {
-            value: "选项6",
-            label: "6月"
-          },
-          {
-            value: "选项7",
-            label: "7月"
-          },
-          {
-            value: "选项8",
-            label: "8月"
-          },
-          {
-            value: "选项9",
-            label: "9月"
-          },
-          {
-            value: "选项10",
-            label: "10月"
-          },
-          {
-            value: "选项11",
-            label: "11月"
-          },
-          {
-            value: "选项12",
-            label: "12月"
-          }
-        ],
-        monthValue: ""
+        pickerOptions: {
+          shortcuts: [
+            {
+              text: "最近一周",
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit("pick", [start, end]);
+              }
+            },
+            {
+              text: "最近一个月",
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                picker.$emit("pick", [start, end]);
+              }
+            },
+            {
+              text: "最近三个月",
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                picker.$emit("pick", [start, end]);
+              }
+            }
+          ]
+        },
+        pickervalue: ""
       }
     };
   },
@@ -282,6 +268,10 @@ export default {
 .OptionSelectPR .time {
   display: inline-block;
   width: 100%;
+  line-height: 32px;
+}
+.OptionSelectPR .m_block {
+  display: inline-block;
   line-height: 32px;
 }
 
