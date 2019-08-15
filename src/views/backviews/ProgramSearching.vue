@@ -5,7 +5,24 @@
       <el-row class="model_title">
         <span class="title_border_left"></span>条件筛选
       </el-row>
-      <el-row class="chart_body back_white">条件.......</el-row>
+      <el-row class="chart_body back_white">
+        <el-row class="date_option">
+          <div class="block">
+            <span class="demonstration">时间：</span>
+            <el-date-picker
+              v-model="dateValue"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            ></el-date-picker>
+          </div>
+        </el-row>
+        <el-row class="programInput_elrow">
+          <el-input class="program_input" v-model="programInput" placeholder="请输入节目名称" clearable></el-input>
+          <el-button class="search_btn" @click="searchSubmit">搜索</el-button>
+        </el-row>
+      </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
 
@@ -42,6 +59,8 @@ export default {
   name: 'ProgramSearching', //节目搜索
   data() {
     return {
+      dateValue: [new Date(2019, 2, 10, 10, 10), new Date(2019, 2, 10, 10, 10)],
+      programInput: '',
       tableData: [
         {
           watchUserNumber: '12312',
@@ -53,6 +72,15 @@ export default {
           liveViewingTop: '12'
         }
       ]
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    searchSubmit() {
+      console.log(this.dateValue)
+      console.log(this.programInput)
     }
   }
 }
@@ -84,5 +112,34 @@ export default {
 .program_searching_content .el-table th > .cell {
   font-size: 12px;
   color: #333333;
+}
+.date_option {
+  text-align: left;
+}
+.date_option span {
+  font-size: 14px;
+  color: #333333;
+  font-weight: bold;
+}
+.program_searching .programInput_elrow {
+  height: 35px;
+  line-height: 35px;
+  text-align: left;
+}
+.programInput_elrow .program_input {
+  width: 340px;
+  height: 32px;
+  line-height: 32px;
+  margin-top: 15px;
+}
+.programInput_elrow .search_btn {
+  background-color: #ff6123;
+  color: #ffffff;
+  line-height: 40px;
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+  width: 90px;
+  margin-left: 15px;
 }
 </style>
