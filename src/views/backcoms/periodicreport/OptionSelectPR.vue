@@ -4,12 +4,24 @@
       <div class="report">
         <span class="font_title">日报:</span>&nbsp;
         <div class="r_btnP">
-          <el-button v-for="(item,index) in daily" :key="index + 'aa' " class="r_btn">{{item.name}}</el-button>
+          <el-button
+            v-for="(item,index) in daily"
+            :key="index + 'aa' "
+            class="r_btn"
+            :class="item.name==reportOption ? 'active_btn': ''"
+            @click="setReportOption(item.name,item.routerLink)"
+          >{{item.name}}</el-button>
         </div>
         <div class="mspace"></div>
         <span class="font_title">周报：</span>&nbsp;
         <div class="r_btnP">
-          <el-button v-for="(item,index) in weekly" :key="index + 'bb' " class="r_btn">{{item.name}}</el-button>
+          <el-button
+            v-for="(item,index) in weekly"
+            :key="index + 'bb' "
+            class="r_btn"
+            :class="item.name==reportOption ? 'active_btn': ''"
+            @click="setReportOption(item.name,item.routerLink)"
+          >{{item.name}}</el-button>
         </div>
         <div class="mspace"></div>
         <span class="font_title">月报：</span>&nbsp;
@@ -18,6 +30,8 @@
             v-for="(item,index) in monthly "
             :key="index + 'cc' "
             class="r_btn"
+            :class="item.name==reportOption ? 'active_btn': ''"
+            @click="setReportOption(item.name,item.routerLink)"
           >{{item.name}}</el-button>
         </div>
         <div class="mspace"></div>
@@ -27,13 +41,15 @@
             v-for="(item,index) in specially"
             :key="index + 'dd' "
             class="r_btn"
+            :class="item.name==reportOption ? 'active_btn': ''"
+            @click="setReportOption(item.name,item.routerLink)"
           >{{item.name}}</el-button>
         </div>
       </div>
 
       <span class="font_title">运营商：</span>
       <el-checkbox-group
-        v-model=" operatorChoose"
+        v-model="operatorChoose"
         v-for="(item,index) in operator"
         :key="index + 'b' "
       >
@@ -84,7 +100,7 @@
       </span>
     </div>
     <div class="submitP">
-      <el-button class="submit">确定</el-button>
+      <el-button class="submit" @click="submitOption">确定</el-button>
     </div>
   </div>
 </template>
@@ -94,49 +110,59 @@ export default {
   name: "OptionSelectPR",
   data() {
     return {
+      reportOption: '专题专区数据报告',  //点击不同报表选项对应切换
+      operatorChoose: ['总体'],   //绑定选择运营商数据的数组
+      routerLink: '/backhome/periodicreport/SpecialZoneReport',  //不同报表对应的路由  默认是专题专区数据报告路由
       daily: [
         {
           name: "G+TV用户活跃发展日报表",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/G_TVUserActiveDayReport'
         },
         {
           name: "G+TV用户收视日报表",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/G_TVUserViewingDayReport'
         }
       ],
       weekly: [
         {
           name: "市场业务运营数据分析周报",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/MarketOperationalWeekReport'
         },
         {
           name: "运营数据周报",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/OperationalWeekReport'
         },
         {
           name: "G+TV用户收视行为周报",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/G_TUserViewingWeekReport'
         }
       ],
       monthly: [
         {
           name: "VIP增值业务专项分析",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/VIPAddMonthReport'
         },
         {
           name: "G+TV月度用户收视行为报告",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/G_TVUserViewingMonthReport'
         }
       ],
       specially: [
         {
           name: "专题专区数据报告",
-          pointStatus: false
+          pointStatus: false,
+          routerLink: '/backhome/periodicreport/SpecialZoneReport'
         }
       ],
+      operator: ["总体", "移动", "联通", "电信"],
 
-      operator: ["全部", "移动", "联通", "电信"],
-      operatorChoose: [],
       time: {
         day: [
           {
@@ -223,7 +249,22 @@ export default {
       }
     };
   },
-  methods: {}
+  methods: {
+    //点击报表对应切换
+    setReportOption(reportName, routerLink) {
+      this.reportOption = reportName
+      this.routerLink = routerLink
+    },
+
+    //点击确定按钮提交数据
+    submitOption() {
+      this.$emit('setRoute', {
+        repotrName: this.reportOption,
+        operatorOption: this.operatorChoose,
+        routerLink: this.routerLink
+      })
+    }
+  }
 }
 </script>
 
@@ -280,9 +321,12 @@ export default {
   display: inline-block;
 }
 
-.OptionSelectPR .report .r_btnP .r_btn {
+.active_btn {
   background-color: #ff6123;
-  color: #ffffff;
+  color: #fff !important;
+}
+.OptionSelectPR .report .r_btnP .r_btn {
+  color: #333;
   line-height: 32px;
   height: 32px;
   margin: 0px;

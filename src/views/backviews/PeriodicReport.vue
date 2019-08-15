@@ -6,44 +6,43 @@
         <span class="title_border_left"></span>条件筛选
       </el-row>
       <el-row class="chart_body back_white">
-        <com-optionselectPR></com-optionselectPR>
+        <com-optionselectPR @setRoute="setRouteView"></com-optionselectPR>
       </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
 
-    <!-- 收视行为开始 -->
-    <el-row class="viewing_behavior_report">
-      <el-row class="model_title">
-        <span class="title_border_left"></span>收视行为
-      </el-row>
-      <el-row class="chart_body back_white">
-        <el-col class="height_auto" :span="24">
-          <com-viewingbehaviorPR></com-viewingbehaviorPR>
-        </el-col>
-      </el-row>
-    </el-row>
-    <!-- 收视行为结束 -->
+    <!-- 页面路由开始 -->
+    <router-view />
   </div>
 </template>
 <script>
-import OptionSelectPR from "../backcoms/periodicreport/OptionSelectPR";
-import ViewingBehaviorPR from "../backcoms/periodicreport/ViewingBehaviorPR";
+import OptionSelectPR from "../backcoms/periodicreport/OptionSelectPR"  //定期报告条件选择组件
 
 export default {
   name: "PeriodicReport", //定期报告
   components: {
     "com-optionselectPR": OptionSelectPR,
-    "com-viewingbehaviorPR": ViewingBehaviorPR
+  },
+  data() {
+    return {
+      reportName: "专题专区数据报告",
+      operator: "总体"
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    setRouteView(data) {
+      console.log(data.routerLink)
+      this.$router.push({ path: data.routerLink })  //接受头部组件传的数据报表参数，切换对应路由
+    }
   }
 };
 </script>
 <style scoped>
 .periodic_report {
   height: 388px;
-}
-.viewing_behavior_report {
-  height: 500px;
-  margin: 24px 0px;
 }
 </style>
 
