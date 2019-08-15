@@ -17,7 +17,9 @@
         <span class="title_border_left"></span>收视行为
       </el-row>
       <el-row class="chart_body back_white">
-        <el-col class="height_auto" :span="24">收视行为图表1</el-col>
+        <el-col class="height_auto" :span="24">
+          <com-viewingbehaviorPR></com-viewingbehaviorPR>
+        </el-col>
       </el-row>
     </el-row>
     <!-- 收视行为结束 -->
@@ -25,11 +27,13 @@
 </template>
 <script>
 import OptionSelectPR from "../backcoms/periodicreport/OptionSelectPR";
+import ViewingBehaviorPR from "../backcoms/periodicreport/ViewingBehaviorPR";
 
 export default {
   name: "PeriodicReport", //定期报告
   components: {
-    "com-optionselectPR": OptionSelectPR
+    "com-optionselectPR": OptionSelectPR,
+    "com-viewingbehaviorPR": ViewingBehaviorPR
   }
 };
 </script>

@@ -8,7 +8,6 @@ import {
   MenuItemGroup,
   Table,
   TableColumn,
-  DatePicker,
   TimePicker,
 
   Input,
@@ -17,6 +16,7 @@ import {
   Button,
   Select,
   Option,
+  DatePicker
 } from 'element-ui'
 
 Vue.use(Row)
@@ -36,6 +36,9 @@ Vue.use(CheckboxGroup)
 Vue.use(Button)
 Vue.use(Select)
 Vue.use(Option)
+
+Vue.use(DatePicker)
+
 
 
 
