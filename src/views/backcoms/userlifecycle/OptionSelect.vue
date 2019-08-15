@@ -191,6 +191,8 @@ export default {
 </script>
 
 <style>
+
+
 /* elementui 复选框背景色 统一修改 */
 
 .el-checkbox__input.is-checked + .el-checkbox__label {
@@ -206,6 +208,11 @@ export default {
 }
 .el-checkbox__input.is-focus .el-checkbox__innder {
   border-color: #FF6123;
+}
+
+/* 时间范围 */
+.el-date-table td.end-date span, .el-date-table td.start-date span {
+    background-color: #FF6123;
 }
 </style>
 
