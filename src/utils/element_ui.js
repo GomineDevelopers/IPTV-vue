@@ -27,7 +27,6 @@ Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
 Vue.use(Table)
 Vue.use(TableColumn)
-Vue.use(DatePicker)
 Vue.use(TimePicker)
 
 Vue.use(Input)
