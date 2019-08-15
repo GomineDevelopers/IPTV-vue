@@ -8,13 +8,14 @@ import {
   MenuItemGroup,
   Table,
   TableColumn,
+  TimePicker,
 
+  Input,
   Checkbox,
   CheckboxGroup,
   Button,
   Select,
   Option,
-
   DatePicker
 } from 'element-ui'
 
@@ -26,7 +27,9 @@ Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(TimePicker)
 
+Vue.use(Input)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
 Vue.use(Button)
