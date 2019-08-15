@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import BackHome from './views/BackHome.vue'
+import MyTest from './views/MyTest.vue'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
         { path: '/backhome/programsearching', name: "programsearching", component: () => import('@/views/backviews/ProgramSearching') },
         { path: '/', redirect: '/backhome/datatotal' }, //二级路由默认首页为数据总览页
       ]
-    }
+    },
+    {
+      path: '/mytest',
+      name: 'mytest',
+      component: MyTest
+    },
   ]
 })
