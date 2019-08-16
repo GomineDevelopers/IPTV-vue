@@ -1,36 +1,37 @@
 <template>
   <div class="height_auto">
-    <el-row class="height_auto" :id="lineData.id"></el-row>
+    <div class="pie_hollow_chart" :id="smoothLineData.id"></div>
   </div>
 </template>
 <script>
 export default {
-  name: "LineChartSingle", //折线图
+  name: 'SmoothLineChart',  //专题专区数据报告
   props: {
-    lineData: Object
+    smoothLineData: {
+      type: Object,
+    }
   },
   data() {
     return {}
   },
   mounted() {
     this.setLineChart()
-    // console.log(this.lineData)
   },
   methods: {
     setLineChart() {
-      var lineChart = this.$echarts.init(document.getElementById(this.lineData.id))
+      var smoothLineChart = this.$echarts.init(document.getElementById(this.smoothLineData.id))
       let seriesData = []
       //设置series数据条数
-      for (let i = 1; i <= this.lineData.data.length - 1; i++) {
-        seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'circle' })
+      for (let i = 1; i <= this.smoothLineData.data.length - 1; i++) {
+        seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'none', smooth: true })
       }
       var option = {
-        color: this.lineData.color,
+        color: this.smoothLineData.color,
         textStyle: {
           color: "rgba(0, 0, 0, 0.65)"
         },
         title: {
-          text: this.lineData.title,
+          text: this.smoothLineData.title,
           x: '2%',
           y: '0%',
           textStyle: {
@@ -40,10 +41,10 @@ export default {
           }
         },
         legend: {
-          icon: "circle",
+          icon: "re",
           top: "10%",
-          itemWidth: 6,  // 设置宽度
-          itemHeight: 6, // 设置高度
+          itemWidth: 12,  // 设置宽度
+          itemHeight: 7, // 设置高度
           itemGap: 20, // 设置间距
           textStyle: {
             fontSize: 14,
@@ -51,19 +52,13 @@ export default {
           }
         },
         grid: {
-          top: "30%",
-          left: '6%',
+          top: "20%",
+          left: '12%',
           right: '5%',
-          bottom: "10%"
+          bottom: "15%"
         },
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          },
           textStyle: {
             align: 'left'
           }
@@ -71,14 +66,14 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "10%",
+          top: "9%",
           right: "6%",
           feature: {
             saveAsImage: {}
           }
         },
         dataset: {
-          source: this.lineData.data
+          source: this.smoothLineData.data
         },
         xAxis: {
           type: 'category',
@@ -86,7 +81,11 @@ export default {
           axisLine: {
             lineStyle: {
               color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
-            }
+            },
+          },
+          axisLabel: {
+            interval: 0,
+            rotate: 40
           },
           axisTick: {
             alignWithLabel: true  //设置坐标轴刻度与坐标对齐
@@ -112,11 +111,16 @@ export default {
         },
         series: seriesData
       }
-      lineChart.setOption(option)
+      smoothLineChart.setOption(option)
       window.addEventListener("resize", () => {
-        lineChart.resize()
+        smoothLineChart.resize()
       })
     }
   }
 }
 </script>
+<style scoped>
+.pie_hollow_chart {
+  height: 500px;
+}
+</style>

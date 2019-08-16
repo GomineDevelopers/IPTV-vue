@@ -122,3 +122,31 @@
 .padding_left {
   padding-left: 7px;
 }
+
+/* 定期报告大标题 */
+.periodic_report_title {
+  background: #fff;
+  height: 50px;
+  line-height: 50px;
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+/* flex布局 */
+
+/* 水平垂直居中 */
+.flex {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 水平居中 */
+.flex_justify {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}

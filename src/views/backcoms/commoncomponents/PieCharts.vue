@@ -45,7 +45,7 @@ export default {
       },
       series: [
         {
-          name: '地区',
+          name: this.chartData.title,
           type: 'pie',
           radius: '55%',
           center: ['50%', '60%'],

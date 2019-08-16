@@ -19,7 +19,7 @@
               <i class="iconfont">&#xe63a;</i>
               <span slot="title">用户收视行为</span>
             </el-menu-item>
-            <el-menu-item index="/backhome/periodicreport">
+            <el-menu-item index="/backhome/periodicreport/" :class="activeClass ? 'is-active':''">
               <i class="iconfont">&#xe648;</i>
               <span slot="title">定期报告</span>
             </el-menu-item>
@@ -66,10 +66,45 @@
 export default {
   name: "BackHomeNav", //左侧导航栏
   data() {
-    return {};
+    return {
+      activeClass: false,
+    }
   },
-  methods: {}
-};
+  mounted() {
+    this.handlerClass()
+  },
+  // 监听,当路由发生变化的时候执行
+  watch: {
+    $route: {
+      handler: function (val, oldVal) {
+        // console.log(val.path)
+        let pathLink = val.path
+        let isTrue = pathLink.includes('backhome/periodicreport')  //判断路由是否是定期报告子路由
+        if (isTrue) {  //若当前路由是定期报告子路由，则绑定定期报告路由值 使其显示为选中状态
+          // console.log(isTrue)
+          this.activeClass = true
+        } else {
+          this.activeClass = false
+        }
+      },
+      // 深度观察监听
+      deep: true
+    }
+  },
+  methods: {
+    handlerClass() {
+      // console.log(this.$route.path)
+      let pathLink = this.$route.path
+      let isTrue = pathLink.includes('backhome/periodicreport')  //判断路由是否是定期报告子路由
+      if (isTrue) {  //若当前路由是定期报告子路由，则绑定定期报class为is-active 使其显示为选中状态
+        // console.log(isTrue)
+        this.activeClass = true
+      } else {
+        this.activeClass = false
+      }
+    }
+  }
+}
 </script>
 <style>
 .back_home_nav .el-menu {
@@ -132,6 +167,9 @@ export default {
 }
 .back_home_nav .iconfont {
   margin-right: 14px;
+}
+.acticv_class {
+  background: ;
 }
 </style>
 

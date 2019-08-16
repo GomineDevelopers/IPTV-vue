@@ -8,7 +8,7 @@
             v-for="(item,index) in daily"
             :key="index + 'aa' "
             class="r_btn"
-            :class="item.name==reportOption ? 'active_btn': ''"
+            :class="item.routerLink==routerLink ? 'active_btn': ''"
             @click="setReportOption(item.name,item.routerLink)"
           >{{item.name}}</el-button>
         </div>
@@ -19,7 +19,7 @@
             v-for="(item,index) in weekly"
             :key="index + 'bb' "
             class="r_btn"
-            :class="item.name==reportOption ? 'active_btn': ''"
+            :class="item.routerLink==routerLink ? 'active_btn': ''"
             @click="setReportOption(item.name,item.routerLink)"
           >{{item.name}}</el-button>
         </div>
@@ -30,7 +30,7 @@
             v-for="(item,index) in monthly "
             :key="index + 'cc' "
             class="r_btn"
-            :class="item.name==reportOption ? 'active_btn': ''"
+            :class="item.routerLink==routerLink ? 'active_btn': ''"
             @click="setReportOption(item.name,item.routerLink)"
           >{{item.name}}</el-button>
         </div>
@@ -41,7 +41,7 @@
             v-for="(item,index) in specially"
             :key="index + 'dd' "
             class="r_btn"
-            :class="item.name==reportOption ? 'active_btn': ''"
+            :class="item.routerLink==routerLink ? 'active_btn': ''"
             @click="setReportOption(item.name,item.routerLink)"
           >{{item.name}}</el-button>
         </div>
@@ -110,7 +110,7 @@ export default {
   name: "OptionSelectPR",
   data() {
     return {
-      reportOption: '专题专区数据报告',  //点击不同报表选项对应切换
+      reportOptionRouter: '专题专区数据报告',  //点击不同报表选项对应切换
       operatorChoose: ['总体'],   //绑定选择运营商数据的数组
       routerLink: '/backhome/periodicreport/SpecialZoneReport',  //不同报表对应的路由  默认是专题专区数据报告路由
       daily: [
@@ -249,6 +249,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.handlerClass()
+  },
   methods: {
     //点击报表对应切换
     setReportOption(reportName, routerLink) {
@@ -263,6 +266,10 @@ export default {
         operatorOption: this.operatorChoose,
         routerLink: this.routerLink
       })
+    },
+    //页面刷新时定期报告恢复默认路由
+    handlerClass() {
+      this.$router.push({ path: '/backhome/periodicreport/SpecialZoneReport' })
     }
   }
 }

@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     setRouteView(data) {
-      console.log(data.routerLink)
+      // console.log(data.routerLink)
       this.$router.push({ path: data.routerLink })  //接受头部组件传的数据报表参数，切换对应路由
     }
   }
