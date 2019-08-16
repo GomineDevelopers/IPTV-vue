@@ -52,16 +52,6 @@
           </el-col>
         </el-row>
 
-        <!-- 图表的说明开始 -->
-        <el-row class="chart_explain">
-          <p>
-            “小小福星”专区自6月24日各大平台正式上线，少儿、推荐、分类三大页面均有呈现。
-            <br />整体而言，少儿页为专区入口贡献了最多的流量，推荐页其次。而电信推荐页由于推荐位较少的原因，专区入口无法得到最优位置，贡献反而小于分类页。
-            <br />分运营商来看，其中移动1.0占比最高，但联通用户表现得更为踊跃。
-          </p>
-        </el-row>
-        <!-- 图表的说明结束 -->
-
         <!-- 上下层图表块分割线开始 -->
         <div class="cut_off_rule"></div>
         <!-- 上下层图表块分割线开始 -->
@@ -80,7 +70,33 @@
         </el-row>
         <!-- 入口点击情况第二模块结束 -->
       </el-row>
+
+      <!-- 节目点播情况开始 -->
+      <el-row class="programs_demand back_white">
+        <el-row class="model_title">
+          <span class="title_border_left"></span>节目点播情况
+        </el-row>
+        <!-- 节目点播情况模块1开始 -->
+        <el-row class="programs_demand_content1">
+          <el-col :span="8">
+            <bar-list-chart :barListData="playUserNumData"></bar-list-chart>
+          </el-col>
+          <el-col :span="8">222</el-col>
+          <el-col :span="8">333</el-col>
+        </el-row>
+        <!-- 节目点播情况模块1结束 -->
+
+        <!-- 上下层图表块分割线开始 -->
+        <div class="cut_off_rule"></div>
+        <!-- 上下层图表块分割线开始 -->
+
+        <!-- 节目点播情况模块2开始 -->
+        <el-row class="programs_demand_content2">节目点播情况2</el-row>
+        <!-- 节目点播情况模块2结束 -->
+      </el-row>
+      <!-- 节目点播情况结束 -->
     </el-row>
+
     <!-- 数据报告页面结束 -->
   </div>
 </template>
@@ -88,13 +104,15 @@
 import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle' //（空心）饼图组件
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
+import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"  //平滑曲线折线图组件
 
 export default {
   name: 'SpecialZoneReport',  //专题专区数据报告
   components: {
     'bar-chart-single': BarChartSingle,
     "pie-charts": PieCharts,
-    "smooth-line-chart": SmoothLineChart
+    "smooth-line-chart": SmoothLineChart,
+    'bar-list-chart': BarListChart
   },
   data() {
     return {
@@ -173,6 +191,24 @@ export default {
         ]
       },
 
+      // 点播用户数数据
+      playUserNumData: {
+        title: "点播用户数",
+        id: 'playUserNum',
+        color: ["#FF6123"],
+        data: [
+          ['product', '观看数'],
+          ['贵阳', 43.3],
+          ['遵义', 83.1],
+          ['毕节', 86.4],
+          ['铜仁', 72.4],
+          ['六盘水', 43.3],
+          ['黔南', 83.1],
+          ['黔东南', 86.4],
+          ['黔西南', 72.4],
+          ['安顺', 43.3]
+        ]
+      },
     }
   },
   mounted() {
@@ -217,17 +253,24 @@ export default {
 .special_click_chart {
   height: 300px;
 }
-.chart_explain p {
-  text-align: left;
-  padding-left: 10px;
-  line-height: 25px;
-}
 .cut_off_rule {
   border-bottom: 1px dashed #f0f0f0;
-  margin: 20px 0px 40px 0px;
+  margin: 40px 0px;
 }
 .special_click_data2 {
   height: 400px;
 }
 /* 入口点击情况结束 */
+
+/* 节目点播情况开始 */
+.programs_demand {
+  height: 100%;
+}
+.programs_demand_content1 {
+  height: 400px;
+}
+.programs_demand_content2 {
+  height: 400px;
+}
+/* 节目点播情况结束 */
 </style>

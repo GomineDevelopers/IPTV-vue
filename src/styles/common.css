@@ -150,3 +150,9 @@
   display: flex;
   justify-content: center;
 }
+
+/* 图表模块分割线 */
+.cut_off_rule {
+  border-bottom: 1px dashed #f0f0f0;
+  margin: 40px 0px;
+}
