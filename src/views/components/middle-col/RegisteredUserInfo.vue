@@ -54,6 +54,8 @@
   </div>
 </template>
 <script>
+import { activationRate } from "@/api/api_main";
+
 export default {
   name: "RegisteredUserInfo", //顶部logo下的总体数据
   data() {
@@ -68,6 +70,15 @@ export default {
   },
 
   mounted() {
+
+    activationRate()
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
+
     this.handleRegisteredUserNum();
     setInterval(this.get, 1000);
   },

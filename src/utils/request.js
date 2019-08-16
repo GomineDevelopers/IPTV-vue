@@ -3,8 +3,7 @@ import Vue from 'vue'
 
 // 创建axios实例
 const service = axios.create({
-    // baseURL: 'http://farmerapi.companycheck.cn/api', // 线上
-    baseURL: 'http://192.168.1.29/api', // 线下测试
+    baseURL: ' http://172.17.103.213:8080/api', // 线下测试
     timeout: 15000 // 请求超时时间
 })
 
