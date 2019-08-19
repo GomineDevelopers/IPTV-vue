@@ -81,6 +81,7 @@ export default {
           axisLabel: {//横坐标类目文字
             show: true,
             interval: 0,  // 坐标轴显示不全问题解决方案
+            rotate: 40,
             textStyle: {
               fontSize: '12'//设置横坐标轴文字大小
             }
@@ -111,7 +112,7 @@ export default {
         },
         grid: {
           top: "30%",
-          left: '10%',
+          left: '5%',
           right: '5%',
           bottom: "10%"
         },

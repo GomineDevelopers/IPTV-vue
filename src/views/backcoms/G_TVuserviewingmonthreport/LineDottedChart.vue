@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "LineChartSingleProp", //折线图Y轴显示百分比
+  name: 'LineDottedChart',
   props: {
     lineData: Object
   },
@@ -14,15 +14,16 @@ export default {
   },
   mounted() {
     this.setLineChart()
+    // console.log(this.lineData)
   },
   methods: {
     setLineChart() {
       var lineChart = this.$echarts.init(document.getElementById(this.lineData.id))
-      let seriesData = []
-      //设置series数据条数
-      for (let i = 1; i <= this.lineData.data.length - 1; i++) {
-        seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'circle' })
-      }
+      // let seriesData = []
+      // //设置series数据条数
+      // for (let i = 1; i <= this.lineData.data.length - 1; i++) {
+      //   seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'circle' })
+      // }
       var option = {
         color: this.lineData.color,
         textStyle: {
@@ -39,18 +40,30 @@ export default {
           }
         },
         legend: {
-          icon: "circle",
+          icon: "rectangle",
           top: "10%",
-          itemWidth: 6,  // 设置宽度
-          itemHeight: 6, // 设置高度
+          itemWidth: 20,  // 设置宽度
+          itemHeight: 2, // 设置高度
           itemGap: 20, // 设置间距
           textStyle: {
             fontSize: 14,
             color: 'rgba(0, 0, 0, 0.65)'
           }
         },
+        grid: {
+          top: "30%",
+          left: '5%',
+          right: '5%',
+          bottom: "15%"
+        },
         tooltip: {
           trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          },
           textStyle: {
             align: 'left'
           }
@@ -78,21 +91,13 @@ export default {
           axisTick: {
             alignWithLabel: true  //设置坐标轴刻度与坐标对齐
           },
-          axisLabel: {//横坐标类目文字
-            show: true,
-            interval: 0,  // 坐标轴显示不全问题解决方案
-            textStyle: {
-              fontSize: '12'//设置横坐标轴文字大小
-            }
+          axisLabel: {
+            interval: 0,
+            rotate: 40
           },
         },
         yAxis: {
           gridIndex: 0,
-          axisLabel: {
-            show: true,
-            interval: 'auto',
-            formatter: '{value}%'
-          },
           axisTick: {
             show: false  //设置坐标轴刻度不显示
           },
@@ -109,13 +114,24 @@ export default {
             },
           },
         },
-        grid: {
-          top: "30%",
-          left: '10%',
-          right: '5%',
-          bottom: "10%"
-        },
-        series: seriesData
+        series: [
+          { type: 'line', seriesLayoutBy: 'row', symbol: 'none' },
+          { type: 'line', seriesLayoutBy: 'row', symbol: 'none' },
+          { type: 'line', seriesLayoutBy: 'row', symbol: 'none' },
+          {
+            type: 'line',
+            itemStyle: {
+              normal: {
+                lineStyle: {
+                  width: 2,
+                  type: 'dotted'  //'dotted'虚线 'solid'实线
+                }
+              }
+            },
+            seriesLayoutBy: 'row',
+            symbol: 'none'
+          }
+        ]
       }
       lineChart.setOption(option)
       window.addEventListener("resize", () => {

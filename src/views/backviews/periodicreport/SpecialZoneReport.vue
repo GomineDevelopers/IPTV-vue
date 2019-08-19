@@ -81,8 +81,12 @@
           <el-col :span="8">
             <bar-list-chart :barListData="playUserNumData"></bar-list-chart>
           </el-col>
-          <el-col :span="8">222</el-col>
-          <el-col :span="8">333</el-col>
+          <el-col :span="8">
+            <bar-list-chart :barListData="playNumberData"></bar-list-chart>
+          </el-col>
+          <el-col :span="8">
+            <bar-list-chart :barListData="playDemandLengthData"></bar-list-chart>
+          </el-col>
         </el-row>
         <!-- 节目点播情况模块1结束 -->
 
@@ -91,7 +95,13 @@
         <!-- 上下层图表块分割线开始 -->
 
         <!-- 节目点播情况模块2开始 -->
-        <el-row class="programs_demand_content2">节目点播情况2</el-row>
+        <el-row class="programs_demand_content2">
+          <el-col :span="24">
+            <!-- 每日TOP5排名走势开始 -->
+            <day-rank-top5 :dayRankTop5Data="dayRankTop5Data"></day-rank-top5>
+            <!-- 每日TOP5排名走势结束 -->
+          </el-col>
+        </el-row>
         <!-- 节目点播情况模块2结束 -->
       </el-row>
       <!-- 节目点播情况结束 -->
@@ -104,7 +114,8 @@
 import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle' //（空心）饼图组件
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
-import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"  //平滑曲线折线图组件
+import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"  //排名柱状图
+import DayRankTop5 from "@/views/backcoms/commoncomponents/DayRankTop5"  //每日排名走势TOP5组件
 
 export default {
   name: 'SpecialZoneReport',  //专题专区数据报告
@@ -112,7 +123,8 @@ export default {
     'bar-chart-single': BarChartSingle,
     "pie-charts": PieCharts,
     "smooth-line-chart": SmoothLineChart,
-    'bar-list-chart': BarListChart
+    'bar-list-chart': BarListChart,
+    'day-rank-top5': DayRankTop5
   },
   data() {
     return {
@@ -193,22 +205,152 @@ export default {
 
       // 点播用户数数据
       playUserNumData: {
-        title: "点播用户数",
+        title: "点播用户数(户)",
         id: 'playUserNum',
-        color: ["#FF6123"],
+        color: ["#A9D18E"],
         data: [
-          ['product', '观看数'],
-          ['贵阳', 43.3],
-          ['遵义', 83.1],
-          ['毕节', 86.4],
-          ['铜仁', 72.4],
-          ['六盘水', 43.3],
-          ['黔南', 83.1],
-          ['黔东南', 86.4],
-          ['黔西南', 72.4],
-          ['安顺', 43.3]
+          ['product', '点播用户数'],
+          ['海选第二期-片段四', 152],
+          ['海选第三期-片段二', 242],
+          ['海选第二期-片段一', 485],
+          ['Cut 9-海选第一期', 717],
+          ['Cut 4-海选第一期', 733],
+          ['Cut 8-海选第一期', 894],
+          ['Cut 5-海选第一期', 928],
+          ['Cut 6-海选第一期', 937],
+          ['Cut 3-海选第一期', 1324],
+          ['Cut 7-海选第一期', 1621],
+          ['Cut 10-海选第一期', 1685],
+          ['Cut 2-海选第一期', 2588],
+          ['海选第三期-片段一', 3068],
+          ['Cut 1-海选第一期', 4350],
+          ['《福星成长营》火热报名中', 9692],
         ]
       },
+
+      // 点播次数数据
+      playNumberData: {
+        title: "点播次数(次)",
+        id: 'playNumber',
+        color: ["#5B9BD4"],
+        data: [
+          ['product', '点播次数'],
+          ['海选第二期-片段四', 152],
+          ['海选第三期-片段二', 242],
+          ['海选第二期-片段一', 485],
+          ['Cut 9-海选第一期', 717],
+          ['Cut 4-海选第一期', 733],
+          ['Cut 8-海选第一期', 894],
+          ['Cut 5-海选第一期', 928],
+          ['Cut 6-海选第一期', 937],
+          ['Cut 3-海选第一期', 1324],
+          ['Cut 7-海选第一期', 1621],
+          ['Cut 10-海选第一期', 1705],
+          ['Cut 2-海选第一期', 2588],
+          ['海选第三期-片段一', 3068],
+          ['Cut 1-海选第一期', 4350],
+          ['《福星成长营》火热报名中', 11692],
+        ]
+      },
+
+      // 点播时长数据
+      playDemandLengthData: {
+        title: "点播时长(小时)",
+        id: 'playDemandLength',
+        color: ["#FFC000"],
+        data: [
+          ['product', '点播时长'],
+          ['海选第二期-片段四', 102],
+          ['海选第三期-片段二', 142],
+          ['海选第二期-片段一', 185],
+          ['Cut 9-海选第一期', 217],
+          ['Cut 4-海选第一期', 233],
+          ['Cut 8-海选第一期', 289],
+          ['Cut 5-海选第一期', 308],
+          ['Cut 6-海选第一期', 327],
+          ['Cut 3-海选第一期', 374],
+          ['Cut 7-海选第一期', 401],
+          ['Cut 10-海选第一期', 455],
+          ['Cut 2-海选第一期', 508],
+          ['海选第三期-片段一', 568],
+          ['Cut 1-海选第一期', 650],
+          ['《福星成长营》火热报名中', 1692],
+        ]
+      },
+
+      //每日排名走势组件数据
+      dayRankTop5Data: [
+        {
+          date: '6月28日',
+          data: {
+            top1: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top2: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top3: { classfiy: 'classfiy3', name: 'Cut 2-海选第一期' },
+            top4: { classfiy: 'classfiy4', name: 'Cut 10-海选第一期' },
+            top5: { classfiy: 'classfiy5', name: 'Cut 7-海选第一期' },
+          }
+        },
+        {
+          date: '6月29日',
+          data: {
+            top1: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top2: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top3: { classfiy: 'classfiy3', name: 'Cut 2-海选第一期' },
+            top4: { classfiy: 'classfiy4', name: 'Cut 10-海选第一期' },
+            top5: { classfiy: 'classfiy5', name: 'Cut 7-海选第一期' },
+          }
+        },
+        {
+          date: '6月30日',
+          data: {
+            top1: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top2: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top3: { classfiy: 'classfiy3', name: 'Cut 2-海选第一期' },
+            top4: { classfiy: 'classfiy4', name: 'Cut 10-海选第一期' },
+            top5: { classfiy: 'classfiy5', name: 'Cut 7-海选第一期' },
+          }
+        },
+        {
+          date: '7月1日',
+          data: {
+            top1: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top2: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top3: { classfiy: 'classfiy3', name: 'Cut 2-海选第一期' },
+            top4: { classfiy: 'classfiy4', name: 'Cut 10-海选第一期' },
+            top5: { classfiy: 'classfiy5', name: 'Cut 7-海选第一期' },
+          }
+        },
+        {
+          date: '7月2日',
+          data: {
+            top1: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top2: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top3: { classfiy: 'classfiy3', name: 'Cut 2-海选第一期' },
+            top4: { classfiy: 'classfiy4', name: 'Cut 10-海选第一期' },
+            top5: { classfiy: 'classfiy6', name: 'Cut 3-海选第一期' },
+          }
+        },
+        {
+          date: '7月3日',
+          data: {
+            top1: { classfiy: 'classfiy7', name: '海选第三期-片段一' },
+            top2: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top3: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top4: { classfiy: 'classfiy8', name: '海选第二期-片段一' },
+            top5: { classfiy: 'classfiy3', name: 'Cut 2-海选第一期' },
+          }
+        },
+        {
+          date: '7月4日',
+          data: {
+            top1: { classfiy: 'classfiy7', name: '海选第三期-片段一' },
+            top2: { classfiy: 'classfiy8', name: '海选第二期-片段一' },
+            top3: { classfiy: 'classfiy2', name: 'Cut 1-海选第一期' },
+            top4: { classfiy: 'classfiy1', name: '《福星成长营》火热报名中' },
+            top5: { classfiy: 'classfiy9', name: '海选第三期-片段二' },
+          }
+        },
+      ]
     }
   },
   mounted() {
@@ -265,12 +407,13 @@ export default {
 /* 节目点播情况开始 */
 .programs_demand {
   height: 100%;
+  margin-bottom: 50px;
 }
 .programs_demand_content1 {
-  height: 400px;
+  height: 450px;
 }
 .programs_demand_content2 {
-  height: 400px;
+  height: 550px;
 }
 /* 节目点播情况结束 */
 </style>

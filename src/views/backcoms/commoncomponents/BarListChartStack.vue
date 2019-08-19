@@ -1,6 +1,6 @@
 <template>
   <div class="height_auto">
-    <div class="pie_hollow_chart" :id="barListData.id"></div>
+    <div class="height_auto" :id="barListData.id"></div>
   </div>
 </template>
 <script>
@@ -26,11 +26,11 @@ export default {
         seriesData.push({
           type: 'bar',
           barWidth: '20',
+          stack: '堆叠',
           itemStyle: {
             normal: {
               label: {
                 show: true, //开启显示
-                position: 'right', //在上方显示
                 textStyle: { //数值样式
                   color: 'black',
                   fontSize: 12
@@ -68,9 +68,9 @@ export default {
         },
         grid: {
           top: "20%",
-          left: '32%',
+          left: '12%',
           right: '8%',
-          bottom: "10%"
+          bottom: "8%"
         },
         tooltip: {
           trigger: 'axis',
@@ -120,7 +120,7 @@ export default {
             show: false,
           },
           axisLine: {
-            show: false,  //Y轴不显示
+            show: true,  //Y轴不显示
             lineStyle: {
               color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
             }
@@ -137,7 +137,4 @@ export default {
 }
 </script>
 <style scoped>
-.pie_hollow_chart {
-  height: 500px;
-}
 </style>
