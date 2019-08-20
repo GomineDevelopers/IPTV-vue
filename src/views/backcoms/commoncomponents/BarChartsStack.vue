@@ -30,7 +30,7 @@ export default {
         title: {
           text: this.chartData.title,
           x: 'left',
-          y: '7%',
+          y: '10',
           textStyle: {
             fontStyle: 'normal',
             fontWeight: 'normal',

@@ -36,7 +36,7 @@ export default {
         left: '3%',
         itemWidth: 12,  // 设置宽度
         itemHeight: 7, // 设置高度
-        itemGap: 20, // 设置间距
+        itemGap: 10, // 设置间距
         padding: 0,
         orient: 'vertical',  //垂直显示
         textStyle: {
@@ -92,7 +92,7 @@ export default {
         {
           name: this.pieData.content[1].title,
           type: 'pie',
-          radius: ['49%', '64%'],
+          radius: ['50%', '65%'],
           center: ['50%', '56%'],
           data: this.pieData.content[1].data,
           labelLine: {
@@ -123,7 +123,7 @@ export default {
         {
           name: this.pieData.content[2].title,
           type: 'pie',
-          radius: ['33%', '48%'],
+          radius: ['35%', '50%'],
           center: ['50%', '56%'],
           data: this.pieData.content[2].data,
           labelLine: {
@@ -154,7 +154,7 @@ export default {
         {
           name: this.pieData.content[3].title,
           type: 'pie',
-          radius: ['17%', '32%'],
+          radius: ['20%', '35%'],
           center: ['50%', '56%'],
           data: this.pieData.content[3].data,
           labelLine: {

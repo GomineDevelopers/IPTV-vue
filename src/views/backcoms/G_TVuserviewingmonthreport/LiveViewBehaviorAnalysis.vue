@@ -1,11 +1,11 @@
 <template>
   <div class="height_auto">
-    <div class="pie_hollow_chart" :id="barListData.id"></div>
+    <div class="height_auto" :id="barListData.id"></div>
   </div>
 </template>
 <script>
 export default {
-  name: 'BarListChart',  //专题专区数据报告
+  name: 'LiveViewBehaviorAnalysis',  //直播收视行为分析（列表柱状图）
   props: {
     barListData: {
       type: Object,
@@ -25,7 +25,8 @@ export default {
       for (let i = 1; i <= this.barListData.data[0].length - 1; i++) {
         seriesData.push({
           type: 'bar',
-          barWidth: '20',
+          barWidth: '12',
+          barGap: 0, //两条柱子之间的间隙
           itemStyle: {
             normal: {
               label: {
@@ -57,7 +58,7 @@ export default {
         },
         legend: {
           icon: "re",
-          top: "10%",
+          top: "5%",
           itemWidth: 12,  // 设置宽度
           itemHeight: 7, // 设置高度
           itemGap: 20, // 设置间距
@@ -67,10 +68,10 @@ export default {
           }
         },
         grid: {
-          top: "20%",
-          left: '35%',
+          top: "10%",
+          left: '40%',
           right: '8%',
-          bottom: "10%"
+          bottom: "5%"
         },
         tooltip: {
           trigger: 'axis',
@@ -84,7 +85,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "9%",
+          top: "4%",
           right: "6%",
           feature: {
             saveAsImage: {}
@@ -120,7 +121,7 @@ export default {
             show: false,
           },
           axisLine: {
-            show: false,  //Y轴不显示
+            show: true,  //Y轴不显示
             lineStyle: {
               color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
             }
@@ -132,7 +133,7 @@ export default {
               var str = ''
               for (var i = 0, s; s = strs[i++];) { //遍历字符串数组  
                 str += s;
-                if (!(i % 9)) str += '\n';
+                if (!(i % 15)) str += '\n';
               }
               return str
             }
@@ -149,7 +150,7 @@ export default {
 }
 </script>
 <style scoped>
-.pie_hollow_chart {
+/* .pie_hollow_chart {
   height: 500px;
-}
+} */
 </style>

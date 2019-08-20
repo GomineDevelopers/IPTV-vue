@@ -170,11 +170,217 @@
             </el-col>
           </el-row>
           <el-row class="analysis_of_viewing2">
-            <el-col class="height_auto" :span="24">444</el-col>
+            <el-col class="height_auto" :span="24">
+              <monthly-total-viewing :lineData="monthlyTotalViewingData"></monthly-total-viewing>
+              <span>注：总体收视数据为直播数据+点播数据+回看数据</span>
+            </el-col>
           </el-row>
         </el-row>
       </el-row>
       <!-- 整体收视行为分析结束 -->
+
+      <!-- 直播收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>直播收视行为分析
+        </el-row>
+        <el-row class="analysis_of_viewing back_white">
+          <el-row class="analysis_of_viewing1">
+            <el-col class="height_auto" :span="8">
+              <many-pie-chart :pieData="liveViewingDurationData"></many-pie-chart>
+              <span>注：由内而外分别是1月、2月、3月、4月</span>
+            </el-col>
+            <el-col class="height_auto" :span="8">
+              <many-pie-chart :pieData="liveViewingUserData"></many-pie-chart>
+              <span>注：由内而外分别是1月、2月、3月、4月</span>
+            </el-col>
+            <el-col class="height_auto" :span="8">
+              <many-pie-chart :pieData="liveViewingTimesData"></many-pie-chart>
+              <span>注：由内而外分别是1月、2月、3月、4月</span>
+            </el-col>
+          </el-row>
+          <el-row class="analysis_of_viewing2">
+            <el-col class="height_auto" :span="24">
+              <monthly-total-viewing :lineData="monthlyTotalViewingData2"></monthly-total-viewing>
+              <span>注：直播收视数据为移动侧+联通侧+电信侧数据总数据</span>
+            </el-col>
+          </el-row>
+        </el-row>
+      </el-row>
+      <!-- 直播收视行为分析结束 -->
+
+      <!-- 四月各周直播收视日数据开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>四月各周直播收视日数据
+        </el-row>
+        <el-row class="analysis_of_viewing back_white">
+          <el-row class="analysis_of_viewing1">
+            <el-col class="height_auto" :span="8">
+              <many-pie-chart :pieData="weekLiveViewUserData"></many-pie-chart>
+              <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
+            </el-col>
+            <el-col class="height_auto" :span="8">
+              <many-pie-chart :pieData="weekLiveViewTimesData"></many-pie-chart>
+              <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
+            </el-col>
+            <el-col class="height_auto" :span="8">
+              <many-pie-chart :pieData="weekliveViewDurationData"></many-pie-chart>
+              <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
+            </el-col>
+          </el-row>
+          <el-row class="analysis_of_viewing2">
+            <el-col class="height_auto" :span="24">
+              <monthly-total-viewing :lineData="weekliveViewingData"></monthly-total-viewing>
+              <span>注：各周直播收视数据为移动侧+联通侧+电信侧数据总数据&nbsp;&nbsp;&nbsp;单位：十万户</span>
+            </el-col>
+          </el-row>
+        </el-row>
+      </el-row>
+      <!-- 四月各周直播收视日数据结束 -->
+
+      <!-- 直播收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>直播收视行为分析
+        </el-row>
+        <el-row class="live_viewing_data back_white">
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="liveViewerData"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="liveViewTimesData"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="liveViewTimesData2"></live-view-behavior-analysis>
+          </el-col>
+          <span>注：当前排名为移动侧+联通侧+电信侧数据总排名</span>
+        </el-row>
+      </el-row>
+      <!-- 直播收视行为分析结束 -->
+
+      <!-- 本地直播及轮播频道用户收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>本地直播及轮播频道用户收视行为分析
+        </el-row>
+        <el-row class="localityLiveAndCarousel back_white">
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="mobileLiveViewerData"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="unicornLiveViewerData"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="telecomLiveViewerData"></live-view-behavior-analysis>
+          </el-col>
+          <span>单位：万户</span>
+        </el-row>
+      </el-row>
+      <!-- 本地直播及轮播频道用户收视行为分析结束 -->
+
+      <!-- 整体点播收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>整体点播收视行为分析
+        </el-row>
+        <el-row class="overall_demand back_white">
+          <el-col class="height_auto" :span="12">
+            <monthly-total-viewing :lineData="monthlyDemandViewingData"></monthly-total-viewing>
+            <span>注：点播收视数据为移动侧+联通侧+电信侧数据总数据</span>
+          </el-col>
+          <el-col class="height_auto" :span="12">
+            <monthly-total-viewing :lineData="weekDemandViewingData"></monthly-total-viewing>
+            <span>单位：百万</span>
+          </el-col>
+        </el-row>
+      </el-row>
+      <!-- 整体点播收视行为分析结束 -->
+
+      <!-- 各类型节目点播收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>各类型节目点播收视行为分析
+        </el-row>
+        <el-row class="type_program_data back_white">
+          <el-col class="height_auto" :span="8">
+            <type-program-chart :chartData="demandUserNumData"></type-program-chart>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <type-program-chart :chartData="demandTimesData"></type-program-chart>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <type-program-chart :chartData="demandDurationData"></type-program-chart>
+          </el-col>
+        </el-row>
+      </el-row>
+      <!-- 各类型节目点播收视行为分析结束 -->
+
+      <!-- 各栏目热力数据概览开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>各栏目热力数据概览
+        </el-row>
+        <el-row class="type_program_data back_white">
+          <el-col class="height_auto" :span="12">
+            <type-program-chart :chartData="programPageClickUserData"></type-program-chart>
+          </el-col>
+          <el-col class="height_auto" :span="12">
+            <type-program-chart :chartData="programPageClickNumData"></type-program-chart>
+          </el-col>
+        </el-row>
+      </el-row>
+      <!-- 各栏目热力数据概览结束 -->
+
+      <!-- 点播收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>点播收视行为分析
+        </el-row>
+        <el-row class="localityLiveAndCarousel back_white">
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="demandUserNumData2"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="demandTimesData2"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="demandDurationData2"></live-view-behavior-analysis>
+          </el-col>
+        </el-row>
+      </el-row>
+      <!-- 点播收视行为分析结束 -->
+
+      <!-- 付费用户收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>付费用户收视行为分析
+        </el-row>
+        <el-row class="paying_user_div back_white">
+          <el-col class="height_auto" :span="10">
+            <type-program-chart :chartData="newAddUserData"></type-program-chart>
+          </el-col>
+          <el-col class="height_auto" :span="14">
+            <live-view-behavior-analysis :barListData="payingUserData"></live-view-behavior-analysis>
+          </el-col>
+        </el-row>
+      </el-row>
+      <!-- 付费用户收视行为分析结束 -->
+
+      <!-- 本土原创节目收视行为分析开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>本土原创节目收视行为分析
+        </el-row>
+        <el-row class="local_originality back_white">
+          <el-col class="height_auto" :span="12">
+            <bar-chart-single :chartData="monthDemandData"></bar-chart-single>
+          </el-col>
+          <el-col class="height_auto" :span="12">
+            <bar-chart-single :chartData="clickNumData"></bar-chart-single>
+          </el-col>
+        </el-row>
+      </el-row>
     </el-row>
   </div>
 </template>
@@ -184,8 +390,11 @@ import BarListChartStack from "@/views/backcoms/commoncomponents/BarListChartSta
 import LineDottedChart from "@/views/backcoms/G_TVuserviewingmonthreport/LineDottedChart"  //4月新增在册用户数组件（折线图含虚线）
 import LineChartSingleProp from '@/views/backcoms/commoncomponents/LineChartSingleProp'  //单数据折线图组件（百分比）
 import EveryPowerActivity from "@/views/backcoms/G_TVuserviewingmonthreport/EveryPowerActivity"  //4月新增在册用户数组件（折线图含虚线）
-
-import ManyPieChart from "@/views/backcoms/G_TVuserviewingmonthreport/ManyPieChart"  //4月新增在册用户数组件（折线图含虚线）
+import ManyPieChart from "@/views/backcoms/G_TVuserviewingmonthreport/ManyPieChart"  //整体收拾行为分析（多个空心饼图组成的图表）
+import MonthlyTotalViewing from "@/views/backcoms/G_TVuserviewingmonthreport/MonthlyTotalViewing"  //整体收拾行为分析（多个空心饼图组成的图表）
+import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"  //整体收拾行为分析（多个空心饼图组成的图表）
+import TypeProgramChart from "@/views/backcoms/G_TVuserviewingmonthreport/TypeProgramChart"  //整体收拾行为分析（多个空心饼图组成的图表）
+import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'  //柱状图
 
 export default {
   name: 'G_TVUserViewingMonthReport',  //G+TV月度用户收视行为报告
@@ -195,7 +404,11 @@ export default {
     "line-dotted-chart": LineDottedChart,
     "line-chart-single-prop": LineChartSingleProp,
     "every-power-activity": EveryPowerActivity,
-    "many-pie-chart": ManyPieChart
+    "many-pie-chart": ManyPieChart,
+    "monthly-total-viewing": MonthlyTotalViewing,
+    "live-view-behavior-analysis": LiveViewBehaviorAnalysis,
+    "type-program-chart": TypeProgramChart,
+    'bar-chart-single': BarChartSingle,
   },
   data() {
     return {
@@ -632,6 +845,727 @@ export default {
         ],
       },
 
+      // 4月总体收视数据
+      monthlyTotalViewingData: {
+        title: "4月总体收视数据",
+        id: "monthlyTotalViewing",
+        color: ["#EC7C30", "#A4A4A4", "#5B9BD4"],
+        data: [
+          ['product', '1月', '2月', '3月', '4月'],
+          ['观看次数（百万次）', 103.1, 102.2, 90.5, 104.8],
+          ['观看时长数（百万小时）', 99.3, 110.0, 106.2, 126.9],
+          ['观看用户数（百万户）', 1.4, 1.6, 1.5, 1.7],
+        ]
+      },
+
+      // 直播观看时长数据
+      liveViewingDurationData: {
+        title: "直播观看时长数据",
+        id: 'liveViewingDuration',
+        color: ["#F4B8A3", "#EC7C30", "#C46627"],
+        content: [
+          {
+            title: "4月直播观看时长数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "3月直播观看时长数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "2月直播观看时长数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "1月直播观看时长数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          }
+        ],
+      },
+      //直播观看用户数据
+      liveViewingUserData: {
+        title: "直播观看用户数据",
+        id: 'liveViewingUser',
+        color: ["#878787", "#A4A4A4", "#CACACA"],
+        content: [
+          {
+            title: "4月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "3月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "2月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "1月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          }
+        ],
+      },
+      // 直播观看次数数据
+      liveViewingTimesData: {
+        title: "直播观看用户数据",
+        id: 'liveViewingTimes',
+        color: ["#D29E00", "#FFC000", "#FFD99F"],
+        content: [
+          {
+            title: "4月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "3月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "2月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "1月直播观看用户数据",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          }
+        ],
+      },
+      // 1-4月直播收视数据
+      monthlyTotalViewingData2: {
+        title: "1-4月直播收视数据",
+        id: "monthlyTotalViewing2",
+        color: ["#EC7C30", "#A4A4A4", "#5B9BD4"],
+        data: [
+          ['product', '1月', '2月', '3月', '4月'],
+          ['直播观看次数（百万次）', 103.1, 102.2, 90.5, 104.8],
+          ['直播观看时长数（百万小时）', 99.3, 110.0, 106.2, 126.9],
+          ['直播观看用户数（百万户）', 0.6, 0.7, 0.7, 0.8],
+        ]
+      },
+
+      // 四月各周直播收视用户数
+      weekLiveViewUserData: {
+        title: "四月各周直播收视用户数",
+        id: 'weekLiveViewUser',
+        color: ["#F4B8A3", "#EC7C30", "#C46627"],
+        content: [
+          {
+            title: "4月第1周直播收视用户数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第2周直播收视用户数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第3周直播收视用户数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第4周直播收视用户数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          }
+        ]
+      },
+      //四月各周直播收视次数
+      weekLiveViewTimesData: {
+        title: "四月各周直播收视次数",
+        id: 'weekLiveViewTimes',
+        color: ["#5B8E39", "#6FAC46", "#B4CFA8"],
+        content: [
+          {
+            title: "4月第1周直播收视次数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第2周直播收视次数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第3周直播收视次数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第4周直播收视次数",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          }
+        ]
+      },
+      //四月各周直播收视时长
+      weekliveViewDurationData: {
+        title: "四月各周直播收视时长",
+        id: 'weekliveViewDuration',
+        color: ["#D29E00", "#FFC000", "#FFD99F"],
+        content: [
+          {
+            title: "4月第1周直播收视时长",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第2周直播收视时长",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第3周直播收视时长",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          },
+          {
+            title: "4月第4周直播收视时长",
+            data: [
+              { value: 535, name: '移动' },
+              { value: 410, name: '联通' },
+              { value: 348, name: '电信' }
+            ],
+          }
+        ]
+      },
+      // 4月各周直播收视数据
+      weekliveViewingData: {
+        title: "1-4月直播收视数据",
+        id: "weekliveViewing",
+        color: ["#EC7C30", "#A4A4A4", "#5B9BD4"],
+        data: [
+          ['product', '4月第一周', '4月第二周', '4月第三周', '4月第四周'],
+          ['直播观看次数（十万次）', 103.1, 102.2, 90.5, 104.8],
+          ['直播观看时长数（十万小时）', 99.3, 110.0, 106.2, 126.9],
+          ['直播观看用户数（十万户）', 0.6, 0.7, 0.7, 0.8],
+        ]
+      },
+
+      //直播频道观看用户数排名（万户）
+      liveViewerData: {
+        title: "直播频道观看用户数排名（万户）",
+        id: 'liveViewer',
+        color: ["#5b9bd4", '#A4A4A4'],
+        data: [
+          ['product', '本月', '上月'],
+          ['山东卫视（高清）', 18.8, 18.0],
+          ['江苏卫视（高清', 19.1, 17.5],
+          ['CCTV-2 财经', 20.0, 18.6],
+          ['贵州-7 经济频道', 20.0, 17.2],
+          ['贵州-6 科教健康频道', 20.2, 16.7],
+          ['CCTV-15 音乐', 17.9, 16.1],
+          ['浙江卫视（高清）', 18.8, 18.0],
+          ['CCTV-4 中文国际（高清）', 19.1, 17.5],
+          ['CCTV-10 科教', 20.0, 18.6],
+          ['CCTV-7 军事农业', 20.0, 17.2],
+          ['CCTV-14 少儿', 20.2, 16.7],
+          ['贵州-5 法制频道', 20.4, 17.3],
+          ['CCTV-12 社会与法', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['CCTV-13 新闻', 21.4, 19.0],
+          ['贵州-4 大众生活频道', 24.9, 32.0],
+          ['贵州-3 影视文艺频道', 26.2, 22.3],
+          ['CCTV-1 综合（高清）', 37.2, 28.7],
+          ['贵州-2 公共频道', 38.1, 34.6],
+          ['贵州卫视（高清）', 56.3, 37.1]
+        ]
+      },
+      //直播频道观看次数排名
+      liveViewTimesData: {
+        title: "直播频道观看次数排名(百万次)",
+        id: 'liveViewTimes',
+        color: ["#EC7C30", '#FFC000'],
+        data: [
+          ['product', '本月', '上月'],
+          ['山东卫视（高清）', 18.8, 18.0],
+          ['江苏卫视（高清', 19.1, 17.5],
+          ['CCTV-2 财经', 20.0, 18.6],
+          ['贵州-7 经济频道', 20.0, 17.2],
+          ['贵州-6 科教健康频道', 20.2, 16.7],
+          ['CCTV-15 音乐', 17.9, 16.1],
+          ['浙江卫视（高清）', 18.8, 18.0],
+          ['CCTV-4 中文国际（高清）', 19.1, 17.5],
+          ['CCTV-10 科教', 20.0, 18.6],
+          ['CCTV-7 军事农业', 20.0, 17.2],
+          ['CCTV-14 少儿', 20.2, 16.7],
+          ['贵州-5 法制频道', 20.4, 17.3],
+          ['CCTV-12 社会与法', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['CCTV-13 新闻', 21.4, 19.0],
+          ['贵州-4 大众生活频道', 24.9, 32.0],
+          ['贵州-3 影视文艺频道', 26.2, 22.3],
+          ['CCTV-1 综合（高清）', 37.2, 28.7],
+          ['贵州-2 公共频道', 38.1, 34.6],
+          ['贵州卫视（高清）', 56.3, 37.1]
+        ]
+      },
+      //直播频道观看次数排名
+      liveViewTimesData2: {
+        title: "直播频道观看次数排名（百万小时）",
+        id: 'liveViewTimes2',
+        color: ["#E2AA00", '#FFDE85'],
+        data: [
+          ['product', '本月', '上月'],
+          ['山东卫视（高清）', 18.8, 18.0],
+          ['江苏卫视（高清', 19.1, 17.5],
+          ['CCTV-2 财经', 20.0, 18.6],
+          ['贵州-7 经济频道', 20.0, 17.2],
+          ['贵州-6 科教健康频道', 20.2, 16.7],
+          ['CCTV-15 音乐', 17.9, 16.1],
+          ['浙江卫视（高清）', 18.8, 18.0],
+          ['CCTV-4 中文国际（高清）', 19.1, 17.5],
+          ['CCTV-10 科教', 20.0, 18.6],
+          ['CCTV-7 军事农业', 20.0, 17.2],
+          ['CCTV-14 少儿', 20.2, 16.7],
+          ['贵州-5 法制频道', 20.4, 17.3],
+          ['CCTV-12 社会与法', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['CCTV-13 新闻', 21.4, 19.0],
+          ['贵州-4 大众生活频道', 24.9, 32.0],
+          ['贵州-3 影视文艺频道', 26.2, 22.3],
+          ['CCTV-1 综合（高清）', 37.2, 28.7],
+          ['贵州-2 公共频道', 38.1, 34.6],
+          ['贵州卫视（高清）', 56.3, 37.1]
+        ]
+      },
+
+      //直播频道观看用户数排名（移动）
+      mobileLiveViewerData: {
+        title: "直播频道观看用户数排名（移动）",
+        id: 'mobileLiveViewer',
+        color: ["#5b9bd4", '#A4A4A4'],
+        data: [
+          ['product', '本月', '上月'],
+          ['山东卫视（高清）', 18.8, 18.0],
+          ['江苏卫视（高清', 19.1, 17.5],
+          ['CCTV-2 财经', 20.0, 18.6],
+          ['贵州-7 经济频道', 20.0, 17.2],
+          ['贵州-6 科教健康频道', 20.2, 16.7],
+          ['CCTV-15 音乐', 17.9, 16.1],
+          ['浙江卫视（高清）', 18.8, 18.0],
+          ['CCTV-4 中文国际（高清）', 19.1, 17.5],
+          ['CCTV-10 科教', 20.0, 18.6],
+          ['CCTV-7 军事农业', 20.0, 17.2],
+          ['CCTV-14 少儿', 20.2, 16.7],
+          ['贵州-5 法制频道', 20.4, 17.3],
+          ['CCTV-12 社会与法', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['CCTV-13 新闻', 21.4, 19.0],
+          ['贵州-4 大众生活频道', 24.9, 32.0],
+          ['贵州-3 影视文艺频道', 26.2, 22.3],
+          ['CCTV-1 综合（高清）', 37.2, 28.7],
+          ['贵州-2 公共频道', 38.1, 34.6],
+          ['贵州卫视（高清）', 56.3, 37.1]
+        ]
+      },
+      //直播频道观看用户数排名（联通）
+      unicornLiveViewerData: {
+        title: "直播频道观看用户数排名（联通）",
+        id: 'unicornLiveViewer',
+        color: ["#EC7C30", '#FFC000'],
+        data: [
+          ['product', '本月', '上月'],
+          ['山东卫视（高清）', 18.8, 18.0],
+          ['江苏卫视（高清', 19.1, 17.5],
+          ['CCTV-2 财经', 20.0, 18.6],
+          ['贵州-7 经济频道', 20.0, 17.2],
+          ['贵州-6 科教健康频道', 20.2, 16.7],
+          ['CCTV-15 音乐', 17.9, 16.1],
+          ['浙江卫视（高清）', 18.8, 18.0],
+          ['CCTV-4 中文国际（高清）', 19.1, 17.5],
+          ['CCTV-10 科教', 20.0, 18.6],
+          ['CCTV-7 军事农业', 20.0, 17.2],
+          ['CCTV-14 少儿', 20.2, 16.7],
+          ['贵州-5 法制频道', 20.4, 17.3],
+          ['CCTV-12 社会与法', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['CCTV-13 新闻', 21.4, 19.0],
+          ['贵州-4 大众生活频道', 24.9, 32.0],
+          ['贵州-3 影视文艺频道', 26.2, 22.3],
+          ['CCTV-1 综合（高清）', 37.2, 28.7],
+          ['贵州-2 公共频道', 38.1, 34.6],
+          ['贵州卫视（高清）', 56.3, 37.1]
+        ]
+      },
+      //直播频道观看用户数排名（电信）
+      telecomLiveViewerData: {
+        title: "直播频道观看用户数排名（电信）",
+        id: 'telecomLiveViewer',
+        color: ["#E2AA00", '#FFDE85'],
+        data: [
+          ['product', '本月', '上月'],
+          ['山东卫视（高清）', 18.8, 18.0],
+          ['江苏卫视（高清', 19.1, 17.5],
+          ['CCTV-2 财经', 20.0, 18.6],
+          ['贵州-7 经济频道', 20.0, 17.2],
+          ['贵州-6 科教健康频道', 20.2, 16.7],
+          ['CCTV-15 音乐', 17.9, 16.1],
+          ['浙江卫视（高清）', 18.8, 18.0],
+          ['CCTV-4 中文国际（高清）', 19.1, 17.5],
+          ['CCTV-10 科教', 20.0, 18.6],
+          ['CCTV-7 军事农业', 20.0, 17.2],
+          ['CCTV-14 少儿', 20.2, 16.7],
+          ['贵州-5 法制频道', 20.4, 17.3],
+          ['CCTV-12 社会与法', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['CCTV-13 新闻', 21.4, 19.0],
+          ['贵州-4 大众生活频道', 24.9, 32.0],
+          ['贵州-3 影视文艺频道', 26.2, 22.3],
+          ['CCTV-1 综合（高清）', 37.2, 28.7],
+          ['贵州-2 公共频道', 38.1, 34.6],
+          ['贵州卫视（高清）', 56.3, 37.1]
+        ]
+      },
+
+      // 1-4月点播收视数据
+      monthlyDemandViewingData: {
+        title: "1-4月点播收视数据",
+        id: "monthlyDemandViewing",
+        color: ["#FFC000", "#6FAC46", "#EC7C30"],
+        data: [
+          ['product', '1月', '2月', '3月', '4月'],
+          ['点播观看次数', 103.1, 102.2, 90.5, 104.8],
+          ['点播观看时长数', 99.3, 110.0, 106.2, 126.9],
+          ['点播观看用户数', 1.4, 1.6, 1.5, 1.7],
+        ]
+      },
+      // 4月各周点播收视数据
+      weekDemandViewingData: {
+        title: "4月各周点播收视数据",
+        id: "weekDemandViewing",
+        color: ["#EC7C30", "#A4A4A4", "#5B9BD4"],
+        data: [
+          ['product', '1月', '2月', '3月', '4月'],
+          ['直播收视次数', 103.1, 102.2, 90.5, 104.8],
+          ['直播收视时长', 99.3, 110.0, 106.2, 126.9],
+          ['直播收视用户数', 1.4, 1.6, 1.5, 1.7],
+        ]
+      },
+
+      //点播用户数
+      demandUserNumData: {
+        title: '点播用户数',
+        id: 'demandUserNum',
+        color: ["#EC7C30", "#FFC000", "#6FAC46"],
+        data: [
+          ['product', '本月', '上月', '环比'],
+          ['少儿', 43300, 13563, 11.38],
+          ['电影', 83000, 16457, 2.21],
+          ['游戏', 76000, 17096, 13.33],
+          ['热剧', 66000, 57896, 28.84],
+          ['动漫', 86080, 17096, 12.68],
+          ['综艺', 56000, 27896, 32.26],
+          ['纪实', 36000, 15896, 19.31],
+          ['音乐', 26000, 12896, 36.71],
+          ['体育', 66000, 7896, 1.22],
+          ['资讯', 16000, 17896, 13.33],
+        ]
+      },
+      //点播次数环比
+      demandTimesData: {
+        title: '点播次数环比',
+        id: 'demandTimes',
+        color: ["#D29E00", "#FFC000", "#FFD99F"],
+        data: [
+          ['product', '本月', '上月', '环比'],
+          ['少儿', 43300, 13563, 11.38],
+          ['电影', 83000, 16457, 2.21],
+          ['游戏', 76000, 17096, 13.33],
+          ['热剧', 66000, 57896, 28.84],
+          ['动漫', 86080, 17096, 12.68],
+          ['综艺', 56000, 27896, 32.26],
+          ['纪实', 36000, 15896, 19.31],
+          ['音乐', 26000, 12896, 36.71],
+          ['体育', 66000, 7896, 1.22],
+          ['资讯', 16000, 17896, 13.33],
+        ]
+      },
+      //点播时长环比
+      demandDurationData: {
+        title: '点播时长环比',
+        id: 'demandDuration',
+        color: ["#ACC5E4", "#5B9BD4", "#497EAF"],
+        data: [
+          ['product', '本月', '上月', '环比'],
+          ['少儿', 43300, 13563, 11.38],
+          ['电影', 83000, 16457, 2.21],
+          ['游戏', 76000, 17096, 13.33],
+          ['热剧', 66000, 57896, 28.84],
+          ['动漫', 86080, 17096, 12.68],
+          ['综艺', 56000, 27896, 32.26],
+          ['纪实', 36000, 15896, 19.31],
+          ['音乐', 26000, 12896, 36.71],
+          ['体育', 66000, 7896, 1.22],
+          ['资讯', 16000, 17896, 13.33],
+        ]
+      },
+
+      //主要栏目页面点击用户数对比
+      programPageClickUserData: {
+        title: '主要栏目页面点击用户数对比',
+        id: 'programPageClickUser',
+        color: ["#EC7C30", "#FFC000", "#6FAC46"],
+        data: [
+          ['product', '本月', '上月', '环比'],
+          ['少儿', 43300, 13563, 11.38],
+          ['电影', 83000, 16457, 2.21],
+          ['游戏', 76000, 17096, 13.33],
+          ['热剧', 66000, 57896, 28.84],
+          ['动漫', 86080, 17096, 12.68],
+          ['综艺', 56000, 27896, 32.26],
+          ['纪实', 36000, 15896, 19.31],
+          ['音乐', 26000, 12896, 36.71],
+          ['体育', 66000, 7896, 1.22],
+          ['资讯', 16000, 17896, 13.33],
+        ]
+      },
+      //主要栏目页面点击次数对比
+      programPageClickNumData: {
+        title: '主要栏目页面点击次数对比',
+        id: 'programPageClickNum',
+        color: ["#ACC5E4", "#5B9BD4", "#497EAF"],
+        data: [
+          ['product', '本月', '上月', '环比'],
+          ['少儿', 43300, 13563, 11.38],
+          ['电影', 83000, 16457, 2.21],
+          ['游戏', 76000, 17096, 13.33],
+          ['热剧', 66000, 57896, 28.84],
+          ['动漫', 86080, 17096, 12.68],
+          ['综艺', 56000, 27896, 32.26],
+          ['纪实', 36000, 15896, 19.31],
+          ['音乐', 26000, 12896, 36.71],
+          ['体育', 66000, 7896, 1.22],
+          ['资讯', 16000, 17896, 13.33],
+        ]
+      },
+
+      // 点播用户数对比（万户）
+      demandUserNumData2: {
+        title: "点播用户数对比（万户）",
+        id: 'demandUserNum2',
+        color: ["#5B9BD4", '#EC7C30'],
+        data: [
+          ['product', '本月', '上月'],
+          ['（电视剧）封神演义', 18.8, 18.0],
+          ['（电视剧）新白娘子传奇2019', 19.1, 17.5],
+          ['（电影）飞驰人生', 20.0, 18.6],
+          ['（电视剧）青春斗', 20.0, 17.2],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 20.2, 16.7],
+          ['（少儿）熊出没之探险日记 第二季', 17.9, 16.1],
+          ['（电视剧）招摇', 18.8, 18.0],
+          ['（电视剧）黄河英雄', 19.1, 17.5],
+          ['（电视剧）夜空中最闪亮的星', 20.0, 18.6],
+          ['（综艺）王牌对王牌 第四季', 20.0, 17.2],
+          ['（少儿）汪汪队立大功 第四季', 20.2, 16.7],
+          ['（电影）狂暴凶狮', 20.4, 17.3],
+          ['（通灵妃）通灵妃', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['（电影）绿毛怪格林奇（原声版）', 21.4, 19.0],
+          ['（电影）钢铁飞龙之奥特曼崛起', 24.9, 32.0],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 26.2, 22.3],
+          ['（电视剧）推手', 37.2, 28.7],
+          ['（动漫）猫妖的诱惑', 38.1, 34.6],
+          ['（少儿）假面骑士时王', 56.3, 37.1]
+        ]
+      },
+      // 点播次数对比（十万次）
+      demandTimesData2: {
+        title: "点播次数对比（十万次）",
+        id: 'demandTimes2',
+        color: ["#EC7C30", '#FFC000'],
+        data: [
+          ['product', '本月', '上月'],
+          ['（电视剧）封神演义', 18.8, 18.0],
+          ['（电视剧）新白娘子传奇2019', 19.1, 17.5],
+          ['（电影）飞驰人生', 20.0, 18.6],
+          ['（电视剧）青春斗', 20.0, 17.2],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 20.2, 16.7],
+          ['（少儿）熊出没之探险日记 第二季', 17.9, 16.1],
+          ['（电视剧）招摇', 18.8, 18.0],
+          ['（电视剧）黄河英雄', 19.1, 17.5],
+          ['（电视剧）夜空中最闪亮的星', 20.0, 18.6],
+          ['（综艺）王牌对王牌 第四季', 20.0, 17.2],
+          ['（少儿）汪汪队立大功 第四季', 20.2, 16.7],
+          ['（电影）狂暴凶狮', 20.4, 17.3],
+          ['（通灵妃）通灵妃', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['（电影）绿毛怪格林奇（原声版）', 21.4, 19.0],
+          ['（电影）钢铁飞龙之奥特曼崛起', 24.9, 32.0],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 26.2, 22.3],
+          ['（电视剧）推手', 37.2, 28.7],
+          ['（动漫）猫妖的诱惑', 38.1, 34.6],
+          ['（少儿）假面骑士时王', 56.3, 37.1]
+        ]
+      },
+      // 点播时长对比（十万小时）
+      demandDurationData2: {
+        title: "点播时长对比（十万小时）",
+        id: 'demandDuration2',
+        color: ["#6FAC46", '#4471C4'],
+        data: [
+          ['product', '本月', '上月'],
+          ['（电视剧）封神演义', 18.8, 18.0],
+          ['（电视剧）新白娘子传奇2019', 19.1, 17.5],
+          ['（电影）飞驰人生', 20.0, 18.6],
+          ['（电视剧）青春斗', 20.0, 17.2],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 20.2, 16.7],
+          ['（少儿）熊出没之探险日记 第二季', 17.9, 16.1],
+          ['（电视剧）招摇', 18.8, 18.0],
+          ['（电视剧）黄河英雄', 19.1, 17.5],
+          ['（电视剧）夜空中最闪亮的星', 20.0, 18.6],
+          ['（综艺）王牌对王牌 第四季', 20.0, 17.2],
+          ['（少儿）汪汪队立大功 第四季', 20.2, 16.7],
+          ['（电影）狂暴凶狮', 20.4, 17.3],
+          ['（通灵妃）通灵妃', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['（电影）绿毛怪格林奇（原声版）', 21.4, 19.0],
+          ['（电影）钢铁飞龙之奥特曼崛起', 24.9, 32.0],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 26.2, 22.3],
+          ['（电视剧）推手', 37.2, 28.7],
+          ['（动漫）猫妖的诱惑', 38.1, 34.6],
+          ['（少儿）假面骑士时王', 56.3, 37.1]
+        ]
+      },
+
+      // 付费用户收视行为分析开始
+      // 新增在册用户转化对比
+      newAddUserData: {
+        title: '主要栏目页面点击用户数对比',
+        id: 'newAddUser',
+        color: ["#EC7C30", "#FFC000", "#6FAC46"],
+        data: [
+          ['product', '新增付费用户数', '新增在册用户数', '新增在册用户转化率'],
+          ['3月', 6300, 13563, 6.1],
+          ['4月', 8000, 16457, 5.7],
+        ]
+      },
+      // 引导用户付费内容排名
+      payingUserData: {
+        title: "点播用户数对比（万户）",
+        id: 'payingUser',
+        color: ["#5B9BD4"],
+        data: [
+          ['product', '本月'],
+          ['（电视剧）封神演义', 78],
+          ['（电视剧）新白娘子传奇2019', 91],
+          ['（电影）飞驰人生', 98],
+          ['（电视剧）青春斗', 101],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 150],
+          ['（少儿）熊出没之探险日记 第二季', 179],
+          ['（电视剧）招摇', 188],
+          ['（电视剧）黄河英雄', 191],
+          ['（电视剧）夜空中最闪亮的星', 285],
+          ['（综艺）王牌对王牌 第四季', 302],
+          ['（少儿）汪汪队立大功 第四季', 340],
+          ['（电影）狂暴凶狮', 396],
+          ['（通灵妃）通灵妃', 400],
+          ['湖南卫视（高清）', 452],
+          ['（电影）绿毛怪格林奇（原声版）', 465],
+          ['（电影）钢铁飞龙之奥特曼崛起', 480],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 506],
+          ['（电视剧）推手', 527],
+          ['（动漫）猫妖的诱惑', 538],
+          ['（少儿）假面骑士时王', 560]
+        ]
+      },
+
+      // 本土原创节目收视行为分析
+      // 原创节目四月点播数据
+      monthDemandData: {
+        title: '各页面专区入口点击次数',
+        id: 'monthDemand',
+        color: ["#E7E6E6", "#5B9BD4"],
+        data: [
+          ['product', '三月', '四月'],
+          ['点播用户数（万户）', 4330, 13563],
+          ['点播次数（万次）', 8300, 16457],
+          ['点播时长（万小时）', 4330, 16457]
+        ]
+      },
+
     }
   },
   mounted() { }
@@ -692,17 +1626,50 @@ export default {
 
 /* 整体收视行为分析 */
 .analysis_of_viewing {
-  height: 700px;
+  height: 990px;
+  margin-bottom: 24px;
 }
 .analysis_of_viewing .analysis_of_viewing1 {
   height: 500px;
 }
-.analysis_of_viewing1 span {
+.analysis_of_viewing1 span,
+.analysis_of_viewing2 span,
+.live_viewing_data span,
+.localityLiveAndCarousel span,
+.overall_demand span {
   font-size: 12px;
   color: red;
 }
 .analysis_of_viewing .analysis_of_viewing2 {
-  height: 200px;
-  margin-top: 40px;
+  height: 440px;
+  padding-top: 70px;
+}
+
+/* 直播收视行为分析开始 */
+.live_viewing_data,
+.localityLiveAndCarousel {
+  height: 830px;
+  padding-bottom: 60px;
+  margin-bottom: 24px;
+}
+
+/* 整体点播收视行为 */
+.overall_demand {
+  height: 450px;
+  padding-bottom: 60px;
+  margin-bottom: 24px;
+}
+
+.type_program_data {
+  height: 500px;
+  padding-bottom: 60px;
+  margin-bottom: 24px;
+}
+.paying_user_div {
+  height: 800px;
+  margin-bottom: 24px;
+}
+.local_originality {
+  height: 400px;
 }
 </style>

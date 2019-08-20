@@ -111,7 +111,7 @@
   </div>
 </template>
 <script>
-import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle' //（空心）饼图组件
+import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"  //排名柱状图

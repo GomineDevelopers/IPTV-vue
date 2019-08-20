@@ -30,7 +30,7 @@ export default {
         title: {
           text: this.chartData.title,
           x: 'left',
-          y: '7%',
+          y: '10',
           textStyle: {
             fontStyle: 'normal',
             fontWeight: 'normal',
@@ -39,7 +39,6 @@ export default {
         },
         legend: {
           top: "18%",
-          right: "20%",
           itemWidth: 12,
           itemHeight: 7,
         },
