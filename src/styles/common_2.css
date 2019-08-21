@@ -7,6 +7,14 @@
 .m_init_div{
     display: inline-block;
 }
+
+.m_marginbottom_pxA{
+    margin-bottom: 24px;
+}
+.m_textalign_c{
+    text-align: center;
+}
+
 .m_width_25{
     width: 25%;
 }
@@ -34,7 +42,12 @@
 .m_height_300px{
     height: 300px;
 }
-
+.m_padding_l_4{
+    padding-left: 4%;
+}
+.m_padding_l_5{
+    padding-left: 5%;
+}
 .m_padding_lr_4{
     padding-left: 4%;
     padding-right: 4%;

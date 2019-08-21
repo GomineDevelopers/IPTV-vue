@@ -1,12 +1,16 @@
 <template>
   <div class="UVWR_m5">
-    <el-row class="chart_body back_white">
-      <p class="m_common_title_font">本土原创节目点播数据</p>
+    <!-- ///////////////////////// Y -->
+    <el-row class="model_title">
+      <span class="title_border_left"></span>本土原创节目点播数据
     </el-row>
+    <el-row class="chart_body back_white m_marginbottom_pxA"></el-row>
 
-    <el-row class="chart_body back_white">
-      <p class="m_common_title_font">本土原创节目点播TOP10</p>
+    <!-- ///////////////////////// Z -->
+    <el-row class="model_title">
+      <span class="title_border_left"></span>本土原创节目点播TOP10
     </el-row>
+    <el-row class="chart_body back_white m_marginbottom_pxA"></el-row>
   </div>
 </template>
 

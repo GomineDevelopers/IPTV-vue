@@ -1,22 +1,22 @@
 <template>
-  <div class="height_auto">
+  <div class="G_TUserViewingWeekReport height_auto">
     <!-- 收视行为开始 -->
     <el-row class="viewing_behavior_report">
-      <el-row class="model_title">
-        <span class="title_border_left"></span>收视行为
-      </el-row>
+      <el-row class="periodic_report_title m_textalign_c">G+TV用户收视行为周报</el-row>
+
+
       <!-- <el-col class="height_auto" :span="24">G+TV用户收视行为周报</el-col> -->
 
       <!-- ■■■■■■■■■■ 1 用户发展与活跃数据 -->
-        <com-UVWR-m1></com-UVWR-m1> 
+      <com-UVWR-m1></com-UVWR-m1>
       <!-- ■■■■■■■■■■ 2 移动侧节目收视与页面热度 -->
-        <com-UVWR-m2></com-UVWR-m2> 
+      <com-UVWR-m2></com-UVWR-m2>
       <!-- ■■■■■■■■■■ 3 电信侧节目收视与页面热度 -->
-        <com-UVWR-m3></com-UVWR-m3> 
+      <com-UVWR-m3></com-UVWR-m3>
       <!-- ■■■■■■■■■■ 4 联通侧节目收视与页面热度 -->
-        <com-UVWR-m4></com-UVWR-m4> 
+      <com-UVWR-m4></com-UVWR-m4>
       <!-- ■■■■■■■■■■ 5 本土原创节目点播数据 -->
-        <com-UVWR-m5></com-UVWR-m5>       
+      <com-UVWR-m5></com-UVWR-m5>
     </el-row>
     <!-- 收视行为结束 -->
   </div>
@@ -24,12 +24,11 @@
 <script>
 import "@/styles/common_2.css";
 
-import UVWR_m1 from "@/views/backviews_pr/GT_UVWR/UVWR_m1"; 
-import UVWR_m2 from "@/views/backviews_pr/GT_UVWR/UVWR_m2"; 
-import UVWR_m3 from "@/views/backviews_pr/GT_UVWR/UVWR_m3"; 
-import UVWR_m4 from "@/views/backviews_pr/GT_UVWR/UVWR_m4"; 
-import UVWR_m5 from "@/views/backviews_pr/GT_UVWR/UVWR_m5"; 
-
+import UVWR_m1 from "@/views/backviews_pr/GT_UVWR/UVWR_m1";
+import UVWR_m2 from "@/views/backviews_pr/GT_UVWR/UVWR_m2";
+import UVWR_m3 from "@/views/backviews_pr/GT_UVWR/UVWR_m3";
+import UVWR_m4 from "@/views/backviews_pr/GT_UVWR/UVWR_m4";
+import UVWR_m5 from "@/views/backviews_pr/GT_UVWR/UVWR_m5";
 
 export default {
   name: "G_TUserViewingWeekReport", //G+TV用户收视行为周报
@@ -274,5 +273,8 @@ export default {
 .viewing_behavior_report {
   height: 500px;
   margin: 24px 0px;
+}
+.G_TUserViewingWeekReport{
+  text-align: left;
 }
 </style>

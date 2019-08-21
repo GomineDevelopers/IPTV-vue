@@ -77,6 +77,42 @@ export function users_total(code) {
 
 // //////////////////////// 增值业务
 // //////////////////////// 用户生命周期
+
+// 用户生命周期标签搜索
+// POST http://{{iptv}}/api/userLives
+export function userLives(postData) {
+    return request({
+        method: 'post',
+        url: '/userLives',
+        data: postData
+    })
+}
+// let temp = {
+//     area: area,
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// 获取用户生命周期运营商
+// GET http://{{iptv}}/api/userLives/operators
+
+export function userLives_operators() {
+    return request({
+        method: 'get',
+        url: '/userLives/operators',
+    })
+}
+
+// 获取用户生命周期地区码
+// GET http://{{iptv}}/api/userLives/areaCode
+export function userLives_areaCode() {
+    return request({
+        method: 'get',
+        url: '/userLives/areaCode',
+    })
+}
+
 // //////////////////////// 节目搜索
 
 // 节目搜索
@@ -137,9 +173,16 @@ export function epg_operators() {
     })
 }
 
-// //////////////////////// epg标签搜索
-// //////////////////////// 专区数据
 // //////////////////////// 大屏页面
+
+// 直播，点播，回看总体数据统计
+// get http://{{iptv}}/api/broadcast/total
+export function broadcast_total() {
+    return request({
+        method: 'get',
+        url: '/broadcast/total',
+    })
+}
 
 // 用户订购数据
 // get http://{{iptv}}/api/users/subscribe
@@ -175,3 +218,40 @@ export function users_retention(date) {
     })
 }
 
+
+// //////////////////////// 用户
+
+// 用户登录
+// post http://{{iptv}}/api/login
+
+export function login(postData) {
+    return request({
+        method: 'post',
+        url: '/login',
+        data: postData
+    })
+}
+
+// let temp = {
+//     email: email,
+//     password: password,
+//     captcha: captcha
+// }
+
+// 用户账号分发
+// post http://{{iptv}}/api/register
+
+export function register(postData) {
+    return request({
+        method: 'post',
+        url: '/register',
+        data: postData
+    })
+}
+
+
+// let temp = {
+//     email_address: email_address,
+//     password: password,
+//     confirmed_password: confirmed_password
+// }
