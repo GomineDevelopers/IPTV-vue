@@ -27,10 +27,13 @@ export default {
       }
       var option = {
         color: this.chartData.color,
+        textStyle: {
+          color: "rgba(0, 0, 0, 0.65)"
+        },
         title: {
           text: this.chartData.title,
           x: 'left',
-          y: '10',
+          y: '0',
           textStyle: {
             fontStyle: 'normal',
             fontWeight: 'normal',
@@ -38,7 +41,7 @@ export default {
           }
         },
         legend: {
-          top: "18%",
+          top: "10%",
           itemWidth: 12,
           itemHeight: 7,
         },
@@ -54,14 +57,14 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "16%",
+          top: "8%",
           right: "6%",
           feature: {
             saveAsImage: {}
           }
         },
         grid: {
-          top: "35%",
+          top: "30%",
           left: '10%',
           right: '1%',
           bottom: "10%"

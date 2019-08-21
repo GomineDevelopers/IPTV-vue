@@ -20,15 +20,6 @@ export default {
   methods: {
     drawLine() {
       var barChartSingle = this.$echarts.init(document.getElementById(this.chartData.id))
-      // let seriesData = []
-      // //设置series数据条数
-      // for (let i = 1; i <= this.chartData.data[0].length - 1; i++) {
-      //   seriesData.push({
-      //     type: 'bar',
-      //     barWidth: '10',
-      //     barGap: 0, //两条柱子之间的间隙
-      //   })
-      // }
       var option = {
         color: this.chartData.color,
         title: {

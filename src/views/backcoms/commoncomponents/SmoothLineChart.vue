@@ -1,6 +1,6 @@
 <template>
   <div class="height_auto">
-    <div class="pie_hollow_chart" :id="smoothLineData.id"></div>
+    <div class="height_auto" :id="smoothLineData.id"></div>
   </div>
 </template>
 <script>
@@ -52,7 +52,7 @@ export default {
           }
         },
         grid: {
-          top: "20%",
+          top: "25%",
           left: '12%',
           right: '5%',
           bottom: "15%"
@@ -120,7 +120,4 @@ export default {
 }
 </script>
 <style scoped>
-.pie_hollow_chart {
-  height: 500px;
-}
 </style>

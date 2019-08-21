@@ -377,10 +377,30 @@
             <bar-chart-single :chartData="monthDemandData"></bar-chart-single>
           </el-col>
           <el-col class="height_auto" :span="12">
-            <bar-chart-single :chartData="clickNumData"></bar-chart-single>
+            <smooth-line-chart :smoothLineData="originalProgramsDemandData"></smooth-line-chart>
           </el-col>
         </el-row>
       </el-row>
+      <!-- 本土原创节目收视行为分析结束 -->
+
+      <!-- 重点专题及活动数据概览开始 -->
+      <el-row>
+        <el-row class="model_title">
+          <span class="title_border_left"></span>重点专题及活动数据概览
+        </el-row>
+        <el-row class="key_project back_white">
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="mobileKeyProjectData"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="unicornKeyProjectData"></live-view-behavior-analysis>
+          </el-col>
+          <el-col class="height_auto" :span="8">
+            <live-view-behavior-analysis :barListData="telecomKeyProjectData"></live-view-behavior-analysis>
+          </el-col>
+        </el-row>
+      </el-row>
+      <!-- 重点专题及活动数据概览结束 -->
     </el-row>
   </div>
 </template>
@@ -391,10 +411,11 @@ import LineDottedChart from "@/views/backcoms/G_TVuserviewingmonthreport/LineDot
 import LineChartSingleProp from '@/views/backcoms/commoncomponents/LineChartSingleProp'  //单数据折线图组件（百分比）
 import EveryPowerActivity from "@/views/backcoms/G_TVuserviewingmonthreport/EveryPowerActivity"  //4月新增在册用户数组件（折线图含虚线）
 import ManyPieChart from "@/views/backcoms/G_TVuserviewingmonthreport/ManyPieChart"  //整体收拾行为分析（多个空心饼图组成的图表）
-import MonthlyTotalViewing from "@/views/backcoms/G_TVuserviewingmonthreport/MonthlyTotalViewing"  //整体收拾行为分析（多个空心饼图组成的图表）
-import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"  //整体收拾行为分析（多个空心饼图组成的图表）
+import MonthlyTotalViewing from "@/views/backcoms/G_TVuserviewingmonthreport/MonthlyTotalViewing"  //
+import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"  //TOP排名（柱状图列表）
 import TypeProgramChart from "@/views/backcoms/G_TVuserviewingmonthreport/TypeProgramChart"  //整体收拾行为分析（多个空心饼图组成的图表）
 import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'  //柱状图
+import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
 
 export default {
   name: 'G_TVUserViewingMonthReport',  //G+TV月度用户收视行为报告
@@ -409,6 +430,7 @@ export default {
     "live-view-behavior-analysis": LiveViewBehaviorAnalysis,
     "type-program-chart": TypeProgramChart,
     'bar-chart-single': BarChartSingle,
+    "smooth-line-chart": SmoothLineChart,
   },
   data() {
     return {
@@ -1565,7 +1587,107 @@ export default {
           ['点播时长（万小时）', 4330, 16457]
         ]
       },
+      // 原创节目四月点播次数走势（次)
+      originalProgramsDemandData: {
+        title: '原创节目四月点播次数走势（次)',
+        id: 'originalProgramsDemand',
+        color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
+        data: [
+          ['product', '第一周', '第二周', '第三周', '第四周'],
+          ['移动', 20140, 22370, 22800, 19200],
+          ['联通', 2140, 12170, 2580, 2400],
+          ['电信', 1400, 1700, 1800, 2000]
+        ]
+      },
 
+      // 重点专题及活动数据概览
+      //移动
+      mobileKeyProjectData: {
+        title: "移动",
+        id: 'mobileKeyProject',
+        color: ["#5B9BD4"],
+        data: [
+          ['product', '点击次数（万次）'],
+          ['（电视剧）封神演义', 78],
+          ['（电视剧）新白娘子传奇2019', 91],
+          ['（电影）飞驰人生', 98],
+          ['（电视剧）青春斗', 101],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 150],
+          ['（少儿）熊出没之探险日记 第二季', 179],
+          ['（电视剧）招摇', 188],
+          ['（电视剧）黄河英雄', 191],
+          ['（电视剧）夜空中最闪亮的星', 285],
+          ['（综艺）王牌对王牌 第四季', 302],
+          ['（少儿）汪汪队立大功 第四季', 340],
+          ['（电影）狂暴凶狮', 396],
+          ['（通灵妃）通灵妃', 400],
+          ['湖南卫视（高清）', 452],
+          ['（电影）绿毛怪格林奇（原声版）', 465],
+          ['（电影）钢铁飞龙之奥特曼崛起', 480],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 506],
+          ['（电视剧）推手', 527],
+          ['（动漫）猫妖的诱惑', 538],
+          ['（少儿）假面骑士时王', 560]
+        ]
+      },
+      // 联通
+      unicornKeyProjectData: {
+        title: "联通",
+        id: 'unicornKeyProject',
+        color: ["#EC7C30"],
+        data: [
+          ['product', '点击次数（万次）'],
+          ['（电视剧）封神演义', 78],
+          ['（电视剧）新白娘子传奇2019', 91],
+          ['（电影）飞驰人生', 98],
+          ['（电视剧）青春斗', 101],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 150],
+          ['（少儿）熊出没之探险日记 第二季', 179],
+          ['（电视剧）招摇', 188],
+          ['（电视剧）黄河英雄', 191],
+          ['（电视剧）夜空中最闪亮的星', 285],
+          ['（综艺）王牌对王牌 第四季', 302],
+          ['（少儿）汪汪队立大功 第四季', 340],
+          ['（电影）狂暴凶狮', 396],
+          ['（通灵妃）通灵妃', 400],
+          ['湖南卫视（高清）', 452],
+          ['（电影）绿毛怪格林奇（原声版）', 465],
+          ['（电影）钢铁飞龙之奥特曼崛起', 480],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 506],
+          ['（电视剧）推手', 527],
+          ['（动漫）猫妖的诱惑', 538],
+          ['（少儿）假面骑士时王', 560]
+        ]
+      },
+      // 电信
+      telecomKeyProjectData: {
+        title: "电信",
+        id: 'telecomKeyProject',
+        color: ["#FFC000"],
+        data: [
+          ['product', '点击次数（万次）'],
+          ['（电视剧）封神演义', 78],
+          ['（电视剧）新白娘子传奇2019', 91],
+          ['（电影）飞驰人生', 98],
+          ['（电视剧）青春斗', 101],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 150],
+          ['（少儿）熊出没之探险日记 第二季', 179],
+          ['（电视剧）招摇', 188],
+          ['（电视剧）黄河英雄', 191],
+          ['（电视剧）夜空中最闪亮的星', 285],
+          ['（综艺）王牌对王牌 第四季', 302],
+          ['（少儿）汪汪队立大功 第四季', 340],
+          ['（电影）狂暴凶狮', 396],
+          ['（通灵妃）通灵妃', 400],
+          ['湖南卫视（高清）', 452],
+          ['（电影）绿毛怪格林奇（原声版）', 465],
+          ['（电影）钢铁飞龙之奥特曼崛起', 480],
+          ['（少儿）宝宝巴士启蒙音乐剧之汽车家族', 506],
+          ['（电视剧）推手', 527],
+          ['（动漫）猫妖的诱惑', 538],
+          ['（少儿）假面骑士时王', 560]
+        ]
+      },
     }
   },
   mounted() { }
@@ -1671,5 +1793,10 @@ export default {
 }
 .local_originality {
   height: 400px;
+  margin-bottom: 24px;
+}
+.key_project {
+  height: 800px;
+  margin-bottom: 60px;
 }
 </style>

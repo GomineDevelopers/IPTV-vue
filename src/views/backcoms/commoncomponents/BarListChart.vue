@@ -25,7 +25,7 @@ export default {
       for (let i = 1; i <= this.barListData.data[0].length - 1; i++) {
         seriesData.push({
           type: 'bar',
-          barWidth: '20',
+          barWidth: '16',
           itemStyle: {
             normal: {
               label: {
@@ -120,13 +120,14 @@ export default {
             show: false,
           },
           axisLine: {
-            show: false,  //Y轴不显示
+            show: true,  //Y轴不显示
             lineStyle: {
               color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
             }
           },
           axisLabel: {
             show: true,
+            interval: 0,  // 坐标轴显示不全问题解决方案
             formatter: function (val) {
               var strs = val.split(''); //字符串数组  
               var str = ''
@@ -150,6 +151,6 @@ export default {
 </script>
 <style scoped>
 .pie_hollow_chart {
-  height: 500px;
+  height: 600px;
 }
 </style>

@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "MonthlyTotalViewing", //折线图
+  name: "DoubleYaxisChart", //折线图
   props: {
     lineData: Object
   },
@@ -47,9 +47,9 @@ export default {
         },
         grid: {
           top: "25%",
-          left: '5%',
+          left: '7%',
           right: '5%',
-          bottom: "10%"
+          bottom: "12%"
         },
         tooltip: {
           trigger: 'axis',
@@ -80,7 +80,10 @@ export default {
           axisTick: {
             alignWithLabel: true  //设置坐标轴刻度与坐标对齐
           },
-
+          axisLabel: {
+            interval: 0,
+            rotate: 40
+          },
         },
         yAxis: [
           {
@@ -117,12 +120,11 @@ export default {
           },
         ],
         series: [
-          { type: 'line', seriesLayoutBy: 'row', symbol: 'circle' },
-          { type: 'line', seriesLayoutBy: 'row', symbol: 'circle' },
+          { type: 'line', seriesLayoutBy: 'row', symbol: 'none' },
           {
             type: 'line',
             seriesLayoutBy: 'row',
-            symbol: 'circle',
+            symbol: 'none',
             yAxisIndex: 1,
             //使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用 
           }

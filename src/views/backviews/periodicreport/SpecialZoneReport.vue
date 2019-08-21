@@ -58,13 +58,13 @@
 
         <!-- 入口点击情况第二模块开始 -->
         <el-row class="special_click_data2">
-          <el-col :span="8">
+          <el-col class="height_auto" :span="8">
             <smooth-line-chart :smoothLineData="recommendPageData"></smooth-line-chart>
           </el-col>
-          <el-col :span="8">
+          <el-col class="height_auto" :span="8">
             <smooth-line-chart :smoothLineData="childrenPageData"></smooth-line-chart>
           </el-col>
-          <el-col :span="8">
+          <el-col class="height_auto" :span="8">
             <smooth-line-chart :smoothLineData="classifyPageData"></smooth-line-chart>
           </el-col>
         </el-row>
@@ -177,7 +177,7 @@ export default {
         ]
       },
 
-      //推荐页入口每日走势
+      //少儿页入口每日走势（次）
       childrenPageData: {
         title: '少儿页入口每日走势（次）',
         id: 'childrenPage',
@@ -190,7 +190,7 @@ export default {
         ]
       },
 
-      //推荐页入口每日走势
+      //分类页入口每日走势（次）
       classifyPageData: {
         title: '分类页入口每日走势（次）',
         id: 'classifyPage',
@@ -400,7 +400,7 @@ export default {
   margin: 40px 0px;
 }
 .special_click_data2 {
-  height: 400px;
+  height: 500px;
 }
 /* 入口点击情况结束 */
 
@@ -410,7 +410,7 @@ export default {
   margin-bottom: 50px;
 }
 .programs_demand_content1 {
-  height: 450px;
+  height: 550px;
 }
 .programs_demand_content2 {
   height: 550px;

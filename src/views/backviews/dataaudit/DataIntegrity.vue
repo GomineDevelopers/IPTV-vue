@@ -137,7 +137,7 @@
   </div>
 </template>
 <script>
-import DataIntegrityModel from '@/views/backcoms/dataaudit/DataIntegrityModel';
+import DataIntegrityModel from '@/views/backcoms/dataaudit/DataIntegrityModel' //表格组件
 export default {
   name: 'DataIntegrity', //数据完整性
   components: {

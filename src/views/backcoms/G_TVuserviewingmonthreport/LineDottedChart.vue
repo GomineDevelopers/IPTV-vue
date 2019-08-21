@@ -19,11 +19,6 @@ export default {
   methods: {
     setLineChart() {
       var lineChart = this.$echarts.init(document.getElementById(this.lineData.id))
-      // let seriesData = []
-      // //设置series数据条数
-      // for (let i = 1; i <= this.lineData.data.length - 1; i++) {
-      //   seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'circle' })
-      // }
       var option = {
         color: this.lineData.color,
         textStyle: {

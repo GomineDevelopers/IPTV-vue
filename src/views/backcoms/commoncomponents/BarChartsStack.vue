@@ -38,8 +38,7 @@ export default {
           }
         },
         legend: {
-          top: "18%",
-          right: "20%",
+          top: "10%",
           itemWidth: 12,
           itemHeight: 7,
         },
@@ -55,7 +54,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "16%",
+          top: "8%",
           right: "6%",
           feature: {
             saveAsImage: {}

@@ -68,7 +68,7 @@ export default {
           }
         },
         grid: {
-          top: "10%",
+          top: "12%",
           left: '40%',
           right: '8%',
           bottom: "5%"
@@ -127,6 +127,7 @@ export default {
             }
           },
           axisLabel: {
+            interval: 0,
             show: true,
             formatter: function (val) {
               var strs = val.split(''); //字符串数组  
