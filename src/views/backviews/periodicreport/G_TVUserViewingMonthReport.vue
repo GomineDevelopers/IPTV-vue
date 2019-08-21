@@ -1555,9 +1555,9 @@ export default {
       // 本土原创节目收视行为分析
       // 原创节目四月点播数据
       monthDemandData: {
-        title: '各页面专区入口点击次数',
+        title: '原创节目四月点播数据',
         id: 'monthDemand',
-        color: ["#E7E6E6", "#5B9BD4"],
+        color: ["#ccc", "#5B9BD4"],
         data: [
           ['product', '三月', '四月'],
           ['点播用户数（万户）', 4330, 13563],
