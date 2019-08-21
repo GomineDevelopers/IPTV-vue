@@ -79,7 +79,7 @@ export default {
         "黔西南"
       ],
       regionChoose: [],
-      operator: ["全部", "移动", "联通", "电信"],
+      operator: ["全部", "移动", "联通", "电信","其他"],
       operatorChoose: [],
       time: {
         day: [

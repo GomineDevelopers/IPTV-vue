@@ -161,7 +161,7 @@ export default {
           routerLink: '/backhome/periodicreport/SpecialZoneReport'
         }
       ],
-      operator: ["总体", "移动", "联通", "电信"],
+      operator: ["总体", "移动", "联通", "电信","其他"],
 
       time: {
         day: [

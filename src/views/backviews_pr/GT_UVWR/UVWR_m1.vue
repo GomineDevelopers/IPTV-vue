@@ -35,7 +35,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 饼图 -->
-      <div class="m_init_div m_width_40 m_padding_l_4">
+      <div class="m_init_div m_width_40 ">
         <p class="m_common_sm_title_font">各市州在册用户占比（万户）</p>
         <pie-center-label :chartData="GT_UVWR1_B1"></pie-center-label>
       </div>
@@ -59,31 +59,37 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 饼图x3 -->
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <p class="m_common_sm_title_font">新增用户占比</p>
-        <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label>
-      </div>
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <p class="m_common_sm_title_font">停机用户占比</p>
-        <pie-center-label :chartData="GT_UVWR1_C2"></pie-center-label>
-      </div>
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <p class="m_common_sm_title_font">销户用户占比</p>
-        <pie-center-label :chartData="GT_UVWR1_C3"></pie-center-label>
-      </div>
+      <el-row class="programs_demand_content1">
+        <el-col :span="8">
+          <p class="m_common_sm_title_font">新增用户占比</p>
+          <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label>
+        </el-col>
+        <el-col :span="8">
+          <p class="m_common_sm_title_font">停机用户占比</p>
+          <pie-center-label :chartData="GT_UVWR1_C2"></pie-center-label>
+        </el-col>
+        <el-col :span="8">
+          <p class="m_common_sm_title_font">销户用户占比</p>
+          <pie-center-label :chartData="GT_UVWR1_C3"></pie-center-label>
+        </el-col>
+      </el-row>
+
       <!-- 曲线图x3 -->
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <p class="m_common_sm_title_font">新增用户数走势（户）</p>
-        <smooth-line-chart :smoothLineData="GT_UVWR1_C4"></smooth-line-chart>
-      </div>
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <p class="m_common_sm_title_font">停机用户数走势（户）</p>
-        <smooth-line-chart :smoothLineData="GT_UVWR1_C5"></smooth-line-chart>
-      </div>
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <p class="m_common_sm_title_font">销户用户数走势（户）</p>
-        <smooth-line-chart :smoothLineData="GT_UVWR1_C6"></smooth-line-chart>
-      </div>
+      <el-row class="programs_demand_content1">
+        <el-col :span="8">
+          <p class="m_common_sm_title_font">新增用户数走势（户）</p>
+          <smooth-line-chart :smoothLineData="GT_UVWR1_C4"></smooth-line-chart>
+        </el-col>
+        <el-col :span="8">
+          <p class="m_common_sm_title_font">停机用户数走势（户）</p>
+          <smooth-line-chart :smoothLineData="GT_UVWR1_C5"></smooth-line-chart>
+        </el-col>
+        <el-col :span="8">
+          <p class="m_common_sm_title_font">销户用户数走势（户）</p>
+          <smooth-line-chart :smoothLineData="GT_UVWR1_C6"></smooth-line-chart>
+        </el-col>
+      </el-row>
+
       <p
         class="m_margin_00 m_common_content_font"
       >*注：停机、销户数据统计时间为2019年6月3日24:00（不同时间点统计，停机数和销户数会有所区别）。</p>
@@ -93,7 +99,7 @@
       <span class="title_border_left"></span>开机活跃数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <div class="m_init_div m_width_40 m_padding_l_4">
+      <div class="m_init_div m_width_40">
         <p class="m_common_sm_title_font">各运营商周一开机率</p>
         <bar-chart-single :chartData="GT_UVWR1_D1"></bar-chart-single>
       </div>
@@ -146,7 +152,6 @@
         </el-col>
       </el-row>
     </el-row>
-
   </div>
 </template>
 
@@ -286,17 +291,17 @@ export default {
         data: [
           [
             "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30",
-            "2019/7/1",
-            "2019/7/2",
-            "2019/7/3",
-            "2019/7/4"
+            "6月24日",
+            "6月25日",
+            "6月26日",
+            "6月27日",
+            "6月28日",
+            "6月29日",
+            "6月30日",
+            "7月1日",
+            "7月2日",
+            "7月3日",
+            "7月4日"
           ],
           [
             "移动",
@@ -349,17 +354,17 @@ export default {
         data: [
           [
             "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30",
-            "2019/7/1",
-            "2019/7/2",
-            "2019/7/3",
-            "2019/7/4"
+            "6月24日",
+            "6月25日",
+            "6月26日",
+            "6月27日",
+            "6月28日",
+            "6月29日",
+            "6月30日",
+            "7月1日",
+            "7月2日",
+            "7月3日",
+            "7月4日"
           ],
           [
             "移动",
@@ -412,17 +417,17 @@ export default {
         data: [
           [
             "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30",
-            "2019/7/1",
-            "2019/7/2",
-            "2019/7/3",
-            "2019/7/4"
+            "6月24日",
+            "6月25日",
+            "6月26日",
+            "6月27日",
+            "6月28日",
+            "6月29日",
+            "6月30日",
+            "7月1日",
+            "7月2日",
+            "7月3日",
+            "7月4日"
           ],
           [
             "移动",
@@ -470,9 +475,6 @@ export default {
       },
 
       GT_UVWR1_D1: {
-        // title: "",
-        // id: "GT_UVWR1_D1",
-        // color: ["#5B9BD4", "#FFC000"],
         data: [
           ["product", "推荐", "少儿包"],
           ["移动", 48.0, 48.1],
@@ -481,17 +483,15 @@ export default {
         ],
         title: "各页面专区入口点击次数",
         id: "GT_UVWR1_D1",
-        color: ["#5B9BD4", "#FFC000", "#EC7C30"]
-        // data: [
-        //   ["product", "推荐", "少儿包", "分类"],
-        //   ["移动1.0", 4330, 13563, 3337],
-        //   ["电信", 8300, 16457, 2330],
-        //   ["联通", 8600, 17896, 1457]
-        // ]
+        color: ["#5B9BD4", "#FFC000", "#EC7C30"],
+        ifYaxisShow: true,
+        ifLegendShow: true,
+        m_barWidth: "12"
       },
       GT_UVWR1_E1: {
         title: "",
         id: "GT_UVWR1_E1",
+        height: "height:500px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -515,6 +515,7 @@ export default {
       GT_UVWR1_E2: {
         title: "",
         id: "GT_UVWR1_E2",
+        height: "height:500px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -538,6 +539,7 @@ export default {
       GT_UVWR1_E3: {
         title: "",
         id: "GT_UVWR1_E3",
+        height: "height:500px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -561,6 +563,7 @@ export default {
       GT_UVWR1_F1: {
         title: "",
         id: "GT_UVWR1_F1",
+        height: "height:500px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -584,6 +587,7 @@ export default {
       GT_UVWR1_F2: {
         title: "",
         id: "GT_UVWR1_F2",
+        height: "height:500px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -607,6 +611,7 @@ export default {
       GT_UVWR1_F3: {
         title: "",
         id: "GT_UVWR1_F3",
+        height: "height:500px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -638,7 +643,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_A1"));
       var option = {
         title: {
-          text: "在册用户数",
+          text: "",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
@@ -746,7 +751,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_A3"));
       var option = {
         title: {
-          text: "在册用户数",
+          text: "",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色

@@ -58,7 +58,7 @@ export default {
   name: "OptionSelectEPG",
   data() {
     return {
-      operator: ["移动1.0", "移动2.0", "联通", "电信"],
+      operator: ["移动1.0", "移动2.0", "联通", "电信","其他"],
       operatorChoose: [],
       programa: [
         "总体",
@@ -74,7 +74,8 @@ export default {
         "纪实",
         "游戏",
         "健康",
-        "音乐"
+        "音乐",
+        "其他"
       ],
       programaChoose: [],
       time: {

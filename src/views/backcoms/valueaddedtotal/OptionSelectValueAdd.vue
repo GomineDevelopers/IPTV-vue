@@ -58,7 +58,7 @@ export default {
   name: "OptionSelectValueAdd",
   data() {
     return {
-      operator: ["总体", "移动", "联通", "电信"],
+      operator: ["总体", "移动", "联通", "电信","其他"],
       operatorChoose: [],
       programa: [
         "分类",
@@ -73,7 +73,8 @@ export default {
         "纪实",
         "游戏",
         "健康",
-        "音乐"
+        "音乐",
+        "其他"
       ],
       programaChoose: [],
       time: {

@@ -104,7 +104,7 @@ export default {
         "黔西南"
       ],
       regionChoose: [],
-      operator: ["全部", "移动", "联通", "电信"],
+      operator: ["全部", "移动", "联通", "电信","其他"],
       operatorChoose: [],
       playmode: ["总体", "直播", "点播", "回看"],
       playmodeChoose: [],
@@ -122,7 +122,8 @@ export default {
         "纪实",
         "游戏",
         "健康",
-        "音乐"
+        "音乐",
+        "其他"
       ],
       programaChoose: [],
       time: {
