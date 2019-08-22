@@ -24,14 +24,6 @@ export default {
 };
 </script>
 
-<style>
-/* .backHome_body_main {
-  scroll-behavior: smooth;
-} */
-</style>
-
-
-
 <style scoped>
 .backHome {
   width: 100%;
@@ -70,7 +62,7 @@ export default {
 }
 .backHome_body .backHome_body_main {
   height: calc(100% - 60px);
-  padding: 24px;
+  padding: 24px 14px;
   margin-top: 60px;
   overflow: auto;
   z-index: 1;

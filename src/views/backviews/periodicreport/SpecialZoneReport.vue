@@ -111,7 +111,7 @@
   </div>
 </template>
 <script>
-import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'
+import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'  //单坐标柱状图组件
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"  //排名柱状图
@@ -361,7 +361,7 @@ export default {
 <style scoped>
 .periodic_report_body {
   height: 100%;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 .special_data_total {
   height: 300px;
@@ -390,7 +390,7 @@ export default {
 /* 入口点击情况开始 */
 .special_click_data {
   height: 100%;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 .special_click_chart {
   height: 300px;

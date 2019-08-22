@@ -86,28 +86,27 @@ export default {
 }
 </script>
 <style>
-
-
 /* elementui 复选框背景色 统一修改 */
 
 .el-checkbox__input.is-checked + .el-checkbox__label {
-  color: #FF6123;
+  color: #ff6123;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #FF6123;
-  border-color: #FF6123;
+  background-color: #ff6123;
+  border-color: #ff6123;
 }
 .el-checkbox__inner:hover {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 .el-checkbox__input.is-focus .el-checkbox__innder {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 
 /* 时间范围 */
-.el-date-table td.end-date span, .el-date-table td.start-date span {
-    background-color: #FF6123;
+.el-date-table td.end-date span,
+.el-date-table td.start-date span {
+  background-color: #ff6123;
 }
 
 .program_searching_option {
@@ -115,7 +114,7 @@ export default {
 }
 .program_searching_content {
   height: 300px;
-  margin-top: 24px;
+  margin-top: 14px;
 }
 .search_notice {
   text-align: left;

@@ -342,7 +342,7 @@ export default {
 }
 .data_integrity_body {
   height: 418px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .anchor_hyperlinks {
   position: fixed;

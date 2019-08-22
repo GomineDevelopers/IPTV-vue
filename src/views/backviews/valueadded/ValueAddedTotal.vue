@@ -146,7 +146,7 @@ export default {
 /* 用户转化开始 */
 .user_conversion {
   height: 422px;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 /* 用户转化结束 */
 

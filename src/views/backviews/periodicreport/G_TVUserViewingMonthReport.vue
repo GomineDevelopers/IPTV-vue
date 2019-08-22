@@ -413,7 +413,7 @@ import EveryPowerActivity from "@/views/backcoms/G_TVuserviewingmonthreport/Ever
 import ManyPieChart from "@/views/backcoms/G_TVuserviewingmonthreport/ManyPieChart"  //整体收拾行为分析（多个空心饼图组成的图表）
 import MonthlyTotalViewing from "@/views/backcoms/G_TVuserviewingmonthreport/MonthlyTotalViewing"  //
 import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"  //TOP排名（柱状图列表）
-import TypeProgramChart from "@/views/backcoms/G_TVuserviewingmonthreport/TypeProgramChart"  //整体收拾行为分析（多个空心饼图组成的图表）
+import TypeProgramChart from "@/views/backcoms/G_TVuserviewingmonthreport/TypeProgramChart"  //柱状图加折线图图表组件
 import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'  //柱状图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
 
@@ -1696,19 +1696,19 @@ export default {
 <style scoped>
 .viewing_behavior_report {
   height: 500px;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 
 /* G+TV用户发展数据概览开始 */
 .G_TV_user_dev_data {
   height: 500px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 /* G+TV用户发展数据概览结束 */
 
 .week_region_data {
   height: 500px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 /* .unicornNewUserChart {
   height: 460px;
@@ -1743,13 +1743,13 @@ export default {
 /*  */
 .everyday_user_develop {
   height: 500px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 /* 整体收视行为分析 */
 .analysis_of_viewing {
   height: 990px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .analysis_of_viewing .analysis_of_viewing1 {
   height: 500px;
@@ -1772,28 +1772,28 @@ export default {
 .localityLiveAndCarousel {
   height: 830px;
   padding-bottom: 60px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 /* 整体点播收视行为 */
 .overall_demand {
   height: 450px;
   padding-bottom: 60px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .type_program_data {
   height: 500px;
   padding-bottom: 60px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .paying_user_div {
   height: 800px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .local_originality {
   height: 400px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .key_project {
   height: 800px;

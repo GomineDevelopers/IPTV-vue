@@ -277,7 +277,7 @@ export default {
 }
 .vip_behavior {
   height: 500px;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 .vip_top15 {
   height: 520px;

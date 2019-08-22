@@ -195,7 +195,7 @@ export default {
 }
 .data_trend_chart {
   height: 750px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .anchor_hyperlinks {
   position: fixed;

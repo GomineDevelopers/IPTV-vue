@@ -5,7 +5,7 @@
       <el-row class="periodic_report_title">VIP增值业务专项分析</el-row>
 
       <!-- 新增用户转化率开始 -->
-      <el-row class="new_add_user_percent back_white marginbottom_24">
+      <el-row class="new_add_user_percent back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>新增用户转化情况
         </el-row>
@@ -21,7 +21,7 @@
       <!-- 新增用户转化率结束 -->
 
       <!-- 6月新增在册用户及开机行为用户数据（日趋势）开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>6月新增在册用户及开机行为用户数据（日趋势）
         </el-row>
@@ -34,7 +34,7 @@
       <!-- 6月新增在册用户及开机行为用户数据（日趋势）结束 -->
 
       <!-- 6月新增在册用户、开机行为用户数及新增付费用户数据（日趋势）开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>6月新增在册用户、开机行为用户数及新增付费用户数据（日趋势）
         </el-row>
@@ -50,7 +50,7 @@
       <!-- 6月新增在册用户、开机行为用户数及新增付费用户数据（日趋势）结束-->
 
       <!-- 6月订购数据开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>6月订购数据
         </el-row>
@@ -69,7 +69,7 @@
       <!-- 6月订购数据结束-->
 
       <!-- 订购内容来源开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>订购内容来源
         </el-row>
@@ -85,7 +85,7 @@
       <!-- 订购内容来源结束 -->
 
       <!-- 6月订购用户所属地区数据开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>6月订购用户所属地区数据
         </el-row>
@@ -102,7 +102,7 @@
       <!-- 6月订购用户所属地区数据结束 -->
 
       <!-- 分地区订购用户引导付费内容订购排名开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>分地区订购用户引导付费内容订购排名
         </el-row>
@@ -151,7 +151,7 @@
       <!-- 分地区订购用户引导付费内容订购排名结束 -->
 
       <!-- 6月订购用户数数据分布对比开始 -->
-      <el-row class="back_white marginbottom_24">
+      <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
           <span class="title_border_left"></span>6月订购用户数数据分布对比
         </el-row>
@@ -167,7 +167,7 @@
       <!-- 6月订购用户数数据分布对比结束 -->
 
       <!-- 点播TOP榜单开始 -->
-      <el-row class="back_white marginbottom_24 marginbottom_60">
+      <el-row class="back_white marginbottom_14 marginbottom_60">
         <el-row class="model_title">
           <span class="title_border_left"></span>点播TOP榜单
         </el-row>
@@ -856,7 +856,7 @@ export default {
 <style scoped>
 .VIP_value_added_body {
   height: 100%;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 .new_add_user_percent_body {
   height: 400px;

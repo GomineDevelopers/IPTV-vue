@@ -59,7 +59,7 @@ export default {
       pageTwoShow: false
     };
   },
-  mounted() {},
+  mounted() { },
   methods: {
     //一级页面与二级页面切换选项卡
     changePage(string) {
@@ -82,7 +82,7 @@ export default {
   height: 250px;
 }
 .epg_body {
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 .epg_body_nav {
   display: -webkit-flex;
