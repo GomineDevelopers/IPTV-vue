@@ -5,29 +5,41 @@
       <span class="title_border_left"></span>G+TV用户发展数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <!-- <p class="m_common_title_font">G+TV用户发展数据</p> -->
-      <!-- 柱状图 -->
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <div class="m_common_echarts_styleA" id="GT_UVWR1_A1"></div>
-        <p
-          class="m_margin_00 m_common_content_font"
-        >截至2019年6月3日凌晨，平台累计 在册用户数2,133,546户，较前一 周增长2.0%，增速回落0.5个百分点。</p>
-      </div>
-      <!-- 饼图 -->
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <!-- <div class="m_common_echarts_styleA" id="GT_UVWR1_A2"></div> -->
-        <pie-center-label :chartData="GT_UVWR1_A2"></pie-center-label>
-        <p
-          class="m_margin_00 m_common_content_font"
-        >移动在册用户1,162,381户，较前一周增长 2.5%，增速提升0.1个百分点。 电信在册用户594,456户，较前一周增长3.9%， 增速提升0.1个百分点。 联通在册用户376,709户，较前一周减少9,533 户。</p>
-      </div>
-      <!-- 柱状图 -->
-      <div class="m_init_div m_width_25 m_padding_l_4">
-        <div class="m_common_echarts_styleA" id="GT_UVWR1_A3"></div>
-        <p
-          class="m_margin_00 m_common_content_font"
-        >周新增60,798户，较前一周增加8.6%。 周停机12,369户，较前一周增加969.1%， 较上月同期（0426-0502）增长108.9%。 周销户21,165户，较前一周增长247.5%， 较上月同期增长39.6%。</p>
-      </div>
+      <el-row :gutter="100" class="programs_demand_content1">
+        <el-col :span="8">
+          <!-- 柱状图 -->
+          <p class="m_common_sm_title_font">平台累计在册用户数总览</p>
+          <div class="m_common_echarts_styleA" id="GT_UVWR1_A1"></div>
+          <p class="m_margin_0a m_common_content_font">
+            截至2019年6月3日凌晨，平台累计 在册用户数
+            <span class="font_color_r">2,133,546</span>户，较前一周增长
+            <span class="font_color_r">2.0%</span>，增速回落0.5个百分点。
+          </p>
+        </el-col>
+
+        <el-col :span="8">
+          <!-- 饼图 -->
+          <p class="m_common_sm_title_font">三大运营商在册用户数总览</p>
+          <pie-center-label class :chartData="GT_UVWR1_A2"></pie-center-label>
+          <p class="m_margin_0a m_common_content_font">
+            移动在册用户
+            <span class="font_color_r">1,162,381</span>户，较前一周增长 2.5%，增速提升0.1个百分点。 电信在册用户
+            <span class="font_color_r">594,456</span>户，较前一周增长3.9%， 增速提升0.1个百分点。 联通在册用户
+            <span class="font_color_r">376,709</span>户，较前一周减少9,533 户。
+          </p>
+        </el-col>
+        <el-col :span="8">
+          <!-- 柱状图 -->
+          <p class="m_common_sm_title_font">新增、停机、销户用户数总览</p>
+          <div class="m_common_echarts_styleA" id="GT_UVWR1_A3"></div>
+          <p
+            class="m_margin_0a m_common_content_font"
+          >周新增60,798户，较前一周增加8.6%。 周停机12,369户，较前一周增加969.1%， 较上月同期（0426-0502）增长108.9%。 周销户21,165户，较前一周增长247.5%， 较上月同期增长39.6%。</p>
+        </el-col>
+      </el-row>
+      <div class="m_init_div m_width_25 m_padding_l_4"></div>
+      <div class="m_init_div m_width_25 m_padding_l_4"></div>
+      <div class="m_init_div m_width_25 m_padding_l_4"></div>
     </el-row>
     <!-- ///////////////////////// B -->
     <el-row class="model_title">
@@ -35,7 +47,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 饼图 -->
-      <div class="m_init_div m_width_40 ">
+      <div class="m_init_div m_width_40">
         <p class="m_common_sm_title_font">各市州在册用户占比（万户）</p>
         <pie-center-label :chartData="GT_UVWR1_B1"></pie-center-label>
       </div>
@@ -43,14 +55,12 @@
       <!-- 柱状图 + 折线图 -->
       <div class="m_init_div m_width_40 m_padding_l_5">
         <p class="m_common_sm_title_font">三大运营商各市州一周新增在册用户数（户）</p>
-        <!-- <pie-center-label :chartData="GT_UVWR1_A2"></pie-center-label> -->
-        <!-- <div class="m_common_echarts_styleA" id="GT_UVWR1_B2"></div> -->
         <bar-charts-stack :chartData="GT_UVWR1_B2"></bar-charts-stack>
       </div>
 
-      <p class="m_margin_00 m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p>
+      <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p>
       <p
-        class="m_margin_00 m_common_content_font"
+        class="m_margin_0a m_common_content_font"
       >各市州平均增速2.8%，环比提升0.2个百分点。毕节市增速3.7%最高，环比提升0.7个百分点；安顺市增速2.0%最低，环比提升0.4个百分点。</p>
     </el-row>
     <!-- ///////////////////////// C -->
@@ -91,7 +101,7 @@
       </el-row>
 
       <p
-        class="m_margin_00 m_common_content_font"
+        class="m_margin_0a m_common_content_font"
       >*注：停机、销户数据统计时间为2019年6月3日24:00（不同时间点统计，停机数和销户数会有所区别）。</p>
     </el-row>
     <!-- ///////////////////////// D -->
@@ -99,13 +109,19 @@
       <span class="title_border_left"></span>开机活跃数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <div class="m_init_div m_width_40">
-        <p class="m_common_sm_title_font">各运营商周一开机率</p>
-        <bar-chart-single :chartData="GT_UVWR1_D1"></bar-chart-single>
-      </div>
+      <el-row class="programs_demand_content1">
+        <el-col :span="10">
+          <p class="m_common_sm_title_font">各运营商周一开机率</p>
+          <bar-chart-single2 :chartData="GT_UVWR1_D1"></bar-chart-single2>
+        </el-col>
+        <el-col :span="14">
+          <p class="m_common_sm_title_font">各市州一周开机率</p>
+          <bar-chart-single2 :chartData="GT_UVWR1_D2"></bar-chart-single2>
+        </el-col>
+      </el-row>
 
       <p
-        class="m_margin_00 m_common_content_font"
+        class="m_margin_0a m_common_content_font"
       >*注：电信全省放号后大量使用融合终端，导致不关机顶盒的用户大幅上升，以开机行为计算的开机率大幅下降。</p>
       <!-- <p>上周各运营商一周开机率保持稳定，其中联通有所上升，电信继续下降。平均每日开机率则是联通下降，电信上升。这代表联通活跃用户规模增加，但活跃程度有 所降低。移动两项数据均与前一周持平。</p> -->
       <!-- <p>分地区来看，铜仁市、遵义市两地整体开机率下降较多，铜仁市开机用户数环比减少293户。遵义市电信侧开机率大降2.9%。毕节市开机率大幅增加。</p> -->
@@ -158,6 +174,8 @@
 <script>
 import pie_center_label from "@/views/backcoms/commoncomponents2/pie_center_label"; //（空心）饼图组件
 import BarChartSingle from "@/views/backcoms/commoncomponents2/BarChartSingle_Change"; //（空心）饼图组件
+import BarChartSingle2 from "@/views/backcoms/commoncomponents2/BarChartSingle_Change2"; //（空心）饼图组件
+
 import BarChartsStack from "@/views/backcoms/commoncomponents2/BarChartsStack_Change"; //公用柱状图堆叠
 import SmoothLineChart from "@/views/backcoms/commoncomponents2/SmoothLineChart_Change"; //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
@@ -166,6 +184,7 @@ export default {
   name: "UVWR_m1",
   components: {
     "bar-chart-single": BarChartSingle,
+    "bar-chart-single2": BarChartSingle2,
     "pie-center-label": pie_center_label,
     "bar-charts-stack": BarChartsStack,
     "smooth-line-chart": SmoothLineChart,
@@ -177,6 +196,7 @@ export default {
       GT_UVWR1_A2: {
         title: "",
         id: "GT_UVWR1_A2",
+        height: "height:300px;",
         m_data: ["移动", "电信", "联通"],
         m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
         m_data2: [
@@ -191,6 +211,7 @@ export default {
       GT_UVWR1_B1: {
         title: "",
         id: "GT_UVWR1_B1",
+        height: "height:500px;",
         m_data: [
           "贵阳",
           "遵义",
@@ -230,23 +251,24 @@ export default {
       GT_UVWR1_B2: {
         title: "",
         id: "GT_UVWR1_B2",
-        color: ["#5B9BD5", "#FFC000", "#ED7D31"],
+        color: ["#5B9BD5", "#FFC000", "#ED7D31", "#BFBFBF"],
         data: [
-          ["product", "移动", "联通", "电信"],
-          ["贵阳", 43.3, 85.8, 93.7],
-          ["遵义", 83.1, 73.4, 55.1],
-          ["毕节", 86.4, 65.2, 82.5],
-          ["铜仁", 72.4, 53.9, 39.1],
-          ["六盘水", 43.3, 85.8, 93.7],
-          ["黔南", 83.1, 73.4, 55.1],
-          ["黔东南", 86.4, 65.2, 82.5],
-          ["黔西南", 72.4, 53.9, 39.1],
-          ["安顺", 43.3, 85.8, 93.7]
+          ["product", "移动", "联通", "电信", "增速"],
+          ["贵阳", 43.3, 85.8, 93.7, 2.7],
+          ["遵义", 83.1, 73.4, 55.1, 3.5],
+          ["毕节", 86.4, 65.2, 82.5, 2.3],
+          ["铜仁", 72.4, 53.9, 39.1, 2.6],
+          ["六盘水", 43.3, 85.8, 93.7, 3.0],
+          ["黔南", 83.1, 73.4, 55.1, 3.2],
+          ["黔东南", 86.4, 65.2, 82.5, 2.3],
+          ["黔西南", 72.4, 53.9, 39.1, 3.6],
+          ["安顺", 43.3, 85.8, 93.7, 2.8]
         ]
       },
       GT_UVWR1_C1: {
         title: "",
         id: "GT_UVWR1_C1",
+        height: "height:300px;",
         m_data: ["移动", "电信", "联通"],
         m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
         m_data2: [
@@ -260,6 +282,7 @@ export default {
       GT_UVWR1_C2: {
         title: "",
         id: "GT_UVWR1_C2",
+        height: "height:300px;",
         m_data: ["移动", "电信", "联通"],
         m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
         m_data2: [
@@ -273,6 +296,7 @@ export default {
       GT_UVWR1_C3: {
         title: "",
         id: "GT_UVWR1_C3",
+        height: "height:300px;",
         m_data: ["移动", "电信", "联通"],
         m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
         m_data2: [
@@ -476,22 +500,36 @@ export default {
 
       GT_UVWR1_D1: {
         data: [
-          ["product", "推荐", "少儿包"],
+          ["product", "0520-0526", "0527-0602"],
           ["移动", 48.0, 48.1],
           ["电信", 54.2, 57.4],
           ["联通", 20.1, 20.0]
         ],
-        title: "各页面专区入口点击次数",
+        title: "",
         id: "GT_UVWR1_D1",
-        color: ["#5B9BD4", "#FFC000", "#EC7C30"],
+        color: ["#EDEDED", "#5B9BD5"],
         ifYaxisShow: true,
-        ifLegendShow: true,
-        m_barWidth: "12"
+        ifLegendShow: false,
+        m_barWidth: "20%"
+      },
+      GT_UVWR1_D2: {
+        data: [
+          ["product", "0520-0526", "0527-0602"],
+          ["移动", 48.0, 48.1],
+          ["电信", 54.2, 57.4],
+          ["联通", 20.1, 20.0]
+        ],
+        title: "",
+        id: "GT_UVWR1_D2",
+        color: ["#EDEDED", "#5B9BD5"],
+        ifYaxisShow: true,
+        ifLegendShow: false,
+        m_barWidth: "20%"
       },
       GT_UVWR1_E1: {
         title: "",
         id: "GT_UVWR1_E1",
-        height: "height:500px;",
+        height: "height:800px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -515,7 +553,7 @@ export default {
       GT_UVWR1_E2: {
         title: "",
         id: "GT_UVWR1_E2",
-        height: "height:500px;",
+        height: "height:800px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -539,7 +577,7 @@ export default {
       GT_UVWR1_E3: {
         title: "",
         id: "GT_UVWR1_E3",
-        height: "height:500px;",
+        height: "height:800px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -563,7 +601,7 @@ export default {
       GT_UVWR1_F1: {
         title: "",
         id: "GT_UVWR1_F1",
-        height: "height:500px;",
+        height: "height:800px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -587,7 +625,7 @@ export default {
       GT_UVWR1_F2: {
         title: "",
         id: "GT_UVWR1_F2",
-        height: "height:500px;",
+        height: "height:800px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -611,7 +649,7 @@ export default {
       GT_UVWR1_F3: {
         title: "",
         id: "GT_UVWR1_F3",
-        height: "height:500px;",
+        height: "height:800px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -861,7 +899,11 @@ export default {
 
 <style scoped>
 .programs_demand_content1 {
-  height: 450px;
+  /* height: 450px; */
+}
+.font_color_r {
+  color: #bf0000;
+  font-weight: bold;
 }
 </style>
 

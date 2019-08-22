@@ -31,7 +31,7 @@ export default {
       for (let i = 1; i <= this.barListData.data[0].length - 1; i++) {
         seriesData.push({
           type: "bar",
-          barWidth: "16",
+          barWidth: "10",
           itemStyle: {
             normal: {
               label: {

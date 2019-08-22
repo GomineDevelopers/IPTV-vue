@@ -5,7 +5,7 @@
       <span class="title_border_left"></span>移动侧各市州G+TV一周用户发展活跃情况
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="12">
           <p class="m_common_sm_title_font">在册用户数与新增在册用户数（户）</p>
           <!-- 条形图 -->
@@ -27,7 +27,7 @@
       <span class="title_border_left"></span>三大基础功能收视数据（移动）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="12">
           <p class="m_common_sm_title_font">一周总体观看数据</p>
           <!-- 饼图 -->
@@ -53,7 +53,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 条形图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">分组频道直播用户数（万户）</p>
           <bar-chart-single :chartData="GT_UVWR1_I1"></bar-chart-single>
@@ -80,10 +80,10 @@
       <!-- 列表&条形图 -->
       <!-- 曲线图 -->
       <!-- 条形图 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="12">
           <p class="m_common_sm_title_font">本地频道收视规模排名（万户）</p>
-          <bar-list-chart :barListData="GT_UVWR1_J1"></bar-list-chart>
+          <bar-list-chart2 :barListData="GT_UVWR1_J1"></bar-list-chart2>
         </el-col>
         <el-col :span="12">
           <div class="m_init_div m_width_80 m_padding_l_4">
@@ -103,7 +103,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 横向条形图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">点播用户数（万户）</p>
           <bar-list-chart :barListData="GT_UVWR1_K1"></bar-list-chart>
@@ -128,7 +128,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 横向条形图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">页面点击用户数（万户）</p>
           <bar-list-chart :barListData="GT_UVWR1_L1"></bar-list-chart>
@@ -149,6 +149,8 @@
 
 <script>
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
+import BarListChart2 from "@/views/backcoms/commoncomponents2/BarListChart_Change2"; //排名柱状图
+
 import ManyPieChart from "@/views/backcoms/commoncomponents2/ManyPieChart_Change"; //整体收拾行为分析（2个空心饼图组成的图表）
 import ManyPieChart2 from "@/views/backcoms/commoncomponents2/ManyPieChart_Change2"; //整体收拾行为分析（3个空心饼图组成的图表）
 import LineDottedChart from "@/views/backcoms/commoncomponents2/LineDottedChart_Change"; //4月新增在册用户数组件（折线图含虚线）
@@ -160,6 +162,7 @@ export default {
   components: {
     "bar-chart-single": BarChartSingle,
     "bar-list-chart": BarListChart,
+    "bar-list-chart2": BarListChart2,
     "many-pie-chart": ManyPieChart,
     "many-pie-chart2": ManyPieChart2,
     "line-dotted-chart": LineDottedChart,
@@ -330,7 +333,7 @@ export default {
       GT_UVWR1_J1: {
         title: "",
         id: "GT_UVWR1_J1",
-        height: "height:800px;",
+        height: "height:720px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
           ["product", "0527-0602", "0520-0526"],
@@ -365,13 +368,13 @@ export default {
         data: [
           [
             "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30"
+            "6月24日",
+            "6月25日",
+            "6月26日",
+            "6月27日",
+            "6月28日",
+            "6月29日",
+            "6月30日"
           ],
           ["谍战剧场", 12140, 12370, 12800, 12200, 12234, 12640, 12859],
           ["华语影院", 41400, 41700, 41800, 42000, 42340, 42400, 42590],
@@ -516,9 +519,7 @@ export default {
 </script>
 
 <style scoped>
-.programs_demand_content1 {
-  height: 450px;
-}
+
 </style>
 
 

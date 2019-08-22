@@ -158,6 +158,7 @@ export default {
         series: [
           {
             type: "line",
+            smooth: true,
             seriesLayoutBy: "row",
             symbol: "none",
             yAxisIndex: "0",
@@ -172,6 +173,7 @@ export default {
           },
           {
             type: "line",
+            smooth: true,
             seriesLayoutBy: "row",
             symbol: "none",
             yAxisIndex: "0",
@@ -186,6 +188,7 @@ export default {
           },
           {
             type: "line",
+            smooth: true,
             seriesLayoutBy: "row",
             symbol: "none",
             yAxisIndex: "0",
@@ -200,6 +203,7 @@ export default {
           },
           {
             type: "line",
+            smooth: true,
             seriesLayoutBy: "row",
             symbol: "none",
             yAxisIndex: "1",

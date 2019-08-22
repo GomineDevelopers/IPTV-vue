@@ -1,6 +1,6 @@
 <template>
   <div class="m_height_300px m_width_100">
-    <el-row class="m_height_300px m_width_100" :id="chartData.id"></el-row>
+    <el-row :style="chartData.height" class="m_width_100" :id="chartData.id"></el-row>
   </div>
 </template>
 <script>
