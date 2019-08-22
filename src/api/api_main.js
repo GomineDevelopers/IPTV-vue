@@ -175,18 +175,108 @@ export function epg_operators() {
 
 // //////////////////////// 大屏页面
 
-// 直播，点播，回看总体数据统计
-// get http://{{iptv}}/api/broadcast/total
-export function broadcast_total() {
+// // 直播，点播，回看总体数据统计
+// // get http://{{iptv}}/api/broadcast/total
+// export function broadcast_total() {
+//     return request({
+//         method: 'get',
+//         url: '/broadcast/total',
+//     })
+// }
+
+
+// 专区节目周累计点播量
+// get http://{{iptv}}/api/demands/week
+export function demands_week() {
     return request({
         method: 'get',
-        url: '/broadcast/total',
+        url: '/demands/week',
+    })
+}
+// 专区节目获得用户
+// get http://{{iptv}}/api/demands/special
+export function demands_special() {
+    return request({
+        method: 'get',
+        url: '/demands/special',
     })
 }
 
+
+// vip点播收视top
+// get http://{{iptv}}/api/demands/VipProgramTop
+export function demands_VipProgramTop() {
+    return request({
+        method: 'get',
+        url: '/demands/VipProgramTop',
+    })
+}
+
+// 点播收视TOP
+// get http://{{iptv}}/api/demandProgramTop
+export function demandProgramTop() {
+    return request({
+        method: 'get',
+        url: '/demandProgramTop',
+    })
+}
+
+// 增值业务订购数据
+// get http://{{iptv}}/api/purchasePrd
+export function purchasePrd() {
+    return request({
+        method: 'get',
+        url: '/purchasePrd',
+    })
+}
+
+// 点播总体数据统计
+// get http://{{iptv}}/api/broadcast/demand
+export function broadcast_demand() {
+    return request({
+        method: 'get',
+        url: '/broadcast/demand',
+    })
+}
+
+// 回播总体数据统计
+// get http://{{iptv}}/api/broadcast/review
+export function broadcast_review() {
+    return request({
+        method: 'get',
+        url: '/broadcast/review',
+    })
+}
+
+// 用户数据展示
+// get http://{{iptv}}/api/users/basic
+export function users_basic(date) {
+    return request({
+        method: 'get',
+        url: '/users/basic',
+        params: {
+            date: date
+        }
+    })
+}
+
+// 直播总体数据统计
+// get http://{{iptv}}/api/broadcast/onlive
+export function broadcast_onlive(func) {
+    return request({
+        method: 'get',
+        url: '/broadcast/onlive',
+        params: {
+            func: func
+        }
+    })
+}
+
+
+
+
 // 用户订购数据
 // get http://{{iptv}}/api/users/subscribe
-
 export function users_subscribe() {
     return request({
         method: 'get',
@@ -196,7 +286,6 @@ export function users_subscribe() {
 
 // 用户激活率
 // get http://{{iptv}}/api/users/activationRate
-
 export function users_activationRate(hours) {
     return request({
         method: 'get',
@@ -209,7 +298,6 @@ export function users_activationRate(hours) {
 
 // 用户留存率
 // get http://{{iptv}}/api/users/retention
-
 export function users_retention(date) {
     return request({
         method: 'get',

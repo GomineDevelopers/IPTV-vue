@@ -1,6 +1,8 @@
 <template>
   <div class="height_auto">
-    <el-row :id="chartData.id" style="height:300px;"></el-row>
+    <!-- <el-row :id="chartData.id" style="height:300px;"></el-row> -->
+    <el-row :id="chartData.id" :style="chartData.height"></el-row>
+    
   </div>
 </template>
 <script>

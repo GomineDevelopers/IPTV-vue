@@ -5,7 +5,7 @@
       <span class="title_border_left"></span>G+TV用户发展数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row :gutter="100" class="programs_demand_content1">
+      <el-row :gutter="100" class="">
         <el-col :span="8">
           <!-- 柱状图 -->
           <p class="m_common_sm_title_font">平台累计在册用户数总览</p>
@@ -69,7 +69,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 饼图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户占比</p>
           <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label>
@@ -85,7 +85,7 @@
       </el-row>
 
       <!-- 曲线图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户数走势（户）</p>
           <smooth-line-chart :smoothLineData="GT_UVWR1_C4"></smooth-line-chart>
@@ -109,7 +109,7 @@
       <span class="title_border_left"></span>开机活跃数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="10">
           <p class="m_common_sm_title_font">各运营商周一开机率</p>
           <bar-chart-single2 :chartData="GT_UVWR1_D1"></bar-chart-single2>
@@ -132,7 +132,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">移动</p>
           <bar-list-chart :barListData="GT_UVWR1_E1"></bar-list-chart>
@@ -153,7 +153,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
-      <el-row class="programs_demand_content1">
+      <el-row class="">
         <el-col :span="8">
           <p class="m_common_sm_title_font">移动</p>
           <bar-list-chart :barListData="GT_UVWR1_F1"></bar-list-chart>
@@ -437,7 +437,7 @@ export default {
       GT_UVWR1_C6: {
         title: "",
         id: "GT_UVWR1_C6",
-        color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
+        color: ["#406A9C", "#4F81BD ", "#AABAD7"],
         data: [
           [
             "product",
@@ -507,6 +507,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_D1",
+        height: "height:300px;",
         color: ["#EDEDED", "#5B9BD5"],
         ifYaxisShow: true,
         ifLegendShow: false,
@@ -521,6 +522,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_D2",
+        height: "height:300px;",
         color: ["#EDEDED", "#5B9BD5"],
         ifYaxisShow: true,
         ifLegendShow: false,
@@ -898,9 +900,7 @@ export default {
 </script>
 
 <style scoped>
-.programs_demand_content1 {
-  /* height: 450px; */
-}
+
 .font_color_r {
   color: #bf0000;
   font-weight: bold;
