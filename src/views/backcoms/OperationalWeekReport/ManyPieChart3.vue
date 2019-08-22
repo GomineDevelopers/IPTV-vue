@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'PieCharts',  //四环饼图组件
+  name: 'ManyPieChart3',  //两环饼图组件
   props: {
     pieData: {
       type: Object,
@@ -32,7 +32,7 @@ export default {
       },
       legend: {
         icon: "re",
-        bottom: "1%",
+        bottom: "3%",
         left: '3%',
         itemWidth: 12,  // 设置宽度
         itemHeight: 7, // 设置高度
@@ -119,69 +119,7 @@ export default {
               borderColor: '#fff',
             }
           }
-        },
-        {
-          name: this.pieData.content[2].title,
-          type: 'pie',
-          radius: ['35%', '50%'],
-          center: ['50%', '56%'],
-          data: this.pieData.content[2].data,
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          label: {
-            show: true,
-            position: 'inside',
-            formatter: '{d}%',
-            color: '#333'
-          },
-          itemStyle: {
-            normal: {
-              borderWidth: 3, //设置border的宽度有多大
-              borderColor: '#fff',
-            },
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
-              borderWidth: 1, //设置border的宽度有多大
-              borderColor: '#fff',
-            }
-          }
-        },
-        {
-          name: this.pieData.content[3].title,
-          type: 'pie',
-          radius: ['20%', '35%'],
-          center: ['50%', '56%'],
-          data: this.pieData.content[3].data,
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          label: {
-            show: true,
-            position: 'inside',
-            formatter: '{d}%',
-            color: '#333'
-          },
-          itemStyle: {
-            normal: {
-              borderWidth: 3, //设置border的宽度有多大
-              borderColor: '#fff',
-            },
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
-              borderWidth: 1, //设置border的宽度有多大
-              borderColor: '#fff',
-            }
-          }
-        },
+        }
       ]
     }
 
