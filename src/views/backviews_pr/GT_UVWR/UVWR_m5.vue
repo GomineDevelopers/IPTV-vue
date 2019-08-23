@@ -11,7 +11,7 @@
           <bar-chart-single2 :chartData="GT_UVWR1_Y1"></bar-chart-single2>
         </el-col>
         <el-col :span="12">
-          <p class="m_common_sm_title_font">内容类型 点播次数占比</p>
+          <p class="m_common_sm_title_font">内容类型点播次数占比</p>
           <div id="GT_UVWR1_Y2" :style="{width: '100%',height: '300px'}"></div>
 
           <p class="m_common_sm_title_font">不同平台点播次数占比</p>
@@ -135,6 +135,7 @@ export default {
     };
   },
   methods: {
+    
     drawLine() {
       var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_Y2"));
       var data = {
