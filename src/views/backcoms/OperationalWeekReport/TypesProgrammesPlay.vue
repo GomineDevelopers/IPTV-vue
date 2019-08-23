@@ -69,7 +69,7 @@ export default {
         },
         grid: {
           top: "12%",
-          left: '15%',
+          left: '19%',
           right: '8%',
           bottom: "7%"
         },
@@ -134,7 +134,7 @@ export default {
               var str = ''
               for (var i = 0, s; s = strs[i++];) { //遍历字符串数组  
                 str += s;
-                if (!(i % 15)) str += '\n';
+                if (!(i % 9)) str += '\n';
               }
               return str
             }

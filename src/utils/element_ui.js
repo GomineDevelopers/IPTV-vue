@@ -9,6 +9,8 @@ import {
   Table,
   TableColumn,
   TimePicker,
+  Tabs,
+  TabPane,
 
   Input,
   Checkbox,
@@ -28,6 +30,8 @@ Vue.use(MenuItemGroup)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(TimePicker)
+Vue.use(Tabs)
+Vue.use(TabPane)
 
 Vue.use(Input)
 Vue.use(Checkbox)

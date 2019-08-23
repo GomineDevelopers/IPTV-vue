@@ -1,88 +1,91 @@
 <template>
   <div class="height_auto">
+    <!-- G+TV月度用户收视行为报告开始 -->
     <el-row class="viewing_behavior_report">
-      <el-row class="periodic_report_title">G+TV月度用户收视行为报告</el-row>
-
-      <!-- G+TV用户发展数据概览开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>G+TV用户发展数据概览
-        </el-row>
-        <el-row class="G_TV_user_dev_data back_white">
-          <el-col class="height_auto" :span="10">
-            <line-chart-single :lineData="G_TVUserData"></line-chart-single>
-          </el-col>
-          <el-col class="height_auto" :span="14">
-            <bar-list-chart-stack :barListData="NewUserComparisonData"></bar-list-chart-stack>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- G+TV用户发展数据概览结束 -->
-
-      <!-- G+TV各运营商侧用户发展数据概览开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>G+TV各运营商侧用户发展数据概览
-        </el-row>
-        <el-row class="G_TV_user_dev_data back_white">
-          <el-col class="height_auto" :span="8">
-            <!-- 在册用户总数 -->
-            <line-chart-single :lineData="registeredUsersData"></line-chart-single>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <!-- 月新增在册用户对比 -->
-            <line-chart-single :lineData="monthNewRegUserData"></line-chart-single>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <!-- 月销户用户对比 -->
-            <line-chart-single :lineData="monthCancellationUserData"></line-chart-single>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- G+TV各运营商侧用户发展数据概览结束 -->
-
-      <!-- G+TV4月分地区用户发展数据概览开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>G+TV4月分地区用户发展数据概览
-        </el-row>
-        <el-row class="G_TV_user_dev_data back_white">
-          <el-col class="height_auto" :span="24">
-            <line-chart-single :lineData="G_TVRegionUserData"></line-chart-single>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- G+TV4月分地区用户发展数据概览结束 -->
-
-      <!-- G+TV4月各周用户发展数据开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>G+TV4月各周用户发展数据
-        </el-row>
-        <el-row class="G_TV_user_dev_data back_white">
-          <el-col class="height_auto" :span="24">
-            <line-chart-single :lineData="weekNewUserData"></line-chart-single>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- G+TV4月各周用户发展数据结束 -->
-
-      <!-- G+TV各周分地区用户发展数据概览开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>G+TV各周分地区用户发展数据概览
-        </el-row>
-        <el-row class="week_region_data back_white">
-          <el-col class="height_auto" :span="8">
-            <!-- 移动侧4月各市州新增在册用户数 -->
-            <bar-list-chart-stack :barListData="mobileNewUserData"></bar-list-chart-stack>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <!-- 联通侧4月各市州新增在册用户数 -->
-            <el-row class="unicornNewUserChart height_auto">
-              <bar-list-chart-stack :barListData="unicornNewUserData"></bar-list-chart-stack>
+      <el-col class="height_auto monthly_report_left">
+        <el-row class="periodic_report_title">G+TV月度用户收视行为报告</el-row>
+        <el-row class="monthly_report_body">
+          <!-- 模块一 用户发展数据概览开始 -->
+          <!-- G+TV用户发展数据概览开始 -->
+          <el-row id="user_development_data">
+            <el-row class="model_title">
+              <span class="title_border_left"></span>G+TV用户发展数据概览
             </el-row>
-            <!-- <el-row class="unicornNewUserTable">
+            <el-row class="G_TV_user_dev_data back_white">
+              <el-col class="height_auto" :span="10">
+                <line-chart-single :lineData="G_TVUserData"></line-chart-single>
+              </el-col>
+              <el-col class="height_auto" :span="14">
+                <bar-list-chart-stack :barListData="NewUserComparisonData"></bar-list-chart-stack>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- G+TV用户发展数据概览结束 -->
+
+          <!-- G+TV各运营商侧用户发展数据概览开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>G+TV各运营商侧用户发展数据概览
+            </el-row>
+            <el-row class="G_TV_user_dev_data back_white">
+              <el-col class="height_auto" :span="8">
+                <!-- 在册用户总数 -->
+                <line-chart-single :lineData="registeredUsersData"></line-chart-single>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <!-- 月新增在册用户对比 -->
+                <line-chart-single :lineData="monthNewRegUserData"></line-chart-single>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <!-- 月销户用户对比 -->
+                <line-chart-single :lineData="monthCancellationUserData"></line-chart-single>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- G+TV各运营商侧用户发展数据概览结束 -->
+
+          <!-- G+TV4月分地区用户发展数据概览开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>G+TV4月分地区用户发展数据概览
+            </el-row>
+            <el-row class="G_TV_user_dev_data back_white">
+              <el-col class="height_auto" :span="24">
+                <line-chart-single :lineData="G_TVRegionUserData"></line-chart-single>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- G+TV4月分地区用户发展数据概览结束 -->
+
+          <!-- G+TV4月各周用户发展数据开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>G+TV4月各周用户发展数据
+            </el-row>
+            <el-row class="G_TV_user_dev_data back_white">
+              <el-col class="height_auto" :span="24">
+                <line-chart-single :lineData="weekNewUserData"></line-chart-single>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- G+TV4月各周用户发展数据结束 -->
+
+          <!-- G+TV各周分地区用户发展数据概览开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>G+TV各周分地区用户发展数据概览
+            </el-row>
+            <el-row class="week_region_data back_white">
+              <el-col class="height_auto" :span="8">
+                <!-- 移动侧4月各市州新增在册用户数 -->
+                <bar-list-chart-stack :barListData="mobileNewUserData"></bar-list-chart-stack>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <!-- 联通侧4月各市州新增在册用户数 -->
+                <el-row class="unicornNewUserChart height_auto">
+                  <bar-list-chart-stack :barListData="unicornNewUserData"></bar-list-chart-stack>
+                </el-row>
+                <!-- <el-row class="unicornNewUserTable">
               <table class="gridtable">
                 <tr v-for="(item,index) in unicornTableData" :key="index+'c'">
                   <th>{{item.name}}</th>
@@ -97,315 +100,340 @@
                   <th>{{item.data9}}</th>
                 </tr>
               </table>
-            </el-row>-->
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <!-- 电信侧4月各市州新增在册用户数 -->
-            <bar-list-chart-stack :barListData="telecomNewUserData"></bar-list-chart-stack>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- G+TV各周分地区用户发展数据概览结束 -->
-
-      <!-- G+TV 4月每日用户发展数据开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>G+TV4月每日用户发展数据
-        </el-row>
-        <el-row class="everyday_user_develop back_white">
-          <el-col class="height_auto" :span="24">
-            <line-dotted-chart :lineData="everyDayUserData"></line-dotted-chart>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- G+TV 4月每日用户发展数据结束 -->
-
-      <!-- 开机活跃数据开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>开机活跃数据
-        </el-row>
-        <el-row class="everyday_user_develop back_white">
-          <el-col class="height_auto" :span="12">
-            <line-chart-single-prop :lineData="monthPowerActivityData"></line-chart-single-prop>
-          </el-col>
-          <el-col class="height_auto" :span="12">
-            <line-chart-single-prop :lineData="areaPowerActivityData"></line-chart-single-prop>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 开机活跃数据结束 -->
-
-      <!-- 日开机活跃数据开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>日开机活跃数据
-        </el-row>
-        <el-row class="everyday_user_develop back_white">
-          <el-col class="height_auto" :span="24">
-            <every-power-activity :lineData="everyPowerActivityData"></every-power-activity>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 日开机活跃数据结束 -->
-
-      <!-- 整体收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>整体收视行为分析
-        </el-row>
-        <el-row class="analysis_of_viewing back_white">
-          <el-row class="analysis_of_viewing1">
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="usingTheUser"></many-pie-chart>
-              <span>注：由内而外分别是1月、2月、3月、4月</span>
-            </el-col>
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="usingTheTime"></many-pie-chart>
-              <span>注：由内而外分别是1月、2月、3月、4月</span>
-            </el-col>
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="usingTheDuration"></many-pie-chart>
-              <span>注：由内而外分别是1月、2月、3月、4月</span>
-            </el-col>
+                </el-row>-->
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <!-- 电信侧4月各市州新增在册用户数 -->
+                <bar-list-chart-stack :barListData="telecomNewUserData"></bar-list-chart-stack>
+              </el-col>
+            </el-row>
           </el-row>
-          <el-row class="analysis_of_viewing2">
-            <el-col class="height_auto" :span="24">
-              <monthly-total-viewing :lineData="monthlyTotalViewingData"></monthly-total-viewing>
-              <span>注：总体收视数据为直播数据+点播数据+回看数据</span>
-            </el-col>
+          <!-- G+TV各周分地区用户发展数据概览结束 -->
+
+          <!-- G+TV 4月每日用户发展数据开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>G+TV4月每日用户发展数据
+            </el-row>
+            <el-row class="everyday_user_develop back_white">
+              <el-col class="height_auto" :span="24">
+                <line-dotted-chart :lineData="everyDayUserData"></line-dotted-chart>
+              </el-col>
+            </el-row>
           </el-row>
-        </el-row>
-      </el-row>
-      <!-- 整体收视行为分析结束 -->
+          <!-- G+TV 4月每日用户发展数据结束 -->
+          <!-- 模块一 用户发展数据概览结束 -->
 
-      <!-- 直播收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>直播收视行为分析
-        </el-row>
-        <el-row class="analysis_of_viewing back_white">
-          <el-row class="analysis_of_viewing1">
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="liveViewingDurationData"></many-pie-chart>
-              <span>注：由内而外分别是1月、2月、3月、4月</span>
-            </el-col>
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="liveViewingUserData"></many-pie-chart>
-              <span>注：由内而外分别是1月、2月、3月、4月</span>
-            </el-col>
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="liveViewingTimesData"></many-pie-chart>
-              <span>注：由内而外分别是1月、2月、3月、4月</span>
-            </el-col>
+          <!-- 模块二 运营数据概览开始 -->
+          <!-- 开机活跃数据开始 -->
+          <el-row id="operational_data">
+            <el-row class="model_title">
+              <span class="title_border_left"></span>开机活跃数据
+            </el-row>
+            <el-row class="everyday_user_develop back_white">
+              <el-col class="height_auto" :span="12">
+                <line-chart-single-prop :lineData="monthPowerActivityData"></line-chart-single-prop>
+              </el-col>
+              <el-col class="height_auto" :span="12">
+                <line-chart-single-prop :lineData="areaPowerActivityData"></line-chart-single-prop>
+              </el-col>
+            </el-row>
           </el-row>
-          <el-row class="analysis_of_viewing2">
-            <el-col class="height_auto" :span="24">
-              <monthly-total-viewing :lineData="monthlyTotalViewingData2"></monthly-total-viewing>
-              <span>注：直播收视数据为移动侧+联通侧+电信侧数据总数据</span>
-            </el-col>
+          <!-- 开机活跃数据结束 -->
+
+          <!-- 日开机活跃数据开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>日开机活跃数据
+            </el-row>
+            <el-row class="everyday_user_develop back_white">
+              <el-col class="height_auto" :span="24">
+                <every-power-activity :lineData="everyPowerActivityData"></every-power-activity>
+              </el-col>
+            </el-row>
           </el-row>
-        </el-row>
-      </el-row>
-      <!-- 直播收视行为分析结束 -->
+          <!-- 日开机活跃数据结束 -->
 
-      <!-- 四月各周直播收视日数据开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>四月各周直播收视日数据
-        </el-row>
-        <el-row class="analysis_of_viewing back_white">
-          <el-row class="analysis_of_viewing1">
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="weekLiveViewUserData"></many-pie-chart>
-              <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
-            </el-col>
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="weekLiveViewTimesData"></many-pie-chart>
-              <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
-            </el-col>
-            <el-col class="height_auto" :span="8">
-              <many-pie-chart :pieData="weekliveViewDurationData"></many-pie-chart>
-              <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
-            </el-col>
+          <!-- 整体收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>整体收视行为分析
+            </el-row>
+            <el-row class="analysis_of_viewing back_white">
+              <el-row class="analysis_of_viewing1">
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="usingTheUser"></many-pie-chart>
+                  <span>注：由内而外分别是1月、2月、3月、4月</span>
+                </el-col>
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="usingTheTime"></many-pie-chart>
+                  <span>注：由内而外分别是1月、2月、3月、4月</span>
+                </el-col>
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="usingTheDuration"></many-pie-chart>
+                  <span>注：由内而外分别是1月、2月、3月、4月</span>
+                </el-col>
+              </el-row>
+              <el-row class="analysis_of_viewing2">
+                <el-col class="height_auto" :span="24">
+                  <monthly-total-viewing :lineData="monthlyTotalViewingData"></monthly-total-viewing>
+                  <span>注：总体收视数据为直播数据+点播数据+回看数据</span>
+                </el-col>
+              </el-row>
+            </el-row>
           </el-row>
-          <el-row class="analysis_of_viewing2">
-            <el-col class="height_auto" :span="24">
-              <monthly-total-viewing :lineData="weekliveViewingData"></monthly-total-viewing>
-              <span>注：各周直播收视数据为移动侧+联通侧+电信侧数据总数据&nbsp;&nbsp;&nbsp;单位：十万户</span>
-            </el-col>
+          <!-- 整体收视行为分析结束 -->
+
+          <!-- 直播收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>直播收视行为分析
+            </el-row>
+            <el-row class="analysis_of_viewing back_white">
+              <el-row class="analysis_of_viewing1">
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="liveViewingDurationData"></many-pie-chart>
+                  <span>注：由内而外分别是1月、2月、3月、4月</span>
+                </el-col>
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="liveViewingUserData"></many-pie-chart>
+                  <span>注：由内而外分别是1月、2月、3月、4月</span>
+                </el-col>
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="liveViewingTimesData"></many-pie-chart>
+                  <span>注：由内而外分别是1月、2月、3月、4月</span>
+                </el-col>
+              </el-row>
+              <el-row class="analysis_of_viewing2">
+                <el-col class="height_auto" :span="24">
+                  <monthly-total-viewing :lineData="monthlyTotalViewingData2"></monthly-total-viewing>
+                  <span>注：直播收视数据为移动侧+联通侧+电信侧数据总数据</span>
+                </el-col>
+              </el-row>
+            </el-row>
           </el-row>
-        </el-row>
-      </el-row>
-      <!-- 四月各周直播收视日数据结束 -->
+          <!-- 直播收视行为分析结束 -->
 
-      <!-- 直播收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>直播收视行为分析
-        </el-row>
-        <el-row class="live_viewing_data back_white">
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="liveViewerData"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="liveViewTimesData"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="liveViewTimesData2"></live-view-behavior-analysis>
-          </el-col>
-          <span>注：当前排名为移动侧+联通侧+电信侧数据总排名</span>
-        </el-row>
-      </el-row>
-      <!-- 直播收视行为分析结束 -->
+          <!-- 四月各周直播收视日数据开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>四月各周直播收视日数据
+            </el-row>
+            <el-row class="analysis_of_viewing back_white">
+              <el-row class="analysis_of_viewing1">
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="weekLiveViewUserData"></many-pie-chart>
+                  <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
+                </el-col>
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="weekLiveViewTimesData"></many-pie-chart>
+                  <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
+                </el-col>
+                <el-col class="height_auto" :span="8">
+                  <many-pie-chart :pieData="weekliveViewDurationData"></many-pie-chart>
+                  <span>注：由内而外分别是4月第1周、4月第2周、4月第3周、4月第4周</span>
+                </el-col>
+              </el-row>
+              <el-row class="analysis_of_viewing2">
+                <el-col class="height_auto" :span="24">
+                  <monthly-total-viewing :lineData="weekliveViewingData"></monthly-total-viewing>
+                  <span>注：各周直播收视数据为移动侧+联通侧+电信侧数据总数据&nbsp;&nbsp;&nbsp;单位：十万户</span>
+                </el-col>
+              </el-row>
+            </el-row>
+          </el-row>
+          <!-- 四月各周直播收视日数据结束 -->
 
-      <!-- 本地直播及轮播频道用户收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>本地直播及轮播频道用户收视行为分析
-        </el-row>
-        <el-row class="localityLiveAndCarousel back_white">
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="mobileLiveViewerData"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="unicornLiveViewerData"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="telecomLiveViewerData"></live-view-behavior-analysis>
-          </el-col>
-          <span>单位：万户</span>
-        </el-row>
-      </el-row>
-      <!-- 本地直播及轮播频道用户收视行为分析结束 -->
+          <!-- 直播收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>直播收视行为分析
+            </el-row>
+            <el-row class="live_viewing_data back_white">
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="liveViewerData"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="liveViewTimesData"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="liveViewTimesData2"></live-view-behavior-analysis>
+              </el-col>
+              <span>注：当前排名为移动侧+联通侧+电信侧数据总排名</span>
+            </el-row>
+          </el-row>
+          <!-- 直播收视行为分析结束 -->
 
-      <!-- 整体点播收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>整体点播收视行为分析
-        </el-row>
-        <el-row class="overall_demand back_white">
-          <el-col class="height_auto" :span="12">
-            <monthly-total-viewing :lineData="monthlyDemandViewingData"></monthly-total-viewing>
-            <span>注：点播收视数据为移动侧+联通侧+电信侧数据总数据</span>
-          </el-col>
-          <el-col class="height_auto" :span="12">
-            <monthly-total-viewing :lineData="weekDemandViewingData"></monthly-total-viewing>
-            <span>单位：百万</span>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 整体点播收视行为分析结束 -->
+          <!-- 本地直播及轮播频道用户收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>本地直播及轮播频道用户收视行为分析
+            </el-row>
+            <el-row class="localityLiveAndCarousel back_white">
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="mobileLiveViewerData"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="unicornLiveViewerData"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="telecomLiveViewerData"></live-view-behavior-analysis>
+              </el-col>
+              <span>单位：万户</span>
+            </el-row>
+          </el-row>
+          <!-- 本地直播及轮播频道用户收视行为分析结束 -->
 
-      <!-- 各类型节目点播收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>各类型节目点播收视行为分析
-        </el-row>
-        <el-row class="type_program_data back_white">
-          <el-col class="height_auto" :span="8">
-            <type-program-chart :chartData="demandUserNumData"></type-program-chart>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <type-program-chart :chartData="demandTimesData"></type-program-chart>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <type-program-chart :chartData="demandDurationData"></type-program-chart>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 各类型节目点播收视行为分析结束 -->
+          <!-- 整体点播收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>整体点播收视行为分析
+            </el-row>
+            <el-row class="overall_demand back_white">
+              <el-col class="height_auto" :span="12">
+                <monthly-total-viewing :lineData="monthlyDemandViewingData"></monthly-total-viewing>
+                <span>注：点播收视数据为移动侧+联通侧+电信侧数据总数据</span>
+              </el-col>
+              <el-col class="height_auto" :span="12">
+                <monthly-total-viewing :lineData="weekDemandViewingData"></monthly-total-viewing>
+                <span>单位：百万</span>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 整体点播收视行为分析结束 -->
 
-      <!-- 各栏目热力数据概览开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>各栏目热力数据概览
-        </el-row>
-        <el-row class="type_program_data back_white">
-          <el-col class="height_auto" :span="12">
-            <type-program-chart :chartData="programPageClickUserData"></type-program-chart>
-          </el-col>
-          <el-col class="height_auto" :span="12">
-            <type-program-chart :chartData="programPageClickNumData"></type-program-chart>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 各栏目热力数据概览结束 -->
+          <!-- 各类型节目点播收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>各类型节目点播收视行为分析
+            </el-row>
+            <el-row class="type_program_data back_white">
+              <el-col class="height_auto" :span="8">
+                <type-program-chart :chartData="demandUserNumData"></type-program-chart>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <type-program-chart :chartData="demandTimesData"></type-program-chart>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <type-program-chart :chartData="demandDurationData"></type-program-chart>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 各类型节目点播收视行为分析结束 -->
 
-      <!-- 点播收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>点播收视行为分析
-        </el-row>
-        <el-row class="localityLiveAndCarousel back_white">
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="demandUserNumData2"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="demandTimesData2"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="demandDurationData2"></live-view-behavior-analysis>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 点播收视行为分析结束 -->
+          <!-- 各栏目热力数据概览开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>各栏目热力数据概览
+            </el-row>
+            <el-row class="type_program_data back_white">
+              <el-col class="height_auto" :span="12">
+                <type-program-chart :chartData="programPageClickUserData"></type-program-chart>
+              </el-col>
+              <el-col class="height_auto" :span="12">
+                <type-program-chart :chartData="programPageClickNumData"></type-program-chart>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 各栏目热力数据概览结束 -->
 
-      <!-- 付费用户收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>付费用户收视行为分析
-        </el-row>
-        <el-row class="paying_user_div back_white">
-          <el-col class="height_auto" :span="10">
-            <type-program-chart :chartData="newAddUserData"></type-program-chart>
-          </el-col>
-          <el-col class="height_auto" :span="14">
-            <live-view-behavior-analysis :barListData="payingUserData"></live-view-behavior-analysis>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 付费用户收视行为分析结束 -->
+          <!-- 点播收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>点播收视行为分析
+            </el-row>
+            <el-row class="localityLiveAndCarousel back_white">
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="demandUserNumData2"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="demandTimesData2"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="demandDurationData2"></live-view-behavior-analysis>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 点播收视行为分析结束 -->
 
-      <!-- 本土原创节目收视行为分析开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>本土原创节目收视行为分析
-        </el-row>
-        <el-row class="local_originality back_white">
-          <el-col class="height_auto" :span="12">
-            <bar-chart-single :chartData="monthDemandData"></bar-chart-single>
-          </el-col>
-          <el-col class="height_auto" :span="12">
-            <smooth-line-chart :smoothLineData="originalProgramsDemandData"></smooth-line-chart>
-          </el-col>
-        </el-row>
-      </el-row>
-      <!-- 本土原创节目收视行为分析结束 -->
+          <!-- 付费用户收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>付费用户收视行为分析
+            </el-row>
+            <el-row class="paying_user_div back_white">
+              <el-col class="height_auto" :span="10">
+                <type-program-chart :chartData="newAddUserData"></type-program-chart>
+              </el-col>
+              <el-col class="height_auto" :span="14">
+                <live-view-behavior-analysis :barListData="payingUserData"></live-view-behavior-analysis>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 付费用户收视行为分析结束 -->
 
-      <!-- 重点专题及活动数据概览开始 -->
-      <el-row>
-        <el-row class="model_title">
-          <span class="title_border_left"></span>重点专题及活动数据概览
+          <!-- 本土原创节目收视行为分析开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>本土原创节目收视行为分析
+            </el-row>
+            <el-row class="local_originality back_white">
+              <el-col class="height_auto" :span="12">
+                <bar-chart-single :chartData="monthDemandData"></bar-chart-single>
+              </el-col>
+              <el-col class="height_auto" :span="12">
+                <smooth-line-chart :smoothLineData="originalProgramsDemandData"></smooth-line-chart>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 本土原创节目收视行为分析结束 -->
+
+          <!-- 重点专题及活动数据概览开始 -->
+          <el-row>
+            <el-row class="model_title">
+              <span class="title_border_left"></span>重点专题及活动数据概览
+            </el-row>
+            <el-row class="key_project back_white">
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="mobileKeyProjectData"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="unicornKeyProjectData"></live-view-behavior-analysis>
+              </el-col>
+              <el-col class="height_auto" :span="8">
+                <live-view-behavior-analysis :barListData="telecomKeyProjectData"></live-view-behavior-analysis>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 重点专题及活动数据概览结束 -->
+          <!-- 模块二 运营数据概览结束 -->
         </el-row>
-        <el-row class="key_project back_white">
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="mobileKeyProjectData"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="unicornKeyProjectData"></live-view-behavior-analysis>
-          </el-col>
-          <el-col class="height_auto" :span="8">
-            <live-view-behavior-analysis :barListData="telecomKeyProjectData"></live-view-behavior-analysis>
-          </el-col>
+      </el-col>
+
+      <!-- 右侧导航开始 -->
+      <el-col class="monthly_nav height_auto">
+        <el-row>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link1 avtive_link"
+            @click="goAnchor('#user_development_data')"
+          >用户发展数据概览</a>
         </el-row>
-      </el-row>
-      <!-- 重点专题及活动数据概览结束 -->
+        <el-row>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link2"
+            @click="goAnchor('#operational_data')"
+          >运营数据概览</a>
+        </el-row>
+      </el-col>
+      <!-- 右侧导航结束 -->
     </el-row>
+    <!-- G+TV月度用户收视行为报告结束 -->
   </div>
 </template>
 <script>
-import LineChartSingle from '@/views/backcoms/commoncomponents/LineChartSingle'  //单数据折线图组件（新增用户概览）
+import LineChartSingle from '@/views/backcoms/commoncomponents/LineChartSingle'  //单数据折线图组件
 import BarListChartStack from "@/views/backcoms/commoncomponents/BarListChartStack"  //排名柱状图
 import LineDottedChart from "@/views/backcoms/G_TVuserviewingmonthreport/LineDottedChart"  //4月新增在册用户数组件（折线图含虚线）
 import LineChartSingleProp from '@/views/backcoms/commoncomponents/LineChartSingleProp'  //单数据折线图组件（百分比）
@@ -1690,13 +1718,93 @@ export default {
       },
     }
   },
-  mounted() { }
+  mounted() {
+    //监听滚动事件
+    $('.monthly_report_body').scroll(function (event) {
+      let scrollTopHeight = $('.monthly_report_body').scrollTop()
+      let user_development_data = document.querySelector('#user_development_data').offsetTop
+      let operational_data = document.querySelector('#operational_data').offsetTop
+      // console.log('user_development_data 0', user_development_data)
+      // console.log('operational_data 3384', operational_data)
+      if (0 <= scrollTopHeight) {
+        $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (3300 <= scrollTopHeight) {
+        $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+    })
+  },
+  methods: {
+    //点击锚点实现左侧滚动
+    goAnchor(selector) {
+      let scrollDiv = document.querySelector('.monthly_report_body')  //外层滚动容器元素
+      var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
+      scrollDiv.scrollTop = anchor.offsetTop
+      $('.monthly_nav a').on('click', function () {
+        $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      })
+    }
+  }
 }
 </script>
 <style scoped>
 .viewing_behavior_report {
-  height: 500px;
+  height: 860px;
   margin: 14px 0px;
+  display: -webkit-flex;
+  display: flex;
+}
+.monthly_report_left {
+  flex: 1;
+  height: 100%;
+}
+.monthly_report_body {
+  height: calc(100% - 50px);
+  padding-bottom: 40px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+/*webkit内核*/
+.monthly_report_body::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+/*o内核*/
+.monthly_report_body .-o-scrollbar {
+  -moz-appearance: none !important;
+  background: rgba(0, 255, 0, 0) !important;
+}
+/*IE10,IE11,IE12*/
+.monthly_report_body {
+  -ms-scroll-chaining: chained;
+  -ms-overflow-style: none;
+  -ms-content-zooming: zoom;
+  -ms-scroll-rails: none;
+  -ms-content-zoom-limit-min: 100%;
+  -ms-content-zoom-limit-max: 500%;
+  -ms-scroll-snap-type: proximity;
+  -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+  -ms-overflow-style: none;
+  overflow: auto;
+}
+
+.monthly_nav {
+  width: 220px;
+}
+.monthly_nav {
+  padding-left: 20px;
+  text-align: left;
+}
+.monthly_nav .el-row {
+  margin-bottom: 12px;
+}
+.monthly_nav a {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+.monthly_nav .avtive_link {
+  color: #ff6123;
 }
 
 /* G+TV用户发展数据概览开始 */
@@ -1797,6 +1905,6 @@ export default {
 }
 .key_project {
   height: 800px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 </style>

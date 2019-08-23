@@ -61,7 +61,7 @@ export default {
         {
           name: this.pieData.content[0].title,
           type: 'pie',
-          radius: ['65%', '80%'],
+          radius: ['60%', '75%'],
           center: ['50%', '56%'],
           data: this.pieData.content[0].data,
           labelLine: {
@@ -92,7 +92,7 @@ export default {
         {
           name: this.pieData.content[1].title,
           type: 'pie',
-          radius: ['50%', '65%'],
+          radius: ['45%', '60%'],
           center: ['50%', '56%'],
           data: this.pieData.content[1].data,
           labelLine: {
@@ -123,7 +123,7 @@ export default {
         {
           name: this.pieData.content[2].title,
           type: 'pie',
-          radius: ['35%', '50%'],
+          radius: ['30%', '45%'],
           center: ['50%', '56%'],
           data: this.pieData.content[2].data,
           labelLine: {
@@ -154,7 +154,7 @@ export default {
         {
           name: this.pieData.content[3].title,
           type: 'pie',
-          radius: ['20%', '35%'],
+          radius: ['15%', '30%'],
           center: ['50%', '56%'],
           data: this.pieData.content[3].data,
           labelLine: {

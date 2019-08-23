@@ -58,7 +58,7 @@ export default {
         grid: {
           top: "35%",
           left: '70',
-          right: '8%',
+          right: '7%',
           bottom: "10%"
         },
         dataset: {

@@ -60,16 +60,16 @@ export default {
           top: "10%",
           itemWidth: 12,  // 设置宽度
           itemHeight: 7, // 设置高度
-          itemGap: 20, // 设置间距
+          // itemGap: 10, // 设置间距
           textStyle: {
-            fontSize: 14,
+            fontSize: 12,
             color: 'rgba(0, 0, 0, 0.65)'
           }
         },
         grid: {
           top: "20%",
-          left: '12%',
-          right: '8%',
+          left: '15%',
+          right: '5%',
           bottom: "8%"
         },
         tooltip: {

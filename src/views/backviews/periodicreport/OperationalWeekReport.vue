@@ -6,8 +6,9 @@
       <el-col class="height_auto operational_left_content">
         <el-row class="periodic_report_title">运营数据周报</el-row>
         <el-row class="operational_left_content_body">
+          <!-- 模块一 G+TV一周整体数据概览开始-->
           <!-- 一周用户活跃情况开始 -->
-          <el-row class="marginbottom_14">
+          <el-row class="marginbottom_14" id="weekly_whole_data">
             <el-row class="model_title">
               <span class="title_border_left"></span>一周用户活跃情况
             </el-row>
@@ -53,10 +54,11 @@
             </el-row>
           </el-row>
           <!-- 一周热力数据概览结束 -->
+          <!-- 模块一 G+TV一周整体数据概览结束-->
 
           <!-- 模块二 一周点播数据及运营分析开始-->
           <!-- 一周点播数据概览开始 -->
-          <el-row class="marginbottom_14">
+          <el-row class="marginbottom_14" id="weekly_data_on_demand">
             <el-row class="model_title">
               <span class="title_border_left"></span>一周点播数据概览
             </el-row>
@@ -97,7 +99,7 @@
             </el-row>
             <el-row class="main_programa_body back_white">
               <el-col class="height_auto" :span="24">
-                <type-program-chart :chartData="mainProgramaPlayData"></type-program-chart>
+                <type-program-chart-big :chartData="mainProgramaPlayData"></type-program-chart-big>
               </el-col>
             </el-row>
           </el-row>
@@ -122,7 +124,7 @@
 
           <!-- 模块三 直播频道数据及运营分析开始-->
           <!-- 一周直播数据概览开始 -->
-          <el-row class="marginbottom_14">
+          <el-row class="marginbottom_14" id="broadcast_channel">
             <el-row class="model_title">
               <span class="title_border_left"></span>一周直播数据概览
             </el-row>
@@ -162,10 +164,10 @@
               <span class="title_border_left"></span>央视频道及节目收视排名
             </el-row>
             <el-row class="CCTV_channel_body back_white">
-              <el-col class="height_auto" :span="12">
+              <el-col class="height_auto" :span="9">
                 <live-view-behavior-analysis :barListData="liveChannelTOPData"></live-view-behavior-analysis>
               </el-col>
-              <el-col class="height_auto" :span="12">
+              <el-col class="height_auto" :span="15">
                 <bar-chart-single :chartData="liveProgramTOPData"></bar-chart-single>
               </el-col>
             </el-row>
@@ -178,10 +180,10 @@
               <span class="title_border_left"></span>本地频道及节目收视排名
             </el-row>
             <el-row class="local_channel_body back_white">
-              <el-col class="height_auto" :span="12">
+              <el-col class="height_auto" :span="9">
                 <live-view-behavior-analysis :barListData="localChannelTOPData"></live-view-behavior-analysis>
               </el-col>
-              <el-col class="height_auto" :span="12">
+              <el-col class="height_auto" :span="15">
                 <bar-chart-single :chartData="localProgramTOPData"></bar-chart-single>
               </el-col>
             </el-row>
@@ -219,8 +221,84 @@
             </el-row>
           </el-row>
           <!-- 轮播频道及节目收视排名结束 -->
-
           <!-- 模块三 直播频道数据及运营分析结束-->
+
+          <!-- 模块四  推荐栏目一周数据概览开始-->
+          <el-row class="marginbottom_14" id="recommended_Column">
+            <el-row class="model_title">
+              <span class="title_border_left"></span>推荐栏目一周数据概览
+            </el-row>
+            <el-row class="recommended_column_body back_white">
+              <el-row>
+                <el-tabs v-model="activeName">
+                  <el-tab-pane label="分类" name="classify">
+                    <recommend-column-week-data
+                      :columnData="classifyColumnData"
+                      v-if="'classify' === activeName"
+                    ></recommend-column-week-data>
+                  </el-tab-pane>
+                  <el-tab-pane label="电视" name="television">
+                    <recommend-column-week-data
+                      :columnData="televisionColumnData"
+                      v-if="'television' === activeName"
+                    ></recommend-column-week-data>
+                  </el-tab-pane>
+                  <el-tab-pane label="推荐" name="recommend">
+                    <recommend-column-week-data
+                      :columnData="recommendColumnData"
+                      v-if="'recommend' === activeName"
+                    ></recommend-column-week-data>
+                  </el-tab-pane>
+                  <el-tab-pane label="电影" name="film" lazy>电影</el-tab-pane>
+                  <el-tab-pane label="热剧" name="hotShow" lazy>热剧</el-tab-pane>
+                  <el-tab-pane label="少儿" name="children" lazy>少儿</el-tab-pane>
+                  <el-tab-pane label="动漫" name="cartoon" lazy>动漫</el-tab-pane>
+                  <el-tab-pane label="综艺" name="variety" lazy>综艺</el-tab-pane>
+                  <el-tab-pane label="体育" name="PE" lazy>体育</el-tab-pane>
+                  <el-tab-pane label="纪实" name="documentary" lazy>纪实</el-tab-pane>
+                  <el-tab-pane label="游戏" name="game" lazy>游戏</el-tab-pane>
+                  <el-tab-pane label="应用" name="apply" lazy>应用</el-tab-pane>
+                </el-tabs>
+              </el-row>
+            </el-row>
+          </el-row>
+          <!-- 模块四  推荐栏目一周数据概览结束-->
+
+          <!-- 模块五 专题热力数据及运营分析开始-->
+          <!-- 一周专题数据概览开始 -->
+          <el-row class="marginbottom_14" id="special_thermodynamic_data">
+            <el-row class="model_title">
+              <span class="title_border_left"></span>一周专题数据概览
+            </el-row>
+            <el-row class="thematic_data_body back_white">
+              <el-col class="height_auto" :span="14">
+                <types-programmes-play :barListData="thematicData"></types-programmes-play>
+              </el-col>
+              <el-col class="height_auto" :span="10">
+                <pie-charts :chartData="monographicPlanData"></pie-charts>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 一周专题数据概览结束 -->
+
+          <!-- 一周专题数据走势开始 -->
+          <el-row class="marginbottom_14">
+            <el-row class="model_title">
+              <span class="title_border_left"></span>一周专题数据走势
+            </el-row>
+            <el-row class="thematic_data_trend_body back_white">
+              <el-col class="height_auto" :span="24">
+                <thematic-data-trend-chart :lineData="specialTrendData1"></thematic-data-trend-chart>
+              </el-col>
+            </el-row>
+            <el-row class="thematic_data_trend_body back_white">
+              <el-col class="height_auto" :span="24">
+                <thematic-data-trend-chart :lineData="specialTrendData2"></thematic-data-trend-chart>
+              </el-col>
+            </el-row>
+          </el-row>
+          <!-- 一周专题数据走势结束 -->
+          <!-- 模块五 专题热力数据及运营分析结束-->
         </el-row>
       </el-col>
       <!-- 左侧内容结束 -->
@@ -228,19 +306,39 @@
       <!-- 右侧导航开始 -->
       <el-col class="operational_nav height_auto">
         <el-row>
-          <a href="javascript:void(0)" class="avtive_link">G+TV一周整体数据概览</a>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link1 avtive_link"
+            @click="goAnchor('#weekly_whole_data')"
+          >G+TV一周整体数据概览</a>
         </el-row>
         <el-row>
-          <a href="javascript:void(0)">一周点播数据及运营分析</a>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link2"
+            @click="goAnchor('#weekly_data_on_demand')"
+          >一周点播数据及运营分析</a>
         </el-row>
         <el-row>
-          <a href="javascript:void(0)">直播频道数据及运营分析</a>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link3"
+            @click="goAnchor('#broadcast_channel')"
+          >直播频道数据及运营分析</a>
         </el-row>
         <el-row>
-          <a href="javascript:void(0)">各栏目热力数据及运营分析</a>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link4"
+            @click="goAnchor('#recommended_Column')"
+          >各栏目热力数据及运营分析</a>
         </el-row>
         <el-row>
-          <a href="javascript:void(0)">专题热力数 据及运营分析</a>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link5"
+            @click="goAnchor('#special_thermodynamic_data')"
+          >专题热力数据及运营分析</a>
         </el-row>
       </el-col>
       <!-- 右侧导航结束 -->
@@ -250,26 +348,37 @@
 </template>
 <script>
 import TypeProgramChart from "@/views/backcoms/G_TVuserviewingmonthreport/TypeProgramChart"  //柱状图加折线图图表组件
+import TypeProgramChartBig from "@/views/backcoms/OperationalWeekReport/TypeProgramChartBig"  //柱状图加折线图图表组件
 import BarChartSingle from '@/views/backcoms/commoncomponents/BarChartSingle'  //单坐标柱状图组件
 import ThreeBasedUserView from "@/views/backcoms/OperationalWeekReport/ThreeBasedUserView"  //柱状图加折线图图表组件
 import ManyPieChart3 from "@/views/backcoms/OperationalWeekReport/ManyPieChart3"  //柱状图加折线图图表组件
 import TypesProgrammesPlay from "@/views/backcoms/OperationalWeekReport/TypesProgrammesPlay"  //TOP排名（柱状图列表）
 import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"  //TOP排名（柱状图列表）
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"  //平滑曲线折线图组件
+import RecommendColumnWeekData from "@/views/backcoms/OperationalWeekReport/RecommendColumnWeekData"  //推荐栏目一周数据概览组件
+import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
+import LineChartSingle from '@/views/backcoms/commoncomponents/LineChartSingle'  //单数据折线图组件（新增用户概览）
+import ThematicDataTrendChart from "@/views/backcoms/OperationalWeekReport/ThematicDataTrendChart"  //一周专题数据走势折线组件
 
 export default {
   name: 'OperationalWeekReport',  //运营数据周报
   components: {
     "type-program-chart": TypeProgramChart,
+    "type-program-chart-big": TypeProgramChartBig,
     'bar-chart-single': BarChartSingle,
     "three-based-user-view": ThreeBasedUserView,
     "many-pie-chart3": ManyPieChart3,
     "types-programmes-play": TypesProgrammesPlay,
     "live-view-behavior-analysis": LiveViewBehaviorAnalysis,
     "smooth-line-chart": SmoothLineChart,
+    "recommend-column-week-data": RecommendColumnWeekData,
+    "pie-charts": PieCharts,
+    "line-chart-single": LineChartSingle,
+    "thematic-data-trend-chart": ThematicDataTrendChart
   },
   data() {
     return {
+      activeName: 'classify',  //推荐栏目Tab标签默认选中
       //周末用户总量与一周开机率
       userNumAddPowerData: {
         title: '周末用户总量与一周开机率',
@@ -732,9 +841,9 @@ export default {
         ]
       },
 
-      // 轮播频道及节目收视排名
+      // 一周轮播频道收视数据（万户）
       carouselChannelData: {
-        title: '直播节目TOP10（万小时）',
+        title: '一周轮播频道收视数据（万户）',
         id: 'carouselChannel',
         color: ["#FFC000", "#5B9BD4", "#EC7C30"],
         data: [
@@ -761,13 +870,409 @@ export default {
           ['动画乐园', 3314, 3452, 3165, 3031, 3458, 3518, 3350]
         ]
       },
+
+      //分类页一周热力数据
+      classifyColumnData: {
+        //一周热力数据
+        weeklyThermodynamic: {
+          title: '分类页一周热力数据',
+          id: 'classifyWeeklyThermodynamic',
+          color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+          data: [
+            ['product', '0502-0226', '0527-0602', '增率'],
+            ['访问用户数', 49.3, 49.1, -0.5],
+            ['访问次数', 659.3, 660.6, -0.2],
+            ['页面点击\n用户数', 39.4, 37.8, -4.4],
+            ['页面点击次数', 338.3, 312.1, -7.3],
+            ['页面播放次数', 141.6, 123.6, -13.2],
+            ['页面播放时长', 216.6, 176.6, -18.2],
+            ['开机次数', 182.6, 187.6, 2.5],
+          ]
+        },
+        //按钮点击排行（万次）
+        buttonClickTOPData: {
+          title: "分类页按钮点击排行（万次）",
+          id: 'classifyButtonClickTOP',
+          color: ["#5B9BD4", '#CBC9C9'],
+          data: [
+            ['product', '0527-0602', '0520-0526'],
+            ['推荐帮助', 1.4, 1.5],
+            ['竖图1', 1.5, 1.6],
+            ['横图', 2.6, 3.2],
+            ['百姓关注', 3.0, 3.2],
+            ['VIP限免', 4.5, 5.0],
+            ['竖图2', 5.9, 7.1],
+            ['点我换一换', 5.4, 6.0],
+            ['竖图3', 7.4, 7.0],
+            ['二屏', 9.4, 10.6],
+            ['看电视', 16.0, 17.2],
+            ['推荐个人中心', 23.4, 25.4],
+            ['推荐搜索', 33.7, 36.1],
+            ['历史记录', 70.6, 75.1],
+            ['三屏', 96.8, 104.2],
+            ['推荐页播放小窗口', 119.4, 129.0]
+          ]
+        },
+        //栏目各按钮点击次数
+        columnButtonClickNum: {
+          title: "分类页各按钮点击次数",
+          data: [
+            [
+              { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ]
+          ],
+        },
+        //部分按钮每日走势（次）
+        someButtonDayTrendData: {
+          title: '分类页部分按钮每日走势（次）',
+          id: 'classifySomeButtonDayTrend',
+          color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
+          data: [
+            ['product', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+            ['box3_0', 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+            ['box3_1', 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+            ['box5_1', 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+            ['box3_2', 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+            ['box6_3', 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+          ]
+        },
+      },
+
+      //电视页一周热力数据television
+      televisionColumnData: {
+        //一周热力数据
+        weeklyThermodynamic: {
+          title: '电视页一周热力数据',
+          id: 'televisionWeeklyThermodynamic',
+          color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+          data: [
+            ['product', '0502-0226', '0527-0602', '增率'],
+            ['访问用户数', 49.3, 49.1, -0.5],
+            ['访问次数', 659.3, 660.6, -0.2],
+            ['页面点击\n用户数', 39.4, 37.8, -4.4],
+            ['页面点击次数', 338.3, 312.1, -7.3],
+            ['页面播放次数', 141.6, 123.6, -13.2],
+            ['页面播放时长', 216.6, 176.6, -18.2],
+            ['开机次数', 182.6, 187.6, 2.5],
+          ]
+        },
+        //按钮点击排行（万次）
+        buttonClickTOPData: {
+          title: "电视页按钮点击排行（万次）",
+          id: 'televisionButtonClickTOP',
+          color: ["#5B9BD4", '#CBC9C9'],
+          data: [
+            ['product', '0527-0602', '0520-0526'],
+            ['推荐帮助', 1.4, 1.5],
+            ['竖图1', 1.5, 1.6],
+            ['横图', 2.6, 3.2],
+            ['百姓关注', 3.0, 3.2],
+            ['VIP限免', 4.5, 5.0],
+            ['竖图2', 5.9, 7.1],
+            ['点我换一换', 5.4, 6.0],
+            ['竖图3', 7.4, 7.0],
+            ['二屏', 9.4, 10.6],
+            ['看电视', 16.0, 17.2],
+            ['推荐个人中心', 23.4, 25.4],
+            ['推荐搜索', 33.7, 36.1],
+            ['历史记录', 70.6, 75.1],
+            ['三屏', 96.8, 104.2],
+            ['推荐页播放小窗口', 119.4, 129.0]
+          ]
+        },
+        //栏目各按钮点击次数
+        columnButtonClickNum: {
+          title: "电视页各按钮点击次数",
+          data: [
+            [
+              { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ]
+          ],
+        },
+        //部分按钮每日走势（次）
+        someButtonDayTrendData: {
+          title: '电视页部分按钮每日走势（次）',
+          id: 'televisionSomeButtonDayTrend',
+          color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
+          data: [
+            ['product', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+            ['box3_0', 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+            ['box3_1', 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+            ['box5_1', 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+            ['box3_2', 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+            ['box6_3', 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+          ]
+        },
+      },
+
+      //推荐页一周热力数据
+      recommendColumnData: {
+        //一周热力数据
+        weeklyThermodynamic: {
+          title: '推荐页一周热力数据',
+          id: 'recommendWeeklyThermodynamic',
+          color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+          data: [
+            ['product', '0502-0226', '0527-0602', '增率'],
+            ['访问用户数', 49.3, 49.1, -0.5],
+            ['访问次数', 659.3, 660.6, -0.2],
+            ['页面点击\n用户数', 39.4, 37.8, -4.4],
+            ['页面点击次数', 338.3, 312.1, -7.3],
+            ['页面播放次数', 141.6, 123.6, -13.2],
+            ['页面播放时长', 216.6, 176.6, -18.2],
+            ['开机次数', 182.6, 187.6, 2.5],
+          ]
+        },
+        //按钮点击排行（万次）
+        buttonClickTOPData: {
+          title: "推荐页按钮点击排行（万次）",
+          id: 'recommendButtonClickTOP',
+          color: ["#5B9BD4", '#CBC9C9'],
+          data: [
+            ['product', '0527-0602', '0520-0526'],
+            ['推荐帮助', 1.4, 1.5],
+            ['竖图1', 1.5, 1.6],
+            ['横图', 2.6, 3.2],
+            ['百姓关注', 3.0, 3.2],
+            ['VIP限免', 4.5, 5.0],
+            ['竖图2', 5.9, 7.1],
+            ['点我换一换', 5.4, 6.0],
+            ['竖图3', 7.4, 7.0],
+            ['二屏', 9.4, 10.6],
+            ['看电视', 16.0, 17.2],
+            ['推荐个人中心', 23.4, 25.4],
+            ['推荐搜索', 33.7, 36.1],
+            ['历史记录', 70.6, 75.1],
+            ['三屏', 96.8, 104.2],
+            ['推荐页播放小窗口', 119.4, 129.0]
+          ]
+        },
+        //栏目各按钮点击次数
+        columnButtonClickNum: {
+          title: "推荐页各按钮点击次数",
+          data: [
+            [
+              { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ],
+            [
+              { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+              { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+            ]
+          ],
+        },
+        //部分按钮每日走势（次）
+        someButtonDayTrendData: {
+          title: '推荐页分按钮每日走势（次）',
+          id: 'recommendSomeButtonDayTrend',
+          color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
+          data: [
+            ['product', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+            ['box3_0', 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+            ['box3_1', 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+            ['box5_1', 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+            ['box3_2', 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+            ['box6_3', 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+          ]
+        },
+      },
+
+      //模块五 专题热力数 据及运营分析
+      // 一周专题数据概览（次）
+      thematicData: {
+        title: "一周专题数据概览（次）",
+        id: 'thematic',
+        color: ["#5B9BD4", '#CBC9C9'],
+        data: [
+          ['product', '0527-0602', '0520-0526'],
+          ['（电视剧）封神演义', 12.8, 12.0],
+          ['（电视剧）新白娘子传奇2019', 13.1, 15.5],
+          ['（电影）飞驰人生', 14.0, 12.6],
+          ['（电视剧）青春斗', 15.0, 14.2],
+          ['（少儿）猪猪侠之竞球小英雄第二部', 16.2, 16.7],
+          ['（少儿）熊出没之探险日记 第二季', 17.9, 16.1],
+          ['（电视剧）招摇', 18.8, 18.0],
+          ['（电视剧）黄河英雄', 19.1, 17.5],
+          ['（电视剧）夜空中最闪亮的星', 20.0, 18.6],
+          ['（综艺）王牌对王牌 第四季', 20.0, 17.2],
+          ['（少儿）汪汪队立大功 第四季', 20.2, 16.7],
+          ['（电影）狂暴凶狮', 20.4, 17.3],
+          ['（通灵妃）通灵妃', 20.8, 17.6],
+          ['湖南卫视（高清）', 20.8, 17.2],
+          ['（电影）绿毛怪格林奇（原声版）', 21.4, 19.0]
+        ]
+      },
+      //一周专题策划情况
+      monographicPlanData: {
+        title: "一周专题策划情况",
+        id: 'monographicPlan',
+        color: ["#EC7C30", "#FFC000", "#5B9BD4", "#6FAC46", "#A9D18E", "#FFD966", "#F8CAAC", "#FFCCCC", "#626262"],
+        data: [
+          { value: 735, name: '电视剧' },
+          { value: 510, name: '推荐' },
+          { value: 448, name: '电影' },
+          { value: 335, name: '动漫' },
+          { value: 210, name: '纪实' },
+          { value: 210, name: '游戏' },
+          { value: 135, name: '少儿' },
+          { value: 100, name: '体育' },
+          { value: 100, name: '综艺' }
+        ],
+      },
+
+      // 一周专题数据走势（动漫/热剧/少儿/电影专题点击数据走势）
+      specialTrendData1: {
+        title: "动漫/热剧/少儿/电影专题点击数据走势（次）",
+        id: "specialTrend1",
+        color: ["#DB9B9B", "#6FAC46", "#5B9BD4", "#FFC000", "#EC7C30", "#622C0A", "#4ADBC7", "#2C55E3", "#8B8989"],
+        data: [
+          ['product', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+          ['探剧社第六期', '-', '-', '-', '-', 12152, 17568, 19831],
+          ['致敬', 7053, 7001, 6895, 6520, 6752, 7150, 6980],
+          ['此情可待成追忆', 2742, 2602, 2172, 2069, 2148, 2260, 2105],
+          ['白玉兰奖', 7053, 6895, 6520, 6540, 6685, 6520, 6423],
+          ['怪兽世界大对决', '-', '-', '-', 19360, 36541, 36852, 32210],
+          ['神灯许愿专题', 19520, 18953, 9865],
+          ['童心萌动 动漫回忆集', 7850, 7785, 7951, 7241, 7321, 7589, 8000],
+          ['龙珠回味童年专题', '-', '-', '-', '-', 12452, 13254, 15210],
+          ['萌趣星六一活动', 5240, 6542, 7683, 9142, 8652, 7652, 8752]
+        ]
+      },
+      // 一周专题数据走势（推荐/体育/游戏/综艺/纪实专题点击数据走势）
+      specialTrendData2: {
+        title: "推荐/体育/游戏/综艺/纪实专题点击数据走势（次）",
+        id: "specialTrend2",
+        color: ["#DB9B9B", "#6FAC46", "#5B9BD4", "#FFC000", "#EC7C30", "#622C0A", "#4ADBC7", "#2C55E3", "#8B8989"],
+        data: [
+          ['product', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+          ['探剧社第六期', '-', '-', '-', '-', 12152, 17568, 19831],
+          ['致敬', 7053, 7001, 6895, 6520, 6752, 7150, 6980],
+          ['此情可待成追忆', 2742, 2602, 2172, 2069, 2148, 2260, 2105],
+          ['白玉兰奖', 7053, 6895, 6520, 6540, 6685, 6520, 6423],
+          ['怪兽世界大对决', '-', '-', '-', 19360, 36541, 36852, 32210],
+          ['神灯许愿专题', 19520, 18953, 9865],
+          ['童心萌动 动漫回忆集', 7850, 7785, 7951, 7241, 7321, 7589, 8000],
+          ['龙珠回味童年专题', '-', '-', '-', '-', 12452, 13254, 15210],
+          ['萌趣星六一活动', 5240, 6542, 7683, 9142, 8652, 7652, 8752]
+        ]
+      },
     }
   },
   mounted() {
-
+    $('.operational_left_content_body').scroll(function (event) {
+      let scrollTopHeight = $('.operational_left_content_body').scrollTop()
+      let weekly_whole_data = document.querySelector('#weekly_whole_data').offsetTop
+      let weekly_data_on_demand = document.querySelector('#weekly_data_on_demand').offsetTop
+      let broadcast_channel = document.querySelector('#broadcast_channel').offsetTop
+      let recommended_Column = document.querySelector('#recommended_Column').offsetTop
+      let special_thermodynamic_data = document.querySelector('#special_thermodynamic_data').offsetTop
+      // console.log('weekly_whole_data 0', weekly_whole_data)
+      // console.log('weekly_data_on_demand 1492', weekly_data_on_demand)
+      // console.log('broadcast_channel 3848', broadcast_channel)
+      // console.log('recommended_Column 7682', recommended_Column)
+      // console.log('special_thermodynamic_data 9365', special_thermodynamic_data)
+      if (0 <= scrollTopHeight) {
+        $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (1300 <= scrollTopHeight) {
+        $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (3700 <= scrollTopHeight) {
+        $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (7600 <= scrollTopHeight) {
+        $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (9200 <= scrollTopHeight) {
+        $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+    })
+  },
+  methods: {
+    //点击锚点实现左侧滚动
+    goAnchor(selector) {
+      let scrollDiv = document.querySelector('.operational_left_content_body')  //外层滚动容器元素
+      var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
+      scrollDiv.scrollTop = anchor.offsetTop
+      $('.operational_nav a').on('click', function () {
+        $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      })
+    }
   }
 }
 </script>
+<style>
+.OperationalWeekReport .el-tabs__nav-scroll {
+  padding-left: 20px;
+}
+</style>
 <style scoped>
 .OperationalWeekReport {
   height: 870px;
@@ -834,17 +1339,26 @@ export default {
 .main_programa_body {
   height: 400px;
 }
+
 .hebdomad_dibble_seeding_body,
-.hebdomad_live_data_body {
+.hebdomad_live_data_body,
+.thematic_data_body {
   height: 700px;
 }
 .hebdomad_thermodynamic_body,
 .types_programmes_body,
 .local_programs_play_body,
-.CCTV_channel_body {
+.CCTV_channel_body,
+.thematic_data_trend_body {
   height: 500px;
 }
 .local_channel_body {
   height: 850px;
+}
+.recommended_column_body {
+  height: 100%;
+}
+.thematic_data_trend_body {
+  padding-bottom: 24px;
 }
 </style>

@@ -61,7 +61,7 @@ export default {
         {
           name: this.pieData.content[0].title,
           type: 'pie',
-          radius: ['65%', '80%'],
+          radius: ['55%', '70%'],
           center: ['50%', '56%'],
           data: this.pieData.content[0].data,
           labelLine: {
@@ -92,7 +92,7 @@ export default {
         {
           name: this.pieData.content[1].title,
           type: 'pie',
-          radius: ['50%', '65%'],
+          radius: ['40%', '55%'],
           center: ['50%', '56%'],
           data: this.pieData.content[1].data,
           labelLine: {
