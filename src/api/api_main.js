@@ -2,14 +2,111 @@ import request from '@/utils/request'
 // import qs from 'qs'
 
 
+// let temp = {
+//     area: "all",
+//     operator: "all",
+//     method: 0,
+//     list: "all",
+//     start: "2019-07-12",
+//     end: "2019-07-31",
+//     increment: "少儿包"
+// };
+
+// var formData = new FormData();
+// var formData = new window.FormData();
+// formData.append("area", temp.area);
+// formData.append("operator", temp.operator);
+// formData.append("method", temp.method);
+// formData.append("list", temp.list);
+// formData.append("start", temp.start);
+// formData.append("end", temp.end);
 
 
+// let temp = {
+//     area: "all", // 地区码，all和贵州省地级市代码
+//     operator: "all", // 运营商列表：根据用户收视行为运营商api为准的列表单，all为全部运营商
+//     method: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
+//     list: "all", // 节目列表：根据栏目api为准的列表单，all为全部节目
+//     start: "2019-07-12",
+//     end: "2019-07-31",
+//     increment: "少儿包" // 增值包选项 如 少儿包
+// };
+
+// //////////////////////// G+TV用户收视日报表
+// G+TV用户收视日报表数据
+// post http://{{iptv}}/api/users/daliyReport
+export function users_daliyReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/daliyReport',
+        data: postData
+    })
+}
+
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// G+TV用户收视日报表数据运营商
+// get http://{{iptv}}/api/users/daliyReport/operators
+export function users_daliyReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/daliyReport/operators',
+    })
+}
+
+// //////////////////////// G+TV用户发展活跃日报表
+
+// G+TV用户发展活跃日报表数据
+// post http://{{iptv}}/api/liveUsers/daliyReport
+export function liveUsers_daliyReport(postData) {
+    return request({
+        method: 'post',
+        url: '/liveUsers/daliyReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// G+TV用户发展活跃日报表数据运营商
+// get http://{{iptv}}/api/liveUsers/daliyReport/operators
+export function liveUsers_daliyReport_operators() {
+    return request({
+        method: 'get',
+        url: '/liveUsers/daliyReport/operators',
+    })
+}
+
+// //////////////////////// 贵州广电新媒体G+TV移动运营数据周报
+// //////////////////////// G+TV月度用户收视行为分析报告
+// //////////////////////// 用户收视行为周报
+// //////////////////////// 市场业务运营数据分析周报
+// //////////////////////// 电信VIP增值业务专项分析
+// //////////////////////// 专区数据报告
 
 // //////////////////////// 用户收视行为
 
+// 用户收视行为收视top15
+// get http://{{iptv}}/api/userAction/top
+export function userAction_top() {
+    return request({
+        method: 'get',
+        url: '/userAction/top',
+    })
+}
+
+
 // 用户收视行为标签搜索
 // post http://{{iptv}}/api/userAction
-
 export function userAction(postData) {
     return request({
         method: 'post',
@@ -48,12 +145,20 @@ export function userAction_operator() {
 }
 
 // //////////////////////// 热点控制
-// //////////////////////// 定期报告
+
+// 热点监控
+// get http://{{iptv}}/api/hot/top
+export function hot_top() {
+    return request({
+        method: 'get',
+        url: '/hot/top',
+    })
+}
+
 // //////////////////////// 总体数据展示
 
 // 获取贵州省地区码
 // get http://{{iptv}}/api/areaCode
-
 export function areaCode() {
     return request({
         method: 'get',
@@ -63,19 +168,59 @@ export function areaCode() {
 
 // 总体数据
 // http://{{iptv}}/api/users/total
-
-export function users_total(code) {
+export function users_total(code, date) {
     return request({
         method: 'get',
         url: '/users/total',
         params: {
-            code: code
+            code: code,
+            date: date
         }
     })
 }
 
 
+
+
 // //////////////////////// 增值业务
+
+// 增值业务搜索
+// post http://{{iptv}}/api/increment
+export function increment(postData) {
+    return request({
+        method: 'post',
+        url: '/api/increment',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     list: list,
+//     start: start,
+//     end: end
+// }
+
+// 获取增值业务栏目
+// get http://{{iptv}}/api/increment/programs/list
+export function increment_programs_list() {
+    return request({
+        method: 'get',
+        url: '/increment/programs/list',
+    })
+}
+
+
+// 获取增值业务运营商
+// get http://{{iptv}}/api/increment/operators
+export function increment_operators() {
+    return request({
+        method: 'get',
+        url: '/vip/operators',
+    })
+}
+
+
 // //////////////////////// 用户生命周期
 
 // 用户生命周期标签搜索
@@ -131,6 +276,63 @@ export function program_search(postData) {
 // }
 
 // //////////////////////// vip
+
+// 获取vip运营商
+// get http://{{iptv}}/api/vip/operators
+export function vip_operators() {
+    return request({
+        method: 'get',
+        url: '/vip/operators',
+    })
+}
+
+// vip标签搜索
+// post http://{{iptv}}/api/vip/increment
+export function vip_increment(postData) {
+    return request({
+        method: 'post',
+        url: '/vip/increment',
+        data: postData
+    })
+}
+
+// let temp = {
+//     area: area,
+//     operator: operator,
+//     method: method,
+//     list: list,
+//     start: start,
+//     end: end,
+//     increment:increment
+// }
+
+// 获取vip栏目
+// get http://{{iptv}}/api/vip/programs/list
+export function vip_programs_list() {
+    return request({
+        method: 'get',
+        url: '/vip/programs/list',
+    })
+}
+
+// 获取vip数据地区码
+// get http://{{iptv}}/api/vip/areaCode
+export function vip_areaCode() {
+    return request({
+        method: 'get',
+        url: '/vip/areaCode',
+    })
+}
+
+// 获取vip数据增值包数据
+// get http://{{iptv}}/api/vip/increment
+export function vip_increment_get() {
+    return request({
+        method: 'get',
+        url: '/vip/increment',
+    })
+}
+
 // //////////////////////// epg
 
 // epg标签搜索
@@ -165,7 +367,6 @@ export function epg_programs() {
 
 // 获取epg运营商
 // get http://{{iptv}}/api/epg/operators
-
 export function epg_operators() {
     return request({
         method: 'get',
@@ -175,15 +376,50 @@ export function epg_operators() {
 
 // //////////////////////// 大屏页面
 
-// // 直播，点播，回看总体数据统计
-// // get http://{{iptv}}/api/broadcast/total
-// export function broadcast_total() {
-//     return request({
-//         method: 'get',
-//         url: '/broadcast/total',
-//     })
-// }
+// 收视数据展示
+// get http://{{iptv}}/api/media/watch/total
+export function media_watch_total() {
+    return request({
+        method: 'get',
+        url: '/media/watch/total',
+    })
+}
 
+// 媒资数据总收视数据
+// get http://{{iptv}}/api/media/watch
+export function media_watch() {
+    return request({
+        method: 'get',
+        url: '/api/media/watch',
+    })
+}
+
+// 媒资数据总节目数据
+// get http://{{iptv}}/api/media/content
+export function media_content() {
+    return request({
+        method: 'get',
+        url: '/api/media/content',
+    })
+}
+
+// 本土原创节目数据
+// get http://{{iptv}}/api/demands/location
+export function demands_location() {
+    return request({
+        method: 'get',
+        url: '/api/demands/location',
+    })
+}
+
+// 专区节目周累计点播收视时长
+// get http://{{iptv}}/api/demands/week/duration
+export function demands_week_duration() {
+    return request({
+        method: 'get',
+        url: '/api/demands/week/duration',
+    })
+}
 
 // 专区节目周累计点播量
 // get http://{{iptv}}/api/demands/week
