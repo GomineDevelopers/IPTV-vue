@@ -43,9 +43,9 @@
       <el-row class="model_title">
         <span class="title_border_left"></span>电信增值业务周发展情况
       </el-row>
+      <com-MOWR-m8></com-MOWR-m8>
     </el-row>
 
-    <com-MOWR-m8></com-MOWR-m8>
     <!-- 市场业务运营数据分析周报 -->
   </div>
 </template>

@@ -92,10 +92,10 @@ export default {
       MOWR_m2_A1: {
         title: "",
         id: "MOWR_m2_A1",
-        color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
+        color: ["#8064A2", "#9BBB59", "#C0504D"],
         data: [
           [
-            "product",
+            "product", 
             "6月24日",
             "6月25日",
             "6月26日",
