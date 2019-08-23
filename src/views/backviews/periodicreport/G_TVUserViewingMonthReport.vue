@@ -1722,10 +1722,8 @@ export default {
     //监听滚动事件
     $('.monthly_report_body').scroll(function (event) {
       let scrollTopHeight = $('.monthly_report_body').scrollTop()
-      let user_development_data = document.querySelector('#user_development_data').offsetTop
-      let operational_data = document.querySelector('#operational_data').offsetTop
-      // console.log('user_development_data 0', user_development_data)
-      // console.log('operational_data 3384', operational_data)
+      // let user_development_data = document.querySelector('#user_development_data').offsetTop
+      // let operational_data = document.querySelector('#operational_data').offsetTop
       if (0 <= scrollTopHeight) {
         $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
       }

@@ -33,7 +33,7 @@ export default new Router({
             { path: '/backhome/periodicreport/G_TVUserViewingDayReport', name: "G_TVUserViewingDayReport", component: () => import('@/views/backviews/periodicreport/G_TVUserViewingDayReport') },
             { path: '/backhome/periodicreport/MarketOperationalWeekReport', name: "MarketOperationalWeekReport", component: () => import('@/views/backviews/periodicreport/MarketOperationalWeekReport') },
             { path: '/backhome/periodicreport/OperationalWeekReport', name: "OperationalWeekReport", component: () => import('@/views/backviews/periodicreport/OperationalWeekReport') },
-            { path: '/backhome/periodicreport/G_TUserViewingWeekReport', name: "G_TUserViewingWeekReport", component: () => import('@/views/backviews/periodicreport/G_TUserViewingWeekReport') },
+            { path: '/backhome/periodicreport/G_TVUserViewingWeekReport', name: "G_TUserViewingWeekReport", component: () => import('@/views/backviews/periodicreport/G_TVUserViewingWeekReport') },
             { path: '/backhome/periodicreport/VIPAddMonthReport', name: "VIPAddMonthReport", component: () => import('@/views/backviews/periodicreport/VIPAddMonthReport') },
             { path: '/backhome/periodicreport/G_TVUserViewingMonthReport', name: "G_TVUserViewingMonthReport", component: () => import('@/views/backviews/periodicreport/G_TVUserViewingMonthReport') },
             { path: '/backhome/periodicreport/SpecialZoneReport', name: "SpecialZoneReport", component: () => import('@/views/backviews/periodicreport/SpecialZoneReport') },

@@ -139,7 +139,7 @@ export default {
         {
           name: "G+TV用户收视行为周报",
           pointStatus: false,
-          routerLink: '/backhome/periodicreport/G_TUserViewingWeekReport'
+          routerLink: '/backhome/periodicreport/G_TVUserViewingWeekReport'
         }
       ],
       monthly: [
@@ -161,7 +161,7 @@ export default {
           routerLink: '/backhome/periodicreport/SpecialZoneReport'
         }
       ],
-      operator: ["总体", "移动", "联通", "电信","其他"],
+      operator: ["总体", "移动", "联通", "电信", "其他"],
 
       time: {
         day: [

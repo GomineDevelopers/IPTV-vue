@@ -2,21 +2,71 @@
   <div class="G_TUserViewingWeekReport height_auto">
     <!-- 收视行为开始 -->
     <el-row class="viewing_behavior_report">
-      <el-row class="periodic_report_title m_textalign_c">G+TV用户收视行为周报</el-row>
+      <el-col class="height_auto viewing_behavior_report_body">
+        <el-row class="periodic_report_title m_textalign_c">G+TV用户收视行为周报</el-row>
+        <el-row class="viewing_behavior_report_left">
+          <!-- ■■■■■■■■■■ 1 用户发展与活跃数据 -->
+          <el-row id="module1">
+            <com-UVWR-m1></com-UVWR-m1>
+          </el-row>
 
+          <!-- ■■■■■■■■■■ 2 移动侧节目收视与页面热度 -->
+          <el-row id="module2">
+            <com-UVWR-m2></com-UVWR-m2>
+          </el-row>
 
-      <!-- <el-col class="height_auto" :span="24">G+TV用户收视行为周报</el-col> -->
+          <!-- ■■■■■■■■■■ 3 电信侧节目收视与页面热度 -->
+          <el-row id="module3">
+            <com-UVWR-m3></com-UVWR-m3>
+          </el-row>
 
-      <!-- ■■■■■■■■■■ 1 用户发展与活跃数据 -->
-      <com-UVWR-m1></com-UVWR-m1>
-      <!-- ■■■■■■■■■■ 2 移动侧节目收视与页面热度 -->
-      <com-UVWR-m2></com-UVWR-m2>
-      <!-- ■■■■■■■■■■ 3 电信侧节目收视与页面热度 -->
-      <com-UVWR-m3></com-UVWR-m3>
-      <!-- ■■■■■■■■■■ 4 联通侧节目收视与页面热度 -->
-      <com-UVWR-m4></com-UVWR-m4>
-      <!-- ■■■■■■■■■■ 5 本土原创节目点播数据 -->
-      <com-UVWR-m5></com-UVWR-m5>
+          <!-- ■■■■■■■■■■ 4 联通侧节目收视与页面热度 -->
+          <el-row id="module4">
+            <com-UVWR-m4></com-UVWR-m4>
+          </el-row>
+
+          <!-- ■■■■■■■■■■ 5 本土原创节目点播数据 -->
+          <el-row id="module5">
+            <com-UVWR-m5></com-UVWR-m5>
+          </el-row>
+        </el-row>
+      </el-col>
+
+      <!-- 右侧导航开始 -->
+      <el-col class="viewing_behavior_nav height_auto">
+        <el-row>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link1 avtive_link"
+            @click="goAnchor('#module1')"
+          >用户发展与活跃数据</a>
+        </el-row>
+        <el-row>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link2"
+            @click="goAnchor('#module2')"
+          >移动侧节目收视与页面热度</a>
+        </el-row>
+        <el-row>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link3"
+            @click="goAnchor('#module3')"
+          >电信侧节目收视与页面热度</a>
+        </el-row>
+        <el-row>
+          <a
+            href="javascript:void(0)"
+            class="anchor_link4"
+            @click="goAnchor('#module4')"
+          >联通侧节目收视与页面热度</a>
+        </el-row>
+        <el-row>
+          <a href="javascript:void(0)" class="anchor_link5" @click="goAnchor('#module5')">本土原创节目点播数据</a>
+        </el-row>
+      </el-col>
+      <!-- 右侧导航结束 -->
     </el-row>
     <!-- 收视行为结束 -->
   </div>
@@ -43,10 +93,29 @@ export default {
     return {};
   },
   mounted() {
+    //监听滚动事件
+    $('.viewing_behavior_report_left').scroll(function (event) {
+      let scrollTopHeight = $('.viewing_behavior_report_left').scrollTop()
+      if (0 <= scrollTopHeight) {
+        $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (4300 <= scrollTopHeight) {
+        $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (8600 <= scrollTopHeight) {
+        $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (12900 <= scrollTopHeight) {
+        $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (17200 <= scrollTopHeight) {
+        $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+    })
     // 性能：渲染使用下拉加载才渲染
-    this.drawLine1_A();
-    this.drawLine1_B();
-    this.drawLine1_C();
+    this.drawLine1_A()
+    this.drawLine1_B()
+    this.drawLine1_C()
   },
   methods: {
     drawLine1_A() {
@@ -102,7 +171,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              formatter: function() {
+              formatter: function () {
                 return ""; // 隐藏Y左边数据
               }
             },
@@ -134,7 +203,7 @@ export default {
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function(params) {
+                color: function (params) {
                   let colorList = ["#FFAA89", "#FF6123"];
                   return colorList[params.dataIndex];
                 },
@@ -157,7 +226,7 @@ export default {
         myChart.resize();
       });
     },
-    drawLine1_B() {},
+    drawLine1_B() { },
     drawLine1_C() {
       var myChart = this.$echarts.init(document.getElementById("echartsA"));
       var option = {
@@ -211,7 +280,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              formatter: function() {
+              formatter: function () {
                 return ""; // 隐藏Y左边数据
               }
             },
@@ -243,7 +312,7 @@ export default {
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function(params) {
+                color: function (params) {
                   let colorList = ["#FFAA89", "#FF6123"];
                   return colorList[params.dataIndex];
                 },
@@ -265,16 +334,78 @@ export default {
       window.addEventListener("resize", () => {
         myChart.resize();
       });
+    },
+    //点击锚点实现左侧滚动
+    goAnchor(selector) {
+      let scrollDiv = document.querySelector('.viewing_behavior_report_left')  //外层滚动容器元素
+      var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
+      scrollDiv.scrollTop = anchor.offsetTop
+      $('.viewing_behavior_nav a').on('click', function () {
+        $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      })
     }
   }
 };
 </script>
 <style scoped>
 .viewing_behavior_report {
-  height: 500px;
-  margin: 24px 0px;
+  height: 860px;
+  margin: 14px 0px;
+  display: -webkit-flex;
+  display: flex;
 }
-.G_TUserViewingWeekReport{
+.viewing_behavior_report_body {
+  flex: 1;
+  height: 100%;
+}
+.viewing_behavior_report_left {
+  height: calc(100% - 50px);
+  padding-bottom: 40px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+/*webkit内核*/
+.viewing_behavior_report_left::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+/*o内核*/
+.viewing_behavior_report_left .-o-scrollbar {
+  -moz-appearance: none !important;
+  background: rgba(0, 255, 0, 0) !important;
+}
+/*IE10,IE11,IE12*/
+.viewing_behavior_report_left {
+  -ms-scroll-chaining: chained;
+  -ms-overflow-style: none;
+  -ms-content-zooming: zoom;
+  -ms-scroll-rails: none;
+  -ms-content-zoom-limit-min: 100%;
+  -ms-content-zoom-limit-max: 500%;
+  -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+  -ms-overflow-style: none;
+  overflow: auto;
+}
+
+.viewing_behavior_nav {
+  width: 220px;
+}
+.viewing_behavior_nav {
+  padding-left: 20px;
+  text-align: left;
+}
+.viewing_behavior_nav .el-row {
+  margin-bottom: 12px;
+}
+.viewing_behavior_nav a {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+.viewing_behavior_nav .avtive_link {
+  color: #ff6123;
+}
+.G_TUserViewingWeekReport {
   text-align: left;
 }
 </style>
