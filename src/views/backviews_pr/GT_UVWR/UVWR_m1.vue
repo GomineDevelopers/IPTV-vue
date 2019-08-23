@@ -5,7 +5,7 @@
       <span class="title_border_left"></span>G+TV用户发展数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row :gutter="100" class="">
+      <el-row :gutter="100" class>
         <el-col :span="8">
           <!-- 柱状图 -->
           <p class="m_common_sm_title_font">平台累计在册用户数总览</p>
@@ -69,7 +69,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 饼图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户占比</p>
           <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label>
@@ -85,7 +85,7 @@
       </el-row>
 
       <!-- 曲线图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户数走势（户）</p>
           <smooth-line-chart :smoothLineData="GT_UVWR1_C4"></smooth-line-chart>
@@ -109,14 +109,14 @@
       <span class="title_border_left"></span>开机活跃数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row class="">
+      <el-row class>
         <el-col :span="10">
           <p class="m_common_sm_title_font">各运营商周一开机率</p>
           <bar-chart-single2 :chartData="GT_UVWR1_D1"></bar-chart-single2>
         </el-col>
         <el-col :span="14">
           <p class="m_common_sm_title_font">各市州一周开机率</p>
-          <bar-chart-single2 :chartData="GT_UVWR1_D2"></bar-chart-single2>
+          <bar-charts-stack3 :chartData="GT_UVWR1_D2"></bar-charts-stack3>
         </el-col>
       </el-row>
 
@@ -132,7 +132,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">移动</p>
           <bar-list-chart :barListData="GT_UVWR1_E1"></bar-list-chart>
@@ -153,7 +153,7 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">移动</p>
           <bar-list-chart :barListData="GT_UVWR1_F1"></bar-list-chart>
@@ -180,6 +180,8 @@ import BarChartsStack from "@/views/backcoms/commoncomponents2/BarChartsStack_Ch
 import SmoothLineChart from "@/views/backcoms/commoncomponents2/SmoothLineChart_Change"; //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
 
+import BarChartsStack3 from "@/views/backcoms/commoncomponents2/BarChartsStack_Change3"; // 公用柱状图堆叠3 - 左侧Y轴百分比
+
 export default {
   name: "UVWR_m1",
   components: {
@@ -187,6 +189,7 @@ export default {
     "bar-chart-single2": BarChartSingle2,
     "pie-center-label": pie_center_label,
     "bar-charts-stack": BarChartsStack,
+    "bar-charts-stack3": BarChartsStack3,
     "smooth-line-chart": SmoothLineChart,
     "bar-list-chart": BarListChart
   },
@@ -514,20 +517,23 @@ export default {
         m_barWidth: "20%"
       },
       GT_UVWR1_D2: {
-        data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["移动", 48.0, 48.1],
-          ["电信", 54.2, 57.4],
-          ["联通", 20.1, 20.0]
-        ],
         title: "",
         id: "GT_UVWR1_D2",
-        height: "height:300px;",
-        color: ["#EDEDED", "#5B9BD5"],
-        ifYaxisShow: true,
-        ifLegendShow: false,
-        m_barWidth: "20%"
+        color: ["#5B9BD5", "#ED7D31", "#FFC000"],
+        data: [
+          ["product", "移动", "联通", "电信"],
+          ["贵阳", 23.3, 25.8, 23.7],
+          ["遵义", 23.3, 35.8, 23.7],
+          ["毕节", 23.3, 25.8, 23.7],
+          ["铜仁", 23.3, 15.8, 23.7],
+          ["六盘水", 23.3, 25.8, 23.7],
+          ["黔南", 23.3, 25.8, 23.7],
+          ["黔东南", 23.3, 35.8, 23.7],
+          ["黔西南", 23.3, 25.8, 23.7],
+          ["安顺", 23.3, 15.8, 23.7]
+        ]
       },
+
       GT_UVWR1_E1: {
         title: "",
         id: "GT_UVWR1_E1",
@@ -900,7 +906,6 @@ export default {
 </script>
 
 <style scoped>
-
 .font_color_r {
   color: #bf0000;
   font-weight: bold;

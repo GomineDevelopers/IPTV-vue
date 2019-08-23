@@ -88,10 +88,10 @@
       </el-col>
       <el-col class="data_bottom_right" :span="12">
         <el-row class="model_title">
-          <span class="title_border_left"></span>日活趋势
+          <span class="title_border_left"></span>日活趋势（万）
         </el-row>
         <div class="chart_body back_white">
-          <line-chart-single :lineData="dailyLivingTrendData"></line-chart-single>
+          <line-chart-single2 :lineData="dailyLivingTrendData"></line-chart-single2>
         </div>
       </el-col>
     </el-row>
@@ -102,7 +102,7 @@ import MyMap from "@/views/backcoms/datatotal/MyMap"; // 地图
 import DataOverview from "@/views/backcoms/datatotal/DataOverview"; // 数据总览
 import DataShow from "@/views/backcoms/datatotal/DataShow"; // 数据展示
 import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画像
-import LineChartSingle from '@/views/backcoms/commoncomponents/LineChartSingle'  //单数据折线图组件(日活趋势组件)
+import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件(日活趋势组件)
 
 export default {
   name: "DataTotal", //数据总览
@@ -111,7 +111,7 @@ export default {
     "com-dataoverview": DataOverview,
     "com-datashow": DataShow,
     "com-userportrait": UserPortrait,
-    "line-chart-single": LineChartSingle,
+    "line-chart-single2": LineChartSingle2
   },
   data() {
     return {
@@ -175,14 +175,90 @@ export default {
         title: "",
         id: "dailyLivingTrend",
         color: ["#3BA0FF", "#FF6123", "#975FE4"],
+        date_year: "2019年",
+        date_month: "8月",
         data: [
-          ['product', "09月", "10月", "11月", "12月", "01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月"],
-          ["中国移动", 140, 170, 180, 200, 234, 240, 259, 265, 270, 284, 298, 300],
-          ["中国联通", 100, 106, 119, 123, 138, 123, 118, 124, 130, 136, 149, 151],
-          ["中国电信", 45, 52, 63, 68, 79, 72, 60, 65, 70, 62, 68, 78, 139, 121]
+          [
+            "product",
+            "12日",
+            "13日",
+            "14日",
+            "15日",
+            "16日",
+            "17日",
+            "18日",
+            "19日",
+            "20日",
+            "21日",
+            "22日",
+            "23日",
+            "24日",
+            "25日",
+            "26日",
+            "27日"
+          ],
+          [
+            "中国移动",
+            140,
+            170,
+            180,
+            200,
+            234,
+            240,
+            259,
+            265,
+            270,
+            284,
+            298,
+            300,
+            259,
+            265,
+            270,
+            284
+          ],
+          [
+            "中国联通",
+            100,
+            106,
+            119,
+            123,
+            138,
+            123,
+            118,
+            124,
+            130,
+            136,
+            149,
+            151,
+            118,
+            124,
+            130,
+            136
+          ],
+          [
+            "中国电信",
+            45,
+            52,
+            63,
+            68,
+            79,
+            72,
+            60,
+            65,
+            70,
+            62,
+            68,
+            78,
+            65,
+            65,
+            65,
+            70,
+            62,
+            68
+          ]
         ]
       }
-    }
+    };
   },
   methods: {
     setProvince(province) {

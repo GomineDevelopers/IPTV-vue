@@ -144,7 +144,7 @@ export default {
   height: 63px;
 }
 .tr_row td {
-  background: #0e2a58;
+  background: #afafaf;
   border: 0;
   font-size: 14px;
   color: #ffffff;

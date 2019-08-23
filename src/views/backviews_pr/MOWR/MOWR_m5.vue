@@ -89,7 +89,7 @@ export default {
   width: 100%;
 }
 .tr_title td {
-  background: #a6a6a6;
+  background: #92d050;
   border: 0;
   font-size: 14px;
   color: #ffffff;
@@ -100,7 +100,7 @@ export default {
   height: 63px;
 }
 .tr_row td {
-  background: #0e2a58;
+  background: #afafaf;
   border: 0;
   font-size: 14px;
   color: #ffffff;

@@ -8,42 +8,42 @@
       <el-row class="model_title">
         <span class="title_border_left"></span>周用户发展情况
       </el-row>
-      <com-MOWR-m1></com-MOWR-m1>
+      <com-MOWR-m1 class="m_marginbottom_pxA"></com-MOWR-m1>
       <!-- /////////////MOWR_2 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>24小时新增用户激活率
       </el-row>
-      <com-MOWR-m2></com-MOWR-m2>
+      <com-MOWR-m2 class="m_marginbottom_pxA"></com-MOWR-m2>
       <!-- /////////////MOWR_3 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（移动）
       </el-row>
-      <com-MOWR-m3></com-MOWR-m3>
+      <com-MOWR-m3 class="m_marginbottom_pxA"></com-MOWR-m3>
       <!-- /////////////MOWR_4 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（电信）
       </el-row>
-      <com-MOWR-m4></com-MOWR-m4>
+      <com-MOWR-m4 class="m_marginbottom_pxA"></com-MOWR-m4>
       <!-- /////////////MOWR_5 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（联通）
       </el-row>
-      <com-MOWR-m5></com-MOWR-m5>
+      <com-MOWR-m5 class="m_marginbottom_pxA"></com-MOWR-m5>
       <!-- /////////////MOWR_6 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>停机用户变化情况
       </el-row>
-      <com-MOWR-m6></com-MOWR-m6>
+      <com-MOWR-m6 class="m_marginbottom_pxA"></com-MOWR-m6>
       <!-- /////////////MOWR_7 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>销、停机用户变化情况
       </el-row>
-      <com-MOWR-m7></com-MOWR-m7>
+      <com-MOWR-m7 class="m_marginbottom_pxA"></com-MOWR-m7>
       <!-- /////////////MOWR_8 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>电信增值业务周发展情况
       </el-row>
-      <com-MOWR-m8></com-MOWR-m8>
+      <com-MOWR-m8 class="m_marginbottom_pxA"></com-MOWR-m8>
     </el-row>
 
     <!-- 市场业务运营数据分析周报 -->

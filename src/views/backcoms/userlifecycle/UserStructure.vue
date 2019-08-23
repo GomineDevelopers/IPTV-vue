@@ -1,10 +1,23 @@
 <template>
   <div class="UserStructure">
-    <div id="echartsUA" :style="{width: '14vw',height: '14vw'}"></div>
+    <!-- <div id="echartsUA" :style="{width: '14vw',height: '14vw'}"></div>
     <div class="arrow" :style="{width: '3vw',height: '14vw'}">
       <p class="a_content">订购用户</p>
     </div>
-    <div id="echartsUB" :style="{width: '14vw',height: '14vw'}"></div>
+    <div id="echartsUB" :style="{width: '14vw',height: '14vw'}"></div>-->
+    <el-row :style="{width: '100%',height: '100%'}">
+      <el-col :span="11">
+        <div id="echartsUA" :style="{width: '100%',height: '14vw'}"></div>
+      </el-col>
+      <el-col :span="2">
+        <div class="arrow" :style="{width: '100%',height: '14vw'}">
+          <p class="a_content">订购用户</p>
+        </div>
+      </el-col>
+      <el-col :span="11">
+        <div id="echartsUB" :style="{width: '100%',height: '14vw'}"></div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -39,7 +52,7 @@ export default {
         series: [
           {
             type: "pie",
-            radius: "55%",
+            radius: "60%",
             center: ["45%", "50%"],
             selectedMode: "single",
             color: ["#FCB84F", "#F97E6F"],
@@ -96,7 +109,7 @@ export default {
         series: [
           {
             type: "pie",
-            radius: "55%",
+            radius: "60%",
             center: ["45%", "50%"],
             selectedMode: "single",
             color: ["#FCB84F", "#B37CF4", "#7ECDF4", "#F97E6F", "#4ADBC7"],
@@ -156,12 +169,14 @@ export default {
   font-size: 12px;
   color: #ffffff;
   vertical-align: top;
-  margin-top: 20%;
+  /* margin-top: 20%; */
+  margin-top: 200%;
 }
 .UserStructure .a_content {
   margin: 0;
   margin: auto;
-  margin-top: 10%;
+  /* margin-top: 10%; */
+  margin-top: 12%;
 }
 </style>
 
