@@ -87,11 +87,166 @@ export function liveUsers_daliyReport_operators() {
 }
 
 // //////////////////////// 贵州广电新媒体G+TV移动运营数据周报
+
+// 贵州广电新媒体G+TV移动运营数据周报
+// post http://{{iptv}}/api/users/mobileReport
+export function users_mobileReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/mobileReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// 贵州广电新媒体G+TV移动运营数据周报数据运营商
+// get http://{{iptv}}/api/users/mobileReport/operators
+export function users_mobileReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/mobileReport/operators',
+    })
+}
+
 // //////////////////////// G+TV月度用户收视行为分析报告
+
+// G+TV月度用户收视行为分析报告数据
+// post http://{{iptv}}/api/users/monthActiveReport
+export function users_monthActiveReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/monthActiveReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// G+TV月度用户收视行为分析报告数据运营商
+// get http://{{iptv}}/api/users/monthActiveReport/operators
+export function users_monthActiveReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/monthActiveReport/operators',
+    })
+}
+
 // //////////////////////// 用户收视行为周报
+
+// 用户收视行为周报数据
+// post http://{{iptv}}/api/users/weekActiveReport
+export function users_weekActiveReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/weekActiveReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// 用户收视行为周报数据运营商
+// get http://{{iptv}}/api/users/weekActiveReport/operators
+export function users_weekActiveReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/weekActiveReport/operators',
+    })
+}
+
+
 // //////////////////////// 市场业务运营数据分析周报
+
+// 市场业务运营数据分析周报数据
+// post http://{{iptv}}/api/users/marketReport
+export function users_marketReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/marketReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// 市场业务运营数据分析周报运营商
+// get http://{{iptv}}/api/users/marketReport/operators
+export function users_marketReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/marketReport/operators',
+    })
+}
+
+
 // //////////////////////// 电信VIP增值业务专项分析
+// 电信VIP增值业务专项分析数据
+// post http://{{iptv}}/api/users/vipReport
+export function users_vipReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/vipReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// 电信VIP增值业务专项分析数据运营商
+// get http://{{iptv}}/api/users/vipReport/operators
+export function users_vipReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/vipReport/operators',
+    })
+}
+
 // //////////////////////// 专区数据报告
+// 专区数据
+// post http://{{iptv}}/api/users/subReport
+export function users_subReport(postData) {
+    return request({
+        method: 'post',
+        url: '/users/subReport',
+        data: postData
+    })
+}
+
+// let temp = {
+//     operator: operator,
+//     start: start,
+//     end: end
+// }
+
+// 专区数据运营商
+// get http://{{iptv}}/api/users/subReport/operators
+export function users_subReport_operators() {
+    return request({
+        method: 'get',
+        url: '/users/subReport/operators',
+    })
+}
 
 // //////////////////////// 用户收视行为
 

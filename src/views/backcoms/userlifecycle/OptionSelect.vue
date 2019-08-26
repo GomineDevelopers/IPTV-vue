@@ -2,7 +2,17 @@
   <div class="OptionSelect">
     <div class="region">
       <span class="font_title">地区：</span>
-      <el-checkbox-group v-model=" regionChoose" v-for="(item,index) in region" :key="index + 'a' ">
+      <el-checkbox
+        :indeterminate="region_isIndeterminate"
+        v-model="region_checkAll"
+        @change="regionChoose_all"
+      >全部</el-checkbox>
+      <el-checkbox-group
+        @change="regionChoose_change"
+        v-model=" regionChoose"
+        v-for="(item,index) in region"
+        :key="index + 'a' "
+      >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
@@ -62,12 +72,13 @@
 </template>
 
 <script>
+var regionChoose_old;
 export default {
   name: "OptionSelect",
   data() {
     return {
       region: [
-        "全部",
+        // "全部",
         "贵阳",
         "遵义",
         "六盘水",
@@ -79,7 +90,10 @@ export default {
         "黔西南"
       ],
       regionChoose: [],
-      operator: ["全部", "移动", "联通", "电信","其他"],
+      region_checkAll: false,
+      region_isIndeterminate: true,
+
+      operator: ["全部", "移动", "联通", "电信", "其他"],
       operatorChoose: [],
       time: {
         day: [
@@ -186,33 +200,79 @@ export default {
       }
     };
   },
-  methods: {}
+  methods: {
+    regionChoose_change(event) {
+      // console.log("~~~~~~~~~~~");
+      regionChoose_old = this.regionChoose;
+      console.log(event);
+
+      let checkedCount = event.length;
+      this.region_checkAll = checkedCount === this.region.length;
+      this.region_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.region.length;
+
+      // console.log(this.regionChoose);
+      // this.regionChoose = temp;
+      console.log(this.regionChoose);
+      let vm = this;
+      setTimeout(function() {
+        vm.regionChoose = [];
+      }, 2000);
+    },
+    regionChoose_all(val) {
+      console.log(val);
+      this.regionChoose = val ? this.region : [];
+      this.region_isIndeterminate = false;
+    },
+    delete_repet(val1, val2) {
+      // 数组去重
+
+      //做比较的两个数组
+      // var array1 = ["a", "b", "c", "d", "e"]; //数组1
+      // var array2 = ["d", "f", "e", "a", "p"]; //数组2
+      var array1 = val1; //数组1
+      var array2 = val2; //数组2
+      //临时数组存放
+      var tempArray1 = []; //临时数组1
+      var tempArray2 = []; //临时数组2
+      for (var i = 0; i < array2.length; i++) {
+        tempArray1[array2[i]] = true; //将数array2 中的元素值作为tempArray1 中的键，值为true；
+      }
+
+      for (var i = 0; i < array1.length; i++) {
+        if (!tempArray1[array1[i]]) {
+          tempArray2.push(array1[i]); //过滤array1 中与array2 相同的元素；
+        }
+      }
+      // console.log(tempArray2);
+      return tempArray2;
+    }
+  }
 };
 </script>
 
 <style>
-
-
 /* elementui 复选框背景色 统一修改 */
 
 .el-checkbox__input.is-checked + .el-checkbox__label {
-  color: #FF6123;
+  color: #ff6123;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #FF6123;
-  border-color: #FF6123;
+  background-color: #ff6123;
+  border-color: #ff6123;
 }
 .el-checkbox__inner:hover {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 .el-checkbox__input.is-focus .el-checkbox__innder {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 
 /* 时间范围 */
-.el-date-table td.end-date span, .el-date-table td.start-date span {
-    background-color: #FF6123;
+.el-date-table td.end-date span,
+.el-date-table td.start-date span {
+  background-color: #ff6123;
 }
 </style>
 
@@ -251,7 +311,7 @@ export default {
   display: inline-block;
 }
 
-.OptionSelect .submitP{
+.OptionSelect .submitP {
   margin-top: 14px;
 }
 
