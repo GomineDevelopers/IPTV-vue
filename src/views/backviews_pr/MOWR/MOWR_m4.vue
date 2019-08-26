@@ -53,7 +53,7 @@
 export default {
   name: "MOWR_m4",
   components: {},
-  mounted() {},
+  mounted() { },
   data() {
     return {
       form: {
@@ -81,6 +81,7 @@ export default {
 .m_table {
   width: 100%;
   text-align: center;
+  border-collapse: collapse;
 }
 .tr_title {
   width: 100%;
@@ -89,10 +90,11 @@ export default {
   width: 100%;
 }
 .tr_title td {
-  background: #92d050;
-  border: 0;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  font-weight: bold;
   font-size: 14px;
-  color: #ffffff;
+  color: #333;
   width: auto;
   margin: auto;
   text-align: center;
@@ -100,10 +102,9 @@ export default {
   height: 63px;
 }
 .tr_row td {
-  background: #afafaf;
-  border: 0;
+  border: 1px solid #999;
   font-size: 14px;
-  color: #ffffff;
+  color: #333;
   width: auto;
   margin: auto;
   text-align: center;
@@ -114,7 +115,6 @@ export default {
   color: #c00000;
   font-size: 18px;
 }
-
 </style>
 
 <style >

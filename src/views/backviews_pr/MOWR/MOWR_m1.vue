@@ -6,39 +6,19 @@
           <p class="m_common_sm_title_font">周新增数据表</p>
           <table class="m_table" border="1">
             <tr class="tr_title">
-              <td
-                v-for="(item,index) in form.title "
-                :key="index + 'a' "
-                colspan="1"
-              >{{item}}</td>
+              <td v-for="(item,index) in form.title " :key="index + 'a' " colspan="1">{{item}}</td>
             </tr>
             <tr class="tr_row">
-              <td
-                v-for="(item,index) in form.rowA "
-                :key="index + 'b' "
-                colspan="1"
-              >{{item}}</td>
+              <td v-for="(item,index) in form.rowA " :key="index + 'b' " colspan="1">{{item}}</td>
             </tr>
             <tr class="tr_row">
-              <td
-                v-for="(item,index) in form.rowB "
-                :key="index + 'c' "
-                colspan="1"
-              >{{item}}</td>
+              <td v-for="(item,index) in form.rowB " :key="index + 'c' " colspan="1">{{item}}</td>
             </tr>
             <tr class="tr_row">
-              <td
-                v-for="(item,index) in form.rowC "
-                :key="index + 'd' "
-                colspan="1"
-              >{{item}}</td>
+              <td v-for="(item,index) in form.rowC " :key="index + 'd' " colspan="1">{{item}}</td>
             </tr>
             <tr class="tr_row">
-              <td
-                v-for="(item,index) in form.rowD "
-                :key="index + 'e' "
-                colspan="1"
-              >{{item}}</td>
+              <td v-for="(item,index) in form.rowD " :key="index + 'e' " colspan="1">{{item}}</td>
             </tr>
           </table>
         </el-col>
@@ -59,7 +39,7 @@ export default {
   components: {
     "bar-chart-single3": BarChartSingle3
   },
-  mounted() {},
+  mounted() { },
   data() {
     return {
       MOWR_m1_A1: {
@@ -135,6 +115,7 @@ export default {
 .m_table {
   width: 100%;
   text-align: center;
+  border-collapse: collapse;
 }
 .tr_title {
   width: 100%;
@@ -143,10 +124,11 @@ export default {
   width: 100%;
 }
 .tr_title td {
-  background: #92d050;
-  border: 0;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  font-weight: bold;
   font-size: 14px;
-  color: #ffffff;
+  color: #333;
   width: auto;
   margin: auto;
   text-align: center;
@@ -154,10 +136,9 @@ export default {
   height: 63px;
 }
 .tr_row td {
-  background: #afafaf;
-  border: 0;
+  border: 1px solid #999;
   font-size: 14px;
-  color: #ffffff;
+  color: #333;
   width: auto;
   margin: auto;
   text-align: center;

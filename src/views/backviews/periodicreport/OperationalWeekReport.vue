@@ -1228,47 +1228,44 @@ export default {
   mounted() {
     $('.operational_left_content_body').scroll(function (event) {
       let scrollTopHeight = $('.operational_left_content_body').scrollTop()
+      // let weekly_whole_data = document.querySelector('#weekly_whole_data').offsetTop
+      // let weekly_data_on_demand = document.querySelector('#weekly_data_on_demand').offsetTop
+      // let broadcast_channel = document.querySelector('#broadcast_channel').offsetTop
+      // let recommended_Column = document.querySelector('#recommended_Column').offsetTop
+      // let special_thermodynamic_data = document.querySelector('#special_thermodynamic_data').offsetTop
+      // console.log('weekly_whole_data 0', weekly_whole_data)
+      // console.log('weekly_data_on_demand 1492', weekly_data_on_demand)
+      // console.log('broadcast_channel 3848', broadcast_channel)
+      // console.log('recommended_Column 7682', recommended_Column)
+      // console.log('special_thermodynamic_data 9365', special_thermodynamic_data)
+      if (0 <= scrollTopHeight) {
+        $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (1300 <= scrollTopHeight) {
+        $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (3700 <= scrollTopHeight) {
+        $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (7600 <= scrollTopHeight) {
+        $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
+      if (9200 <= scrollTopHeight) {
+        $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      }
     })
-    //   $('.operational_left_content_body').scroll(function (event) {
-    //     let scrollTopHeight = $('.operational_left_content_body').scrollTop()
-    //     let weekly_whole_data = document.querySelector('#weekly_whole_data').offsetTop
-    //     let weekly_data_on_demand = document.querySelector('#weekly_data_on_demand').offsetTop
-    //     let broadcast_channel = document.querySelector('#broadcast_channel').offsetTop
-    //     let recommended_Column = document.querySelector('#recommended_Column').offsetTop
-    //     let special_thermodynamic_data = document.querySelector('#special_thermodynamic_data').offsetTop
-    //     // console.log('weekly_whole_data 0', weekly_whole_data)
-    //     // console.log('weekly_data_on_demand 1492', weekly_data_on_demand)
-    //     // console.log('broadcast_channel 3848', broadcast_channel)
-    //     // console.log('recommended_Column 7682', recommended_Column)
-    //     // console.log('special_thermodynamic_data 9365', special_thermodynamic_data)
-    //     if (0 <= scrollTopHeight) {
-    //       $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-    //     }
-    //     if (1300 <= scrollTopHeight) {
-    //       $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-    //     }
-    //     if (3700 <= scrollTopHeight) {
-    //       $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-    //     }
-    //     if (7600 <= scrollTopHeight) {
-    //       $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-    //     }
-    //     if (9200 <= scrollTopHeight) {
-    //       $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-    //     }
-    //   })
   },
-  // methods: {
-  //   //点击锚点实现左侧滚动
-  //   goAnchor(selector) {
-  //     let scrollDiv = document.querySelector('.operational_left_content_body')  //外层滚动容器元素
-  //     var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
-  //     scrollDiv.scrollTop = anchor.offsetTop
-  //     $('.operational_nav a').on('click', function () {
-  //       $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-  //     })
-  //   }
-  // }
+  methods: {
+    //点击锚点实现左侧滚动
+    goAnchor(selector) {
+      let scrollDiv = document.querySelector('.operational_left_content_body')  //外层滚动容器元素
+      var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
+      scrollDiv.scrollTop = anchor.offsetTop
+      $('.operational_nav a').on('click', function () {
+        $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+      })
+    }
+  }
 }
 </script>
 <style>
@@ -1278,7 +1275,7 @@ export default {
 </style>
 <style scoped>
 .OperationalWeekReport {
-  /* height: 870px; */
+  height: 870px;
   margin: 14px 0px;
   display: -webkit-flex;
   display: flex;
@@ -1319,8 +1316,6 @@ export default {
 
 .operational_nav {
   width: 220px;
-}
-.operational_nav {
   padding-left: 20px;
   text-align: left;
 }
