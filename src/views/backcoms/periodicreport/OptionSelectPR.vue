@@ -82,7 +82,7 @@
         </el-select>
       </span>
       <div class="space">&nbsp;</div>
-
+      <!-- 
       <span class="font_choose">月：</span>
       <span>
         <div class="m_block">
@@ -97,7 +97,7 @@
             :picker-options="time.pickerOptions"
           ></el-date-picker>
         </div>
-      </span>
+      </span>-->
     </div>
     <div class="submitP">
       <el-button class="submit" @click="submitOption">确定</el-button>
@@ -214,43 +214,46 @@ export default {
           }
         ],
         weekValue: "",
-        pickerOptions: {
-          shortcuts: [
-            {
-              text: "最近一周",
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                picker.$emit("pick", [start, end]);
-              }
-            },
-            {
-              text: "最近一个月",
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                picker.$emit("pick", [start, end]);
-              }
-            },
-            {
-              text: "最近三个月",
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                picker.$emit("pick", [start, end]);
-              }
-            }
-          ]
-        },
-        pickervalue: ""
+        // pickerOptions: {
+        //   shortcuts: [
+        //     {
+        //       text: "最近一周",
+        //       onClick(picker) {
+        //         const end = new Date();
+        //         const start = new Date();
+        //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+        //         picker.$emit("pick", [start, end]);
+        //       }
+        //     },
+        //     {
+        //       text: "最近一个月",
+        //       onClick(picker) {
+        //         const end = new Date();
+        //         const start = new Date();
+        //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        //         picker.$emit("pick", [start, end]);
+        //       }
+        //     },
+        //     {
+        //       text: "最近三个月",
+        //       onClick(picker) {
+        //         const end = new Date();
+        //         const start = new Date();
+        //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+        //         picker.$emit("pick", [start, end]);
+        //       }
+        //     }
+        //   ]
+        // },
+        // pickervalue: ""
       }
     };
   },
-  mounted() {
+  created() {
     this.handlerClass()
+  },
+  mounted() {
+
   },
   methods: {
     //点击报表对应切换
