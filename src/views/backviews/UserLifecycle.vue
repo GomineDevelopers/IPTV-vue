@@ -112,6 +112,35 @@ export default {
   height: 655px;
   margin-bottom: 50px;
 }
+
+/* 用户生命周期页自适应开始 */
+@media (max-width: 1450px) {
+  .user_register_left.el-col-12,
+  .user_register_right.el-col-12,
+  .user_online .el-col-14,
+  .user_online .el-col-10 {
+    width: 100%;
+  }
+  .user_register,
+  .user_online {
+    height: 100%;
+  }
+  .user_online_body {
+    height: 456px;
+  }
+  .user_structure_body {
+    height: 300px;
+  }
+  .user_register_left,
+  .user_online .padding_right {
+    padding-right: 0px;
+  }
+  .user_register_right,
+  .user_online .padding_left {
+    padding-left: 0px;
+    margin-top: 14px;
+  }
+}
 </style>
 
 

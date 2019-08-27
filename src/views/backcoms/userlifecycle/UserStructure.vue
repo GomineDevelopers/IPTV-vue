@@ -1,10 +1,5 @@
 <template>
   <div class="UserStructure">
-    <!-- <div id="echartsUA" :style="{width: '14vw',height: '14vw'}"></div>
-    <div class="arrow" :style="{width: '3vw',height: '14vw'}">
-      <p class="a_content">订购用户</p>
-    </div>
-    <div id="echartsUB" :style="{width: '14vw',height: '14vw'}"></div>-->
     <el-row :style="{width: '100%',height: '100%'}">
       <el-col :span="11">
         <div id="echartsUA" :style="{width: '100%',height: '14vw'}"></div>
@@ -158,7 +153,7 @@ export default {
 
 <style>
 .UserStructure {
-  padding: 10% 0;
+  /* padding: 10% 0; */
 }
 .UserStructure div {
   display: inline-block;
