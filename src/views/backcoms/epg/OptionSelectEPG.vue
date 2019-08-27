@@ -19,6 +19,20 @@
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
+      <el-select
+        v-model="value_others"
+        filterable
+        allow-create
+        default-first-option
+        placeholder="其他"
+      >
+        <el-option
+          v-for="item in options_others"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
     </div>
     <div class="time">
       <span class="font_title">时间：</span>
@@ -58,10 +72,10 @@ export default {
   name: "OptionSelectEPG",
   data() {
     return {
-      operator: ["移动1.0", "移动2.0", "联通", "电信","其他"],
+      operator: ["移动1.0", "移动2.0", "联通", "电信", "其他"],
       operatorChoose: [],
       programa: [
-        "总体",
+        // "总体",
         "分类",
         "电视",
         "推荐",
@@ -74,9 +88,24 @@ export default {
         "纪实",
         "游戏",
         "健康",
-        "音乐",
-        "其他"
+        "音乐"
+        // "其他"
       ],
+      options_others: [
+        {
+          value: "其他1",
+          label: "其他1"
+        },
+        {
+          value: "其他2",
+          label: "其他2"
+        },
+        {
+          value: "其他3",
+          label: "其他3"
+        }
+      ],
+      value_others: [],
       programaChoose: [],
       time: {
         day: [
@@ -188,27 +217,27 @@ export default {
 </script>
 
 <style>
-
 /* elementui 复选框背景色 统一修改 */
 
 .el-checkbox__input.is-checked + .el-checkbox__label {
-  color: #FF6123;
+  color: #ff6123;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #FF6123;
-  border-color: #FF6123;
+  background-color: #ff6123;
+  border-color: #ff6123;
 }
 .el-checkbox__inner:hover {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 .el-checkbox__input.is-focus .el-checkbox__innder {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 
 /* 时间范围 */
-.el-date-table td.end-date span, .el-date-table td.start-date span {
-    background-color: #FF6123;
+.el-date-table td.end-date span,
+.el-date-table td.start-date span {
+  background-color: #ff6123;
 }
 </style>
 
