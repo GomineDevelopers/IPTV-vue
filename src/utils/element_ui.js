@@ -11,6 +11,7 @@ import {
   TimePicker,
   Tabs,
   TabPane,
+  Alert,
 
   Input,
   Checkbox,
@@ -32,6 +33,7 @@ Vue.use(TableColumn)
 Vue.use(TimePicker)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Alert)
 
 Vue.use(Input)
 Vue.use(Checkbox)
