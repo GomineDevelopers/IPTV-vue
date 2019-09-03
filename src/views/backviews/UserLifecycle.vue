@@ -118,12 +118,14 @@ export default {
   .user_register_left.el-col-12,
   .user_register_right.el-col-12,
   .user_online .el-col-14,
-  .user_online .el-col-10 {
+  .user_online .el-col-10,
+  .CustomerSegmentation .el-col-12 {
     width: 100%;
   }
   .user_register,
-  .user_online {
-    height: 100%;
+  .user_online,
+  .user_segment {
+    height: 100% !important;
   }
   .user_online_body {
     height: 456px;

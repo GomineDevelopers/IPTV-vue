@@ -295,4 +295,14 @@ export default {
 .chart_height {
   height: calc(100% - 40px);
 }
+/* 增值业务——VIP页面自适应开始 */
+@media (max-width: 1450px) {
+  .vip_behavior .chart_height.el-col-12 {
+    width: 100%;
+    height: 360px;
+  }
+  .vip_behavior {
+    height: auto;
+  }
+}
 </style>

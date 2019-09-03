@@ -283,6 +283,17 @@ export default {
 .chart_height {
   height: calc(100% - 40px);
 }
+
+/* 用户收视行为页自适应开始 */
+@media (max-width: 1450px) {
+  .viewing_behavior .chart_height.el-col-12 {
+    width: 100%;
+    height: 360px;
+  }
+  .viewing_behavior {
+    height: auto;
+  }
+}
 </style>
 
 

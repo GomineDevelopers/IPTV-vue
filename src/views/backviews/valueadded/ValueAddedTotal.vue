@@ -156,4 +156,20 @@ export default {
   margin-bottom: 50px;
 }
 /* 订购用户结束*/
+
+/* 增值业务——总览页面自适应开始 */
+@media (max-width: 1450px) {
+  .user_conversion .el-col-12 {
+    width: 100%;
+    height: 362px;
+  }
+  .subscribers .el-col-8 {
+    width: 100%;
+    height: 372px;
+  }
+  .user_conversion,
+  .subscribers {
+    height: auto;
+  }
+}
 </style>

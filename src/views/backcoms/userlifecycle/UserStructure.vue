@@ -1,5 +1,5 @@
 <template>
-  <div class="UserStructure">
+  <div class="UserStructure height_auto">
     <el-row :style="{width: '100%',height: '100%'}">
       <el-col :span="11">
         <div id="echartsUA" :style="{width: '100%',height: '14vw'}"></div>
@@ -152,8 +152,10 @@ export default {
 </script>
 
 <style>
-.UserStructure {
-  /* padding: 10% 0; */
+.UserStructure .el-row {
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
 }
 .UserStructure div {
   display: inline-block;
