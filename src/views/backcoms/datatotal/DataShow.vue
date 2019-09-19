@@ -10,7 +10,8 @@
     </p>
     <p class="Dmiddle">
       <span class="numT">{{numT}}</span>
-      <span class="wan">万</span>
+      <!-- <span class="wan">万</span> -->
+      <span class="wan"></span>
     </p>
     <p class="Dbottom">
       <span class="content">{{content}}</span>

@@ -19,11 +19,16 @@
       <p class="content_title">总收视时长</p>
       <div class="content_con">
         <div class="content_numP">
-          <span class="content_num">4325.7万</span>
+          <!-- <span class="content_num">4325.7万</span> -->
+          <span class="content_num">{{data_new}}</span>
         </div>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <!-- <span class="content_percent">
+          环比1.2%
+          <img src="@/assets/up.gif" />
+        </span>-->
         <span class="content_percent">
-          环比1.2
+          环比{{returnLinkRelativeRatio}}
           <img src="@/assets/up.gif" />
         </span>
       </div>
@@ -31,16 +36,102 @@
   </div>
 </template>
 <script>
+import { media_watch_total } from "@/api/api_main";
+
 export default {
   name: "MediaAssetsData",
   data() {
-    return {};
+    return {
+      data_old_o: "",
+      data_new: "",
+      returnLinkRelativeRatio: ""
+    };
   },
   mounted() {
+    let vm = this;
+    this.media_watch_total(vm);
     this.drawLine();
   },
-
   methods: {
+    // 环比
+    returnLinkRelativeRatio_f(d_new, d_old) {
+      this.returnLinkRelativeRatio =
+        String(this.returnFloat(parseFloat(d_new) / parseFloat(d_old)) * 100) +
+        "%";
+    },
+    returnFloat(value) {
+      // 保留两位小数
+      var value = Math.round(parseFloat(value) * 100) / 100;
+      var xsd = value.toString().split(".");
+      if (xsd.length == 1) {
+        value = value.toString() + ".00";
+        return value;
+      }
+      if (xsd.length > 1) {
+        if (xsd[1].length < 2) {
+          value = value.toString() + "0";
+        }
+        return value;
+      }
+    },
+    media_watch_total(vm) {
+      console.log("media_watch_total");
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      // let vm = this;
+      media_watch_total(data)
+        .then(function(response) {
+          console.log(response);
+          console.log(
+            response.data.responses[0].aggregations.watch_user_num.value
+          );
+          console.log(response.data.responses[0].aggregations.watch_freq.value);
+          console.log(
+            response.data.responses[0].aggregations.watch_freq_family.value
+          );
+          console.log(response.data.responses[0].aggregations.watch_dur.value);
+          console.log("~~~~~~1");
+          vm.data_old_o =
+            response.data.responses[0].aggregations.watch_dur.value;
+          console.log("~~~~~~2");
+
+          /////第二天
+          let data2 = {
+            start: "2019-07-02",
+            end: "2019-07-02",
+            operator: String(["移动", "联通", "电信"])
+          };
+          setTimeout(function() {
+            media_watch_total(data2)
+              .then(function(response2) {
+                console.log(response2);
+                console.log(
+                  response2.data.responses[0].aggregations.watch_dur.value
+                );
+                vm.data_new = String(
+                  vm.returnFloat(
+                    parseFloat(
+                      response2.data.responses[0].aggregations.watch_dur.value
+                    )
+                  ) // 保留两位小数
+                );
+                vm.returnLinkRelativeRatio_f(vm.data_new, vm.data_old_o);
+              })
+              .catch(function(error) {
+                console.info(error);
+              });
+          }, 300);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      // 需要计算环比率
+      // （观看时长 - 上期观看时长） / 上期观看时长
+      // 需要俩接口  2019-07-01 - 2019-07-02
+    },
     drawLine() {
       var myChart = this.$echarts.init(
         document.getElementById("media_assets_data")

@@ -15,20 +15,20 @@
       </el-row>
       <com-MOWR-m2 class="m_marginbottom_pxA"></com-MOWR-m2>
       <!-- /////////////MOWR_3 -->
-      <el-row class="model_title">
+      <el-row v-show="ifFormRowShow_yd" class="model_title">
         <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（移动）
       </el-row>
-      <com-MOWR-m3 class="m_marginbottom_pxA"></com-MOWR-m3>
-      <!-- /////////////MOWR_4 -->
-      <el-row class="model_title">
-        <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（电信）
-      </el-row>
-      <com-MOWR-m4 class="m_marginbottom_pxA"></com-MOWR-m4>
+      <com-MOWR-m3 v-show="ifFormRowShow_yd" class="m_marginbottom_pxA"></com-MOWR-m3>
       <!-- /////////////MOWR_5 -->
-      <el-row class="model_title">
+      <el-row v-show="ifFormRowShow_lt" class="model_title">
         <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（联通）
       </el-row>
-      <com-MOWR-m5 class="m_marginbottom_pxA"></com-MOWR-m5>
+      <com-MOWR-m5 v-show="ifFormRowShow_lt" class="m_marginbottom_pxA"></com-MOWR-m5>
+      <!-- /////////////MOWR_4 -->
+      <el-row v-show="ifFormRowShow_dx" class="model_title">
+        <span class="title_border_left"></span>运营商各市（州）24小时新增激活情况（电信）
+      </el-row>
+      <com-MOWR-m4 v-show="ifFormRowShow_dx" class="m_marginbottom_pxA"></com-MOWR-m4>
       <!-- /////////////MOWR_6 -->
       <el-row class="model_title">
         <span class="title_border_left"></span>停机用户变化情况
@@ -50,6 +50,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 import "@/styles/common_2.css";
 
 import MOWR_m1 from "@/views/backviews_pr/MOWR/MOWR_m1";
@@ -76,13 +78,56 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    ifFormRowShow_yd: {
+      get: function() {
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (this.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifFormRowShow_lt: {
+      get: function() {
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (this.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifFormRowShow_dx: {
+      get: function() {
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (this.PR_operator.indexOf("电信") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
+  },
+
   mounted() {}
 };
 </script>
 <style scoped>
 .viewing_behavior_report {
   height: 500px;
-  margin: 24px 0px;
+  margin: 14px 0px;
 }
 
 .MarketOperationalWeekReport {

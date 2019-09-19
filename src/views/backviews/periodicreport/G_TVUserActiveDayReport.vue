@@ -52,121 +52,126 @@
   </div>
 </template>
 <script>
-import numberOfRegisteredUsers from "@/views/backcoms/G_TVUserActiveDayReport/numberOfRegisteredUsers"  //在册用户数
-import dayREportBar from "@/views/backcoms/G_TVUserActiveDayReport/dayREport_bar"  //用户数统计柱状组件
-import dayREportBarLv from "@/views/backcoms/G_TVUserActiveDayReport/dayREport_bar_lv"  //用户数统计柱状组件带百分比
+import numberOfRegisteredUsers from "@/views/backcoms/G_TVUserActiveDayReport/numberOfRegisteredUsers"; //在册用户数
+import dayREportBar from "@/views/backcoms/G_TVUserActiveDayReport/dayREport_bar"; //用户数统计柱状组件
+import dayREportBarLv from "@/views/backcoms/G_TVUserActiveDayReport/dayREport_bar_lv"; //用户数统计柱状组件带百分比
 export default {
-  name: 'G_TVUserActiveDayReport',  //G+TV用户活跃发展日报表
+  name: "G_TVUserActiveDayReport", //G+TV用户活跃发展日报表
+  // created() {
+  //   this.liveUsers_daliyReport("yd");
+  //   this.liveUsers_daliyReport("lt");
+  //   this.liveUsers_daliyReport("dx");
+  // },
   data() {
     return {
       //在册用户数
       registeredUsers: {
-        title: '各运营商在册用户数（户）',
-        id: 'registeredUsers',
+        title: "各运营商在册用户数（户）",
+        id: "registeredUsers_UADR",
         color: ["#4474c4", "#ed7d31", "#a5a5a5"],
         data: [
-          ['运营商', '移动', '电信', '联通'],
-          ['占比', 849422, 283884, 354067],
+          ["运营商", "移动", "联通", "电信"],
+          ["占比", 849422, 283884, 354067]
         ]
       },
 
       //新增用户数
       newAddUserNumber: {
-        title: '各运营商新增在册用户数（户）',
-        id: 'newAddUserNumber',
-        color: ['#82b65f', '#70a7d8'],
+        title: "各运营商新增在册用户数（户）",
+        id: "newAddUserNumber_UADR",
+        color: ["#82b65f", "#70a7d8"],
         data: [
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['平均', 4128, 3380, 711],
-          ],
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['今日', 3389, 3054, 751],
-          ]
+          [["运营商", "移动", "联通", "电信"], ["平均", 4128, 3380, 711]],
+          [["运营商", "移动", "联通", "电信"], ["今日", 3389, 3054, 751]]
         ]
       },
 
       //开机率
       turnOnRate: {
-        title: '开机率（%）',
-        id: 'turnOnRate',
-        color: ['#82b65f', '#70a7d8'],
+        title: "开机率（%）",
+        id: "turnOnRate_UADR",
+        color: ["#82b65f", "#70a7d8"],
         data: [
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['平均', 27.4, 15.0, 37.6],
-          ],
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['今日', 23.6, 14.7, 35.8],
-          ]
+          [["运营商", "移动", "联通", "电信"], ["平均", 27.4, 15.0, 37.6]],
+          [["运营商", "移动", "联通", "电信"], ["今日", 23.6, 14.7, 35.8]]
         ]
       },
 
       //户均观看时长（小时）
       outLookTime: {
-        title: '户均观看时长（小时）',
-        id: 'outLookTime',
-        color: ['#82b65f', '#70a7d8'],
+        title: "户均观看时长（小时）",
+        id: "outLookTime_UADR",
+        color: ["#82b65f", "#70a7d8"],
         data: [
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['平均', 7.0, 8.5, 0],
-          ],
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['今日', 6.4, 7.5, 0],
-          ]
+          [["运营商", "移动", "联通", "电信"], ["平均", 7.0, 8.5, 0]],
+          [["运营商", "移动", "联通", "电信"], ["今日", 6.4, 7.5, 0]]
         ]
       },
 
       //三大基础功能单日观看时长（万小时）
       dayLooktime: {
-        title: '三大基础功能单日观看时长（万小时）',
-        id: 'dayLooktime',
-        color: ['#82b65f', '#70a7d8'],
+        title: "三大基础功能单日观看时长（万小时）",
+        id: "dayLooktime_UADR",
+        color: ["#82b65f", "#70a7d8"],
         data: [
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['平均', 77.4, 143.8, 0],
-          ],
-          [
-            ['运营商', '移动', '电信', '联通'],
-            ['今日', 78.7, 114.2, 0],
-          ]
+          [["运营商", "移动", "联通", "电信"], ["平均", 77.4, 143.8, 0]],
+          [["运营商", "移动", "联通", "电信"], ["今日", 78.7, 114.2, 0]]
         ]
       },
 
       //各类型节目单日点播时长（千小时）
       typeLooktime: {
-        title: '各类型节目单日点播时长（千小时）',
-        id: 'typeLooktime',
-        color: ['#82b65f', '#70a7d8'],
+        title: "各类型节目单日点播时长（千小时）",
+        id: "typeLooktime_UADR",
+        color: ["#82b65f", "#70a7d8"],
         data: [
           [
-            ['运营商', '热剧', '少儿', '电影', '动漫', '综艺', '游戏', '纪实', '体育', '音乐', '资讯'],
-            ['平均', 576.4, 432.4, 363.3, 65.4, 51.8, 42.4, 8.1, 3.4, 2.8, 1.7],
+            [
+              "运营商",
+              "热剧",
+              "少儿",
+              "电影",
+              "动漫",
+              "综艺",
+              "游戏",
+              "纪实",
+              "体育",
+              "音乐",
+              "资讯"
+            ],
+            ["平均", 576.4, 432.4, 363.3, 65.4, 51.8, 42.4, 8.1, 3.4, 2.8, 1.7]
           ],
           [
-            ['运营商', '热剧', '少儿', '电影', '动漫', '综艺', '游戏', '纪实', '体育', '音乐', '资讯'],
-            ['今日', 488.4, 329.1, 213.7, 39.9, 36.7, 24.7, 8.5, 2.7, 2.4, 1.9],
+            [
+              "运营商",
+              "热剧",
+              "少儿",
+              "电影",
+              "动漫",
+              "综艺",
+              "游戏",
+              "纪实",
+              "体育",
+              "音乐",
+              "资讯"
+            ],
+            ["今日", 488.4, 329.1, 213.7, 39.9, 36.7, 24.7, 8.5, 2.7, 2.4, 1.9]
           ]
         ]
       }
-    }
+    };
   },
   components: {
     numberOfRegisteredUsers,
     dayREportBar,
     dayREportBarLv
   }
-}
+};
 </script>
 <style scoped>
 .viewing_behavior_report {
   /* height: 500px; */
-  margin: 24px 0px;
+  margin: 14px 0px;
   /* border: 1px solid #777; */
 }
 .rigesteduserBody {

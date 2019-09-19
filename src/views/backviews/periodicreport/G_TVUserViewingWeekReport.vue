@@ -7,27 +7,33 @@
         <el-row class="viewing_behavior_report_left">
           <!-- ■■■■■■■■■■ 1 用户发展与活跃数据 -->
           <el-row id="module1">
-            <com-UVWR-m1></com-UVWR-m1>
+            <!-- <com-UVWR-m1 :data_m1="data_m1"></com-UVWR-m1> -->
+            <com-UVWR-m1
+              v-bind:api_data_m1="api_data_m1"
+              v-bind:api_data_m2="api_data_m2"
+              v-bind:api_data_m3="api_data_m3"
+              v-bind:api_data_m4="api_data_m4"
+            ></com-UVWR-m1>
           </el-row>
 
           <!-- ■■■■■■■■■■ 2 移动侧节目收视与页面热度 -->
-          <el-row id="module2">
-            <com-UVWR-m2></com-UVWR-m2>
+          <el-row v-show="ifModuleydShow" id="module2">
+            <com-UVWR-m2 v-bind:api_data_m2="api_data_m2"></com-UVWR-m2>
           </el-row>
 
-          <!-- ■■■■■■■■■■ 3 电信侧节目收视与页面热度 -->
-          <el-row id="module3">
-            <com-UVWR-m3></com-UVWR-m3>
+          <!-- ■■■■■■■■■■ 3 联通侧节目收视与页面热度 -->
+          <el-row v-show="ifModuleltShow" id="module3">
+            <com-UVWR-m3 v-bind:api_data_m3="api_data_m3"></com-UVWR-m3>
           </el-row>
 
-          <!-- ■■■■■■■■■■ 4 联通侧节目收视与页面热度 -->
-          <el-row id="module4">
-            <com-UVWR-m4></com-UVWR-m4>
+          <!-- ■■■■■■■■■■ 4 电信侧节目收视与页面热度 -->
+          <el-row v-show="ifModuledxShow" id="module4">
+            <com-UVWR-m4 v-bind:api_data_m4="api_data_m4"></com-UVWR-m4>
           </el-row>
 
           <!-- ■■■■■■■■■■ 5 本土原创节目点播数据 -->
           <el-row id="module5">
-            <com-UVWR-m5></com-UVWR-m5>
+            <com-UVWR-m5 v-bind:api_data_m5="api_data_m5"></com-UVWR-m5>
           </el-row>
         </el-row>
       </el-col>
@@ -41,26 +47,26 @@
             @click="goAnchor('#module1')"
           >用户发展与活跃数据</a>
         </el-row>
-        <el-row>
+        <el-row v-show="ifModuleydShow">
           <a
             href="javascript:void(0)"
             class="anchor_link2"
             @click="goAnchor('#module2')"
           >移动侧节目收视与页面热度</a>
         </el-row>
-        <el-row>
+        <el-row v-show="ifModuleltShow">
           <a
             href="javascript:void(0)"
             class="anchor_link3"
             @click="goAnchor('#module3')"
-          >电信侧节目收视与页面热度</a>
+          >联通侧节目收视与页面热度</a>
         </el-row>
-        <el-row>
+        <el-row v-show="ifModuledxShow">
           <a
             href="javascript:void(0)"
             class="anchor_link4"
             @click="goAnchor('#module4')"
-          >联通侧节目收视与页面热度</a>
+          >电信侧节目收视与页面热度</a>
         </el-row>
         <el-row>
           <a href="javascript:void(0)" class="anchor_link5" @click="goAnchor('#module5')">本土原创节目点播数据</a>
@@ -80,6 +86,10 @@ import UVWR_m3 from "@/views/backviews_pr/GT_UVWR/UVWR_m3";
 import UVWR_m4 from "@/views/backviews_pr/GT_UVWR/UVWR_m4";
 import UVWR_m5 from "@/views/backviews_pr/GT_UVWR/UVWR_m5";
 
+import { mapGetters } from "vuex";
+import { users_weekActiveReport } from "@/api/api_main";
+import { timeout } from "q";
+
 export default {
   name: "G_TUserViewingWeekReport", //G+TV用户收视行为周报
   components: {
@@ -89,260 +99,222 @@ export default {
     "com-UVWR-m4": UVWR_m4,
     "com-UVWR-m5": UVWR_m5
   },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      this.api_data_set();
+    }
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    ifModuleydShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuleltShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuledxShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
+  },
   data() {
-    return {};
+    return {
+      // 数据分发到子级组件
+      // 1 5 处理1~3个运营商聚合的数据，  2 3 4 处理 单个运营商数据
+      api_data_m1: null, //single/part/all
+      api_data_m2: null, //yd
+      api_data_m3: null, //lt
+      api_data_m4: null, //dx
+      api_data_m5: null, //single/part/all
+      updateDoor: true
+    };
   },
   mounted() {
     //监听滚动事件
-    $('.viewing_behavior_report_left').scroll(function (event) {
-      let scrollTopHeight = $('.viewing_behavior_report_left').scrollTop()
+    $(".viewing_behavior_report_left").scroll(function(event) {
+      let scrollTopHeight = $(".viewing_behavior_report_left").scrollTop();
       if (0 <= scrollTopHeight) {
-        $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link1")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (4300 <= scrollTopHeight) {
-        $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link2")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (8600 <= scrollTopHeight) {
-        $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link3")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (12900 <= scrollTopHeight) {
-        $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link4")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (17200 <= scrollTopHeight) {
-        $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link5")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
-    })
-    // 性能：渲染使用下拉加载才渲染
-    this.drawLine1_A()
-    this.drawLine1_B()
-    this.drawLine1_C()
+    });
+    // api 数据处理 - by 运营商
+    this.api_data_set();
   },
   methods: {
-    drawLine1_A() {
-      var myChart = this.$echarts.init(document.getElementById("echartsA"));
-      var option = {
-        title: {
-          text: "在册用户数",
-          textStyle: {
-            //设置主标题风格
-            Color: "#333333", //设置主标题字体颜色
-            fontStyle: "", //主标题文字风格
-            fontSize: 12,
-            fontStyle: "normal",
-            fontWeight: "normal"
+    // api 数据处理 - by 运营商
+    api_data_set() {
+      let vm = this;
+      if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+        let temp_operator = ["移动", "联通", "电信"];
+        vm.users_weekActiveReport("all", temp_operator);
+        vm.users_weekActiveReport("yd", ["移动"]);
+        vm.users_weekActiveReport("lt", ["联通"]);
+        vm.users_weekActiveReport("dx", ["电信"]);
+      } else {
+        let count = vm.PR_operator.length;
+        if (count == 3) {
+          // 执行 1+3个
+          vm.users_weekActiveReport("all", vm.PR_operator);
+          vm.users_weekActiveReport("yd", ["移动"]);
+          vm.users_weekActiveReport("lt", ["联通"]);
+          vm.users_weekActiveReport("dx", ["电信"]);
+        }
+        if (count == 2) {
+          // 执行 1+2个
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            vm.users_weekActiveReport("yd", ["移动"]);
           }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            vm.users_weekActiveReport("lt", ["联通"]);
           }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          top: "5%",
-          right: "6%",
-          feature: {
-            saveAsImage: {}
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            vm.users_weekActiveReport("dx", ["电信"]);
           }
-        },
-        grid: {
-          left: "2%",
-          right: "2%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            data: ["7.08-7.14", "7.15-7.21"],
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-              }
-            }
+          vm.users_weekActiveReport("part", vm.PR_operator);
+        }
+        if (count == 1) {
+          // 执行 1个
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            vm.users_weekActiveReport("yd", ["移动"]);
           }
-        ],
-        yAxis: [
-          {
-            axisLabel: {
-              formatter: function () {
-                return ""; // 隐藏Y左边数据
-              }
-            },
-            // 刻度线的设置
-            splitLine: {
-              show: false
-            },
-            axisLine: {
-              show: false, //Y轴不显示
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-              }
-            },
-            axisLabel: {
-              //横坐标类目文字
-              show: false
-            },
-            axisTick: {
-              show: false //设置坐标轴刻度不显示
-            }
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            vm.users_weekActiveReport("lt", ["联通"]);
           }
-        ],
-        series: [
-          {
-            name: "在册用户数",
-            type: "bar",
-            barWidth: "40%",
-            data: ["209.4", "213.4"],
-            itemStyle: {
-              normal: {
-                //每根柱子颜色设置
-                color: function (params) {
-                  let colorList = ["#FFAA89", "#FF6123"];
-                  return colorList[params.dataIndex];
-                },
-                label: {
-                  show: true, //开启显示
-                  position: "top", //在上方显示
-                  textStyle: {
-                    //数值样式
-                    color: "black",
-                    fontSize: 16
-                  }
-                }
-              }
-            }
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            vm.users_weekActiveReport("dx", ["电信"]);
           }
-        ]
-      };
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+        }
+      }
     },
-    drawLine1_B() { },
-    drawLine1_C() {
-      var myChart = this.$echarts.init(document.getElementById("echartsA"));
-      var option = {
-        title: {
-          text: "在册用户数",
-          textStyle: {
-            //设置主标题风格
-            Color: "#333333", //设置主标题字体颜色
-            fontStyle: "", //主标题文字风格
-            fontSize: 12,
-            fontStyle: "normal",
-            fontWeight: "normal"
-          }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          top: "5%",
-          right: "6%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          left: "2%",
-          right: "2%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            data: ["7.08-7.14", "7.15-7.21"],
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-              }
-            }
-          }
-        ],
-        yAxis: [
-          {
-            axisLabel: {
-              formatter: function () {
-                return ""; // 隐藏Y左边数据
-              }
-            },
-            // 刻度线的设置
-            splitLine: {
-              show: false
-            },
-            axisLine: {
-              show: false, //Y轴不显示
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-              }
-            },
-            axisLabel: {
-              //横坐标类目文字
-              show: false
-            },
-            axisTick: {
-              show: false //设置坐标轴刻度不显示
-            }
-          }
-        ],
-        series: [
-          {
-            name: "在册用户数",
-            type: "bar",
-            barWidth: "40%",
-            data: ["209.4", "213.4"],
-            itemStyle: {
-              normal: {
-                //每根柱子颜色设置
-                color: function (params) {
-                  let colorList = ["#FFAA89", "#FF6123"];
-                  return colorList[params.dataIndex];
-                },
-                label: {
-                  show: true, //开启显示
-                  position: "top", //在上方显示
-                  textStyle: {
-                    //数值样式
-                    color: "black",
-                    fontSize: 16
-                  }
-                }
-              }
-            }
-          }
-        ]
+    users_weekActiveReport(type, m_PR_operator) {
+      let vm = this;
+      let tempOperatorArr = m_PR_operator;
+      // console.log("~~~~~");
+      // console.log(tempOperatorArr);
+      let temp = {
+        operator: String([tempOperatorArr]),
+        start: "2019-07-01",
+        end: "2019-07-07" // 暂定这一周
       };
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      users_weekActiveReport(formData)
+        .then(function(response) {
+          // console.log("users_weekActiveReport");
+          // console.log("~~~~~:" + type);
+          // console.log(response);
+          switch (type) {
+            case "all":
+              vm.api_data_m1 = response;
+              vm.api_data_m5 = response;
+              break;
+            case "part":
+              vm.api_data_m1 = response;
+              vm.api_data_m5 = response;
+              break;
+            case "yd":
+              vm.api_data_m2 = response;
+              break;
+            case "lt":
+              vm.api_data_m3 = response;
+              break;
+            case "dx":
+              vm.api_data_m4 = response;
+              break;
+            default:
+              console.log("none!");
+          }
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     },
     //点击锚点实现左侧滚动
     goAnchor(selector) {
-      let scrollDiv = document.querySelector('.viewing_behavior_report_left')  //外层滚动容器元素
-      var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
-      scrollDiv.scrollTop = anchor.offsetTop
-      $('.viewing_behavior_nav a').on('click', function () {
-        $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-      })
+      let scrollDiv = document.querySelector(".viewing_behavior_report_left"); //外层滚动容器元素
+      var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
+      scrollDiv.scrollTop = anchor.offsetTop;
+      $(".viewing_behavior_nav a").on("click", function() {
+        $(this)
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      });
     }
   }
 };

@@ -60,11 +60,11 @@
   </div>
 </template>
 <script>
-import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"  //收视TOP组件
-import OptionSelectUVB from "@/views/backcoms/userviewingbehavior/OptionSelectUVB" // 条件筛选
-import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"  //公用饼图
-import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"  //公用柱状图堆叠
-import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"  //公用柱状图单个
+import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
+import OptionSelectUVB from "@/views/backcoms/userviewingbehavior/OptionSelectUVB"; // 条件筛选
+import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
+import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"; //公用柱状图堆叠
+import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //公用柱状图单个
 
 export default {
   name: "UserViewingBehavior", //用户收视行为
@@ -77,75 +77,85 @@ export default {
   },
   data() {
     return {
-      targetOption: '', //存放选择的指标
+      targetOption: "", //存放选择的指标
       //选择指标数据
       target: ["观看次数", "观看时长", "户均收视次数", "次均收视次数"],
       //地区数据
       regionData: {
         title: "地区",
-        id: 'regionChart',
-        color: ["#B37CF4", "#DADEEA ", "#CEF1ED", "#FCB84F", "#7ECDF4", "#A9CCDC", "#5E70F1", "#F97E6F", "#4ADBC7"],
-        data: [
-          { value: 1335, name: '贵阳' },
-          { value: 810, name: '遵义' },
-          { value: 648, name: '安顺' },
-          { value: 234, name: '六盘水' },
-          { value: 535, name: '毕节' },
-          { value: 248, name: '铜仁' },
-          { value: 148, name: '黔南' },
-          { value: 108, name: '黔东南' },
-          { value: 348, name: '黔西南' }
+        id: "regionChart",
+        color: [
+          "#B37CF4",
+          "#DADEEA ",
+          "#CEF1ED",
+          "#FCB84F",
+          "#7ECDF4",
+          "#A9CCDC",
+          "#5E70F1",
+          "#F97E6F",
+          "#4ADBC7"
         ],
+        data: [
+          { value: 1335, name: "贵阳" },
+          { value: 810, name: "遵义" },
+          { value: 648, name: "安顺" },
+          { value: 148, name: "黔南" },
+          { value: 108, name: "黔东南" },
+          { value: 248, name: "铜仁" },
+          { value: 535, name: "毕节" },
+          { value: 234, name: "六盘水" },
+          { value: 348, name: "黔西南" }
+        ]
       },
       //运营商数据
       operatorData: {
         title: "运营商",
-        id: 'operatorChart',
+        id: "operatorChart",
         color: ["#FF6123", "#FF8859", "#FFAA89"],
         data: [
-          ['product', '移动', '联通', '电信'],
-          ['贵阳', 43.3, 85.8, 93.7],
-          ['遵义', 83.1, 73.4, 55.1],
-          ['毕节', 86.4, 65.2, 82.5],
-          ['铜仁', 72.4, 53.9, 39.1],
-          ['六盘水', 43.3, 85.8, 93.7],
-          ['黔南', 83.1, 73.4, 55.1],
-          ['黔东南', 86.4, 65.2, 82.5],
-          ['黔西南', 72.4, 53.9, 39.1],
-          ['安顺', 43.3, 85.8, 93.7],
+          ["product", "移动", "联通", "电信"],
+          ["贵阳", 43.3, 85.8, 93.7],
+          ["遵义", 83.1, 73.4, 55.1],
+          ["安顺", 43.3, 85.8, 93.7],
+          ["黔南", 83.1, 73.4, 55.1],
+          ["黔东南", 86.4, 65.2, 82.5],
+          ["铜仁", 72.4, 53.9, 39.1],
+          ["毕节", 86.4, 65.2, 82.5],
+          ["六盘水", 43.3, 85.8, 93.7],
+          ["黔西南", 72.4, 53.9, 39.1]
         ]
       },
       //播放数据
       playData: {
         title: "播放",
-        id: 'playChart',
+        id: "playChart",
         color: ["#B37CF4", "#F97E6F ", "#A9CCDC"],
         data: [
-          { value: 535, name: '直播' },
-          { value: 410, name: '回看' },
-          { value: 348, name: '点播' }
-        ],
+          { value: 535, name: "直播" },
+          { value: 348, name: "点播" },
+          { value: 410, name: "回看" }
+        ]
       },
       columnData: {
         title: "栏目",
-        id: 'columnChart',
+        id: "columnChart",
         color: ["#FF6123"],
         data: [
-          ['product', '观看数'],
-          ['贵阳', 43.3],
-          ['遵义', 83.1],
-          ['毕节', 86.4],
-          ['铜仁', 72.4],
-          ['六盘水', 43.3],
-          ['黔南', 83.1],
-          ['黔东南', 86.4],
-          ['黔西南', 72.4],
-          ['安顺', 43.3]
+          ["product", "观看数"],
+          ["贵阳", 43.3],
+          ["遵义", 83.1],
+          ["安顺", 43.3],
+          ["黔南", 83.1],
+          ["黔东南", 86.4],
+          ["铜仁", 72.4],
+          ["毕节", 86.4],
+          ["六盘水", 43.3],
+          ["黔西南", 72.4]
         ]
       },
       //收视时长TOP
       viewingTopList: {
-        id: 'userViewingBehavior',
+        id: "userViewingBehavior",
         data: [
           {
             topNum: 1,
@@ -253,10 +263,10 @@ export default {
             playNum: "6.0"
           }
         ]
-      },
+      }
     };
   },
-  mounted() { }
+  mounted() {}
 };
 </script>
 <style scoped>

@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<script>
+import "@/styles/comcom_3_new.css";
+
+export default {};
+</script>
+
 <style>
 #app {
   font-family: "微软雅黑";

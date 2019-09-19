@@ -1,26 +1,159 @@
 <template>
   <div class="Registered">
     <div id="echartsA" class="echarts1"></div>
-    <div id="echartsB" class="echarts2"></div>
+    <!-- <div id="echartsB" class="echarts2"></div> -->
+    <div :id="data2_Change.id" class="echarts2"></div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Registered",
+  computed: {
+    ...mapGetters(["ULC_region", "ULC_operator"]),
+    data2_Change: {
+      get: function() {
+        var vm = this;
+
+        // /////////////// 地区判断
+
+        var region = [];
+        var showData = [];
+        var d0 = [];
+        var d1 = [];
+        var d2 = [];
+        if (vm.ULC_region == null || vm.ULC_region.length == 0) {
+          region = vm.data2.region;
+          d0 = vm.data2.showData[0];
+          d1 = vm.data2.showData[1];
+          d2 = vm.data2.showData[2];
+          // showData.push(d0);
+          // showData.push(d1);
+          // showData.push(d2);
+        } else {
+          function regionChange(regionN1, showDataN1) {
+            region.push(vm.data2.region[regionN1]);
+            d0.push(vm.data2.showData[0][showDataN1]);
+            d1.push(vm.data2.showData[1][showDataN1]);
+            d2.push(vm.data2.showData[2][showDataN1]);
+          }
+          if (vm.ULC_region.indexOf("贵阳") > -1) {
+            regionChange(0, 0);
+          }
+          if (vm.ULC_region.indexOf("遵义") > -1) {
+            regionChange(1, 1);
+          }
+          if (vm.ULC_region.indexOf("安顺") > -1) {
+            regionChange(2, 2);
+          }
+          if (vm.ULC_region.indexOf("黔南") > -1) {
+            regionChange(3, 3);
+          }
+          if (vm.ULC_region.indexOf("黔东南") > -1) {
+            regionChange(4, 4);
+          }
+          if (vm.ULC_region.indexOf("铜仁") > -1) {
+            regionChange(5, 5);
+          }
+          if (vm.ULC_region.indexOf("毕节") > -1) {
+            regionChange(6, 6);
+          }
+          if (vm.ULC_region.indexOf("六盘水") > -1) {
+            regionChange(7, 7);
+          }
+          if (vm.ULC_region.indexOf("黔西南") > -1) {
+            regionChange(8, 8);
+          }
+          // showData.push(d0);
+          // showData.push(d1);
+          // showData.push(d2);
+        }
+
+        // /////////////// 运营商判断
+        // var color = vm.data2.color;
+        // var operator = vm.data2.operator;
+
+        var color = [];
+        var operator = [];
+
+        if (vm.ULC_operator == null || vm.ULC_operator.length == 0) {
+          color = vm.data2.color;
+          operator = vm.data2.operator;
+          showData.push(d0);
+          showData.push(d1);
+          showData.push(d2);
+        } else {
+          if (vm.ULC_operator.indexOf("移动") > -1) {
+            showData.push(d0);
+            color.push(vm.data2.color[0]);
+            operator.push(vm.data2.operator[0]);
+          }
+          if (vm.ULC_operator.indexOf("联通") > -1) {
+            showData.push(d1);
+            color.push(vm.data2.color[1]);
+            operator.push(vm.data2.operator[1]);
+          }
+          if (vm.ULC_operator.indexOf("电信") > -1) {
+            showData.push(d2);
+            color.push(vm.data2.color[2]);
+            operator.push(vm.data2.operator[2]);
+          }
+        }
+
+        // 视图更新
+        setTimeout(function() {
+          // console.log("Registered echartsB 视图更新");
+          vm.drawLine2();
+        }, 300);
+        return {
+          id: vm.data2.id,
+          region: region,
+          color: color,
+          operator: operator,
+          showData: showData
+        };
+      },
+      set: function(newValue) {}
+    }
+  },
   data() {
-    return {};
+    return {
+      data2: {
+        id: "echartsB",
+        color: ["#FF6123", "#FF8859", "#FFAA89"],
+        region: [
+          "贵阳",
+          "遵义",
+          "安顺",
+          "黔南",
+          "黔东南",
+          "铜仁",
+          "毕节",
+          "六盘水",
+          "黔西南"
+        ],
+        operator: ["移动", "联通", "电信"],
+        showData: [
+          [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
+          [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
+          [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
+        ]
+      }
+    };
   },
   mounted() {
     this.drawLine();
-    this.drawLine2();
+    // this.drawLine2();
   },
   methods: {
     drawLine() {
       var myChart = this.$echarts.init(document.getElementById("echartsA"));
       var option = {
         title: {
-          text: "在册用户数",
+          // text: "在册用户数",
+          text: "在网用户数",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
@@ -40,7 +173,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: '5%',
+          top: "5%",
           right: "6%",
           feature: {
             saveAsImage: {}
@@ -61,47 +194,49 @@ export default {
             },
             axisLine: {
               lineStyle: {
-                color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
               }
-            },
+            }
           }
         ],
         yAxis: [
           {
             axisLabel: {
-              formatter: function () {
+              formatter: function() {
                 return ""; // 隐藏Y左边数据
               }
             },
             // 刻度线的设置
             splitLine: {
-              show: false,
+              show: false
             },
             axisLine: {
-              show: false,  //Y轴不显示
+              show: false, //Y轴不显示
               lineStyle: {
-                color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
               }
             },
-            axisLabel: {//横坐标类目文字
-              show: false,
+            axisLabel: {
+              //横坐标类目文字
+              show: false
             },
             axisTick: {
-              show: false  //设置坐标轴刻度不显示
+              show: false //设置坐标轴刻度不显示
             }
           }
         ],
         series: [
           {
-            name: "在册用户数",
+            // name: "在册用户数",
+            name: "在网用户数",
             type: "bar",
             barWidth: "40%",
             data: ["209.4", "213.4"],
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function (params) {
-                  let colorList = ["#FFAA89", "#FF6123"];
+                color: function(params) {
+                  var colorList = ["#FFAA89", "#FF6123"];
                   return colorList[params.dataIndex];
                 },
                 label: {
@@ -124,12 +259,47 @@ export default {
       });
     },
     drawLine2() {
-      var myChart2 = this.$echarts.init(document.getElementById("echartsB"));
-      var myColor = ["#FF6123", "#FF8859", "#FFAA89"];
-      var arrName = ["移动", "联通", "电信"];
+      var vm = this;
+      var id = vm.data2_Change.id;
+      var color = vm.data2_Change.color;
+      var region = vm.data2_Change.region;
+      var operator = vm.data2_Change.operator;
+      var showData = vm.data2_Change.showData;
+      var series = [];
+      let i;
+      let length = operator.length;
+      // console.log(operator);
+      // console.log(showData);
+      // console.log(color);
+
+      for (i = 0; i < length; i++) {
+        series.push(seriesItem(operator[i], showData[i], color[i]));
+      }
+      // console.log(series);
+
+      function seriesItem(myoperator, myshowData, mycolor) {
+        return {
+          name: myoperator,
+          type: "bar",
+          barWidth: "33%", //柱图宽度
+          stack: "总量",
+          label: {
+            normal: {
+              show: false,
+              position: "insideRight"
+            }
+          },
+          data: myshowData,
+          color: mycolor
+        };
+      }
+
+      var myChart2 = vm.$echarts.init(document.getElementById(id));
+
       var option2 = {
         title: {
-          text: "新增在册用户",
+          // text: "新增在册用户",
+          text: "新增在网用户",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
@@ -149,7 +319,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: '5%',
+          top: "5%",
           right: "5%",
           feature: {
             saveAsImage: {}
@@ -158,7 +328,7 @@ export default {
         legend: {
           show: true,
           top: "5%",
-          data: arrName,
+          data: operator,
           itemWidth: 12,
           itemHeight: 7,
           itemGap: 10,
@@ -187,91 +357,42 @@ export default {
             textStyle: {
               fontSize: "12" //设置横坐标轴文字大小
             },
-            interval: 0,  // 坐标轴显示不全问题解决方案
+            interval: 0 // 坐标轴显示不全问题解决方案
             // rotate: 40  // 旋转效果
           },
           axisLine: {
             lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
             }
           },
-          data: [
-            "贵阳",
-            "遵义",
-            "六盘水",
-            "安顺",
-            "毕节",
-            "铜仁",
-            "黔东南",
-            "黔南",
-            "黔西南"
-          ]
+          data: region
         },
         yAxis: {
           type: "value",
           // 刻度线的设置
           splitLine: {
-            show: false,
+            show: false
           },
           axisLine: {
-            show: false,  //Y轴不显示
+            show: false, //Y轴不显示
             lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
             }
           },
-          axisLabel: {//横坐标类目文字
+          axisLabel: {
+            //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: '12'//设置横坐标轴文字颜大小
+              fontSize: "12" //设置横坐标轴文字颜大小
             }
           },
           axisTick: {
-            show: false  //设置坐标轴刻度不显示
+            show: false //设置坐标轴刻度不显示
           }
         },
-        series: [
-          {
-            name: arrName[0],
-            type: "bar",
-            barWidth: "33%", //柱图宽度
-            stack: "总量",
-            label: {
-              normal: {
-                show: false,
-                position: "insideRight"
-              }
-            },
-            data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
-            color: myColor[0]
-          },
-          {
-            name: arrName[1],
-            type: "bar",
-            stack: "总量",
-            label: {
-              normal: {
-                show: false,
-                position: "insideRight"
-              }
-            },
-            data: [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
-            color: myColor[1]
-          },
-          {
-            name: arrName[2],
-            type: "bar",
-            stack: "总量",
-            label: {
-              normal: {
-                show: false,
-                position: "insideRight"
-              }
-            },
-            data: [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300],
-            color: myColor[2]
-          }
-        ]
+        series: series
       };
+      myChart2.clear();
       myChart2.setOption(option2);
       window.addEventListener("resize", () => {
         myChart2.resize();

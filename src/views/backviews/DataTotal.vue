@@ -3,7 +3,7 @@
     <el-row>
       <el-col class="data_body_left" :span="4" :lg="4" :md="5">
         <el-row class="data_detail_model data_detail_city back_white">
-          <com-dataoverview v-bind:province="data.province"></com-dataoverview>
+          <com-dataoverview v-bind:city="data.city"></com-dataoverview>
         </el-row>
         <el-row class="data_detail_model back_white">
           <com-datashow
@@ -35,7 +35,7 @@
       </el-col>
       <el-col class="data_body_middle" :span="16" :lg="16" :md="14">
         <div class="data_map back_white">
-          <com-map @setProvince="setProvince" @setDatashow="setDatashow"></com-map>
+          <com-map @setcity="setcity" @setDatashow="setDatashow" @updateDatashow="updateDatashow"></com-map>
         </div>
       </el-col>
       <el-col class="data_body_right" :span="4" :lg="4" :md="5">
@@ -104,6 +104,10 @@ import DataShow from "@/views/backcoms/datatotal/DataShow"; // 数据展示
 import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画像
 import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件(日活趋势组件)
 
+import { users_total } from "@/api/api_main";
+
+import Vue from "vue"; // 数组操作
+
 export default {
   name: "DataTotal", //数据总览
   components: {
@@ -113,11 +117,199 @@ export default {
     "com-userportrait": UserPortrait,
     "line-chart-single2": LineChartSingle2
   },
+  mounted() {
+    this.users_total();
+  },
+  // ///////////////////// ac 地区码
+  // 851：贵阳
+  // 852：遵义
+  // 853: 安顺
+  // 854：黔南
+  // 855：黔东南
+  // 856：铜仁
+  // 857：毕节
+  // 858：六盘水
+  // 859：黔西南
+
+  methods: {
+    users_total() {
+      // console.log("users_total");
+      let vm = this;
+      let data = {
+        start: "2019-07-14",
+        end: "2019-07-14"
+      };
+      // vm.api_data.module2_numT = [
+      //   "851",
+      //   "852",
+      //   "853",
+      //   "854",
+      //   "855",
+      //   "856",
+      //   "857",
+      //   "858",
+      //   "859"
+      // ];
+      users_total(data)
+        .then(function(response) {
+          // console.log(response);
+          // console.log(response.data.responses[0].aggregations.ac.buckets);
+          // console.log(
+          //   response.data.responses[0].aggregations.ac.buckets[0].key
+          // );
+          let data = response.data.responses[0].aggregations.ac.buckets;
+          let length = data.length;
+          let i;
+          // 开机用户
+          for (i = 0; i < length; i++) {
+            if (data[i].key == "851") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+              // Vue.set(vm.api_data.module2_numT, i, "851");
+            }
+            if (data[i].key == "852") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "853") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "854") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "855") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "856") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "857") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "858") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+            if (data[i].key == "859") {
+              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            }
+          }
+          vm.ifRequestSuccess = 1;
+          vm.updateDatashow(0); // 数据初始化 - 0 - 贵阳
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifRequestSuccess = 0;
+          vm.setDatashow(vm.data.datashow2);
+        });
+    },
+    setcity(city) {
+      this.data.city = city;
+    },
+    setDatashow(datashow) {
+      this.data.datashow = datashow;
+    },
+    updateDatashow(city_num) {
+      // api_data.module2_numT
+      // let length = this.data.datashow.length;
+      // let i;
+      // for(i=0;i<length;i++){
+      // }
+      if (this.ifRequestSuccess == 0) {
+        this.data.datashow[2].numT = "数据请求失败！";
+      } else if (this.ifRequestSuccess == 2) {
+        this.data.datashow[2].numT = "数据请求中...";
+      } else {
+        this.data.datashow[2].numT = this.api_data.module2_numT[city_num];
+      }
+    }
+  },
   data() {
     return {
+      ifRequestSuccess: 2, // 数据请求状态（默认：请求中）：0-失败 1-成功 2-请求中
+      api_data: {
+        // module0 是 city（市）
+        // 在册用户
+        module1_numT: [],
+        // 每日新增在册用户
+        module1_numC: [],
+        // 激活用户
+        module2_numT: [],
+        // 激活率
+        module2_numC: [],
+        // 开机用户
+        module3_numT: [],
+        // 开机率
+        module3_numC: [],
+        // 收视用户
+        module4_numT: [],
+        // 户均收视次数
+        module4_numC: [],
+        // 付费用户
+        module5_numT: [],
+        // 付费转化率
+        module5_numC: [],
+        // 停机
+        module6_numT: [],
+        // 每日停机户
+        module6_numC: [],
+        // 销户
+        module7_numT: [],
+        // 每日销户数
+        module7_numC: []
+      },
       data: {
-        province: "贵阳",
+        city: "贵阳",
         //新增用户概览数据
+        datashow0: [
+          {
+            icon: "&#xe600;",
+            title: "在册用户",
+            numT: "数据请求中...",
+            content: "每日新增在册用户",
+            numC: "数据请求中..."
+          },
+          {
+            icon: "&#xe620;",
+            title: "激活用户",
+            numT: "数据请求中...",
+            content: "激活率",
+            numC: "数据请求中..."
+          },
+
+          {
+            icon: "&#xe60c;",
+            title: "开机用户",
+            numT: "数据请求中...",
+            content: "开机率",
+            numC: "数据请求中..."
+          },
+          {
+            icon: "&#xe641;",
+            title: "收视用户",
+            numT: "数据请求中...",
+            content: "户均收视次数",
+            numC: "数据请求中..."
+          },
+          {
+            icon: "&#xe64f;",
+            title: "付费用户",
+            numT: "数据请求中...",
+            content: "付费转化率",
+            numC: "数据请求中..."
+          },
+          {
+            icon: "&#xe612;",
+            title: "停机",
+            numT: "数据请求中...",
+            content: "每日停机户",
+            numC: "数据请求中..."
+          },
+          {
+            icon: "&#xe601;",
+            title: "销户",
+            numT: "数据请求中...",
+            content: "每日销户数",
+            numC: "数据请求中..."
+          }
+        ],
         datashow: [
           {
             icon: "&#xe600;",
@@ -168,6 +360,110 @@ export default {
             numT: "2.5",
             content: "每日销户数",
             numC: "25"
+          }
+        ],
+        datashow2: [
+          {
+            icon: "&#xe600;",
+            title: "在册用户",
+            numT: "231.1",
+            content: "每日新增在册用户",
+            numC: "12423"
+          },
+          {
+            icon: "&#xe620;",
+            title: "激活用户",
+            numT: "132.2",
+            content: "激活率",
+            numC: "67%"
+          },
+
+          {
+            icon: "&#xe60c;",
+            title: "开机用户",
+            numT: "23.1",
+            content: "开机率",
+            numC: "32%"
+          },
+          {
+            icon: "&#xe641;",
+            title: "收视用户",
+            numT: "29.1",
+            content: "户均收视次数",
+            numC: "12231"
+          },
+          {
+            icon: "&#xe64f;",
+            title: "付费用户",
+            numT: "18.1",
+            content: "付费转化率",
+            numC: "12423"
+          },
+          {
+            icon: "&#xe612;",
+            title: "停机",
+            numT: "0.7",
+            content: "每日停机户",
+            numC: "32"
+          },
+          {
+            icon: "&#xe601;",
+            title: "销户",
+            numT: "2.5",
+            content: "每日销户数",
+            numC: "25"
+          }
+        ],
+        datashow2_beifen: [
+          {
+            icon: "&#xe600;",
+            title: "在册用户",
+            numT: "数据请求失败！",
+            content: "每日新增在册用户",
+            numC: "数据请求失败！"
+          },
+          {
+            icon: "&#xe620;",
+            title: "激活用户",
+            numT: "数据请求失败！",
+            content: "激活率",
+            numC: "数据请求失败！"
+          },
+
+          {
+            icon: "&#xe60c;",
+            title: "开机用户",
+            numT: "数据请求失败！",
+            content: "开机率",
+            numC: "数据请求失败！"
+          },
+          {
+            icon: "&#xe641;",
+            title: "收视用户",
+            numT: "数据请求失败！",
+            content: "户均收视次数",
+            numC: "数据请求失败！"
+          },
+          {
+            icon: "&#xe64f;",
+            title: "付费用户",
+            numT: "数据请求失败！",
+            content: "付费转化率",
+            numC: "数据请求失败！"
+          },
+          {
+            icon: "&#xe612;",
+            title: "停机",
+            numT: "数据请求失败！",
+            content: "每日停机户",
+            numC: "数据请求失败！"
+          },
+          {
+            icon: "&#xe601;",
+            title: "销户",
+            numT: "数据请求失败！",
+            content: "每日销户数",
+            numC: "数据请求失败！"
           }
         ]
       },
@@ -259,14 +555,6 @@ export default {
         ]
       }
     };
-  },
-  methods: {
-    setProvince(province) {
-      this.data.province = province;
-    },
-    setDatashow(datashow) {
-      this.data.datashow = datashow;
-    }
   }
 };
 </script>

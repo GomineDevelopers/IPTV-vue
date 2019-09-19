@@ -1,29 +1,77 @@
 <template>
   <div class="height_auto">
     <!-- <el-row :id="chartData.id" style="height:300px;"></el-row> -->
-    <el-row :id="chartData.id" :style="chartData.height"></el-row>
-    
+    <!-- <el-row :id="chartData.id" :style="chartData.height"></el-row> -->
+    <el-row :id="chartData_Change.id" :style="chartData_Change.height"></el-row>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "BarChartSingle_Change",
+  name: "BarChartSingle_Change2",
   props: {
     chartData: {
       type: Object
+    }
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    chartData_Change: {
+      get: function() {
+        let vm = this;
+        let data = [];
+        if (vm.chartData.id == "GT_UVWR1_D1") {
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            setTimeout(function() {
+              vm.drawLine();
+            }, 1000);
+            return vm.chartData;
+          } else {
+            data.push(vm.chartData.data[0]);
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              data.push(vm.chartData.data[1]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              data.push(vm.chartData.data[2]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              data.push(vm.chartData.data[3]);
+            }
+            setTimeout(function() {
+              vm.drawLine();
+            }, 1000);
+            return {
+              data: data,
+              title: vm.chartData.title,
+              id: vm.chartData.id,
+              height: vm.chartData.height,
+              color: vm.chartData.color,
+              ifYaxisShow: vm.chartData.ifYaxisShow,
+              ifLegendShow: vm.chartData.ifLegendShow,
+              m_barWidth: vm.chartData.m_barWidth
+            };
+          }
+        }
+        return vm.chartData;
+      },
+      set: function(newValue) {}
     }
   },
   data() {
     return {};
   },
   mounted() {
-    this.drawLine();
+    let vm = this;
+    setTimeout(function() {
+      vm.drawLine();
+    }, 1000);
   },
   methods: {
     drawLine() {
-      var m_barWidth = this.chartData.m_barWidth;
-      var ifYaxisShow = this.chartData.ifYaxisShow;
-      var ifLegendShow = this.chartData.ifLegendShow;
+      var m_barWidth = this.chartData_Change.m_barWidth;
+      var ifYaxisShow = this.chartData_Change.ifYaxisShow;
+      var ifLegendShow = this.chartData_Change.ifLegendShow;
       var Ybool;
       if (ifYaxisShow) {
         Ybool = {
@@ -81,17 +129,17 @@ export default {
       }
 
       var barChartSingle = this.$echarts.init(
-        document.getElementById(this.chartData.id)
+        document.getElementById(this.chartData_Change.id)
       );
       let seriesData = [];
       //设置series数据条数
-      for (let i = 1; i <= this.chartData.data[0].length - 1; i++) {
+      for (let i = 1; i <= this.chartData_Change.data[0].length - 1; i++) {
         seriesData.push({ type: "bar", barWidth: m_barWidth });
       }
       var option = {
-        color: this.chartData.color,
+        color: this.chartData_Change.color,
         title: {
-          text: this.chartData.title,
+          text: this.chartData_Change.title,
           x: "left",
           y: "7%",
           textStyle: {
@@ -134,7 +182,7 @@ export default {
           bottom: "10%"
         },
         dataset: {
-          source: this.chartData.data
+          source: this.chartData_Change.data
         },
         xAxis: {
           type: "category",
@@ -158,6 +206,7 @@ export default {
         yAxis: Ybool,
         series: seriesData
       };
+      barChartSingle.clear();
       barChartSingle.setOption(option);
       window.addEventListener("resize", () => {
         barChartSingle.resize();

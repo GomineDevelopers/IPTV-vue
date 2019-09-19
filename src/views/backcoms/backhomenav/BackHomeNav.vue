@@ -7,27 +7,31 @@
       <el-row>
         <el-col :span="24">
           <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router>
-            <el-menu-item index="/backhome/datatotal">
+            <el-menu-item v-show="ifShowMenu(1)" index="/backhome/datatotal">
               <i class="iconfont">&#xe639;</i>
               <span slot="title">数据总览</span>
             </el-menu-item>
-            <el-menu-item index="/backhome/userlifecycle">
+            <el-menu-item v-show="ifShowMenu(2)" index="/backhome/userlifecycle">
               <i class="iconfont">&#xe6d5;</i>
               <span slot="title">用户生命周期</span>
             </el-menu-item>
-            <el-menu-item index="/backhome/userviewingbehavior">
+            <el-menu-item v-show="ifShowMenu(3)" index="/backhome/userviewingbehavior">
               <i class="iconfont">&#xe63a;</i>
               <span slot="title">用户收视行为</span>
             </el-menu-item>
-            <el-menu-item index="/backhome/periodicreport/" :class="activeClass ? 'is-active':''">
+            <el-menu-item
+              v-show="ifShowMenu(4)"
+              index="/backhome/periodicreport/"
+              :class="activeClass ? 'is-active':''"
+            >
               <i class="iconfont">&#xe648;</i>
               <span slot="title">定期报告</span>
             </el-menu-item>
-            <el-menu-item index="/backhome/epg">
+            <el-menu-item v-show="ifShowMenu(5)" index="/backhome/epg">
               <i class="iconfont">&#xe604;</i>
               <span slot="title">EPG</span>
             </el-menu-item>
-            <el-submenu index="7">
+            <el-submenu v-show="ifShowMenu(6)" index="7">
               <template slot="title">
                 <i class="iconfont">&#xe624;</i>
                 <span>增值业务</span>
@@ -37,11 +41,11 @@
                 <el-menu-item index="/backhome/vip">VIP</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="/backhome/hottopicscontrol">
+            <el-menu-item v-show="ifShowMenu(7)" index="/backhome/hottopicscontrol">
               <i class="iconfont">&#xe633;</i>
               <span slot="title">热点监控</span>
             </el-menu-item>
-            <el-submenu index="8">
+            <el-submenu v-show="ifShowMenu(8)" index="8">
               <template slot="title">
                 <i class="iconfont">&#xe634;</i>
                 <span>数据审计</span>
@@ -52,10 +56,27 @@
                 <el-menu-item index="/backhome/datatrend">趋势</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="/backhome/programsearching">
+            <el-menu-item v-show="ifShowMenu(9)" index="/backhome/programsearching">
               <i class="iconfont">&#xe632;</i>
               <span slot="title">节目搜索</span>
             </el-menu-item>
+
+            <!-- 权限管理页面先关了 v-show="false" -->
+            <!-- <el-submenu index="9" v-show="false"> -->
+            <el-submenu index="9" v-show="ifShowMenu(10) && ifShowMenu(11)">
+              <!-- <el-submenu index="9"> -->
+              <template slot="title">
+                <i class="iconfont">&#xe60a;</i>
+                <span>权限管理</span>
+              </template>
+              <el-menu-item-group>
+                <!-- <el-menu-item index="/backhome/usermanagement">用户管理</el-menu-item> -->
+                <el-menu-item v-show="ifShowMenu(10)" index="/backhome/authoritymanagement">权限管理</el-menu-item>
+                <el-menu-item v-show="ifShowMenu(11)" index="/backhome/bigscreenmanagement">大屏管理</el-menu-item>
+                <!-- <el-menu-item index="/backhome/authoritymanagement">权限管理</el-menu-item> -->
+                <!-- <el-menu-item index="/backhome/bigscreenmanagement">大屏管理</el-menu-item> -->
+              </el-menu-item-group>
+            </el-submenu>
           </el-menu>
         </el-col>
       </el-row>
@@ -63,48 +84,114 @@
   </div>
 </template>
 <script>
+import { get_user_permissions } from "@/api/api_main";
+import { mapGetters } from "vuex";
+
 export default {
   name: "BackHomeNav", //左侧导航栏
+  computed: {
+    ...mapGetters(["current_authority"])
+  },
   data() {
     return {
       activeClass: false,
-    }
+      authorityData: []
+    };
   },
   mounted() {
-    this.handlerClass()
+    this.handlerClass();
+    // // 获取当前用户权限
+    this.get_user_permissions(); //防止刷新归零
+    // this.authorityData = this.current_authority; // 刷新会归零
   },
   // 监听,当路由发生变化的时候执行
   watch: {
+    current_authority(newValue, oldValue) {
+      // console.log("watch - current_authority: ");
+      // console.log(this.authorityData);
+      this.authorityData = newValue;
+      // console.log(this.authorityData);
+    },
     $route: {
-      handler: function (val, oldVal) {
-        // console.log(val.path)
-        let pathLink = val.path
-        let isTrue = pathLink.includes('backhome/periodicreport')  //判断路由是否是定期报告子路由
-        if (isTrue) {  //若当前路由是定期报告子路由，则绑定定期报告路由值 使其显示为选中状态
-          // console.log(isTrue)
-          this.activeClass = true
-        } else {
-          this.activeClass = false
-        }
+      handler: function(val, oldVal) {
+        let vm = this;
+        setTimeout(function() {
+          // console.log(val.path)
+          let pathLink = val.path;
+          let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
+          if (isTrue) {
+            //若当前路由是定期报告子路由，则绑定定期报告路由值 使其显示为选中状态
+            // console.log(isTrue)
+            vm.activeClass = true;
+          } else {
+            vm.activeClass = false;
+          }
+        }, 100);
       },
       // 深度观察监听
       deep: true
     }
   },
   methods: {
-    handlerClass() {
-      // console.log(this.$route.path)
-      let pathLink = this.$route.path
-      let isTrue = pathLink.includes('backhome/periodicreport')  //判断路由是否是定期报告子路由
-      if (isTrue) {  //若当前路由是定期报告子路由，则绑定定期报class为is-active 使其显示为选中状态
-        // console.log(isTrue)
-        this.activeClass = true
+    ifShowMenu(item) {
+      // console.log(this.authorityData);
+      if (this.authorityData.indexOf(item) > -1) {
+        return true;
       } else {
-        this.activeClass = false
+        false;
       }
+    },
+    get_user_permissions() {
+      console.log("get_user_permissions");
+      let vm = this;
+      let token = vm.$commonTools.getCookie("user_token");
+      let newToken = token.replace('"', "").replace('"', "");
+      vm.authorityData = [];
+      get_user_permissions(newToken)
+        .then(function(response) {
+          console.log(response);
+          let m_data = response.data.data;
+          let length = m_data.length;
+          let i;
+          let temp = [];
+          for (i = 0; i < length; i++) {
+            temp.push(m_data[i].id);
+          }
+          vm.authorityData = temp;
+          let temp_authorizationChoose = [];
+          temp_authorizationChoose = temp;
+          vm.$store
+            .dispatch("set_current_authority", temp_authorizationChoose)
+            .then(function(response) {
+              console.log("~~~~set_current_authority");
+              // console.log(response);
+              // console.log(temp_authorizationChoose);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    handlerClass() {
+      let vm = this;
+      setTimeout(function() {
+        // console.log(this.$route.path)
+        let pathLink = vm.$route.path;
+        let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
+        if (isTrue) {
+          //若当前路由是定期报告子路由，则绑定定期报class为is-active 使其显示为选中状态
+          // console.log(isTrue)
+          vm.activeClass = true;
+        } else {
+          vm.activeClass = false;
+        }
+      }, 1);
     }
   }
-}
+};
 </script>
 <style>
 .back_home_nav .el-menu {
@@ -169,7 +256,7 @@ export default {
   margin-right: 14px;
 }
 .acticv_class {
-  background: ;
+  /* background: ; */
 }
 </style>
 

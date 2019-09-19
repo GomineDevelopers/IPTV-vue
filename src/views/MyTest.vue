@@ -1,5 +1,9 @@
 <template>
   <div class="MyTest">
+    <br />
+
+    <button @click="test_login">fgw test_login</button>
+
     <!-- // //////////////////////// G+TV用户收视日报表 -->
     <br />
 
@@ -12,16 +16,35 @@
     <button @click="liveUsers_daliyReport_operators">liveUsers_daliyReport_operators</button>
     <!-- // //////////////////////// 贵州广电新媒体G+TV移动运营数据周报 -->
     <br />
+    <button @click="users_mobileReport">users_mobileReport</button>
+    <!-- <button @click="users_mobileReport_operators">users_mobileReport_operators</button> -->
+
     <!-- // //////////////////////// G+TV月度用户收视行为分析报告 -->
     <br />
+    <button @click="users_monthActiveReport">users_monthActiveReport</button>
+    <button @click="users_monthActiveReport_range">users_monthActiveReport_range</button>
+    <button @click="users_monthActiveReport_operators">users_monthActiveReport_operators</button>
+
     <!-- // //////////////////////// 用户收视行为周报 -->
     <br />
+    <button @click="users_weekActiveReport">users_weekActiveReport</button>
+    <button @click="users_weekActiveReport_operators">users_weekActiveReport_operators</button>
+
     <!-- // //////////////////////// 市场业务运营数据分析周报 -->
     <br />
+    <button @click="users_marketReport">users_marketReport</button>
+    <button @click="users_marketReport_operators">users_marketReport_operators</button>
+
     <!-- // //////////////////////// 电信VIP增值业务专项分析 -->
     <br />
+    <button @click="users_vipReport">users_vipReport</button>
+    <button @click="users_vipReport_operators">users_vipReport_operators</button>
+
     <!-- // //////////////////////// 专区数据报告 -->
     <br />
+    <!-- <button @click="users_subReport_single">users_subReport_single</button> -->
+    <button @click="users_subReport">users_subReport</button>
+    <button @click="users_subReport_operators">users_subReport_operators</button>
 
     <!-- // //////////////////////// 用户收视行为 -->
     <br />
@@ -67,7 +90,7 @@
 
     <button @click="epg">epg</button>
     <button @click="epg_programs">epg_programs</button>
-    <button @click="epg_operators">epg_operators</button>
+    <!-- <button @click="epg_operators">epg_operators</button> -->
     <!-- // //////////////////////// 大屏页面 -->
     <br />
 
@@ -92,7 +115,7 @@
     <br />
 
     <button @click="login">login</button>
-    <button @click="register">register</button>
+    <!-- <button @click="register">register</button> -->
 
     <div id="echartsUA" :style="{width: '14vw',height: '14vw'}"></div>
   </div>
@@ -103,19 +126,37 @@
 // import "@/vendor/Export2Excel";
 // import Vue from "vue";
 import {
+  test_login,
   // //////////////////////// G+TV用户收视日报表
-
   users_daliyReport,
   users_daliyReport_operators,
   // //////////////////////// G+TV用户发展活跃日报表
   liveUsers_daliyReport,
   liveUsers_daliyReport_operators,
   // //////////////////////// 贵州广电新媒体G+TV移动运营数据周报
+  users_mobileReport,
+  // users_mobileReport_operators,
   // //////////////////////// G+TV月度用户收视行为分析报告
+  users_monthActiveReport,
+  users_monthActiveReport_range,
+  users_monthActiveReport_operators,
+
   // //////////////////////// 用户收视行为周报
+  users_weekActiveReport,
+  users_weekActiveReport_operators,
+
   // //////////////////////// 市场业务运营数据分析周报
+  users_marketReport,
+  users_marketReport_operators,
+
   // //////////////////////// 电信VIP增值业务专项分析
+  users_vipReport,
+  users_vipReport_operators,
+
   // //////////////////////// 专区数据报告
+  // users_subReport_single,
+  users_subReport,
+  users_subReport_operators,
 
   // //////////////////////// 用户收视行为
   userAction_top,
@@ -147,7 +188,7 @@ import {
   // //////////////////////// epg
   epg,
   epg_programs,
-  epg_operators,
+  // epg_operators,
   // //////////////////////// 大屏页面
   media_watch_total,
   media_watch,
@@ -167,8 +208,8 @@ import {
   users_activationRate,
   users_retention,
   // //////////////////////// 用户
-  login,
-  register
+  login
+  // register
 } from "@/api/api_main";
 
 import { commonTools } from "@/utils/test";
@@ -205,14 +246,24 @@ export default {
   },
   methods: {
     // //////////////////////// G+TV用户收视日报表
-
+    test_login() {
+      console.log("test_login");
+      test_login()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     users_daliyReport() {
       console.log("users_daliyReport");
 
       let temp = {
-        operator: "all",
-        start: "2019-07-12",
-        end: "2019-07-31"
+        //  operator: String(["移动", "联通", "电信"]),
+        operator: String(["移动"]),
+        start: "2019-07-01",
+        end: "2019-07-01"
       };
 
       var formData = new FormData();
@@ -245,7 +296,7 @@ export default {
     liveUsers_daliyReport() {
       console.log("liveUsers_daliyReport");
       let temp = {
-        operator: "all",
+        operator: String(["移动", "联通", "电信"]),
         start: "2019-07-12",
         end: "2019-07-31"
       };
@@ -275,12 +326,257 @@ export default {
         });
     },
     // //////////////////////// 贵州广电新媒体G+TV移动运营数据周报
+    users_mobileReport() {
+      console.log("users_mobileReport");
+      let temp = {
+        operator: String(["联通", "移动"]),
+        start: "2019-07-03",
+        end: "2019-07-03"
+      };
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      users_mobileReport(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    // users_mobileReport_operators() {
+    //   console.log("users_mobileReport_operators");
+    //   users_mobileReport_operators()
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
+
     // //////////////////////// G+TV月度用户收视行为分析报告
+    users_monthActiveReport() {
+      console.log("users_monthActiveReport");
+      let temp = {
+        operator: String(["联通", "移动"]),
+        start: "2019-07-01",
+        end: "2019-07-01"
+      };
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      users_monthActiveReport(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    users_monthActiveReport_range() {
+      console.log("users_monthActiveReport_range");
+      let temp = {
+        operator: String(["移动", "联通", "电信"]),
+        start: "26week",
+        end: "26week"
+      };
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      users_monthActiveReport_range(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    // 暂时不用
+    users_monthActiveReport_operators() {
+      console.log("users_monthActiveReport_operators");
+      users_monthActiveReport_operators()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     // //////////////////////// 用户收视行为周报
+    users_weekActiveReport() {
+      console.log("users_weekActiveReport");
+      let temp = {
+        operator: String(["移动", "联通", "电信"]),
+        start: "2019-07-01",
+        end: "2019-07-07"
+      };
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      users_weekActiveReport(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    users_weekActiveReport_operators() {
+      // 删了！
+      console.log("users_weekActiveReport_operators");
+      users_weekActiveReport_operators()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     // //////////////////////// 市场业务运营数据分析周报
+    users_marketReport() {
+      console.log("users_marketReport");
+      users_marketReport()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    users_marketReport_operators() {
+      console.log("users_marketReport_operators");
+      users_marketReport_operators()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     // //////////////////////// 电信VIP增值业务专项分析
+    users_vipReport() {
+      console.log("users_vipReport");
+      let temp = {
+        operator: String(["移动", "联通", "电信"]),
+        start: "2019-07-01",
+        end: "2019-07-31"
+      };
+
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      users_vipReport(formData)
+        .then(function(response) {
+          console.log(response);
+          console.log(response.data.responses[0].aggregations.ti.buckets);
+
+          // 第一个 - 点播用户数
+          // responses: Array(1)
+          // 0:
+          // aggregations:
+          // ti:
+          // buckets: Array(15)
+          // 0:
+          // demand_user_num:
+          // value: 34027
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    users_vipReport_operators() {
+      console.log("users_vipReport_operators");
+      users_vipReport_operators()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     // //////////////////////// 专区数据报告
 
+    // users_subReport_single() {
+    //   console.log("users_subReport_single");
+    //   console.log(String(["联通", "移动"]));
+    //   let temp = {
+    //     // operator: "联通",
+    //     // operator: ['联通','移动'],
+    //     // operator: "联通,移动",
+    //     // operator: JSON.stringify(["联通", "移动"]),
+    //     operator: String(["联通", "移动"]),
+
+    //     start: "2019-07-15",
+    //     end: "2019-07-15"
+    //   };
+
+    //   var formData = new FormData();
+    //   var formData = new window.FormData();
+    //   formData.append("operator", temp.operator);
+    //   formData.append("start", temp.start);
+    //   formData.append("end", temp.end);
+
+    //   users_subReport_single(formData)
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
+
+    users_subReport() {
+      console.log("users_subReport");
+      let temp = {
+        // operator: "联通",
+        // operator: ['联通','移动'],
+        // operator: "联通,移动",
+        // operator: JSON.stringify(["联通", "移动"]),
+        operator: String(["移动", "联通", "电信"]),
+
+        start: "2019-07-01",
+        end: "2019-07-01"
+      };
+
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      users_subReport(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    users_subReport_operators() {
+      console.log("users_subReport_operators");
+      users_subReport_operators()
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     // //////////////////////// 用户收视行为
     userAction_top() {
       console.log("userAction_top");
@@ -369,12 +665,18 @@ export default {
     users_total() {
       console.log("users_total");
 
-      let code = "812";
-      let date = "2019-07-12";
+      let data = {
+        start: "2019-07-03",
+        end: "2019-07-03"
+      };
 
-      users_total(code, date)
+      users_total(data)
         .then(function(response) {
           console.log(response);
+          console.log(response.data.responses[0].aggregations.ac.buckets);
+          console.log(
+            response.data.responses[0].aggregations.ac.buckets[0].key
+          );
         })
         .catch(function(error) {
           console.info(error);
@@ -549,9 +851,10 @@ export default {
       console.log("time_m： " + time_m);
 
       // 传入年份 获取1~12月的日期范围
-      let time_y = commonTools.getMonthDays_y(2019, 8);
+      let time_y = commonTools.getMonthDays_y(2019);
       console.log("time_y： " + time_y.firstDay);
       console.log("time_y： " + time_y.lastDay);
+      // console.log("time_y： " + time_y);
 
       // 下面的转换有问题！
       // console.log(new Date(Date.UTC(2019, 1, 1)));
@@ -608,12 +911,11 @@ export default {
       console.log(typeof myDate);
       console.log(typeof mytime);
 
-
       // ////////////////
 
       let temp = {
-        programName: "白发魔女",  // string 格式
-        UTC: "1224134151"     // datetime 格式
+        programName: "白发魔女", // string 格式
+        UTC: "1224134151" // datetime 格式
       };
 
       var formData = new FormData();
@@ -644,13 +946,12 @@ export default {
     vip_increment() {
       console.log("vip_increment");
 
-
       let temp = {
         area: "all", // 地区码，all和贵州省地级市代码
         operator: "all", // 运营商列表：根据用户收视行为运营商api为准的列表单，all为全部运营商
         method: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
         list: "all", // 节目列表：根据栏目api为准的列表单，all为全部节目
-        start: "2019-07-12",   
+        start: "2019-07-12",
         end: "2019-07-31",
         increment: "少儿包" // 增值包选项 如 少儿包
       };
@@ -709,10 +1010,11 @@ export default {
       console.log("epg");
 
       let temp = {
-        operator: "all",
-        list: "all",
-        start: "2018-07-12",
-        end: "2018-07-15"
+        operator: "移动",
+        list: "少儿",
+        start: "2019-07-15",
+        end: "2019-07-15",
+        ver: "2.0"
       };
 
       var formData = new FormData();
@@ -721,6 +1023,7 @@ export default {
       formData.append("list", temp.list);
       formData.append("start", temp.start);
       formData.append("end", temp.end);
+      formData.append("ver", temp.ver);
 
       epg(formData)
         .then(function(response) {
@@ -740,27 +1043,42 @@ export default {
           console.info(error);
         });
     },
-    epg_operators() {
-      console.log("epg_operators");
-      epg_operators()
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
+    // epg_operators() {
+    //   console.log("epg_operators");
+    //   epg_operators()
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
     // //////////////////////// 大屏页面
 
     media_watch_total() {
       console.log("media_watch_total");
-      media_watch_total()
+      let data = {
+        start: "2019-07-02",
+        end: "2019-07-02",
+        operator: String(["移动", "联通", "电信"])
+      };
+      media_watch_total(data)
         .then(function(response) {
           console.log(response);
+          console.log(
+            response.data.responses[0].aggregations.watch_user_num.value
+          );
+          console.log(response.data.responses[0].aggregations.watch_freq.value);
+          console.log(
+            response.data.responses[0].aggregations.watch_freq_family.value
+          );
         })
         .catch(function(error) {
           console.info(error);
         });
+      // 需要计算环比率
+      // （观看时长 - 上期观看时长） / 上期观看时长
+      // 需要俩接口  2019-07-01 - 2019-07-02
     },
     media_watch() {
       console.log("media_watch");
@@ -824,7 +1142,12 @@ export default {
     },
     demands_VipProgramTop() {
       console.log("demands_VipProgramTop");
-      demands_VipProgramTop()
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      demands_VipProgramTop(data)
         .then(function(response) {
           console.log(response);
         })
@@ -834,9 +1157,26 @@ export default {
     },
     demandProgramTop() {
       console.log("demandProgramTop");
-      demandProgramTop()
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      demandProgramTop(data)
         .then(function(response) {
           console.log(response);
+
+          console.log(
+            response.data.responses[0].hits.hits[0]._source.programname
+          ); // 名称
+          console.log(
+            response.data.responses[0].hits.hits[0]._source.demand_freq
+          ); // 热度
+          console.log(
+            response.data.responses[0].hits.hits[0]._source.rank_demand_freq
+          ); //排名
+
+          console.log;
         })
         .catch(function(error) {
           console.info(error);
@@ -854,9 +1194,20 @@ export default {
     },
     broadcast_demand() {
       console.log("broadcast_demand");
-      broadcast_demand()
+      let data = {
+        start: "2019-07-03",
+        end: "2019-07-03",
+        operator: String(["移动", "联通", "电信"])
+      };
+      broadcast_demand(data)
         .then(function(response) {
           console.log(response);
+
+          console.log(response.data.responses[0].aggregations.demand_user_num);
+          console.log(response.data.responses[0].aggregations.demand_freq);
+          console.log(
+            response.data.responses[0].aggregations.watch_freq_family
+          );
         })
         .catch(function(error) {
           console.info(error);
@@ -864,9 +1215,21 @@ export default {
     },
     broadcast_review() {
       console.log("broadcast_review");
-      broadcast_review()
+      let data = {
+        start: "2019-07-02",
+        end: "2019-07-02",
+        operator: String(["移动", "联通", "电信"])
+      };
+      broadcast_review(data)
         .then(function(response) {
           console.log(response);
+          console.log(
+            response.data.responses[0].aggregations.watch_user_num.value
+          );
+          console.log(response.data.responses[0].aggregations.watch_freq.value);
+          console.log(
+            response.data.responses[0].aggregations.watch_freq_family.value
+          );
         })
         .catch(function(error) {
           console.info(error);
@@ -888,9 +1251,19 @@ export default {
       console.log("broadcast_onlive");
       // 总体数据query参数：直播=0，点播=1，回看=2
       let func = "0";
-      broadcast_onlive(func)
+      let data = {
+        start: "2019-07-03",
+        end: "2019-07-03",
+        operator: String(["移动", "联通", "电信"])
+      };
+      broadcast_onlive(data)
         .then(function(response) {
           console.log(response);
+          console.log(response.data.responses[0].aggregations.onlive_user_num);
+          console.log(response.data.responses[0].aggregations.onlive_freq);
+          console.log(
+            response.data.responses[0].aggregations.watch_freq_family
+          );
         })
         .catch(function(error) {
           console.info(error);
@@ -898,9 +1271,32 @@ export default {
     },
     users_subscribe() {
       console.log("users_subscribe");
-      users_subscribe()
+      let data = {
+        // operator: String(["移动", "联通", "电信"]),
+        operator: String(["移动"]),
+        start: "2019-07-01",
+        end: "2019-07-01"
+      };
+      console.log(String(["移动"]));
+      console.log(String(["移动", "联通", "电信"]));
+      // data:
+      // responses: Array(1)
+      // 0:
+      // aggregations:
+      // value_added_service_package:
+      // buckets: Array(10)
+      // 0: {key: "少儿VIP", doc_count: 11, new_paid_num: {…}, new_income: {…}}
+      users_subscribe(data)
         .then(function(response) {
           console.log(response);
+          console.log(
+            response.data.responses[0].aggregations.value_added_service_package
+              .buckets.length
+          );
+          let buckets =
+            response.data.responses[0].aggregations.value_added_service_package
+              .buckets;
+          let length = buckets.length;
         })
         .catch(function(error) {
           console.info(error);
@@ -921,7 +1317,7 @@ export default {
     users_retention() {
       console.log("users_retention");
       // 七天留存和三十天留存（0=7天，1=30天留存率）
-      
+
       let date = 0;
 
       users_retention(date)

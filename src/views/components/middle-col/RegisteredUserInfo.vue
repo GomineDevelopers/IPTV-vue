@@ -58,19 +58,27 @@
 
 export default {
   name: "RegisteredUserInfo", //顶部logo下的总体数据
+  props: ["value_p"],
   data() {
     return {
       registeredUserNum: "3426746", //在册数
       dayLiveNum: "262346", //日活数
       activationRate: "87.3%", //激活率
       sevenKeep: "67.4%", //七日留存
-
-      value: 0
+      // value: 0
     };
   },
-
+  computed: {
+    value: {
+      get: function() {
+        return this.value_p;
+      },
+      set:function(newValue){
+        // 
+      }
+    }
+  },
   mounted() {
-
     // activationRate()
     //   .then(function(response) {
     //     console.log(response);
@@ -252,7 +260,8 @@ export default {
   /* box-shadow: inset 0 0 31px 0 #ff4800; */
 }
 .activation_rate {
-  padding-left: 0.12rem;
+  /* padding-left: 0.12rem; */
+  padding-left: 0.50rem;
 }
 </style>
 

@@ -19,13 +19,20 @@
         <div class="middle_col_container">
           <!-- 顶部title img -->
           <el-row class="margin_bottom middle_title">
-            <!-- <img src="@/assets/head.png" /> -->
-            <div class="main_title">贵州省广电新媒体用户行为分析</div>
-            <img src="@/assets/headtest.png" />
+            <el-col :span="6">&nbsp;</el-col>
+            <el-col :span="12">
+              <!-- <img src="@/assets/head.png" /> -->
+              <div class="main_title">贵州省广电新媒体用户行为分析</div>
+              <img src="@/assets/headtest.png" />
+            </el-col>
+            <el-col :span="6">
+              <p class="home_date1">数据截止日期：</p>
+              <p class="home_date2">2019.07.31</p>
+            </el-col>
           </el-row>
           <!-- 在册数 -->
           <el-row class="margin_bottom middle_user_number">
-            <registered-user-info></registered-user-info>
+            <registered-user-info v-bind:value_p="value_p"></registered-user-info>
           </el-row>
           <el-row class="margin_bottom middle_view_user">
             <el-col class="map_left_col" :span="6">
@@ -42,7 +49,7 @@
               <!-- <el-row class="middle_main_map">地图625px</el-row> -->
               <el-row class="middle_main_map">
                 <!-- 地图625px -->
-                <thermodynamic-chart></thermodynamic-chart>
+                <thermodynamic-chart v-bind:value_p="value_p"></thermodynamic-chart>
               </el-row>
             </el-col>
             <el-col class="map_right_col" :span="6">
@@ -73,7 +80,9 @@
         </el-row>
         <el-row class="height_33vh left_middle_row">
           <!-- 专区节目 -->
-          <zone-programmes></zone-programmes>
+          <!-- <zone-programmes></zone-programmes> -->
+          <!-- 贵州频道 -->
+          <guizhou-channel></guizhou-channel>
         </el-row>
         <el-row class="height_33vh">
           <!-- 媒资数据 -->
@@ -96,7 +105,12 @@ import LocalOriginalProgrammes from "@/views/components/middle-col/LocalOriginal
 import UserDevelopmentTrend from "@/views/components/middle-col/UserDevelopmentTrend"; //用户发展趋势组件
 import RetentionAndActivation from "@/views/components/middle-col/RetentionAndActivation"; //留存率和激活率组件
 import ValueAddedProgramsTOP from "@/views/components/right-col/ValueAddedProgramsTOP"; //增值节目TOP组件
+
 import ZoneProgrammes from "@/views/components/right-col/ZoneProgrammes"; //专区节目组件MediaAssetsData
+// 专区节目改成贵州频道
+import GuizhouChannel from "@/views/components/right-col/GuizhouChannel"; //贵州频道收视Top横向-双条形图
+
+
 import MediaAssetsData from "@/views/components/right-col/MediaAssetsData"; //媒资数据组件
 
 import ThermodynamicChart from "@/views/components/middle-col/ThermodynamicChart"; // 热力图
@@ -116,6 +130,7 @@ export default {
     retention_and_activation: RetentionAndActivation,
     "value-added-programsTOP": ValueAddedProgramsTOP,
     "zone-programmes": ZoneProgrammes,
+    "guizhou-channel":GuizhouChannel,
     "media-assets-data": MediaAssetsData,
     "thermodynamic-chart": ThermodynamicChart
   },
@@ -125,14 +140,24 @@ export default {
         backgroundImage: "url(" + require("@/assets/bg.png") + ")",
         backgroundRepeat: "no-repeat",
         backgroundSize: "100% 100%"
-      }
+      },
+      value_p: 0 //计时器
     };
   },
   mounted() {
+    setInterval(this.get, 1000);
+
     this.drawLine();
   },
   methods: {
-    drawLine() {}
+    drawLine() {},
+    get() {
+      if (this.value_p >= 19) {
+        this.value_p = 0;
+      } else {
+        this.value_p++;
+      }
+    }
   }
 };
 </script>
@@ -186,17 +211,17 @@ export default {
   font-weight: bold;
   background-image: -webkit-linear-gradient(
     left,
-    #006AF3,
-    #00D9D8 10%,
-    #006AF3 20%,
-    #00D9D8 30%,
-    #006AF3 40%,
-    #00D9D8 50%,
-    #006AF3 60%,
-    #00D9D8 70%,
-    #006AF3 80%,
-    #00D9D8 90%,
-    #006AF3
+    #006af3,
+    #00d9d8 10%,
+    #006af3 20%,
+    #00d9d8 30%,
+    #006af3 40%,
+    #00d9d8 50%,
+    #006af3 60%,
+    #00d9d8 70%,
+    #006af3 80%,
+    #00d9d8 90%,
+    #006af3
   );
   color: transparent; /*文字填充色为透明*/
   -webkit-text-fill-color: transparent;
@@ -212,6 +237,31 @@ export default {
   100% {
     background-position: -80% 0;
   }
+}
+.home_date1 {
+  width: 2rem;
+  height: 0.22rem;
+  font-size: 0.16rem;
+  font-family: PingFangSC;
+  font-weight: 500;
+  color: rgba(0, 194, 255, 1);
+  line-height: 0.22rem;
+  margin: 0;
+  margin-left: 0.3rem;
+  margin-top: 0.08rem;
+  text-align: left;
+}
+.home_date2 {
+  width: 0.134rem;
+  height: 0.33rem;
+  font-size: 0.24rem;
+  font-family: PingFangSC;
+  font-weight: 500;
+  color: rgba(0, 194, 255, 1);
+  line-height: 0.33rem;
+  letter-spacing: 0.01rem;
+  margin: 0;
+  margin-left: 0.3rem;
 }
 
 .margin_bottom {

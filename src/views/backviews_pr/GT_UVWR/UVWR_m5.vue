@@ -15,7 +15,11 @@
           <div id="GT_UVWR1_Y2" :style="{width: '100%',height: '300px'}"></div>
 
           <p class="m_common_sm_title_font">不同平台点播次数占比</p>
-          <div id="GT_UVWR1_Y3" :style="{width: '100%',height: '300px'}"></div>
+          <!-- <div id="GT_UVWR1_Y3" :style="{width: '100%',height: '300px'}"></div> -->
+          <numberOfRegisteredUsers2
+            :fillinData="GT_UVWR1_Y3"
+            :style="{width: '100%',height: '300px'}"
+          ></numberOfRegisteredUsers2>
         </el-col>
       </el-row>
     </el-row>
@@ -26,20 +30,20 @@
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 横向条形图x3 -->
       <el-row class>
-        <el-col :span="8">
+        <el-col :span="8" v-show="ifModuleydShow">
           <p class="m_common_sm_title_font">移动（次）</p>
           <bar-list-chart :barListData="GT_UVWR1_Z1"></bar-list-chart>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-show="ifModuleltShow">
           <p class="m_common_sm_title_font">联通（次）</p>
           <bar-list-chart :barListData="GT_UVWR1_Z2"></bar-list-chart>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-show="ifModuledxShow">
           <p class="m_common_sm_title_font">电信（次）</p>
           <bar-list-chart :barListData="GT_UVWR1_Z3"></bar-list-chart>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">移动侧一级页面总点击次数1332.2万次，环比下降6.1%；页面播放时长1258.9万小时，下降17.0%。</p>
+      <!-- <p class="m_common_content_font">移动侧一级页面总点击次数1332.2万次，环比下降6.1%；页面播放时长1258.9万小时，下降17.0%。</p> -->
     </el-row>
   </div>
 </template>
@@ -47,16 +51,77 @@
 <script>
 import BarChartSingle2 from "@/views/backcoms/commoncomponents2/BarChartSingle_Change2"; //（空心）饼图组件
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
+import numberOfRegisteredUsers2 from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change2"; //在册用户数
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "UVWR_m5",
   components: {
     "bar-chart-single2": BarChartSingle2,
-    "bar-list-chart": BarListChart
+    "bar-list-chart": BarListChart,
+    numberOfRegisteredUsers2: numberOfRegisteredUsers2
+  },
+  props: ["api_data_m5"],
+  watch: {
+    api_data_m5(newValue, oldValue) {
+      console.log("api_data_m5 - newValue");
+      console.log(newValue);
+    }
   },
   mounted() {
     this.drawLine();
-    this.drawLine2();
+    // this.drawLine2();
+    let vm = this;
+    setTimeout(function() {
+      console.log("api_data_m5");
+      console.log(vm.api_data_m5);
+    }, 300);
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    ifModuleydShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuleltShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuledxShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
   },
   data() {
     return {
@@ -74,6 +139,13 @@ export default {
         ifYaxisShow: true,
         ifLegendShow: false,
         m_barWidth: "20%"
+      },
+      GT_UVWR1_Y3: {
+        title: "",
+        id: "GT_UVWR1_Y3",
+        color: ["#5B9BD5", "#ED7D31", "#FFC000"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 70, 20, 14]],
+        label_formatter: "{c}\n{d}%"
       },
       GT_UVWR1_Z1: {
         title: "",
@@ -135,7 +207,6 @@ export default {
     };
   },
   methods: {
-    
     drawLine() {
       var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_Y2"));
       var data = {

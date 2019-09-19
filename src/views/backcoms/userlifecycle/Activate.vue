@@ -1,6 +1,7 @@
 <template>
   <div class="Activate">
-    <div id="echartsAA" class="echarts1 Aleft"></div>
+    <!-- <div id="echartsAA" class="echarts1 Aleft"></div> -->
+    <div :id="activationNum_Change.id" class="echarts1 Aleft"></div>
     <div class="Aright">
       <div :style="{width: '100%',height: '70%'}" class="echarts2 Rtop">
         <line-chart-single-prop :lineData="activationRate"></line-chart-single-prop>
@@ -27,38 +28,147 @@
 </template>
 
 <script>
-import LineChartSingleProp from '@/views/backcoms/commoncomponents/LineChartSingleProp'  //单数据折线图Y轴显示百分比组件
+import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图Y轴显示百分比组件
+import { mapGetters } from "vuex";
+
 export default {
   name: "Activate",
   components: {
-    "line-chart-single-prop": LineChartSingleProp,
+    "line-chart-single-prop": LineChartSingleProp
   },
+  computed: {
+    ...mapGetters(["ULC_region"]),
+    activationNum_Change: {
+      get: function() {
+        let vm = this;
+        let id = vm.activationNum.id;
+        let title = vm.activationNum.title;
+        let dataName = vm.activationNum.dataName;
+        let color = vm.activationNum.color;
+        let data_region = [];
+        let series_data = [];
+
+        if (vm.ULC_region == null || vm.ULC_region.length == 0) {
+          data_region = vm.activationNum.data_region;
+          series_data = vm.activationNum.series_data;
+        } else {
+          if (vm.ULC_region.indexOf("贵阳") > -1) {
+            data_region.push(vm.activationNum.data_region[0]);
+            series_data.push(vm.activationNum.series_data[0]);
+          }
+          if (vm.ULC_region.indexOf("遵义") > -1) {
+            data_region.push(vm.activationNum.data_region[1]);
+            series_data.push(vm.activationNum.series_data[1]);
+          }
+          if (vm.ULC_region.indexOf("安顺") > -1) {
+            data_region.push(vm.activationNum.data_region[2]);
+            series_data.push(vm.activationNum.series_data[2]);
+          }
+          if (vm.ULC_region.indexOf("黔南") > -1) {
+            data_region.push(vm.activationNum.data_region[3]);
+            series_data.push(vm.activationNum.series_data[3]);
+          }
+          if (vm.ULC_region.indexOf("黔东南") > -1) {
+            data_region.push(vm.activationNum.data_region[4]);
+            series_data.push(vm.activationNum.series_data[4]);
+          }
+          if (vm.ULC_region.indexOf("铜仁") > -1) {
+            data_region.push(vm.activationNum.data_region[5]);
+            series_data.push(vm.activationNum.series_data[5]);
+          }
+          if (vm.ULC_region.indexOf("毕节") > -1) {
+            data_region.push(vm.activationNum.data_region[6]);
+            series_data.push(vm.activationNum.series_data[6]);
+          }
+          if (vm.ULC_region.indexOf("六盘水") > -1) {
+            data_region.push(vm.activationNum.data_region[7]);
+            series_data.push(vm.activationNum.series_data[7]);
+          }
+          if (vm.ULC_region.indexOf("黔西南") > -1) {
+            data_region.push(vm.activationNum.data_region[8]);
+            series_data.push(vm.activationNum.series_data[8]);
+          }
+        }
+        // 视图更新
+        setTimeout(function() {
+          // console.log("Activate echartsAA 视图更新");
+          vm.drawLine();
+        }, 300);
+        return {
+          id: id,
+          title: title,
+          dataName: dataName,
+          color: color,
+          data_region: data_region,
+          series_data: series_data
+        };
+      },
+      set: function(newValue) {}
+    }
+  },
+
   data() {
     return {
       activationRate: {
         title: "激活率",
         id: "newPayingUsers",
         color: ["#FF6123", "#FF8859"],
-        data:
+        data: [
           [
-            ['product', '贵阳', '遵义', '毕节', '铜仁', '六盘水', '黔南', '黔东南', '黔西南', '安顺'],
-            ['本月', 30, 40, 30, 70, 90, 50, 80, 30, 40],
-            ['同期', 20, 40, 50, 40, 60, 40, 77, 50, 80]
-          ]
+            "product",
+            "贵阳",
+            "遵义",
+            "安顺",
+            "黔南",
+            "黔东南",
+            "铜仁",
+            "毕节",
+            "六盘水",
+            "黔西南"
+          ],
+          ["本月", 30, 40, 30, 70, 90, 50, 80, 30, 40],
+          ["同期", 20, 40, 50, 40, 60, 40, 77, 50, 80]
+        ]
+      },
+      activationNum: {
+        id: "echartsAA",
+        title: "激活用户数",
+        dataName: ["激活数"],
+        color: ["#FF6123"],
+        data_region: [
+          "贵阳",
+          "遵义",
+          "安顺",
+          "黔南",
+          "黔东南",
+          "铜仁",
+          "毕节",
+          "六盘水",
+          "黔西南"
+        ],
+        series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
       }
     };
   },
   mounted() {
-    this.drawLine()
+    this.drawLine();
   },
   methods: {
     drawLine() {
-      var myChart2 = this.$echarts.init(document.getElementById("echartsAA"));
-      var myColor = ["#FF6123"];
-      var arrName = ["激活数"];
+      var vm = this;
+
+      var color = vm.activationNum_Change.color;
+      var dataName = vm.activationNum_Change.dataName;
+      var title = vm.activationNum_Change.title;
+      var series_data = vm.activationNum_Change.series_data;
+      var data_region = vm.activationNum_Change.data_region;
+      var myChart2 = this.$echarts.init(
+        document.getElementById(vm.activationNum_Change.id)
+      );
+
       var option2 = {
         title: {
-          text: "激活用户数",
+          text: title,
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
@@ -78,7 +188,7 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: '5%',
+          top: "5%",
           right: "5%",
           feature: {
             saveAsImage: {}
@@ -88,7 +198,7 @@ export default {
           show: true,
           top: "10%",
           left: "40%",
-          data: arrName,
+          data: dataName,
           itemWidth: 6,
           itemHeight: 6,
           padding: [0, 5],
@@ -116,23 +226,13 @@ export default {
           },
           axisLine: {
             lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
             }
           },
           axisTick: {
             alignWithLabel: true
           },
-          data: [
-            "贵阳",
-            "遵义",
-            "六盘水",
-            "安顺",
-            "毕节",
-            "铜仁",
-            "黔东南",
-            "黔南",
-            "黔西南"
-          ]
+          data: data_region
         },
         yAxis: {
           type: "value",
@@ -145,27 +245,28 @@ export default {
               color: "#939393",
               type: "dotted",
               opacity: 0.2
-            },
-          },
-          axisLine: {
-            show: false,  //Y轴不显示
-            lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
             }
           },
-          axisLabel: {//横坐标类目文字
+          axisLine: {
+            show: false, //Y轴不显示
+            lineStyle: {
+              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+            }
+          },
+          axisLabel: {
+            //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: '12'//设置横坐标轴文字颜大小
+              fontSize: "12" //设置横坐标轴文字颜大小
             }
           },
           axisTick: {
-            show: false  //设置坐标轴刻度不显示
+            show: false //设置坐标轴刻度不显示
           }
         },
         series: [
           {
-            name: arrName[0],
+            name: dataName[0],
             type: "bar",
             barWidth: "33%", //柱图宽度
             stack: "总量",
@@ -175,8 +276,8 @@ export default {
                 position: "insideRight"
               }
             },
-            data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
-            color: myColor[0]
+            data: series_data,
+            color: color[0]
           }
         ]
       };

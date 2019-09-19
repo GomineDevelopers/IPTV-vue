@@ -5,128 +5,134 @@
 </template>
 <script>
 export default {
-  name: "registereduserpie",  //用户注册人数饼图
+  name: "registereduserpie", //用户注册人数饼图
   props: ["fillinData"],
   data() {
-    return {}
+    return {};
   },
   mounted() {
-    this.setLineChart()
+    this.setLineChart();
   },
   methods: {
     setLineChart() {
-      var lineChart = this.$echarts.init(document.getElementById(this.fillinData.id))
+      var lineChart = this.$echarts.init(
+        document.getElementById(this.fillinData.id)
+      );
       //   循环获取数据
-      let seriesData = []
+      let seriesData = [];
       // seriesData.barWidth= 10
-      let data = {}
+      let data = {};
 
-      let legendlist = []
-      let xAxisdata = []
+      let legendlist = [];
+      let xAxisdata = [];
       //设置series数据条数
-
+      let formatter;
+      if (
+        this.fillinData.id == "yidongAsideClickUser_UVDR" ||
+        this.fillinData.id == "liantongAsideClickUser_UVDR" ||
+        this.fillinData.id == "dianxingAsideClickUser_UVDR"
+      ) {
+        formatter = "{a} <br/>{b} : {c}";
+      } else {
+        formatter = "{a} <br/>{b} : {c}%";
+      }
       for (let i = 0; i < this.fillinData.data.length; i++) {
-        data = {}
-        data.name = this.fillinData.data[i][1][0]
-        data.type = 'bar'
-        data.data = []
-        data.barWidth = '40'
+        data = {};
+        data.name = this.fillinData.data[i][1][0];
+        data.type = "bar";
+        data.data = [];
+        data.barWidth = "40";
         data.label = {
           show: true,
-          position: 'top',
-          formatter: '{c}'
-
-        }
-        data.barGap = "5%"
+          position: "top",
+          formatter: "{c}"
+        };
+        data.barGap = "5%";
         data.itemStyle = {
-          color: this.fillinData.color[i],
-        }
+          color: this.fillinData.color[i]
+        };
 
         for (let j = 1; j <= this.fillinData.data[i][1].length - 1; j++) {
-          data.data.push(this.fillinData.data[i][1][j])
+          data.data.push(this.fillinData.data[i][1][j]);
           if (i == this.fillinData.data.length - 1) {
-            xAxisdata.push(this.fillinData.data[i][0][j])
+            xAxisdata.push(this.fillinData.data[i][0][j]);
           }
-
         }
 
-        legendlist.push(this.fillinData.data[i][1][0])
-        seriesData.push(data)
+        legendlist.push(this.fillinData.data[i][1][0]);
+        seriesData.push(data);
       }
       // console.log(seriesData,"1111111111")
       // 数据配置项
       let option = {
         title: {
           text: this.fillinData.title,
-          x: 'left',
-          padding: [
-            11, 0, 0, 18
-          ],
+          x: "left",
+          padding: [11, 0, 0, 18],
           textStyle: {
-            fontStyle: 'normal',
-            fontWeight: 'normal',
-            fontSize: '14'
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "14"
           }
         },
         xAxis: {
-          type: 'category',
+          type: "category",
 
           // 留白空隙
           boundaryGap: [0, 0.5],
           axisLine: {
             lineStyle: {
-              color: "#A0A4AA",
+              color: "#A0A4AA"
             },
-            show: false,
+            show: false
           },
           // 文字斜体
           axisLabel: {
-            interval: 0,//横轴信息全部显示
-            rotate: 30,//30度角倾斜显示  
+            interval: 0, //横轴信息全部显示
+            rotate: 30, //30度角倾斜显示
             padding: [20, 0, 0, 0],
             fontSize: 14,
             color: "#111"
           },
 
-
           // 影藏刻度
           axisTick: {
-            show: false,
+            show: false
           },
           data: xAxisdata
         },
         yAxis: {
-          type: 'value',
+          type: "value",
           axisLine: {
             lineStyle: {
-              color: "#A0A4AA",
+              color: "#A0A4AA"
             },
-            show: false,
+            show: false
           },
           // 影藏刻度
           axisTick: {
-            show: false,
-          },
+            show: false
+          }
         },
         grid: {
           top: "83",
-          left: '3%',
-          right: '50',
+          left: "3%",
+          right: "50",
           bottom: "55",
           containLabel: true
         },
         tooltip: {
-          trigger: 'item',
-          formatter: "{a} <br/>{b} : {c}%"
+          trigger: "item",
+          formatter: formatter
         },
         series: seriesData
       };
 
-      lineChart.setOption(option)
+      lineChart.setOption(option);
       window.addEventListener("resize", () => {
-        lineChart.resize()
-      })
+        lineChart.resize();
+      });
     }
   }
-}
+};
 </script>

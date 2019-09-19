@@ -10,8 +10,8 @@
       <div class="login_right height_auto">
         <span class="form_title">登&nbsp;录</span>
         <p>
-          <span>用户名:</span>
-          <el-input placeholder="请输入用户名" v-model="name" clearable></el-input>
+          <span>邮箱:</span>
+          <el-input placeholder="请输入邮箱" v-model="name" clearable></el-input>
         </p>
         <p>
           <span>密码：</span>
@@ -25,8 +25,10 @@
   </div>
 </template>
 <script>
+import { login, get_user_permissions } from "@/api/api_main";
+
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       loginBodyBgm: {
@@ -34,29 +36,98 @@ export default {
         backgroundRepeat: "no-repeat",
         backgroundSize: "100% 100%"
       },
-      name: '',  //用户名
-      password: '',  //密码
-      alertShow: false,  //控制提示
-      alertTitle: '', //提示文字
-      alertType: '',  //提示类型
-    }
+      name: "", //用户名
+      password: "", //密码
+      alertShow: false, //控制提示
+      alertTitle: "", //提示文字
+      alertType: "" //提示类型
+    };
   },
   methods: {
     login() {
-      let name = this.name
-      let password = this.password
-      console.log("用户名：", name)
-      console.log("密码：", password)
-      if (name == '' || password == '') {
-        this.alertShow = true
-        this.alertTitle = "请填写正确的用户名和密码！"
-        this.alertType = 'warning'
+      let name = this.name;
+      let password = this.password;
+      console.log("用户名：", name);
+      console.log("密码：", password);
+      if (name == "" || password == "") {
+        this.alertShow = true;
+        this.alertTitle = "请填写正确的用户名和密码！";
+        this.alertType = "warning";
       } else {
+        let vm = this;
+        var formData = new FormData();
+        var formData = new window.FormData();
+        formData.append("email", vm.name);
+        formData.append("password", vm.password);
+        vm.data = formData;
+        vm.$commonTools.setCookieCry("email", vm.name, 1); // 邮箱名称
 
+        login(vm.data)
+          .then(function(response) {
+            if (response.status === 201) {
+              console.log("201");
+              let access_token = response.data.access_token;
+              vm.$commonTools.setCookie(
+                "user_token",
+                JSON.stringify(access_token),
+                60
+              );
+              setTimeout(function() {
+                // 权限判定
+                let token = vm.$commonTools.getCookie("user_token");
+                let newToken = token.replace('"', "").replace('"', "");
+                get_user_permissions(newToken)
+                  .then(function(response) {
+                    console.log(response);
+                    console.log("~~~~获取权限成功！");
+                    let m_res_data = response.data.data;
+                    let length = m_res_data.length;
+                    let i;
+                    let temp = [];
+                    for (i = 0; i < length; i++) {
+                      temp.push(m_res_data[i].id);
+                    }
+                    let temp_authorizationChoose = [];
+                    temp_authorizationChoose = temp;
+                    vm.$store
+                      .dispatch(
+                        "set_current_authority",
+                        temp_authorizationChoose
+                      )
+                      .then(function(response) {
+                        console.log(response);
+                        console.log(temp_authorizationChoose);
+                        // 跳转-后台主页面
+                        vm.$router.push({ path: "/backhome" });
+                        // 路由处理：跳转到具有权限的第一个页面
+
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                      });
+                  })
+                  .catch(function(error) {
+                    console.info(error);
+                  });
+              }, 300);
+            } else {
+              console.log("Failed");
+              vm.alertShow = true;
+              vm.alertTitle = "登录失败，请重试！";
+              vm.alertType = "warning";
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+            console.log("Failed");
+            vm.alertShow = true;
+            vm.alertTitle = "登录失败，请重试！";
+            vm.alertType = "warning";
+          });
       }
     }
   }
-}
+};
 </script>
 <style>
 .login_body .el-input--suffix .el-input__inner {

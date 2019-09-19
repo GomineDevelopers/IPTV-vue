@@ -146,6 +146,46 @@ commonTools.getWeek_m = function (date) {
 
 ////////////////////// 遍历某年的各周日期范围(开始)
 
+// 传入年
+commonTools.weekDate = function (year) {
+    let arr_temp = [];
+    let temp;
+    let start;
+    let end;
+    let index1 = 1;
+    for (let i of commonTools.createWeeks(year)) {
+        start = i[0];
+        end = i[1];
+        temp = {
+            value: String(year) + "选项" + String(index1),
+            label: String(year) + `年第${commonTools.formatDig(
+                index1++
+            )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
+        };
+        arr_temp.push(temp);
+    }
+    return arr_temp
+}
+// 传入年 与 累加数据
+commonTools.weekDate_add = function (year, arr_temp) {
+    let temp;
+    let start;
+    let end;
+    let index1 = 1;
+    for (let i of commonTools.createWeeks(year)) {
+        start = i[0];
+        end = i[1];
+        temp = {
+            value: String(year) + "选项" + String(index1),
+            label: String(year) + `年第${commonTools.formatDig(
+                index1++
+            )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
+        };
+        arr_temp.push(temp);
+    }
+    return arr_temp
+}
+
 // 格式（不大于9给0）
 commonTools.formatDig = function (num) {
     return num > 9 ? '' + num : '0' + num;
@@ -172,8 +212,8 @@ commonTools.formatDate2 = function (mill) {
         ""
     ];
     let format = ['年', '月', '日'];
-    console.log("~~~raws:");
-    console.log(raws);
+    // console.log("~~~raws:");
+    // console.log(raws);
 
     return String.raw({ raw: raws }, ...format); // 参数 4夹3
     // eg：
@@ -190,7 +230,7 @@ commonTools.formatDate3 = function (mill) {
         ""
     ];
     let format = ['-', '-', ''];
-    return String.raw({ raw: raws }, ...format); 
+    return String.raw({ raw: raws }, ...format);
 }
 // 第几周
 commonTools.createWeeks = function* (year) {
@@ -250,10 +290,95 @@ commonTools.getMonthDays_y = function (year) {
         // console.log(month)
         // console.log(commonTools.getMonthDays(year, month))
     }
-    console.log(monthDaysArr);
+    // console.log(monthDaysArr);
 
     // return monthDaysArr;
     return monthDays;
+}
+
+// 某年1~12月（下拉框数据格式）
+commonTools.format_MonthDays = function (year) {
+
+    let monthDays = commonTools.getMonthDays_y(year);
+
+    let m_format = [];
+    let length = 12;
+    let i;
+    let temp;
+    for (i = 1; i <= length; i++) {
+        temp = {
+            value: String(year) + "选项" + String(i),
+            label: String(year) + "年" + String(i) + "月" + "(" + monthDays.firstDay[i - 1] + "至" + monthDays.lastDay[i - 1] + ")"
+        }
+        m_format.push(temp);
+    }
+    return m_format;
+
+}
+// 某年1~12月（下拉框数据格式） 与 累加
+commonTools.format_MonthDays_add = function (year, m_format) {
+    let monthDays = commonTools.getMonthDays_y(year);
+    // let m_format = [];
+    let length = 12;
+    let i;
+    let temp;
+    for (i = 1; i <= length; i++) {
+        temp = {
+            value: String(year) + "选项" + String(i),
+            label: String(year) + "年" + String(i) + "月" + "(" + monthDays.firstDay[i - 1] + "至" + monthDays.lastDay[i - 1] + ")"
+        }
+        m_format.push(temp);
+    }
+    return m_format;
+
+}
+
+// 原-多选换单选
+
+commonTools.delete_repet_origin = function (val_new, val_old) {
+
+    // 数组去重
+    // console.log(val_new);
+    // console.log(val_old);
+
+
+    //做比较的两个数组
+    // var array_new = ["a", "b", "c", "d", "e"]; //数组1
+    // var array_old = ["d", "f", "e", "a", "p"]; //数组2
+    var array_new = val_new; //数组1
+    var array_old = val_old; //数组2
+    if (array_new == array_old) {
+        // console.log(array_new);
+        return array_new;
+    }
+    //临时数组存放
+    var tempArray_new = []; //临时数组1
+    var tempArray_old = []; //临时数组2
+    for (var i = 0; i < array_old.length; i++) {
+        tempArray_new[array_old[i]] = true; //将数array_old 中的元素值作为tempArray_new 中的键，值为true；
+    }
+
+    for (var i = 0; i < array_new.length; i++) {
+        if (!tempArray_new[array_new[i]]) {
+            tempArray_old.push(array_new[i]); //过滤array_new 中与array_old 相同的元素；
+        }
+    }
+    // console.log(tempArray_old);
+    // ▲解决：复选框去重-一去一来，包含内容相同（不管顺序）
+    if (tempArray_old.length == 0 && array_new.length == 2) { // 原长度都是2，顺序不同但内容相同
+        // console.log("~~~0 2 1")
+        // console.log(array_new[1])
+        let my_tempArr = [];
+        my_tempArr.push(array_new[1])
+        return my_tempArr;  // 则返回 新（第）2 或者 旧（第）1
+    }
+    return tempArray_old;
+}
+
+// 取消-多选换单选-返回正常选择值
+commonTools.delete_repet = function (val_new, val_old) {
+    return val_new;
+
 }
 
 export {

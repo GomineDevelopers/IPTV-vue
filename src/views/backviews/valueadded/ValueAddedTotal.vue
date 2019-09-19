@@ -79,7 +79,7 @@ export default {
       //新增付费用户占比
       newPayingUsersProportion: {
         title: "新增付费用户占比",
-        id: "newPayingUsers",
+        id: "newPayingUsers_ADD_ALL",
         color: "#5E70F1",
         data:
           [

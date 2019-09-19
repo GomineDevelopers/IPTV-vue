@@ -1,58 +1,113 @@
 <template>
   <div class="height_auto">
-    <el-row class="height_auto" :id="lineData.id"></el-row>
+    <!-- <el-row class="height_auto" :id="lineData.id"></el-row> -->
+    <el-row class="height_auto" :id="lineData_Change.id"></el-row>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "LineChartSingleProp", //折线图Y轴显示百分比
   props: {
     lineData: Object
   },
   data() {
-    return {}
+    return {};
   },
   mounted() {
-    this.setLineChart()
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 1000);
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    lineData_Change: {
+      get: function() {
+        let vm = this;
+        let data = [];
+        let color = [];
+        if (vm.lineData.id == "everyPowerActivity") {
+          if (this.PR_operator == null || this.PR_operator.length == 0) {
+            data = vm.lineData.data;
+            color = vm.lineData.color;
+          } else {
+            data.push(vm.lineData.data[0]);
+            if (this.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.lineData.color[0]);
+              data.push(vm.lineData.data[1]);
+            }
+            if (this.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.lineData.color[1]);
+              data.push(vm.lineData.data[2]);
+            }
+            if (this.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.lineData.color[2]);
+              data.push(vm.lineData.data[3]);
+            }
+            data.push(vm.lineData.data[4]);
+          }
+          // 视图更新
+          setTimeout(function() {
+            vm.setLineChart();
+          }, 1000);
+          return {
+            title: vm.lineData.title,
+            id: vm.lineData.id,
+            color: color,
+            data: data
+          };
+        }
+        return vm.lineData;
+      },
+      set: function(newValue) {}
+    }
   },
   methods: {
     setLineChart() {
-      var lineChart = this.$echarts.init(document.getElementById(this.lineData.id))
-      let seriesData = []
+      var lineChart = this.$echarts.init(
+        document.getElementById(this.lineData_Change.id)
+      );
+      let seriesData = [];
       //设置series数据条数
-      for (let i = 1; i <= this.lineData.data.length - 1; i++) {
-        seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'circle' })
+      for (let i = 1; i <= this.lineData_Change.data.length - 1; i++) {
+        seriesData.push({
+          type: "line",
+          seriesLayoutBy: "row",
+          symbol: "circle"
+        });
       }
       var option = {
-        color: this.lineData.color,
+        color: this.lineData_Change.color,
         textStyle: {
           color: "rgba(0, 0, 0, 0.65)"
         },
         title: {
-          text: this.lineData.title,
-          x: '2%',
-          y: '0%',
+          text: this.lineData_Change.title,
+          x: "2%",
+          y: "0%",
           textStyle: {
-            fontStyle: 'normal',
-            fontWeight: 'normal',
-            fontSize: '14'
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "14"
           }
         },
         legend: {
           icon: "circle",
           top: "10%",
-          itemWidth: 6,  // 设置宽度
+          itemWidth: 6, // 设置宽度
           itemHeight: 6, // 设置高度
           itemGap: 20, // 设置间距
           textStyle: {
             fontSize: 14,
-            color: 'rgba(0, 0, 0, 0.65)'
+            color: "rgba(0, 0, 0, 0.65)"
           }
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           textStyle: {
-            align: 'left'
+            align: "left"
           }
         },
         //图表自带工具
@@ -65,37 +120,38 @@ export default {
           }
         },
         dataset: {
-          source: this.lineData.data
+          source: this.lineData_Change.data
         },
         xAxis: {
-          type: 'category',
-          boundaryGap: false,  //设置数据开始显示的起点在Y轴上
+          type: "category",
+          boundaryGap: false, //设置数据开始显示的起点在Y轴上
           axisLine: {
             lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
+              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
             }
           },
           axisTick: {
-            alignWithLabel: true  //设置坐标轴刻度与坐标对齐
+            alignWithLabel: true //设置坐标轴刻度与坐标对齐
           },
-          axisLabel: {//横坐标类目文字
+          axisLabel: {
+            //横坐标类目文字
             show: true,
-            interval: 0,  // 坐标轴显示不全问题解决方案
+            interval: 0, // 坐标轴显示不全问题解决方案
             rotate: 40,
             textStyle: {
-              fontSize: '12'//设置横坐标轴文字大小
+              fontSize: "12" //设置横坐标轴文字大小
             }
-          },
+          }
         },
         yAxis: {
           gridIndex: 0,
           axisLabel: {
             show: true,
-            interval: 'auto',
-            formatter: '{value}%'
+            interval: "auto",
+            formatter: "{value}%"
           },
           axisTick: {
-            show: false  //设置坐标轴刻度不显示
+            show: false //设置坐标轴刻度不显示
           },
           axisLine: {
             show: false
@@ -107,22 +163,23 @@ export default {
               color: "#939393",
               type: "dotted",
               opacity: 0.2
-            },
-          },
+            }
+          }
         },
         grid: {
           top: "30%",
-          left: '5%',
-          right: '5%',
+          left: "5%",
+          right: "5%",
           bottom: "10%"
         },
         series: seriesData
-      }
-      lineChart.setOption(option)
+      };
+      lineChart.clear();
+      lineChart.setOption(option);
       window.addEventListener("resize", () => {
-        lineChart.resize()
-      })
+        lineChart.resize();
+      });
     }
   }
-}
+};
 </script>

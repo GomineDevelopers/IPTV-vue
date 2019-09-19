@@ -6,7 +6,7 @@
         <span class="title_border_left"></span>条件筛选
       </el-row>
       <el-row class="chart_body back_white">
-        <com-optionselect></com-optionselect>
+        <com-optionselectULC></com-optionselectULC>
       </el-row>
     </el-row>
     <!-- 条件筛选结束 -->
@@ -15,7 +15,8 @@
     <el-row class="user_register">
       <el-col class="user_register_left height_auto" :span="12">
         <el-row class="model_title">
-          <span class="title_border_left"></span>在册
+          <!-- <span class="title_border_left"></span>在册 -->
+          <span class="title_border_left"></span>在网
         </el-row>
         <el-row class="chart_body back_white">
           <com-registered></com-registered>
@@ -66,7 +67,7 @@
   </div>
 </template>
 <script>
-import OptionSelect from "@/views/backcoms/userlifecycle/OptionSelect"; // 条件筛选
+import OptionSelectULC from "@/views/backcoms/userlifecycle/OptionSelectULC"; // 条件筛选
 import Registered from "@/views/backcoms/userlifecycle/Registered"; // 在册
 import Activate from "@/views/backcoms/userlifecycle/Activate"; // 激活
 import InTheNetwork from "@/views/backcoms/userlifecycle/InTheNetwork"; // 在网
@@ -78,15 +79,15 @@ export default {
   data() {
     return {
       form: {}
-    }
+    };
   },
   components: {
-    "com-optionselect": OptionSelect,
+    "com-optionselectULC": OptionSelectULC,
     "com-registered": Registered,
     "com-activate": Activate,
     "com-inthenetwork": InTheNetwork,
     "com-userstructure": UserStructure,
-    "com-customersegmentation": CustomerSegmentation,
+    "com-customersegmentation": CustomerSegmentation
   }
 };
 </script>

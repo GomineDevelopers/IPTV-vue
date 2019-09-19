@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "LineDottedChart",
+  name: "LineDottedChart_Change",
   props: {
     lineData: Object
   },
@@ -13,8 +13,11 @@ export default {
     return {};
   },
   mounted() {
-    this.setLineChart();
     // console.log(this.lineData)
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 1000);
   },
   methods: {
     setLineChart() {
@@ -215,7 +218,7 @@ export default {
                 }
               }
             }
-          },
+          }
           // {
           //   type: "line",
           //   itemStyle: {
@@ -236,6 +239,7 @@ export default {
           // }
         ]
       };
+      lineChart.clear();
       lineChart.setOption(option);
       window.addEventListener("resize", () => {
         lineChart.resize();

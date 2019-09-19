@@ -1,6 +1,7 @@
 <template>
   <div class="height_auto">
-    <el-row :id="chartData.id" style="height:300px;"></el-row>
+    <!-- <el-row :id="chartData.id" style="height:300px;"></el-row> -->
+    <el-row :id="chartData_Change.id" style="height:300px;"></el-row>
   </div>
 </template>
 <script>
@@ -11,17 +12,42 @@ export default {
       type: Object
     }
   },
+  computed: {
+    chartData_Change: {
+      get: function() {
+        let vm = this;
+        if (vm.chartData.id == "GT_UVWR1_I1") {
+          setTimeout(function() {
+            vm.drawLine();
+          }, 1000);
+          // console.log("~~~~~~~~xxx");
+          // console.log(vm.chartData);
+          return vm.chartData;
+        }
+        return vm.chartData;
+      },
+      set: function(newValue) {}
+    }
+  },
   data() {
     return {};
   },
   mounted() {
-    this.drawLine();
+    let vm = this;
+    setTimeout(function() {
+      vm.drawLine();
+    }, 1000);
   },
   methods: {
     drawLine() {
-      var m_barWidth = this.chartData.m_barWidth;
-      var ifYaxisShow = this.chartData.ifYaxisShow;
-      var ifLegendShow = this.chartData.ifLegendShow;
+      if (this.chartData_Change.id == "GT_UVWR1_I1") {
+        // console.log("~~~~~~~~xxx ---- yyyy");
+        // console.log(this.chartData_Change);
+      }
+
+      var m_barWidth = this.chartData_Change.m_barWidth;
+      var ifYaxisShow = this.chartData_Change.ifYaxisShow;
+      var ifLegendShow = this.chartData_Change.ifLegendShow;
       var Ybool;
       if (ifYaxisShow) {
         Ybool = {
@@ -79,17 +105,17 @@ export default {
       }
 
       var barChartSingle = this.$echarts.init(
-        document.getElementById(this.chartData.id)
+        document.getElementById(this.chartData_Change.id)
       );
       let seriesData = [];
       //设置series数据条数
-      for (let i = 1; i <= this.chartData.data[0].length - 1; i++) {
+      for (let i = 1; i <= this.chartData_Change.data[0].length - 1; i++) {
         seriesData.push({ type: "bar", barWidth: m_barWidth });
       }
       var option = {
-        color: this.chartData.color,
+        color: this.chartData_Change.color,
         title: {
-          text: this.chartData.title,
+          text: this.chartData_Change.title,
           x: "left",
           y: "7%",
           textStyle: {
@@ -131,7 +157,7 @@ export default {
           bottom: "10%"
         },
         dataset: {
-          source: this.chartData.data
+          source: this.chartData_Change.data
         },
         xAxis: {
           type: "category",
@@ -155,6 +181,7 @@ export default {
         yAxis: Ybool,
         series: seriesData
       };
+      barChartSingle.clear();
       barChartSingle.setOption(option);
       window.addEventListener("resize", () => {
         barChartSingle.resize();

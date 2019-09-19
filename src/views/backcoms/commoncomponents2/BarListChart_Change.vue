@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-  name: "BarListChart", //专题专区数据报告
+  name: "BarListChart_Change", //专题专区数据报告
   props: {
     barListData: {
       type: Object
@@ -19,7 +19,10 @@ export default {
     return {};
   },
   mounted() {
-    this.setLineChart();
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 1000);
   },
   methods: {
     setLineChart() {
@@ -32,6 +35,7 @@ export default {
         seriesData.push({
           type: "bar",
           barWidth: "16",
+          barMinHeight: 10,
           itemStyle: {
             normal: {
               label: {
@@ -135,6 +139,7 @@ export default {
         },
         series: seriesData
       };
+      barListChart.clear();
       barListChart.setOption(option);
       window.addEventListener("resize", () => {
         barListChart.resize();

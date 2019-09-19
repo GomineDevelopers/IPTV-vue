@@ -56,34 +56,56 @@
 </template>
 <script>
 export default {
-  name: 'ProgramSearching', //节目搜索
+  name: "ProgramSearching", //节目搜索
+  watch: {
+    dateValue(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_PS_time", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    programInput(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_PS_name", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }
+  },
   data() {
     return {
       dateValue: [new Date(2019, 2, 10, 10, 10), new Date(2019, 2, 10, 10, 10)],
-      programInput: '',
+      programInput: "",
       tableData: [
         {
-          watchUserNumber: '12312',
-          watchNumber: '421312',
-          watchTheTime: '21312',
-          ratingPerHousehold: '2',
-          averageViewingTimes: '21',
-          bunchViewingTop: '23',
-          liveViewingTop: '12'
+          watchUserNumber: "12312",
+          watchNumber: "421312",
+          watchTheTime: "21312",
+          ratingPerHousehold: "2",
+          averageViewingTimes: "21",
+          bunchViewingTop: "23",
+          liveViewingTop: "12"
         }
       ]
-    }
+    };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     searchSubmit() {
-      console.log(this.dateValue)
-      console.log(this.programInput)
+      console.log(this.dateValue);
+      console.log(this.programInput);
     }
   }
-}
+};
 </script>
 <style>
 /* elementui 复选框背景色 统一修改 */

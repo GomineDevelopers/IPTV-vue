@@ -10,55 +10,121 @@
   </div>
 </template>
 <script>
+import { users_subscribe } from "@/api/api_main";
+
 export default {
-  name: "OrderData",  //订购数据组件
+  name: "OrderData", //订购数据组件
   data() {
-    return {}
+    return {
+      order_data_circular: {
+        data: [
+          // {
+          //   name: "欢乐家庭包",
+          //   value: 121711
+          // },
+          // {
+          //   name: "少儿包",
+          //   value: 72112
+          // },
+          // {
+          //   name: "影视包",
+          //   value: 33211
+          // }
+        ]
+      }
+    };
   },
   mounted() {
-    this.drawLine()
-    this.drawLine2()
+    // this.drawLine();
+    this.users_subscribe();
+    this.drawLine2();
   },
   methods: {
+    users_subscribe() {
+      let vm = this;
+      console.log("users_subscribe");
+      let data = {
+        operator: String(["移动"]),
+        start: "2019-07-01",
+        end: "2019-07-01" // 先 7-1 ，之后改成 7-31
+      };
+      console.log("~~~~~~~users_subscribe");
+      console.log(String(["移动"]));
+      console.log(String(["移动", "联通", "电信"]));
+      users_subscribe(data)
+        .then(function(response) {
+          console.log(response);
+          console.log(
+            response.data.responses[0].aggregations.value_added_service_package
+              .buckets.length
+          );
+          let buckets =
+            response.data.responses[0].aggregations.value_added_service_package
+              .buckets;
+          let length = buckets.length;
+          let i;
+          // 不管 季的 年的 只管月的
+          // 欢乐家庭VIP 少儿VIP 影视VIP
+          for (i = 0; i < length; i++) {
+            if (buckets[i].key == "欢乐家庭VIP") {
+              let temp = {
+                name: "欢乐家庭包",
+                value: buckets[i].new_income.value
+              };
+              vm.order_data_circular.data.push(temp);
+            }
+            if (buckets[i].key == "少儿VIP") {
+              let temp = {
+                name: "少儿包",
+                value: buckets[i].new_income.value
+              };
+              vm.order_data_circular.data.push(temp);
+            }
+            if (buckets[i].key == "影视VIP") {
+              let temp = {
+                name: "影视包",
+                value: buckets[i].new_income.value
+              };
+              vm.order_data_circular.data.push(temp);
+            }
+          }
+          setTimeout(function() {
+            vm.drawLine();
+          }, 300);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     drawLine() {
+      let vm = this;
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById('order_data_circular'))
-      let data = [
-        {
-          name: "欢乐家庭包",
-          value: 121711
-        },
-        {
-          name: "少儿包",
-          value: 72112
-        },
-        {
-          name: "影视包",
-          value: 33211
-        },
-      ];
-      let arrName = getArrayValue(data, "name")
-      let arrValue = getArrayValue(data, "value")
-      let sumValue = eval(arrValue.join('+'))
-      let objData = array2obj(data, "name")
-      let optionData = getData(data)
+      var myChart = this.$echarts.init(
+        document.getElementById("order_data_circular")
+      );
+      let data = vm.order_data_circular.data;
+      let arrName = getArrayValue(data, "name");
+      let arrValue = getArrayValue(data, "value");
+      let sumValue = eval(arrValue.join("+"));
+      let objData = array2obj(data, "name");
+      let optionData = getData(data);
       function getArrayValue(array, key) {
-        var key = key || "value"
-        var res = []
+        var key = key || "value";
+        var res = [];
         if (array) {
-          array.forEach(function (t) {
-            res.push(t[key])
-          })
+          array.forEach(function(t) {
+            res.push(t[key]);
+          });
         }
-        return res
+        return res;
       }
 
       function array2obj(array, key) {
-        var resObj = {}
+        var resObj = {};
         for (var i = 0; i < array.length; i++) {
           resObj[array[i][key]] = array[i];
         }
-        return resObj
+        return resObj;
       }
 
       function getData(data) {
@@ -68,85 +134,91 @@ export default {
         };
         for (let i = 0; i < data.length; i++) {
           res.series.push({
-            name: '订购类型',
-            type: 'pie',
+            name: "订购类型",
+            type: "pie",
             clockWise: true, //顺时加载
             hoverAnimation: false, //鼠标移入变大
-            radius: [65 - i * 15 + '%', 57 - i * 15 + '%'],
+            radius: [65 - i * 15 + "%", 57 - i * 15 + "%"],
             center: ["30%", "55%"],
             label: {
               show: false
             },
             itemStyle: {
               label: {
-                show: false,
+                show: false
               },
               labelLine: {
                 show: false
               },
-              borderWidth: 5,
+              borderWidth: 5
             },
-            data: [{
-              value: data[i].value,
-              name: data[i].name
-            }, {
-              value: sumValue - data[i].value,
-              name: '',
-              itemStyle: {
-                color: "rgba(0,0,0,0)",
-                borderWidth: 0
+            data: [
+              {
+                value: data[i].value,
+                name: data[i].name
               },
-              tooltip: {
-                show: false
-              },
-              hoverAnimation: false
-            }]
+              {
+                value: sumValue - data[i].value,
+                name: "",
+                itemStyle: {
+                  color: "rgba(0,0,0,0)",
+                  borderWidth: 0
+                },
+                tooltip: {
+                  show: false
+                },
+                hoverAnimation: false
+              }
+            ]
           });
           res.series.push({
-            name: '',
-            type: 'pie',
+            name: "",
+            type: "pie",
             silent: true,
             z: 1,
             clockWise: false, //顺时加载
             hoverAnimation: false, //鼠标移入变大
-            radius: [65 - i * 15 + '%', 57 - i * 15 + '%'],
+            radius: [65 - i * 15 + "%", 57 - i * 15 + "%"],
             center: ["30%", "55%"],
             label: {
               show: false
             },
             itemStyle: {
               label: {
-                show: false,
+                show: false
               },
               labelLine: {
                 show: false
               },
-              borderWidth: 5,
+              borderWidth: 5
             },
-            data: [{
-              value: 10,
-              itemStyle: {
-                color: "rgba(47,69,84,0.8)",
-                borderWidth: 0
+            data: [
+              {
+                value: 10,
+                itemStyle: {
+                  color: "rgba(47,69,84,0.8)",
+                  borderWidth: 0
+                },
+                tooltip: {
+                  show: false
+                },
+                hoverAnimation: false
               },
-              tooltip: {
-                show: false
-              },
-              hoverAnimation: false
-            }, {
-              value: 0,
-              name: '',
-              itemStyle: {
-                color: "rgba(0,0,0,0)",
-                borderWidth: 0
-              },
-              tooltip: {
-                show: false
-              },
-              hoverAnimation: false
-            }]
+              {
+                value: 0,
+                name: "",
+                itemStyle: {
+                  color: "rgba(0,0,0,0)",
+                  borderWidth: 0
+                },
+                tooltip: {
+                  show: false
+                },
+                hoverAnimation: false
+              }
+            ]
           });
-          res.yAxis.push((data[i].value / sumValue * 100).toFixed(2) + "%");
+          res.yAxis.push(((data[i].value / sumValue) * 100).toFixed(2) + "%");
         }
         return res;
       }
@@ -155,16 +227,16 @@ export default {
         legend: {
           show: true,
           top: "center",
-          left: '60%',
+          left: "60%",
           data: arrName,
           itemWidth: 5,
           itemHeight: 5,
           width: 40,
           padding: [0, 5],
           itemGap: 10,
-          formatter: function (name) {
+          formatter: function(name) {
             //return "{title|" + name + "}\n{value|" + (objData[name].value) + "人}"
-            return "{title|" + name + "}"
+            return "{title|" + name + "}";
           },
           textStyle: {
             rich: {
@@ -179,45 +251,49 @@ export default {
                 color: "#dedede"
               }
             }
-          },
+          }
         },
         tooltip: {
           show: true,
           trigger: "item",
-          position: ['40%', '45%'],
+          position: ["40%", "45%"],
           formatter: "{a}<br>{b}:{c}({d}%)"
         },
-        color: ['#4346D3', '#16CEB9', '#488BFF'],
-        yAxis: [{
-          type: 'category',
-          inverse: true,
-          axisLine: {
+        color: ["#4346D3", "#16CEB9", "#488BFF"],
+        yAxis: [
+          {
+            type: "category",
+            inverse: true,
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              show: false //不显示环形条的百分比
+            },
+            data: optionData.yAxis
+          }
+        ],
+        xAxis: [
+          {
             show: false
-          },
-          axisTick: {
-            show: false
-          },
-          axisLabel: {
-            show: false  //不显示环形条的百分比
-          },
-          data: optionData.yAxis
-        }],
-        xAxis: [{
-          show: false
-        }],
+          }
+        ],
         series: optionData.series
-      }
+      };
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
+      myChart.setOption(option);
 
-      window.addEventListener('resize', () => {
-        myChart.resize()
-      })
+      window.addEventListener("resize", () => {
+        myChart.resize();
+      });
     },
 
     drawLine2() {
       // 基于准备好的dom，初始化echarts实例
-      var myChart2 = this.$echarts.init(document.getElementById('paid_data'))
+      var myChart2 = this.$echarts.init(document.getElementById("paid_data"));
 
       var option2 = {
         textStyle: {
@@ -225,66 +301,73 @@ export default {
         },
         color: [
           {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 1,
             y2: 1,
-            colorStops: [{
-              offset: 0, color: '#00E5FF' // 0% 处的颜色
-            }, {
-              offset: 1, color: '#0053DC' // 100% 处的颜色
-            }],
+            colorStops: [
+              {
+                offset: 0,
+                color: "#00E5FF" // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: "#0053DC" // 100% 处的颜色
+              }
+            ]
           }
         ],
         tooltip: {
-          trigger: 'item',
-          position: 'top'
+          trigger: "item",
+          position: "top"
         },
         legend: {
           itemWidth: 6,
           itemHeight: 3,
           textStyle: {
             color: "#dedede"
-          },
+          }
         },
         grid: {
           top: "17%",
-          left: '2%',
-          right: '4%',
+          left: "2%",
+          right: "4%",
           bottom: "1%",
           containLabel: true
         },
         dataset: {
           source: [
-            ['product', '订购用户数'],
-            ['02月', 9500],
-            ['03月', 8300],
-            ['04月', 5600],
-            ['05月', 7200],
-            ['07月', 3500],
-            ['08月', 6500],
+            ["product", "订购用户数"],
+            ["02月", 9500],
+            ["03月", 8300],
+            ["04月", 5600],
+            ["05月", 7200],
+            ["07月", 3500],
+            ["08月", 6500]
           ]
         },
         xAxis: {
-          type: 'category',
-          axisLabel: {//横坐标类目文字
+          type: "category",
+          axisLabel: {
+            //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: '10'//设置横坐标轴文字颜大小
+              fontSize: "10" //设置横坐标轴文字颜大小
             }
           },
           axisTick: {
-            alignWithLabel: true  //设置坐标轴刻度与坐标对齐
+            alignWithLabel: true //设置坐标轴刻度与坐标对齐
           },
           axisLine: {
             lineStyle: {
-              color: '#ccc',//设置横坐标轴线颜色
+              color: "#ccc" //设置横坐标轴线颜色
             }
-          },
+          }
         },
         yAxis: {
-          axisLabel: {//横坐标类目文字
+          axisLabel: {
+            //横坐标类目文字
             //rotate: 30,
           },
           // 刻度线的设置
@@ -293,34 +376,34 @@ export default {
             lineStyle: {
               color: "#939393",
               opacity: 0.2
-            },
+            }
           },
           axisTick: {
-            show: false  //设置坐标轴刻度不显示
+            show: false //设置坐标轴刻度不显示
           },
           axisLine: {
             show: false,
             lineStyle: {
-              color: '#202f59',//设置横坐标轴线颜色
+              color: "#202f59" //设置横坐标轴线颜色
             }
           }
         },
         series: [
           {
-            type: 'bar',
-            barWidth: 10, //柱子宽度
+            type: "bar",
+            barWidth: 10 //柱子宽度
           }
         ]
-      }
+      };
       // 使用刚指定的配置项和数据显示图表。
-      myChart2.setOption(option2)
+      myChart2.setOption(option2);
 
-      window.addEventListener('resize', () => {
-        myChart2.resize()
-      })
+      window.addEventListener("resize", () => {
+        myChart2.resize();
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>

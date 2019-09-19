@@ -22,7 +22,7 @@ export default {
         false,
         false,
         false
-      ],
+      ]
     };
   },
   mounted() {
@@ -134,17 +134,17 @@ export default {
                 selected: this.selectedStatus[1]
               },
               {
-                name: "● 六盘水市",
+                name: "● 安顺市",
                 value: this.myNums[2],
                 selected: this.selectedStatus[2]
               },
               {
-                name: "● 安顺市",
+                name: "● 黔南",
                 value: this.myNums[3],
                 selected: this.selectedStatus[3]
               },
               {
-                name: "● 毕节市",
+                name: "● 黔东南",
                 value: this.myNums[4],
                 selected: this.selectedStatus[4]
               },
@@ -154,12 +154,12 @@ export default {
                 selected: this.selectedStatus[5]
               },
               {
-                name: "● 黔东南",
+                name: "● 毕节市",
                 value: this.myNums[6],
                 selected: this.selectedStatus[6]
               },
               {
-                name: "● 黔南",
+                name: "● 六盘水市",
                 value: this.myNums[7],
                 selected: this.selectedStatus[7]
               },
@@ -177,46 +177,46 @@ export default {
         // 通过t判断点击的省份，做不同的响应操作
         // console.log(t.seriesIndex);
         // @PS：echarts触发bug,从第二次存在第n次,触发(n-1) * 2,
-        console.log("~~~1");
-        console.log("~~~2");
+        // console.log("~~~1");
+        // console.log("~~~2");
         let name = t.data.name;
-        let province = vm.provinceManage(name);
+        let city = vm.cityManage(name);
         let datashow = vm.datashowManage();
         switch (name) {
           case "● 贵阳市":
-            vm.dataManage(province, datashow);
+            vm.dataManage(city, datashow, 0);
             vm.selectedManage(0);
             break;
           case "● 遵义市":
-            vm.dataManage(province, datashow);
+            vm.dataManage(city, datashow, 1);
             vm.selectedManage(1);
             break;
-          case "● 六盘水市":
-            vm.dataManage(province, datashow);
+          case "● 安顺市":
+            vm.dataManage(city, datashow, 2);
             vm.selectedManage(2);
             break;
-          case "● 安顺市":
-            vm.dataManage(province, datashow);
+          case "● 黔南":
+            vm.dataManage(city, datashow, 3);
             vm.selectedManage(3);
             break;
-          case "● 毕节市":
-            vm.dataManage(province, datashow);
+          case "● 黔东南":
+            vm.dataManage(city, datashow, 4);
             vm.selectedManage(4);
             break;
           case "● 铜仁市":
-            vm.dataManage(province, datashow);
+            vm.dataManage(city, datashow, 5);
             vm.selectedManage(5);
             break;
-          case "● 黔东南":
-            vm.dataManage(province, datashow);
+          case "● 毕节市":
+            vm.dataManage(city, datashow, 6);
             vm.selectedManage(6);
             break;
-          case "● 黔南":
-            vm.dataManage(province, datashow);
+          case "● 六盘水市":
+            vm.dataManage(city, datashow, 7);
             vm.selectedManage(7);
             break;
           case "● 黔西南":
-            vm.dataManage(province, datashow);
+            vm.dataManage(city, datashow, 8);
             vm.selectedManage(8);
             break;
           default:
@@ -248,14 +248,15 @@ export default {
       this.drawLine();
     },
     // 数据处理(设置父级数据)
-    dataManage(province, datashow) {
-      this.$emit("setProvince", province);
-      this.$emit("setDatashow", datashow);
+    dataManage(city, datashow, city_num) {
+      this.$emit("setcity", city);
+      // this.$emit("setDatashow", datashow);
+      this.$emit("updateDatashow", city_num);
     },
     // 省名称处理
-    provinceManage(province) {
-      let provinceC = province.replace(/● /g, "");
-      return provinceC;
+    cityManage(city) {
+      let cityC = city.replace(/● /g, "");
+      return cityC;
     },
     // 数据处理
     datashowManage() {

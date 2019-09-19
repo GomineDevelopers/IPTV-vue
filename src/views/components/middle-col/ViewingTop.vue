@@ -3,7 +3,7 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>收视TOP
     </el-row>
-    <el-row id="viewing_top">
+    <el-row v-show="ifgetdata" id="viewing_top">
       <el-row class="viewing_top_title">
         <el-col :span="3">排名</el-col>
         <el-col :span="9">节目名称</el-col>
@@ -27,34 +27,81 @@
         </el-row>
       </div>
     </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
+import { demandProgramTop } from "@/api/api_main";
+
 export default {
-  name: 'ViewingTop', //收视TOP组件
+  name: "ViewingTop", //收视TOP组件
   data() {
     return {
+      ifgetdata: true,
       viewingTopList: [
-        { topNum: 1, programName: '疯狂的外星人', programSource: '电影', hot: '80%' },
-        { topNum: 2, programName: '熊出没.原始', programSource: '少儿', hot: '70%' },
-        { topNum: 3, programName: '流浪地球', programSource: '电影', hot: '50%' },
-        { topNum: 4, programName: '人间.喜剧', programSource: '电影', hot: '45%' },
-        { topNum: 5, programName: '白发', programSource: '电视剧', hot: '34%' },
-        { topNum: 6, programName: '反贪风暴', programSource: '电影', hot: '28%' },
-        { topNum: 7, programName: '一出好戏', programSource: '电影', hot: '26%' },
-        { topNum: 8, programName: '拜托了冰箱', programSource: '综艺', hot: '20%' },
-        { topNum: 9, programName: '极限挑战', programSource: '真人秀', hot: '18%' },
-        { topNum: 10, programName: '陈情令', programSource: '电视剧', hot: '8%' }
+        // {
+        //   topNum: 1,
+        //   programName: "疯狂的外星人",
+        //   programSource: "电影",
+        //   hot: "80%"
+        // },
+        // {
+        //   topNum: 2,
+        //   programName: "熊出没.原始",
+        //   programSource: "少儿",
+        //   hot: "70%"
+        // },
+        // ...
       ]
-    }
+    };
   },
   mounted() {
-    this.scrollLoopUp('viewingTOP_list')
+    let vm = this;
+    this.demandProgramTop();
+
+    setTimeout(function() {
+      vm.scrollLoopUp("viewingTOP_list");
+    }, 100);
   },
   methods: {
-    scrollLoopUp: function (id) {
-      var scrollBox = document.getElementById(id)
-      var lineHeight = scrollBox.clientHeight / 6
+    demandProgramTop() {
+      // console.log("demandProgramTop");
+      let vm = this;
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      console.log("~~~~~demandProgramTop");
+      demandProgramTop(data)
+        .then(function(response) {
+          let m_data = response.data.responses[0].hits.hits;
+          let length = m_data.length;
+          let i;
+          let temp;
+          let totalvalue = m_data[0]._source.demand_freq; // hot需要百分比，这里用排名第一的热度值做分母，即第一为百分百
+          for (i = 0; i < length; i++) {
+            temp = {
+              topNum: m_data[i]._source.rank_demand_freq,
+              programName: m_data[i]._source.programname,
+              programSource: "", //暂时没有
+              hot:
+                String((m_data[i]._source.demand_freq / totalvalue) * 100) + "%"
+            };
+            vm.viewingTopList.push(temp);
+          }
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifgetdata = false;
+        });
+    },
+    scrollLoopUp: function(id) {
+      var scrollBox = document.getElementById(id);
+      var lineHeight = scrollBox.clientHeight / 6;
       //var lineHeight = 30
       var time = 100;
       scrollBox.innerHTML += scrollBox.innerHTML;
@@ -65,20 +112,22 @@ export default {
         timer = setInterval(scrollUp, time);
       }
       function scrollUp() {
-        if (scrollBox.scrollTop % lineHeight == 0) {//滚动一行后，延时2秒
-          clearInterval(timer)
-          setTimeout(scrollMove, 2000)
+        if (scrollBox.scrollTop % lineHeight == 0) {
+          //滚动一行后，延时2秒
+          clearInterval(timer);
+          setTimeout(scrollMove, 2000);
         } else {
-          scrollBox.scrollTop++
-          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) { //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动 
-            scrollBox.scrollTop = 0
+          scrollBox.scrollTop++;
+          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) {
+            //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动
+            scrollBox.scrollTop = 0;
           }
         }
       }
-      setTimeout(scrollMove, 2000)
+      setTimeout(scrollMove, 2000);
     }
   }
-}
+};
 </script>
 <style scoped>
 #viewing_top {

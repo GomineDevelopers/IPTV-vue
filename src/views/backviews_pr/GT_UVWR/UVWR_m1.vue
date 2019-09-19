@@ -5,7 +5,7 @@
       <span class="title_border_left"></span>G+TV用户发展数据
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row :gutter="100" class>
+      <el-row :gutter="100">
         <el-col :span="8">
           <!-- 柱状图 -->
           <p class="m_common_sm_title_font">平台累计在册用户数总览</p>
@@ -19,8 +19,9 @@
 
         <el-col :span="8">
           <!-- 饼图 -->
-          <p class="m_common_sm_title_font">三大运营商在册用户数总览</p>
-          <pie-center-label class :chartData="GT_UVWR1_A2"></pie-center-label>
+          <p class="m_common_sm_title_font">各大运营商在册用户数总览</p>
+          <!-- <pie-center-label :chartData="GT_UVWR1_A2"></pie-center-label> -->
+          <numberOfRegisteredUsers :fillinData="GT_UVWR1_A2"></numberOfRegisteredUsers>
           <p class="m_margin_0a m_common_content_font">
             移动在册用户
             <span class="font_color_r">1,162,381</span>户，较前一周增长 2.5%，增速提升0.1个百分点。 电信在册用户
@@ -50,11 +51,12 @@
       <div class="m_init_div m_width_40">
         <p class="m_common_sm_title_font">各市州在册用户占比（万户）</p>
         <pie-center-label :chartData="GT_UVWR1_B1"></pie-center-label>
+        <!-- <numberOfRegisteredUsers :fillinData="GT_UVWR1_B1"></numberOfRegisteredUsers> -->
       </div>
 
       <!-- 柱状图 + 折线图 -->
       <div class="m_init_div m_width_40 m_padding_l_5">
-        <p class="m_common_sm_title_font">三大运营商各市州一周新增在册用户数（户）</p>
+        <p class="m_common_sm_title_font">各大运营商各市州一周新增在册用户数（户）</p>
         <bar-charts-stack :chartData="GT_UVWR1_B2"></bar-charts-stack>
       </div>
 
@@ -69,23 +71,26 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 饼图x3 -->
-      <el-row class>
+      <el-row>
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户占比</p>
-          <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label>
+          <!-- <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label> -->
+          <numberOfRegisteredUsers :fillinData="GT_UVWR1_C1"></numberOfRegisteredUsers>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">停机用户占比</p>
-          <pie-center-label :chartData="GT_UVWR1_C2"></pie-center-label>
+          <!-- <pie-center-label :chartData="GT_UVWR1_C2"></pie-center-label> -->
+          <numberOfRegisteredUsers :fillinData="GT_UVWR1_C2"></numberOfRegisteredUsers>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">销户用户占比</p>
-          <pie-center-label :chartData="GT_UVWR1_C3"></pie-center-label>
+          <!-- <pie-center-label :chartData="GT_UVWR1_C3"></pie-center-label> -->
+          <numberOfRegisteredUsers :fillinData="GT_UVWR1_C3"></numberOfRegisteredUsers>
         </el-col>
       </el-row>
 
       <!-- 曲线图x3 -->
-      <el-row class>
+      <el-row>
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户数走势（户）</p>
           <smooth-line-chart :smoothLineData="GT_UVWR1_C4"></smooth-line-chart>
@@ -132,16 +137,16 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
-      <el-row class>
-        <el-col :span="8">
+      <el-row>
+        <el-col :span="8" v-show="ifModuleydShow">
           <p class="m_common_sm_title_font">移动</p>
           <bar-list-chart :barListData="GT_UVWR1_E1"></bar-list-chart>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-show="ifModuleltShow">
           <p class="m_common_sm_title_font">联通</p>
           <bar-list-chart :barListData="GT_UVWR1_E2"></bar-list-chart>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-show="ifModuledxShow">
           <p class="m_common_sm_title_font">电信</p>
           <bar-list-chart :barListData="GT_UVWR1_E3"></bar-list-chart>
         </el-col>
@@ -153,17 +158,17 @@
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
-      <el-row class>
+      <el-row>
         <el-col :span="8">
-          <p class="m_common_sm_title_font">移动</p>
+          <p class="m_common_sm_title_font" v-show="ifModuleydShow">移动</p>
           <bar-list-chart :barListData="GT_UVWR1_F1"></bar-list-chart>
         </el-col>
         <el-col :span="8">
-          <p class="m_common_sm_title_font">联通</p>
+          <p class="m_common_sm_title_font" v-show="ifModuleltShow">联通</p>
           <bar-list-chart :barListData="GT_UVWR1_F2"></bar-list-chart>
         </el-col>
         <el-col :span="8">
-          <p class="m_common_sm_title_font">电信</p>
+          <p class="m_common_sm_title_font" v-show="ifModuledxShow">电信</p>
           <bar-list-chart :barListData="GT_UVWR1_F3"></bar-list-chart>
         </el-col>
       </el-row>
@@ -173,6 +178,8 @@
 
 <script>
 import pie_center_label from "@/views/backcoms/commoncomponents2/pie_center_label"; //（空心）饼图组件
+import numberOfRegisteredUsers from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change"; //在册用户数
+
 import BarChartSingle from "@/views/backcoms/commoncomponents2/BarChartSingle_Change"; //（空心）饼图组件
 import BarChartSingle2 from "@/views/backcoms/commoncomponents2/BarChartSingle_Change2"; //（空心）饼图组件
 
@@ -182,9 +189,12 @@ import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change
 
 import BarChartsStack3 from "@/views/backcoms/commoncomponents2/BarChartsStack_Change3"; // 公用柱状图堆叠3 - 左侧Y轴百分比
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "UVWR_m1",
   components: {
+    numberOfRegisteredUsers: numberOfRegisteredUsers,
     "bar-chart-single": BarChartSingle,
     "bar-chart-single2": BarChartSingle2,
     "pie-center-label": pie_center_label,
@@ -193,22 +203,338 @@ export default {
     "smooth-line-chart": SmoothLineChart,
     "bar-list-chart": BarListChart
   },
+  props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4"],
+  mounted() {
+    this.render();
+    this.render2();
+    let vm = this;
+    // setTimeout(function() {
+    //   console.log("api_data_m1");
+    //   console.log(vm.api_data_m1);
+    // }, 300);
+  },
+  watch: {
+    api_data_m1(newValue, oldValue) {
+      console.log("api_data_m1 - newValue");
+      console.log(newValue);
+    },
+    api_data_m2(newValue, oldValue) {
+      console.log("api_data_m2 - newValue");
+      console.log(newValue);
+      //////////////////// E1
+      let vm = this;
+      let buckets = newValue.data.responses[0].aggregations.channel.buckets;
+      let length = buckets.length;
+      let i;
+      let data = [];
+      let data_item = [];
+      let temp_channel_key; // 栏目
+      let temp_channel_top1_key; // 栏目-节目top1-名称
+      let temp_channel_top1_onlive_dur; // 栏目-节目top1-时长
+      let data_item_name; // 栏目-节目top1-时长
 
+      if (length >= 15) {
+        length = 15; // 设置最大长度是15 - Top15
+      }
+
+      data.push(["product", "0527-0602", "0520-0526"]);
+      for (i = 0; i < length; i++) {
+        data_item = [];
+        temp_channel_key = buckets[i].key;
+        temp_channel_top1_key = buckets[i].programname.buckets[0].key;
+        temp_channel_top1_onlive_dur = parseInt(
+          vm.returnFloat(buckets[i].programname.buckets[0].onlive_dur.value)
+        );
+        data_item_name = vm.cutString(
+          temp_channel_key + "-" + temp_channel_top1_key,
+          23
+        ); // 字符串省略
+        data_item.push(data_item_name);
+        data_item.push(temp_channel_top1_onlive_dur); // 本期（本周）
+        data_item.push(temp_channel_top1_onlive_dur); // 临时：本期（本周） --（应该是上期上周）
+        data.push(data_item);
+      }
+
+      data = vm.sortArr(data, 1);
+      vm.GT_UVWR1_E1.data = data;
+      // console.log("~~~~~~~!GT_UVWR1_E1");
+      // console.log(vm.GT_UVWR1_E1);
+
+      //////////////////// F1  --- ▲▲▲ 无节目类型--channel（写成 channel）
+      let Arr2 = newValue.data.responses[1].hits.hits;
+
+      let length2 = Arr2.length;
+      let i2;
+      let data2 = [];
+      let data_item2 = [];
+      let temp_channel_key2; // 栏目
+      let temp_channel_top1_key2; // 栏目-节目top1-名称
+      let temp_channel_top1_onlive_dur2; // 栏目-节目top1-时长
+      let data_item_name2; // 栏目-节目top1-时长
+      if (length2 >= 15) {
+        length2 = 15; // 设置最大长度是15 - Top15
+      }
+
+      data2.push(["product", "0527-0602", "0520-0526"]);
+      for (i2 = 0; i2 < length2; i2++) {
+        data_item2 = [];
+        // temp_channel_key2 = Arr2[i2]._source.channel;
+        temp_channel_key2 = "channel"; // 暂无 channel
+        // temp_channel_top1_key2 = Arr2[i2]._source.programname; // 正确的
+        temp_channel_top1_key2 = Arr2[i2]._source.program_type; // 临时的
+        temp_channel_top1_onlive_dur2 = parseInt(
+          vm.returnFloat(Arr2[i2]._source.demand_freq)
+        );
+        data_item_name2 = vm.cutString(
+          temp_channel_key2 + "-" + temp_channel_top1_key2,
+          23
+        ); // 字符串省略
+        data_item2.push(data_item_name2);
+        data_item2.push(temp_channel_top1_onlive_dur2); // 本期（本周）
+        data_item2.push(temp_channel_top1_onlive_dur2); // 临时：本期（本周） --（应该是上期上周）
+        data2.push(data_item2);
+      }
+
+      data2 = vm.sortArr(data2, 1);
+      vm.GT_UVWR1_F1.data = data2;
+      // console.log("~~~~~~~!GT_UVWR1_F1");
+      // console.log(vm.GT_UVWR1_F1);
+    },
+
+    api_data_m3(newValue, oldValue) {
+      console.log("api_data_m3 - newValue");
+      console.log(newValue);
+      let vm = this;
+      let buckets = newValue.data.responses[0].aggregations.channel.buckets;
+      let length = buckets.length;
+      let i;
+      let data = [];
+      let data_item = [];
+      let temp_channel_key; // 栏目
+      let temp_channel_top1_key; // 栏目-节目top1-名称
+      let temp_channel_top1_onlive_dur; // 栏目-节目top1-时长
+      let data_item_name; // 栏目-节目top1-时长
+      if (length >= 15) {
+        length = 15; // 设置最大长度是15 - Top15
+      }
+
+      data.push(["product", "0527-0602", "0520-0526"]);
+      for (i = 0; i < length; i++) {
+        data_item = [];
+        temp_channel_key = buckets[i].key;
+        temp_channel_top1_key = buckets[i].programname.buckets[0].key;
+        temp_channel_top1_onlive_dur = parseInt(
+          vm.returnFloat(buckets[i].programname.buckets[0].onlive_dur.value)
+        );
+        data_item_name = vm.cutString(
+          temp_channel_key + "-" + temp_channel_top1_key,
+          23
+        ); // 字符串省略
+        data_item.push(data_item_name);
+        data_item.push(temp_channel_top1_onlive_dur); // 本期（本周）
+        data_item.push(temp_channel_top1_onlive_dur); // 临时：本期（本周） --（应该是上期上周）
+        data.push(data_item);
+      }
+
+      data = vm.sortArr(data, 1);
+      vm.GT_UVWR1_E2.data = data;
+
+      //////////////////// F2  --- ▲▲▲ 无节目类型--channel（写成 channel）
+      let Arr2 = newValue.data.responses[1].hits.hits;
+
+      let length2 = Arr2.length;
+      let i2;
+      let data2 = [];
+      let data_item2 = [];
+      let temp_channel_key2; // 栏目
+      let temp_channel_top1_key2; // 栏目-节目top1-名称
+      let temp_channel_top1_onlive_dur2; // 栏目-节目top1-时长
+      let data_item_name2; // 栏目-节目top1-时长
+      if (length2 >= 15) {
+        length2 = 15; // 设置最大长度是15 - Top15
+      }
+
+      data2.push(["product", "0527-0602", "0520-0526"]);
+      for (i2 = 0; i2 < length2; i2++) {
+        data_item2 = [];
+        // temp_channel_key2 = Arr2[i2]._source.channel;
+        temp_channel_key2 = "channel"; // 暂无 channel
+        // temp_channel_top1_key2 = Arr2[i2]._source.programname; // 正确的
+        temp_channel_top1_key2 = Arr2[i2]._source.program_type; // 临时的
+        temp_channel_top1_onlive_dur2 = parseInt(
+          vm.returnFloat(Arr2[i2]._source.demand_freq)
+        );
+        data_item_name2 = vm.cutString(
+          temp_channel_key2 + "-" + temp_channel_top1_key2,
+          23
+        ); // 字符串省略
+        data_item2.push(data_item_name2);
+        data_item2.push(temp_channel_top1_onlive_dur2); // 本期（本周）
+        data_item2.push(temp_channel_top1_onlive_dur2); // 临时：本期（本周） --（应该是上期上周）
+        data2.push(data_item2);
+      }
+
+      data2 = vm.sortArr(data2, 1);
+      vm.GT_UVWR1_F2.data = data2;
+    },
+
+    api_data_m4(newValue, oldValue) {
+      console.log("api_data_m4 - newValue");
+      console.log(newValue);
+      let vm = this;
+      let buckets = newValue.data.responses[0].aggregations.channel.buckets;
+      let length = buckets.length;
+      let i;
+      let data = [];
+      let data_item = [];
+      let temp_channel_key; // 栏目
+      let temp_channel_top1_key; // 栏目-节目top1-名称
+      let temp_channel_top1_onlive_dur; // 栏目-节目top1-时长
+      let data_item_name; // 栏目-节目top1-时长
+      if (length >= 15) {
+        length = 15; // 设置最大长度是15 - Top15
+      }
+
+      data.push(["product", "0527-0602", "0520-0526"]);
+      for (i = 0; i < length; i++) {
+        data_item = [];
+        temp_channel_key = buckets[i].key;
+        temp_channel_top1_key = buckets[i].programname.buckets[0].key;
+        temp_channel_top1_onlive_dur = parseInt(
+          vm.returnFloat(buckets[i].programname.buckets[0].onlive_dur.value)
+        );
+        data_item_name = vm.cutString(
+          temp_channel_key + "-" + temp_channel_top1_key,
+          23
+        ); // 字符串省略
+        data_item.push(data_item_name);
+        data_item.push(temp_channel_top1_onlive_dur); // 本期（本周）
+        data_item.push(temp_channel_top1_onlive_dur); // 临时：本期（本周） --（应该是上期上周）
+        data.push(data_item);
+      }
+
+      data = vm.sortArr(data, 1);
+      vm.GT_UVWR1_E3.data = data;
+
+      //////////////////// F3  --- ▲▲▲ 无节目类型--channel（写成 channel）
+      let Arr2 = newValue.data.responses[1].hits.hits;
+
+      let length2 = Arr2.length;
+      let i2;
+      let data2 = [];
+      let data_item2 = [];
+      let temp_channel_key2; // 栏目
+      let temp_channel_top1_key2; // 栏目-节目top1-名称
+      let temp_channel_top1_onlive_dur2; // 栏目-节目top1-时长
+      let data_item_name2; // 栏目-节目top1-时长
+      if (length2 >= 15) {
+        length2 = 15; // 设置最大长度是15 - Top15
+      }
+
+      data2.push(["product", "0527-0602", "0520-0526"]);
+      for (i2 = 0; i2 < length2; i2++) {
+        data_item2 = [];
+        // temp_channel_key2 = Arr2[i2]._source.channel;
+        temp_channel_key2 = "channel"; // 暂无 channel
+        // temp_channel_top1_key2 = Arr2[i2]._source.programname; // 正确的
+        temp_channel_top1_key2 = Arr2[i2]._source.program_type; // 临时的
+        temp_channel_top1_onlive_dur2 = parseInt(
+          vm.returnFloat(Arr2[i2]._source.demand_freq)
+        );
+        data_item_name2 = vm.cutString(
+          temp_channel_key2 + "-" + temp_channel_top1_key2,
+          23
+        ); // 字符串省略
+        data_item2.push(data_item_name2);
+        data_item2.push(temp_channel_top1_onlive_dur2); // 本期（本周）
+        data_item2.push(temp_channel_top1_onlive_dur2); // 临时：本期（本周） --（应该是上期上周）
+        data2.push(data_item2);
+      }
+
+      data2 = vm.sortArr(data2, 1);
+      vm.GT_UVWR1_F3.data = data2;
+    }
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    ifModuleydShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuleltShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuledxShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
+  },
   data() {
     return {
+      GT_UVWR1_A1: {
+        id: "GT_UVWR1_A1",
+        title: "",
+        data: ["209.4", "213.4"],
+        color: ["#EDEDED", "#ED7D31"]
+      },
+      GT_UVWR1_A3: {
+        id: "GT_UVWR1_A3",
+        title: "",
+        data: ["新增用户数", "停机用户数", "销户用户数"],
+        color: ["#5B9BD5", "#FFC000", "#ED7D31"]
+      },
+      // GT_UVWR1_A2: {
+      //   title: "",
+      //   id: "GT_UVWR1_A2",
+      //   height: "height:300px;",
+      //   m_data: ["移动", "联通", "电信"],
+      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+      //   m_data2: [
+      //     { value: 116.4, name: "移动" },
+      //     { value: 32.4, name: "联通" },
+      //     { value: 59.7, name: "电信" }
+      //   ],
+      //   label_formatter: "{c}\n{d}%",
+      //   legend_show: true
+      // },
       GT_UVWR1_A2: {
         title: "",
-        id: "GT_UVWR1_A2",
         height: "height:300px;",
-        m_data: ["移动", "电信", "联通"],
-        m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-        m_data2: [
-          { value: 116.4, name: "移动" },
-          { value: 59.7, name: "电信" },
-          { value: 32.4, name: "联通" }
-        ],
-        label_formatter: "{c}\n{d}%",
-        legend_show: true
+        id: "GT_UVWR1_A2",
+        color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 116.4, 32.4, 59.7]],
+        label_formatter: "{c}\n{d}%"
       },
 
       GT_UVWR1_B1: {
@@ -251,6 +577,39 @@ export default {
         label_formatter: "{b}\n{c}\n{d}%",
         legend_show: false
       },
+      // GT_UVWR1_B1: {
+      //   title: "",
+      //   height: "height:500px;",
+      //   id: "GT_UVWR1_B1",
+      //   color: [
+      //     "#5B9BD5",
+      //     "#FFC000",
+      //     "#ED7D31",
+      //     "#9DC3E6",
+      //     "#FFD966",
+      //     "#F4B183",
+      //     "#DEEBF7",
+      //     "#FFF2CC",
+      //     "#FBE5D6"
+      //   ],
+      //   data: [
+      //     [
+      //       "运营商",
+      //       "贵阳",
+      //       "遵义",
+      //       "黔东南",
+      //       "毕节",
+      //       "黔南",
+      //       "铜仁",
+      //       "六盘水",
+      //       "安顺",
+      //       "黔西南"
+      //     ],
+      //     ["占比", 116.4, 32.4, 59.7, 32.4, 32.4, 32.4, 32.4, 32.4, 32.4]
+      //   ],
+      //   label_formatter: "{a} <br/>{b}: {c} ({d}%)"
+      // },
+
       GT_UVWR1_B2: {
         title: "",
         id: "GT_UVWR1_B2",
@@ -268,49 +627,72 @@ export default {
           ["安顺", 43.3, 85.8, 93.7, 2.8]
         ]
       },
+      // GT_UVWR1_C1: {
+      //   title: "",
+      //   id: "GT_UVWR1_C1",
+      //   height: "height:300px;",
+      //   m_data: ["移动", "联通", "电信"],
+      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+      //   m_data2: [
+      //     { value: 7, name: "移动" },
+      //     { value: 38, name: "联通" },
+      //     { value: 55, name: "电信" }
+      //   ],
+      //   label_formatter: "{d}%",
+      //   legend_show: true
+      // },
+      // GT_UVWR1_C2: {
+      //   title: "",
+      //   id: "GT_UVWR1_C2",
+      //   height: "height:300px;",
+      //   m_data: ["移动", "联通", "电信"],
+      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+      //   m_data2: [
+      //     { value: 100, name: "移动" },
+      //     { value: 0, name: "联通" },
+      //     { value: 0, name: "电信" }
+      //   ],
+      //   label_formatter: "{c}\n{d}%",
+      //   legend_show: true
+      // },
+      // GT_UVWR1_C3: {
+      //   title: "",
+      //   id: "GT_UVWR1_C3",
+      //   height: "height:300px;",
+      //   m_data: ["移动", "联通", "电信"],
+      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+      //   m_data2: [
+      //     { value: 116.4, name: "移动" },
+      //     { value: 59.7, name: "联通" },
+      //     { value: 32.4, name: "电信" }
+      //   ],
+      //   label_formatter: "{c}\n{d}%",
+      //   legend_show: true
+      // },
       GT_UVWR1_C1: {
         title: "",
-        id: "GT_UVWR1_C1",
         height: "height:300px;",
-        m_data: ["移动", "电信", "联通"],
-        m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-        m_data2: [
-          { value: 7, name: "移动" },
-          { value: 38, name: "电信" },
-          { value: 55, name: "联通" }
-        ],
-        label_formatter: "{d}%",
-        legend_show: true
+        id: "GT_UVWR1_C1",
+        color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 7, 38, 55]],
+        label_formatter: "{c}\n{d}%"
       },
       GT_UVWR1_C2: {
         title: "",
-        id: "GT_UVWR1_C2",
         height: "height:300px;",
-        m_data: ["移动", "电信", "联通"],
-        m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-        m_data2: [
-          { value: 100, name: "移动" },
-          { value: 0, name: "电信" },
-          { value: 0, name: "联通" }
-        ],
-        label_formatter: "{c}\n{d}%",
-        legend_show: true
+        id: "GT_UVWR1_C2",
+        color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 100, 0, 0]],
+        label_formatter: "{c}\n{d}%"
       },
       GT_UVWR1_C3: {
         title: "",
-        id: "GT_UVWR1_C3",
         height: "height:300px;",
-        m_data: ["移动", "电信", "联通"],
-        m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-        m_data2: [
-          { value: 116.4, name: "移动" },
-          { value: 59.7, name: "电信" },
-          { value: 32.4, name: "联通" }
-        ],
-        label_formatter: "{c}\n{d}%",
-        legend_show: true
+        id: "GT_UVWR1_C3",
+        color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 116.4, 32.4, 59.7]],
+        label_formatter: "{c}\n{d}%"
       },
-
       GT_UVWR1_C4: {
         title: "",
         id: "GT_UVWR1_C4",
@@ -345,7 +727,7 @@ export default {
             3800
           ],
           [
-            "电信",
+            "联通",
             1400,
             1700,
             1800,
@@ -359,7 +741,7 @@ export default {
             3200
           ],
           [
-            "联通",
+            "电信",
             2140,
             2170,
             2580,
@@ -408,7 +790,7 @@ export default {
             3800
           ],
           [
-            "电信",
+            "联通",
             1400,
             1700,
             1800,
@@ -422,7 +804,7 @@ export default {
             3200
           ],
           [
-            "联通",
+            "电信",
             2140,
             2170,
             2580,
@@ -440,7 +822,7 @@ export default {
       GT_UVWR1_C6: {
         title: "",
         id: "GT_UVWR1_C6",
-        color: ["#406A9C", "#4F81BD ", "#AABAD7"],
+        color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
         data: [
           [
             "product",
@@ -471,7 +853,7 @@ export default {
             3800
           ],
           [
-            "电信",
+            "联通",
             1400,
             1700,
             1800,
@@ -485,7 +867,7 @@ export default {
             3200
           ],
           [
-            "联通",
+            "电信",
             2140,
             2170,
             2580,
@@ -505,8 +887,8 @@ export default {
         data: [
           ["product", "0520-0526", "0527-0602"],
           ["移动", 48.0, 48.1],
-          ["电信", 54.2, 57.4],
-          ["联通", 20.1, 20.0]
+          ["联通", 54.2, 57.4],
+          ["电信", 20.1, 20.0]
         ],
         title: "",
         id: "GT_UVWR1_D1",
@@ -540,22 +922,22 @@ export default {
         height: "height:800px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-13-新闻直播间", 152, 111],
-          ["贵州卫视-铁核桃之无间风云", 242, 222],
-          ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
-          ["贵州卫视-孤雁", 717, 777],
-          ["谍战剧场-信者无敌", 733, 656],
-          ["贵州-2-百姓关注", 894, 888],
-          ["谍战剧场-女人的抗战", 928, 854],
-          ["贵州卫视-情谜睡美人", 937, 999],
-          ["贵州卫视-二十四道拐", 1324, 1111],
-          ["贵州卫视-贵州新闻联播", 1621, 1230],
-          ["贵州卫视-中央台新闻联播", 1685, 1111],
-          ["CCTV-4-中国新闻", 2588, 2222],
-          ["湖南卫视-筑梦情缘", 3068, 3131],
-          ["CCTV-12-普法栏目组", 4350, 4333],
-          ["浙江卫视-我的真朋友", 9692, 8888]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-13-新闻直播间", 152, 111],
+          // ["贵州卫视-铁核桃之无间风云", 242, 222],
+          // ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
+          // ["贵州卫视-孤雁", 717, 777],
+          // ["谍战剧场-信者无敌", 733, 656],
+          // ["贵州-2-百姓关注", 894, 888],
+          // ["谍战剧场-女人的抗战", 928, 854],
+          // ["贵州卫视-情谜睡美人", 937, 999],
+          // ["贵州卫视-二十四道拐", 1324, 1111],
+          // ["贵州卫视-贵州新闻联播", 1621, 1230],
+          // ["贵州卫视-中央台新闻联播", 1685, 1111],
+          // ["CCTV-4-中国新闻", 2588, 2222],
+          // ["湖南卫视-筑梦情缘", 3068, 3131],
+          // ["CCTV-12-普法栏目组", 4350, 4333],
+          // ["浙江卫视-我的真朋友", 9692, 8888]
         ]
       },
       GT_UVWR1_E2: {
@@ -564,22 +946,22 @@ export default {
         height: "height:800px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-13-新闻直播间", 152, 111],
-          ["贵州卫视-铁核桃之无间风云", 242, 222],
-          ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
-          ["贵州卫视-孤雁", 717, 777],
-          ["谍战剧场-信者无敌", 733, 656],
-          ["贵州-2-百姓关注", 894, 888],
-          ["谍战剧场-女人的抗战", 928, 854],
-          ["贵州卫视-情谜睡美人", 937, 999],
-          ["贵州卫视-二十四道拐", 1324, 1111],
-          ["贵州卫视-贵州新闻联播", 1621, 1230],
-          ["贵州卫视-中央台新闻联播", 1685, 1111],
-          ["CCTV-4-中国新闻", 2588, 2222],
-          ["湖南卫视-筑梦情缘", 3068, 3131],
-          ["CCTV-12-普法栏目组", 4350, 4333],
-          ["浙江卫视-我的真朋友", 9692, 8888]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-13-新闻直播间", 152, 111],
+          // ["贵州卫视-铁核桃之无间风云", 242, 222],
+          // ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
+          // ["贵州卫视-孤雁", 717, 777],
+          // ["谍战剧场-信者无敌", 733, 656],
+          // ["贵州-2-百姓关注", 894, 888],
+          // ["谍战剧场-女人的抗战", 928, 854],
+          // ["贵州卫视-情谜睡美人", 937, 999],
+          // ["贵州卫视-二十四道拐", 1324, 1111],
+          // ["贵州卫视-贵州新闻联播", 1621, 1230],
+          // ["贵州卫视-中央台新闻联播", 1685, 1111],
+          // ["CCTV-4-中国新闻", 2588, 2222],
+          // ["湖南卫视-筑梦情缘", 3068, 3131],
+          // ["CCTV-12-普法栏目组", 4350, 4333],
+          // ["浙江卫视-我的真朋友", 9692, 8888]
         ]
       },
       GT_UVWR1_E3: {
@@ -588,22 +970,22 @@ export default {
         height: "height:800px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-13-新闻直播间", 152, 111],
-          ["贵州卫视-铁核桃之无间风云", 242, 222],
-          ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
-          ["贵州卫视-孤雁", 717, 777],
-          ["谍战剧场-信者无敌", 733, 656],
-          ["贵州-2-百姓关注", 894, 888],
-          ["谍战剧场-女人的抗战", 928, 854],
-          ["贵州卫视-情谜睡美人", 937, 999],
-          ["贵州卫视-二十四道拐", 1324, 1111],
-          ["贵州卫视-贵州新闻联播", 1621, 1230],
-          ["贵州卫视-中央台新闻联播", 1685, 1111],
-          ["CCTV-4-中国新闻", 2588, 2222],
-          ["湖南卫视-筑梦情缘", 3068, 3131],
-          ["CCTV-12-普法栏目组", 4350, 4333],
-          ["浙江卫视-我的真朋友", 9692, 8888]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-13-新闻直播间", 152, 111],
+          // ["贵州卫视-铁核桃之无间风云", 242, 222],
+          // ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
+          // ["贵州卫视-孤雁", 717, 777],
+          // ["谍战剧场-信者无敌", 733, 656],
+          // ["贵州-2-百姓关注", 894, 888],
+          // ["谍战剧场-女人的抗战", 928, 854],
+          // ["贵州卫视-情谜睡美人", 937, 999],
+          // ["贵州卫视-二十四道拐", 1324, 1111],
+          // ["贵州卫视-贵州新闻联播", 1621, 1230],
+          // ["贵州卫视-中央台新闻联播", 1685, 1111],
+          // ["CCTV-4-中国新闻", 2588, 2222],
+          // ["湖南卫视-筑梦情缘", 3068, 3131],
+          // ["CCTV-12-普法栏目组", 4350, 4333],
+          // ["浙江卫视-我的真朋友", 9692, 8888]
         ]
       },
       GT_UVWR1_F1: {
@@ -612,22 +994,22 @@ export default {
         height: "height:800px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-13-新闻直播间", 152, 111],
-          ["贵州卫视-铁核桃之无间风云", 242, 222],
-          ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
-          ["贵州卫视-孤雁", 717, 777],
-          ["谍战剧场-信者无敌", 733, 656],
-          ["贵州-2-百姓关注", 894, 888],
-          ["谍战剧场-女人的抗战", 928, 854],
-          ["贵州卫视-情谜睡美人", 937, 999],
-          ["贵州卫视-二十四道拐", 1324, 1111],
-          ["贵州卫视-贵州新闻联播", 1621, 1230],
-          ["贵州卫视-中央台新闻联播", 1685, 1111],
-          ["CCTV-4-中国新闻", 2588, 2222],
-          ["湖南卫视-筑梦情缘", 3068, 3131],
-          ["CCTV-12-普法栏目组", 4350, 4333],
-          ["浙江卫视-我的真朋友", 9692, 8888]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-13-新闻直播间", 152, 111],
+          // ["贵州卫视-铁核桃之无间风云", 242, 222],
+          // ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
+          // ["贵州卫视-孤雁", 717, 777],
+          // ["谍战剧场-信者无敌", 733, 656],
+          // ["贵州-2-百姓关注", 894, 888],
+          // ["谍战剧场-女人的抗战", 928, 854],
+          // ["贵州卫视-情谜睡美人", 937, 999],
+          // ["贵州卫视-二十四道拐", 1324, 1111],
+          // ["贵州卫视-贵州新闻联播", 1621, 1230],
+          // ["贵州卫视-中央台新闻联播", 1685, 1111],
+          // ["CCTV-4-中国新闻", 2588, 2222],
+          // ["湖南卫视-筑梦情缘", 3068, 3131],
+          // ["CCTV-12-普法栏目组", 4350, 4333],
+          // ["浙江卫视-我的真朋友", 9692, 8888]
         ]
       },
       GT_UVWR1_F2: {
@@ -636,22 +1018,22 @@ export default {
         height: "height:800px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-13-新闻直播间", 152, 111],
-          ["贵州卫视-铁核桃之无间风云", 242, 222],
-          ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
-          ["贵州卫视-孤雁", 717, 777],
-          ["谍战剧场-信者无敌", 733, 656],
-          ["贵州-2-百姓关注", 894, 888],
-          ["谍战剧场-女人的抗战", 928, 854],
-          ["贵州卫视-情谜睡美人", 937, 999],
-          ["贵州卫视-二十四道拐", 1324, 1111],
-          ["贵州卫视-贵州新闻联播", 1621, 1230],
-          ["贵州卫视-中央台新闻联播", 1685, 1111],
-          ["CCTV-4-中国新闻", 2588, 2222],
-          ["湖南卫视-筑梦情缘", 3068, 3131],
-          ["CCTV-12-普法栏目组", 4350, 4333],
-          ["浙江卫视-我的真朋友", 9692, 8888]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-13-新闻直播间", 152, 111],
+          // ["贵州卫视-铁核桃之无间风云", 242, 222],
+          // ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
+          // ["贵州卫视-孤雁", 717, 777],
+          // ["谍战剧场-信者无敌", 733, 656],
+          // ["贵州-2-百姓关注", 894, 888],
+          // ["谍战剧场-女人的抗战", 928, 854],
+          // ["贵州卫视-情谜睡美人", 937, 999],
+          // ["贵州卫视-二十四道拐", 1324, 1111],
+          // ["贵州卫视-贵州新闻联播", 1621, 1230],
+          // ["贵州卫视-中央台新闻联播", 1685, 1111],
+          // ["CCTV-4-中国新闻", 2588, 2222],
+          // ["湖南卫视-筑梦情缘", 3068, 3131],
+          // ["CCTV-12-普法栏目组", 4350, 4333],
+          // ["浙江卫视-我的真朋友", 9692, 8888]
         ]
       },
       GT_UVWR1_F3: {
@@ -660,33 +1042,96 @@ export default {
         height: "height:800px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-13-新闻直播间", 152, 111],
-          ["贵州卫视-铁核桃之无间风云", 242, 222],
-          ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
-          ["贵州卫视-孤雁", 717, 777],
-          ["谍战剧场-信者无敌", 733, 656],
-          ["贵州-2-百姓关注", 894, 888],
-          ["谍战剧场-女人的抗战", 928, 854],
-          ["贵州卫视-情谜睡美人", 937, 999],
-          ["贵州卫视-二十四道拐", 1324, 1111],
-          ["贵州卫视-贵州新闻联播", 1621, 1230],
-          ["贵州卫视-中央台新闻联播", 1685, 1111],
-          ["CCTV-4-中国新闻", 2588, 2222],
-          ["湖南卫视-筑梦情缘", 3068, 3131],
-          ["CCTV-12-普法栏目组", 4350, 4333],
-          ["浙江卫视-我的真朋友", 9692, 8888]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-13-新闻直播间", 152, 111],
+          // ["贵州卫视-铁核桃之无间风云", 242, 222],
+          // ["贵州卫视-绝地枪王II松花江上的枪声", 485, 433],
+          // ["贵州卫视-孤雁", 717, 777],
+          // ["谍战剧场-信者无敌", 733, 656],
+          // ["贵州-2-百姓关注", 894, 888],
+          // ["谍战剧场-女人的抗战", 928, 854],
+          // ["贵州卫视-情谜睡美人", 937, 999],
+          // ["贵州卫视-二十四道拐", 1324, 1111],
+          // ["贵州卫视-贵州新闻联播", 1621, 1230],
+          // ["贵州卫视-中央台新闻联播", 1685, 1111],
+          // ["CCTV-4-中国新闻", 2588, 2222],
+          // ["湖南卫视-筑梦情缘", 3068, 3131],
+          // ["CCTV-12-普法栏目组", 4350, 4333],
+          // ["浙江卫视-我的真朋友", 9692, 8888]
         ]
       }
     };
   },
-  mounted() {
-    this.GT_UVWR1_A1();
-    this.GT_UVWR1_A3();
-  },
+
   methods: {
-    GT_UVWR1_A1() {
-      var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_A1"));
+    //冒泡排序 -- 从序数index几开始
+    sortArr(arr, index) {
+      for (var i = 0; i < arr.length - 1; i++) {
+        //决定每一轮比较多少次
+        for (var j = index; j < arr.length - i - 1; j++) {
+          if (arr[j][1] > arr[j + 1][1]) {
+            // 判断第二位
+            var tmp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = tmp;
+          }
+        }
+      }
+      return arr;
+    },
+    // 保留两位小数
+    returnFloat(value) {
+      var value = Math.round(parseFloat(value) * 100) / 100;
+      var xsd = value.toString().split(".");
+      if (xsd.length == 1) {
+        value = value.toString() + ".00";
+        return value;
+      }
+      if (xsd.length > 1) {
+        if (xsd[1].length < 2) {
+          value = value.toString() + "0";
+        }
+        return value;
+      }
+    },
+    /**参数说明：
+     * 根据长度截取先使用字符串，超长部分追加…
+     * str 对象字符串
+     * len 目标字节长度
+     * 返回值： 处理结果字符串
+     */
+    cutString(str, len) {
+      //length属性读出来的汉字长度为1
+      if (str.length * 2 <= len) {
+        return str;
+      }
+      var strlen = 0;
+      var s = "";
+      for (var i = 0; i < str.length; i++) {
+        s = s + str.charAt(i);
+        if (str.charCodeAt(i) > 128) {
+          strlen = strlen + 2;
+          if (strlen >= len) {
+            return s.substring(0, s.length - 1) + "...";
+          }
+        } else {
+          strlen = strlen + 1;
+          if (strlen >= len) {
+            return s.substring(0, s.length - 2) + "...";
+          }
+        }
+      }
+      return s;
+    },
+    api_data_set() {
+      console.log("~~~~~api_data_m1");
+      console.log(this.api_data_m1);
+    },
+    render() {
+      let vm = this;
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.GT_UVWR1_A1.id)
+      );
       var option = {
         title: {
           text: "",
@@ -766,12 +1211,12 @@ export default {
             name: "",
             type: "bar",
             barWidth: "40%",
-            data: ["209.4", "213.4"],
+            data: vm.GT_UVWR1_A1.data,
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
                 color: function(params) {
-                  let colorList = ["#EDEDED", "#ED7D31"];
+                  let colorList = vm.GT_UVWR1_A1.color;
                   return colorList[params.dataIndex];
                 },
                 label: {
@@ -793,8 +1238,11 @@ export default {
         myChart.resize();
       });
     },
-    GT_UVWR1_A3() {
-      var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_A3"));
+    render2() {
+      let vm = this;
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.GT_UVWR1_A3.id)
+      );
       var option = {
         title: {
           text: "",
@@ -832,7 +1280,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["新增用户数", "停机用户数", "销户用户数"],
+            data: vm.GT_UVWR1_A3.data,
             axisTick: {
               alignWithLabel: true
             },
@@ -879,7 +1327,7 @@ export default {
               normal: {
                 //每根柱子颜色设置
                 color: function(params) {
-                  let colorList = ["#5B9BD5", "#FFC000", "#ED7D31"];
+                  let colorList = vm.GT_UVWR1_A3.color;
                   return colorList[params.dataIndex];
                 },
                 label: {
@@ -896,6 +1344,7 @@ export default {
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();

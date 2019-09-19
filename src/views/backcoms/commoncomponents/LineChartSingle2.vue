@@ -13,8 +13,11 @@ export default {
     return {};
   },
   mounted() {
-    this.setLineChart();
     // console.log(this.lineData)
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 1000);
   },
   methods: {
     setLineChart() {
@@ -24,7 +27,6 @@ export default {
       let seriesData = [];
       let date_year = this.lineData.date_year;
       let date_month = this.lineData.date_month;
-
 
       //设置series数据条数
       for (let i = 1; i <= this.lineData.data.length - 1; i++) {
@@ -78,7 +80,7 @@ export default {
             align: "left"
           },
           formatter: function(params) {
-            console.log(params);
+            // console.log(params);
             let title = params[0].data[0];
 
             let length = params.length;
@@ -99,8 +101,8 @@ export default {
             let value3 = params[0].data[3];
 
             return (
-              date_year + 
-              date_month + 
+              date_year +
+              date_month +
               title +
               "<br/>" +
               marker1 +
@@ -164,6 +166,7 @@ export default {
         },
         series: seriesData
       };
+      lineChart.clear();
       lineChart.setOption(option);
       window.addEventListener("resize", () => {
         lineChart.resize();

@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import BackHome from './views/BackHome.vue'
 import Login from './views/Login.vue'
 import MyTest from './views/MyTest.vue'
+import MyTest2 from './views/MyTest2.vue'
+
 
 Vue.use(Router)
 
@@ -54,7 +56,11 @@ export default new Router({
         { path: '/backhome/abnormalvalue', name: "abnormalvalue", component: () => import('@/views/backviews/dataaudit/AbnormalValue') },
         { path: '/backhome/datatrend', name: "datatrend", component: () => import('@/views/backviews/dataaudit/DataTrend') },
         { path: '/backhome/programsearching', name: "programsearching", component: () => import('@/views/backviews/ProgramSearching') },
+        { path: '/backhome/usermanagement', name: "usermanagement", component: () => import('@/views/backviews/authoritymanagement/UserManagement') },
+        { path: '/backhome/authoritymanagement', name: "authoritymanagement", component: () => import('@/views/backviews/authoritymanagement/AuthorityManagement') },
+        { path: '/backhome/bigscreenmanagement', name: "bigscreenmanagement", component: () => import('@/views/backviews/authoritymanagement/BigScreenManagement') },
         { path: '/', redirect: '/backhome/datatotal' }, //二级路由默认首页为数据总览页
+
       ]
     },
     {
@@ -62,5 +68,14 @@ export default new Router({
       name: 'mytest',
       component: MyTest
     },
+    {
+      path: '/mytest2',
+      name: 'mytest2',
+      component: MyTest2
+    },
+    { path: '/noauthority', name: "NoAuthority", component: () => import('@/views/NoAuthority'), },
+    { path: '/404', name:"404", component: () => import('@/views/404'), },
+    { path: '*', redirect: '/404' }
+
   ]
 })

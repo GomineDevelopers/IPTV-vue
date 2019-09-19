@@ -2,38 +2,110 @@
   <div class="OptionSelectVIP">
     <div class="region">
       <span class="font_title">地区：</span>
-      <el-checkbox-group v-model=" regionChoose" v-for="(item,index) in region" :key="index + 'a' ">
+      <el-checkbox
+        :indeterminate="region_isIndeterminate"
+        v-model="region_checkAll"
+        @change="regionChoose_all"
+      >全部</el-checkbox>
+      <el-checkbox-group
+        @change="regionChoose_change"
+        v-model=" regionChoose"
+        v-for="(item,index) in region"
+        :key="index + 'a' "
+        v-show="region_isIndeterminate"
+      >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+      <el-checkbox-group
+        @change="regionChoose_change"
+        v-model=" regionChoose"
+        v-for="(item,index) in region"
+        :key="index + 'ac' "
+        v-show="!region_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="operator">
       <span class="font_title">运营商：</span>
+      <el-checkbox
+        :indeterminate="operator_isIndeterminate"
+        v-model="operator_checkAll"
+        @change="operatorChoose_all"
+      >全部</el-checkbox>
+
       <el-checkbox-group
+        @change="operatorChoose_change"
         v-model=" operatorChoose"
         v-for="(item,index) in operator"
-        :key="index + 'b' "
+        :key="index + 'a' "
+        v-show="operator_isIndeterminate"
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
+      <el-checkbox-group
+        @change="operatorChoose_change"
+        v-model=" operatorChoose"
+        v-for="(item,index) in operator"
+        :key="index + 'ac' "
+        v-show="!operator_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+      </el-checkbox-group>
     </div>
+
     <div class="playmode">
       <span class="font_title">播放方式：</span>
+      <el-checkbox
+        :indeterminate="playmode_isIndeterminate"
+        v-model="playmode_checkAll"
+        @change="playmodeChoose_all"
+      >总体</el-checkbox>
+
       <el-checkbox-group
+        @change="playmodeChoose_change"
         v-model=" playmodeChoose"
         v-for="(item,index) in playmode"
-        :key="index + 'c' "
+        :key="index + 'a' "
+        v-show="playmode_isIndeterminate"
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
+      <el-checkbox-group
+        @change="playmodeChoose_change"
+        v-model=" playmodeChoose"
+        v-for="(item,index) in playmode"
+        :key="index + 'ac' "
+        v-show="!playmode_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+      </el-checkbox-group>
     </div>
+
     <div class="programa">
       <span class="font_title">栏目：</span>
+      <el-checkbox
+        :indeterminate="programa_isIndeterminate"
+        v-model="programa_checkAll"
+        @change="programaChoose_all"
+      >总体</el-checkbox>
       <el-checkbox-group
+        @change="programaChoose_change"
         v-model=" programaChoose"
         v-for="(item,index) in programa"
-        :key="index + 'd' "
+        :key="index + 'a' "
+        v-show="programa_isIndeterminate"
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+      <el-checkbox-group
+        @change="programaChoose_change"
+        v-model=" programaChoose"
+        v-for="(item,index) in programa"
+        :key="index + 'ac' "
+        v-show="!programa_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
@@ -42,24 +114,30 @@
 
       <span class="font_choose">天：</span>
       <span>
-        <el-select v-model="time.dayValue" placeholder="请选择">
-          <el-option
-            v-for="item in time.day"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
+        <el-date-picker
+          v-model="time.dayValue"
+          type="date"
+          placeholder="选择日期"
+          :picker-options="pickerOptions0"
+        ></el-date-picker>
       </span>
       <div class="space">&nbsp;</div>
       <span class="font_choose">周：</span>
       <span>
-        <el-select v-model="time.weekValue" placeholder="请选择">
+        <el-select
+          v-model="time.weekValue"
+          filterable
+          allow-create
+          default-first-option
+          placeholder="请设置周数"
+          style="width:300px;"
+        >
           <el-option
             v-for="item in time.week"
             :key="item.value"
             :label="item.label"
             :value="item.value"
+            style="width:300px;"
           ></el-option>
         </el-select>
       </span>
@@ -87,29 +165,143 @@
 </template>
 
 <script>
+import { commonTools } from "@/utils/test";
+var regionChoose_new = [];
+var regionChoose_old = [];
+var operatorChoose_new = [];
+var operatorChoose_old = [];
+var playmodeChoose_new = [];
+var playmodeChoose_old = [];
+var programaChoose_new = [];
+var programaChoose_old = [];
 export default {
   name: "OptionSelectVIP",
+  watch: {
+    regionChoose(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_region", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    operatorChoose(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_operator", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    playmodeChoose(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_playmode", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    programaChoose(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_programa", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    "time.dayValue"(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_day", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    "time.weekValue"(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_week", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    "time.pickervalue"(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_picker", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }
+  },
   data() {
     return {
+      // 设置选择三个月之前到今天的日期
+      pickerOptions0: {
+        disabledDate(time) {
+          let curDate = new Date().getTime();
+          let three = 90 * 24 * 3600 * 1000;
+          let threeMonths = curDate - three;
+          return time.getTime() > Date.now() || time.getTime() < threeMonths;
+        }
+      },
       region: [
-        "全部",
+        // "全部",
         "贵阳",
         "遵义",
-        "六盘水",
         "安顺",
-        "毕节",
-        "铜仁",
-        "黔东南",
         "黔南",
+        "黔东南",
+        "铜仁",
+        "毕节",
+        "六盘水",
         "黔西南"
       ],
       regionChoose: [],
-      operator: ["全部", "移动", "联通", "电信","其他"],
+      region_checkAll: false,
+      region_isIndeterminate: true,
+      operator: [
+        // "全部",
+        "移动",
+        "联通",
+        "电信"
+        // "其他"
+      ],
       operatorChoose: [],
-      playmode: ["总体", "直播", "点播", "回看"],
+      operator_checkAll: false,
+      operator_isIndeterminate: true,
+      playmode: [
+        // "总体",
+        "直播",
+        "点播",
+        "回看"
+      ],
       playmodeChoose: [],
+      playmode_checkAll: false,
+      playmode_isIndeterminate: true,
       programa: [
-        "总体",
+        // "总体",
         "分类",
         "电视",
         "推荐",
@@ -126,55 +318,24 @@ export default {
         "其他"
       ],
       programaChoose: [],
+      programa_checkAll: false,
+      programa_isIndeterminate: true,
+
       time: {
         day: [
-          {
-            value: "选项1",
-            label: "day1"
-          },
-          {
-            value: "选项2",
-            label: "day2"
-          },
-          {
-            value: "选项3",
-            label: "day3"
-          },
-          {
-            value: "选项4",
-            label: "day4"
-          },
-          {
-            value: "选项5",
-            label: "day5"
-          },
-          {
-            value: "选项6",
-            label: "day6"
-          },
-          {
-            value: "选项7",
-            label: "day7"
-          }
+          // {
+          //   value: "选项1",
+          //   label: "day1"
+          // },
+          // ...
         ],
         dayValue: "",
         week: [
-          {
-            value: "选项1",
-            label: "第1周（1.1-1.7）"
-          },
-          {
-            value: "选项2",
-            label: "第2周（1.8-1.14）"
-          },
-          {
-            value: "选项3",
-            label: "第3周（1.15-1.21）"
-          },
-          {
-            value: "选项4",
-            label: "第4周（1.22-1.28）"
-          }
+          // {
+          //   value: "选项1",
+          //   label: "第1周（1.1-1.7）"
+          // },
+          // ...
         ],
         weekValue: "",
         pickerOptions: {
@@ -212,32 +373,169 @@ export default {
       }
     };
   },
-  methods: {}
+  mounted() {
+    let vm = this;
+    vm.$store
+      .dispatch("get_ADD_VIP_region")
+      .then(function(response) {
+        // console.log(response);
+        vm.regionChoose = response;
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
+    vm.$store
+      .dispatch("get_ADD_VIP_operator")
+      .then(function(response) {
+        // console.log(response);
+        vm.operatorChoose = response;
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
+    vm.$store
+      .dispatch("get_ADD_VIP_playmode")
+      .then(function(response) {
+        // console.log(response);
+        vm.playmodeChoose = response;
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
+    vm.$store
+      .dispatch("get_ADD_VIP_programa")
+      .then(function(response) {
+        // console.log(response);
+        vm.programaChoose = response;
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
+
+    // 初始化周
+    let arr_temp = [];
+    arr_temp = commonTools.weekDate(2018);
+    setTimeout(function() {
+      arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      vm.time.week = arr_temp;
+    }, 100);
+  },
+  methods: {
+    regionChoose_change(event) {
+      regionChoose_old = regionChoose_new;
+      let checkedCount = event.length;
+      this.region_checkAll = checkedCount === this.region.length;
+      this.region_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.region.length;
+      if (this.regionChoose.length == 0) {
+        this.region_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        regionChoose_new = vm.regionChoose;
+        vm.regionChoose = commonTools.delete_repet(
+          regionChoose_new,
+          regionChoose_old
+        );
+      }, 100);
+    },
+    regionChoose_all(val) {
+      // console.log(val);
+      this.regionChoose = val ? this.region : [];
+      this.region_isIndeterminate = !this.region_isIndeterminate;
+    },
+    operatorChoose_change(event) {
+      operatorChoose_old = operatorChoose_new;
+      let checkedCount = event.length;
+      this.operator_checkAll = checkedCount === this.operator.length;
+      this.operator_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.operator.length;
+      if (this.operatorChoose.length == 0) {
+        this.operator_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        operatorChoose_new = vm.operatorChoose;
+        vm.operatorChoose = commonTools.delete_repet(
+          operatorChoose_new,
+          operatorChoose_old
+        );
+      }, 100);
+    },
+    operatorChoose_all(val) {
+      this.operatorChoose = val ? this.operator : [];
+      this.operator_isIndeterminate = !this.operator_isIndeterminate;
+    },
+    playmodeChoose_change(event) {
+      playmodeChoose_old = playmodeChoose_new;
+      let checkedCount = event.length;
+      this.playmode_checkAll = checkedCount === this.playmode.length;
+      this.playmode_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.playmode.length;
+      if (this.playmodeChoose.length == 0) {
+        this.playmode_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        playmodeChoose_new = vm.playmodeChoose;
+        vm.playmodeChoose = commonTools.delete_repet(
+          playmodeChoose_new,
+          playmodeChoose_old
+        );
+      }, 100);
+    },
+    playmodeChoose_all(val) {
+      this.playmodeChoose = val ? this.playmode : [];
+      this.playmode_isIndeterminate = !this.playmode_isIndeterminate;
+    },
+    programaChoose_change(event) {
+      programaChoose_old = programaChoose_new;
+      let checkedCount = event.length;
+      this.programa_checkAll = checkedCount === this.programa.length;
+      this.programa_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.programa.length;
+      if (this.programaChoose.length == 0) {
+        this.programa_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        programaChoose_new = vm.programaChoose;
+        vm.programaChoose = commonTools.delete_repet(
+          programaChoose_new,
+          programaChoose_old
+        );
+      }, 100);
+    },
+    programaChoose_all(val) {
+      this.programaChoose = val ? this.programa : [];
+      this.programa_isIndeterminate = !this.programa_isIndeterminate;
+    }
+  }
 };
 </script>
 
 <style>
-
 /* elementui 复选框背景色 统一修改 */
 
 .el-checkbox__input.is-checked + .el-checkbox__label {
-  color: #FF6123;
+  color: #ff6123;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #FF6123;
-  border-color: #FF6123;
+  background-color: #ff6123;
+  border-color: #ff6123;
 }
 .el-checkbox__inner:hover {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 .el-checkbox__input.is-focus .el-checkbox__innder {
-  border-color: #FF6123;
+  border-color: #ff6123;
 }
 
 /* 时间范围 */
-.el-date-table td.end-date span, .el-date-table td.start-date span {
-    background-color: #FF6123;
+.el-date-table td.end-date span,
+.el-date-table td.start-date span {
+  background-color: #ff6123;
 }
 </style>
 

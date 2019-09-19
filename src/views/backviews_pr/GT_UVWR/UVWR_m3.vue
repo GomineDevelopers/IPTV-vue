@@ -1,148 +1,148 @@
 <template>
   <div class="UVWR_m3">
-    <!-- ///////////////////////// M -->
+    <!-- ///////////////////////// S -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>电信侧各市州G+TV一周用户发展活跃情况
+      <span class="title_border_left"></span>联通侧各市州G+TV一周用户发展活跃情况
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row class="">
+      <el-row class>
         <el-col :span="12">
           <p class="m_common_sm_title_font">在册用户数与新增在册用户数（户）</p>
           <!-- 条形图 -->
-          <bar-list-chart :barListData="GT_UVWR1_M1"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_S1"></bar-list-chart>
         </el-col>
         <el-col :span="12">
           <p class="m_common_sm_title_font">用户占比</p>
           <!-- 饼图 -->
-          <many-pie-chart :pieData="GT_UVWR1_M2"></many-pie-chart>
+          <many-pie-chart :pieData="GT_UVWR1_S2"></many-pie-chart>
           <span class="m_common_content_font">注：由内而外分别是新增在册用户数、在册用户数</span>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">电信用户一周新增在册用户数31,643户，较前一周增加1,795户，增幅6.0%。</p>
+      <p class="m_common_content_font">联通用户一周新增在册用户数31,643户，较前一周增加1,795户，增幅6.0%。</p>
       <!-- <p>黔西南州用户数超越安顺市，摆脱副班长的位置。贵阳、毕节、铜仁、黔西南新增用户占比高于在册用户占比，上周用户增速高于平均水平。</p> -->
     </el-row>
 
-    <!-- ///////////////////////// N -->
+    <!-- ///////////////////////// T -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>三大基础功能收视数据（电信）
+      <span class="title_border_left"></span>三大基础功能收视数据（联通）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
-      <el-row class="">
+      <el-row class>
         <el-col :span="12">
           <p class="m_common_sm_title_font">一周总体观看数据</p>
           <!-- 饼图 -->
-          <many-pie-chart2 :pieData="GT_UVWR1_N1"></many-pie-chart2>
+          <many-pie-chart2 :pieData="GT_UVWR1_T1"></many-pie-chart2>
           <span class="m_common_content_font">注：由内而外分别是观看用户数、观看次数、观看总时长</span>
         </el-col>
         <el-col :span="12">
           <p class="m_common_sm_title_font">三大基础功能观看用户数每日走势（万户）</p>
           <!-- 曲线图 -->
-          <line-dotted-chart :lineData="GT_UVWR1_N2"></line-dotted-chart>
+          <line-dotted-chart :lineData="GT_UVWR1_T2"></line-dotted-chart>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">上周电信侧总收视次数1771.6万次，环比下降4.6%；总收视时长1944.5万小时，下降7.0%。</p>
+      <p class="m_common_content_font">上周联通侧总收视次数1771.6万次，环比下降4.6%；总收视时长1944.5万小时，下降7.0%。</p>
       <!-- <p>各功能均有下跌，点播降幅最大。</p> -->
-      <!-- <p>电信侧受到部分用户升级成为2.0的影响，上周收视数据尤其是收视时长滑落较多。从开机情况来推算，大概有2~3万的用户受到影响。</p> -->
+      <!-- <p>联通侧受到部分用户升级成为2.0的影响，上周收视数据尤其是收视时长滑落较多。从开机情况来推算，大概有2~3万的用户受到影响。</p> -->
       <!-- <p>同时，受到贵阳地区数博会放假与调休影响，开机用户走势呈现两头高，中间低的现象，周六与周一达到峰值。</p> -->
       <!-- <p>点播用户与开机用户保持一致走势，周六达到峰值。直播用户数则在周一、周二达到峰值。这表明受到放假影响的贵阳机关单位用户更偏向于使用直播功能。</p> -->
     </el-row>
 
-    <!-- ///////////////////////// O -->
+    <!-- ///////////////////////// U -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>电视直播频道分组收视数据（电信）
+      <span class="title_border_left"></span>电视直播频道分组收视数据（联通）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 条形图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">分组频道直播用户数（万户）</p>
-          <bar-chart-single :chartData="GT_UVWR1_O1"></bar-chart-single>
+          <bar-chart-single :chartData="GT_UVWR1_U1"></bar-chart-single>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">分组频道直播次数（万次）</p>
-          <bar-chart-single :chartData="GT_UVWR1_O2"></bar-chart-single>
+          <bar-chart-single :chartData="GT_UVWR1_U2"></bar-chart-single>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">分组频道直播收视时长（万小时）</p>
-          <bar-chart-single :chartData="GT_UVWR1_O3"></bar-chart-single>
+          <bar-chart-single :chartData="GT_UVWR1_U3"></bar-chart-single>
         </el-col>
       </el-row>
       <p
         class="m_common_content_font"
-      >去重后电信侧直播用户数32.2万户，环比下降3.9%，一周直播收视次数661.0万次，下降4.3%；直播收视时长502.6万小时，下降4.4%。</p>
+      >去重后联通侧直播用户数32.2万户，环比下降3.9%，一周直播收视次数661.0万次，下降4.3%；直播收视时长502.6万小时，下降4.4%。</p>
       <!-- <p>分组来看，直播收视规模地方频道和轮播频道降幅较小， 但收视时长降幅较大，用户粘性下降；央视、卫视组则正好相反。</p> -->
     </el-row>
-    <!-- ///////////////////////// P -->
+    <!-- ///////////////////////// V -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>电视直播本地频道、节目收视数据（电信）
+      <span class="title_border_left"></span>电视直播本地频道、节目收视数据（联通）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条形图 -->
       <!-- 曲线图 -->
       <!-- 条形图 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="12">
           <p class="m_common_sm_title_font">本地频道收视规模排名（万户）</p>
-          <bar-list-chart2 :barListData="GT_UVWR1_P1"></bar-list-chart2>
+          <bar-list-chart2 :barListData="GT_UVWR1_V1"></bar-list-chart2>
         </el-col>
         <el-col :span="12">
           <div class="m_init_div m_width_80 m_padding_l_4">
             <p class="m_common_sm_title_font">轮播频道每日收视走势（户）</p>
-            <smooth-line-chart :smoothLineData="GT_UVWR1_P2"></smooth-line-chart>
+            <smooth-line-chart :smoothLineData="GT_UVWR1_V2"></smooth-line-chart>
           </div>
           <div class="m_init_div m_width_80 m_padding_l_4">
             <p class="m_common_sm_title_font">本地自办节目TOP5（万小时）</p>
-            <bar-chart-single :chartData="GT_UVWR1_P3"></bar-chart-single>
+            <bar-chart-single :chartData="GT_UVWR1_V3"></bar-chart-single>
           </div>
         </el-col>
       </el-row>
     </el-row>
-    <!-- ///////////////////////// Q -->
+    <!-- ///////////////////////// W -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>各类型节目点播数据（电信）
+      <span class="title_border_left"></span>各类型节目点播数据（联通）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 横向条形图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">点播用户数（万户）</p>
-          <bar-list-chart :barListData="GT_UVWR1_Q1"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_W1"></bar-list-chart>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">点播次数（万次）</p>
-          <bar-list-chart :barListData="GT_UVWR1_Q2"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_W2"></bar-list-chart>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">点播时长（万小时）</p>
-          <bar-list-chart :barListData="GT_UVWR1_Q3"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_W3"></bar-list-chart>
         </el-col>
       </el-row>
       <p
         class="m_common_content_font"
-      >去重后电信侧一周总点播用户41.2万户，环比下降2.0%。总点播次数1096.7万次，下降4.8%；点播时长1430.1万小时，下降7.9%。</p>
+      >去重后联通侧一周总点播用户41.2万户，环比下降2.0%。总点播次数1096.7万次，下降4.8%；点播时长1430.1万小时，下降7.9%。</p>
     </el-row>
 
-    <!-- ///////////////////////// R -->
+    <!-- ///////////////////////// X -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>主要栏目点击和播放数据（电信）
+      <span class="title_border_left"></span>主要栏目点击和播放数据（联通）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 横向条形图x3 -->
-      <el-row class="">
+      <el-row class>
         <el-col :span="8">
           <p class="m_common_sm_title_font">页面点击用户数（万户）</p>
-          <bar-list-chart :barListData="GT_UVWR1_R1"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_X1"></bar-list-chart>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">页面点击次数（万次）</p>
-          <bar-list-chart :barListData="GT_UVWR1_R2"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_X2"></bar-list-chart>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">页面播放时长（万小时）</p>
-          <bar-list-chart :barListData="GT_UVWR1_R3"></bar-list-chart>
+          <bar-list-chart :barListData="GT_UVWR1_X3"></bar-list-chart>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">电信侧一级页面总点击次数1332.2万次，环比下降6.1%；页面播放时长1258.9万小时，下降17.0%。</p>
+      <p class="m_common_content_font">联通侧一级页面总点击次数1332.2万次，环比下降6.1%；页面播放时长1258.9万小时，下降17.0%。</p>
     </el-row>
   </div>
 </template>
@@ -168,11 +168,295 @@ export default {
     "line-dotted-chart": LineDottedChart,
     "smooth-line-chart": SmoothLineChart
   },
+  props: ["api_data_m3"],
+  watch: {
+    api_data_m3(newValue, oldValue) {
+      console.log("api_data_m3 - newValue");
+      console.log(newValue);
+
+      let vm = this;
+      ////////// 三大基础功能收视数据（移动） 一周总体观看数据  GT_UVWR1_H1
+      // 内-》外 1-》3 用户数 次数 总时长
+      let onlive1 =
+        newValue.data.responses[2].aggregations.onlive_user_num.value;
+      let onlive2 = newValue.data.responses[2].aggregations.onlive_freq.value;
+      let onlive3 = newValue.data.responses[2].aggregations.onlive_dur.value;
+      let demand1 =
+        newValue.data.responses[3].aggregations.demand_user_num.value;
+      let demand2 = newValue.data.responses[3].aggregations.demand_freq.value;
+      let demand3 = newValue.data.responses[3].aggregations.demand_dur.value;
+      let watch1 = newValue.data.responses[4].aggregations.watch_user_num.value;
+      let watch2 = newValue.data.responses[4].aggregations.watch_freq.value;
+      let watch3 = newValue.data.responses[4].aggregations.watch_dur.value;
+      let content = [
+        {
+          title: "观看用户数",
+          data: [
+            { value: onlive1, name: "直播" },
+            { value: demand1, name: "点播" },
+            { value: watch1, name: "回看" }
+          ]
+        },
+        {
+          title: "观看次数",
+          data: [
+            { value: onlive2, name: "直播" },
+            { value: demand2, name: "点播" },
+            { value: watch2, name: "回看" }
+          ]
+        },
+        {
+          title: "观看总时长",
+          data: [
+            { value: onlive3, name: "直播" },
+            { value: demand3, name: "点播" },
+            { value: watch3, name: "回看" }
+          ]
+        }
+      ];
+
+      vm.GT_UVWR1_T1.content = content;
+
+      // ////////////////////////////
+      let arrContent5 =
+        newValue.data.responses[5].aggregations.channel_flag.buckets;
+      let length5 = arrContent5.length;
+      let i5;
+      let data1 = [];
+      data1.push(["product", "0520-0526", "0527-0602"]);
+      
+      // ▲▲▲问题点：周报 - 012345的 0为空 用1-4  ---暂定
+      // onlive_user_num
+      // onlive_freq
+      // onlive_dur
+      let temp1 = [];
+      let temp2 = [];
+      let temp3 = [];
+      let temp4 = [];
+
+      // for (i5 = 1; i5 < length5; i5++) {
+      temp1.push(arrContent5[1].key);
+      temp1.push(vm.returnFloat(arrContent5[1].onlive_user_num.value));
+      temp1.push(vm.returnFloat(arrContent5[1].onlive_user_num.value)); // ▲▲▲▲▲ 注意！！！ 这里是临时的（要比前期）
+
+      temp2.push(arrContent5[2].key);
+      temp2.push(vm.returnFloat(arrContent5[2].onlive_user_num.value));
+      temp2.push(vm.returnFloat(arrContent5[2].onlive_user_num.value));
+
+      temp3.push(arrContent5[3].key);
+      temp3.push(vm.returnFloat(arrContent5[3].onlive_user_num.value));
+      temp3.push(vm.returnFloat(arrContent5[3].onlive_user_num.value));
+
+      temp4.push(arrContent5[4].key);
+      temp4.push(vm.returnFloat(arrContent5[4].onlive_user_num.value));
+      temp4.push(vm.returnFloat(arrContent5[4].onlive_user_num.value));
+      // }
+      data1.push(temp1);
+      data1.push(temp2);
+      data1.push(temp3);
+      data1.push(temp4);
+
+      vm.GT_UVWR1_U1.data = data1;
+
+      data1 = [];
+      data1.push(["product", "0520-0526", "0527-0602"]);
+
+      temp1 = [];
+      temp2 = [];
+      temp3 = [];
+      temp4 = [];
+      temp1.push(arrContent5[1].key);
+      temp1.push(vm.returnFloat(arrContent5[1].onlive_freq.value));
+      temp1.push(vm.returnFloat(arrContent5[1].onlive_freq.value));
+
+      temp2.push(arrContent5[2].key);
+      temp2.push(vm.returnFloat(arrContent5[2].onlive_freq.value));
+      temp2.push(vm.returnFloat(arrContent5[2].onlive_freq.value));
+
+      temp3.push(arrContent5[3].key);
+      temp3.push(vm.returnFloat(arrContent5[3].onlive_freq.value));
+      temp3.push(vm.returnFloat(arrContent5[3].onlive_freq.value));
+
+      temp4.push(arrContent5[4].key);
+      temp4.push(vm.returnFloat(arrContent5[4].onlive_freq.value));
+      temp4.push(vm.returnFloat(arrContent5[4].onlive_freq.value));
+      data1.push(temp1);
+      data1.push(temp2);
+      data1.push(temp3);
+      data1.push(temp4);
+      vm.GT_UVWR1_U2.data = data1;
+
+      data1 = [];
+      data1.push(["product", "0520-0526", "0527-0602"]);
+
+      temp1 = [];
+      temp2 = [];
+      temp3 = [];
+      temp4 = [];
+      temp1.push(arrContent5[1].key);
+      temp1.push(vm.returnFloat(arrContent5[1].onlive_dur.value));
+      temp1.push(vm.returnFloat(arrContent5[1].onlive_dur.value));
+
+      temp2.push(arrContent5[2].key);
+      temp2.push(vm.returnFloat(arrContent5[2].onlive_dur.value));
+      temp2.push(vm.returnFloat(arrContent5[2].onlive_dur.value));
+
+      temp3.push(arrContent5[3].key);
+      temp3.push(vm.returnFloat(arrContent5[3].onlive_dur.value));
+      temp3.push(vm.returnFloat(arrContent5[3].onlive_dur.value));
+
+      temp4.push(arrContent5[4].key);
+      temp4.push(vm.returnFloat(arrContent5[4].onlive_dur.value));
+      temp4.push(vm.returnFloat(arrContent5[4].onlive_dur.value));
+      data1.push(temp1);
+      data1.push(temp2);
+      data1.push(temp3);
+      data1.push(temp4);
+      vm.GT_UVWR1_U3.data = data1;
+
+      // ////////////////////////////
+
+      let buckets6 = newValue.data.responses[6].aggregations.channel.buckets;
+      let length6 = buckets6.length;
+      let data6 = [];
+      let temp6;
+      let i6;
+      //
+      temp6 = [];
+      data6.push(["product", "0527-0602", "0520-0526"]);
+      for (i6 = 0; i6 < length6; i6++) {
+        temp6 = [];
+        temp6.push(buckets6[i6].key);
+        temp6.push(vm.returnFloat(buckets6[i6].onlive_user_num.value));
+        temp6.push(vm.returnFloat(buckets6[i6].onlive_user_num.value)); // ▲▲▲注意 临时点
+        data6.push(temp6);
+      }
+      //
+      data6 = vm.sortArr(data6, 1);
+      vm.GT_UVWR1_V1.data = data6;
+
+      //////////////////////
+
+      let buckets7 = newValue.data.responses[7].aggregations.channel.buckets;
+      let length7 = buckets7.length;
+      let i7;
+      let data7 = [];
+      let temp7 = [];
+      data7.push(["product", "0520-0526", "0527-0602"]);
+      for (i7 = 0; i7 < length7; i7++) {
+        temp7 = [];
+        temp7.push(buckets7[i7].key);
+        temp7.push(vm.returnFloat(buckets7[i7].doc_count));
+        temp7.push(vm.returnFloat(buckets7[i7].doc_count)); // ▲▲▲注意 临时点
+        data7.push(temp7);
+      }
+      data7 = vm.sortArr(data7, 1);
+      vm.GT_UVWR1_V3.data = data7;
+
+      // ///////////▲▲▲ 应该是 channel 第8个 --暂时先接上.jpg （暂用节目名称）（数据给错了）
+      let buckets8 = newValue.data.responses[8].aggregations.channel.buckets;
+      let length8 = buckets8.length;
+      let i8;
+      let data8 = [];
+      let temp8 = [];
+      data8.push(["product", "0520-0526", "0527-0602"]);
+      for (i8 = 0; i8 < length8; i8++) {
+        temp8 = [];
+        temp8.push(buckets8[i8].key);
+        temp8.push(vm.returnFloat(buckets8[i8].onlive_dur.value));
+        temp8.push(vm.returnFloat(buckets8[i8].onlive_dur.value)); // ▲▲▲注意 临时点
+        data8.push(temp8);
+      }
+      data8 = vm.sortArrZ(data8, 1);
+      vm.GT_UVWR1_W3.data = data8;
+
+      let buckets10 = newValue.data.responses[10].aggregations.ti.buckets;
+      let length10 = buckets10.length;
+      let i10;
+      ////
+      let data10 = [];
+      let temp10 = [];
+      let data10B = [];
+      let temp10B = [];
+
+      data10.push(["product", "0520-0526", "0527-0602"]);
+      data10B.push(["product", "0520-0526", "0527-0602"]);
+
+      for (i10 = 0; i10 < length10; i10++) {
+        ////  点播用户
+        temp10 = [];
+        temp10.push(buckets10[i10].key);
+        temp10.push(vm.returnFloat(buckets10[i10].click_freq.value));
+        temp10.push(vm.returnFloat(buckets10[i10].click_freq.value)); // ▲▲▲注意 临时点
+        data10.push(temp10);
+        ////  点播次数
+        temp10B = [];
+        temp10B.push(buckets10[i10].key);
+        temp10B.push(vm.returnFloat(buckets10[i10].click_user_num.value));
+        temp10B.push(vm.returnFloat(buckets10[i10].click_user_num.value)); // ▲▲▲注意 临时点
+        data10B.push(temp10B);
+      }
+      data10 = vm.sortArrZ(data10, 1);
+      vm.GT_UVWR1_X1.data = data10;
+      data10B = vm.sortArrZ(data10B, 1);
+      vm.GT_UVWR1_X2.data = data10B;
+    }
+  },
+  mounted() {
+    let vm = this;
+  },
+  methods: {
+    returnFloat(value) {
+      // 保留两位小数
+      var value = Math.round(parseFloat(value) * 100) / 100;
+      var xsd = value.toString().split(".");
+      if (xsd.length == 1) {
+        value = value.toString() + ".00";
+        return value;
+      }
+      if (xsd.length > 1) {
+        if (xsd[1].length < 2) {
+          value = value.toString() + "0";
+        }
+        return value;
+      }
+    },
+    //冒泡排序 -- 从序数index几开始 （反向）
+    sortArr(arr, index) {
+      for (var i = 0; i < arr.length - 1; i++) {
+        //决定每一轮比较多少次
+        for (var j = index; j < arr.length - i - 1; j++) {
+          if (arr[j][1] < arr[j + 1][1]) {
+            // 判断第二位
+            var tmp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = tmp;
+          }
+        }
+      }
+      return arr;
+    },
+    //冒泡排序 -- 从序数index几开始
+    sortArrZ(arr, index) {
+      for (var i = 0; i < arr.length - 1; i++) {
+        //决定每一轮比较多少次
+        for (var j = index; j < arr.length - i - 1; j++) {
+          if (arr[j][1] > arr[j + 1][1]) {
+            // 判断第二位
+            var tmp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = tmp;
+          }
+        }
+      }
+      return arr;
+    }
+  },
   data() {
     return {
-      GT_UVWR1_M1: {
+      GT_UVWR1_S1: {
         title: "",
-        id: "GT_UVWR1_M1",
+        id: "GT_UVWR1_S1",
         height: "height:500px;",
         color: ["#5B9BD5", "#FFC000"],
         data: [
@@ -188,9 +472,9 @@ export default {
           ["安顺", 1324, 1111]
         ]
       },
-      GT_UVWR1_M2: {
+      GT_UVWR1_S2: {
         title: "",
-        id: "GT_UVWR1_M2",
+        id: "GT_UVWR1_S2",
         color: [
           "#5B9BD5",
           "#FFC000",
@@ -233,40 +517,40 @@ export default {
           }
         ]
       },
-      GT_UVWR1_N1: {
+      GT_UVWR1_T1: {
         title: "",
-        id: "GT_UVWR1_N1",
+        id: "GT_UVWR1_T1",
         color: ["#C2DEAE", "#5B9BD5", "#FFC000"],
         content: [
-          {
-            title: "观看用户数",
-            data: [
-              { value: 535, name: "直播" },
-              { value: 410, name: "点播" },
-              { value: 348, name: "回看" }
-            ]
-          },
-          {
-            title: "观看次数",
-            data: [
-              { value: 535, name: "直播" },
-              { value: 410, name: "点播" },
-              { value: 348, name: "回看" }
-            ]
-          },
-          {
-            title: "观看总时长",
-            data: [
-              { value: 535, name: "直播" },
-              { value: 410, name: "点播" },
-              { value: 348, name: "回看" }
-            ]
-          }
+          // {
+          //   title: "观看用户数",
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "点播" },
+          //     { value: 348, name: "回看" }
+          //   ]
+          // },
+          // {
+          //   title: "观看次数",
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "点播" },
+          //     { value: 348, name: "回看" }
+          //   ]
+          // },
+          // {
+          //   title: "观看总时长",
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "点播" },
+          //     { value: 348, name: "回看" }
+          //   ]
+          // }
         ]
       },
-      GT_UVWR1_N2: {
+      GT_UVWR1_T2: {
         title: "",
-        id: "GT_UVWR1_N2",
+        id: "GT_UVWR1_T2",
         color: ["#70AD47", "#5B9BD5", "#A6A6A6", "#FFC000"],
         data: [
           [
@@ -285,85 +569,85 @@ export default {
           ["回看", 0.9, 1.1, 0.7, 1.2, 1.3, 0.7, 0.8]
         ]
       },
-      GT_UVWR1_O1: {
+      GT_UVWR1_U1: {
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["央视", 48.0, 48.1],
-          ["卫视", 154.2, 157.4],
-          ["地方", 60.1, 65.0],
-          ["轮播", 15.1, 16.0]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["央视", 48.0, 48.1],
+          // ["卫视", 154.2, 157.4],
+          // ["地方", 60.1, 65.0],
+          // ["轮播", 15.1, 16.0]
         ],
         title: "",
-        id: "GT_UVWR1_O1",
+        id: "GT_UVWR1_U1",
         color: ["#E7E6E6", "#A9D18E"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
       },
-      GT_UVWR1_O2: {
+      GT_UVWR1_U2: {
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["央视", 48.0, 48.1],
-          ["卫视", 154.2, 157.4],
-          ["地方", 60.1, 65.0],
-          ["轮播", 15.1, 16.0]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["央视", 48.0, 48.1],
+          // ["卫视", 154.2, 157.4],
+          // ["地方", 60.1, 65.0],
+          // ["轮播", 15.1, 16.0]
         ],
         title: "",
-        id: "GT_UVWR1_O2",
+        id: "GT_UVWR1_U2",
         color: ["#E7E6E6", "#5B9BD5"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
       },
-      GT_UVWR1_O3: {
+      GT_UVWR1_U3: {
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["央视", 48.0, 48.1],
-          ["卫视", 154.2, 157.4],
-          ["地方", 60.1, 65.0],
-          ["轮播", 15.1, 16.0]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["央视", 48.0, 48.1],
+          // ["卫视", 154.2, 157.4],
+          // ["地方", 60.1, 65.0],
+          // ["轮播", 15.1, 16.0]
         ],
         title: "",
-        id: "GT_UVWR1_O3",
+        id: "GT_UVWR1_U3",
         color: ["#E7E6E6", "#FFC000"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
       },
-      GT_UVWR1_P1: {
+      GT_UVWR1_V1: {
         title: "",
-        id: "GT_UVWR1_P1",
+        id: "GT_UVWR1_V1",
         height: "height:720px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["贵州卫视", 20, 20],
-          ["贵州-2 公共频道", 18, 18],
-          ["贵州-3 影视文艺频道", 15, 15],
-          ["贵州-4 大众生活频道", 17, 17],
-          ["贵州-5 法制频道", 16, 16],
-          ["华语影院", 14, 14],
-          ["贵阳-4 都市频道", 13, 13],
-          ["贵州-6 科教健康频道", 12, 12],
-          ["贵州-7 经济频道", 11.5, 11.5],
-          ["谍战剧场", 10, 10],
-          ["贵阳-3 法制频道", 9.2, 9.2],
-          ["海外佳片", 8.8, 8.8],
-          ["贵阳-2 经济生活频道", 8.0, 8.0],
-          ["贵阳-1 新闻综合频道", 7.7, 7.7],
-          ["都市剧场", 5.5, 5.5],
-          ["动画乐园", 3.3, 3.3],
-          ["六盘水-2", 2.2, 2.2],
-          ["贵州移动电视", 2.1, 2.1],
-          ["六盘水-1", 1.8, 1.8],
-          ["黔西南-综合", 1.4, 1.4],
-          ["贵阳-5 旅游生活频道", 0.8, 0.8],
-          ["黔西南-公共", 0.7, 0.7]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["贵州卫视", 20, 20],
+          // ["贵州-2 公共频道", 18, 18],
+          // ["贵州-3 影视文艺频道", 15, 15],
+          // ["贵州-4 大众生活频道", 17, 17],
+          // ["贵州-5 法制频道", 16, 16],
+          // ["华语影院", 14, 14],
+          // ["贵阳-4 都市频道", 13, 13],
+          // ["贵州-6 科教健康频道", 12, 12],
+          // ["贵州-7 经济频道", 11.5, 11.5],
+          // ["谍战剧场", 10, 10],
+          // ["贵阳-3 法制频道", 9.2, 9.2],
+          // ["海外佳片", 8.8, 8.8],
+          // ["贵阳-2 经济生活频道", 8.0, 8.0],
+          // ["贵阳-1 新闻综合频道", 7.7, 7.7],
+          // ["都市剧场", 5.5, 5.5],
+          // ["动画乐园", 3.3, 3.3],
+          // ["六盘水-2", 2.2, 2.2],
+          // ["贵州移动电视", 2.1, 2.1],
+          // ["六盘水-1", 1.8, 1.8],
+          // ["黔西南-综合", 1.4, 1.4],
+          // ["贵阳-5 旅游生活频道", 0.8, 0.8],
+          // ["黔西南-公共", 0.7, 0.7]
         ]
       },
-      GT_UVWR1_P2: {
+      GT_UVWR1_V2: {
         title: "",
-        id: "GT_UVWR1_P2",
+        id: "GT_UVWR1_V2",
         color: ["#70AD47", "#FFCCCC ", "#5B9BD5", "#FFC000", "#ED7D31"],
         data: [
           [
@@ -383,25 +667,25 @@ export default {
           ["动画乐园", 32140, 32170, 32580, 32400, 32534, 32640, 32759]
         ]
       },
-      GT_UVWR1_P3: {
+      GT_UVWR1_V3: {
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["百姓关注 贵州-2", 48.0, 48.1],
-          ["贵州新闻联播 贵州卫视", 154.2, 157.4],
-          ["第二放映室 贵州-2", 60.1, 65.0],
-          ["非常友茗堂 贵州-2", 15.1, 16.0],
-          ["牌王争霸 贵州-4", 15.1, 16.0]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["百姓关注 贵州-2", 48.0, 48.1],
+          // ["贵州新闻联播 贵州卫视", 154.2, 157.4],
+          // ["第二放映室 贵州-2", 60.1, 65.0],
+          // ["非常友茗堂 贵州-2", 15.1, 16.0],
+          // ["牌王争霸 贵州-4", 15.1, 16.0]
         ],
         title: "",
-        id: "GT_UVWR1_P3",
+        id: "GT_UVWR1_V3",
         color: ["#E7E6E6", "#5B9BD5"],
         ifYaxisShow: false,
         ifLegendShow: false,
         m_barWidth: "40%"
       },
-      GT_UVWR1_Q1: {
+      GT_UVWR1_W1: {
         title: "",
-        id: "GT_UVWR1_Q1",
+        id: "GT_UVWR1_W1",
         height: "height:600px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
@@ -418,9 +702,9 @@ export default {
           ["资讯", 10, 10]
         ]
       },
-      GT_UVWR1_Q2: {
+      GT_UVWR1_W2: {
         title: "",
-        id: "GT_UVWR1_Q2",
+        id: "GT_UVWR1_W2",
         height: "height:600px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
@@ -437,66 +721,66 @@ export default {
           ["资讯", 10, 10]
         ]
       },
-      GT_UVWR1_Q3: {
+      GT_UVWR1_W3: {
         title: "",
-        id: "GT_UVWR1_Q3",
+        id: "GT_UVWR1_W3",
         height: "height:600px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       },
-      GT_UVWR1_R1: {
+      GT_UVWR1_X1: {
         title: "",
-        id: "GT_UVWR1_R1",
+        id: "GT_UVWR1_X1",
         height: "height:600px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       },
-      GT_UVWR1_R2: {
+      GT_UVWR1_X2: {
         title: "",
-        id: "GT_UVWR1_R2",
+        id: "GT_UVWR1_X2",
         height: "height:600px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       },
-      GT_UVWR1_R3: {
+      GT_UVWR1_X3: {
         title: "",
-        id: "GT_UVWR1_R3",
+        id: "GT_UVWR1_X3",
         height: "height:600px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
@@ -519,7 +803,6 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
 
 

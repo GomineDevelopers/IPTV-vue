@@ -1,67 +1,126 @@
 <template>
   <div class="height_auto">
-    <div class="pie_hollow_chart" :id="smoothLineData.id"></div>
+    <!-- <div class="pie_hollow_chart" :id="smoothLineData.id"></div> -->
+    <div class="pie_hollow_chart" :id="smoothLineData_Change.id"></div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: 'SmoothLineChart',  //专题专区数据报告
+  name: "SmoothLineChart_Change", //专题专区数据报告
   props: {
     smoothLineData: {
-      type: Object,
+      type: Object
     }
   },
   data() {
-    return {}
+    return {};
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    smoothLineData_Change: {
+      get: function() {
+        let vm = this;
+        if (
+          vm.smoothLineData.id == "GT_UVWR1_C4" ||
+          vm.smoothLineData.id == "GT_UVWR1_C5" ||
+          vm.smoothLineData.id == "GT_UVWR1_C6"
+        ) {
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            setTimeout(function() {
+              vm.setLineChart();
+            }, 1000);
+            return vm.smoothLineData;
+          } else {
+            let color = [];
+            let data = [];
+            data.push(vm.smoothLineData.data[0]);
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.smoothLineData.color[0]);
+              data.push(vm.smoothLineData.data[1]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.smoothLineData.color[1]);
+              data.push(vm.smoothLineData.data[2]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.smoothLineData.color[2]);
+              data.push(vm.smoothLineData.data[3]);
+            }
+            setTimeout(function() {
+              vm.setLineChart();
+            }, 1000);
+            return {
+              title: vm.smoothLineData.title,
+              id: vm.smoothLineData.id,
+              color: color,
+              data: data
+            };
+          }
+        }
+        return vm.smoothLineData;
+      },
+      set: function(newValue) {}
+    }
   },
   mounted() {
-
-    this.setLineChart()
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 1000);
   },
   methods: {
     setLineChart() {
-      var smoothLineChart = this.$echarts.init(document.getElementById(this.smoothLineData.id))
-      let seriesData = []
+      var smoothLineChart = this.$echarts.init(
+        document.getElementById(this.smoothLineData_Change.id)
+      );
+      let seriesData = [];
       //设置series数据条数
-      for (let i = 1; i <= this.smoothLineData.data.length - 1; i++) {
-        seriesData.push({ type: 'line', seriesLayoutBy: 'row', symbol: 'none', smooth: true })
+      for (let i = 1; i <= this.smoothLineData_Change.data.length - 1; i++) {
+        seriesData.push({
+          type: "line",
+          seriesLayoutBy: "row",
+          symbol: "none",
+          smooth: true
+        });
       }
       var option = {
-        color: this.smoothLineData.color,
+        color: this.smoothLineData_Change.color,
         textStyle: {
           color: "rgba(0, 0, 0, 0.65)"
         },
         title: {
-          text: this.smoothLineData.title,
-          x: '2%',
-          y: '0%',
+          text: this.smoothLineData_Change.title,
+          x: "2%",
+          y: "0%",
           textStyle: {
-            fontStyle: 'normal',
-            fontWeight: 'normal',
-            fontSize: '14'
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "14"
           }
         },
         legend: {
           icon: "re",
           top: "10%",
-          itemWidth: 12,  // 设置宽度
+          itemWidth: 12, // 设置宽度
           itemHeight: 7, // 设置高度
           itemGap: 20, // 设置间距
           textStyle: {
             fontSize: 14,
-            color: 'rgba(0, 0, 0, 0.65)'
+            color: "rgba(0, 0, 0, 0.65)"
           }
         },
         grid: {
           top: "20%",
-          left: '12%',
-          right: '5%',
+          left: "12%",
+          right: "5%",
           bottom: "15%"
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           textStyle: {
-            align: 'left'
+            align: "left"
           }
         },
         //图表自带工具
@@ -74,28 +133,28 @@ export default {
           }
         },
         dataset: {
-          source: this.smoothLineData.data
+          source: this.smoothLineData_Change.data
         },
         xAxis: {
-          type: 'category',
-          boundaryGap: false,  //设置数据开始显示的起点在Y轴上
+          type: "category",
+          boundaryGap: false, //设置数据开始显示的起点在Y轴上
           axisLine: {
             lineStyle: {
-              color: 'rgba(0,0,0,0.65)',//设置横坐标轴线颜色
-            },
+              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+            }
           },
           axisLabel: {
             interval: 0,
             rotate: 40
           },
           axisTick: {
-            alignWithLabel: true  //设置坐标轴刻度与坐标对齐
+            alignWithLabel: true //设置坐标轴刻度与坐标对齐
           }
         },
         yAxis: {
           gridIndex: 0,
           axisTick: {
-            show: false  //设置坐标轴刻度不显示
+            show: false //设置坐标轴刻度不显示
           },
           axisLine: {
             show: false
@@ -107,18 +166,19 @@ export default {
               color: "#939393",
               type: "dotted",
               opacity: 0.2
-            },
-          },
+            }
+          }
         },
         series: seriesData
-      }
-      smoothLineChart.setOption(option)
+      };
+      smoothLineChart.clear();
+      smoothLineChart.setOption(option);
       window.addEventListener("resize", () => {
-        smoothLineChart.resize()
-      })
+        smoothLineChart.resize();
+      });
     }
   }
-}
+};
 </script>
 <style scoped>
 .pie_hollow_chart {

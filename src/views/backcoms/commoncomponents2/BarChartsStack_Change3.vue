@@ -1,37 +1,112 @@
 <template>
   <div class="height_auto">
-    <el-row style="height:300px;" :id="chartData.id"></el-row>
+    <!-- <el-row style="height:300px;" :id="chartData.id"></el-row> -->
+    <el-row style="height:300px;" :id="chartData_Change.id"></el-row>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "BarGraph",
+  name: "BarChartsStack_Change3",
   props: {
     chartData: {
       type: Object
+    }
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    chartData_Change: {
+      get: function() {
+        let vm = this;
+        let color = [];
+        let data = [];
+        if (vm.chartData.id == "GT_UVWR1_D2") {
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            setTimeout(function() {
+              vm.drawLine();
+            }, 1000);
+            return vm.chartData;
+          } else {
+            let length = vm.chartData.data.length;
+            let i;
+
+            for (i = 0; i < length; i++) {
+              data.push([]);
+              data[i].push(vm.chartData.data[i][0]);
+            }
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.chartData.color[0]);
+              for (i = 0; i < length; i++) {
+                data[i].push(vm.chartData.data[i][1]);
+              }
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.chartData.color[1]);
+              for (i = 0; i < length; i++) {
+                data[i].push(vm.chartData.data[i][2]);
+              }
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.chartData.color[2]);
+              for (i = 0; i < length; i++) {
+                data[i].push(vm.chartData.data[i][3]);
+              }
+            }
+            setTimeout(function() {
+              vm.drawLine();
+            }, 1000);
+            let temp = {
+              title: vm.chartData.title,
+              id: vm.chartData.id,
+              color: color,
+              data: data
+            };
+            // console.log(temp);
+            return temp;
+          }
+        }
+        return vm.chartData;
+      },
+      set: function(newValue) {}
     }
   },
   data() {
     return {};
   },
   mounted() {
-    this.drawLine();
+    let vm = this;
+    setTimeout(function() {
+      vm.drawLine();
+    }, 1000);
   },
   methods: {
     drawLine() {
       var barGraphChart = this.$echarts.init(
-        document.getElementById(this.chartData.id)
+        document.getElementById(this.chartData_Change.id)
       );
-      let seriesData = [];
-      //设置series数据条数
-      // for (let i = 1; i <= this.chartData.data[0].length - 1; i++) {
-      //   seriesData.push({ type: 'bar', stack: '堆叠', barWidth: '12' })
-      // }
-      var line_color = this.chartData.color[3];
+      let series = [];
+      let length = this.chartData_Change.color.length;
+      let i;
+      for (i = 0; i < length; i++) {
+        series.push({
+          type: "bar",
+          stack: "堆叠",
+          barWidth: "40%",
+          yAxisIndex: "0",
+          itemStyle: {
+            normal: {
+              label: {
+                show: true,
+                color: "black"
+              }
+            }
+          }
+        });
+      }
       var option = {
-        color: this.chartData.color,
+        color: this.chartData_Change.color,
         title: {
-          text: this.chartData.title,
+          text: this.chartData_Change.title,
           x: "left",
           y: "7%",
           textStyle: {
@@ -72,7 +147,7 @@ export default {
           bottom: "10%"
         },
         dataset: {
-          source: this.chartData.data
+          source: this.chartData_Change.data
         },
         xAxis: {
           type: "category",
@@ -210,52 +285,9 @@ export default {
             }
           }
         ],
-        // series: seriesData
-        series: [
-          {
-            type: "bar",
-            stack: "堆叠",
-            barWidth: "40%",
-            yAxisIndex: "0",
-            itemStyle: {
-              normal: {
-                label: {
-                  show: true,
-                  color: "black"
-                }
-              }
-            }
-          },
-          {
-            type: "bar",
-            stack: "堆叠",
-            barWidth: "40%",
-            yAxisIndex: "0",
-            itemStyle: {
-              normal: {
-                label: {
-                  show: true,
-                  color: "black"
-                }
-              }
-            }
-          },
-          {
-            type: "bar",
-            stack: "堆叠",
-            barWidth: "40%",
-            yAxisIndex: "0",
-            itemStyle: {
-              normal: {
-                label: {
-                  show: true,
-                  color: "black"
-                }
-              }
-            }
-          }
-        ]
+        series: series
       };
+      barGraphChart.clear();
       barGraphChart.setOption(option);
       window.addEventListener("resize", () => {
         barGraphChart.resize();

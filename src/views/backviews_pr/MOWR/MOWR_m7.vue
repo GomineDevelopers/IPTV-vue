@@ -12,7 +12,7 @@
               colspan="1"
             >{{item}}</td>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_yd" class="tr_row">
             <template v-for="(item,index) in form.row1 ">
               <td :key="index + '1b' " v-if="index == 0" colspan="1" rowspan="3">{{item}}</td>
             </template>
@@ -20,10 +20,10 @@
               <td :key="index + '2b' " v-if="index != 0" colspan="1">{{item}}</td>
             </template>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_yd" class="tr_row">
             <td v-for="(item,index) in form.row2 " :key="index + 'c' " colspan="1">{{item}}</td>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_yd" class="tr_row">
             <td
               class="m_font_bold"
               v-for="(item,index) in form.row3 "
@@ -31,7 +31,7 @@
               colspan="1"
             >{{item}}</td>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_lt" class="tr_row">
             <template v-for="(item,index) in form.row4 ">
               <td :key="index + '1b' " v-if="index == 0" colspan="1" rowspan="3">{{item}}</td>
             </template>
@@ -39,10 +39,10 @@
               <td :key="index + '2b' " v-if="index != 0" colspan="1">{{item}}</td>
             </template>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_lt" class="tr_row">
             <td v-for="(item,index) in form.row5 " :key="index + 'c' " colspan="1">{{item}}</td>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_lt" class="tr_row">
             <td
               class="m_font_bold"
               v-for="(item,index) in form.row6 "
@@ -50,7 +50,7 @@
               colspan="1"
             >{{item}}</td>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_dx" class="tr_row">
             <template v-for="(item,index) in form.row7 ">
               <td :key="index + '1b' " v-if="index == 0" colspan="1" rowspan="3">{{item}}</td>
             </template>
@@ -58,10 +58,10 @@
               <td :key="index + '2b' " v-if="index != 0" colspan="1">{{item}}</td>
             </template>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_dx" class="tr_row">
             <td v-for="(item,index) in form.row8 " :key="index + 'c' " colspan="1">{{item}}</td>
           </tr>
-          <tr class="tr_row">
+          <tr v-show="ifFormRowShow_dx" class="tr_row">
             <td
               class="m_font_bold"
               v-for="(item,index) in form.row9 "
@@ -74,33 +74,202 @@
       <el-row :gutter="100" class="special_click_chart">
         <el-col :span="8" class="height_auto">
           <p class="m_common_sm_title_font">周新增占比</p>
-          <div id="MOWR_m7_A1" :style="{width: '100%',height: '300px'}"></div>
+          <!-- <div id="MOWR_m7_A1" :style="{width: '100%',height: '300px'}"></div> -->
+          <numberOfRegisteredUsers2 :fillinData="MOWR_m7_A1" :style="{width: '100%',height: '300px'}"></numberOfRegisteredUsers2>
         </el-col>
         <el-col :span="8" class="height_auto">
           <p class="m_common_sm_title_font">周销户占比</p>
-          <div id="MOWR_m7_A2" :style="{width: '100%',height: '300px'}"></div>
+          <!-- <div id="MOWR_m7_A2" :style="{width: '100%',height: '300px'}"></div> -->
+          <numberOfRegisteredUsers2 :fillinData="MOWR_m7_A2" :style="{width: '100%',height: '300px'}"></numberOfRegisteredUsers2>
         </el-col>
         <el-col :span="8" class="height_auto">
           <p class="m_common_sm_title_font">周净增占比</p>
-          <div id="MOWR_m7_A3" :style="{width: '100%',height: '300px'}"></div>
+          <!-- <div id="MOWR_m7_A3" :style="{width: '100%',height: '300px'}"></div> -->
+          <numberOfRegisteredUsers2 :fillinData="MOWR_m7_A3" :style="{width: '100%',height: '300px'}"></numberOfRegisteredUsers2>
         </el-col>
       </el-row>
     </el-row>
+    <!-- <div
+      v-show="false"
+    >{{PR_operator}}{{MOWR_m7_A1_Change}}{{MOWR_m7_A2_Change}}{{MOWR_m7_A3_Change}}</div>-->
   </div>
 </template>
 
 <script>
 import BarChartSingle2 from "@/views/backcoms/commoncomponents2/BarChartSingle_Change2"; //（空心）饼图组件
+import numberOfRegisteredUsers2 from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change2"; //在册用户数
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "MOWR_m7",
   components: {
-    "bar-chart-single2": BarChartSingle2
+    "bar-chart-single2": BarChartSingle2,
+    numberOfRegisteredUsers2: numberOfRegisteredUsers2
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    ifFormRowShow_yd: {
+      get: function() {
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (this.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifFormRowShow_lt: {
+      get: function() {
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (this.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifFormRowShow_dx: {
+      get: function() {
+        // console.log("~~~MOWR_m7_A1_Change2222");
+
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (this.PR_operator.indexOf("电信") > -1) {
+            // console.log("~~~MOWR_m7_A1_Change2333");
+
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    MOWR_m7_A1_Change: {
+      get: function() {
+        // console.log("~~~MOWR_m7_A1_Change");
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          // console.log("~~~MOWR_m7_A1_Change2");
+
+          return vm.MOWR_m7_A1;
+        } else {
+          // console.log("~~~MOWR_m7_A1_Change3");
+
+          let color = [];
+          let data = [];
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            color.push(vm.MOWR_m7_A1.color[0]);
+            data.push(vm.MOWR_m7_A1.data[0]);
+          }
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            color.push(vm.MOWR_m7_A1.color[1]);
+            data.push(vm.MOWR_m7_A1.data[1]);
+          }
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            color.push(vm.MOWR_m7_A1.color[2]);
+            data.push(vm.MOWR_m7_A1.data[2]);
+          }
+          // console.log("~~~MOWR_m7_A1_Change4");
+
+          setTimeout(function() {
+            vm.drawLine();
+          }, 300);
+          // console.log("~~~MOWR_m7_A1_Change5");
+
+          let temp = {
+            id: vm.MOWR_m7_A1.id,
+            title: vm.MOWR_m7_A1.title,
+            color: color,
+            data: data
+          };
+          // console.log(temp);
+          return temp;
+        }
+        return vm.MOWR_m7_A1;
+      },
+      set: function(newValue) {}
+    },
+    MOWR_m7_A2_Change: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return vm.MOWR_m7_A2;
+        } else {
+          let color = [];
+          let data = [];
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            color.push(vm.MOWR_m7_A2.color[0]);
+            data.push(vm.MOWR_m7_A2.data[0]);
+          }
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            color.push(vm.MOWR_m7_A2.color[1]);
+            data.push(vm.MOWR_m7_A2.data[1]);
+          }
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            color.push(vm.MOWR_m7_A2.color[2]);
+            data.push(vm.MOWR_m7_A2.data[2]);
+          }
+          setTimeout(function() {
+            vm.drawLine2();
+          }, 300);
+          return {
+            id: vm.MOWR_m7_A2.id,
+            title: vm.MOWR_m7_A2.title,
+            color: color,
+            data: data
+          };
+        }
+        return vm.MOWR_m7_A2;
+      },
+      set: function(newValue) {}
+    },
+    MOWR_m7_A3_Change: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return vm.MOWR_m7_A3;
+        } else {
+          let color = [];
+          let data = [];
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            color.push(vm.MOWR_m7_A3.color[0]);
+            data.push(vm.MOWR_m7_A3.data[0]);
+          }
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            color.push(vm.MOWR_m7_A3.color[1]);
+            data.push(vm.MOWR_m7_A3.data[1]);
+          }
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            color.push(vm.MOWR_m7_A3.color[2]);
+            data.push(vm.MOWR_m7_A3.data[2]);
+          }
+          setTimeout(function() {
+            vm.drawLine3();
+          }, 300);
+          return {
+            id: vm.MOWR_m7_A3.id,
+            title: vm.MOWR_m7_A3.title,
+            color: color,
+            data: data
+          };
+        }
+        return vm.MOWR_m7_A3;
+      },
+      set: function(newValue) {}
+    }
   },
   mounted() {
-    this.drawLine();
-    this.drawLine2();
-    this.drawLine3();
+    // this.drawLine(); // 运营商1到0不刷新 =》换格式
+    // this.drawLine2();
+    // this.drawLine3();
   },
   data() {
     return {
@@ -132,7 +301,7 @@ export default {
         row2: ["销户", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row3: ["净增", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row4: [
-          "电信",
+          "联通",
           "新增",
           "79",
           "130",
@@ -146,7 +315,7 @@ export default {
         row5: ["销户", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row6: ["净增", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row7: [
-          "联通",
+          "电信",
           "新增",
           "79",
           "130",
@@ -159,59 +328,99 @@ export default {
         ],
         row8: ["销户", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row9: ["净增", "79", "130", "408", "533", "311", "310", "534", "2098"]
+      },
+      // MOWR_m7_A1: {
+      //   id: "MOWR_m7_A1",
+      //   title: "",
+      //   color: ["#C0504D", "#9BBB59", "#CC7B38"],
+      //   data: [
+      //     { value: 70, name: "移动" },
+      //     { value: 20, name: "联通" },
+      //     { value: 14, name: "电信" }
+      //   ]
+      // },
+      // MOWR_m7_A2: {
+      //   id: "MOWR_m7_A2",
+      //   title: "",
+      //   color: ["#C0504D", "#9BBB59", "#CC7B38"],
+      //   data: [
+      //     { value: 70, name: "移动" },
+      //     { value: 20, name: "联通" },
+      //     { value: 14, name: "电信" }
+      //   ]
+      // },
+      // MOWR_m7_A3: {
+      //   id: "MOWR_m7_A3",
+      //   title: "",
+      //   color: ["#C0504D", "#9BBB59", "#CC7B38"],
+      //   data: [
+      //     { value: 70, name: "移动" },
+      //     { value: 20, name: "联通" },
+      //     { value: 14, name: "电信" }
+      //   ]
+      // },
+      MOWR_m7_A1: {
+        title: "",
+        id: "MOWR_m7_A1",
+        color: ["#C0504D", "#9BBB59", "#CC7B38"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 70, 20, 14]],
+        label_formatter: "{c}\n{d}%"
+      },
+      MOWR_m7_A2: {
+        title: "",
+        id: "MOWR_m7_A2",
+        color: ["#C0504D", "#9BBB59", "#CC7B38"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 70, 20, 14]],
+        label_formatter: "{c}\n{d}%"
+      },
+      MOWR_m7_A3: {
+        title: "",
+        id: "MOWR_m7_A3",
+        color: ["#C0504D", "#9BBB59", "#CC7B38"],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 70, 20, 14]],
+        label_formatter: "{c}\n{d}%"
       }
     };
   },
   methods: {
     drawLine() {
-      var myChart = this.$echarts.init(document.getElementById("MOWR_m7_A1"));
-      var data = {
-        color: ["#C0504D", "#9BBB59", "#CC7B38"],
-        data: [
-          { value: 70, name: "移动" },
-          { value: 20, name: "电信" },
-          { value: 14, name: "联通" }
-        ]
-      };
-      var option = this.common(data);
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+      this.common(1);
     },
     drawLine2() {
-      var myChart = this.$echarts.init(document.getElementById("MOWR_m7_A2"));
-      var data = {
-        color: ["#C0504D", "#9BBB59", "#CC7B38"],
-        data: [
-          { value: 70, name: "移动" },
-          { value: 20, name: "电信" },
-          { value: 14, name: "联通" }
-        ]
-      };
-      var option = this.common(data);
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+      this.common(2);
     },
     drawLine3() {
-      var myChart = this.$echarts.init(document.getElementById("MOWR_m7_A3"));
-      var data = {
-        color: ["#C0504D", "#9BBB59", "#CC7B38"],
-        data: [
-          { value: 70, name: "移动" },
-          { value: 20, name: "电信" },
-          { value: 14, name: "联通" }
-        ]
-      };
-      var option = this.common(data);
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+      this.common(3);
     },
-    common(data) {
+    common(num) {
+      let vm = this;
+      var data;
+      if (num == 1) {
+        data = {
+          id: vm.MOWR_m7_A1_Change.id,
+          title: vm.MOWR_m7_A1_Change.title,
+          color: vm.MOWR_m7_A1_Change.color,
+          data: vm.MOWR_m7_A1_Change.data
+        };
+      }
+      if (num == 2) {
+        data = {
+          id: vm.MOWR_m7_A2_Change.id,
+          title: vm.MOWR_m7_A2_Change.title,
+          color: vm.MOWR_m7_A2_Change.color,
+          data: vm.MOWR_m7_A2_Change.data
+        };
+      }
+      if (num == 3) {
+        data = {
+          id: vm.MOWR_m7_A3_Change.id,
+          title: vm.MOWR_m7_A3_Change.title,
+          color: vm.MOWR_m7_A3_Change.color,
+          data: vm.MOWR_m7_A3_Change.data
+        };
+      }
+      var myChart = vm.$echarts.init(document.getElementById(data.id));
+
       var option = {
         title: {
           text: "",
@@ -276,7 +485,11 @@ export default {
           }
         ]
       };
-      return option;
+      myChart.clear();
+      myChart.setOption(option);
+      window.addEventListener("resize", () => {
+        myChart.resize();
+      });
     }
   }
 };

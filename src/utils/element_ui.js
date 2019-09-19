@@ -19,7 +19,12 @@ import {
   Button,
   Select,
   Option,
-  DatePicker
+  DatePicker,
+  Dialog,
+  Form,
+  FormItem,
+  Radio,
+  Switch,
 } from 'element-ui'
 
 Vue.use(Row)
@@ -43,6 +48,17 @@ Vue.use(Select)
 Vue.use(Option)
 
 Vue.use(DatePicker)
+Vue.use(Dialog)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Radio)
+Vue.use(Switch)
+
+
+
+
+
+
 
 
 

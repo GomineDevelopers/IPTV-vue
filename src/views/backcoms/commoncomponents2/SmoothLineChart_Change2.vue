@@ -1,11 +1,14 @@
 <template>
   <div class="height_auto">
-    <div class="pie_hollow_chart" :id="smoothLineData.id"></div>
+    <!-- <div class="pie_hollow_chart" :id="smoothLineData.id"></div> -->
+    <div class="pie_hollow_chart" :id="smoothLineData_Change.id"></div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "SmoothLineChart", //专题专区数据报告
+  name: "SmoothLineChart_Change2", //专题专区数据报告
   props: {
     smoothLineData: {
       type: Object
@@ -14,17 +17,66 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    smoothLineData_Change: {
+      get: function() {
+        let vm = this;
+        let data = [];
+        let color = [];
+
+        if (vm.smoothLineData.id == "MOWR_m2_A1") {
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            color = vm.smoothLineData.color;
+            data = vm.smoothLineData.data;
+          } else {
+            data.push(vm.smoothLineData.data[0]);
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.smoothLineData.color[0]);
+              data.push(vm.smoothLineData.data[1]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.smoothLineData.color[1]);
+              data.push(vm.smoothLineData.data[2]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.smoothLineData.color[2]);
+              data.push(vm.smoothLineData.data[3]);
+            }
+          }
+          setTimeout(function() {
+            vm.setLineChart();
+          }, 1000);
+          let temp = {
+            title: vm.smoothLineData.title,
+            id: vm.smoothLineData.id,
+            height: vm.smoothLineData.height,
+            color: color,
+            data: data
+          };
+          // console.log(temp);
+          return temp;
+        }
+        return vm.smoothLineData;
+      }
+    },
+    set: function(newValue) {}
+  },
+
   mounted() {
-    this.setLineChart();
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 1000);
   },
   methods: {
     setLineChart() {
       var smoothLineChart = this.$echarts.init(
-        document.getElementById(this.smoothLineData.id)
+        document.getElementById(this.smoothLineData_Change.id)
       );
       let seriesData = [];
       //设置series数据条数
-      for (let i = 1; i <= this.smoothLineData.data.length - 1; i++) {
+      for (let i = 1; i <= this.smoothLineData_Change.data.length - 1; i++) {
         seriesData.push({
           type: "line",
           seriesLayoutBy: "row",
@@ -33,12 +85,12 @@ export default {
         });
       }
       var option = {
-        color: this.smoothLineData.color,
+        color: this.smoothLineData_Change.color,
         textStyle: {
           color: "rgba(0, 0, 0, 0.65)"
         },
         title: {
-          text: this.smoothLineData.title,
+          text: this.smoothLineData_Change.title,
           x: "2%",
           y: "0%",
           textStyle: {
@@ -123,7 +175,7 @@ export default {
           }
         },
         dataset: {
-          source: this.smoothLineData.data
+          source: this.smoothLineData_Change.data
         },
         xAxis: {
           type: "category",
@@ -164,6 +216,7 @@ export default {
         },
         series: seriesData
       };
+      smoothLineChart.clear();
       smoothLineChart.setOption(option);
       window.addEventListener("resize", () => {
         smoothLineChart.resize();

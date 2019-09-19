@@ -1,45 +1,101 @@
 <template>
   <div class="m_height_300px m_width_100">
-    <el-row :style="chartData.height" class="m_width_100" :id="chartData.id"></el-row>
+    <!-- <el-row :style="chartData.height" class="m_width_100" :id="chartData.id"></el-row> -->
+    <el-row :style="chartData_Change.height" class="m_width_100" :id="chartData_Change.id"></el-row>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "BarGraph",
+  name: "pie_center_label",
   props: {
     chartData: {
       type: Object
+    }
+  },
+  computed: {
+    ...mapGetters(["PR_operator"]),
+    chartData_Change: {
+      get: function() {
+        let vm = this;
+        if (vm.chartData.id == "GT_UVWR1_A2") {
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            return vm.chartData;
+          } else {
+            let m_color = [];
+            let m_data = [];
+            let m_data2 = [];
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              m_color.push(vm.chartData.m_color[0]);
+              m_data.push(vm.chartData.m_data[0]);
+              m_data2.push(vm.chartData.m_data2[0]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              m_color.push(vm.chartData.m_color[1]);
+              m_data.push(vm.chartData.m_data[1]);
+              m_data2.push(vm.chartData.m_data2[1]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              m_color.push(vm.chartData.m_color[2]);
+              m_data.push(vm.chartData.m_data[2]);
+              m_data2.push(vm.chartData.m_data2[2]);
+            }
+            setTimeout(function() {
+              vm.drawLine();
+            }, 1000);
+            let temp = {
+              title: vm.chartData.title,
+              id: vm.chartData.id,
+              height: vm.chartData.height,
+              m_data: m_data,
+              m_color: m_color,
+              m_data2: m_data2,
+              label_formatter: vm.chartData.label_formatter,
+              legend_show: vm.chartData.legend_show
+            };
+            // console.log(temp);
+            return temp;
+          }
+          // return vm.chartData;
+        }
+        return vm.chartData;
+      },
+      set: function(newValue) {}
     }
   },
   data() {
     return {};
   },
   mounted() {
-    this.drawLine();
+    let vm = this;
+    setTimeout(function() {
+      vm.drawLine();
+    }, 1000);
   },
   methods: {
     drawLine() {
       var myEcharts = this.$echarts.init(
-        document.getElementById(this.chartData.id)
+        document.getElementById(this.chartData_Change.id)
       );
-      var m_data = this.chartData.m_data;
-      var m_data2 = this.chartData.m_data2;
-      var m_color = this.chartData.m_color;
-      var legend_show = this.chartData.legend_show;
-      var label_formatter = this.chartData.label_formatter;
+      let vm = this;
+      var m_data = this.chartData_Change.m_data;
+      var m_data2 = this.chartData_Change.m_data2;
+      var m_color = this.chartData_Change.m_color;
+      var legend_show = this.chartData_Change.legend_show;
+      var label_formatter = this.chartData_Change.label_formatter;
 
       var option = {
         tooltip: {
           trigger: "item",
           extraCssText: "width:120px;height:60px",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
+          formatter: "{a} <br/>{b}:  <br/>{c} ({d}%)"
         },
         legend: [
           {
-            show: legend_show,
+            show: vm.chartData_Change.legend_show,
             top: "40%",
             left: "45%",
-            data: m_data,
+            data: vm.chartData_Change.m_data,
             itemWidth: 12,
             itemHeight: 6,
             width: 40,
@@ -55,7 +111,7 @@ export default {
             name: "用户画像",
             type: "pie",
             radius: ["40%", "80%"], // 大小
-            color: m_color,
+            color: vm.chartData_Change.m_color,
             // label: {
             //   normal: {
             //     show: false
@@ -72,19 +128,19 @@ export default {
                 show: true,
                 position: "inner", //标签的位置
                 textStyle: {
-                //   fontWeight: 200,
-                  color:"#000000",
+                  //   fontWeight: 200,
+                  color: "#000000",
                   fontSize: 12 //文字的字体大小
                 },
-                formatter: label_formatter
+                formatter: vm.chartData_Change.label_formatter
               }
             },
             hoverAnimation: false, //鼠标移入变大false
-            data: m_data2
+            data: vm.chartData_Change.m_data2
           }
         ]
       };
-
+      myEcharts.clear();
       myEcharts.setOption(option);
       window.addEventListener("resize", () => {
         myEcharts.resize();

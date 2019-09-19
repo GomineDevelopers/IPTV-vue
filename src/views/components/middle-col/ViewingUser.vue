@@ -3,24 +3,151 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>收视用户
     </el-row>
-    <el-row class="chart_height" id="viewing_user"></el-row>
+    <el-row v-show="ifgetdata" class="chart_height" id="viewing_user"></el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
+import {
+  broadcast_demand,
+  broadcast_review,
+  media_watch_total,
+  broadcast_onlive
+} from "@/api/api_main";
+
 export default {
-  name: 'ViewingUser', //收视用户组件
+  name: "ViewingUser", //收视用户组件
   data() {
     return {
-
-    }
+      ifgetdata: true,
+      broadcast_demand_1: null,
+      broadcast_demand_2: null,
+      broadcast_demand_3: null,
+      broadcast_review_1: null,
+      broadcast_review_2: null,
+      broadcast_review_3: null,
+      media_watch_total_1: null,
+      media_watch_total_2: null,
+      media_watch_total_3: null,
+      broadcast_onlive_1: null,
+      broadcast_onlive_2: null,
+      broadcast_onlive_3: null
+    };
   },
   mounted() {
-    this.setNewUserChart()
+    let vm = this;
+    this.broadcast_demand();
+    this.broadcast_review();
+    this.media_watch_total();
+    this.broadcast_onlive();
+
+    setTimeout(function() {
+      vm.setNewUserChart();
+    }, 1000);
   },
   methods: {
+    broadcast_demand() {
+      let vm = this;
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      console.log("~~~~~~broadcast_demand");
+      broadcast_demand(data)
+        .then(function(response) {
+          console.log(response);
+
+          let m_data = response.data.responses[0].aggregations;
+
+          // 用户数 收视数 户均收视数
+          vm.broadcast_demand_1 = m_data.demand_user_num.value;
+          vm.broadcast_demand_2 = m_data.demand_freq.value;
+          vm.broadcast_demand_3 = parseInt(m_data.watch_freq_family.value);
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifgetdata = false;
+        });
+    },
+    broadcast_review() {
+      let vm = this;
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      broadcast_review(data)
+        .then(function(response) {
+          console.log("~~~~~~broadcast_review");
+          console.log(response);
+
+          let m_data = response.data.responses[0].aggregations;
+          // 用户数 收视数 户均收视数
+          vm.broadcast_review_1 = m_data.watch_user_num.value;
+          vm.broadcast_review_2 = m_data.watch_freq.value;
+          vm.broadcast_review_3 = parseInt(m_data.watch_freq_family.value);
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifgetdata = false;
+        });
+    },
+    media_watch_total() {
+      let vm = this;
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      media_watch_total(data)
+        .then(function(response) {
+          console.log("~~~~~~media_watch_total");
+          console.log(response);
+
+          let m_data = response.data.responses[0].aggregations;
+          // 用户数 收视数 户均收视数
+          vm.media_watch_total_1 = m_data.watch_user_num.value;
+          vm.media_watch_total_2 = m_data.watch_freq.value;
+          vm.media_watch_total_3 = parseInt(m_data.watch_freq_family.value);
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifgetdata = false;
+        });
+    },
+    broadcast_onlive() {
+      // console.log("broadcast_onlive");
+      let vm = this;
+      let data = {
+        start: "2019-07-01",
+        end: "2019-07-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      broadcast_onlive(data)
+        .then(function(response) {
+          console.log("~~~~~~broadcast_onlive");
+          console.log(response);
+          let m_data = response.data.responses[0].aggregations;
+          vm.broadcast_onlive_1 = m_data.onlive_user_num.value;
+          vm.broadcast_onlive_2 = m_data.onlive_freq.value;
+          vm.broadcast_onlive_3 = parseInt(m_data.watch_freq_family.value);
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifgetdata = false;
+        });
+    },
     setNewUserChart() {
+      let vm = this;
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById('viewing_user'))
+      var myChart = this.$echarts.init(document.getElementById("viewing_user"));
 
       var option = {
         textStyle: {
@@ -28,40 +155,55 @@ export default {
         },
         color: [
           {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 1,
             y2: 1,
-            colorStops: [{
-              offset: 0, color: '#488BFF' // 0% 处的颜色
-            }, {
-              offset: 1, color: '#6648FF' // 100% 处的颜色
-            }],
+            colorStops: [
+              {
+                offset: 0,
+                color: "#488BFF" // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: "#6648FF" // 100% 处的颜色
+              }
+            ]
           },
           {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 1,
             y2: 1,
-            colorStops: [{
-              offset: 0, color: '#00E5FF' // 0% 处的颜色
-            }, {
-              offset: 1, color: '#0053DC' // 100% 处的颜色
-            }],
+            colorStops: [
+              {
+                offset: 0,
+                color: "#00E5FF" // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: "#0053DC" // 100% 处的颜色
+              }
+            ]
           },
           {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 1,
             y2: 1,
-            colorStops: [{
-              offset: 0, color: '#00D7CF' // 0% 处的颜色
-            }, {
-              offset: 1, color: '#00C786' // 100% 处的颜色
-            }],
+            colorStops: [
+              {
+                offset: 0,
+                color: "#00D7CF" // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: "#00C786" // 100% 处的颜色
+              }
+            ]
           }
         ],
         legend: {
@@ -73,41 +215,98 @@ export default {
         },
         grid: {
           top: "15%",
-          left: '0',
-          right: '1%',
+          left: "0",
+          right: "1%",
           bottom: "1%",
           containLabel: true
         },
         tooltip: {},
         dataset: {
           source: [
-            ['product', '用户数', '收视次数', '户均收视次数'],
-            ['总体收视', 950, 837, 433,],
-            ['直播收视', 831, 734, 551],
-            ['点播收视', 864, 652, 825],
-            ['回看收视', 724, 539, 391]
+            // ["product", "用户数", "收视次数", "户均收视次数"],
+            ["product", "用户数", "收视次数"],
+            // ["总体收视", 111950, 111837, 111433],
+            [
+              "总体收视",
+              vm.media_watch_total_1,
+              vm.media_watch_total_2
+              // vm.media_watch_total_3
+            ],
+            // ["直播收视", 111831, 111734, 111551],
+            [
+              "直播收视",
+              vm.broadcast_onlive_1,
+              vm.broadcast_onlive_2
+              // vm.broadcast_onlive_3
+            ],
+            // ["点播收视", 864, 652, 825],
+            [
+              "点播收视",
+              vm.broadcast_demand_1,
+              vm.broadcast_demand_2
+              // vm.broadcast_demand_3
+            ],
+            // ["回看收视", 111724, 111539, 111391]
+            [
+              "回看收视",
+              vm.broadcast_review_1,
+              vm.broadcast_review_2
+              // vm.broadcast_review_3
+            ]
           ]
         },
         xAxis: {
-          type: 'category',
-          axisLabel: {//横坐标类目文字
+          type: "category",
+          axisLabel: {
+            //横坐标类目文字
             show: true,
             textStyle: {
-              fontSize: '10'//设置横坐标轴文字颜大小
+              fontSize: "10" //设置横坐标轴文字颜大小
             }
           },
           axisTick: {
-            alignWithLabel: true  //设置坐标轴刻度与坐标对齐
+            alignWithLabel: true //设置坐标轴刻度与坐标对齐
           },
           axisLine: {
             lineStyle: {
-              color: '#ccc',//设置横坐标轴线颜色
+              color: "#ccc" //设置横坐标轴线颜色
             }
-          },
+          }
         },
         yAxis: {
-          axisLabel: {//横坐标类目文字
+          type: "value",
+          axisLabel: {
+            //横坐标类目文字
             //rotate: 30,
+            // formatter:'{value}(万)'
+            formatter: function(value) {
+              // return String(value / 10000 / 1000) + "（千万）";
+              if (value == 0) {
+                return 0;
+              }
+              if (vm.media_watch_total_2 > 100000000) {
+                return String(value / 10000 / 10000) + "亿";
+              }
+              if (
+                vm.media_watch_total_2 > 10000000 &&
+                vm.media_watch_total_2 <= 100000000
+              ) {
+                return String(value / 10000 / 1000) + "千万";
+              }
+              if (
+                vm.media_watch_total_2 > 1000000 &&
+                vm.media_watch_total_2 <= 10000000
+              ) {
+                return String(value / 10000 / 100) + "百万";
+              }
+              if (
+                vm.media_watch_total_2 > 10000 &&
+                vm.media_watch_total_2 <= 1000000
+              ) {
+                return String(value / 10000) + "万";
+              }
+              return String(value);
+            }
           },
           // 刻度线的设置
           splitLine: {
@@ -115,30 +314,30 @@ export default {
             lineStyle: {
               color: "#939393",
               opacity: 0.2
-            },
+            }
           },
           axisLine: {
-            show: false,
+            show: false
           },
           axisTick: {
-            show: false  //设置坐标轴刻度不显示
-          },
+            show: false //设置坐标轴刻度不显示
+          }
         },
         series: [
-          { type: 'bar', barWidth: 10 },
-          { type: 'bar', barWidth: 10 },
-          { type: 'bar', barWidth: 10 }
+          { type: "bar", barWidth: 10 },
+          { type: "bar", barWidth: 10 }
+          // { type: "bar", barWidth: 10 }
         ]
-      }
+      };
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
+      myChart.setOption(option);
 
-      window.addEventListener('resize', () => {
-        myChart.resize()
-      })
+      window.addEventListener("resize", () => {
+        myChart.resize();
+      });
     }
   }
-}
+};
 </script>
 <style scoped>
 </style>

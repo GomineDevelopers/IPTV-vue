@@ -10,6 +10,7 @@
               <div>用户数(万)</div>
               <div>户均收看时长(小时)</div>
               <div>完播率</div>
+              <!-- <div>观看行为</div> -->
             </div>
           </div>
           <div class="mt_row">
@@ -180,7 +181,7 @@
 </template>
 
 <script>
-import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"  //收视TOP组件
+import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 export default {
   name: "CustomerSegmentation",
   components: {
@@ -188,12 +189,12 @@ export default {
   },
   data() {
     return {
-      targetOption: '', //存放选择的指标
+      targetOption: "", //存放选择的指标
       //选择指标数据
       target: ["firsttime", "onetime", "周期性购买", "忠诚用户", "疑似流失"],
       //收视时长TOP
       viewingTopList: {
-        id: 'viewingTimeTOP',
+        id: "viewingTimeTOP",
         data: [
           {
             topNum: 1,
@@ -304,7 +305,7 @@ export default {
       },
       //收视次数数据
       NumberOfViewersTopList: {
-        id: 'NumberOfViewersTop',
+        id: "NumberOfViewersTop",
         data: [
           {
             topNum: 1,
@@ -412,8 +413,16 @@ export default {
             playNum: "6.0"
           }
         ]
-      },
-    }
+      }
+      // customerSegmentation:{  // 用户细分
+      //   title:["VIP包","用户数(万)","户均收看时长(小时)","完播率"],
+      //   row1:{
+      //     title:"订购-Firsttime",
+      //     data1:["家庭包","少儿包","影视包"],
+      //     data1:[]
+      //   }
+      // }
+    };
   },
   methods: {}
 };
@@ -453,6 +462,7 @@ export default {
 
 .CustomerSegmentation .mt_title .mt_h > div,
 .CustomerSegmentation .mt_row .mt_h > div {
+  /* width: 16.6%; */
   width: 20%;
   display: inline-block;
   vertical-align: middle;
