@@ -73,7 +73,12 @@ export default {
   },
   mounted() {
     //   初始化
-    this.currentStatus = this.$commonTools.getCookieCry("bigscreenchoose");
+    let temp_status = this.$commonTools.getCookieCry("bigscreenchoose");
+    if (temp_status == null || temp_status == undefined || temp_status == "") {
+      this.currentStatus = "综合";
+    } else {
+      this.currentStatus = temp_status;
+    }
   },
   methods: {
     // BigScreenChoose(event, index) {
@@ -132,7 +137,7 @@ export default {
 }
 .programInput_elrow .search_btn {
   width: 119px;
-  height: 32px;
+  height: 40px;
   border-radius: 4px;
   background-color: #ff6123;
   color: #ffffff;

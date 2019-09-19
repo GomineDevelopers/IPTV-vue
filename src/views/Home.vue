@@ -19,11 +19,15 @@
         <div class="middle_col_container">
           <!-- 顶部title img -->
           <el-row class="margin_bottom middle_title">
-            <el-col :span="6">&nbsp;</el-col>
-            <el-col :span="12">
-              <!-- <img src="@/assets/head.png" /> -->
-              <div class="main_title">贵州省广电新媒体用户行为分析</div>
-              <img src="@/assets/headtest.png" />
+            <el-col v-show="ifAllShow" :span="6">&nbsp;</el-col>
+            <el-col v-show="ifAllShow" :span="12">
+              <div id="main_title_id1" class="main_title">{{bigScreenTitle}}</div>
+              <img id="m_head_img1" src="@/assets/headtest.png" />
+            </el-col>
+            <el-col v-show="!ifAllShow" :span="4">&nbsp;</el-col>
+            <el-col v-show="!ifAllShow" :span="14">
+              <div id="main_title_id2" class="main_title">{{bigScreenTitle}}</div>
+              <img id="m_head_img2" src="@/assets/headtest2.png" />
             </el-col>
             <el-col :span="6">
               <p class="home_date1">数据截止日期：</p>
@@ -110,7 +114,6 @@ import ZoneProgrammes from "@/views/components/right-col/ZoneProgrammes"; //专�
 // 专区节目改成贵州频道
 import GuizhouChannel from "@/views/components/right-col/GuizhouChannel"; //贵州频道收视Top横向-双条形图
 
-
 import MediaAssetsData from "@/views/components/right-col/MediaAssetsData"; //媒资数据组件
 
 import ThermodynamicChart from "@/views/components/middle-col/ThermodynamicChart"; // 热力图
@@ -130,7 +133,7 @@ export default {
     retention_and_activation: RetentionAndActivation,
     "value-added-programsTOP": ValueAddedProgramsTOP,
     "zone-programmes": ZoneProgrammes,
-    "guizhou-channel":GuizhouChannel,
+    "guizhou-channel": GuizhouChannel,
     "media-assets-data": MediaAssetsData,
     "thermodynamic-chart": ThermodynamicChart
   },
@@ -141,13 +144,44 @@ export default {
         backgroundRepeat: "no-repeat",
         backgroundSize: "100% 100%"
       },
-      value_p: 0 //计时器
+      value_p: 0, //计时器
+      bigScreenTitle: "贵州省广电新媒体用户行为分析",
+      ifAllShow: true
     };
   },
   mounted() {
     setInterval(this.get, 1000);
 
     this.drawLine();
+    let temp_status = this.$commonTools.getCookieCry("bigscreenchoose");
+    if (temp_status == null || temp_status == undefined || temp_status == "") {
+      this.bigScreenTitle = "贵州省广电新媒体用户行为分析";
+    } else {
+      if (temp_status == "综合") {
+        this.bigScreenTitle = "贵州省广电新媒体用户行为分析";
+        this.ifAllShow = true;
+        document.getElementById("main_title_id1").style.width = "5.76rem";
+    
+      }
+      if (temp_status == "移动") {
+        this.bigScreenTitle = "贵州省广电新媒体移动用户行为分析";
+        this.ifAllShow = false;
+        document.getElementById("main_title_id2").style.width = "6.76rem";
+     
+      }
+      if (temp_status == "联通") {
+        this.bigScreenTitle = "贵州省广电新媒体联通用户行为分析";
+        this.ifAllShow = false;
+        document.getElementById("main_title_id2").style.width = "6.76rem";
+       
+      }
+      if (temp_status == "电信") {
+        this.bigScreenTitle = "贵州省广电新媒体电信用户行为分析";
+        this.ifAllShow = false;
+        document.getElementById("main_title_id2").style.width = "6.76rem";
+
+      }
+    }
   },
   methods: {
     drawLine() {},
@@ -204,7 +238,7 @@ export default {
 }
 .home .main_title {
   width: 5.76rem;
-  height: 0.31rem;
+  height: 0.35rem;
   letter-spacing: 0.13rem;
   margin: 0 auto;
   font-size: 0.275rem;
@@ -238,6 +272,13 @@ export default {
     background-position: -80% 0;
   }
 }
+#m_head_img1 {
+  margin-left: 0rem;
+}
+#m_head_img2 {
+  margin-left: 1rem;
+}
+
 .home_date1 {
   width: 2rem;
   height: 0.22rem;

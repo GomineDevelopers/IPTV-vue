@@ -14,7 +14,7 @@
             <div class="account_name">&nbsp;{{username}}</div>
           </el-col>
           <el-col :span="8">
-            <button class="signout" @click="logout">登出</button>
+            <button class="signout" @click="logout">退出</button>
           </el-col>
         </el-row>
       </div>
