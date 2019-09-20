@@ -18,7 +18,7 @@
             <span class="keep_time">1.4</span>小时
           </el-row>
           <el-row>
-            用户忠诚指数：
+            忠诚用户数：
             </br>
             <span class="loyal_index">8</span>分
           </el-row>

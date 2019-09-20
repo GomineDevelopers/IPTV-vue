@@ -142,7 +142,31 @@
           ></el-date-picker>
         </div>
       </span>
+      <span v-show="PR_assignReportNum == 4" class="font_title" style="margin-left: 20px;">专题：</span>
+      <el-select
+        v-show="PR_assignReportNum == 4"
+        v-model="value_specialName"
+        filterable
+        allow-create
+        default-first-option
+        placeholder="选择专题名称"
+      >
+        <el-option
+          v-for="item in options_specialName"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
     </div>
+    <div class="download">
+      <span class="font_title">下载：</span>
+      <el-button class="btn_download" @click="export2Excel()">
+        <div class="download_text">Excel表单</div>
+        <div :style="download_style" class="download_icon"></div>
+      </el-button>
+    </div>
+
     <div class="submitP">
       <el-button class="submit" @click="submitOption">确定</el-button>
     </div>
@@ -179,7 +203,7 @@ export default {
         .catch(function(error) {
           console.info(error);
         });
-    }
+    },
     // "time.dayValue"(newValue, oldValue) {
     //   let vm = this;
     //   this.$store
@@ -224,9 +248,25 @@ export default {
     //       console.info(error);
     //     });
     // }
+    value_specialName(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_PR_value_specialName", newValue)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }
   },
   data() {
     return {
+      download_style: {
+        backgroundImage: "url(" + require("@/assets/download.png") + ")",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 100%"
+      },
       // 设置选择三个月之前到今天的日期
       pickerOptions0: {
         disabledDate(time) {
@@ -297,7 +337,17 @@ export default {
       operatorChoose: [],
       operator_checkAll: false,
       operator_isIndeterminate: true,
-
+      options_specialName: [
+        {
+          value: "小小福星",
+          label: "小小福星"
+        },
+        {
+          value: "70周年",
+          label: "70周年"
+        }
+      ],
+      value_specialName: [],
       time: {
         day: [
           // {
@@ -624,6 +674,46 @@ export default {
     //页面刷新时定期报告恢复默认路由
     handlerClass() {
       this.$router.push({ path: "/backhome/periodicreport/SpecialZoneReport" });
+    },
+    // 下载excel表格
+    export2Excel() {
+      require.ensure([], () => {
+        console.log("~~~~export2Excel1");
+        const { export_json_to_excel } = require("../../../vendor/Export2Excel");
+        console.log("~~~~export2Excel2");
+        const tHeader = [
+          "商品名称",
+          "商品货号",
+          "售价",
+          "库存",
+          "销量",
+          "分享"
+        ];
+        const filterVal = [
+          "name",
+          "number",
+          "salePrice",
+          "stocknums",
+          "salesnums",
+          "sharenums"
+        ];
+        // const list = this.goodsItems;
+        const list = this.list;
+        console.log(list);
+        console.log(filterVal);
+        const data = this.formatJson(filterVal, list);
+        console.log(tHeader);
+        console.log(data);
+        export_json_to_excel(tHeader, data, "商品管理列表");
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      //   let temp1 = [55, 66];
+      //   let k ;
+      //   let temp2 = temp1.map(v => k);
+      //   console.log(temp2);
+      return jsonData.map(v => filterVal.map(j => v[j]));
+      // return "";
     }
   }
 };
@@ -664,11 +754,16 @@ export default {
 
 .OptionSelectPR .report,
 .OptionSelectPR .operator,
-.OptionSelectPR .time {
+.OptionSelectPR .time,
+.OptionSelectPR .download {
   display: inline-block;
   width: 100%;
   line-height: 32px;
 }
+.OptionSelectPR .download {
+  margin-top: 14px;
+}
+
 .OptionSelectPR .m_block {
   display: inline-block;
   line-height: 32px;
@@ -726,5 +821,27 @@ export default {
   margin: 0px;
   padding: 0px;
   width: 68px;
+}
+
+.OptionSelectPR .btn_download {
+  background-color: #ff6123;
+  color: #ffffff;
+  /* line-height: 32px; */
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+  width: 177px;
+  margin-left: 10px;
+}
+.download_text {
+  height: 22px;
+  width: 100px;
+  display: inline-block;
+}
+.download_icon {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  vertical-align: bottom;
 }
 </style>

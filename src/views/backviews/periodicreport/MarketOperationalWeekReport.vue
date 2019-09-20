@@ -40,10 +40,10 @@
       </el-row>
       <com-MOWR-m7 class="m_marginbottom_pxA"></com-MOWR-m7>
       <!-- /////////////MOWR_8 -->
-      <el-row class="model_title">
+      <el-row v-show="ifFormRowShow_dx" class="model_title">
         <span class="title_border_left"></span>电信增值业务周发展情况
       </el-row>
-      <com-MOWR-m8 class="m_marginbottom_pxA"></com-MOWR-m8>
+      <com-MOWR-m8 v-show="ifFormRowShow_dx" class="m_marginbottom_pxA"></com-MOWR-m8>
     </el-row>
 
     <!-- 市场业务运营数据分析周报 -->
