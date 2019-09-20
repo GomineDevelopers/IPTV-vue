@@ -212,132 +212,144 @@ function jumpStatus(authority_arr, topath, frompath, next) {
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 router.beforeEach((to, from, next) => {
-  // setTimeout(function () {
+  setTimeout(function () {
 
-  console.log("------------------ from :" + from.path)
-  console.log("------------------ to :" + to.path)
+    console.log("------------------ from :" + from.path)
+    console.log("------------------ to :" + to.path)
 
 
-  // store
-  //   .dispatch("init_all_option")
-  //   .then(function (response) {
-  //     console.log(response);
-  //     next();
-  //   })
-  //   .catch(function (error) {
-  //     console.info(error);
-  //   });
-  let ifTest = false;
-  if (ifTest) {
-    next();
-  }
-  else {
+    // store
+    //   .dispatch("init_all_option")
+    //   .then(function (response) {
+    //     console.log(response);
+    //     next();
+    //   })
+    //   .catch(function (error) {
+    //     console.info(error);
+    //   });
+    let ifTest = true;
+    if (ifTest) {
+      store
+        .dispatch("set_ifTest", ifTest)
+        .then(function (res) {
+          next();
 
-    let topath = to.path;
-    let frompath = from.path;
-    // console.log("~~~~to.path");
-    // console.log(topath);
-    console.log("ifFirstLogin: " + ifFirstLogin);
-    // 登录
-    if (ifFirstLogin) {
-      next()
-    }
-    if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
-      next()
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+
     }
     else {
-      let token = commonTools.getCookie('user_token')
-      if (!token) {        // 没有token
-        // console.log("!token")
-        if (topath === '/login') {
-          next()
-        } else {
-          next('/login')
-        }
-      } // if (!token)
-      else if (token) {
 
-        store.dispatch("get_current_authority")
-          .then(function (response) {
-            if (response.length == 0) {  // 刷新初始化为空情况
-              console.log("有 - current_authority");
-              let token = commonTools.getCookie("user_token");
-              let newToken = token.replace('"', "").replace('"', "");
-
-              get_user_permissions(newToken)
-                .then(function (response) {
-                  // console.log(response);
-                  let m_data = response.data.data;
-                  let length = m_data.length;
-                  let i;
-                  let temp = [];
-                  for (i = 0; i < length; i++) {
-                    temp.push(m_data[i].id);
-                  }
-                  let temp_authorizationChoose = [];
-                  temp_authorizationChoose = temp;
-                  store
-                    .dispatch("set_current_authority", temp_authorizationChoose)
-                    .then(function (res) {
-                      let status = jumpStatus(temp, topath, frompath, next);
-                      console.log("~~~~status");
-                      console.log(status);
-                      // setTimeout(function () {
-                        if (status == type0) {  // url直接跳转-无权限 
-                          next('/noauthority')
-                        }
-                        else if (status == type1) {  // url直接跳转-有权限
-                          if (topath == current_topath) {
-                            next()
-                          } else {
-                            next(current_topath);
-                          }
-                        }
-                        else if (status == type3) {  // 登录页=》跳转第一个权限页
-                          // do nothing.
-                        }
-                      // }, 1000)
-                    })
-                    .catch(function (error) {
-                      console.info(error);
-                    });
-                })
-                .catch(function (error) {
-                  console.info(error);
-                });
-            }
-            else {  // 非刷新情况-直接跳转
-              console.log("无 - current_authority");
-              let status = jumpStatus(response, topath, frompath, next);
-              console.log("~~~~status");
-              console.log(status);
-              // setTimeout(function () {
-                if (status == type0) {  // url直接跳转-无权限 
-                  next('/noauthority')
-                }
-                else if (status == type1) {  // url直接跳转-有权限
-                  if (topath == current_topath) {
-                    next()
-                  } else {
-                    next(current_topath);
-                  }
-                }
-                else if (status == type3) {  // 登录页=》跳转第一个权限页
-                  // do nothing.
-                }
-              // }, 100)
-            }
+      let topath = to.path;
+      let frompath = from.path;
+      // console.log("~~~~to.path");
+      // console.log(topath);
+      console.log("ifFirstLogin: " + ifFirstLogin);
+      // 登录
+      if (topath == '/login') {
+        commonTools.delCookie("user_token");
+      }
+      if (ifFirstLogin) {
+        next()
+      }
+      if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
+        next()
+      }
+      else {
+        let token = commonTools.getCookie('user_token')
+        if (!token) {        // 没有token
+          // console.log("!token")
+          if (topath === '/login') {
             next()
+          } else {
+            next('/login')
+          }
+        } // if (!token)
+        else if (token) {
 
-          });
+          store.dispatch("get_current_authority")
+            .then(function (response) {
+              if (response.length == 0) {  // 刷新初始化为空情况
+                console.log("有 - current_authority");
+                let token = commonTools.getCookie("user_token");
+                let newToken = token.replace('"', "").replace('"', "");
 
-        // next() 
+                get_user_permissions(newToken)
+                  .then(function (response) {
+                    // console.log(response);
+                    let m_data = response.data.data;
+                    let length = m_data.length;
+                    let i;
+                    let temp = [];
+                    for (i = 0; i < length; i++) {
+                      temp.push(m_data[i].id);
+                    }
+                    let temp_authorizationChoose = [];
+                    temp_authorizationChoose = temp;
+                    store
+                      .dispatch("set_current_authority", temp_authorizationChoose)
+                      .then(function (res) {
+                        let status = jumpStatus(temp, topath, frompath, next);
+                        console.log("~~~~status");
+                        console.log(status);
+                        setTimeout(function () {
+                          if (status == type0) {  // url直接跳转-无权限 
+                            next('/noauthority')
+                          }
+                          else if (status == type1) {  // url直接跳转-有权限
+                            if (topath == current_topath) {
+                              next()
+                            } else {
+                              next(current_topath);
+                            }
+                          }
+                          else if (status == type3) {  // 登录页=》跳转第一个权限页
+                            // do nothing.
+                          }
+                        }, 100)
+                      })
+                      .catch(function (error) {
+                        console.info(error);
+                      });
+                  })
+                  .catch(function (error) {
+                    console.info(error);
+                  });
+              }
+              else {  // 非刷新情况-直接跳转
+                console.log("无 - current_authority");
+                let status = jumpStatus(response, topath, frompath, next);
+                console.log("~~~~status");
+                console.log(status);
+                setTimeout(function () {
+                  if (status == type0) {  // url直接跳转-无权限 
+                    next('/noauthority')
+                  }
+                  else if (status == type1) {  // url直接跳转-有权限
+                    if (topath == current_topath) {
+                      next()
+                    } else {
+                      next(current_topath);
+                    }
+                  }
+                  else if (status == type3) {  // 登录页=》跳转第一个权限页
+                    // do nothing.
+                  }
+                }, 100)
+              }
+              next()
 
+            });
+
+          // next() 
+
+        }
       }
     }
-  }
 
-  // }, 100)
+  }, 100)
 
 })
 

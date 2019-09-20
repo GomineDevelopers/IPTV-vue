@@ -64,5 +64,9 @@ const getters = {
     // 当前账号权限记录
     current_authority: state => state.app.current_authority,
 
+    // 测试
+    ifTest: state => state.app.ifTest,
+    
+
 }
 export default getters

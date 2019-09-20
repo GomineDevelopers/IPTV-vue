@@ -43,7 +43,8 @@ const app = {
         PS_time: [],
         PS_name: null,
 
-        current_authority: []
+        current_authority: [],
+        ifTest: null
 
     },
     mutations: {
@@ -527,6 +528,19 @@ const app = {
         get_current_authority({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.current_authority);
+            })
+        },
+
+        // ///////////////// 测试
+        set_ifTest({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ifTest = data;
+                resolve("ifTest - SUCCESS !");
+            })
+        },
+        get_ifTest({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ifTest);
             })
         },
     }

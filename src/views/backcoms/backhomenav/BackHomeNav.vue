@@ -101,8 +101,27 @@ export default {
   mounted() {
     this.handlerClass();
     // // 获取当前用户权限
-    this.get_user_permissions(); //防止刷新归零
-    // this.authorityData = this.current_authority; // 刷新会归零
+    let vm = this;
+    vm.$store
+      .dispatch("get_ifTest")
+      .then(function(response) {
+        if (response) {
+          // 测试情况
+          vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+          vm.$store
+            .dispatch("set_current_authority", vm.authorityData)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        } else {
+          vm.get_user_permissions(); //防止刷新归零
+          // this.authorityData = this.current_authority; // 刷新会归零
+        }
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
   },
   // 监听,当路由发生变化的时候执行
   watch: {
@@ -116,7 +135,8 @@ export default {
       handler: function(val, oldVal) {
         let vm = this;
         setTimeout(function() {
-          // console.log(val.path)
+          console.log("~~~~~~~val.path:");
+          console.log(val.path);
           let pathLink = val.path;
           let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
           if (isTrue) {
@@ -126,7 +146,7 @@ export default {
           } else {
             vm.activeClass = false;
           }
-        }, 100);
+        }, 300);
       },
       // 深度观察监听
       deep: true
@@ -178,7 +198,7 @@ export default {
     handlerClass() {
       let vm = this;
       setTimeout(function() {
-        // console.log(this.$route.path)
+        console.log(vm.$route.path);
         let pathLink = vm.$route.path;
         let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
         if (isTrue) {
@@ -188,7 +208,7 @@ export default {
         } else {
           vm.activeClass = false;
         }
-      }, 1);
+      }, 300);
     }
   }
 };

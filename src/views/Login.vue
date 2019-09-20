@@ -15,7 +15,12 @@
         </p>
         <p>
           <span>密码：</span>
-          <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
+          <el-input
+            @keyup.enter.native="login"
+            placeholder="请输入密码"
+            v-model="password"
+            show-password
+          ></el-input>
         </p>
         <p>
           <el-button type="primary" round @click="login">登录</el-button>
@@ -100,7 +105,6 @@ export default {
                         // 跳转-后台主页面
                         vm.$router.push({ path: "/backhome" });
                         // 路由处理：跳转到具有权限的第一个页面
-
                       })
                       .catch(function(error) {
                         console.info(error);

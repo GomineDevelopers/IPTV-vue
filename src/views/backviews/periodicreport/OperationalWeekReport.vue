@@ -1,10 +1,10 @@
 <template>
   <div class="height_auto Operational_Week">
-    <!-- 运营数据周报开始 -->
+    <!-- 移动运营数据周报开始 -->
     <el-row class="OperationalWeekReport">
       <!-- 左侧内容开始 -->
       <el-col class="height_auto operational_left_content">
-        <el-row class="periodic_report_title">运营数据周报</el-row>
+        <el-row class="periodic_report_title">移动运营数据周报</el-row>
         <el-row class="operational_left_content_body">
           <!-- 模块一 G+TV一周整体数据概览开始-->
           <!-- 一周用户活跃情况开始 -->
@@ -343,7 +343,7 @@
       </el-col>
       <!-- 右侧导航结束 -->
     </el-row>
-    <!-- 运营数据周报结束 -->
+    <!-- 移动运营数据周报结束 -->
   </div>
 </template>
 <script>
@@ -361,7 +361,7 @@ import LineChartSingle from '@/views/backcoms/commoncomponents/LineChartSingle' 
 import ThematicDataTrendChart from "@/views/backcoms/OperationalWeekReport/ThematicDataTrendChart"  //一周专题数据走势折线组件
 
 export default {
-  name: 'OperationalWeekReport',  //运营数据周报
+  name: 'OperationalWeekReport',  // 移动运营数据周报
   components: {
     "type-program-chart": TypeProgramChart,
     "type-program-chart-big": TypeProgramChartBig,

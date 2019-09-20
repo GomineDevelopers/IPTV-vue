@@ -1,52 +1,51 @@
 <template>
   <div class="OptionSelectPR">
-    <div class="operator">
-      <div class="report">
-        <span class="font_title">日报:</span>&nbsp;
-        <div class="r_btnP">
-          <el-button
-            v-for="(item,index) in daily"
-            :key="index + 'aa' "
-            class="r_btn"
-            :class="item.routerLink==routerLink ? 'active_btn': ''"
-            @click="setReportOption(item.name,item.routerLink,1)"
-          >{{item.name}}</el-button>
-        </div>
-        <div class="mspace"></div>
-        <span class="font_title">周报：</span>&nbsp;
-        <div class="r_btnP">
-          <el-button
-            v-for="(item,index) in weekly"
-            :key="index + 'bb' "
-            class="r_btn"
-            :class="item.routerLink==routerLink ? 'active_btn': ''"
-            @click="setReportOption(item.name,item.routerLink,2)"
-          >{{item.name}}</el-button>
-        </div>
-        <div class="mspace"></div>
-        <span class="font_title">月报：</span>&nbsp;
-        <div class="r_btnP">
-          <el-button
-            v-for="(item,index) in monthly "
-            :key="index + 'cc' "
-            class="r_btn"
-            :class="item.routerLink==routerLink ? 'active_btn': ''"
-            @click="setReportOption(item.name,item.routerLink,3)"
-          >{{item.name}}</el-button>
-        </div>
-        <div class="mspace"></div>
-        <span class="font_title">专题报告：</span>&nbsp;
-        <div class="r_btnP">
-          <el-button
-            v-for="(item,index) in specially"
-            :key="index + 'dd' "
-            class="r_btn"
-            :class="item.routerLink==routerLink ? 'active_btn': ''"
-            @click="setReportOption(item.name,item.routerLink,4)"
-          >{{item.name}}</el-button>
-        </div>
+    <div class="report">
+      <span class="font_title">日报:</span>&nbsp;
+      <div class="r_btnP">
+        <el-button
+          v-for="(item,index) in daily"
+          :key="index + 'aa' "
+          class="r_btn"
+          :class="item.routerLink==routerLink ? 'active_btn': ''"
+          @click="setReportOption(item.name,item.routerLink,1)"
+        >{{item.name}}</el-button>
       </div>
-
+      <div class="mspace"></div>
+      <span class="font_title">周报：</span>&nbsp;
+      <div class="r_btnP">
+        <el-button
+          v-for="(item,index) in weekly"
+          :key="index + 'bb' "
+          class="r_btn"
+          :class="item.routerLink==routerLink ? 'active_btn': ''"
+          @click="setReportOption(item.name,item.routerLink,2)"
+        >{{item.name}}</el-button>
+      </div>
+      <div class="mspace"></div>
+      <span class="font_title">月报：</span>&nbsp;
+      <div class="r_btnP">
+        <el-button
+          v-for="(item,index) in monthly "
+          :key="index + 'cc' "
+          class="r_btn"
+          :class="item.routerLink==routerLink ? 'active_btn': ''"
+          @click="setReportOption(item.name,item.routerLink,3)"
+        >{{item.name}}</el-button>
+      </div>
+      <div class="mspace"></div>
+      <span class="font_title">专题报告：</span>&nbsp;
+      <div class="r_btnP">
+        <el-button
+          v-for="(item,index) in specially"
+          :key="index + 'dd' "
+          class="r_btn"
+          :class="item.routerLink==routerLink ? 'active_btn': ''"
+          @click="setReportOption(item.name,item.routerLink,4)"
+        >{{item.name}}</el-button>
+      </div>
+    </div>
+    <div v-show="ifOperatorShow" class="operator">
       <span class="font_title">运营商：</span>
       <el-checkbox
         :indeterminate="operator_isIndeterminate"
@@ -259,7 +258,7 @@ export default {
           routerLink: "/backhome/periodicreport/MarketOperationalWeekReport"
         },
         {
-          name: "运营数据周报",
+          name: "移动运营数据周报",
           pointStatus: false,
           routerLink: "/backhome/periodicreport/OperationalWeekReport"
         },
@@ -376,7 +375,8 @@ export default {
           ]
         },
         pickervalue: ""
-      }
+      },
+      ifOperatorShow: true
     };
   },
   created() {
@@ -598,6 +598,11 @@ export default {
         .then(function(response) {
           vm.reportOption = reportName;
           vm.routerLink = routerLink;
+          if (reportName == "移动运营数据周报") {
+            vm.ifOperatorShow = false;
+          } else {
+            vm.ifOperatorShow = true;
+          }
         })
         .catch(function(error) {
           console.info(error);
