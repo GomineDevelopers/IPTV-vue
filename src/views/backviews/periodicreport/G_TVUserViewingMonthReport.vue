@@ -475,7 +475,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -486,10 +486,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -500,10 +500,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -514,12 +514,12 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   mounted() {
     //监听滚动事件
-    $(".monthly_report_body").scroll(function(event) {
+    $(".monthly_report_body").scroll(function (event) {
       let scrollTopHeight = $(".monthly_report_body").scrollTop();
       // let user_development_data = document.querySelector('#user_development_data').offsetTop
       // let operational_data = document.querySelector('#operational_data').offsetTop
@@ -673,7 +673,7 @@ export default {
       formData.append("end", temp.end);
 
       users_monthActiveReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           if (datatype == "mixture" && timetype == "month") {
             // //////////////////
 
@@ -810,7 +810,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -839,7 +839,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
 
-      users_monthActiveReport_range(formData).then(function(response) {
+      users_monthActiveReport_range(formData).then(function (response) {
         if (datatype == "mixture" && timetype == "month") {
           // usingTheUser;
           // usingTheTimes;
@@ -915,19 +915,19 @@ export default {
           let td2 = [];
           let freq2 = vm.returnFloat(
             (parseFloat(q1_f) + parseFloat(q2_f) + parseFloat(q3_f)) /
-              100 /
-              10000
+            100 /
+            10000
           );
           let dur2 = vm.returnFloat(
             (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
-              100 /
-              10000 /
-              3600
+            100 /
+            10000 /
+            3600
           ); // 观看时长计时 - 秒 =》百万小时
           let user_num2 = vm.returnFloat(
             (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /
-              100 /
-              10000
+            100 /
+            10000
           );
           td2.push(["product", "7月"]);
           td2.push(["观看次数（百万次）", freq2]);
@@ -1396,7 +1396,7 @@ export default {
       let scrollDiv = document.querySelector(".monthly_report_body"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".monthly_nav a").on("click", function() {
+      $(".monthly_nav a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -2964,7 +2964,7 @@ export default {
 </script>
 <style scoped>
 .viewing_behavior_report {
-  height: 860px;
+  height: 720px;
   margin: 14px 0px;
   display: -webkit-flex;
   display: flex;

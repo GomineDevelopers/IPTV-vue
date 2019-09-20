@@ -51,11 +51,11 @@ export default {
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_myinfo(newToken)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           vm.username = response.data.name;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -66,7 +66,7 @@ export default {
       vm.$commonTools.delCookie("user_token");
 
       logout(newToken)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           if (response.status === 204) {
             console.log("204");
@@ -76,7 +76,7 @@ export default {
             // console.log("非204");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           console.log("登出，请重试！");
           vm.$router.push({ path: "/login" });
@@ -136,18 +136,21 @@ export default {
 
 .aboutuser {
   width: 16%;
-  display: inline-block;
-  /* height: 60px; */
+  display: block;
   float: right;
   margin: 18px;
 }
 .signout {
   width: 73px;
-  height: 22px;
-  border-radius: 4px;
+  height: 25px;
+  border-radius: 3px;
   border: 1px solid #ff6123;
   background: rgba(255, 255, 255, 1);
   color: #ff6123;
+}
+.signout:hover {
+  background: #ff6123;
+  color: #fff;
 }
 .signout:hover {
   cursor: pointer;
