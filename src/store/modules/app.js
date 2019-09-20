@@ -10,6 +10,7 @@ const app = {
         ULC_day: null,
         ULC_week: null,
         ULC_month: null,
+        ULC_time_type: 0, // 0-未选择 1-天 2-周 3-月
         UVB_region: [],
         UVB_operator: [],
         UVB_playmode: [],
@@ -143,6 +144,17 @@ const app = {
         get_ULC_month({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.ULC_month);
+            })
+        },
+        set_ULC_time_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ULC_time_type = data;
+                resolve("ULC_time_type - SUCCESS !");
+            })
+        },
+        get_ULC_time_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ULC_time_type);
             })
         },
         set_UVB_region({ commit, state }, data) {

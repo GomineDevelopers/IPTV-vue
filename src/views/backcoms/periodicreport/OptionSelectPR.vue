@@ -267,13 +267,10 @@ export default {
         backgroundRepeat: "no-repeat",
         backgroundSize: "100% 100%"
       },
-      // 设置选择三个月之前到今天的日期
+      // 设置日期截止至今日
       pickerOptions0: {
         disabledDate(time) {
-          let curDate = new Date().getTime();
-          let three = 90 * 24 * 3600 * 1000;
-          let threeMonths = curDate - three;
-          return time.getTime() > Date.now() || time.getTime() < threeMonths;
+          return time.getTime() > Date.now();
         }
       },
       reportOptionRouter: "专题专区数据报告", //点击不同报表选项对应切换
@@ -426,7 +423,26 @@ export default {
         },
         pickervalue: ""
       },
-      ifOperatorShow: true
+      ifOperatorShow: true,
+      list: [
+        {
+          name: "韩版设计时尚风衣大",
+          number: "MPM00112",
+          salePrice: "￥999.00",
+          stocknums: 3423,
+          salesnums: 3423,
+          sharenums: 3423
+        },
+        {
+          name: "韩版设计时尚风衣大",
+          number: "MPM00112",
+          salePrice: "￥999.00",
+          stocknums: 3423,
+          salesnums: 3423,
+          sharenums: 3423
+        }
+      ],
+      goodsItems: ["商品名称", "商品货号", "售价", "库存", "销量", "分享"]
     };
   },
   created() {
@@ -679,7 +695,9 @@ export default {
     export2Excel() {
       require.ensure([], () => {
         console.log("~~~~export2Excel1");
-        const { export_json_to_excel } = require("../../../vendor/Export2Excel");
+        const {
+          export_json_to_excel
+        } = require("../../../vendor/Export2Excel");
         console.log("~~~~export2Excel2");
         const tHeader = [
           "商品名称",
