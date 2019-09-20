@@ -1,15 +1,15 @@
 <template>
   <div class="UserStructure height_auto">
     <el-row :style="{width: '100%',height: '100%'}">
-      <el-col :span="11">
+      <el-col :span="10">
         <div id="echartsUA" :style="{width: '100%',height: '14vw'}"></div>
       </el-col>
-      <el-col :span="2">
+      <el-col :span="3">
         <div class="arrow" :style="{width: '100%',height: '14vw'}">
           <p class="a_content">订购用户</p>
         </div>
       </el-col>
-      <el-col :span="11">
+      <el-col :span="10">
         <div id="echartsUB" :style="{width: '100%',height: '14vw'}"></div>
       </el-col>
     </el-row>

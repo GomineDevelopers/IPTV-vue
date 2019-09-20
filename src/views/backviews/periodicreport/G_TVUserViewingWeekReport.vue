@@ -107,7 +107,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -118,10 +118,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -132,10 +132,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -146,7 +146,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -163,7 +163,7 @@ export default {
   },
   mounted() {
     //监听滚动事件
-    $(".viewing_behavior_report_left").scroll(function(event) {
+    $(".viewing_behavior_report_left").scroll(function (event) {
       let scrollTopHeight = $(".viewing_behavior_report_left").scrollTop();
       if (0 <= scrollTopHeight) {
         $(".anchor_link1")
@@ -272,7 +272,7 @@ export default {
       formData.append("end", temp.end);
 
       users_weekActiveReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // console.log("users_weekActiveReport");
           // console.log("~~~~~:" + type);
           // console.log(response);
@@ -298,7 +298,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -307,7 +307,7 @@ export default {
       let scrollDiv = document.querySelector(".viewing_behavior_report_left"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".viewing_behavior_nav a").on("click", function() {
+      $(".viewing_behavior_nav a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -321,7 +321,7 @@ export default {
 </script>
 <style scoped>
 .viewing_behavior_report {
-  height: 860px;
+  height: 720px;
   margin: 14px 0px;
   display: -webkit-flex;
   display: flex;

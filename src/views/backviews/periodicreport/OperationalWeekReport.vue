@@ -1275,7 +1275,7 @@ export default {
 </style>
 <style scoped>
 .OperationalWeekReport {
-  height: 870px;
+  height: 700px;
   margin: 14px 0px;
   display: -webkit-flex;
   display: flex;

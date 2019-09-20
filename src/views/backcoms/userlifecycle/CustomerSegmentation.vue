@@ -478,21 +478,7 @@ export default {
   created() {
 
   },
-  methods: {
-    setUserCategoryLine() {
-
-      // $('.customer_bar p span').each(function () {
-      //   var spanNum = $(this).attr("data")
-      //   console.log(spanNum)
-      //   var pWidth = Math.floor($('.customer_bar p').width())
-      //   console.log(pWidth)
-      //   var spanWidth = Math.floor((spanNum / pWidth) * 100) + '%'
-      //   console.log(spanWidth)
-      //   // console.log($(this).width())
-      //   $(this).width(spanWidth)
-      // })
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -571,19 +557,17 @@ export default {
   margin: 25px 0px;
 }
 .CustomerSegmentation .userCategory_data div.flex {
-  margin: 5px 0px;
+  margin: 7px 0px;
 }
 .CustomerSegmentation .userCategory_data .customer_bar p {
   width: 200px;
   background: #dadeea;
-  height: 24px;
-  line-height: 24px;
 }
 .CustomerSegmentation .userCategory_data .customer_bar p span {
   display: inline-block;
   text-align: center;
   font-size: 8px !important;
-  color: #f0f0f0;
+  color: #fff;
   height: 24px;
   line-height: 24px;
 }
