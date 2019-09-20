@@ -189,7 +189,7 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PR_operator", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
           // vm.$store
           //   .dispatch("get_PR_operator")
@@ -200,7 +200,7 @@ export default {
           //     console.info(error);
           //   });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -252,10 +252,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PR_value_specialName", newValue)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -454,11 +454,11 @@ export default {
     // ▲历史条件获取
     vm.$store
       .dispatch("get_PR_operator")
-      .then(function(response) {
+      .then(function (response) {
         // console.log(response);
         vm.operatorChoose = response;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.info(error);
       });
 
@@ -587,10 +587,10 @@ export default {
       };
       this.$store
         .dispatch("set_PR_day", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -623,10 +623,10 @@ export default {
       };
       this.$store
         .dispatch("set_PR_week", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -644,7 +644,7 @@ export default {
         this.operator_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         operatorChoose_new = vm.operatorChoose;
         vm.operatorChoose = commonTools.delete_repet(
           operatorChoose_new,
@@ -661,7 +661,7 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PR_assignReportNum", num)
-        .then(function(response) {
+        .then(function (response) {
           vm.reportOption = reportName;
           vm.routerLink = routerLink;
           if (reportName == "移动运营数据周报") {
@@ -670,7 +670,7 @@ export default {
             vm.ifOperatorShow = true;
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -762,6 +762,10 @@ export default {
 </style>
 
 <style scoped>
+.OptionSelectPR .time,
+.OptionSelectPR .operator {
+  margin-top: 12px;
+}
 .el-checkbox-group {
   display: inline-block;
 }

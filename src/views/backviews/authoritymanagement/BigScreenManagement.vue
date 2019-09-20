@@ -7,18 +7,18 @@
       <el-row class="hot_topics_list chart_body back_white">
         <p class="screen_info">选择大屏显示类型：</p>
         <el-row class="programInput_elrow">
-          <el-button class="search_btn" @click="BigScreenChoose(0)">综合</el-button>
+          <!-- <el-button class="search_btn" @click="BigScreenChoose(0)">综合</el-button>
           <el-button class="search_btn" @click="BigScreenChoose(1)">移动</el-button>
           <el-button class="search_btn" @click="BigScreenChoose(2)">联通</el-button>
-          <el-button class="search_btn" @click="BigScreenChoose(3)">电信</el-button>
-          <!-- <el-switch
+          <el-button class="search_btn" @click="BigScreenChoose(3)">电信</el-button>-->
+          <el-switch
             style="display: block"
             v-model="switch_value1"
             active-color="#ff6123"
             inactive-color="rgb(235, 225, 215)"
             active-text="综合"
             inactive-text
-            @change="BigScreenChoose(0)"
+            @change="BigScreenChoose($event,0)"
           ></el-switch>
           <el-switch
             style="display: block"
@@ -27,7 +27,7 @@
             inactive-color="rgb(235, 225, 215)"
             active-text="移动"
             inactive-text
-            @change="BigScreenChoose(1)"
+            @change="BigScreenChoose($event,1)"
           ></el-switch>
           <el-switch
             style="display: block"
@@ -36,7 +36,7 @@
             inactive-color="rgb(235, 225, 215)"
             active-text="联通"
             inactive-text
-            @change="BigScreenChoose(2)"
+            @change="BigScreenChoose($event,2)"
           ></el-switch>
           <el-switch
             style="display: block"
@@ -45,12 +45,12 @@
             inactive-color="rgb(235, 225, 215)"
             active-text="电信"
             inactive-text
-            @change="BigScreenChoose(3)"
-          ></el-switch>-->
+            @change="BigScreenChoose($event,3)"
+          ></el-switch>
         </el-row>
         <div class="currentP">
           当前大屏显示为：
-          <p class="current">{{currentStatus}}</p>。
+          <span class="current">{{currentStatus}}</span>
         </div>
         <div class="currentP2">
           <a href="/" class="go_home">点击跳转大屏页面</a>
@@ -74,28 +74,85 @@ export default {
   mounted() {
     //   初始化
     let temp_status = this.$commonTools.getCookieCry("bigscreenchoose");
-    if (temp_status == null || temp_status == undefined || temp_status == "") {
-      this.currentStatus = "综合";
-    } else {
+    console.log("页面显示初始值", temp_status)
+    if (temp_status == '综合') {
+      this.switch_value1 = true
+      this.switch_value2 = false
+      this.switch_value3 = false
+      this.switch_value4 = false
       this.currentStatus = temp_status;
+    } else if (temp_status == '移动') {
+      this.switch_value1 = false
+      this.switch_value2 = true
+      this.switch_value3 = false
+      this.switch_value4 = false
+      this.currentStatus = temp_status;
+    } else if (temp_status == '联通') {
+      this.switch_value1 = false
+      this.switch_value2 = false
+      this.switch_value3 = true
+      this.switch_value4 = false
+      this.currentStatus = temp_status;
+    } else if (temp_status == '电信') {
+      this.switch_value1 = false,
+        this.switch_value2 = false
+      this.switch_value3 = false
+      this.switch_value4 = true
+      this.currentStatus = temp_status
+    } else if (temp_status == ' ' || temp_status == undefined) {
+      this.switch_value1 = true
+      this.switch_value2 = false
+      this.switch_value3 = false
+      this.switch_value4 = false
+      this.currentStatus = '综合';
     }
   },
   methods: {
-    // BigScreenChoose(event, index) {
-    BigScreenChoose(index) {
-      //   console.log("~~~~~~event:");
-      //   console.log(event);
+    BigScreenChoose($event, index) {
+      console.log($event);
       if (index == 0) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "综合", 100);
+        if ($event) {
+          this.$commonTools.setCookieCry("bigscreenchoose", "综合", 100);
+          console.log("开启综合")
+          this.switch_value2 = false,
+            this.switch_value3 = false,
+            this.switch_value4 = false
+        } else {
+          console.log("关闭综合")
+        }
       }
       if (index == 1) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "移动", 100);
+        if ($event) {
+          this.$commonTools.setCookieCry("bigscreenchoose", "移动", 100);
+          console.log("开启移动")
+          this.switch_value1 = false,
+            this.switch_value3 = false,
+            this.switch_value4 = false
+        } else {
+          console.log("关闭移动")
+        }
       }
       if (index == 2) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "联通", 100);
+        if ($event) {
+          this.$commonTools.setCookieCry("bigscreenchoose", "联通", 100);
+          console.log("开启联通")
+          this.switch_value1 = false,
+            this.switch_value2 = false,
+            this.switch_value4 = false
+        } else {
+          console.log("关闭联通")
+        }
       }
       if (index == 3) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "电信", 100);
+        if ($event) {
+          this.$commonTools.setCookieCry("bigscreenchoose", "电信", 100);
+          console.log("开启电信")
+          this.switch_value1 = false,
+            this.switch_value2 = false,
+            this.switch_value3 = false
+        } else {
+          console.log("关闭电信")
+        }
       }
       this.currentStatus = this.$commonTools.getCookieCry("bigscreenchoose");
     }
@@ -134,6 +191,12 @@ export default {
   height: 35px;
   line-height: 35px;
   text-align: left;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+}
+.programInput_elrow .el-switch {
+  margin-right: 30px;
 }
 .programInput_elrow .search_btn {
   width: 119px;
@@ -141,7 +204,6 @@ export default {
   border-radius: 4px;
   background-color: #ff6123;
   color: #ffffff;
-  /* line-height: 40px; */
   margin: 0px;
   padding: 0px;
   margin: 20px 6px;
@@ -150,14 +212,14 @@ export default {
   color: #333333;
   text-align: left;
   font-size: 15px;
-  margin: 0;
+  margin: 10px 0px;
   margin-left: 8px;
   font-weight: bold;
 }
 .currentP {
   color: #333333;
   text-align: left;
-  margin-top: 24px;
+  margin-top: 10px;
   font-size: 15px;
   margin-left: 8px;
   font-weight: bold;
@@ -169,6 +231,9 @@ export default {
   font-size: 15px;
   margin-left: 8px;
 }
+.currentP2 a {
+  color: #278bea;
+}
 .current {
   display: inline-block;
   color: #ff6123;
@@ -176,7 +241,4 @@ export default {
 .go_home {
   font-size: 15px;
 }
-</style>
-
-<style>
 </style>
