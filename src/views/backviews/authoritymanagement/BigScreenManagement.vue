@@ -111,8 +111,8 @@ export default {
     BigScreenChoose($event, index) {
       console.log($event);
       if (index == 0) {
+        this.$commonTools.setCookieCry("bigscreenchoose", "综合", 100);
         if ($event) {
-          this.$commonTools.setCookieCry("bigscreenchoose", "综合", 100);
           console.log("开启综合")
           this.switch_value2 = false,
             this.switch_value3 = false,
@@ -122,8 +122,8 @@ export default {
         }
       }
       if (index == 1) {
+        this.$commonTools.setCookieCry("bigscreenchoose", "移动", 100);
         if ($event) {
-          this.$commonTools.setCookieCry("bigscreenchoose", "移动", 100);
           console.log("开启移动")
           this.switch_value1 = false,
             this.switch_value3 = false,
@@ -133,8 +133,8 @@ export default {
         }
       }
       if (index == 2) {
+        this.$commonTools.setCookieCry("bigscreenchoose", "联通", 100);
         if ($event) {
-          this.$commonTools.setCookieCry("bigscreenchoose", "联通", 100);
           console.log("开启联通")
           this.switch_value1 = false,
             this.switch_value2 = false,
@@ -144,8 +144,8 @@ export default {
         }
       }
       if (index == 3) {
+        this.$commonTools.setCookieCry("bigscreenchoose", "电信", 100);
         if ($event) {
-          this.$commonTools.setCookieCry("bigscreenchoose", "电信", 100);
           console.log("开启电信")
           this.switch_value1 = false,
             this.switch_value2 = false,
