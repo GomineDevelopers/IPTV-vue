@@ -16,6 +16,7 @@ const getters = {
     ULC_day: state => state.app.ULC_day,
     ULC_week: state => state.app.ULC_week,
     ULC_month: state => state.app.ULC_month,
+    ULC_time_type: state => state.app.ULC_time_type, // 选月，row3才显示。
 
     // UVB 用户收视行为（地区、运营商、播放方式、栏目）（天、周、范围）
     UVB_region: state => state.app.UVB_region,

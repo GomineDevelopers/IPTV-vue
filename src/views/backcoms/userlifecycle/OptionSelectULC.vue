@@ -80,6 +80,7 @@
           type="date"
           placeholder="选择日期"
           :picker-options="pickerOptions0"
+          @change="dayValue_change"
         ></el-date-picker>
       </span>
       <div class="space">&nbsp;</div>
@@ -100,6 +101,7 @@
           default-first-option
           placeholder="请设置周数"
           style="width:300px;"
+          @change="weekValue_change"
         >
           <el-option
             v-for="item in time.week"
@@ -128,6 +130,7 @@
           default-first-option
           placeholder="请设置月数"
           style="width:300px;"
+          @change="monthValue_change"
         >
           <el-option
             v-for="item in time.month"
@@ -177,50 +180,51 @@ export default {
         .catch(function(error) {
           console.info(error);
         });
-    },
-    "time.dayValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_ULC_day", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    "time.weekValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_ULC_week", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    "time.monthValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_ULC_month", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
     }
+    // "time.dayValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_ULC_day", newValue)
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
+    // "time.weekValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_ULC_week", newValue)
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
+    // "time.monthValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_ULC_month", newValue)
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // }
   },
   data() {
     return {
-      // 设置选择三个月之前到今天的日期
+      // 设置选择三个月之前到今天的日期 =》 设置日期截止至今日
       pickerOptions0: {
         disabledDate(time) {
-          let curDate = new Date().getTime();
-          let three = 90 * 24 * 3600 * 1000;
-          let threeMonths = curDate - three;
-          return time.getTime() > Date.now() || time.getTime() < threeMonths;
+          // let curDate = new Date().getTime();
+          // let three = 90 * 24 * 3600 * 1000;
+          // let threeMonths = curDate - three;
+          // return time.getTime() > Date.now() || time.getTime() < threeMonths;
+          return time.getTime() > Date.now();
         }
       },
       region: [
@@ -279,7 +283,8 @@ export default {
           // }
         ],
         monthValue: ""
-      }
+      },
+      currentTimeChooseType: null //三个时间戳-只能同时选择一个： 初始-null 天-day 周-week 月-month
     };
   },
   mounted() {
@@ -322,6 +327,75 @@ export default {
     }, 100);
   },
   methods: {
+    dayValue_change(event) {
+      // console.log(event);
+      // console.log(typeof event);
+      // console.log(typeof String(event));
+      let vm = this;
+      this.time.dayValue = String(event);
+      this.time.weekValue = "";
+      this.time.monthValue = "";
+      let newValue = String(event);
+      vm.$store
+        .dispatch("set_ULC_day", newValue)
+        .then(function(response) {
+          console.log(response);
+          // 设置 ULC_row3是否显示
+          vm.$store
+            .dispatch("set_ULC_time_type", 1)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    weekValue_change(event) {
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = String(event);
+      this.time.monthValue = "";
+      let newValue = String(event);
+      vm.$store
+        .dispatch("set_ULC_week", newValue)
+        .then(function(response) {
+          console.log(response);
+          // 设置 ULC_row3是否显示
+          vm.$store
+            .dispatch("set_ULC_time_type", 2)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    monthValue_change(event) {
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = "";
+      this.time.monthValue = String(event);
+      let newValue = String(event);
+      vm.$store
+        .dispatch("set_ULC_month", newValue)
+        .then(function(response) {
+          console.log(response);
+          // 设置 ULC_row3是否显示
+          vm.$store
+            .dispatch("set_ULC_time_type", 3)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     regionChoose_change(event) {
       regionChoose_old = regionChoose_new;
       let checkedCount = event.length;

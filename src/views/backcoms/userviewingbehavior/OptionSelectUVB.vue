@@ -272,13 +272,10 @@ export default {
   },
   data() {
     return {
-      // 设置选择三个月之前到今天的日期
+      // 设置日期截止至今日
       pickerOptions0: {
         disabledDate(time) {
-          let curDate = new Date().getTime();
-          let three = 90 * 24 * 3600 * 1000;
-          let threeMonths = curDate - three;
-          return time.getTime() > Date.now() || time.getTime() < threeMonths;
+          return time.getTime() > Date.now();
         }
       },
       region: [

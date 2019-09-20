@@ -55,7 +55,7 @@
     <!-- 在网结束 -->
 
     <!-- 用户细分开始 -->
-    <el-row class="user_segment back_white">
+    <el-row class="user_segment back_white" v-show="ULC_time_type == 3">
       <el-row class="model_title">
         <span class="title_border_left"></span>用户细分
       </el-row>
@@ -74,12 +74,106 @@ import InTheNetwork from "@/views/backcoms/userlifecycle/InTheNetwork"; // 在�
 import UserStructure from "@/views/backcoms/userlifecycle/UserStructure"; // 用户结构
 import CustomerSegmentation from "@/views/backcoms/userlifecycle/CustomerSegmentation"; // 用户细分
 
+import { mapGetters } from "vuex";
+
+import { userLives } from "@/api/api_main";
+
 export default {
   name: "UserLifecycle", //用户生命周期
+  computed: {
+    ...mapGetters([
+      "ULC_region",
+      "ULC_operator",
+      "ULC_day",
+      "ULC_week",
+      "ULC_month",
+      "ULC_time_type"
+    ])
+  },
+  watch: {
+    ULC_region(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC_region: " + newValue);
+    },
+    ULC_operator(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC_operator: " + newValue);
+    },
+    ULC_day(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC_day: " + newValue);
+    },
+    ULC_week(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC_week: " + newValue);
+    },
+    ULC_month(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC_month: " + newValue);
+    },
+    ULC_time_type(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC_time_type: " + newValue);
+    }
+  },
   data() {
     return {
       form: {}
     };
+  },
+  methods: {
+    refresh_api_data() {
+      this.userLives(this.ULC_time_type);
+    },
+    userLives(time_type) {
+      console.log("userLives");
+      let temp;
+      if (time_type == 1) {
+        // 时间类型-1-天
+        temp = {
+          area: String(["851"]),
+          operator: String(this.ULC_region),
+          start: "2019-06-01",
+          end: "2019-06-01"
+        };
+        console.log("~~~~time_type:" + time_type);
+      }
+      if (time_type == 2) {
+        // 时间类型-2-周
+        temp = {
+          area: String(["851"]),
+          operator: String(this.ULC_region),
+          start: "23week",
+          end: "23week"
+        };
+        console.log("~~~~time_type:" + time_type);
+      }
+      if (time_type == 3) {
+        // 时间类型-3-月
+        temp = {
+          area: "all",
+          operator: "all",
+          start: "2019-07-12",
+          end: "2019-07-31"
+        };
+        console.log("~~~~time_type:" + time_type);
+      }
+
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("area", temp.area);
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      // userLives(formData)
+      //   .then(function(response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+    }
   },
   components: {
     "com-optionselectULC": OptionSelectULC,
