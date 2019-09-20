@@ -20,6 +20,7 @@ const app = {
         PR_operator: [],
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值
+        PR_value_specialName: null,
 
         PR_week: null,
         PR_month: null,
@@ -52,7 +53,7 @@ const app = {
     },
     actions: {
         // 所有条件筛选属性初始化
-        init_all_option({ commit, state }) {
+        init_all_option({ commit, state }) {  // 暂且没用
             return new Promise((resolve, reject) => {
                 state.PR_assignReportNum = 4;
                 state.ULC_region = [];
@@ -60,36 +61,7 @@ const app = {
                 state.ULC_day = null;
                 state.ULC_week = null;
                 state.ULC_month = null;
-                state.UVB_region = [];
-                state.UVB_operator = [];
-                state.UVB_playmode = [];
-                state.UVB_programa = [];
-                state.UVB_day = null;
-                state.UVB_week = null;
-                state.UVB_picker = [];
-                state.PR_operator = [];
-                state.PR_day = null;
-                state.PR_week = null;
-                state.PR_month = null;
-                state.PR_picker = [];
-                state.EPG_operator = [];
-                state.EPG_programa = [];
-                state.EPG_value_others = null;
-                state.EPG_week = null;
-                state.EPG_month = null;
-                state.ADD_ALL_operator = [];
-                state.ADD_ALL_programa = [];
-                state.ADD_ALL_week = null;
-                state.ADD_ALL_month = null;
-                state.ADD_VIP_region = [];
-                state.ADD_VIP_operator = [];
-                state.ADD_VIP_playmode = [];
-                state.ADD_VIP_programa = [];
-                state.ADD_VIP_day = null;
-                state.ADD_VIP_week = null;
-                state.ADD_VIP_picker = [];
-                state.PS_time = [];
-                state.PS_name = null;
+                // ...
 
                 resolve("init_all_option - SUCCESS !");
             })
@@ -316,6 +288,17 @@ const app = {
         get_PR_picker({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.PR_picker);
+            })
+        },
+        set_PR_value_specialName({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_value_specialName = data;
+                resolve("PR_value_specialName - SUCCESS !");
+            })
+        },
+        get_PR_value_specialName({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_value_specialName);
             })
         },
         set_EPG_operator({ commit, state }, data) {

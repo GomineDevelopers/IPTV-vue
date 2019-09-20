@@ -42,6 +42,7 @@ export default {
   methods: {
     get() {
       if (this.value == 0) {
+        // this.myNums = [7041, 6053, 7047, 5655, 7238, 4858, 3818, 6251, 6980];
         this.myNums = [
           Math.round(Math.random() * this.perValue),
           Math.round(Math.random() * this.perValue),
@@ -174,7 +175,7 @@ export default {
       console.log(min);
       let splitArr = [];
       let maxDis = max - min;
-      let perDis = maxDis / splitNum;
+      let perDis = maxDis / splitNum; // 差值间距
       let temp_max;
       let temp_min;
       let temp_maxDis;
@@ -192,10 +193,11 @@ export default {
       if (percentage_Min_Max > 0.5) {
         //百分之50
         // perDisRange_divide = 2;
-        perDisRange_divide = 1;
+        perDisRange_divide = 1; // 暂未用到
       }
 
       let perDisRange;
+      // 返回整数
       // 数字  粗略判断数字最大为10的n次幂
       function ReturnIntegerNum(num, nth_power) {
         let length = nth_power;
@@ -214,7 +216,8 @@ export default {
         }
         return IntegerNum;
       }
-      perDisRange = ReturnIntegerNum(perDis, 13);
+
+      let IntegerNum = ReturnIntegerNum(perDis, 13);
       // if (perDis / 10 >= 1) {
       //   perDisRange = 10 / perDisRange_divide;
       // }
@@ -231,7 +234,7 @@ export default {
       //   perDisRange = 100000 / perDisRange_divide;
       // }
 
-      perDisRange = parseInt(perDis / perDisRange) * perDisRange;
+      perDisRange = parseInt(perDis / IntegerNum) * IntegerNum;
 
       let perDis_managed = this.ceil_math(perDis, perDisRange);
 
@@ -273,6 +276,19 @@ export default {
       }
       // 重置max
       temp_max = temp_min + perDisRange * 5 * perDis_managed;
+      // *** 如果重置的max 小于 max 则加 1/2的IntegerNum，否则加IntegerNum
+      if (temp_max < max) {
+        let temp_a1_perDisRange = perDisRange + IntegerNum / 2;
+        let temp_a1_temp_max =
+          temp_min + temp_a1_perDisRange * 5 * perDis_managed;
+        if (temp_a1_temp_max < max) {
+          perDisRange = perDisRange + IntegerNum;
+          temp_max = temp_min + perDisRange * 5 * perDis_managed;
+        } else {
+          perDisRange = temp_a1_perDisRange;
+          temp_max = temp_a1_temp_max;
+        }
+      }
 
       // 重置 maxDis perDis
       temp_maxDis = temp_max - temp_min;

@@ -2,11 +2,11 @@
   <div class="OptionSelectEPG">
     <div class="operator">
       <span class="font_title">运营商：</span>
-      <el-checkbox
+      <!-- <el-checkbox
         :indeterminate="operator_isIndeterminate"
         v-model="operator_checkAll"
         @change="operatorChoose_all"
-      >全部</el-checkbox>
+      >全部</el-checkbox> -->
 
       <el-checkbox-group
         @change="operatorChoose_change"
@@ -262,16 +262,16 @@ export default {
       let vm = this;
       setTimeout(function() {
         operatorChoose_new = vm.operatorChoose;
-        vm.operatorChoose = commonTools.delete_repet(
+        vm.operatorChoose = commonTools.delete_repet_origin(
           operatorChoose_new,
           operatorChoose_old
         );
       }, 100);
     },
-    operatorChoose_all(val) {
-      this.operatorChoose = val ? this.operator : [];
-      this.operator_isIndeterminate = !this.operator_isIndeterminate;
-    },
+    // operatorChoose_all(val) {
+    //   this.operatorChoose = val ? this.operator : [];
+    //   this.operator_isIndeterminate = !this.operator_isIndeterminate;
+    // },
     programaChoose_change(event) {
       programaChoose_old = programaChoose_new;
       let checkedCount = event.length;
@@ -284,7 +284,7 @@ export default {
       let vm = this;
       setTimeout(function() {
         programaChoose_new = vm.programaChoose;
-        vm.programaChoose = commonTools.delete_repet(
+        vm.programaChoose = commonTools.delete_repet_origin(
           programaChoose_new,
           programaChoose_old
         );

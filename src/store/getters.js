@@ -32,6 +32,7 @@ const getters = {
     PR_week: state => state.app.PR_week,
     PR_month: state => state.app.PR_month,
     PR_picker: state => state.app.PR_picker,
+    PR_value_specialName: state => state.app.PR_value_specialName,
 
 
     // EPG（运营商、栏目）（周、月）
