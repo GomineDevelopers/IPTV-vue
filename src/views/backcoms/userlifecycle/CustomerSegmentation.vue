@@ -4,146 +4,109 @@
       <el-col class="C_left" :span="12">
         <div class="m_table">
           <div class="mt_title">
-            <div class="mt_h">
-              <div></div>
-              <div>VIP包</div>
-              <div>用户数(万)</div>
-              <div>户均收看时长(小时)</div>
-              <div>完播率</div>
-              <!-- <div>观看行为</div> -->
-            </div>
-          </div>
-          <div class="mt_row">
-            <div class="mt_h">
-              <div>订购-Firsttime</div>
-              <div class="data_num">
-                <p>家庭包</p>
-                <p>少儿包</p>
-                <p>影视包</p>
-              </div>
-              <div class="data_num">
-                <p>12</p>
-                <p>13</p>
-                <p>23</p>
-              </div>
-              <div class="data_num">
-                <p>123</p>
-                <p>13</p>
-                <p>234</p>
-              </div>
-              <div class="data_num">
-                <p>59%</p>
-                <p>82%</p>
-                <p>70%</p>
+            <div class="mt_h flex">
+              <div class="first_userCategory"></div>
+              <div class="title_category flex">
+                <div
+                  class="flex flex_width"
+                  v-for="(item,index) in customerSegmentation.title"
+                  :key="index+'customer'"
+                >
+                  <div class="title_category_name">{{item}}</div>
+                  <div class="flex-direction view_behavior_category" v-if="item == '观看行为'">
+                    <div
+                      class="flex"
+                      v-for="(viewBehaviorCategoryItem,index4) in customerSegmentation.viewingBehaviorCategory"
+                      :key="index4+'VBC'"
+                    >
+                      <span v-if="viewBehaviorCategoryItem =='少儿'" class="children_span"></span>
+                      <span v-if="viewBehaviorCategoryItem =='影视'" class="film_span"></span>
+                      <span v-if="viewBehaviorCategoryItem =='非少儿非影视'" class="none_span"></span>
+                      {{viewBehaviorCategoryItem}}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="mt_row">
-            <div class="mt_h">
-              <div>订购-Onetime</div>
-              <div class="data_num">
-                <p>家庭包</p>
-                <p>少儿包</p>
-                <p>影视包</p>
+            <div
+              class="mt_h flex"
+              v-for="(customerCategory,index3) in customerSegmentation.categoryData"
+              :key="index3+'customerCategory'"
+            >
+              <div class="first_userCategory">{{customerCategory.userCategoryName}}</div>
+              <div
+                class="flex flex-direction userCategory_data"
+                v-if="customerCategory.userCategoryName !='未订购用户'"
+              >
+                <div
+                  v-for="(customerItem,index3) in customerCategory.data"
+                  :key="index3+'customerItem'"
+                  style="width:100%"
+                >
+                  <div class="flex">
+                    <div class="data_num">
+                      <p>{{customerItem.title}}</p>
+                    </div>
+                    <div class="data_num">
+                      <p>{{customerItem.userNum}}</p>
+                    </div>
+                    <div class="data_num">
+                      <p>{{customerItem.familyWatchTime}}</p>
+                    </div>
+                    <div class="data_num">
+                      <p>{{customerItem.theSeedingRate}}</p>
+                    </div>
+                    <div class="data_num customer_bar">
+                      <p class="flex">
+                        <span
+                          class="children_span"
+                          :style="'width:'+((customerItem.viewingBehaviorData[0]*2)/200)*100+'%'"
+                        >
+                          <i
+                            v-if="customerItem.viewingBehaviorData[0] > 12"
+                          >{{customerItem.viewingBehaviorData[0]}}%</i>
+                        </span>
+                        <span
+                          class="film_span"
+                          :style="'width:'+((customerItem.viewingBehaviorData[1]*2)/200)*100+'%'"
+                        >
+                          <i
+                            v-if="customerItem.viewingBehaviorData[1] > 12"
+                          >{{customerItem.viewingBehaviorData[1]}}%</i>
+                        </span>
+                        <span
+                          :style="'width:'+((customerItem.viewingBehaviorData[2]*2)/200)*100+'%'"
+                        >
+                          <i
+                            v-if="customerItem.viewingBehaviorData[2] > 12"
+                          >{{customerItem.viewingBehaviorData[2]}}%</i>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="data_num">
-                <p>12</p>
-                <p>13</p>
-                <p>23</p>
+              <div
+                class="flex flex-direction userCategory_data"
+                v-if="customerCategory.userCategoryName =='未订购用户'"
+              >
+                <div
+                  v-for="(customerItem,index3) in customerCategory.data"
+                  :key="index3+'customerItem'"
+                  style="width:100%"
+                >
+                  <div class="flex">
+                    <div class="data_num">
+                      <p>{{customerItem.title}}</p>
+                    </div>
+                    <div class="data_num">
+                      <p>{{customerItem.userNum}}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="data_num">
-                <p>123</p>
-                <p>13</p>
-                <p>234</p>
-              </div>
-              <div class="data_num">
-                <p>59%</p>
-                <p>82%</p>
-                <p>70%</p>
-              </div>
-            </div>
-          </div>
-          <div class="mt_row">
-            <div class="mt_h">
-              <div>订购-周期性购买</div>
-              <div class="data_num">
-                <p>家庭包</p>
-                <p>少儿包</p>
-                <p>影视包</p>
-              </div>
-              <div class="data_num">
-                <p>12</p>
-                <p>13</p>
-                <p>23</p>
-              </div>
-              <div class="data_num">
-                <p>123</p>
-                <p>13</p>
-                <p>234</p>
-              </div>
-              <div class="data_num">
-                <p>59%</p>
-                <p>82%</p>
-                <p>70%</p>
-              </div>
-            </div>
-          </div>
-          <div class="mt_row">
-            <div class="mt_h">
-              <div>订购-忠诚用户</div>
-              <div class="data_num">
-                <p>家庭包</p>
-                <p>少儿包</p>
-                <p>影视包</p>
-              </div>
-              <div class="data_num">
-                <p>12</p>
-                <p>13</p>
-                <p>23</p>
-              </div>
-              <div class="data_num">
-                <p>123</p>
-                <p>13</p>
-                <p>234</p>
-              </div>
-              <div class="data_num">
-                <p>59%</p>
-                <p>82%</p>
-                <p>70%</p>
-              </div>
-            </div>
-          </div>
-          <div class="mt_row">
-            <div class="mt_h">
-              <div>订购-疑似流失</div>
-              <div class="data_num">
-                <p>家庭包</p>
-                <p>少儿包</p>
-                <p>影视包</p>
-              </div>
-              <div class="data_num">
-                <p>12</p>
-                <p>13</p>
-                <p>23</p>
-              </div>
-              <div class="data_num">
-                <p>123</p>
-                <p>13</p>
-                <p>234</p>
-              </div>
-              <div class="data_num">
-                <p>59%</p>
-                <p>82%</p>
-                <p>70%</p>
-              </div>
-            </div>
-          </div>
-          <div class="mt_row">
-            <div class="mt_h mt_h">
-              <div>未订购用户</div>
-              <div class="data_num"></div>
-              <div class="data_num">123</div>
-              <div class="data_num"></div>
             </div>
           </div>
         </div>
@@ -413,18 +376,123 @@ export default {
             playNum: "6.0"
           }
         ]
+      },
+      customerSegmentation: {  // 用户细分数据
+        title: ['VIP包', '用户数（万）', '户均观看时长', '完播率', '观看行为'],
+        viewingBehaviorCategory: ['少儿', '影视', '非少儿非影视'],
+        categoryData: [
+          {
+            userCategoryName: '订购-Firsttime',
+            data: [
+              {
+                title: '家庭包',
+                userNum: '12',
+                familyWatchTime: '123',
+                theSeedingRate: '59%',
+                viewingBehaviorData: ['30', '58', '12']
+              },
+              {
+                title: '少儿包',
+                userNum: '13',
+                familyWatchTime: '13',
+                theSeedingRate: '19%',
+                viewingBehaviorData: ['54', '20', '26']
+              },
+              {
+                title: '影视包',
+                userNum: '22',
+                familyWatchTime: '103',
+                theSeedingRate: '40%',
+                viewingBehaviorData: ['13', '30', '57']
+              },
+            ]
+          },
+          {
+            userCategoryName: '订购-Onetime',
+            data: [
+              {
+                title: '家庭包',
+                userNum: '121',
+                familyWatchTime: '13',
+                theSeedingRate: '29%',
+                viewingBehaviorData: ['50', '20', '30']
+              },
+              {
+                title: '少儿包',
+                userNum: '134',
+                familyWatchTime: '134',
+                theSeedingRate: '89%',
+                viewingBehaviorData: ['54', '40', '6']
+              },
+              {
+                title: '影视包',
+                userNum: '22',
+                familyWatchTime: '103',
+                theSeedingRate: '40%',
+                viewingBehaviorData: ['10', '30', '60']
+              },
+            ]
+          },
+          {
+            userCategoryName: '订购-忠诚用户',
+            data: [
+              {
+                title: '家庭包',
+                userNum: '436',
+                familyWatchTime: '123',
+                theSeedingRate: '80%',
+                viewingBehaviorData: ['20', '60', '20']
+              },
+              {
+                title: '少儿包',
+                userNum: '13',
+                familyWatchTime: '13',
+                theSeedingRate: '19%',
+                viewingBehaviorData: ['54', '20', '26']
+              },
+              {
+                title: '影视包',
+                userNum: '22',
+                familyWatchTime: '103',
+                theSeedingRate: '40%',
+                viewingBehaviorData: ['10', '30', '60']
+              },
+            ]
+          },
+          {
+            userCategoryName: '未订购用户',
+            data: [
+              {
+                title: '',
+                userNum: '12',
+                familyWatchTime: '',
+                theSeedingRate: '',
+                viewingBehaviorData: []
+              }
+            ]
+          }
+        ]
       }
-      // customerSegmentation:{  // 用户细分
-      //   title:["VIP包","用户数(万)","户均收看时长(小时)","完播率"],
-      //   row1:{
-      //     title:"订购-Firsttime",
-      //     data1:["家庭包","少儿包","影视包"],
-      //     data1:[]
-      //   }
-      // }
     };
   },
-  methods: {}
+  created() {
+
+  },
+  methods: {
+    setUserCategoryLine() {
+
+      // $('.customer_bar p span').each(function () {
+      //   var spanNum = $(this).attr("data")
+      //   console.log(spanNum)
+      //   var pWidth = Math.floor($('.customer_bar p').width())
+      //   console.log(pWidth)
+      //   var spanWidth = Math.floor((spanNum / pWidth) * 100) + '%'
+      //   console.log(spanWidth)
+      //   // console.log($(this).width())
+      //   $(this).width(spanWidth)
+      // })
+    }
+  }
 };
 </script>
 
@@ -453,19 +521,80 @@ export default {
 .CustomerSegmentation .C_r_top .el-select {
   width: 150px;
 }
-.CustomerSegmentation .mt_title .mt_h {
-  margin-bottom: 3%;
+.flex {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+}
+.flex-direction {
+  flex-direction: column;
+}
+.CustomerSegmentation .title_category {
+  width: 85%;
+}
+.CustomerSegmentation .m_table .view_behavior_category {
+  margin-left: 15px;
+  color: #999;
+}
+.CustomerSegmentation .m_table .view_behavior_category span {
+  width: 12px;
+  height: 7px;
+  margin-right: 4px;
+}
+.CustomerSegmentation .m_table .view_behavior_category span.children_span {
+  background: #f97e6f;
+}
+.CustomerSegmentation .m_table .view_behavior_category span.film_span {
+  background: #fcb84f;
+}
+.CustomerSegmentation .m_table .view_behavior_category span.none_span {
+  background: #dadeea;
+}
+.CustomerSegmentation .title_category div.flex_width,
+.CustomerSegmentation .userCategory_data .data_num {
+  width: 15%;
+}
+.CustomerSegmentation .title_category div.flex_width:last-child,
+.CustomerSegmentation .userCategory_data .data_num:last-child {
+  width: 40%;
+}
+.CustomerSegmentation .first_userCategory {
+  width: 15%;
+}
+.CustomerSegmentation .userCategory_data {
+  width: 85%;
+}
+.CustomerSegmentation .userCategory_data div.flex {
+  width: 100%;
 }
 .CustomerSegmentation .mt_row .mt_h {
-  margin-bottom: 3%;
+  margin: 25px 0px;
 }
-
-.CustomerSegmentation .mt_title .mt_h > div,
-.CustomerSegmentation .mt_row .mt_h > div {
-  /* width: 16.6%; */
-  width: 20%;
+.CustomerSegmentation .userCategory_data div.flex {
+  margin: 5px 0px;
+}
+.CustomerSegmentation .userCategory_data .customer_bar p {
+  width: 200px;
+  background: #dadeea;
+  height: 24px;
+  line-height: 24px;
+}
+.CustomerSegmentation .userCategory_data .customer_bar p span {
   display: inline-block;
-  vertical-align: middle;
+  text-align: center;
+  font-size: 8px !important;
+  color: #f0f0f0;
+  height: 24px;
+  line-height: 24px;
+}
+.CustomerSegmentation .userCategory_data .customer_bar p span i {
+  font-style: normal;
+}
+.CustomerSegmentation .userCategory_data .customer_bar .children_span {
+  background: #f97e6f;
+}
+.CustomerSegmentation .userCategory_data .customer_bar .film_span {
+  background: #fcb84f;
 }
 .CustomerSegmentation .mt_row .data_num {
   font-family: PingFangSC-Regular;
