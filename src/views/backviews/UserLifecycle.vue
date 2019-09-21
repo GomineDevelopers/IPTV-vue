@@ -45,7 +45,7 @@
       </el-col>
       <el-col class="height_auto padding_left" :span="10">
         <el-row class="model_title">
-          <span class="title_border_left"></span>用户结构
+          <span class="title_border_left"></span>在网用户结构
         </el-row>
         <el-row class="chart_body user_structure_body back_white">
           <com-userstructure></com-userstructure>
@@ -75,7 +75,7 @@ import UserStructure from "@/views/backcoms/userlifecycle/UserStructure"; // 用
 import CustomerSegmentation from "@/views/backcoms/userlifecycle/CustomerSegmentation"; // 用户细分
 
 import { mapGetters } from "vuex";
-
+import { commonTools } from "@/utils/test";
 import { userLives } from "@/api/api_main";
 
 export default {
@@ -94,22 +94,37 @@ export default {
     ULC_region(newValue, oldValue) {
       let vm = this;
       console.log("ULC_region: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
     },
     ULC_operator(newValue, oldValue) {
       let vm = this;
       console.log("ULC_operator: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
     },
     ULC_day(newValue, oldValue) {
       let vm = this;
-      console.log("ULC_day: " + newValue);
+      console.log("~~~-watch - ULC_day: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
       console.log("ULC_week: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
       console.log("ULC_month: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
     },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
@@ -126,45 +141,74 @@ export default {
       this.userLives(this.ULC_time_type);
     },
     userLives(time_type) {
+      let vm = this;
       console.log("userLives");
-      let temp;
+
+      // console.log("~~~~~ ULC_region:" + vm.ULC_region);
+      let temp_region = commonTools.acConvert(vm.ULC_region);
+      // console.log("~~~~~ temp_region:" + temp_region);
+      // console.log("~~~~~time_type: " + time_type);
+      // console.log(typeof time_type);
+      let temp_operator = commonTools.operatorConvert(vm.ULC_operator);
+
+      let temp = {
+        area: "",
+        operator: "",
+        start: "",
+        end: ""
+      };
       if (time_type == 1) {
         // 时间类型-1-天
+        // console.log("~~~~~day:" + vm.ULC_day);
         temp = {
-          area: String(["851"]),
-          operator: String(this.ULC_region),
-          start: "2019-06-01",
-          end: "2019-06-01"
+          area: String(temp_region),
+          operator: String(temp_operator),
+          start: vm.ULC_day,
+          end: vm.ULC_day
         };
-        console.log("~~~~time_type:" + time_type);
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~1:");
+        console.log(temp);
       }
       if (time_type == 2) {
         // 时间类型-2-周
+        // console.log("~~~~~week:" + vm.ULC_week);
+        let temp_time = commonTools.split_yearAtime(vm.ULC_week);
         temp = {
-          area: String(["851"]),
-          operator: String(this.ULC_region),
-          start: "23week",
-          end: "23week"
+          area: String(temp_region),
+          operator: String(temp_operator),
+          start: temp_time.time,
+          end: temp_time.time,
+          year: temp_time.year
         };
-        console.log("~~~~time_type:" + time_type);
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~2:");
+        console.log(temp);
       }
       if (time_type == 3) {
         // 时间类型-3-月
+        // console.log("~~~~~month:" + vm.ULC_month);
+        let temp_time = commonTools.split_yearAtime(vm.ULC_month);
+        console.log(temp_time);
+
         temp = {
-          area: "all",
-          operator: "all",
-          start: "2019-07-12",
-          end: "2019-07-31"
+          area: String(temp_region),
+          operator: String(temp_operator),
+          start: temp_time.time,
+          end: temp_time.time,
+          year: temp_time.year
         };
-        console.log("~~~~time_type:" + time_type);
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~3:");
+        console.log(temp);
       }
 
-      var formData = new FormData();
-      var formData = new window.FormData();
-      formData.append("area", temp.area);
-      formData.append("operator", temp.operator);
-      formData.append("start", temp.start);
-      formData.append("end", temp.end);
+      // var formData = new FormData();
+      // var formData = new window.FormData();
+      // formData.append("area", temp.area);
+      // formData.append("operator", temp.operator);
+      // formData.append("start", temp.start);
+      // formData.append("end", temp.end);
 
       // userLives(formData)
       //   .then(function(response) {

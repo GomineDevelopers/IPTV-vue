@@ -18,6 +18,7 @@ const app = {
         UVB_day: null,
         UVB_week: null,
         UVB_picker: [],
+        UVB_time_type: 0, // 0-未选择 1-天 2-周 3-范围
         PR_operator: [],
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值
@@ -42,6 +43,8 @@ const app = {
         ADD_VIP_day: null,
         ADD_VIP_week: null,
         ADD_VIP_picker: [],
+        ADD_VIP_time_type: 0, // 0-未选择 1-天 2-周 3-范围
+
         PS_time: [],
         PS_name: null,
 
@@ -232,6 +235,17 @@ const app = {
         get_UVB_picker({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.UVB_picker);
+            })
+        },
+        set_UVB_time_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.UVB_time_type = data;
+                resolve("UVB_time_type - SUCCESS !");
+            })
+        },
+        get_UVB_time_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.UVB_time_type);
             })
         },
         set_PR_operator({ commit, state }, data) {
@@ -487,6 +501,17 @@ const app = {
         get_ADD_VIP_picker({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.ADD_VIP_picker);
+            })
+        },
+        set_ADD_VIP_time_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ADD_VIP_time_type = data;
+                resolve("ADD_VIP_time_type - SUCCESS !");
+            })
+        },
+        get_ADD_VIP_time_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_VIP_time_type);
             })
         },
         set_PS_time({ commit, state }, data) {

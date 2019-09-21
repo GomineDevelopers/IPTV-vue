@@ -16,7 +16,7 @@ const getters = {
     ULC_day: state => state.app.ULC_day,
     ULC_week: state => state.app.ULC_week,
     ULC_month: state => state.app.ULC_month,
-    ULC_time_type: state => state.app.ULC_time_type, // 选月，row3才显示。
+    ULC_time_type: state => state.app.ULC_time_type,  
 
     // UVB 用户收视行为（地区、运营商、播放方式、栏目）（天、周、范围）
     UVB_region: state => state.app.UVB_region,
@@ -26,6 +26,7 @@ const getters = {
     UVB_day: state => state.app.UVB_day,
     UVB_week: state => state.app.UVB_week,
     UVB_picker: state => state.app.UVB_picker,
+    UVB_time_type: state => state.app.UVB_time_type, 
 
     // PR  定期报告（运营商）（天、周、月、范围）
     PR_operator: state => state.app.PR_operator,
@@ -57,6 +58,7 @@ const getters = {
     ADD_VIP_day: state => state.app.ADD_VIP_day,
     ADD_VIP_week: state => state.app.ADD_VIP_week,
     ADD_VIP_picker: state => state.app.ADD_VIP_picker,
+    ADD_VIP_time_type: state => state.app.ADD_VIP_time_type, 
 
     // 节目搜索（时间段）
     PS_time: state => state.app.PS_time,

@@ -66,8 +66,169 @@ import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼
 import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"; //公用柱状图堆叠
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //公用柱状图单个
 
+import { mapGetters } from "vuex";
+import { commonTools } from "@/utils/test";
+import { userAction } from "@/api/api_main";
+
 export default {
   name: "UserViewingBehavior", //用户收视行为
+  computed: {
+    ...mapGetters([
+      "UVB_region",
+      "UVB_operator",
+      "UVB_playmode",
+      "UVB_programa",
+      "UVB_day",
+      "UVB_week",
+      "UVB_picker",
+      "UVB_time_type"
+    ])
+  },
+  watch: {
+    UVB_region(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_region: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_operator(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_operator: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_playmode(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_playmode: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_programa(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_programa: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_day(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_day: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_week(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_week: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_picker(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_picker: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_time_type(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_time_type: " + newValue);
+    }
+  },
+  methods: {
+    refresh_api_data() {
+      this.userAction(this.UVB_time_type);
+    },
+    userAction(time_type) {
+      let vm = this;
+      console.log("userAction");
+
+      let temp_region = commonTools.acConvert(vm.UVB_region);
+      let temp_operator = commonTools.operatorConvert(vm.UVB_operator);
+      let temp_playmode = commonTools.playmodeConvert(vm.UVB_playmode);
+      let temp_programa = commonTools.programaConvert(vm.UVB_programa);
+
+      let temp = {
+        area: "",
+        operator: "",
+        method: "",
+        list: "",
+        start: "",
+        end: ""
+      };
+      if (time_type == 1) {
+        // 时间类型-1-天
+        // console.log("~~~~~day:" + vm.UVB_day);
+        temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          method: String(temp_playmode),
+          list: String(temp_programa),
+          start: vm.UVB_day,
+          end: vm.UVB_day
+        };
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~1:");
+        console.log(temp);
+      }
+      if (time_type == 2) {
+        // 时间类型-2-周
+        // console.log("~~~~~week:" + vm.UVB_week);
+        let temp_time = commonTools.split_yearAtime(vm.UVB_week);
+        temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          method: String(temp_playmode),
+          list: String(temp_programa),
+          start: temp_time.time,
+          end: temp_time.time,
+          year: temp_time.year
+        };
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~2:");
+        console.log(temp);
+      }
+      if (time_type == 3) {
+        // 时间类型-3-范围
+        console.log("~~~~~picker:" + vm.UVB_picker);
+        console.log(typeof vm.UVB_picker);
+        let temp_time = commonTools.split_picker(vm.UVB_picker);
+        console.log(temp_time);
+        temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          method: String(temp_playmode),
+          list: String(temp_programa),
+          start: temp_time.start,
+          end: temp_time.end
+        };
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~3:");
+        console.log(temp);
+      }
+
+      // var formData = new FormData();
+      // var formData = new window.FormData();
+      // formData.append("area", temp.area);
+      // formData.append("operator", temp.operator);
+      // formData.append("method", temp.method);
+      // formData.append("list", temp.list);
+      // formData.append("start", temp.start);
+      // formData.append("end", temp.end);
+
+      // userAction(formData)
+      //   .then(function(response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+    }
+  },
   components: {
     "user-viewing-behavior-top": UserViewingBehaviorTOP,
     "com-optionselectUVB": OptionSelectUVB,
@@ -265,8 +426,7 @@ export default {
         ]
       }
     };
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scoped>

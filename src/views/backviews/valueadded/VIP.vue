@@ -65,8 +65,181 @@ import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼
 import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"; //公用柱状图堆叠
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //公用柱状图单个
 
+import { mapGetters } from "vuex";
+import { commonTools } from "@/utils/test";
+import { vip_increment } from "@/api/api_main";
+
 export default {
   name: "VIP", //增值业务VIP
+  computed: {
+    ...mapGetters([
+      "ADD_VIP_region",
+      "ADD_VIP_operator",
+      "ADD_VIP_playmode",
+      "ADD_VIP_programa",
+      "ADD_VIP_day",
+      "ADD_VIP_week",
+      "ADD_VIP_picker",
+      "ADD_VIP_time_type"
+    ])
+  },
+  watch: {
+    ADD_VIP_region(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_region: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_operator(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_operator: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_playmode(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_playmode: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_programa(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_programa: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_day(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_day: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_week(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_week: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_picker(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_picker: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_time_type(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_time_type: " + newValue);
+    }
+  },
+  methods: {
+    refresh_api_data() {
+      this.vip_increment(this.ADD_VIP_time_type);
+    },
+    vip_increment(time_type) {
+      let vm = this;
+
+      console.log("vip_increment");
+
+      let temp_region = commonTools.acConvert(vm.ADD_VIP_region);
+      let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator);
+      let temp_playmode = commonTools.playmodeConvert(vm.ADD_VIP_playmode);
+      let temp_programa = commonTools.programaConvert(vm.ADD_VIP_programa);
+
+      let temp = {
+        area: "",
+        operator: "",
+        method: "",
+        list: "",
+        start: "",
+        end: ""
+      };
+      if (time_type == 1) {
+        // 时间类型-1-天
+        // console.log("~~~~~day:" + vm.ADD_VIP_day);
+        temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          method: String(temp_playmode),
+          list: String(temp_programa),
+          start: vm.ADD_VIP_day,
+          end: vm.ADD_VIP_day
+        };
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~1:");
+        console.log(temp);
+      }
+      if (time_type == 2) {
+        // 时间类型-2-周
+        // console.log("~~~~~week:" + vm.ADD_VIP_week);
+        let temp_time = commonTools.split_yearAtime(vm.ADD_VIP_week);
+        temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          method: String(temp_playmode),
+          list: String(temp_programa),
+          start: temp_time.time,
+          end: temp_time.time,
+          year: temp_time.year
+        };
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~2:");
+        console.log(temp);
+      }
+      if (time_type == 3) {
+        // 时间类型-3-范围
+        console.log("~~~~~picker:" + vm.ADD_VIP_picker);
+        console.log(typeof vm.ADD_VIP_picker);
+        let temp_time = commonTools.split_picker(vm.ADD_VIP_picker);
+        console.log(temp_time);
+        temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          method: String(temp_playmode),
+          list: String(temp_programa),
+          start: temp_time.start,
+          end: temp_time.end
+        };
+        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~3:");
+        console.log(temp);
+      }
+
+      // let temp = {
+      //   area: "all", // 地区码，all和贵州省地级市代码
+      //   operator: "all", // 运营商列表：根据用户收视行为运营商api为准的列表单，all为全部运营商
+      //   method: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
+      //   list: "all", // 节目列表：根据栏目api为准的列表单，all为全部节目
+      //   start: "2019-07-12",
+      //   end: "2019-07-31",
+      //   increment: "少儿包" // 增值包选项 如 少儿包
+      // };
+
+      // var formData = new FormData();
+      // var formData = new window.FormData();
+      // formData.append("area", temp.area);
+      // formData.append("operator", temp.operator);
+      // formData.append("method", temp.method);
+      // formData.append("list", temp.list);
+      // formData.append("start", temp.start);
+      // formData.append("end", temp.end);
+      // formData.append("increment", temp.increment);
+
+      // vip_increment(formData)
+      //   .then(function(response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+    }
+  },
   components: {
     "com-optionselectVIP": OptionSelectVIP,
     "vip-behavior-top": VIPBehaviorTOP,

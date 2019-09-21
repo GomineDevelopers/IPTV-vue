@@ -133,6 +133,7 @@
           type="date"
           placeholder="选择日期"
           :picker-options="pickerOptions0"
+          @change="dayValue_change"
         ></el-date-picker>
       </span>
       <div class="space">&nbsp;</div>
@@ -145,6 +146,7 @@
           default-first-option
           placeholder="请设置周数"
           style="width:300px;"
+          @change="weekValue_change"
         >
           <el-option
             v-for="item in time.week"
@@ -168,6 +170,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :picker-options="time.pickerOptions"
+            @change="pickerValue_change"
           ></el-date-picker>
         </div>
       </span>
@@ -197,7 +200,7 @@ export default {
       this.$store
         .dispatch("set_UVB_region", newValue)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -208,7 +211,7 @@ export default {
       this.$store
         .dispatch("set_UVB_operator", newValue)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -219,7 +222,7 @@ export default {
       this.$store
         .dispatch("set_UVB_playmode", newValue)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -230,45 +233,45 @@ export default {
       this.$store
         .dispatch("set_UVB_programa", newValue)
         .then(function(response) {
-          // console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    "time.dayValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_UVB_day", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    "time.weekValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_UVB_week", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    "time.pickervalue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_UVB_picker", newValue)
-        .then(function(response) {
-          // console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
           console.info(error);
         });
     }
+    // "time.dayValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_UVB_day", newValue)
+    //     .then(function(response) {
+    //       // console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
+    // "time.weekValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_UVB_week", newValue)
+    //     .then(function(response) {
+    //       // console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
+    // "time.pickervalue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_UVB_picker", newValue)
+    //     .then(function(response) {
+    //       // console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // }
   },
   data() {
     return {
@@ -389,6 +392,76 @@ export default {
     };
   },
   methods: {
+    dayValue_change(event) {
+      // console.log(event);
+      // console.log(typeof event);
+      // console.log(typeof String(event));
+      let vm = this;
+      this.time.dayValue = String(event);
+      this.time.weekValue = "";
+      this.time.pickerValue = "";
+      let newValue = String(event);
+      newValue = commonTools.dayChange(newValue); // store 传入 2019-09-20 格式
+      console.log("~~~~set_UVB_day:" + newValue);
+      vm.$store
+        .dispatch("set_UVB_day", newValue)
+        .then(function(response) {
+          console.log(response);
+          vm.$store
+            .dispatch("set_UVB_time_type", 1)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    weekValue_change(event) {
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = String(event);
+      this.time.pickerValue = "";
+      let newValue = String(event);
+      vm.$store
+        .dispatch("set_UVB_week", newValue)
+        .then(function(response) {
+          console.log(response);
+          vm.$store
+            .dispatch("set_UVB_time_type", 2)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    pickerValue_change(event) {
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = "";
+      this.time.pickerValue = String(event);
+      let newValue = String(event);
+      vm.$store
+        .dispatch("set_UVB_picker", newValue)
+        .then(function(response) {
+          console.log(response);
+          vm.$store
+            .dispatch("set_UVB_time_type", 3)
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+
+    // //////////////
     regionChoose_change(event) {
       regionChoose_old = regionChoose_new;
       let checkedCount = event.length;

@@ -4,6 +4,243 @@ const commonTools = {}
 
 
 
+
+
+
+// ///////////////////// ac 地区码
+// 851：贵阳
+// 852：遵义
+// 853: 安顺
+// 854：黔南
+// 855：黔东南
+// 856：铜仁
+// 857：毕节
+// 858：六盘水
+// 859：黔西南
+
+// ac 地区码转换
+commonTools.acConvert = function (area_arr) {
+    let ac_arr = [];
+    if (area_arr.length == 0) {
+        ac_arr.push("851");
+        ac_arr.push("852");
+        ac_arr.push("853");
+        ac_arr.push("854");
+        ac_arr.push("855");
+        ac_arr.push("856");
+        ac_arr.push("857");
+        ac_arr.push("858");
+        ac_arr.push("859");
+    }
+    else {
+
+        // 暂定ac格式为 string
+        if (area_arr.indexOf("贵阳") > -1) {
+            ac_arr.push("851");
+        }
+        if (area_arr.indexOf("遵义") > -1) {
+            ac_arr.push("852");
+        }
+        if (area_arr.indexOf("安顺") > -1) {
+            ac_arr.push("853");
+        }
+        if (area_arr.indexOf("黔南") > -1) {
+            ac_arr.push("854");
+        }
+        if (area_arr.indexOf("黔东南") > -1) {
+            ac_arr.push("855");
+        }
+        if (area_arr.indexOf("铜仁") > -1) {
+            ac_arr.push("856");
+        }
+        if (area_arr.indexOf("毕节") > -1) {
+            ac_arr.push("857");
+        }
+        if (area_arr.indexOf("六盘水") > -1) {
+            ac_arr.push("858");
+        }
+        if (area_arr.indexOf("黔西南") > -1) {
+            ac_arr.push("859");
+        }
+    }
+
+    return ac_arr
+}
+
+
+// 运营商转换 （为空则为全选）
+commonTools.operatorConvert = function (operator_arr) {
+    let temp_arr = [];
+    if (operator_arr.length == 0) { // （为空则为全选）
+        temp_arr.push("移动");
+        temp_arr.push("联通");
+        temp_arr.push("电信");
+        return temp_arr;
+    }
+    else {
+        return operator_arr // （非空则保持原样）
+    }
+}
+
+// 播放方式转换 （为空则为全选）
+commonTools.playmodeConvert = function (playmode_arr) {
+    let temp_arr = [];
+    if (playmode_arr.length == 0) { // （为空则为全选）
+        temp_arr.push("直播");
+        temp_arr.push("点播");
+        temp_arr.push("回看");
+        return temp_arr;
+    }
+    else {
+        return playmode_arr // （非空则保持原样）
+    }
+}
+
+// 栏目转换 （为空则为全选）
+commonTools.programaConvert = function (programa_arr) {
+    let temp_arr = [];
+    if (programa_arr.length == 0) { // （为空则为全选）
+        temp_arr.push("分类");
+        temp_arr.push("电视");
+        temp_arr.push("推荐");
+        temp_arr.push("电影");
+        temp_arr.push("热剧");
+        temp_arr.push("少儿");
+        temp_arr.push("动漫");
+        temp_arr.push("综艺");
+        temp_arr.push("体育");
+        temp_arr.push("纪实");
+        temp_arr.push("游戏");
+        temp_arr.push("健康");
+        temp_arr.push("音乐");
+        temp_arr.push("其他");
+        return temp_arr;
+    }
+    else {
+        return programa_arr // （非空则保持原样）
+    }
+}
+
+
+// 时间格式转换
+// Wed Sep 11 2019 00:00:00 GMT+0800 (中国标准时间),Wed Oct 16 2019 00:00:00 GMT+0800 (中国标准时间)
+// =》 2019-09-11   2019-10-16
+commonTools.split_picker = function (str) {
+    let time_arr = str.split(",");
+    let t1 = time_arr[0];
+    let t2 = time_arr[1];
+    t1 = commonTools.dayChange(t1);
+    t2 = commonTools.dayChange(t2);
+    return {
+        start: t1,
+        end: t2
+    }
+}
+
+
+// 时间格式转换
+// Tue Sep 03 2019 00:00:00 GMT+0800 (中国标准时间) => 2019-09-03
+commonTools.dayChange = function (str) { // 实际使用
+    let string_event = str;
+    let tempArr = string_event.split(" ");
+
+    let year = tempArr[3];
+    let month = commonTools.monthManage(tempArr[1]);
+    let day = tempArr[2];
+    let m_time = String(year + "-" + month + "-" + day);
+    return m_time
+}
+// 时间格式转换X (Aug 2, 2019 at 4:59PM  = 》 2019-08-02) ---s金融的格式
+commonTools.timeformatX = function (str) { // 暂且没用到
+    let tmepArr = str.split(" ");
+    let year = tmepArr[2];
+    let month = commonTools.monthManage(tmepArr[0]); // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+    let day = commonTools.dayManage(tmepArr[1].replace(",", ""));
+    return year + "-" + month + "-" + day;
+}
+
+commonTools.dayManage = function (str) {
+    let day = str;
+    switch (str) {
+        case "1":
+            day = "01";
+            break;
+        case "2":
+            day = "02";
+            break;
+        case "3":
+            day = "03";
+            break;
+        case "4":
+            day = "04";
+            break;
+        case "5":
+            day = "05";
+            break;
+        case "6":
+            day = "06";
+            break;
+        case "7":
+            day = "07";
+            break;
+        case "8":
+            day = "08";
+            break;
+        case "9":
+            day = "09";
+            break;
+        default:
+            day = str;
+    }
+    return day;
+}
+commonTools.monthManage = function (str) {
+    let month;
+    switch (str) {
+        case "Jan":
+            month = "01";
+            break;
+        case "Feb":
+            month = "02";
+            break;
+        case "Mar":
+            month = "03";
+            break;
+        case "Apr":
+            month = "04";
+            break;
+        case "May":
+            month = "05";
+            break;
+        case "Jun":
+            month = "06";
+            break;
+        case "Jul":
+            month = "07";
+            break;
+        case "Aug":
+            month = "08";
+            break;
+        case "Sep":
+            month = "09";
+            break;
+        case "Oct":
+            month = "10";
+            break;
+        case "Nov":
+            month = "11";
+            break;
+        case "Dec":
+            month = "12";
+            break;
+        default:
+            console.log("none!");
+    }
+    return month;
+}
+
+////////////////////////////////////////
+
 // 日期格式转换
 commonTools.dateFormat = function (stringTypeDate) {
     var dateType = "";
@@ -157,7 +394,8 @@ commonTools.weekDate = function (year) {
         start = i[0];
         end = i[1];
         temp = {
-            value: String(year) + "选项" + String(index1),
+            // value: String(year) + "选项" + String(index1),
+            value: String(year) + "&" + String(index1) + "week",
             label: String(year) + `年第${commonTools.formatDig(
                 index1++
             )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
@@ -176,7 +414,8 @@ commonTools.weekDate_add = function (year, arr_temp) {
         start = i[0];
         end = i[1];
         temp = {
-            value: String(year) + "选项" + String(index1),
+            // value: String(year) + "选项" + String(index1),
+            value: String(year) + "&" + String(index1) + "week",
             label: String(year) + `年第${commonTools.formatDig(
                 index1++
             )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
@@ -253,6 +492,24 @@ commonTools.createWeeks = function* (year) {
     yield [startTime, +end];
 }
 
+////////////////////// 
+// 分割自定义时间格式
+// 处理 2018&3week 类似格式，返回 year 和 time(week或month)
+commonTools.split_yearAtime = function (str) {
+    let t_year;
+    let t_time;
+    let strs = str.split('&');
+    t_year = strs[0];
+    t_time = strs[1];
+    return {
+        year: t_year,
+        time: t_time
+    };
+
+}
+
+
+
 
 ////////////////////// 遍历某年的各周日期范围(收尾)
 
@@ -307,7 +564,9 @@ commonTools.format_MonthDays = function (year) {
     let temp;
     for (i = 1; i <= length; i++) {
         temp = {
-            value: String(year) + "选项" + String(i),
+            // /// PS: value对应 api值 ， label对应显示
+            // value: String(year) + "选项" + String(i),
+            value: String(year) + "&" + String(i) + "month", // 拆分年&周（月），分割&即可
             label: String(year) + "年" + String(i) + "月" + "(" + monthDays.firstDay[i - 1] + "至" + monthDays.lastDay[i - 1] + ")"
         }
         m_format.push(temp);
@@ -324,7 +583,8 @@ commonTools.format_MonthDays_add = function (year, m_format) {
     let temp;
     for (i = 1; i <= length; i++) {
         temp = {
-            value: String(year) + "选项" + String(i),
+            // value: String(year) + "选项" + String(i),
+            value: String(year) + "&" + String(i) + "month",
             label: String(year) + "年" + String(i) + "月" + "(" + monthDays.firstDay[i - 1] + "至" + monthDays.lastDay[i - 1] + ")"
         }
         m_format.push(temp);

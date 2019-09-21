@@ -635,3 +635,16 @@ export default {
 }
 /* 节目点播情况结束 */
 </style>
+
+<style >
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: start;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-align: center;
+}
+</style>

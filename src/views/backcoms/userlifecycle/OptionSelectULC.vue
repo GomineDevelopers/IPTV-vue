@@ -317,6 +317,8 @@ export default {
     setTimeout(function() {
       arr_temp = commonTools.weekDate_add(2019, arr_temp);
       vm.time.week = arr_temp;
+      // console.log("~~~~~test vm.time.week");
+      // console.log(vm.time.week);
     }, 100);
 
     // 初始化月
@@ -324,6 +326,8 @@ export default {
     setTimeout(function() {
       arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
       vm.time.month = arr_temp2;
+      // console.log("~~~~~test vm.time.month");
+      // console.log(vm.time.month);
     }, 100);
   },
   methods: {
@@ -336,6 +340,8 @@ export default {
       this.time.weekValue = "";
       this.time.monthValue = "";
       let newValue = String(event);
+      newValue = commonTools.dayChange(newValue); // store 传入 2019-09-20 格式
+      console.log("~~~~set_ULC_day:" + newValue);
       vm.$store
         .dispatch("set_ULC_day", newValue)
         .then(function(response) {
@@ -362,7 +368,6 @@ export default {
         .dispatch("set_ULC_week", newValue)
         .then(function(response) {
           console.log(response);
-          // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_ULC_time_type", 2)
             .then(function(response) {})

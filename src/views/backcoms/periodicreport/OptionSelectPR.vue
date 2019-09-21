@@ -189,7 +189,7 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PR_operator", newValue)
-        .then(function (response) {
+        .then(function(response) {
           // console.log(response);
           // vm.$store
           //   .dispatch("get_PR_operator")
@@ -200,7 +200,7 @@ export default {
           //     console.info(error);
           //   });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -252,10 +252,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PR_value_specialName", newValue)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }
@@ -454,11 +454,11 @@ export default {
     // ▲历史条件获取
     vm.$store
       .dispatch("get_PR_operator")
-      .then(function (response) {
+      .then(function(response) {
         // console.log(response);
         vm.operatorChoose = response;
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.info(error);
       });
 
@@ -479,118 +479,26 @@ export default {
     //
   },
   methods: {
-    // 时间格式转换X (Aug 2, 2019 at 4:59PM  = 》 2019-08-02)
-    timeformatX(str) {
-      let tmepArr = str.split(" ");
-      let year = tmepArr[2];
-      let month = this.monthManage(tmepArr[0]); // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
-      let day = this.dayManage(tmepArr[1].replace(",", ""));
-      return year + "-" + month + "-" + day;
-    },
-    dayManage(str) {
-      let day = str;
-      switch (str) {
-        case "1":
-          day = "01";
-          break;
-        case "2":
-          day = "02";
-          break;
-        case "3":
-          day = "03";
-          break;
-        case "4":
-          day = "04";
-          break;
-        case "5":
-          day = "05";
-          break;
-        case "6":
-          day = "06";
-          break;
-        case "7":
-          day = "07";
-          break;
-        case "8":
-          day = "08";
-          break;
-        case "9":
-          day = "09";
-          break;
-        default:
-          day = str;
-      }
-      return day;
-    },
-    monthManage(str) {
-      let month;
-      switch (str) {
-        case "Jan":
-          month = "01";
-          break;
-        case "Feb":
-          month = "02";
-          break;
-        case "Mar":
-          month = "03";
-          break;
-        case "Apr":
-          month = "04";
-          break;
-        case "May":
-          month = "05";
-          break;
-        case "Jun":
-          month = "06";
-          break;
-        case "Jul":
-          month = "07";
-          break;
-        case "Aug":
-          month = "08";
-          break;
-        case "Sep":
-          month = "09";
-          break;
-        case "Oct":
-          month = "10";
-          break;
-        case "Nov":
-          month = "11";
-          break;
-        case "Dec":
-          month = "12";
-          break;
-        default:
-          console.log("none!");
-      }
-      return month;
-    },
     dayChange(event) {
       // console.log("dayChange");
+      let vm = this;
       console.log(event);
       console.log(typeof event);
       let string_event = String(event);
-      let tempArr = string_event.split(" ");
-
-      let year = tempArr[3];
-      let month = this.monthManage(tempArr[1]);
-      let day = tempArr[2];
-      let m_time = String(year + "-" + month + "-" + day);
+      let m_time = commonTools.dayChange(string_event);
       console.log(m_time);
       // this.dayReport.start = m_time;
       // this.dayReport.end = m_time;
-      let vm = this;
       let newValue = {
         start: m_time,
         end: m_time
       };
       this.$store
         .dispatch("set_PR_day", newValue)
-        .then(function (response) {
+        .then(function(response) {
           // console.log(response);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -623,10 +531,10 @@ export default {
       };
       this.$store
         .dispatch("set_PR_week", newValue)
-        .then(function (response) {
+        .then(function(response) {
           // console.log(response);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -644,7 +552,7 @@ export default {
         this.operator_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         operatorChoose_new = vm.operatorChoose;
         vm.operatorChoose = commonTools.delete_repet(
           operatorChoose_new,
@@ -661,7 +569,7 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PR_assignReportNum", num)
-        .then(function (response) {
+        .then(function(response) {
           vm.reportOption = reportName;
           vm.routerLink = routerLink;
           if (reportName == "移动运营数据周报") {
@@ -670,7 +578,7 @@ export default {
             vm.ifOperatorShow = true;
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },

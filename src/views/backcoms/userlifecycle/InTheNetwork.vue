@@ -6,7 +6,7 @@
           <el-col :span="4"></el-col>
           <el-col :span="4">在网数（万）</el-col>
           <el-col :span="5">人均观看时长（小时）</el-col>
-          <el-col :span="4">平均消费（元）</el-col>
+          <el-col :span="4">订购用户占比（%）</el-col>
           <el-col :span="7">用户画像</el-col>
         </el-row>
       </el-row>
