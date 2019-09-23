@@ -28,6 +28,14 @@
             }"
               placeholder="选择时间"
             ></el-time-select>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="这是一个时间段，如选择12:00则代表是12:00-13:00小时段"
+              placement="right"
+            >
+              <i class="iconfont">&#xe605;</i>
+            </el-tooltip>
           </div>
         </el-row>
         <el-row class="programInput_elrow">
@@ -158,7 +166,7 @@ export default {
         title: '提示',
         message: message,
         type: messageType,
-        offset: 50
+        offset: 100
       });
     }
 
@@ -200,6 +208,10 @@ export default {
   text-align: left;
   font-size: 14px;
   color: #333333;
+}
+.program_searching_option .iconfont {
+  margin-left: 10px;
+  cursor: pointer;
 }
 .search_notice i {
   font-style: normal;

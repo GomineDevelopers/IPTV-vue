@@ -27,7 +27,8 @@ import {
   Radio,
   Switch,
   Loading,
-  Notification
+  Notification,
+  Tooltip,
 } from 'element-ui'
 
 Vue.use(Row)
@@ -58,7 +59,8 @@ Vue.use(FormItem)
 Vue.use(Radio)
 Vue.use(Switch)
 Vue.use(Loading)
-Vue.use(Notification)
+// Vue.use(Notification)
+Vue.use(Tooltip)
 
 
 Vue.prototype.$notify = Notification   //消息提示
