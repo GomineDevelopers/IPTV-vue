@@ -7,7 +7,7 @@
       <el-row class="viewing_top_title">
         <el-col :span="3">排名</el-col>
         <el-col :span="9">节目名称</el-col>
-        <el-col :span="6">节目来源</el-col>
+        <el-col :span="6">节目类型</el-col>
         <el-col :span="6">热度</el-col>
       </el-row>
       <div id="viewingTOP_list">
@@ -67,28 +67,30 @@ export default {
   },
   methods: {
     demandProgramTop() {
-      // console.log("demandProgramTop");
+      console.log("demandProgramTop");
       let vm = this;
       let data = {
-        start: "2019-07-01",
-        end: "2019-07-01",
+        start: "2019-06-01",
+        end: "2019-06-01",
         operator: String(["移动", "联通", "电信"])
       };
       console.log("~~~~~demandProgramTop");
       demandProgramTop(data)
         .then(function(response) {
-          let m_data = response.data.responses[0].hits.hits;
+          console.log(response);
+          let m_data =
+            response.data.responses[0].aggregations.programname.buckets;
           let length = m_data.length;
           let i;
           let temp;
-          let totalvalue = m_data[0]._source.demand_freq; // hot需要百分比，这里用排名第一的热度值做分母，即第一为百分百
+          let totalvalue = m_data[0].demand_freq.value; // hot需要百分比，这里用排名第一的热度值做分母，即第一为百分百
           for (i = 0; i < length; i++) {
             temp = {
-              topNum: m_data[i]._source.rank_demand_freq,
-              programName: m_data[i]._source.programname,
-              programSource: "", //暂时没有
+              topNum: i + 1,
+              programName: m_data[i].key,
+              programSource: m_data[i].program_type.buckets[0].key,
               hot:
-                String((m_data[i]._source.demand_freq / totalvalue) * 100) + "%"
+                String((m_data[i].demand_freq.value / totalvalue) * 100) + "%"
             };
             vm.viewingTopList.push(temp);
           }

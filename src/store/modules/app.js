@@ -40,6 +40,7 @@ const app = {
         ADD_VIP_operator: [],
         ADD_VIP_playmode: [],
         ADD_VIP_programa: [],
+        ADD_VIP_valueAddedPackage: null,
         ADD_VIP_day: null,
         ADD_VIP_week: null,
         ADD_VIP_picker: [],
@@ -468,6 +469,17 @@ const app = {
         get_ADD_VIP_programa({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.ADD_VIP_programa);
+            })
+        },
+        set_ADD_VIP_valueAddedPackage({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ADD_VIP_valueAddedPackage = data;
+                resolve("ADD_VIP_valueAddedPackage - SUCCESS !");
+            })
+        },
+        get_ADD_VIP_valueAddedPackage({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_VIP_valueAddedPackage);
             })
         },
         set_ADD_VIP_day({ commit, state }, data) {

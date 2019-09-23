@@ -5,7 +5,7 @@
         在册数：
         <div>
           <span class="nmber_background back_color1" v-if="registeredUserNum.length != 8">&nbsp;</span>
-          <span class="nmber_background back_color1" v-if="registeredUserNum.length != 7">&nbsp;</span>
+          <!-- <span class="nmber_background back_color1" v-if="registeredUserNum.length != 7">&nbsp;</span> -->
           <span
             class="nmber_background back_color1"
             v-for="(item,index) in registeredUserNum"
@@ -44,7 +44,7 @@
           <span class="nmber_background" v-if="dayLiveNum.length != 7">&nbsp;</span>-->
           <span
             class="nmber_background back_color4"
-            v-for="(item3,index3) in activationRate"
+            v-for="(item3,index3) in sevenKeep"
             :key="index3 + 'b'"
           >{{item3}}</span>
         </div>
@@ -54,7 +54,10 @@
   </div>
 </template>
 <script>
+import { commonTools } from "@/utils/test";
+
 // import { activationRate } from "@/api/api_main";
+import { users_basic } from "@/api/api_main";
 
 export default {
   name: "RegisteredUserInfo", //顶部logo下的总体数据
@@ -64,7 +67,7 @@ export default {
       registeredUserNum: "3426746", //在册数
       dayLiveNum: "262346", //日活数
       activationRate: "87.3%", //激活率
-      sevenKeep: "67.4%", //七日留存
+      sevenKeep: "67.4%" //七日留存
       // value: 0
     };
   },
@@ -73,8 +76,8 @@ export default {
       get: function() {
         return this.value_p;
       },
-      set:function(newValue){
-        // 
+      set: function(newValue) {
+        //
       }
     }
   },
@@ -86,11 +89,36 @@ export default {
     //   .catch(function(error) {
     //     console.info(error);
     //   });
+    this.users_basic();
 
     this.handleRegisteredUserNum();
     setInterval(this.get, 1000);
   },
   methods: {
+    users_basic() {
+      console.log("~~~~~~users_basic");
+      let vm = this;
+      let temp = {
+        operator: String(["移动", "联通", "电信"]),
+        start: "2019-06-01",
+        end: "2019-06-01"
+      };
+      users_basic(temp)
+        .then(function(response) {
+          // console.log(response);
+          let aggregations = response.data.responses[0].aggregations;
+          let t1 = aggregations.all_register_num.value; // 在册
+          let t2 = aggregations.all_active_num.value; // 日活
+          let t3 = aggregations.all_activate_user_num.value; // 临时-激活用户数
+          t3 = t3 / t1; // 激活率 = 激活用户数 / 在册用户数
+          vm.registeredUserNum = String(t1); //在册数
+          vm.dayLiveNum = String(t2); //日活数
+          vm.activationRate = String(commonTools.returnFloat_1(t3 * 100)) + "%"; //激活率
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     resetColor() {
       let color1 = document.getElementById("color1");
       let color2 = document.getElementById("color2");
@@ -261,7 +289,7 @@ export default {
 }
 .activation_rate {
   /* padding-left: 0.12rem; */
-  padding-left: 0.50rem;
+  padding-left: 0.5rem;
 }
 </style>
 

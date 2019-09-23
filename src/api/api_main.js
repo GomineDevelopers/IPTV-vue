@@ -443,7 +443,7 @@ export function users_total(data) {
 export function increment(postData) {
     return request({
         method: 'post',
-        url: '/api/increment',
+        url: '/increment',
         data: postData
     })
 }
@@ -650,26 +650,36 @@ export function media_watch_total(data) {
 export function media_watch() {
     return request({
         method: 'get',
-        url: '/api/media/watch',
+        url: '/media/watch',
 
     })
 }
 
 // 媒资数据总节目数据
 // get http://{{iptv}}/api/media/content
-export function media_content() {
+export function media_content(data) {
     return request({
         method: 'get',
-        url: '/api/media/content',
+        url: '/media/content',
+        params: {
+            start: data.start,
+            end: data.end,
+            operator: data.operator
+        }
     })
 }
 
 // 本土原创节目数据
 // get http://{{iptv}}/api/demands/location
-export function demands_location() {
+export function demands_location(data) {
     return request({
         method: 'get',
-        url: '/api/demands/location',
+        url: '/demands/location',
+        params: {
+            start: data.start,
+            end: data.end,
+            operator: data.operator
+        }
     })
 }
 
@@ -678,7 +688,7 @@ export function demands_location() {
 export function demands_week_duration() {
     return request({
         method: 'get',
-        url: '/api/demands/week/duration',
+        url: '/demands/week/duration',
     })
 }
 
@@ -768,12 +778,15 @@ export function broadcast_review(data) {
 
 // 用户数据展示
 // get http://{{iptv}}/api/users/basic
-export function users_basic(date) {
+export function users_basic(data) {
     return request({
         method: 'get',
         url: '/users/basic',
         params: {
-            date: date
+            // date: date
+            operator: data.operator,
+            start: data.start,
+            end: data.end
         }
     })
 }

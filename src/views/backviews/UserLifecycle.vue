@@ -152,10 +152,10 @@ export default {
       let temp_operator = commonTools.operatorConvert(vm.ULC_operator);
 
       let temp = {
-        area: "",
-        operator: "",
-        start: "",
-        end: ""
+        area: null,
+        operator: null,
+        start: null,
+        end: null
       };
       if (time_type == 1) {
         // 时间类型-1-天

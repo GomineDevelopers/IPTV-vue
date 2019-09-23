@@ -1,6 +1,6 @@
 <template>
   <div class="height_auto">
-    <el-row class="title_row ">
+    <el-row class="title_row">
       <span class="title_border_left"></span>订购用户数
     </el-row>
     <el-row class="paid_users_row proportion">
@@ -10,14 +10,20 @@
       </el-col>
       <el-col :span="12">
         <el-row class="height_auto">
-          <img src="@/assets/user_icon2.png">订购用户数：
-          </br>
-          <span class="number"><i>452.3</i>万</span>
+          <img src="@/assets/user_icon2.png" />订购用户数：
+          <br />
+          <span class="number">
+            <!-- <i>452.3</i>万 -->
+            <i>{{cum_paid_num}}</i>
+          </span>
         </el-row>
         <el-row>
-          <img src="@/assets/earning_icon.png">收入：
-          </br>
-          <span class="number"><i>4367.7</i>万元</span>
+          <img src="@/assets/earning_icon.png" />收入：
+          <br />
+          <span class="number">
+            <!-- <i>4367.7</i>万元 -->
+            <i>{{cum_income}}</i>元
+          </span>
         </el-row>
       </el-col>
     </el-row>
@@ -28,79 +34,127 @@
       </el-col>
       <el-col :span="12">
         <el-row>
-          <img src="@/assets/user_icon.png">新增订购用户数：
-          </br>
-          <span class="number"><i>2.3</i>万</span>
+          <img src="@/assets/user_icon.png" />新增订购用户数：
+          <br />
+          <span class="number">
+            <!-- <i>2.3</i>万 -->
+            <i>{{new_paid_num}}</i>
+          </span>
         </el-row>
         <el-row>
-          <img src="@/assets/earning_icon2.png">收入：
-          </br>
-          <span class="number"><i>47.2</i>万元</span>
+          <img src="@/assets/earning_icon2.png" />收入：
+          <br />
+          <span class="number">
+            <!-- <i>47.2</i>万元 -->
+            <i>{{new_income}}</i>元
+          </span>
         </el-row>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
+import { users_subscribe } from "@/api/api_main";
+
 export default {
-  name: "SubscriberNumber",  //订购用户数组件
-  data(){
-    return{
-      
-    }
+  name: "SubscriberNumber", //订购用户数组件
+  data() {
+    return {
+      cum_paid_num: null,
+      cum_income: null,
+      new_paid_num: null,
+      new_income: null
+    };
   },
   mounted() {
-    this.drawLine()
+    this.users_subscribe();
+
+    this.drawLine();
   },
   methods: {
+    users_subscribe() {
+      let vm = this;
+      // console.log("~~~~~~users_subscribe");
+      let data = {
+        operator: String(["移动", "联通", "电信"]),
+        start: "2019-06-01",
+        end: "2019-06-01" // 先 7-1 ，之后改成 7-31
+      };
+
+      users_subscribe(data)
+        .then(function(response) {
+          // console.log(response);
+
+          let aggregations = response.data.responses[0].aggregations;
+
+          vm.cum_paid_num = aggregations.cum_paid_num.value;
+          vm.cum_income = aggregations.cum_income.value;
+          vm.new_paid_num = aggregations.new_paid_num.value;
+          vm.new_income = aggregations.new_income.value;
+          setTimeout(function() {
+            vm.drawLine();
+          }, 300);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById('proportion_of_subscribers'))
+      var myChart = this.$echarts.init(
+        document.getElementById("proportion_of_subscribers")
+      );
 
       // 指定图表的配置项和数据
       var option = {
-            title: {
-              text: '68%',
-              x: 'center',
-              y: 'center',
-              textStyle: {
-                fontWeight: 'normal',
-                color: '#dedede',
-                fontSize: '16'
+        title: {
+          text: "68%",
+          x: "center",
+          y: "center",
+          textStyle: {
+            fontWeight: "normal",
+            color: "#dedede",
+            fontSize: "16"
+          }
+        },
+        color: "rgba(47,69,84,0.8)",
+        series: [
+          {
+            name: "Line 1",
+            type: "pie",
+            clockWise: true,
+            radius: ["50%", "73%"],
+            itemStyle: {
+              normal: {
+                borderWidth: 2, //设置border的宽度有多大
+                borderColor: "#061b4f",
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
               }
             },
-            color: 'rgba(47,69,84,0.8)',
-            series: [{
-              name: 'Line 1',
-              type: 'pie',
-              clockWise: true,
-              radius: ['50%', '73%'],
-              itemStyle: {
-                normal: {
-                  borderWidth:2, //设置border的宽度有多大
-                  borderColor:'#061b4f',
-                  label: {
-                    show: false
-                  },
-                  labelLine: {
-                    show: false
-                  }
-                }
-              },
-              hoverAnimation: false,  //鼠标放上不放大
-              data: [{
+            hoverAnimation: false, //鼠标放上不放大
+            data: [
+              {
                 value: 68,
-                name: '订购用户数',
+                name: "订购用户数",
                 itemStyle: {
                   normal: {
-                    color: { // 完成的圆环的颜色
-                      colorStops: [{
-                        offset: 0,
-                        color: '#0083FF' // 0% 处的颜色
-                      }, {
-                        offset: 1,
-                        color: '#00C2FF' // 100% 处的颜色
-                      }]
+                    color: {
+                      // 完成的圆环的颜色
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: "#0083FF" // 0% 处的颜色
+                        },
+                        {
+                          offset: 1,
+                          color: "#00C2FF" // 100% 处的颜色
+                        }
+                      ]
                     },
                     label: {
                       show: false
@@ -108,66 +162,77 @@ export default {
                     labelLine: {
                       show: false
                     }
-                  }
-                }
-              }, {
-                name: '未订购用户数',
-                value: 32
-              }]
-            }]
-        }
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
-
-      var myChart2 = this.$echarts.init(document.getElementById('add_order_conversion_rate'))
-      var option2 = {
-            title: {
-              text: '29%',
-              x: 'center',
-              y: 'center',
-              textStyle: {
-                fontWeight: 'normal',
-                color: "#dedede",
-                fontSize: '16'
-              }
-            },
-            color: 'rgba(47,69,84,0.8)',
-            legend: {
-              show: false,
-              itemGap: 12,
-              data: ['已使用', '未使用']
-            },
-            series: [{
-              name: 'Line 1',
-              type: 'pie',
-              clockWise: true,
-              radius: ['50%', '73%'],
-              itemStyle: {
-                normal: {
-                  borderWidth:2, //设置border的宽度有多大
-                  borderColor:'#061b4f',
-                  label: {
-                    show: false
-                  },
-                  labelLine: {
-                    show: false
                   }
                 }
               },
-              hoverAnimation: false,  //鼠标放上不放大
-              data: [{
+              {
+                name: "未订购用户数",
+                value: 32
+              }
+            ]
+          }
+        ]
+      };
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+
+      var myChart2 = this.$echarts.init(
+        document.getElementById("add_order_conversion_rate")
+      );
+      var option2 = {
+        title: {
+          text: "29%",
+          x: "center",
+          y: "center",
+          textStyle: {
+            fontWeight: "normal",
+            color: "#dedede",
+            fontSize: "16"
+          }
+        },
+        color: "rgba(47,69,84,0.8)",
+        legend: {
+          show: false,
+          itemGap: 12,
+          data: ["已使用", "未使用"]
+        },
+        series: [
+          {
+            name: "Line 1",
+            type: "pie",
+            clockWise: true,
+            radius: ["50%", "73%"],
+            itemStyle: {
+              normal: {
+                borderWidth: 2, //设置border的宽度有多大
+                borderColor: "#061b4f",
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              }
+            },
+            hoverAnimation: false, //鼠标放上不放大
+            data: [
+              {
                 value: 29,
-                name: '新增订购用户数',
+                name: "新增订购用户数",
                 itemStyle: {
                   normal: {
-                    color: { // 完成的圆环的颜色
-                      colorStops: [{
-                        offset: 0,
-                        color: '#FF7E00' // 0% 处的颜色
-                      }, {
-                        offset: 1,
-                        color: '#FF4800' // 100% 处的颜色
-                      }]
+                    color: {
+                      // 完成的圆环的颜色
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: "#FF7E00" // 0% 处的颜色
+                        },
+                        {
+                          offset: 1,
+                          color: "#FF4800" // 100% 处的颜色
+                        }
+                      ]
                     },
                     label: {
                       show: false
@@ -177,22 +242,25 @@ export default {
                     }
                   }
                 }
-              }, {
-                name: '未订购用户数',
+              },
+              {
+                name: "未订购用户数",
                 value: 71
-              }]
-            }]
-        }
-      myChart2.setOption(option2)
+              }
+            ]
+          }
+        ]
+      };
+      myChart2.setOption(option2);
 
       //图表自适应
-      window.addEventListener('resize', () => {
-        myChart.resize()
-        myChart2.resize()
-      })
+      window.addEventListener("resize", () => {
+        myChart.resize();
+        myChart2.resize();
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -202,45 +270,46 @@ export default {
   display: flex;
   align-items: center;
 }
-#proportion_of_subscribers,#add_order_conversion_rate{
-  height:calc(100% - 0.2rem);
+#proportion_of_subscribers,
+#add_order_conversion_rate {
+  height: calc(100% - 0.2rem);
 }
-.order_user_title{
-  height:0.2rem;
+.order_user_title {
+  height: 0.2rem;
   line-height: 0.2rem;
   text-align: center !important;
-  margin-top:-0.1rem !important;
+  margin-top: -0.1rem !important;
 }
 .paid_users_row .el-row {
   text-align: left;
   font-size: 0.12rem;
-  color:#dedede;
+  color: #dedede;
 }
-.paid_users_row .el-row:nth-child(2){
-  margin-top:0.05rem
+.paid_users_row .el-row:nth-child(2) {
+  margin-top: 0.05rem;
 }
-.paid_users_row .el-row img{
+.paid_users_row .el-row img {
   vertical-align: sub;
-  margin-right:0.05rem;
+  margin-right: 0.05rem;
 }
 .paid_users_row .el-row .number {
-  padding-left:0.24rem;
+  padding-left: 0.24rem;
 }
 .height_auto {
   height: 100%;
 }
-.paid_users_row .el-row .number i{
+.paid_users_row .el-row .number i {
   font-style: normal;
   font-size: 0.2rem;
 }
 #paid_data {
   height: 100%;
 }
-.proportion .number i{
-  color: #00C2FF;
+.proportion .number i {
+  color: #00c2ff;
 }
-.add_order .number i{
-  color: #FF7D00;
+.add_order .number i {
+  color: #ff7d00;
 }
 /* 订购用户中的两个层设置高结束 */
 </style>

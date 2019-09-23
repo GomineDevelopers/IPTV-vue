@@ -77,6 +77,7 @@ export default {
       "ADD_VIP_operator",
       "ADD_VIP_playmode",
       "ADD_VIP_programa",
+      "ADD_VIP_valueAddedPackage",
       "ADD_VIP_day",
       "ADD_VIP_week",
       "ADD_VIP_picker",
@@ -108,6 +109,13 @@ export default {
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_programa: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    ADD_VIP_valueAddedPackage(newValue, oldValue) {
+      let vm = this;
+      console.log("ADD_VIP_valueAddedPackage: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
@@ -149,17 +157,22 @@ export default {
 
       let temp_region = commonTools.acConvert(vm.ADD_VIP_region);
       let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator);
+      let temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage;
       let temp_playmode = commonTools.playmodeConvert(vm.ADD_VIP_playmode);
       let temp_programa = commonTools.programaConvert(vm.ADD_VIP_programa);
 
       let temp = {
-        area: "",
-        operator: "",
-        method: "",
-        list: "",
-        start: "",
-        end: ""
+        area: null,
+        operator: null,
+        method: null,
+        list: null,
+        increment: null,
+        start: null,
+        end: null
       };
+      if (temp_valueAddedPackage != null || temp_valueAddedPackage != "") {
+        
+      }
       if (time_type == 1) {
         // 时间类型-1-天
         // console.log("~~~~~day:" + vm.ADD_VIP_day);
@@ -168,6 +181,7 @@ export default {
           operator: String(temp_operator),
           method: String(temp_playmode),
           list: String(temp_programa),
+          increment: temp_valueAddedPackage,
           start: vm.ADD_VIP_day,
           end: vm.ADD_VIP_day
         };
@@ -184,6 +198,7 @@ export default {
           operator: String(temp_operator),
           method: String(temp_playmode),
           list: String(temp_programa),
+          increment: temp_valueAddedPackage,
           start: temp_time.time,
           end: temp_time.time,
           year: temp_time.year
@@ -203,6 +218,7 @@ export default {
           operator: String(temp_operator),
           method: String(temp_playmode),
           list: String(temp_programa),
+          increment: temp_valueAddedPackage,
           start: temp_time.start,
           end: temp_time.end
         };

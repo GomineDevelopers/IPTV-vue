@@ -3,9 +3,40 @@
 const commonTools = {}
 
 
+//  import { commonTools } from "@/utils/test";
 
 
+// 保留一位小数
+commonTools.returnFloat_1 = function (value) {
+    var value = Math.round(parseFloat(value) * 10) / 10;
+    var xsd = value.toString().split(".");
+    if (xsd.length == 1) {
+        value = value.toString() + ".0";
+        return value;
+    }
+    if (xsd.length > 1) {
+        if (xsd[1].length < 1) {
+            value = value.toString() + "0";
+        }
+        return value;
+    }
+}
 
+// 保留两位小数
+commonTools.returnFloat_2 = function (value) {
+    var value = Math.round(parseFloat(value) * 100) / 100;
+    var xsd = value.toString().split(".");
+    if (xsd.length == 1) {
+        value = value.toString() + ".00";
+        return value;
+    }
+    if (xsd.length > 1) {
+        if (xsd[1].length < 2) {
+            value = value.toString() + "0";
+        }
+        return value;
+    }
+}
 
 // ///////////////////// ac 地区码
 // 851：贵阳
@@ -18,6 +49,56 @@ const commonTools = {}
 // 858：六盘水
 // 859：黔西南
 
+// ac 地区码转换-反向
+
+
+commonTools.acConvert_reverse = function (area_arr) {
+    let ac_arr = [];
+    // if (area_arr.length == 0) {
+    //     ac_arr.push("851");
+    //     ac_arr.push("852");
+    //     ac_arr.push("853");
+    //     ac_arr.push("854");
+    //     ac_arr.push("855");
+    //     ac_arr.push("856");
+    //     ac_arr.push("857");
+    //     ac_arr.push("858");
+    //     ac_arr.push("859");
+    // }
+    // else {
+
+    // 暂定ac格式为 string
+    if (area_arr.indexOf("851") > -1) {
+        ac_arr.push("贵阳");
+    }
+    if (area_arr.indexOf("852") > -1) {
+        ac_arr.push("遵义");
+    }
+    if (area_arr.indexOf("853") > -1) {
+        ac_arr.push("安顺");
+    }
+    if (area_arr.indexOf("854") > -1) {
+        ac_arr.push("黔南");
+    }
+    if (area_arr.indexOf("855") > -1) {
+        ac_arr.push("黔东南");
+    }
+    if (area_arr.indexOf("856") > -1) {
+        ac_arr.push("铜仁");
+    }
+    if (area_arr.indexOf("857") > -1) {
+        ac_arr.push("毕节");
+    }
+    if (area_arr.indexOf("858") > -1) {
+        ac_arr.push("六盘水");
+    }
+    if (area_arr.indexOf("859") > -1) {
+        ac_arr.push("黔西南");
+    }
+    // }
+
+    return ac_arr
+}
 // ac 地区码转换
 commonTools.acConvert = function (area_arr) {
     let ac_arr = [];

@@ -153,12 +153,12 @@ export default {
       let temp_programa = commonTools.programaConvert(vm.UVB_programa);
 
       let temp = {
-        area: "",
-        operator: "",
-        method: "",
-        list: "",
-        start: "",
-        end: ""
+        area: null,
+        operator: null,
+        method: null,
+        list: null,
+        start: null,
+        end: null
       };
       if (time_type == 1) {
         // 时间类型-1-天

@@ -108,6 +108,23 @@
         <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
+    <div class="valueAddedPackage">
+      <span class="font_title">增值包：</span>
+      <el-select
+        v-model="value_valueAddedPackage"
+        filterable
+        allow-create
+        default-first-option
+        placeholder="请选择类型"
+      >
+        <el-option
+          v-for="item in options_valueAddedPackage"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+    </div>
 
     <div class="time">
       <span class="font_title">时间：</span>
@@ -223,6 +240,17 @@ export default {
         .catch(function(error) {
           console.info(error);
         });
+    },
+    value_valueAddedPackage(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_ADD_VIP_valueAddedPackage", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     }
     // "time.dayValue"(newValue, oldValue) {
     //   let vm = this;
@@ -320,6 +348,21 @@ export default {
       programaChoose: [],
       programa_checkAll: false,
       programa_isIndeterminate: true,
+      options_valueAddedPackage: [
+        {
+          value: "少儿包",
+          label: "少儿包"
+        },
+        {
+          value: "影视包",
+          label: "影视包"
+        },
+        {
+          value: "其他包",
+          label: "其他包"
+        }
+      ],
+      value_valueAddedPackage: "",
 
       time: {
         day: [
@@ -407,6 +450,15 @@ export default {
       .then(function(response) {
         // console.log(response);
         vm.programaChoose = response;
+      })
+      .catch(function(error) {
+        console.info(error);
+      });
+    vm.$store
+      .dispatch("get_ADD_VIP_valueAddedPackage")
+      .then(function(response) {
+        // console.log(response);
+        vm.value_valueAddedPackage = response;
       })
       .catch(function(error) {
         console.info(error);
@@ -623,11 +675,16 @@ export default {
 .OptionSelectVIP .operator,
 .OptionSelectVIP .time,
 .OptionSelectVIP .playmode,
-.OptionSelectVIP .programa {
+.OptionSelectVIP .programa,
+.OptionSelectVIP .valueAddedPackage {
   display: inline-block;
   width: 100%;
   line-height: 32px;
 }
+.OptionSelectVIP .valueAddedPackage {
+  margin-bottom: 10px;
+}
+
 .OptionSelectVIP .m_block {
   display: inline-block;
   line-height: 32px;

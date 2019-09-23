@@ -555,44 +555,6 @@ export default {
   mounted() {
     let vm = this;
 
-    // ▲历史条件获取
-    vm.$store
-      .dispatch("get_UVB_region")
-      .then(function(response) {
-        // console.log(response);
-        vm.regionChoose = response;
-      })
-      .catch(function(error) {
-        console.info(error);
-      });
-    vm.$store
-      .dispatch("get_UVB_operator")
-      .then(function(response) {
-        // console.log(response);
-        vm.operatorChoose = response;
-      })
-      .catch(function(error) {
-        console.info(error);
-      });
-    vm.$store
-      .dispatch("get_UVB_playmode")
-      .then(function(response) {
-        // console.log(response);
-        vm.playmodeChoose = response;
-      })
-      .catch(function(error) {
-        console.info(error);
-      });
-    vm.$store
-      .dispatch("get_UVB_programa")
-      .then(function(response) {
-        // console.log(response);
-        vm.programaChoose = response;
-      })
-      .catch(function(error) {
-        console.info(error);
-      });
-
     // 初始化周
     let arr_temp = [];
     arr_temp = commonTools.weekDate(2018);
@@ -600,6 +562,80 @@ export default {
       arr_temp = commonTools.weekDate_add(2019, arr_temp);
       vm.time.week = arr_temp;
     }, 100);
+
+    // ▲历史条件获取
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_UVB_region")
+        .then(function(response) {
+          // console.log(response);
+          vm.regionChoose = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_operator")
+        .then(function(response) {
+          // console.log(response);
+          vm.operatorChoose = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_playmode")
+        .then(function(response) {
+          // console.log(response);
+          vm.playmodeChoose = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_programa")
+        .then(function(response) {
+          // console.log(response);
+          vm.programaChoose = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_day")
+        .then(function(response) {
+          // console.log(response);
+          vm.time.dayValue = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_week")
+        .then(function(response) {
+          let length = vm.time.week.length;
+          let i;
+          let temp_label;
+          for (i = 0; i < length; i++) {
+            if (vm.time.week[i].value == response) {
+              temp_label = vm.time.week[i].label;
+              break;
+            }
+          }
+          vm.time.weekValue = temp_label;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_picker")
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 200);
   }
 };
 </script>

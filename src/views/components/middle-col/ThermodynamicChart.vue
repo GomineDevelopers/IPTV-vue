@@ -8,6 +8,7 @@
 
 <script>
 import myJson from "@/assets/json/guizhou_chinaChange";
+import { users_basic } from "@/api/api_main";
 
 export default {
   name: "ThermodynamicChart",
@@ -15,6 +16,7 @@ export default {
   data() {
     return {
       myNums: [],
+      myNumsArr: [],
       royalty: [],
       daylive: [],
       activation: [],
@@ -37,65 +39,111 @@ export default {
     }
   },
   mounted() {
-    setInterval(this.get, 1000);
+    let vm = this;
+    this.users_basic();
+    // setTimeout(function() {
+    //   setInterval(this.get, 1000);
+    // }, 300);
+    setInterval(vm.get, 1000);
   },
   methods: {
+    users_basic() {
+      console.log("~~~~~~users_basic");
+      let vm = this;
+      let temp = {
+        operator: String(["移动", "联通", "电信"]),
+        start: "2019-06-01",
+        end: "2019-06-01"
+      };
+      users_basic(temp)
+        .then(function(response) {
+          // console.log(response);
+          let buckets = response.data.responses[0].aggregations.ac.buckets;
+          // let length = buckets.length;
+          let length = 9; // 原长度为10-10位其他 这里只能用9
+          let i;
+          let temp1 = [];
+          let temp2 = [];
+          let temp3 = [];
+          let temp4 = []; // 激活率暂时没有
+          for (i = 0; i < length; i++) {
+            temp1.push(buckets[i].register_num.value);
+            temp2.push(buckets[i].active_num.value);
+            temp3.push(
+              buckets[i].activate_user_num.value / buckets[i].register_num.value
+            ); //显示百分比
+            temp4.push(1000); // 临时
+          }
+          vm.myNumsArr.push(temp1);
+          vm.myNumsArr.push(temp2);
+          vm.myNumsArr.push(temp3);
+          vm.myNumsArr.push(temp4); // 临时
+          // console.log(vm.myNumsArr);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     get() {
       if (this.value == 0) {
         // this.myNums = [7041, 6053, 7047, 5655, 7238, 4858, 3818, 6251, 6980];
-        this.myNums = [
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue)
-        ];
+        // this.myNums = [
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue)
+        // ];
+        this.myNums = this.myNumsArr[0];
         this.drawLine();
       }
       if (this.value == 5) {
-        this.myNums = [
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue)
-        ];
+        // this.myNums = [
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue)
+        // ];
+        this.myNums = this.myNumsArr[1];
         this.drawLine();
       }
       if (this.value == 10) {
-        this.myNums = [
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue)
-        ];
+        // this.myNums = [
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue)
+        // ];
+        this.myNums = this.myNumsArr[2];
         this.drawLine();
       }
       if (this.value == 15) {
-        this.myNums = [
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue),
-          Math.round(Math.random() * this.perValue)
-        ];
+        // this.myNums = [
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue),
+        //   Math.round(Math.random() * this.perValue)
+        // ];
+        this.myNums = this.myNumsArr[3];
         this.drawLine();
       }
 
@@ -139,8 +187,8 @@ export default {
     },
     // 根据两个值平分（max,min,份数） -- 返回数组长度等于需要分割的长度
     MaxAndMinManage(max, min, splitNum) {
-      console.log(max);
-      console.log(min);
+      // console.log(max);
+      // console.log(min);
       let splitArr = [];
       let maxDis = max - min;
       let perDis = maxDis / splitNum;
@@ -171,8 +219,18 @@ export default {
 
     // 范围处理
     MaxAndMinManageUp(max, min, splitNum) {
-      console.log(max);
-      console.log(min);
+      // console.log("max  min ~~");
+      // console.log(max);
+      // console.log(min);
+      let const_max = max;
+      let const_min = min;
+
+      // 小数处理
+      // if (const_max < 1) {
+      //   max = const_max * 100;
+      //   min = const_min * 100;
+      // }
+
       let splitArr = [];
       let maxDis = max - min;
       let perDis = maxDis / splitNum; // 差值间距
@@ -207,9 +265,9 @@ export default {
         // Math.pow(2,3)   表示2的三次方 结果为8
         for (i = 0; i < length; i++) {
           compare_value = Math.pow(10, i + 1);
-          console.log("compare_value:" + compare_value);
+          // console.log("compare_value:" + compare_value);
           if (num / compare_value < 1) {
-            console.log("over:" + compare_value);
+            // console.log("over:" + compare_value);
             IntegerNum = compare_value / 10;
             break;
           }
@@ -294,9 +352,23 @@ export default {
       temp_maxDis = temp_max - temp_min;
       temp_perDis = temp_maxDis / splitNum;
 
+      if (const_max < 1) {
+        temp_min = 0;
+        temp_perDis = 20;
+        perDisRange_divide = 1;
+      }
+
       let i;
       for (i = 0; i < splitNum; i++) {
-        splitArr.push(temp_min + i * temp_perDis * perDisRange_divide);
+        if (const_max < 1) {
+          // 小数处理
+          // splitArr.push(
+          //   (temp_min + i * temp_perDis * perDisRange_divide) / 0.1 // 对应上面，相当于乘以了1000
+          // );
+          splitArr.push(temp_min + i * temp_perDis * perDisRange_divide);
+        } else {
+          splitArr.push(temp_min + i * temp_perDis * perDisRange_divide);
+        }
       }
       return splitArr;
     },
@@ -306,8 +378,8 @@ export default {
       var myChartProe = this.$echarts.init(
         document.getElementById("eMap_guizhou")
       );
-      console.log("~~~~~~~~~主地图~！this.myNums");
-      console.log(this.myNums);
+      // console.log("~~~~~~~~~主地图~！this.myNums");
+      // console.log(this.myNums);
       let value_max = this.returnArrMax(this.myNums);
       let value_min = this.returnArrMin(this.myNums);
       let split_length = 5;
@@ -325,8 +397,51 @@ export default {
           splitList.push({ start: splitArr[i], end: splitArr[i] + dis });
         }
       }
-      console.log(splitList);
-
+      // console.log(splitList);
+      let data;
+      if (value_max > 1) {
+        data = [
+          { name: "贵阳市", value: this.myNums[0] },
+          { name: "遵义市", value: this.myNums[1] },
+          { name: "六盘水市", value: this.myNums[2] },
+          { name: "安顺市", value: this.myNums[3] },
+          { name: "毕节市", value: this.myNums[4] },
+          { name: "铜仁市", value: this.myNums[5] },
+          {
+            name: "黔东南",
+            value: this.myNums[6]
+          },
+          {
+            name: "黔南",
+            value: this.myNums[7]
+          },
+          {
+            name: "黔西南",
+            value: this.myNums[8]
+          }
+        ];
+      } else {
+        data = [
+          { name: "贵阳市", value: this.myNums[0] * 100 },
+          { name: "遵义市", value: this.myNums[1] * 100 },
+          { name: "六盘水市", value: this.myNums[2] * 100 },
+          { name: "安顺市", value: this.myNums[3] * 100 },
+          { name: "毕节市", value: this.myNums[4] * 100 },
+          { name: "铜仁市", value: this.myNums[5] * 100 },
+          {
+            name: "黔东南",
+            value: this.myNums[6] * 100
+          },
+          {
+            name: "黔南",
+            value: this.myNums[7] * 100
+          },
+          {
+            name: "黔西南",
+            value: this.myNums[8] * 100
+          }
+        ];
+      }
       var option2 = {
         title: {
           x: "center",
@@ -336,10 +451,25 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: function loadData(result) {
-            return result.name + "<br />数据:" + result.value;
+            let temp_str = "";
+            if (value_max < 1) {
+              temp_str = "%";
+            }
+
+            return result.name + "<br />数据:" + result.value + temp_str;
           }
         },
         visualMap: {
+          formatter: function(value, value2) {
+            // console.log("~~~~formatter:");
+            // console.log(value);
+            // console.log(value2);
+            let temp_str = "";
+            if (value_max < 1) {
+              temp_str = "%";
+            }
+            return value + temp_str + "-" + value2 + temp_str;
+          },
           show: true,
           x: "right",
           y: "bottom",
@@ -421,26 +551,7 @@ export default {
                 }
               }
             },
-            data: [
-              { name: "贵阳市", value: this.myNums[0] },
-              { name: "遵义市", value: this.myNums[1] },
-              { name: "六盘水市", value: this.myNums[2] },
-              { name: "安顺市", value: this.myNums[3] },
-              { name: "毕节市", value: this.myNums[4] },
-              { name: "铜仁市", value: this.myNums[5] },
-              {
-                name: "黔东南",
-                value: this.myNums[6]
-              },
-              {
-                name: "黔南",
-                value: this.myNums[7]
-              },
-              {
-                name: "黔西南",
-                value: this.myNums[8]
-              }
-            ]
+            data: data
           }
         ]
       };

@@ -10,18 +10,97 @@
   </div>
 </template>
 <script>
+import { demands_location } from "@/api/api_main";
+
 export default {
   name: "LocalOriginalProgrammes",
   data() {
-    return {};
+    return {
+      pie_data: {
+        id: "local_programmes",
+        value: [],
+        name: []
+      }
+    };
   },
   mounted() {
-    this.drawLine();
-    this.drawLine2();
+    this.demands_location();
+    // this.drawLine();
+    // this.drawLine2();
   },
   methods: {
+    demands_location() {
+      // console.log("demands_location");
+      let vm = this;
+      let data = {
+        start: "2019-06-01",
+        end: "2019-06-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      demands_location(data)
+        .then(function(response) {
+          // console.log(response);
+          //           data:
+          // responses: Array(1)
+          // 0:
+          // aggregations:
+          // program_type:
+          // buckets: Array(1)
+          // 0:
+          // demand_dur: {value: 3922}
+          // demand_freq: {value: 6}
+          // demand_user_num:
+          // value: 4
+          let buckets =
+            response.data.responses[0].aggregations.program_type.buckets;
+          let length = buckets.length;
+          let i;
+          let temp = [];
+          let temp2 = [];
+
+          for (i = 0; i < length; i++) {
+            temp.push(buckets[i].demand_user_num.value);
+            temp2.push(buckets[i].key);
+          }
+          vm.pie_data.value = temp;
+          vm.pie_data.name = temp2;
+          // console.log("vm.pie_data");
+          // console.log(vm.pie_data);
+          vm.drawLine();
+          vm.drawLine2();
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     drawLine() {
-      var myChart11 = this.$echarts.init(document.getElementById("local_programmes"))
+      let vm = this;
+      var myChart11 = this.$echarts.init(
+        document.getElementById(vm.pie_data.id)
+      );
+      let length = vm.pie_data.value.length;
+      let i;
+      let temp;
+      let legend_data = [];
+      let data = [
+        // { value: 350, name: "综艺" },
+        // { value: 300, name: "微电影" },
+        // { value: 200, name: "纪实" },
+        // { value: 200, name: "电影" },
+        // { value: 170, name: "新闻" },
+        // { value: 150, name: "时尚生活" }
+      ];
+      for (i = 0; i < length; i++) {
+        legend_data.push(vm.pie_data.name[i]);
+        temp = {
+          value: vm.pie_data.value[i],
+          name: vm.pie_data.name[i]
+        };
+        data.push(temp);
+      }
+      // console.log("~~~~");
+      // console.log(legend_data);
+      // console.log(data);
 
       var option11 = {
         color: [
@@ -37,58 +116,65 @@ export default {
             show: true,
             top: "17%",
             left: "56%",
-            data: ["综艺", "微电影", "纪实"],
+            data: legend_data,
             itemWidth: 5,
             itemHeight: 5,
             width: 40,
             padding: [0, 5],
             itemGap: 10,
             textStyle: {
-              color: '#dedede'
-            }
-          },
-          {
-            show: true,
-            top: "17%",
-            left: "76%",
-            data: ["电影", "新闻", "时尚生活"],
-            itemWidth: 5,
-            itemHeight: 5,
-            width: 40,
-            padding: [0, 5],
-            itemGap: 10,
-            textStyle: {
-              color: '#dedede'
+              color: "#dedede"
             }
           }
+          // {
+          //   show: true,
+          //   top: "17%",
+          //   left: "56%",
+          //   data: ["综艺", "微电影", "纪实"],
+          //   itemWidth: 5,
+          //   itemHeight: 5,
+          //   width: 40,
+          //   padding: [0, 5],
+          //   itemGap: 10,
+          //   textStyle: {
+          //     color: "#dedede"
+          //   }
+          // },
+          // {
+          //   show: true,
+          //   top: "17%",
+          //   left: "76%",
+          //   data: ["电影", "新闻", "时尚生活"],
+          //   itemWidth: 5,
+          //   itemHeight: 5,
+          //   width: 40,
+          //   padding: [0, 5],
+          //   itemGap: 10,
+          //   textStyle: {
+          //     color: "#dedede"
+          //   }
+          // }
         ],
         series: [
           {
             type: "pie",
-            radius: "100%",
-            center: ["20%", "50%"],
+            radius: "80%",
+            center: ["30%", "50%"],
             avoidLabelOverlap: false,
             roseType: "radius",
             label: {
               normal: {
-                show: false,
+                show: false
               },
               emphasis: {
-                show: false,
+                show: false
               }
             },
-            data: [
-              { value: 350, name: '综艺' },
-              { value: 300, name: '微电影' },
-              { value: 200, name: '纪实' },
-              { value: 200, name: '电影' },
-              { value: 170, name: '新闻' },
-              { value: 150, name: '时尚生活' }
-            ],
+            data: data
           }
         ]
-      }
-      myChart11.setOption(option11)
+      };
+      myChart11.setOption(option11);
       window.addEventListener("resize", () => {
         myChart11.resize();
       });

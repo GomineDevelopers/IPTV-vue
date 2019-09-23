@@ -55,6 +55,7 @@
   </div>
 </template>
 <script>
+
 export default {
   name: "ProgramSearching", //节目搜索
   watch: {
@@ -81,6 +82,7 @@ export default {
         });
     }
   },
+  
   data() {
     return {
       dateValue: [new Date(2019, 2, 10, 10, 10), new Date(2019, 2, 10, 10, 10)],
@@ -98,7 +100,6 @@ export default {
       ]
     };
   },
-  mounted() {},
   methods: {
     searchSubmit() {
       console.log(this.dateValue);

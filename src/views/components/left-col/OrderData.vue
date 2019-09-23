@@ -42,24 +42,24 @@ export default {
   methods: {
     users_subscribe() {
       let vm = this;
-      console.log("users_subscribe");
+      // console.log("~~~~~~users_subscribe");
       let data = {
-        operator: String(["移动"]),
-        start: "2019-07-01",
-        end: "2019-07-01" // 先 7-1 ，之后改成 7-31
+        operator: String(["移动","联通","电信"]),
+        start: "2019-06-01",
+        end: "2019-06-01" // 先 7-1 ，之后改成 7-31
       };
-      console.log("~~~~~~~users_subscribe");
-      console.log(String(["移动"]));
-      console.log(String(["移动", "联通", "电信"]));
+      // console.log("~~~~~~~users_subscribe");
+      // console.log(String(["移动"]));
+      // console.log(String(["移动", "联通", "电信"]));
       users_subscribe(data)
         .then(function(response) {
-          console.log(response);
-          console.log(
-            response.data.responses[0].aggregations.value_added_service_package
-              .buckets.length
-          );
+          // console.log(response);
+          // console.log(
+          //   response.data.responses[0].aggregations.value_added_service_package
+          //     .buckets.length
+          // );
           let buckets =
-            response.data.responses[0].aggregations.value_added_service_package
+            response.data.responses[1].aggregations.value_added_service_package
               .buckets;
           let length = buckets.length;
           let i;

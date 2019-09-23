@@ -8,7 +8,8 @@
       <p class="content_title">总节目数量</p>
       <div class="content_con">
         <div class="content_numP">
-          <span class="content_num">123.7万</span>
+          <!-- <span class="content_num">123.7万</span> -->
+          <span class="content_num">{{programNum}}</span>
         </div>
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="content_percent">
@@ -36,12 +37,13 @@
   </div>
 </template>
 <script>
-import { media_watch_total } from "@/api/api_main";
+import { media_watch_total, media_content } from "@/api/api_main";
 
 export default {
   name: "MediaAssetsData",
   data() {
     return {
+      programNum:"",
       data_old_o: "",
       data_new: "",
       returnLinkRelativeRatio: ""
@@ -49,10 +51,28 @@ export default {
   },
   mounted() {
     let vm = this;
+    this.media_content();
     this.media_watch_total(vm);
     this.drawLine();
   },
   methods: {
+    media_content() {
+      let vm = this;
+      let data = {
+        start: "2019-06-01",
+        end: "2019-06-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      console.log("media_content");
+      media_content(data)
+        .then(function(response) {
+          console.log(response);
+          vm.programNum = response.data.responses[0].aggregations.program_content_num.value;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     // 环比
     returnLinkRelativeRatio_f(d_new, d_old) {
       this.returnLinkRelativeRatio =
@@ -75,42 +95,42 @@ export default {
       }
     },
     media_watch_total(vm) {
-      console.log("media_watch_total");
+      // console.log("media_watch_total");
       let data = {
-        start: "2019-07-01",
-        end: "2019-07-01",
+        start: "2019-06-01",
+        end: "2019-06-01",
         operator: String(["移动", "联通", "电信"])
       };
       // let vm = this;
       media_watch_total(data)
         .then(function(response) {
           console.log(response);
-          console.log(
-            response.data.responses[0].aggregations.watch_user_num.value
-          );
-          console.log(response.data.responses[0].aggregations.watch_freq.value);
-          console.log(
-            response.data.responses[0].aggregations.watch_freq_family.value
-          );
-          console.log(response.data.responses[0].aggregations.watch_dur.value);
-          console.log("~~~~~~1");
+          // console.log(
+          //   response.data.responses[0].aggregations.watch_user_num.value
+          // );
+          // console.log(response.data.responses[0].aggregations.watch_freq.value);
+          // console.log(
+          //   response.data.responses[0].aggregations.watch_freq_family.value
+          // );
+          // console.log(response.data.responses[0].aggregations.watch_dur.value);
+          // console.log("~~~~~~1");
           vm.data_old_o =
             response.data.responses[0].aggregations.watch_dur.value;
-          console.log("~~~~~~2");
+          // console.log("~~~~~~2");
 
           /////第二天
           let data2 = {
-            start: "2019-07-02",
-            end: "2019-07-02",
+            start: "2019-06-01",
+            end: "2019-06-01",
             operator: String(["移动", "联通", "电信"])
           };
           setTimeout(function() {
             media_watch_total(data2)
               .then(function(response2) {
-                console.log(response2);
-                console.log(
-                  response2.data.responses[0].aggregations.watch_dur.value
-                );
+                // console.log(response2);
+                // console.log(
+                //   response2.data.responses[0].aggregations.watch_dur.value
+                // );
                 vm.data_new = String(
                   vm.returnFloat(
                     parseFloat(

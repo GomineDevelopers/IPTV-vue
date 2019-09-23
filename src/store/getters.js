@@ -55,6 +55,7 @@ const getters = {
     ADD_VIP_operator: state => state.app.ADD_VIP_operator,
     ADD_VIP_playmode: state => state.app.ADD_VIP_playmode,
     ADD_VIP_programa: state => state.app.ADD_VIP_programa,
+    ADD_VIP_valueAddedPackage: state => state.app.ADD_VIP_valueAddedPackage,
     ADD_VIP_day: state => state.app.ADD_VIP_day,
     ADD_VIP_week: state => state.app.ADD_VIP_week,
     ADD_VIP_picker: state => state.app.ADD_VIP_picker,

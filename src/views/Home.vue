@@ -31,7 +31,7 @@
             </el-col>
             <el-col :span="6">
               <p class="home_date1">数据截止日期：</p>
-              <p class="home_date2">2019.07.31</p>
+              <p class="home_date2">2019.06.01</p>
             </el-col>
           </el-row>
           <!-- 在册数 -->

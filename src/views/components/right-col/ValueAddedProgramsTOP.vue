@@ -7,7 +7,7 @@
       <el-row class="viewing_top_title">
         <el-col :span="3">排名</el-col>
         <el-col :span="9">节目名称</el-col>
-        <el-col :span="6">节目来源</el-col>
+        <el-col :span="6">节目类型</el-col>
         <el-col :span="6">热度</el-col>
       </el-row>
       <el-row id="ValueProgramsTOP_list">
@@ -30,31 +30,70 @@
   </div>
 </template>
 <script>
+import { demands_VipProgramTop } from "@/api/api_main";
+
 export default {
-  name: 'ValueAddedProgramsTOP',  //增值节目TOP组件
+  name: "ValueAddedProgramsTOP", //增值节目TOP组件
   data() {
     return {
       viewingTopList: [
-        { topNum: 1, programName: '疯狂的外星人', programSource: '电影', hot: '80%' },
-        { topNum: 2, programName: '熊出没.原始', programSource: '少儿', hot: '70%' },
-        { topNum: 3, programName: '流浪地球', programSource: '电影', hot: '50%' },
-        { topNum: 4, programName: '人间.喜剧', programSource: '电影', hot: '45%' },
-        { topNum: 5, programName: '白发', programSource: '电视剧', hot: '34%' },
-        { topNum: 6, programName: '反贪风暴', programSource: '电影', hot: '28%' },
-        { topNum: 7, programName: '一出好戏', programSource: '电影', hot: '26%' },
-        { topNum: 8, programName: '拜托了冰箱', programSource: '综艺', hot: '20%' },
-        { topNum: 9, programName: '极限挑战', programSource: '真人秀', hot: '18%' },
-        { topNum: 10, programName: '陈情令', programSource: '电视剧', hot: '8%' }
+        // {
+        //   topNum: 1,
+        //   programName: "疯狂的外星人",
+        //   programSource: "电影",
+        //   hot: "80%"
+        // },
+        // {
+        //   topNum: 2,
+        //   programName: "熊出没.原始",
+        //   programSource: "少儿",
+        //   hot: "70%"
+        // }
       ]
-    }
+    };
   },
   mounted() {
-    this.scrollLoopUp('ValueProgramsTOP_list')
+    this.demands_VipProgramTop();
+    this.scrollLoopUp("ValueProgramsTOP_list");
   },
   methods: {
-    scrollLoopUp: function (id) {
-      var scrollBox = document.getElementById(id)
-      var lineHeight = scrollBox.clientHeight / 7
+    demands_VipProgramTop() {
+      let vm = this;
+
+      console.log("~~~~~~~demands_VipProgramTop");
+      let data = {
+        start: "2019-06-01",
+        end: "2019-06-01",
+        operator: String(["移动", "联通", "电信"])
+      };
+      demands_VipProgramTop(data)
+        .then(function(response) {
+          console.log(response);
+          let m_data =
+            response.data.responses[0].aggregations.programname.buckets;
+          let length = m_data.length;
+          let i;
+          let temp;
+          let totalvalue = m_data[0].demand_freq.value; // hot需要百分比，这里用排名第一的热度值做分母，即第一为百分百
+          for (i = 0; i < length; i++) {
+            temp = {
+              topNum: i + 1,
+              programName: m_data[i].key,
+              programSource: m_data[i].program_type.buckets[0].key,
+              hot:
+                String((m_data[i].demand_freq.value / totalvalue) * 100) + "%"
+            };
+            vm.viewingTopList.push(temp);
+          }
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    scrollLoopUp: function(id) {
+      var scrollBox = document.getElementById(id);
+      var lineHeight = scrollBox.clientHeight / 7;
       //var lineHeight = 35
       var time = 100;
       scrollBox.innerHTML += scrollBox.innerHTML;
@@ -65,20 +104,22 @@ export default {
         timer = setInterval(scrollUp, time);
       }
       function scrollUp() {
-        if (scrollBox.scrollTop % lineHeight == 0) {//滚动一行后，延时2秒
-          clearInterval(timer)
-          setTimeout(scrollMove, 2000)
+        if (scrollBox.scrollTop % lineHeight == 0) {
+          //滚动一行后，延时2秒
+          clearInterval(timer);
+          setTimeout(scrollMove, 2000);
         } else {
-          scrollBox.scrollTop++
-          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) { //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动 
-            scrollBox.scrollTop = 0
+          scrollBox.scrollTop++;
+          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) {
+            //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动
+            scrollBox.scrollTop = 0;
           }
         }
       }
-      setTimeout(scrollMove, 2000)
+      setTimeout(scrollMove, 2000);
     }
   }
-}
+};
 </script>
 <style scoped>
 #value_added_programsTOP {

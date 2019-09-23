@@ -891,6 +891,9 @@ export default {
       var timeUTC3 = Date.UTC(2019, 8, 19, 12);
       console.log(timeUTC3);
 
+      var timeUTC4 = Date.UTC(2019, 6, 1);
+      console.log("timeUTC4：" + timeUTC4);
+
       var myDate = new Date();
       myDate.getYear(); //获取当前年份(2位)
       myDate.getFullYear(); //获取完整的年份(4位,1970-????)
@@ -914,8 +917,8 @@ export default {
       // ////////////////
 
       let temp = {
-        programName: "白发魔女", // string 格式
-        UTC: "1224134151" // datetime 格式
+        programName: "白发", // string 格式
+        UTC: "1561939200000" // datetime 格式
       };
 
       var formData = new FormData();
@@ -1056,7 +1059,7 @@ export default {
     // //////////////////////// 大屏页面
 
     media_watch_total() {
-      console.log("media_watch_total");
+      // console.log("media_watch_total");
       let data = {
         start: "2019-07-02",
         end: "2019-07-02",

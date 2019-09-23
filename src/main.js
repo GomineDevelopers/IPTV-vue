@@ -214,8 +214,8 @@ function jumpStatus(authority_arr, topath, frompath, next) {
 router.beforeEach((to, from, next) => {
   setTimeout(function () {
 
-    console.log("------------------ from :" + from.path)
-    console.log("------------------ to :" + to.path)
+    // console.log("------------------ from :" + from.path)
+    // console.log("------------------ to :" + to.path)
 
 
     // store
@@ -246,7 +246,7 @@ router.beforeEach((to, from, next) => {
       let frompath = from.path;
       // console.log("~~~~to.path");
       // console.log(topath);
-      console.log("ifFirstLogin: " + ifFirstLogin);
+      // console.log("ifFirstLogin: " + ifFirstLogin);
       // 登录
       if (topath == '/login') {
         commonTools.delCookie("user_token");
@@ -292,8 +292,8 @@ router.beforeEach((to, from, next) => {
                       .dispatch("set_current_authority", temp_authorizationChoose)
                       .then(function (res) {
                         let status = jumpStatus(temp, topath, frompath, next);
-                        console.log("~~~~status");
-                        console.log(status);
+                        // console.log("~~~~status");
+                        // console.log(status);
                         setTimeout(function () {
                           if (status == type0) {  // url直接跳转-无权限 
                             next('/noauthority')
@@ -319,10 +319,10 @@ router.beforeEach((to, from, next) => {
                   });
               }
               else {  // 非刷新情况-直接跳转
-                console.log("无 - current_authority");
+                // console.log("无 - current_authority");
                 let status = jumpStatus(response, topath, frompath, next);
-                console.log("~~~~status");
-                console.log(status);
+                // console.log("~~~~status");
+                // console.log(status);
                 setTimeout(function () {
                   if (status == type0) {  // url直接跳转-无权限 
                     next('/noauthority')

@@ -51,14 +51,14 @@ export default {
     broadcast_demand() {
       let vm = this;
       let data = {
-        start: "2019-07-01",
-        end: "2019-07-01",
+        start: "2019-06-01",
+        end: "2019-06-01",
         operator: String(["移动", "联通", "电信"])
       };
-      console.log("~~~~~~broadcast_demand");
+      // console.log("~~~~~~broadcast_demand");
       broadcast_demand(data)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
 
           let m_data = response.data.responses[0].aggregations;
 
@@ -76,14 +76,14 @@ export default {
     broadcast_review() {
       let vm = this;
       let data = {
-        start: "2019-07-01",
-        end: "2019-07-01",
+        start: "2019-06-01",
+        end: "2019-06-01",
         operator: String(["移动", "联通", "电信"])
       };
       broadcast_review(data)
         .then(function(response) {
-          console.log("~~~~~~broadcast_review");
-          console.log(response);
+          // console.log("~~~~~~broadcast_review");
+          // console.log(response);
 
           let m_data = response.data.responses[0].aggregations;
           // 用户数 收视数 户均收视数
@@ -100,14 +100,14 @@ export default {
     media_watch_total() {
       let vm = this;
       let data = {
-        start: "2019-07-01",
-        end: "2019-07-01",
+        start: "2019-06-01",
+        end: "2019-06-01",
         operator: String(["移动", "联通", "电信"])
       };
       media_watch_total(data)
         .then(function(response) {
-          console.log("~~~~~~media_watch_total");
-          console.log(response);
+          // console.log("~~~~~~media_watch_total");
+          // console.log(response);
 
           let m_data = response.data.responses[0].aggregations;
           // 用户数 收视数 户均收视数
@@ -125,14 +125,14 @@ export default {
       // console.log("broadcast_onlive");
       let vm = this;
       let data = {
-        start: "2019-07-01",
-        end: "2019-07-01",
+        start: "2019-06-01",
+        end: "2019-06-01",
         operator: String(["移动", "联通", "电信"])
       };
       broadcast_onlive(data)
         .then(function(response) {
-          console.log("~~~~~~broadcast_onlive");
-          console.log(response);
+          // console.log("~~~~~~broadcast_onlive");
+          // console.log(response);
           let m_data = response.data.responses[0].aggregations;
           vm.broadcast_onlive_1 = m_data.onlive_user_num.value;
           vm.broadcast_onlive_2 = m_data.onlive_freq.value;
