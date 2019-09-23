@@ -14,7 +14,7 @@
     <!-- 栏目点击数据开始 -->
     <el-row class="epg_body">
       <el-row class="model_title">
-        <span class="title_border_left"></span>栏目点击数据
+        <span class="title_border_left"></span>栏目点击次数
       </el-row>
       <el-row class="back_white">
         <div class="epg_body_nav">

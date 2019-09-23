@@ -289,6 +289,7 @@ export default {
   },
   mounted() {
     let vm = this;
+    
 
     // 初始化周
     let arr_temp = [];
@@ -331,34 +332,39 @@ export default {
         });
       vm.$store
         .dispatch("get_ULC_day")
-        .then(function(response) {
+        .then(function(res) {
           vm.$store
             .dispatch("get_ULC_time_type")
             .then(function(response) {
+              // console.log("~~~get_ULC_time_type:");
+              // console.log(response);
               if (response == 1) {
-                vm.time.dayValue = response;
+                console.log("history：" + response);
+                vm.time.dayValue = res;
               }
             })
             .catch(function(error) {
               console.info(error);
             });
-          vm.time.dayValue = response;
         })
         .catch(function(error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_ULC_week")
-        .then(function(response) {
+        .then(function(res) {
           vm.$store
             .dispatch("get_ULC_time_type")
             .then(function(response) {
+              // console.log("~~~get_ULC_time_type:");
+              // console.log(response);
               if (response == 2) {
+                console.log("history：" + response);
                 let length = vm.time.week.length;
                 let i;
                 let temp_label;
                 for (i = 0; i < length; i++) {
-                  if (vm.time.week[i].value == response) {
+                  if (vm.time.week[i].value == res) {
                     temp_label = vm.time.week[i].label;
                     break;
                   }
@@ -375,16 +381,19 @@ export default {
         });
       vm.$store
         .dispatch("get_ULC_month")
-        .then(function(response) {
+        .then(function(res) {
           vm.$store
             .dispatch("get_ULC_time_type")
             .then(function(response) {
+              // console.log("~~~get_ULC_time_type:");
+              // console.log(response);
               if (response == 3) {
+                console.log("history：" + response);
                 let length = vm.time.month.length;
                 let i;
                 let temp_label;
                 for (i = 0; i < length; i++) {
-                  if (vm.time.month[i].value == response) {
+                  if (vm.time.month[i].value == res) {
                     temp_label = vm.time.month[i].label;
                     break;
                   }
@@ -399,7 +408,7 @@ export default {
         .catch(function(error) {
           console.info(error);
         });
-    }, 500);
+    }, 100);
   },
   methods: {
     dayValue_change(event) {
@@ -460,7 +469,6 @@ export default {
         .dispatch("set_ULC_month", newValue)
         .then(function(response) {
           console.log(response);
-          // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_ULC_time_type", 3)
             .then(function(response) {})
@@ -472,6 +480,8 @@ export default {
           console.info(error);
         });
     },
+    // ////////////
+
     regionChoose_change(event) {
       regionChoose_old = regionChoose_new;
       let checkedCount = event.length;

@@ -36,6 +36,7 @@ const app = {
         ADD_ALL_programa: [],
         ADD_ALL_week: null,
         ADD_ALL_month: null,
+        ADD_ALL_time_type: 0, // 0-未选择 1-周 2-月
         ADD_VIP_region: [],
         ADD_VIP_operator: [],
         ADD_VIP_playmode: [],
@@ -425,6 +426,17 @@ const app = {
         get_ADD_ALL_month({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.ADD_ALL_month);
+            })
+        },
+        set_ADD_ALL_time_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ADD_ALL_time_type = data;
+                resolve("ADD_ALL_time_type - SUCCESS !");
+            })
+        },
+        get_ADD_ALL_time_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_ALL_time_type);
             })
         },
         set_ADD_VIP_region({ commit, state }, data) {

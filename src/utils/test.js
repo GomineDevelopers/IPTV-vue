@@ -634,6 +634,8 @@ commonTools.getMonthDays_y = function (year) {
     return monthDays;
 }
 
+
+// /////// 显示格式 - 月（by day）
 // 某年1~12月（下拉框数据格式）
 commonTools.format_MonthDays = function (year) {
 
@@ -671,9 +673,90 @@ commonTools.format_MonthDays_add = function (year, m_format) {
         m_format.push(temp);
     }
     return m_format;
+}
+
+
+// /////// 显示格式 - 月（by week）
+// 某年1~12月（下拉框数据格式）
+commonTools.format_MonthDays_byweek = function (year) {
+
+    let monthDays = commonTools.getMonthDays_y(year);
+
+    let m_format = [];
+    let length = 12;
+    let i;
+    let temp;
+    let t_week_arr;
+    for (i = 1; i <= length; i++) {
+        t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
+        temp = {
+            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "*" + String(t_week_arr[3]),
+            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+        }
+        m_format.push(temp);
+    }
+    return m_format;
+
+}
+// 某年1~12月（下拉框数据格式） 与 累加
+commonTools.format_MonthDays_add_byweek = function (year, m_format) {
+    let monthDays = commonTools.getMonthDays_y(year);
+    // let m_format = [];
+    let length = 12;
+    let i;
+    let temp;
+    let t_week_arr;
+    for (i = 1; i <= length; i++) {
+        t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
+        temp = {
+            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "*" + String(t_week_arr[3]),
+            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+        }
+        m_format.push(temp);
+    }
+    return m_format;
+}
+
+/////////////////////// 某月的四周取前四周（一个月一般跨5周）
+/////////////////////// （也就是第四周是满周，第一周可能是跨月周）
+
+// 获取(年的)周范围-在某个月中
+commonTools.get_YweeksRange_InMonth = function (year, month) {
+
+    // 2018年第01周 2018-01-01-2018-01-07
+    // 2018&1week
+
+    // 先获取改年的周-列表
+    let week_arr = commonTools.weekDate(year);
+
+    let length = week_arr.length;
+    let i;
+    let per_split_label = [];
+    let per_split_label_1 = [];
+    let per_split_label_1_2 = [];
+    let index_arr = [];
+    for (i = 0; i < length; i++) {
+        per_split_label.push(week_arr[i].label.split("-"));
+        per_split_label_1.push(per_split_label[i][0].split("第"))
+        per_split_label_1_2.push(per_split_label_1[i][1].split("周"))
+        if (parseInt(per_split_label[i][1]) <= parseInt(month) && parseInt(per_split_label[i][4]) == parseInt(month)) {
+            index_arr.push(i + 1); // 序数 变成 第几周
+        }
+    }
+    console.log(per_split_label); // 1-月a  4-月b 
+    console.log(per_split_label_1);
+    console.log(per_split_label_1_2);  // 0-周  1-年
+    console.log(index_arr);  // 4个  0-（该月）首周  3-（该月）第四周
+    return index_arr;
 
 }
 
+
+
+
+
+
+// //////////////// 复选框 =》（单选框 或 复选框）
 // 原-多选换单选
 
 commonTools.delete_repet_origin = function (val_new, val_old) {

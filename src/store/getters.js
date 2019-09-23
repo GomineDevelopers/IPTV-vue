@@ -49,6 +49,8 @@ const getters = {
     ADD_ALL_programa: state => state.app.ADD_ALL_programa,
     ADD_ALL_week: state => state.app.ADD_ALL_week,
     ADD_ALL_month: state => state.app.ADD_ALL_month,
+    ADD_ALL_time_type: state => state.app.ADD_ALL_time_type, 
+
 
     // ADD_VIP 增值业务-VIP（地区、运营商、播放方式、栏目）（天、周、范围）
     ADD_VIP_region: state => state.app.ADD_VIP_region,
