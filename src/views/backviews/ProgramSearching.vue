@@ -126,10 +126,10 @@ export default {
       }
       let endTime = String(Number(startTime) + 1)   //结束时间是开始时间 + 1小时
 
-      console.log("开始时间", startTime)
-      console.log("结束时间", endTime)
-      console.log("日期", this.date)
-      console.log("节目名称", this.programInput)
+      // console.log("开始时间", startTime)
+      // console.log("结束时间", endTime)
+      // console.log("日期", this.date)
+      // console.log("节目名称", this.programInput)
 
       let formData = new FormData()
       formData.append("name", this.programInput)
@@ -138,20 +138,30 @@ export default {
       formData.append("date", this.date)
 
       if (startTime != '' && endTime != '' && this.date != '' && this.programInput != '') {
-        console.log("可以提交数据")
+        // console.log("可以提交数据")
         program_search(formData)
           .then((response) => {
-            console.log(response.data.responses)
             this.tableData = response.data.responses
+            this.showMessage('success', '查询成功！')
             console.log("返回的数据tableData为：", this.tableData)
           })
           .catch((error) => {
             console.log(error)
           })
       } else {
-        console.log("数据未填写完整")
+        this.showMessage('warning', '请填写完整查询条件')
       }
+    },
+
+    showMessage(messageType, message) {
+      this.$notify({
+        title: '提示',
+        message: message,
+        type: messageType,
+        offset: 50
+      });
     }
+
   }
 };
 </script>
