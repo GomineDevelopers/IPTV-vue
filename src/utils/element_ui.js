@@ -8,6 +8,7 @@ import {
   MenuItemGroup,
   Table,
   TableColumn,
+  TimeSelect,
   TimePicker,
   Tabs,
   TabPane,
@@ -25,6 +26,7 @@ import {
   FormItem,
   Radio,
   Switch,
+  Loading,
 } from 'element-ui'
 
 Vue.use(Row)
@@ -35,6 +37,7 @@ Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(TimeSelect)
 Vue.use(TimePicker)
 Vue.use(Tabs)
 Vue.use(TabPane)
@@ -53,6 +56,7 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Radio)
 Vue.use(Switch)
+Vue.use(Loading)
 
 
 

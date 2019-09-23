@@ -8,14 +8,26 @@
       <el-row class="chart_body back_white">
         <el-row class="date_option">
           <div class="block">
-            <span class="demonstration">时间：</span>
+            <span class="demonstration">日期：</span>
             <el-date-picker
-              v-model="dateValue"
-              type="datetimerange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              v-model="date"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
             ></el-date-picker>
+          </div>
+          <div class="block">
+            <span class="demonstration">时间：</span>
+            <el-time-select
+              v-model="time"
+              :picker-options="{
+            start: '00:00',
+            step: '01:00',
+            end: '23:00'
+            }"
+              placeholder="选择时间"
+            ></el-time-select>
           </div>
         </el-row>
         <el-row class="programInput_elrow">
@@ -35,17 +47,24 @@
         <el-col class="height_auto" :span="24">
           <el-row class="search_notice">
             您当前搜索的节目
-            <i>白发</i>具体数据如下：
+            <i>{{programInput}}</i>具体数据如下：
           </el-row>
           <el-row>
             <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="watchNumber" label="观看户数" width="180"></el-table-column>
-              <el-table-column prop="watchNumber" label="观看次数" width="180"></el-table-column>
-              <el-table-column prop="watchTheTime" label="观看时长（小时）"></el-table-column>
-              <el-table-column prop="ratingPerHousehold" label="户均收视时长"></el-table-column>
-              <el-table-column prop="averageViewingTimes" label="次均收视时长"></el-table-column>
-              <el-table-column prop="bunchViewingTop" label="节目收视排名（点播）"></el-table-column>
-              <el-table-column prop="liveViewingTop" label="节目收视排名（直播）"></el-table-column>
+              <el-table-column
+                prop="date(aggregations.demand_user_num.value,aggregations.onlive_user_num.value)"
+                label="观看户数"
+              >
+                <template
+                  slot-scope="scope"
+                >{{scope.row.aggregations.demand_user_num.value + scope.row.aggregations.onlive_user_num.value}}</template>
+              </el-table-column>
+              <el-table-column prop="aggregations.watch_freq.value" label="观看次数"></el-table-column>
+              <el-table-column prop="aggregations.watch_dur.value" label="观看时长（小时）"></el-table-column>
+              <el-table-column prop="aggregations.watch_num_per_family.value" label="户均收视次数"></el-table-column>
+              <el-table-column prop="aggregations.watch_dur_per_time.value" label="次均收视时长"></el-table-column>
+              <el-table-column prop="aggregations.rank_demand_freq.value" label="节目收视排名（点播）"></el-table-column>
+              <el-table-column prop="aggregations.rank_onlive_freq.value" label="节目收视排名（直播）"></el-table-column>
             </el-table>
           </el-row>
         </el-col>
@@ -55,6 +74,7 @@
   </div>
 </template>
 <script>
+import { program_search } from "@/api/api_main"
 
 export default {
   name: "ProgramSearching", //节目搜索
@@ -63,10 +83,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PS_time", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -74,36 +94,63 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_PS_name", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
   },
-  
+
   data() {
     return {
-      dateValue: [new Date(2019, 2, 10, 10, 10), new Date(2019, 2, 10, 10, 10)],
-      programInput: "",
-      tableData: [
-        {
-          watchUserNumber: "12312",
-          watchNumber: "421312",
-          watchTheTime: "21312",
-          ratingPerHousehold: "2",
-          averageViewingTimes: "21",
-          bunchViewingTop: "23",
-          liveViewingTop: "12"
-        }
-      ]
+      date: '',  //日期
+      time: '',  //时间
+      programInput: "",  //节目名称
+      //节目数据
+      tableData: [],
     };
   },
   methods: {
     searchSubmit() {
-      console.log(this.dateValue);
-      console.log(this.programInput);
+      let time = (this.time).slice(0, 2)
+      let startTime
+      //截取时间小时段  截取有效数字
+      if (time.slice(0, 1) == 0) {
+        // console.log("当前时间第一位是0")
+        startTime = time.slice(1, 2)
+      } else {
+        // console.log("当前时间第一位不是0")
+        startTime = time.slice(0, 2)
+      }
+      let endTime = String(Number(startTime) + 1)   //结束时间是开始时间 + 1小时
+
+      console.log("开始时间", startTime)
+      console.log("结束时间", endTime)
+      console.log("日期", this.date)
+      console.log("节目名称", this.programInput)
+
+      let formData = new FormData()
+      formData.append("name", this.programInput)
+      formData.append("start", startTime)
+      formData.append("end", endTime)
+      formData.append("date", this.date)
+
+      if (startTime != '' && endTime != '' && this.date != '' && this.programInput != '') {
+        console.log("可以提交数据")
+        program_search(formData)
+          .then((response) => {
+            console.log(response.data.responses)
+            this.tableData = response.data.responses
+            console.log("返回的数据tableData为：", this.tableData)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        console.log("数据未填写完整")
+      }
     }
   }
 };
@@ -161,6 +208,11 @@ export default {
 }
 .date_option {
   text-align: left;
+  display: -webkit-flex;
+  display: flex;
+}
+.date_option .block {
+  margin-right: 20px;
 }
 .date_option span {
   font-size: 14px;
