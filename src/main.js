@@ -26,6 +26,26 @@ Vue.prototype.$commonTools = commonTools
 
 import { get_user_permissions } from "@/api/api_main";
 
+// 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
+store
+  .dispatch("set_BigScreenStartDate", "2019-06-01")
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.info(error);
+  });
+
+// 设置大屏/后台-数据总览 的 截止日期（end）
+store
+  .dispatch("set_BigScreenExpirationDate", "2019-06-08")
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.info(error);
+  });
+
 // var routerform = [
 //   // '/backhome/datatotal',
 //   // '/backhome/userlifecycle',
@@ -227,7 +247,7 @@ router.beforeEach((to, from, next) => {
     //   .catch(function (error) {
     //     console.info(error);
     //   });
-    let ifTest = true;
+    let ifTest = false;
     if (ifTest) {
       store
         .dispatch("set_ifTest", ifTest)

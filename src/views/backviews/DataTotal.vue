@@ -118,16 +118,37 @@ export default {
     "line-chart-single2": LineChartSingle2
   },
   mounted() {
-    this.users_total();
+    let vm = this;
+
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenStartDate")
+        .then(function(res1) {
+          setTimeout(function() {
+            vm.$store
+              .dispatch("get_BigScreenExpirationDate")
+              .then(function(res2) {
+                vm.users_total(res1, res2, "singleday"); // 截止统计日
+                vm.users_total(res2, res2, "rangeday"); // 日维度
+              })
+              .catch(function(error) {
+                console.info(error);
+              });
+          }, 100);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
 
   methods: {
-    users_total() {
-      // console.log("users_total");
+    users_total(StartDate, ExpirationDate, type) {
+      console.log("~~~~~~~~~users_total");
       let vm = this;
       let data = {
-        start: "2019-07-14",
-        end: "2019-07-14"
+        start: StartDate,
+        end: ExpirationDate
       };
       // vm.api_data.module2_numT = [
       //   "851",
@@ -142,47 +163,227 @@ export default {
       // ];
       users_total(data)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
           // console.log(response.data.responses[0].aggregations.ac.buckets);
           // console.log(
           //   response.data.responses[0].aggregations.ac.buckets[0].key
           // );
-          let data = response.data.responses[0].aggregations.ac.buckets;
-          let length = data.length;
+          // let data = response.data.responses[0].aggregations.ac.buckets;
+          let responses1 = response.data.responses[0];
+          // activate_user_num: {value: 949770}
+          // doc_count: 24
+          // key: "851"
+          // new_num: {value: 580520}
+          // open_num: {value: 2371}
+          // register_num: {value: 3572107}
+          let responses2 = response.data.responses[1];
+          // doc_count: 38
+          // key: "851"
+          // watch_dur_family: {value: 1735929.4043456912}
+          // watch_user_num: {value: 584388}
+          let responses3 = response.data.responses[2];
+          // doc_count: 24
+          // downtime_user_num: {value: 39}
+          // downtime_user_num_t: {value: 49960}
+          // key: "851"
+          // paid_num: {value: 0}
+          // unsub_user_num: {value: 155}
+          // unsub_user_num_t: {value: 51828}
+
+          // singleday
+          // module1_numC - new_num
+          // module3_numT - open_num
+          // module3_numC - open_rate
+          // module4_numT - watch_user_num
+          // module4_numC - watch_dur_family
+          // module6_numC - downtime_user_num
+          // module7_numC - unsub_user_num
+
+          // rangeday
+          // module1_numT - register_num
+          // module2_numT - activate_user_num
+          // module2_numC - activate_rate
+          // module5_numT - paid_num
+          // module5_numC - paid_rate
+          // module6_numT - downtime_user_num_t
+          // module7_numT - unsub_user_num_t
+
+          // 1:
+          // aggregations:
+          // ac:
+          // buckets: Array(10)
+          // 0:
+          // doc_count: 38
+          // key: "851"
+          // watch_dur_family: {value: 1735929.4043456912}
+          // watch_user_num: {value: 584388}
+
+          // let length = data.length;
+          let length = 9; // 1 -8  9 个 ，不要 10 others
+
           let i;
-          // 开机用户
-          for (i = 0; i < length; i++) {
-            if (data[i].key == "851") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-              // Vue.set(vm.api_data.module2_numT, i, "851");
+          function dataManage(i) {
+            if (type == "singleday") {
+              Vue.set(
+                vm.api_data.module1_numC,
+                i,
+                responses1.aggregations.ac.buckets[i].new_num.value
+              );
+              Vue.set(
+                vm.api_data.module3_numT,
+                i,
+                responses1.aggregations.ac.buckets[i].open_num.value
+              );
+              Vue.set(
+                vm.api_data.module3_numC,
+                i,
+                responses1.aggregations.ac.buckets[i].open_num.value /
+                  responses1.aggregations.ac.buckets[i].register_num.value
+              );
+              Vue.set(
+                vm.api_data.module4_numT,
+                i,
+                responses2.aggregations.ac.buckets[i].watch_user_num.value
+              );
+              Vue.set(
+                vm.api_data.module4_numC,
+                i,
+                responses2.aggregations.ac.buckets[i].watch_dur_family.value
+              );
+              Vue.set(
+                vm.api_data.module6_numC,
+                i,
+                responses3.aggregations.ac.buckets[i].downtime_user_num.value
+              );
+              Vue.set(
+                vm.api_data.module7_numC,
+                i,
+                responses3.aggregations.ac.buckets[i].unsub_user_num.value
+              );
             }
-            if (data[i].key == "852") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "853") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "854") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "855") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "856") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "857") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "858") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
-            }
-            if (data[i].key == "859") {
-              Vue.set(vm.api_data.module2_numT, i, data[i].open_num.value);
+            if (type == "rangeday") {
+              Vue.set(
+                vm.api_data.module1_numT,
+                i,
+                responses1.aggregations.ac.buckets[i].register_num.value
+              );
+              Vue.set(
+                vm.api_data.module2_numT,
+                i,
+                responses1.aggregations.ac.buckets[i].activate_user_num.value
+              );
+              Vue.set(
+                vm.api_data.module2_numC,
+                i,
+                responses1.aggregations.ac.buckets[i].activate_user_num.value /
+                  responses1.aggregations.ac.buckets[i].register_num.value
+              );
+              Vue.set(
+                vm.api_data.module5_numT,
+                i,
+                responses3.aggregations.ac.buckets[i].paid_num.value
+              );
+              Vue.set(
+                vm.api_data.module5_numC,
+                i,
+                responses3.aggregations.ac.buckets[i].paid_num.value /
+                  responses1.aggregations.ac.buckets[i].active_num.value
+              );
+              Vue.set(
+                vm.api_data.module6_numT,
+                i,
+                responses3.aggregations.ac.buckets[i].downtime_user_num_t.value
+              );
+              Vue.set(
+                vm.api_data.module7_numT,
+                i,
+                responses3.aggregations.ac.buckets[i].unsub_user_num_t.value
+              );
             }
           }
-          vm.ifRequestSuccess = 1;
+          // 开机用户
+          for (i = 0; i < length; i++) {
+            console.log(responses1.aggregations.ac.buckets[i].key);
+            console.log(responses2.aggregations.ac.buckets[i].key);
+            console.log(responses3.aggregations.ac.buckets[i].key);
+
+            if (
+              responses1.aggregations.ac.buckets[i].key == "851" &&
+              responses2.aggregations.ac.buckets[i].key == "851" &&
+              responses3.aggregations.ac.buckets[i].key == "851"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "852" &&
+              responses2.aggregations.ac.buckets[i].key == "852" &&
+              responses3.aggregations.ac.buckets[i].key == "852"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "853" &&
+              responses2.aggregations.ac.buckets[i].key == "853" &&
+              responses3.aggregations.ac.buckets[i].key == "853"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "854" &&
+              responses2.aggregations.ac.buckets[i].key == "854" &&
+              responses3.aggregations.ac.buckets[i].key == "854"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "855" &&
+              responses2.aggregations.ac.buckets[i].key == "855" &&
+              responses3.aggregations.ac.buckets[i].key == "855"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "856" &&
+              responses2.aggregations.ac.buckets[i].key == "856" &&
+              responses3.aggregations.ac.buckets[i].key == "856"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "857" &&
+              responses2.aggregations.ac.buckets[i].key == "857" &&
+              responses3.aggregations.ac.buckets[i].key == "857"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "858" &&
+              responses2.aggregations.ac.buckets[i].key == "858" &&
+              responses3.aggregations.ac.buckets[i].key == "858"
+            ) {
+              dataManage(i);
+            }
+            if (
+              responses1.aggregations.ac.buckets[i].key == "859" &&
+              responses2.aggregations.ac.buckets[i].key == "859" &&
+              responses3.aggregations.ac.buckets[i].key == "859"
+            ) {
+              dataManage(i);
+            }
+          }
+
+          console.log("vm.api_data~~~~~~");
+          console.log(vm.api_data);
           vm.updateDatashow(0); // 数据初始化 - 0 - 贵阳
+          vm.updateDatashow(1);
+          vm.updateDatashow(2);
+          vm.updateDatashow(3);
+          vm.updateDatashow(4);
+          vm.updateDatashow(5);
+          vm.updateDatashow(6);
+          vm.updateDatashow(7);
+          vm.updateDatashow(8);
+          vm.ifRequestSuccess = 1;
         })
         .catch(function(error) {
           console.info(error);
@@ -207,7 +408,22 @@ export default {
       } else if (this.ifRequestSuccess == 2) {
         this.data.datashow[2].numT = "数据请求中...";
       } else {
-        this.data.datashow[2].numT = this.api_data.module2_numT[city_num];
+        // this.data.datashow[2].numT = this.api_data.module2_numT[city_num];
+
+        this.data.datashow[0].numT = this.api_data.module1_numT[city_num];
+        this.data.datashow[0].numC = this.api_data.module1_numC[city_num];
+        this.data.datashow[1].numT = this.api_data.module2_numT[city_num];
+        this.data.datashow[1].numC = this.api_data.module2_numC[city_num];
+        this.data.datashow[2].numT = this.api_data.module3_numT[city_num];
+        this.data.datashow[2].numC = this.api_data.module3_numC[city_num];
+        this.data.datashow[3].numT = this.api_data.module4_numT[city_num];
+        this.data.datashow[3].numC = this.api_data.module4_numC[city_num];
+        this.data.datashow[4].numT = this.api_data.module5_numT[city_num];
+        this.data.datashow[4].numC = this.api_data.module5_numC[city_num];
+        this.data.datashow[5].numT = this.api_data.module6_numT[city_num];
+        this.data.datashow[5].numC = this.api_data.module6_numC[city_num];
+        this.data.datashow[6].numT = this.api_data.module7_numT[city_num];
+        this.data.datashow[6].numC = this.api_data.module7_numC[city_num];
       }
     }
   },
@@ -215,34 +431,36 @@ export default {
     return {
       ifRequestSuccess: 2, // 数据请求状态（默认：请求中）：0-失败 1-成功 2-请求中
       api_data: {
+        // 日维度 - singleday   截止统计日 - rangeday
+
         // module0 是 city（市）
-        // 在册用户
+        // 在册用户  - register_num -  截止统计日
         module1_numT: [],
-        // 每日新增在册用户
+        // 每日新增在册用户 - new_num -  日维度
         module1_numC: [],
-        // 激活用户
+        // 激活用户 - activate_user_num -  截止统计日
         module2_numT: [],
-        // 激活率
+        // 激活率 - activate_rate -  截止统计日
         module2_numC: [],
-        // 开机用户
+        // 开机用户 - open_num -  日维度
         module3_numT: [],
-        // 开机率
+        // 开机率 - open_rate -  日维度
         module3_numC: [],
-        // 收视用户
+        // 收视用户(观看用户数) - watch_user_num -  日维度
         module4_numT: [],
-        // 户均收视次数
+        // 户均收视次数 - watch_dur_family -  日维度
         module4_numC: [],
-        // 付费用户
+        // 付费用户(订购用户数)- paid_num -  截止统计日
         module5_numT: [],
-        // 付费转化率
+        // 付费转化率- paid_rate -  截止统计日
         module5_numC: [],
-        // 停机
+        // 停机- downtime_user_num_t -  截止统计日
         module6_numT: [],
-        // 每日停机户
+        // 每日停机户 - downtime_user_num -  日维度
         module6_numC: [],
-        // 销户
+        // 销户- unsub_user_num_t -  截止统计日
         module7_numT: [],
-        // 每日销户数
+        // 每日销户数 - unsub_user_num -  日维度
         module7_numC: []
       },
       data: {

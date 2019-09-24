@@ -4,10 +4,10 @@
     <el-row class="height_auto">
       <el-row class="viewing_top15_detail">
         <el-row class="viewing_top_title">
-          <el-col :span="3" :offset="2">排名</el-col>
-          <el-col :span="7">卫视</el-col>
-          <el-col :span="6">节目</el-col>
-          <el-col :span="6">次数（万）</el-col>
+          <el-col :span="3" :offset="2">{{TopTitleInfo.i1}}</el-col>
+          <el-col :span="7">{{TopTitleInfo.i2}}</el-col>
+          <el-col :span="6">{{TopTitleInfo.i3}}</el-col>
+          <el-col :span="6">{{TopTitleInfo.i4}}</el-col>
         </el-row>
         <el-row class="programsTOP_list" :id="viewingTopList.id">
           <el-row class="viewing_top_list" v-for="(item,index) in viewingTopList.data" :key="index">
@@ -32,24 +32,51 @@
 </template>
 <script>
 export default {
-  name: 'UserViewingBehaviorTOP', //用户收视行为
+  name: "UserViewingBehaviorTOP", //用户收视行为
   props: {
     viewingTopList: {
-      type: Object,
+      type: Object
     }
   },
   data() {
     return {
-
-    }
+      TopTitleInfo: {
+        i1: "",
+        i2: "",
+        i3: "",
+        i4: ""
+      }
+    };
   },
   mounted() {
-    this.scrollLoopUp(this.viewingTopList.id)
+    console.log("~~~~~test");
+    console.log(this.viewingTopList);
+
+    if (
+      this.viewingTopList.type == "live" ||
+      this.viewingTopList.type == "review"
+    ) {
+      this.TopTitleInfo = {
+        i1: "排名",
+        i2: "频道",
+        i3: "节目",
+        i4: "次数（万）"
+      };
+    }
+    if (this.viewingTopList.type == "demand") {
+      this.TopTitleInfo = {
+        i1: "排名",
+        i2: "节目类型",
+        i3: "节目",
+        i4: "次数（万）"
+      };
+    }
+    this.scrollLoopUp(this.viewingTopList.id);
   },
   methods: {
-    scrollLoopUp: function (id) {
-      var scrollBox = document.getElementById(id)
-      var lineHeight = 42.5
+    scrollLoopUp: function(id) {
+      var scrollBox = document.getElementById(id);
+      var lineHeight = 42.5;
       var time = 50;
       scrollBox.innerHTML += scrollBox.innerHTML;
       scrollBox.scrollTop = 0;
@@ -59,20 +86,22 @@ export default {
         timer = setInterval(scrollUp, time);
       }
       function scrollUp() {
-        if (scrollBox.scrollTop % lineHeight == 0) {//滚动一行后，延时2秒
-          clearInterval(timer)
-          setTimeout(scrollMove, 2000)
+        if (scrollBox.scrollTop % lineHeight == 0) {
+          //滚动一行后，延时2秒
+          clearInterval(timer);
+          setTimeout(scrollMove, 2000);
         } else {
-          scrollBox.scrollTop++
-          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) { //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动 
-            scrollBox.scrollTop = 0
+          scrollBox.scrollTop++;
+          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) {
+            //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动
+            scrollBox.scrollTop = 0;
           }
         }
       }
-      setTimeout(scrollMove, 2000)
+      setTimeout(scrollMove, 2000);
     }
   }
-}
+};
 </script>
 <style scoped>
 .user_viewing_behavior_top {

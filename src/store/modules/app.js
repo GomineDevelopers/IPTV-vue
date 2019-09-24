@@ -3,6 +3,8 @@ import { resolve } from "q";
 
 const app = {
     state: {
+        BigScreenExpirationDate: "",
+        BigScreenStartDate: "",
         PR_assignReportNum: 4, //默认：专区4
 
         ULC_region: [],
@@ -71,6 +73,34 @@ const app = {
                 // ...
 
                 resolve("init_all_option - SUCCESS !");
+            })
+        },
+
+
+        // /////////////////////////////////////
+
+        // 大屏截止日期即时返回-不用Promise嵌套
+        set_BigScreenExpirationDate({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.BigScreenExpirationDate = data;
+                resolve("BigScreenExpirationDate - SUCCESS !");
+            })
+        },
+        get_BigScreenExpirationDate({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.BigScreenExpirationDate);
+            })
+        },
+
+        set_BigScreenStartDate({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.BigScreenStartDate = data;
+                resolve("BigScreenStartDate - SUCCESS !");
+            })
+        },
+        get_BigScreenStartDate({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.BigScreenStartDate);
             })
         },
 

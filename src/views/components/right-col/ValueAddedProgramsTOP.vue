@@ -3,7 +3,7 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>增值节目TOP
     </el-row>
-    <el-row id="value_added_programsTOP">
+    <el-row v-show="ifgetdata" id="value_added_programsTOP">
       <el-row class="viewing_top_title">
         <el-col :span="3">排名</el-col>
         <el-col :span="9">节目名称</el-col>
@@ -27,6 +27,9 @@
         </el-row>
       </el-row>
     </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
@@ -36,6 +39,8 @@ export default {
   name: "ValueAddedProgramsTOP", //增值节目TOP组件
   data() {
     return {
+      ifgetdata: true,
+
       viewingTopList: [
         // {
         //   topNum: 1,
@@ -53,17 +58,27 @@ export default {
     };
   },
   mounted() {
-    this.demands_VipProgramTop();
-    this.scrollLoopUp("ValueProgramsTOP_list");
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.demands_VipProgramTop(response);
+          vm.scrollLoopUp("ValueProgramsTOP_list");
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
-    demands_VipProgramTop() {
+    demands_VipProgramTop(ExpirationDate) {
       let vm = this;
 
       console.log("~~~~~~~demands_VipProgramTop");
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       demands_VipProgramTop(data)
@@ -89,6 +104,7 @@ export default {
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
     },
     scrollLoopUp: function(id) {

@@ -31,7 +31,7 @@
             </el-col>
             <el-col :span="6">
               <p class="home_date1">数据截止日期：</p>
-              <p class="home_date2">2019.06.01</p>
+              <p class="home_date2">{{ExpirationDate}}</p>
             </el-col>
           </el-row>
           <!-- 在册数 -->
@@ -146,42 +146,59 @@ export default {
       },
       value_p: 0, //计时器
       bigScreenTitle: "贵州省广电新媒体用户行为分析",
-      ifAllShow: true
+      ifAllShow: true,
+      ExpirationDate: "" // 截止日期
     };
   },
   mounted() {
-    setInterval(this.get, 1000);
+    let vm = this;
 
-    this.drawLine();
-    let temp_status = this.$commonTools.getCookieCry("bigscreenchoose");
-    if (temp_status == null || temp_status == undefined || temp_status == "") {
-      this.bigScreenTitle = "贵州省广电新媒体用户行为分析";
-    } else {
-      if (temp_status == "综合") {
-        this.bigScreenTitle = "贵州省广电新媒体用户行为分析";
-        this.ifAllShow = true;
-        document.getElementById("main_title_id1").style.width = "5.76rem";
-    
-      }
-      if (temp_status == "移动") {
-        this.bigScreenTitle = "贵州省广电新媒体移动用户行为分析";
-        this.ifAllShow = false;
-        document.getElementById("main_title_id2").style.width = "6.76rem";
-     
-      }
-      if (temp_status == "联通") {
-        this.bigScreenTitle = "贵州省广电新媒体联通用户行为分析";
-        this.ifAllShow = false;
-        document.getElementById("main_title_id2").style.width = "6.76rem";
-       
-      }
-      if (temp_status == "电信") {
-        this.bigScreenTitle = "贵州省广电新媒体电信用户行为分析";
-        this.ifAllShow = false;
-        document.getElementById("main_title_id2").style.width = "6.76rem";
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          console.log(response);
+          // let str = response.replace("-","."); // 只替换第一个
+          let str = response.replace(/\-/g, ".");
+          vm.ExpirationDate = str;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
 
+      setInterval(vm.get, 1000);
+
+      vm.drawLine();
+      let temp_status = vm.$commonTools.getCookieCry("bigscreenchoose");
+      if (
+        temp_status == null ||
+        temp_status == undefined ||
+        temp_status == ""
+      ) {
+        vm.bigScreenTitle = "贵州省广电新媒体用户行为分析";
+      } else {
+        if (temp_status == "综合") {
+          vm.bigScreenTitle = "贵州省广电新媒体用户行为分析";
+          vm.ifAllShow = true;
+          document.getElementById("main_title_id1").style.width = "5.76rem";
+        }
+        if (temp_status == "移动") {
+          vm.bigScreenTitle = "贵州省广电新媒体移动用户行为分析";
+          vm.ifAllShow = false;
+          document.getElementById("main_title_id2").style.width = "6.76rem";
+        }
+        if (temp_status == "联通") {
+          vm.bigScreenTitle = "贵州省广电新媒体联通用户行为分析";
+          vm.ifAllShow = false;
+          document.getElementById("main_title_id2").style.width = "6.76rem";
+        }
+        if (temp_status == "电信") {
+          vm.bigScreenTitle = "贵州省广电新媒体电信用户行为分析";
+          vm.ifAllShow = false;
+          document.getElementById("main_title_id2").style.width = "6.76rem";
+        }
       }
-    }
+    }, 100);
   },
   methods: {
     drawLine() {},

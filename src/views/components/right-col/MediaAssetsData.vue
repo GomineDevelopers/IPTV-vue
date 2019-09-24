@@ -43,7 +43,7 @@ export default {
   name: "MediaAssetsData",
   data() {
     return {
-      programNum:"",
+      programNum: "",
       data_old_o: "",
       data_new: "",
       returnLinkRelativeRatio: ""
@@ -51,23 +51,33 @@ export default {
   },
   mounted() {
     let vm = this;
-    this.media_content();
-    this.media_watch_total(vm);
-    this.drawLine();
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.media_content(response);
+          vm.media_watch_total(response);
+          vm.drawLine();
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
-    media_content() {
+    media_content(ExpirationDate) {
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       console.log("media_content");
       media_content(data)
         .then(function(response) {
           console.log(response);
-          vm.programNum = response.data.responses[0].aggregations.program_content_num.value;
+          vm.programNum =
+            response.data.responses[0].aggregations.program_content_num.value;
         })
         .catch(function(error) {
           console.info(error);
@@ -94,11 +104,12 @@ export default {
         return value;
       }
     },
-    media_watch_total(vm) {
+    media_watch_total(ExpirationDate) {
+      let vm = this;
       // console.log("media_watch_total");
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       // let vm = this;
@@ -120,8 +131,8 @@ export default {
 
           /////第二天
           let data2 = {
-            start: "2019-06-01",
-            end: "2019-06-01",
+            start: ExpirationDate,
+            end: ExpirationDate,
             operator: String(["移动", "联通", "电信"])
           };
           setTimeout(function() {

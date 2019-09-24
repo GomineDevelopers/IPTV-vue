@@ -17,7 +17,7 @@
         日活数：
         <div>
           <span class="nmber_background back_color2" v-if="dayLiveNum.length != 8">&nbsp;</span>
-          <span class="nmber_background back_color2" v-if="dayLiveNum.length != 7">&nbsp;</span>
+          <!-- <span class="nmber_background back_color2" v-if="dayLiveNum.length != 7">&nbsp;</span> -->
           <span
             class="nmber_background back_color2"
             v-for="(item2,index2) in dayLiveNum"
@@ -50,6 +50,7 @@
         </div>
       </el-col>
     </el-row>
+
     <!-- {{value}} -->
   </div>
 </template>
@@ -57,7 +58,7 @@
 import { commonTools } from "@/utils/test";
 
 // import { activationRate } from "@/api/api_main";
-import { users_basic } from "@/api/api_main";
+import { users_basic, users_retention } from "@/api/api_main";
 
 export default {
   name: "RegisteredUserInfo", //顶部logo下的总体数据
@@ -89,23 +90,62 @@ export default {
     //   .catch(function(error) {
     //     console.info(error);
     //   });
-    this.users_basic();
 
-    this.handleRegisteredUserNum();
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.users_basic(response);
+          vm.users_retention(response);
+          vm.handleRegisteredUserNum();
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
     setInterval(this.get, 1000);
   },
   methods: {
-    users_basic() {
+    users_retention(ExpirationDate) {
+      console.log("users_retention");
+      // 七天留存和三十天留存（0=7天，1=30天留存率）
+      console.log("~~~~~~~!");
+      let date_range = commonTools.currentDay_currenDayRange(ExpirationDate);
+      console.log(date_range);
+
+      let vm = this;
+      let temp = {
+        operator: String(["移动", "联通", "电信"]),
+        start: date_range.start,
+        end: date_range.end
+      };
+
+      users_retention(temp)
+        .then(function(response) {
+          console.log(response);
+          let aggregations = response.data.responses[0].aggregations;
+          let t1 = aggregations.all_remain_num.value; // 留存用户数
+          let t2 = aggregations.all_new_activate_num.value; // 新增激活用户数
+          let t3 = t1 / t2;
+          vm.sevenKeep = String(commonTools.returnFloat_1(t3 * 100)) + "%"; //激活率
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.sevenKeep = "--%";
+        });
+    },
+    users_basic(ExpirationDate) {
       console.log("~~~~~~users_basic");
       let vm = this;
       let temp = {
         operator: String(["移动", "联通", "电信"]),
-        start: "2019-06-01",
-        end: "2019-06-01"
+        start: ExpirationDate,
+        end: ExpirationDate
       };
       users_basic(temp)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
           let aggregations = response.data.responses[0].aggregations;
           let t1 = aggregations.all_register_num.value; // 在册
           let t2 = aggregations.all_active_num.value; // 日活
@@ -117,6 +157,9 @@ export default {
         })
         .catch(function(error) {
           console.info(error);
+          vm.registeredUserNum = "--------";
+          vm.dayLiveNum = "--------";
+          vm.activationRate = "--%";
         });
     },
     resetColor() {

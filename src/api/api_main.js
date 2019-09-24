@@ -836,11 +836,15 @@ export function users_activationRate(hours) {
 
 // 用户留存率
 // get http://{{iptv}}/api/users/retention
-export function users_retention(date) {
+export function users_retention(data ) {
     return request({
         method: 'get',
         url: '/users/retention',
-        params: { date: date }
+        params: {
+            start: data.start,
+            end: data.end,
+            operator: data.operator
+        }
     })
 }
 
