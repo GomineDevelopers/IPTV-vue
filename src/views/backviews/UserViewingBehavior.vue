@@ -50,10 +50,28 @@
     <!-- 收视TOP开始 -->
     <el-row class="viewing_top15">
       <el-row class="model_title">
-        <span class="title_border_left"></span>收视TOP15
+        <span class="title_border_left"></span>直播收视TOP15
       </el-row>
       <el-row class="chart_body back_white viewing_top15_list">
-        <user-viewing-behavior-top :viewingTopList="viewingTopList"></user-viewing-behavior-top>
+        <user-viewing-behavior-top :viewingTopList="liveViewingTopList"></user-viewing-behavior-top>
+      </el-row>
+    </el-row>
+
+    <el-row class="viewing_top15">
+      <el-row class="model_title">
+        <span class="title_border_left"></span>点播收视TOP15
+      </el-row>
+      <el-row class="chart_body back_white viewing_top15_list">
+        <user-viewing-behavior-top :viewingTopList="orderViewingTopList"></user-viewing-behavior-top>
+      </el-row>
+    </el-row>
+
+    <el-row class="viewing_top15 last_viewing_top15">
+      <el-row class="model_title">
+        <span class="title_border_left"></span>回看收视TOP15
+      </el-row>
+      <el-row class="chart_body back_white viewing_top15_list">
+        <user-viewing-behavior-top :viewingTopList="lookBackViewingTopList"></user-viewing-behavior-top>
       </el-row>
     </el-row>
     <!-- 收视TOP结束 -->
@@ -89,56 +107,56 @@ export default {
     UVB_region(newValue, oldValue) {
       let vm = this;
       console.log("UVB_region: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_operator(newValue, oldValue) {
       let vm = this;
       console.log("UVB_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_playmode(newValue, oldValue) {
       let vm = this;
       console.log("UVB_playmode: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_programa(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
       console.log("UVB_contenttype: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_day(newValue, oldValue) {
       let vm = this;
       console.log("UVB_day: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_week(newValue, oldValue) {
       let vm = this;
       console.log("UVB_week: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_picker(newValue, oldValue) {
       let vm = this;
       console.log("UVB_picker: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
@@ -338,9 +356,9 @@ export default {
           ["黔西南", 72.4]
         ]
       },
-      //收视时长TOP
-      viewingTopList: {
-        id: "userViewingBehavior",
+      //直播收视时长TOP
+      liveViewingTopList: {
+        id: "liveViewingTopList",
         data: [
           {
             topNum: 1,
@@ -448,7 +466,229 @@ export default {
             playNum: "6.0"
           }
         ]
-      }
+      },
+      //点播收视时长TOP
+      orderViewingTopList: {
+        id: "orderViewingTopList",
+        data: [
+          {
+            topNum: 1,
+            programName: "疯狂的外星人",
+            programSource: "电影",
+            hot: "90%",
+            playNum: "12.3"
+          },
+          {
+            topNum: 2,
+            programName: "熊出没.原始",
+            programSource: "少儿",
+            hot: "85%",
+            playNum: "11.2"
+          },
+          {
+            topNum: 3,
+            programName: "流浪地球",
+            programSource: "电影",
+            hot: "83%",
+            playNum: "10.3"
+          },
+          {
+            topNum: 4,
+            programName: "人间.喜剧",
+            programSource: "电影",
+            hot: "80%",
+            playNum: "10.1"
+          },
+          {
+            topNum: 5,
+            programName: "白发",
+            programSource: "电视剧",
+            hot: "78%",
+            playNum: "9.5"
+          },
+          {
+            topNum: 6,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "73%",
+            playNum: "9.2"
+          },
+          {
+            topNum: 7,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "70%",
+            playNum: "9.0"
+          },
+          {
+            topNum: 8,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "68%",
+            playNum: "8.7"
+          },
+          {
+            topNum: 9,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "64%",
+            playNum: "8.5"
+          },
+          {
+            topNum: 10,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "60%",
+            playNum: "8.0"
+          },
+          {
+            topNum: 11,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "56%",
+            playNum: "7.5"
+          },
+          {
+            topNum: 12,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "53%",
+            playNum: "7.0"
+          },
+          {
+            topNum: 13,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "50%",
+            playNum: "6.8"
+          },
+          {
+            topNum: 14,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "45%",
+            playNum: "6.3"
+          },
+          {
+            topNum: 15,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "40%",
+            playNum: "6.0"
+          }
+        ]
+      },
+      //回看收视时长TOP
+      lookBackViewingTopList: {
+        id: "lookBackViewingTopList",
+        data: [
+          {
+            topNum: 1,
+            programName: "疯狂的外星人",
+            programSource: "电影",
+            hot: "90%",
+            playNum: "12.3"
+          },
+          {
+            topNum: 2,
+            programName: "熊出没.原始",
+            programSource: "少儿",
+            hot: "85%",
+            playNum: "11.2"
+          },
+          {
+            topNum: 3,
+            programName: "流浪地球",
+            programSource: "电影",
+            hot: "83%",
+            playNum: "10.3"
+          },
+          {
+            topNum: 4,
+            programName: "人间.喜剧",
+            programSource: "电影",
+            hot: "80%",
+            playNum: "10.1"
+          },
+          {
+            topNum: 5,
+            programName: "白发",
+            programSource: "电视剧",
+            hot: "78%",
+            playNum: "9.5"
+          },
+          {
+            topNum: 6,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "73%",
+            playNum: "9.2"
+          },
+          {
+            topNum: 7,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "70%",
+            playNum: "9.0"
+          },
+          {
+            topNum: 8,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "68%",
+            playNum: "8.7"
+          },
+          {
+            topNum: 9,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "64%",
+            playNum: "8.5"
+          },
+          {
+            topNum: 10,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "60%",
+            playNum: "8.0"
+          },
+          {
+            topNum: 11,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "56%",
+            playNum: "7.5"
+          },
+          {
+            topNum: 12,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "53%",
+            playNum: "7.0"
+          },
+          {
+            topNum: 13,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "50%",
+            playNum: "6.8"
+          },
+          {
+            topNum: 14,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "45%",
+            playNum: "6.3"
+          },
+          {
+            topNum: 15,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "40%",
+            playNum: "6.0"
+          }
+        ]
+      },
     };
   }
 };
@@ -464,6 +704,9 @@ export default {
 }
 .viewing_top15 {
   height: 520px;
+  margin-bottom: 14px;
+}
+.last_viewing_top15 {
   margin-bottom: 50px;
 }
 .select_option_content {
