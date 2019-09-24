@@ -177,6 +177,19 @@ commonTools.playmodeConvert = function (playmode_arr) {
     }
 }
 
+// 内容类型转换 （为空则为全选）
+commonTools.contenttypeConvert = function (playmode_arr) {
+    let temp_arr = [];
+    if (playmode_arr.length == 0) { // （为空则为全选）
+        temp_arr.push("健康");
+        temp_arr.push("音乐");
+        return temp_arr;
+    }
+    else {
+        return playmode_arr // （非空则保持原样）
+    }
+}
+
 // 栏目转换 （为空则为全选）
 commonTools.programaConvert = function (programa_arr) {
     let temp_arr = [];
@@ -464,6 +477,50 @@ commonTools.getWeek_m = function (date) {
 
 ////////////////////// 遍历某年的各周日期范围(开始)
 
+
+// ////////// 周处理（by day）
+commonTools.weekDate_byday = function (year) {
+    let arr_temp = [];
+    let temp;
+    let start;
+    let end;
+    let index1 = 1;
+    for (let i of commonTools.createWeeks(year)) {
+        start = i[0];
+        end = i[1];
+        temp = {
+            // value: String(year) + "选项" + String(index1),
+            value: String(year) + "&" + String(index1) + "week" + "*" + commonTools.formatDate3(start) + "*" + commonTools.formatDate3(end),
+            label: String(year) + `年第${commonTools.formatDig(
+                index1++
+            )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
+        };
+        arr_temp.push(temp);
+    }
+    return arr_temp
+}
+// 传入年 与 累加数据
+commonTools.weekDate_add_byday = function (year, arr_temp) {
+    let temp;
+    let start;
+    let end;
+    let index1 = 1;
+    for (let i of commonTools.createWeeks(year)) {
+        start = i[0];
+        end = i[1];
+        temp = {
+            // value: String(year) + "选项" + String(index1),
+            value: String(year) + "&" + String(index1) + "week" + "*" + commonTools.formatDate3(start) + "*" + commonTools.formatDate3(end),
+            label: String(year) + `年第${commonTools.formatDig(
+                index1++
+            )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
+        };
+        arr_temp.push(temp);
+    }
+    return arr_temp
+}
+
+// ////////// 周处理（by week）
 // 传入年
 commonTools.weekDate = function (year) {
     let arr_temp = [];
@@ -588,6 +645,37 @@ commonTools.split_yearAtime = function (str) {
     };
 
 }
+commonTools.split_yearAtime = function (str) {
+    let t_year;
+    let t_time;
+    let strs = str.split('&');
+    t_year = strs[0];
+    t_time = strs[1];
+    return {
+        year: t_year,
+        time: t_time
+    };
+
+}
+commonTools.split_yearAtime_byweekOrDay = function (str) {
+    // let t_year;
+    let t_year = commonTools.split_yearAtime(str).year;
+    // let t_time;
+    let t_time1;
+    let t_time2;
+
+    let strs = str.split('*');
+    // t_year = strs[0];
+    t_time1 = strs[1];
+    t_time2 = strs[2];
+
+    return {
+        year: t_year,
+        time1: t_time1,
+        time2: t_time2,
+    };
+
+}
 
 
 
@@ -690,7 +778,7 @@ commonTools.format_MonthDays_byweek = function (year) {
     for (i = 1; i <= length; i++) {
         t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
         temp = {
-            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "*" + String(t_week_arr[3]),
+            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
             label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
         }
         m_format.push(temp);
@@ -709,7 +797,7 @@ commonTools.format_MonthDays_add_byweek = function (year, m_format) {
     for (i = 1; i <= length; i++) {
         t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
         temp = {
-            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "*" + String(t_week_arr[3]),
+            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
             label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
         }
         m_format.push(temp);
@@ -743,10 +831,10 @@ commonTools.get_YweeksRange_InMonth = function (year, month) {
             index_arr.push(i + 1); // 序数 变成 第几周
         }
     }
-    console.log(per_split_label); // 1-月a  4-月b 
-    console.log(per_split_label_1);
-    console.log(per_split_label_1_2);  // 0-周  1-年
-    console.log(index_arr);  // 4个  0-（该月）首周  3-（该月）第四周
+    // console.log(per_split_label); // 1-月a  4-月b 
+    // console.log(per_split_label_1);
+    // console.log(per_split_label_1_2);  // 0-周  1-年
+    // console.log(index_arr);  // 4个  0-（该月）首周  3-（该月）第四周
     return index_arr;
 
 }

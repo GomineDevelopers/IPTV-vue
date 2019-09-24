@@ -2,11 +2,7 @@
   <div class="OptionSelectVIP">
     <div class="region">
       <span class="font_title">地区：</span>
-      <el-checkbox
-        :indeterminate="region_isIndeterminate"
-        v-model="region_checkAll"
-        @change="regionChoose_all"
-      >全部</el-checkbox>
+      <el-checkbox v-model="region_checkAll" @change="regionChoose_all">全省</el-checkbox>
       <el-checkbox-group
         @change="regionChoose_change"
         v-model=" regionChoose"
@@ -23,16 +19,12 @@
         :key="index + 'ac' "
         v-show="!region_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="operator">
       <span class="font_title">运营商：</span>
-      <el-checkbox
-        :indeterminate="operator_isIndeterminate"
-        v-model="operator_checkAll"
-        @change="operatorChoose_all"
-      >全部</el-checkbox>
+      <el-checkbox v-model="operator_checkAll" @change="operatorChoose_all">全部</el-checkbox>
 
       <el-checkbox-group
         @change="operatorChoose_change"
@@ -50,17 +42,13 @@
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
     <div class="playmode">
       <span class="font_title">播放方式：</span>
-      <el-checkbox
-        :indeterminate="playmode_isIndeterminate"
-        v-model="playmode_checkAll"
-        @change="playmodeChoose_all"
-      >总体</el-checkbox>
+      <el-checkbox v-model="playmode_checkAll" @change="playmodeChoose_all">总体</el-checkbox>
 
       <el-checkbox-group
         @change="playmodeChoose_change"
@@ -78,17 +66,13 @@
         :key="index + 'ac' "
         v-show="!playmode_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
     <div class="programa">
       <span class="font_title">栏目：</span>
-      <el-checkbox
-        :indeterminate="programa_isIndeterminate"
-        v-model="programa_checkAll"
-        @change="programaChoose_all"
-      >总体</el-checkbox>
+      <el-checkbox v-model="programa_checkAll" @change="programaChoose_all">总体</el-checkbox>
       <el-checkbox-group
         @change="programaChoose_change"
         v-model=" programaChoose"
@@ -105,7 +89,7 @@
         :key="index + 'ac' "
         v-show="!programa_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="valueAddedPackage">
@@ -165,7 +149,7 @@
       <span>
         <div class="m_block">
           <el-date-picker
-            v-model="time.pickervalue"
+            v-model="time.pickerValue"
             type="daterange"
             align="right"
             unlink-panels
@@ -274,7 +258,7 @@ export default {
     //       console.info(error);
     //     });
     // },
-    // "time.pickervalue"(newValue, oldValue) {
+    // "time.pickerValue"(newValue, oldValue) {
     //   let vm = this;
     //   this.$store
     //     .dispatch("set_ADD_VIP_picker", newValue)
@@ -339,11 +323,11 @@ export default {
         "动漫 ",
         "综艺",
         "体育",
-        "纪实",
         "游戏",
-        "健康",
-        "音乐",
-        "其他"
+        "纪实"
+        // "健康",
+        // "音乐",
+        // "其他"
       ],
       programaChoose: [],
       programa_checkAll: false,
@@ -412,7 +396,7 @@ export default {
             }
           ]
         },
-        pickervalue: ""
+        pickerValue: ""
       }
     };
   },

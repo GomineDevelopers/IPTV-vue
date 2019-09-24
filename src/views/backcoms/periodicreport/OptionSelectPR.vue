@@ -48,7 +48,6 @@
     <div v-show="ifOperatorShow" class="operator">
       <span class="font_title">运营商：</span>
       <el-checkbox
-        :indeterminate="operator_isIndeterminate"
         v-model="operator_checkAll"
         @change="operatorChoose_all"
       >全部</el-checkbox>
@@ -69,7 +68,7 @@
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="time">
@@ -131,7 +130,7 @@
       <span v-show="PR_assignReportNum == 4">
         <div class="m_block">
           <el-date-picker
-            v-model="time.pickervalue"
+            v-model="time.pickerValue"
             type="daterange"
             align="right"
             unlink-panels
@@ -237,7 +236,7 @@ export default {
     //       console.info(error);
     //     });
     // },
-    // "time.pickervalue"(newValue, oldValue) {
+    // "time.pickerValue"(newValue, oldValue) {
     //   let vm = this;
     //   this.$store
     //     .dispatch("set_PR_picker", newValue)
@@ -421,7 +420,7 @@ export default {
             }
           ]
         },
-        pickervalue: ""
+        pickerValue: ""
       },
       ifOperatorShow: true,
       list: [
@@ -588,7 +587,7 @@ export default {
       // console.log(this.dayValue);
       // console.log(this.weekValue);
       // console.log(this.monthValue);
-      // console.log(this.pickervalue);
+      // console.log(this.pickerValue);
       this.$emit("setRoute", {
         repotrName: this.reportOption,
         operatorOption: this.operatorChoose,

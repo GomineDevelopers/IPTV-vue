@@ -15,6 +15,7 @@ const app = {
         UVB_operator: [],
         UVB_playmode: [],
         UVB_programa: [],
+        UVB_contenttype: [],
         UVB_day: null,
         UVB_week: null,
         UVB_picker: [],
@@ -204,6 +205,17 @@ const app = {
         get_UVB_programa({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.UVB_programa);
+            })
+        },
+        set_UVB_contenttype({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.UVB_contenttype = data;
+                resolve("UVB_contenttype - SUCCESS !");
+            })
+        },
+        get_UVB_contenttype({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.UVB_contenttype);
             })
         },
         set_UVB_day({ commit, state }, data) {

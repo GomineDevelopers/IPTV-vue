@@ -170,7 +170,7 @@ export default {
         start: null,
         end: null
       };
-      if (temp_valueAddedPackage != null || temp_valueAddedPackage != "") {
+      if (temp_valueAddedPackage == null || temp_valueAddedPackage == "") {
         console.log("需要新增 - 增值包为空提示");
         return;
       }

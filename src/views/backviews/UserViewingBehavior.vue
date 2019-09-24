@@ -78,6 +78,7 @@ export default {
       "UVB_operator",
       "UVB_playmode",
       "UVB_programa",
+      "UVB_contenttype",
       "UVB_day",
       "UVB_week",
       "UVB_picker",
@@ -109,6 +110,13 @@ export default {
     UVB_programa(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    UVB_contenttype(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_contenttype: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
@@ -152,11 +160,24 @@ export default {
       let temp_playmode = commonTools.playmodeConvert(vm.UVB_playmode);
       let temp_programa = commonTools.programaConvert(vm.UVB_programa);
 
+      let temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
+      console.log("temp_contenttype:" + temp_contenttype);
+      // ▲▲▲ 接口再增加 contenttype  ---暂定  contenttype  --alex
+
+      // let temp = {
+      //   area: null,
+      //   operator: null,
+      //   method: null,
+      //   list: null,
+      //   start: null,
+      //   end: null
+      // };
       let temp = {
         area: null,
         operator: null,
         method: null,
         list: null,
+        contenttype: null,
         start: null,
         end: null
       };
@@ -168,6 +189,7 @@ export default {
           operator: String(temp_operator),
           method: String(temp_playmode),
           list: String(temp_programa),
+          contenttype: String(temp_contenttype),
           start: vm.UVB_day,
           end: vm.UVB_day
         };
@@ -184,6 +206,7 @@ export default {
           operator: String(temp_operator),
           method: String(temp_playmode),
           list: String(temp_programa),
+          contenttype: String(temp_contenttype),
           start: temp_time.time,
           end: temp_time.time,
           year: temp_time.year
@@ -203,6 +226,7 @@ export default {
           operator: String(temp_operator),
           method: String(temp_playmode),
           list: String(temp_programa),
+          contenttype: String(temp_contenttype),
           start: temp_time.start,
           end: temp_time.end
         };
@@ -431,7 +455,8 @@ export default {
 </script>
 <style scoped>
 .option_select {
-  height: 342px;
+  /* height: 342px; */
+  height: 374px;
 }
 .viewing_behavior {
   height: 500px;

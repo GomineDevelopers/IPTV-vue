@@ -126,12 +126,14 @@ export default {
       if (time_type == 1) {
         // 时间类型-1-周
         // console.log("~~~~~week:" + vm.ADD_ALL_week);
-        let temp_time = commonTools.split_yearAtime(vm.ADD_ALL_week);
+        let temp_time = commonTools.split_yearAtime_byweekOrDay(
+          vm.ADD_ALL_week
+        );
         temp = {
           operator: String(temp_operator),
           // list: String(temp_programa),
-          start: temp_time.time,
-          end: temp_time.time,
+          start: temp_time.time1,
+          end: temp_time.time2,
           year: temp_time.year
         };
         // console.log("~~~~time_type:" + time_type);
@@ -141,14 +143,16 @@ export default {
       if (time_type == 2) {
         // 时间类型-2-月
         // console.log("~~~~~month:" + vm.ADD_ALL_month);
-        let temp_time = commonTools.split_yearAtime(vm.ADD_ALL_month);
+        let temp_time = commonTools.split_yearAtime_byweekOrDay(
+          vm.ADD_ALL_month
+        );
         console.log(temp_time);
 
         temp = {
           operator: String(temp_operator),
           // list: String(temp_programa),
-          start: temp_time.time,
-          end: temp_time.time,
+          start: temp_time.time1,
+          end: temp_time.time2,
           year: temp_time.year
         };
         // console.log("~~~~time_type:" + time_type);
@@ -159,9 +163,11 @@ export default {
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("operator", temp.operator);
-      formData.append("list", temp.list);
+      // formData.append("list", temp.list);
       formData.append("start", temp.start);
       formData.append("end", temp.end);
+      formData.append("year", temp.year);
+
 
       increment(formData)
         .then(function(response) {

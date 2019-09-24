@@ -2,11 +2,7 @@
   <div class="OptionSelectUVB">
     <div class="region">
       <span class="font_title">地区：</span>
-      <el-checkbox
-        :indeterminate="region_isIndeterminate"
-        v-model="region_checkAll"
-        @change="regionChoose_all"
-      >全部</el-checkbox>
+      <el-checkbox v-model="region_checkAll" @change="regionChoose_all">全省</el-checkbox>
       <el-checkbox-group
         @change="regionChoose_change"
         v-model=" regionChoose"
@@ -23,16 +19,12 @@
         :key="index + 'ac' "
         v-show="!region_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="operator">
       <span class="font_title">运营商：</span>
-      <el-checkbox
-        :indeterminate="operator_isIndeterminate"
-        v-model="operator_checkAll"
-        @change="operatorChoose_all"
-      >全部</el-checkbox>
+      <el-checkbox v-model="operator_checkAll" @change="operatorChoose_all">全部</el-checkbox>
 
       <el-checkbox-group
         @change="operatorChoose_change"
@@ -50,7 +42,7 @@
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
@@ -63,11 +55,7 @@
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>-->
-      <el-checkbox
-        :indeterminate="playmode_isIndeterminate"
-        v-model="playmode_checkAll"
-        @change="playmodeChoose_all"
-      >总体</el-checkbox>
+      <el-checkbox v-model="playmode_checkAll" @change="playmodeChoose_all">总体</el-checkbox>
 
       <el-checkbox-group
         @change="playmodeChoose_change"
@@ -85,7 +73,7 @@
         :key="index + 'ac' "
         v-show="!playmode_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
@@ -98,11 +86,7 @@
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>-->
-      <el-checkbox
-        :indeterminate="programa_isIndeterminate"
-        v-model="programa_checkAll"
-        @change="programaChoose_all"
-      >总体</el-checkbox>
+      <el-checkbox v-model="programa_checkAll" @change="programaChoose_all">总体</el-checkbox>
       <el-checkbox-group
         @change="programaChoose_change"
         v-model=" programaChoose"
@@ -119,7 +103,31 @@
         :key="index + 'ac' "
         v-show="!programa_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+    </div>
+
+    <div class="contenttype">
+      <span class="font_title">内容类型：</span>
+      <el-checkbox v-model="contenttype_checkAll" @change="contenttypeChoose_all">总体</el-checkbox>
+
+      <el-checkbox-group
+        @change="contenttypeChoose_change"
+        v-model=" contenttypeChoose"
+        v-for="(item,index) in contenttype"
+        :key="index + 'a' "
+        v-show="contenttype_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+      <el-checkbox-group
+        @change="contenttypeChoose_change"
+        v-model=" contenttypeChoose"
+        v-for="(item,index) in contenttype"
+        :key="index + 'ac' "
+        v-show="!contenttype_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
@@ -162,7 +170,7 @@
       <span>
         <div class="m_block">
           <el-date-picker
-            v-model="time.pickervalue"
+            v-model="time.pickerValue"
             type="daterange"
             align="right"
             unlink-panels
@@ -191,6 +199,8 @@ var playmodeChoose_new = [];
 var playmodeChoose_old = [];
 var programaChoose_new = [];
 var programaChoose_old = [];
+var contenttypeChoose_new = [];
+var contenttypeChoose_old = [];
 
 export default {
   name: "OptionSelectUVB",
@@ -217,6 +227,17 @@ export default {
           console.info(error);
         });
     },
+    contenttypeChoose(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_UVB_contenttype", newValue)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     playmodeChoose(newValue, oldValue) {
       let vm = this;
       this.$store
@@ -232,6 +253,17 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_UVB_programa", newValue)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    contenttypeChoose(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_UVB_contenttype", newValue)
         .then(function(response) {
           console.log(response);
         })
@@ -261,7 +293,7 @@ export default {
     //       console.info(error);
     //     });
     // },
-    // "time.pickervalue"(newValue, oldValue) {
+    // "time.pickerValue"(newValue, oldValue) {
     //   let vm = this;
     //   this.$store
     //     .dispatch("set_UVB_picker", newValue)
@@ -329,15 +361,20 @@ export default {
         "动漫 ",
         "综艺",
         "体育",
-        "纪实",
         "游戏",
-        "健康",
-        "音乐",
-        "其他"
+        "纪实"
+        // "健康",
+        // "音乐",
+        // "其他"
       ],
       programaChoose: [],
       programa_checkAll: false,
       programa_isIndeterminate: true,
+
+      contenttype: ["健康", "音乐"],
+      contenttypeChoose: [],
+      contenttype_checkAll: false,
+      contenttype_isIndeterminate: true,
 
       time: {
         day: [
@@ -387,7 +424,7 @@ export default {
             }
           ]
         },
-        pickervalue: ""
+        pickerValue: ""
       }
     };
   },
@@ -440,11 +477,14 @@ export default {
         });
     },
     pickerValue_change(event) {
+      console.log(event);
       let vm = this;
       this.time.dayValue = "";
       this.time.weekValue = "";
-      this.time.pickerValue = String(event);
-      let newValue = String(event);
+      // this.time.pickerValue = String(event);
+      this.time.pickerValue = event;  // 显示为object
+      let newValue = String(event); // 传入为string
+      // let newValue = event;
       vm.$store
         .dispatch("set_UVB_picker", newValue)
         .then(function(response) {
@@ -547,9 +587,32 @@ export default {
         );
       }, 100);
     },
+    //
     programaChoose_all(val) {
       this.programaChoose = val ? this.programa : [];
       this.programa_isIndeterminate = !this.programa_isIndeterminate;
+    },
+    contenttypeChoose_change(event) {
+      contenttypeChoose_old = contenttypeChoose_new;
+      let checkedCount = event.length;
+      this.contenttype_checkAll = checkedCount === this.contenttype.length;
+      this.contenttype_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.contenttype.length;
+      if (this.contenttypeChoose.length == 0) {
+        this.contenttype_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        contenttypeChoose_new = vm.contenttypeChoose;
+        vm.contenttypeChoose = commonTools.delete_repet(
+          contenttypeChoose_new,
+          contenttypeChoose_old
+        );
+      }, 100);
+    },
+    contenttypeChoose_all(val) {
+      this.contenttypeChoose = val ? this.contenttype : [];
+      this.contenttype_isIndeterminate = !this.contenttype_isIndeterminate;
     }
   },
   mounted() {
@@ -602,35 +665,88 @@ export default {
           console.info(error);
         });
       vm.$store
-        .dispatch("get_UVB_day")
+        .dispatch("get_UVB_contenttype")
         .then(function(response) {
           // console.log(response);
-          vm.time.dayValue = response;
+          vm.contenttypeChoose = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_UVB_day")
+        .then(function(res) {
+          vm.$store
+            .dispatch("get_UVB_time_type")
+            .then(function(response) {
+              // console.log("~~~get_UVB_time_type:");
+              // console.log(response);
+              if (response == 1) {
+                console.log("history：" + response);
+                vm.time.dayValue = res;
+              }
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_UVB_week")
-        .then(function(response) {
-          let length = vm.time.week.length;
-          let i;
-          let temp_label;
-          for (i = 0; i < length; i++) {
-            if (vm.time.week[i].value == response) {
-              temp_label = vm.time.week[i].label;
-              break;
-            }
-          }
-          vm.time.weekValue = temp_label;
+        .then(function(res) {
+          vm.$store
+            .dispatch("get_UVB_time_type")
+            .then(function(response) {
+              // console.log("~~~get_UVB_time_type:");
+              // console.log(response);
+              if (response == 2) {
+                console.log("history：" + response);
+                let length = vm.time.week.length;
+                let i;
+                let temp_label;
+                for (i = 0; i < length; i++) {
+                  if (vm.time.week[i].value == res) {
+                    temp_label = vm.time.week[i].label;
+                    break;
+                  }
+                }
+                vm.time.weekValue = temp_label;
+              }
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_UVB_picker")
-        .then(function(response) {
-          // console.log(response);
+        .then(function(res) {
+          vm.$store
+            .dispatch("get_UVB_time_type")
+            .then(function(response) {
+              // console.log("~~~get_ULC_time_type:");
+              // console.log(response);
+              if (response == 3) {
+                console.log("history：" + response);
+                console.log("res" + res);
+                console.log("Object(res)");
+                // console.log( Object(res));
+                // vm.time.pickerValue = Object(res); // 反转成Object的格式是零零碎碎的字符串-pass
+                // vm.time.pickerValue = JSON.parse(res);
+                let temp = [];
+                let t_arr = res.split(",");
+                temp.push(t_arr[0]);
+                temp.push(t_arr[1]);
+                vm.time.pickerValue = temp;
+              }
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
@@ -678,7 +794,8 @@ export default {
 .OptionSelectUVB .operator,
 .OptionSelectUVB .time,
 .OptionSelectUVB .playmode,
-.OptionSelectUVB .programa {
+.OptionSelectUVB .programa,
+.OptionSelectUVB .contenttype {
   display: inline-block;
   width: 100%;
   line-height: 32px;

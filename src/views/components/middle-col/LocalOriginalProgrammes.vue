@@ -3,9 +3,12 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>本土原创节目
     </el-row>
-    <el-row class="local_programmes_main">
+    <el-row v-show="ifgetdata" class="local_programmes_main">
       <el-row id="local_programmes"></el-row>
       <el-row id="local_programmes2" class="bottom_bar"></el-row>
+    </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
     </el-row>
   </div>
 </template>
@@ -16,6 +19,8 @@ export default {
   name: "LocalOriginalProgrammes",
   data() {
     return {
+      ifgetdata: true,
+
       pie_data: {
         id: "local_programmes",
         value: [],
@@ -68,9 +73,13 @@ export default {
           // console.log(vm.pie_data);
           vm.drawLine();
           vm.drawLine2();
+          vm.ifgetdata = true;
+
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
+
         });
     },
     drawLine() {

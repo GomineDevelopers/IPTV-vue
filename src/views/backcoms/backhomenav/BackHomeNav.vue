@@ -6,28 +6,46 @@
     <div>
       <el-row>
         <el-col :span="24">
-          <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router>
-            <el-menu-item v-show="ifShowMenu(1)" index="/backhome/datatotal">
+          <!-- <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router> -->
+          <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened>
+            <el-menu-item
+              v-show="ifShowMenu(1)"
+              @click="router_to('/backhome/datatotal')"
+              index="/backhome/datatotal"
+            >
               <i class="iconfont">&#xe639;</i>
               <span slot="title">数据总览</span>
             </el-menu-item>
-            <el-menu-item v-show="ifShowMenu(2)" index="/backhome/userlifecycle">
+            <el-menu-item
+              v-show="ifShowMenu(2)"
+              @click="router_to('/backhome/userlifecycle')"
+              index="/backhome/userlifecycle"
+            >
               <i class="iconfont">&#xe6d5;</i>
               <span slot="title">用户生命周期</span>
             </el-menu-item>
-            <el-menu-item v-show="ifShowMenu(3)" index="/backhome/userviewingbehavior">
+            <el-menu-item
+              v-show="ifShowMenu(3)"
+              @click="router_to('/backhome/userviewingbehavior')"
+              index="/backhome/userviewingbehavior"
+            >
               <i class="iconfont">&#xe63a;</i>
               <span slot="title">用户收视行为</span>
             </el-menu-item>
             <el-menu-item
               v-show="ifShowMenu(4)"
+              @click="router_to('/backhome/periodicreport/')"
               index="/backhome/periodicreport/"
               :class="activeClass ? 'is-active':''"
             >
               <i class="iconfont">&#xe648;</i>
               <span slot="title">定期报告</span>
             </el-menu-item>
-            <el-menu-item v-show="ifShowMenu(5)" index="/backhome/epg">
+            <el-menu-item
+              v-show="ifShowMenu(5)"
+              @click="router_to('/backhome/epg')"
+              index="/backhome/epg"
+            >
               <i class="iconfont">&#xe604;</i>
               <span slot="title">EPG</span>
             </el-menu-item>
@@ -37,11 +55,18 @@
                 <span>增值业务</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/backhome/valueaddedtotal">总览</el-menu-item>
-                <el-menu-item index="/backhome/vip">VIP</el-menu-item>
+                <el-menu-item
+                  @click="router_to('/backhome/valueaddedtotal')"
+                  index="/backhome/valueaddedtotal"
+                >总览</el-menu-item>
+                <el-menu-item @click="router_to('/backhome/vip')" index="/backhome/vip">VIP</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item v-show="ifShowMenu(7)" index="/backhome/hottopicscontrol">
+            <el-menu-item
+              v-show="ifShowMenu(7)"
+              @click="router_to('/backhome/hottopicscontrol')"
+              index="/backhome/hottopicscontrol"
+            >
               <i class="iconfont">&#xe633;</i>
               <span slot="title">热点监控</span>
             </el-menu-item>
@@ -51,12 +76,25 @@
                 <span>数据审计</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/backhome/dataintegrity">完整性</el-menu-item>
-                <el-menu-item index="/backhome/abnormalvalue">异常值</el-menu-item>
-                <el-menu-item index="/backhome/datatrend">趋势</el-menu-item>
+                <el-menu-item
+                  @click="router_to('/backhome/dataintegrity')"
+                  index="/backhome/dataintegrity"
+                >完整性</el-menu-item>
+                <el-menu-item
+                  @click="router_to('/backhome/abnormalvalue')"
+                  index="/backhome/abnormalvalue"
+                >异常值</el-menu-item>
+                <el-menu-item
+                  @click="router_to('/backhome/datatrend')"
+                  index="/backhome/datatrend"
+                >趋势</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item v-show="ifShowMenu(9)" index="/backhome/programsearching">
+            <el-menu-item
+              v-show="ifShowMenu(9)"
+              @click="router_to('/backhome/programsearching')"
+              index="/backhome/programsearching"
+            >
               <i class="iconfont">&#xe632;</i>
               <span slot="title">节目搜索</span>
             </el-menu-item>
@@ -70,11 +108,19 @@
                 <span>权限管理</span>
               </template>
               <el-menu-item-group>
-                <!-- <el-menu-item index="/backhome/usermanagement">用户管理</el-menu-item> -->
-                <el-menu-item v-show="ifShowMenu(10)" index="/backhome/authoritymanagement">权限管理</el-menu-item>
-                <el-menu-item v-show="ifShowMenu(11)" index="/backhome/bigscreenmanagement">大屏管理</el-menu-item>
-                <!-- <el-menu-item index="/backhome/authoritymanagement">权限管理</el-menu-item> -->
-                <!-- <el-menu-item index="/backhome/bigscreenmanagement">大屏管理</el-menu-item> -->
+                <!-- <el-menu-item  @click="router_to('')" index="/backhome/usermanagement">用户管理</el-menu-item> -->
+                <el-menu-item
+                  v-show="ifShowMenu(10)"
+                  @click="router_to('/backhome/authoritymanagement')"
+                  index="/backhome/authoritymanagement"
+                >权限管理</el-menu-item>
+                <el-menu-item
+                  v-show="ifShowMenu(11)"
+                  @click="router_to('/backhome/bigscreenmanagement')"
+                  index="/backhome/bigscreenmanagement"
+                >大屏管理</el-menu-item>
+                <!-- <el-menu-item  @click="router_to('')" index="/backhome/authoritymanagement">权限管理</el-menu-item> -->
+                <!-- <el-menu-item  @click="router_to('')" index="/backhome/bigscreenmanagement">大屏管理</el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
           </el-menu>
@@ -153,6 +199,10 @@ export default {
     }
   },
   methods: {
+    router_to(str) {
+      let vm = this;
+      vm.$router.push({ path: str });
+    },
     ifShowMenu(item) {
       // console.log(this.authorityData);
       if (this.authorityData.indexOf(item) > -1) {

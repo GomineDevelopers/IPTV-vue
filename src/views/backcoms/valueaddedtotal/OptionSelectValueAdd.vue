@@ -24,7 +24,7 @@
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="programa" v-show="false">
@@ -50,7 +50,7 @@
         :key="index + 'ac' "
         v-show="!programa_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="time">
@@ -224,9 +224,9 @@ export default {
 
     // 初始化周
     let arr_temp = [];
-    arr_temp = commonTools.weekDate(2018);
+    arr_temp = commonTools.weekDate_byday(2018);
     setTimeout(function() {
-      arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      arr_temp = commonTools.weekDate_add_byday(2019, arr_temp);
       vm.time.week = arr_temp;
       // console.log("~~~~~test vm.time.week");
       // console.log(vm.time.week);

@@ -23,6 +23,7 @@ const getters = {
     UVB_operator: state => state.app.UVB_operator,
     UVB_playmode: state => state.app.UVB_playmode,
     UVB_programa: state => state.app.UVB_programa,
+    UVB_contenttype: state => state.app.UVB_contenttype,
     UVB_day: state => state.app.UVB_day,
     UVB_week: state => state.app.UVB_week,
     UVB_picker: state => state.app.UVB_picker,

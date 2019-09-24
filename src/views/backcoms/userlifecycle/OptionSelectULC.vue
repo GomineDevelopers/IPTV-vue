@@ -3,10 +3,9 @@
     <div class="region">
       <span class="font_title">地区：</span>
       <el-checkbox
-        :indeterminate="region_isIndeterminate"
         v-model="region_checkAll"
         @change="regionChoose_all"
-      >全部</el-checkbox>
+      >全省</el-checkbox>
       <el-checkbox-group
         @change="regionChoose_change"
         v-model=" regionChoose"
@@ -23,7 +22,7 @@
         :key="index + 'ac' "
         v-show="!region_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
@@ -37,7 +36,6 @@
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>-->
       <el-checkbox
-        :indeterminate="operator_isIndeterminate"
         v-model="operator_checkAll"
         @change="operatorChoose_all"
       >全部</el-checkbox>
@@ -58,7 +56,7 @@
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
 
@@ -289,7 +287,6 @@ export default {
   },
   mounted() {
     let vm = this;
-    
 
     // 初始化周
     let arr_temp = [];

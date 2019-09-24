@@ -23,7 +23,7 @@
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
     <div class="programa">
@@ -57,7 +57,7 @@
         :key="index + 'ac' "
         v-show="!programa_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="true" :label="item"></el-checkbox>
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
 
       <el-select
@@ -215,8 +215,8 @@ export default {
         "动漫 ",
         "综艺",
         "体育",
-        "纪实",
         "游戏",
+        "纪实",
         "健康",
         "音乐"
         // "其他"

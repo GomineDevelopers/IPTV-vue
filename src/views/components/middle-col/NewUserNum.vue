@@ -3,7 +3,10 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>新增用户数（户）
     </el-row>
-    <el-row class="chart_height" id="new_user_num"></el-row>
+    <el-row v-show="ifgetdata" class="chart_height" id="new_user_num"></el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
@@ -16,6 +19,8 @@ export default {
   },
   data() {
     return {
+      ifgetdata: true,
+
       echarts_data: {
         id: "new_user_num",
         name: [],
@@ -50,9 +55,11 @@ export default {
           vm.echarts_data.value = temp2; // 待优化 -- 根据数据大小排列
           // console.log(vm.echarts_data);
           vm.setNewUserChart();
+          vm.ifgetdata = true;
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
     },
     setNewUserChart() {

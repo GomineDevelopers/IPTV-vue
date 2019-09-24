@@ -17,16 +17,16 @@
         </el-col>
       </el-row>
       <el-row class="rigesteduserBody bottomborder">
-        <el-col class="height_auto" :span="24">
-          <dayREportBarSingleLv :fillinData="yidongLiveBroadcast"></dayREportBarSingleLv>
-        </el-col>
-      </el-row>
-      <el-row class="rigesteduserBody bottomborder">
         <el-col class="height_auto" :span="12">
           <dayREportBarSingleVertical :fillinData="yidongtypedayusernumber"></dayREportBarSingleVertical>
         </el-col>
         <el-col class="height_auto" :span="12">
           <dayREportBarSingleVertical :fillinData="yidongtypedayclicknumber"></dayREportBarSingleVertical>
+        </el-col>
+      </el-row>
+      <el-row class="rigesteduserBody bottomborder">
+        <el-col class="height_auto" :span="24">
+          <dayREportBarSingleLv :fillinData="yidongLiveBroadcast"></dayREportBarSingleLv>
         </el-col>
       </el-row>
       <el-row class="rigesteduserBody">
@@ -48,16 +48,16 @@
         </el-col>
       </el-row>
       <el-row class="rigesteduserBody bottomborder">
-        <el-col class="height_auto" :span="24">
-          <dayREportBarSingleLv :fillinData="liantongLiveBroadcast"></dayREportBarSingleLv>
-        </el-col>
-      </el-row>
-      <el-row class="rigesteduserBody bottomborder">
         <el-col class="height_auto" :span="12">
           <dayREportBarSingleVertical :fillinData="liantongtypedayusernumber"></dayREportBarSingleVertical>
         </el-col>
         <el-col class="height_auto" :span="12">
           <dayREportBarSingleVertical :fillinData="liantongtypedayclicknumber"></dayREportBarSingleVertical>
+        </el-col>
+      </el-row>
+      <el-row class="rigesteduserBody bottomborder">
+        <el-col class="height_auto" :span="24">
+          <dayREportBarSingleLv :fillinData="liantongLiveBroadcast"></dayREportBarSingleLv>
         </el-col>
       </el-row>
       <el-row class="rigesteduserBody">
@@ -79,16 +79,16 @@
         </el-col>
       </el-row>
       <el-row class="rigesteduserBody bottomborder">
-        <el-col class="height_auto" :span="24">
-          <dayREportBarSingleLv :fillinData="dianxingLiveBroadcast"></dayREportBarSingleLv>
-        </el-col>
-      </el-row>
-      <el-row class="rigesteduserBody bottomborder">
         <el-col class="height_auto" :span="12">
           <dayREportBarSingleVertical :fillinData="dianxingtypedayusernumber"></dayREportBarSingleVertical>
         </el-col>
         <el-col class="height_auto" :span="12">
           <dayREportBarSingleVertical :fillinData="dianxingtypedayclicknumber"></dayREportBarSingleVertical>
+        </el-col>
+      </el-row>
+      <el-row class="rigesteduserBody bottomborder">
+        <el-col class="height_auto" :span="24">
+          <dayREportBarSingleLv :fillinData="dianxingLiveBroadcast"></dayREportBarSingleLv>
         </el-col>
       </el-row>
       <el-row class="rigesteduserBody">
@@ -299,12 +299,10 @@ export default {
           if (type == "yd") {
             // vm.yidongTypeLooktime.data.push(temp_0B); // ▲▲▲临时 - 平均
             vm.yidongTypeLooktime.data.push(temp_0C); // ▲▲▲临时 - 平均
-
           }
           if (type == "lt") {
             // vm.liantongTypeLooktime.data.push(temp_0B); // ▲▲▲临时 - 平均
             vm.liantongTypeLooktime.data.push(temp_0C); // ▲▲▲临时 - 平均
-
           }
           if (type == "dx") {
             // vm.dianxingTypeLooktime.data.push(temp_0B); // ▲▲▲临时 - 平均

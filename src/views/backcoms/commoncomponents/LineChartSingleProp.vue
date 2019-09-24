@@ -131,6 +131,8 @@ export default {
   },
   methods: {
     setLineChart() {
+      console.log("~~~~~~~~xxxx");
+      console.log(this.lineData_Change.id);
       var lineChart = this.$echarts.init(
         document.getElementById(this.lineData_Change.id)
       );
