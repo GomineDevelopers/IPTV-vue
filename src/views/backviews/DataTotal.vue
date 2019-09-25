@@ -105,6 +105,7 @@ import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画
 import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件(日活趋势组件)
 
 import { users_total } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 import Vue from "vue"; // 数组操作
 
@@ -413,13 +414,34 @@ export default {
         this.data.datashow[0].numT = this.api_data.module1_numT[city_num];
         this.data.datashow[0].numC = this.api_data.module1_numC[city_num];
         this.data.datashow[1].numT = this.api_data.module2_numT[city_num];
-        this.data.datashow[1].numC = this.api_data.module2_numC[city_num];
+        this.data.datashow[1].numC =
+          String(
+            commonTools.returnFloat_2(
+              this.api_data.module2_numC[city_num] * 100
+            )
+          ) + "%";
         this.data.datashow[2].numT = this.api_data.module3_numT[city_num];
-        this.data.datashow[2].numC = this.api_data.module3_numC[city_num];
+
+        this.data.datashow[2].numC =
+          String(
+            commonTools.returnFloat_2(
+              this.api_data.module3_numC[city_num] * 100
+            )
+          ) + "%";
+
         this.data.datashow[3].numT = this.api_data.module4_numT[city_num];
-        this.data.datashow[3].numC = this.api_data.module4_numC[city_num];
+        this.data.datashow[3].numC = parseInt(
+          this.api_data.module4_numC[city_num]
+        );
+
         this.data.datashow[4].numT = this.api_data.module5_numT[city_num];
-        this.data.datashow[4].numC = this.api_data.module5_numC[city_num];
+        this.data.datashow[4].numC =
+          String(
+            commonTools.returnFloat_2(
+              this.api_data.module5_numC[city_num] * 100
+            )
+          ) + "%";
+
         this.data.datashow[5].numT = this.api_data.module6_numT[city_num];
         this.data.datashow[5].numC = this.api_data.module6_numC[city_num];
         this.data.datashow[6].numT = this.api_data.module7_numT[city_num];

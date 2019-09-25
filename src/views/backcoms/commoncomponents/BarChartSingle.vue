@@ -20,7 +20,13 @@ export default {
     // }
   },
   computed: {
-    ...mapGetters(["PR_operator", "UVB_region", "ADD_VIP_region"]),
+    ...mapGetters([
+      "PR_operator",
+      "UVB_region",
+      "ADD_VIP_region",
+      "UVB_programa",
+      "ADD_VIP_programa"
+    ]),
     // ...this.$mapGetters(["PR_operator"]),
 
     chartData_Change: {
@@ -62,36 +68,42 @@ export default {
         }
 
         if (vm.chartData.id == "columnChart") {
-          if (vm.UVB_region == null || vm.UVB_region.length == 0) {
+          if (vm.UVB_programa == null || vm.UVB_programa.length == 0) {
             data = vm.chartData.data;
           } else {
             data.push(vm.chartData.data[0]);
-            if (vm.UVB_region.indexOf("贵阳") > -1) {
+            if (vm.UVB_programa.indexOf("分类") > -1) {
               data.push(vm.chartData.data[1]);
             }
-            if (vm.UVB_region.indexOf("遵义") > -1) {
+            if (vm.UVB_programa.indexOf("电视") > -1) {
               data.push(vm.chartData.data[2]);
             }
-            if (vm.UVB_region.indexOf("安顺") > -1) {
+            if (vm.UVB_programa.indexOf("推荐") > -1) {
               data.push(vm.chartData.data[3]);
             }
-            if (vm.UVB_region.indexOf("黔南") > -1) {
+            if (vm.UVB_programa.indexOf("电影") > -1) {
               data.push(vm.chartData.data[4]);
             }
-            if (vm.UVB_region.indexOf("黔东南") > -1) {
+            if (vm.UVB_programa.indexOf("热剧") > -1) {
               data.push(vm.chartData.data[5]);
             }
-            if (vm.UVB_region.indexOf("铜仁") > -1) {
+            if (vm.UVB_programa.indexOf("少儿") > -1) {
               data.push(vm.chartData.data[6]);
             }
-            if (vm.UVB_region.indexOf("毕节") > -1) {
+            if (vm.UVB_programa.indexOf("动漫") > -1) {
               data.push(vm.chartData.data[7]);
             }
-            if (vm.UVB_region.indexOf("六盘水") > -1) {
+            if (vm.UVB_programa.indexOf("综艺") > -1) {
               data.push(vm.chartData.data[8]);
             }
-            if (vm.UVB_region.indexOf("黔西南") > -1) {
+            if (vm.UVB_programa.indexOf("体育") > -1) {
               data.push(vm.chartData.data[9]);
+            }
+            if (vm.UVB_programa.indexOf("游戏") > -1) {
+              data.push(vm.chartData.data[10]);
+            }
+            if (vm.UVB_programa.indexOf("纪实") > -1) {
+              data.push(vm.chartData.data[11]);
             }
           }
           // 视图更新
@@ -108,36 +120,42 @@ export default {
         }
 
         if (vm.chartData.id == "columnChart_vip") {
-          if (vm.ADD_VIP_region == null || vm.ADD_VIP_region.length == 0) {
+          if (vm.ADD_VIP_programa == null || vm.ADD_VIP_programa.length == 0) {
             data = vm.chartData.data;
           } else {
             data.push(vm.chartData.data[0]);
-            if (vm.ADD_VIP_region.indexOf("贵阳") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("分类") > -1) {
               data.push(vm.chartData.data[1]);
             }
-            if (vm.ADD_VIP_region.indexOf("遵义") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("电视") > -1) {
               data.push(vm.chartData.data[2]);
             }
-            if (vm.ADD_VIP_region.indexOf("安顺") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("推荐") > -1) {
               data.push(vm.chartData.data[3]);
             }
-            if (vm.ADD_VIP_region.indexOf("黔南") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("电影") > -1) {
               data.push(vm.chartData.data[4]);
             }
-            if (vm.ADD_VIP_region.indexOf("黔东南") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("热剧") > -1) {
               data.push(vm.chartData.data[5]);
             }
-            if (vm.ADD_VIP_region.indexOf("铜仁") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("少儿") > -1) {
               data.push(vm.chartData.data[6]);
             }
-            if (vm.ADD_VIP_region.indexOf("毕节") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("动漫") > -1) {
               data.push(vm.chartData.data[7]);
             }
-            if (vm.ADD_VIP_region.indexOf("六盘水") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("综艺") > -1) {
               data.push(vm.chartData.data[8]);
             }
-            if (vm.ADD_VIP_region.indexOf("黔西南") > -1) {
+            if (vm.ADD_VIP_programa.indexOf("体育") > -1) {
               data.push(vm.chartData.data[9]);
+            }
+            if (vm.ADD_VIP_programa.indexOf("游戏") > -1) {
+              data.push(vm.chartData.data[10]);
+            }
+            if (vm.ADD_VIP_programa.indexOf("纪实") > -1) {
+              data.push(vm.chartData.data[11]);
             }
           }
           // 视图更新

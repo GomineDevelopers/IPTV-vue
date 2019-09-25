@@ -131,6 +131,38 @@ commonTools.returnFloat_2 = function (value) {
     }
 }
 
+// 保留三位小数
+commonTools.returnFloat_3 = function (value) {
+    var value = Math.round(parseFloat(value) * 100) / 100;
+    var xsd = value.toString().split(".");
+    if (xsd.length == 1) {
+        value = value.toString() + ".000";
+        return value;
+    }
+    if (xsd.length > 1) {
+        if (xsd[1].length < 3) {
+            value = value.toString() + "0";
+        }
+        return value;
+    }
+}
+
+// 保留四位小数
+commonTools.returnFloat_4 = function (value) {
+    var value = Math.round(parseFloat(value) * 100) / 100;
+    var xsd = value.toString().split(".");
+    if (xsd.length == 1) {
+        value = value.toString() + ".0000";
+        return value;
+    }
+    if (xsd.length > 1) {
+        if (xsd[1].length < 4) {
+            value = value.toString() + "0";
+        }
+        return value;
+    }
+}
+
 // ///////////////////// ac 地区码
 // 851：贵阳
 // 852：遵义
