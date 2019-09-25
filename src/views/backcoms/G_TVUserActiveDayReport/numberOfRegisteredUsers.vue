@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     fillinData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let color = [];
@@ -28,6 +28,7 @@ export default {
             color = vm.fillinData.color;
           } else {
             // data.push(vm.fillinData.data[0]);
+
             d0.push(vm.fillinData.data[0][0]);
             d1.push(vm.fillinData.data[1][0]);
             if (this.PR_operator.indexOf("移动") > -1) {
@@ -47,12 +48,13 @@ export default {
             }
             data.push(d0);
             data.push(d1);
+
             // console.log("~~~~data");
             // console.log(data);
           }
 
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("视图更新");
             vm.setLineChart();
           }, 300);
@@ -66,7 +68,7 @@ export default {
 
         return vm.fillinData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   mounted() {

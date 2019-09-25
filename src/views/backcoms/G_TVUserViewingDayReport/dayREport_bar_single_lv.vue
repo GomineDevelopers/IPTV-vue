@@ -12,7 +12,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -97,6 +97,13 @@ export default {
         },
         yAxis: {
           type: "value",
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#939393",
+              opacity: 0.2
+            }
+          },
           axisLine: {
             lineStyle: {
               color: "#A0A4AA"

@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     fillinData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let length1 = vm.fillinData.data.length;
@@ -30,10 +30,14 @@ export default {
         let d1_0 = [];
         let d1_1 = [];
 
+        // if (
+        //   vm.fillinData.id == "newAddUserNumber_UADR" ||
+        //   vm.fillinData.id == "outLookTime_UADR" ||
+        //   vm.fillinData.id == "dayLooktime_UADR"
+        // )
         if (
           vm.fillinData.id == "newAddUserNumber_UADR" ||
-          vm.fillinData.id == "outLookTime_UADR" ||
-          vm.fillinData.id == "dayLooktime_UADR"
+          vm.fillinData.id == "outLookTime_UADR"
         ) {
           if (this.PR_operator == null || this.PR_operator.length == 0) {
             data = vm.fillinData.data;
@@ -96,7 +100,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
@@ -107,14 +111,19 @@ export default {
             data: data
           };
         }
+        // 视图更新
+        setTimeout(function () {
+          // console.log("视图更新");
+          vm.setLineChart();
+        }, 1000);
         return vm.fillinData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -212,6 +221,13 @@ export default {
         },
         yAxis: {
           type: "value",
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#939393",
+              opacity: 0.2
+            }
+          },
           axisLine: {
             lineStyle: {
               color: "#A0A4AA"

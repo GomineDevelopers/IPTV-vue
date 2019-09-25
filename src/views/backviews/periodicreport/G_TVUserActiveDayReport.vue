@@ -63,6 +63,8 @@ import dayREportBarLv from "@/views/backcoms/G_TVUserActiveDayReport/dayREport_b
 
 import { mapGetters } from "vuex";
 import { liveUsers_daliyReport } from "@/api/api_main";
+import Vue from 'vue'
+
 
 export default {
   name: "G_TVUserActiveDayReport", //G+TV用户活跃发展日报表
@@ -74,6 +76,14 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_day"])
   },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      this.liveUsers_daliyReport("yd");
+      this.liveUsers_daliyReport("lt");
+      this.liveUsers_daliyReport("dx");
+      this.api_data_set()
+    }
+  },
   data() {
     return {
       //在册用户数
@@ -83,7 +93,7 @@ export default {
         color: ["#4474c4", "#ed7d31", "#a5a5a5"],
         data: [
           ["运营商", "移动", "联通", "电信"],
-          ["占比", 849422, 283884, 354067]
+          ["占比", , , ,]
         ]
       },
 
@@ -93,8 +103,8 @@ export default {
         id: "newAddUserNumber_UADR",
         color: ["#82b65f", "#70a7d8"],
         data: [
-          [["运营商", "移动", "联通", "电信"], ["平均", 4128, 3380, 711]],
-          [["运营商", "移动", "联通", "电信"], ["今日", 3389, 3054, 751]]
+          [["运营商", "移动", "联通", "电信"], ["平均",]],
+          [["运营商", "移动", "联通", "电信"], ["今日",]]
         ]
       },
 
@@ -104,8 +114,8 @@ export default {
         id: "turnOnRate_UADR",
         color: ["#82b65f", "#70a7d8"],
         data: [
-          [["运营商", "移动", "联通", "电信"], ["平均", 27.4, 15.0, 37.6]],
-          [["运营商", "移动", "联通", "电信"], ["今日", 23.6, 14.7, 35.8]]
+          [["运营商", "移动", "联通", "电信"], ["平均",]],
+          [["运营商", "移动", "联通", "电信"], ["今日",]]
         ]
       },
 
@@ -115,8 +125,8 @@ export default {
         id: "outLookTime_UADR",
         color: ["#82b65f", "#70a7d8"],
         data: [
-          [["运营商", "移动", "联通", "电信"], ["平均", 0, 0, 0]],
-          [["运营商", "移动", "联通", "电信"], ["今日", 0, 0, 0]]
+          [["运营商", "移动", "联通", "电信"], ["平均",]],
+          [["运营商", "移动", "联通", "电信"], ["今日",]]
         ]
       },
 
@@ -124,10 +134,10 @@ export default {
       dayLooktime: {
         title: "三大基础功能单日观看时长（万小时）",
         id: "dayLooktime_UADR",
-        color: ["#70a7d8"],
+        color: ["#82b65f", "#70a7d8"],
         data: [
-          // [["运营商", "移动", "联通", "电信"], ["平均", 77.4, 143.8, 0]], //清单中未提及均值，所以接口中没有得到数据
-          [["运营商", "直播", "点播", "回看"], ["今日", 78.7, 114.2, 0]]
+          [["播放方式", "回看", "点播", "直播"], ["平均",]],
+          [["播放方式", "回看", "点播", "直播"], ["今日",]]
         ]
       },
 
@@ -139,50 +149,31 @@ export default {
         data: [
           [
             [
-              "运营商",
-              "热剧",
-              "少儿",
-              "电影",
-              "动漫",
-              "综艺",
-              "游戏",
-              "纪实",
-              "体育",
-              "音乐",
-              "资讯"
+              "运营商", "热剧", "少儿", "电影", "动漫", "综艺", "游戏", "纪实", "体育", "音乐", "资讯"
             ],
-            ["平均", 576.4, 432.4, 363.3, 65.4, 51.8, 42.4, 8.1, 3.4, 2.8, 1.7]
+            ["平均",]
           ],
           [
             [
-              "运营商",
-              "热剧",
-              "少儿",
-              "电影",
-              "动漫",
-              "综艺",
-              "游戏",
-              "纪实",
-              "体育",
-              "音乐",
-              "资讯"
+              "运营商", "热剧", "少儿", "电影", "动漫", "综艺", "游戏", "纪实", "体育", "音乐", "资讯"
             ],
-            ["今日", 488.4, 329.1, 213.7, 39.9, 36.7, 24.7, 8.5, 2.7, 2.4, 1.9]
+            ["今日",]
           ]
         ]
       }
     };
   },
-  created() {
-    this.liveUsers_daliyReport("yd");
-    this.liveUsers_daliyReport("lt");
-    this.liveUsers_daliyReport("dx");
+  mounted() {
+    this.liveUsers_daliyReport("yd");   //移动数据
+    this.liveUsers_daliyReport("lt");   //联通数据
+    this.liveUsers_daliyReport("dx");   //电信数据
+    this.api_data_set();  //混合数据
   },
   methods: {
-    //G+TV用户活跃发展日报表
+    //G+TV用户活跃发展日报表（今日数据）
     liveUsers_daliyReport(type) {
       let vm = this;
-      let ttt;
+      let ttt;  //运营商
       if (type == "yd") {
         ttt = "移动";
       }
@@ -194,12 +185,147 @@ export default {
       }
       // console.log("~~~~~~!!vm.PR_day");
       // console.log(vm.PR_day);
-      let start = "2019-06-02";
-      let end = "2019-06-02";
-      if (vm.PR_day != null) {
-        start = vm.PR_day.start;
-        end = vm.PR_day.end;
+      let start = "2019-06-01";
+      let end = "2019-06-01";
+      // if (vm.PR_day != null) {
+      //   start = vm.PR_day.start;
+      //   end = vm.PR_day.end;
+      // }
+      let temp = {
+        operator: String([ttt]),
+        start: start,
+        end: start
       }
+
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      // let average_data_date = '2019-06-08'
+      let average_data_start = vm.$commonTools.getBeforeDate(7)  //获取当前日期的前7天的日期
+      let average_data_end = vm.$commonTools.getBeforeDate(1)  //获取当前日期的前1天的日期
+      let average_temp = {
+        operator: String([ttt]),
+        start: average_data_start,
+        end: average_data_end
+      }
+      // console.log(average_temp)
+      var average_data_formData = new FormData();
+      var average_data_formData = new window.FormData();
+      average_data_formData.append("operator", average_temp.operator);
+      average_data_formData.append("start", average_temp.start);
+      average_data_formData.append("end", average_temp.end);
+
+      //G+TV用户活跃发展日报表api对接(单个运营商数据)  今日
+      liveUsers_daliyReport(formData)
+        .then((response) => {
+          // console.log("今日数据~~~~~~~", ttt)
+          // console.log(response.data)
+          let register_num = response.data.responses[0].aggregations.register_num.value  //在册用户数
+          let new_num = response.data.responses[0].aggregations.new_num.value  //新增在册用户数（今日）
+          let open_num = response.data.responses[0].aggregations.open_num.value  //开机用户
+          // let open_rate1 = (open_num / register_num) * 100 //开机率
+          let open_rate = this.returnFloat((open_num / register_num) * 100) //开机率
+          let watch_freq_family = this.returnFloat(response.data.responses[2].aggregations.watch_freq_family.value) //户均观看时长
+          // console.log("在册用户数（今日）", ttt, register_num)
+          // console.log("新增在册用户数（今日）", ttt, new_num)
+          // console.log("开机用户数（今日）", ttt, open_num)
+          // console.log("开机率（今日）", ttt, open_rate)
+          // console.log("户均观看时长（今日）", ttt, watch_freq_family)
+
+          // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+          //移动
+          if (type == "yd") {
+            Vue.set(vm.registeredUsers.data[1], 1, register_num);  //移动在册用户数
+            Vue.set(vm.newAddUserNumber.data[1][1], 1, new_num);  //移动新增在册用户数（今日）
+            Vue.set(vm.turnOnRate.data[1][1], 1, open_rate);  //移动开机率（今日）
+            Vue.set(vm.outLookTime.data[1][1], 1, watch_freq_family);  //移动户均观看时长
+          }
+
+          //联通
+          if (type == "lt") {
+            Vue.set(vm.registeredUsers.data[1], 2, register_num);  //联通在册用户数
+            Vue.set(vm.newAddUserNumber.data[1][1], 2, new_num);  //联通新增在册用户数（今日）
+            Vue.set(vm.turnOnRate.data[1][1], 2, open_rate);  //联通开机率（今日）
+            Vue.set(vm.outLookTime.data[1][1], 2, watch_freq_family);  //联通户均观看时长
+          }
+
+          //电信
+          if (type == "dx") {
+            Vue.set(vm.registeredUsers.data[1], 3, register_num); //电信在册用户数
+            Vue.set(vm.newAddUserNumber.data[1][1], 3, new_num);  //电信新增在册用户数（今日）
+            Vue.set(vm.turnOnRate.data[1][1], 3, open_rate);   //电信开机率（今日）
+            Vue.set(vm.outLookTime.data[1][1], 3, watch_freq_family);  //电信户均观看时长
+          }
+
+        })
+        .catch((error) => {
+          console.log("G+TV用户活跃发展日报表", error)
+        })
+
+      //平均数据的获取 （当前日期前7天）
+      liveUsers_daliyReport(average_data_formData)
+        .then((response) => {
+          // console.log("前7天平均数据为", ttt, response.data)
+          let average_register_num = response.data.responses[1].aggregations.register_num.value  //在册用户数
+          let average_new_num = response.data.responses[1].aggregations.new_num.value  //新增在册用户数（平均）
+          let average_open_num = response.data.responses[1].aggregations.open_num.value  //开机用户
+          let average_open_rate = this.returnFloat(((average_open_num / average_register_num) * 100) / 7) //开机率
+          let average_watch_freq_family = this.returnFloat((response.data.responses[3].aggregations.watch_freq_family.value) / 7) //户均观看时长
+
+          // console.log("在册用户数average_register_num（平均）", ttt, average_register_num)
+          // console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num)
+          // console.log("开机用户数average_open_num（平均）", ttt, average_open_num)
+          // console.log("开机率average_open_rate（平均）", ttt, average_open_rate)
+          // console.log("户均观看时长average_watch_freq_family（平均）", ttt, average_watch_freq_family)
+
+          // console.log("-------------------------------")
+
+          //移动
+          if (type == "yd") {
+            Vue.set(vm.newAddUserNumber.data[0][1], 1, average_new_num);  //移动新增在册用户数（平均）
+            Vue.set(vm.turnOnRate.data[0][1], 1, average_open_rate);  //移动开机率（平均）
+            Vue.set(vm.outLookTime.data[0][1], 1, average_watch_freq_family);  //移动户均观看时长（平均）
+          }
+
+          //联通
+          if (type == "lt") {
+            Vue.set(vm.newAddUserNumber.data[0][1], 2, average_new_num);  //联通新增在册用户数（平均）
+            Vue.set(vm.turnOnRate.data[0][1], 2, average_open_rate);  //联通开机率（平均）
+            Vue.set(vm.outLookTime.data[0][1], 2, average_watch_freq_family);  //联通户均观看时长（平均）
+          }
+
+          //电信
+          if (type == "dx") {
+            Vue.set(vm.newAddUserNumber.data[0][1], 3, average_new_num);  //电信新增在册用户数（平均）
+            Vue.set(vm.turnOnRate.data[0][1], 3, average_open_rate);   //电信开机率（平均）
+            Vue.set(vm.outLookTime.data[0][1], 3, average_watch_freq_family);  //电信户均观看时长（平均）
+          }
+        })
+        .catch((error) => {
+          console.log("G+TV用户活跃发展日报表", error)
+        })
+
+    },
+
+    //混合运营商数据
+    api_data_set() {
+      let vm = this;
+      let ttt;
+      if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+        ttt = ["移动", "联通", "电信"]
+      } else {
+        ttt = this.PR_operator  //运营商
+      }
+      let start = "2019-06-01";
+      let end = "2019-06-01";
+      // if (vm.PR_day != null) {
+      //   start = vm.PR_day.start;
+      //   end = vm.PR_day.end;
+      // }
 
       let temp = {
         operator: String([ttt]),
@@ -212,35 +338,157 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
 
-      //户均观看时长api对接
+      // let average_data_date = '2019-06-08'
+      let average_data_start = vm.$commonTools.getBeforeDate(7)  //获取当前日期的前7天的日期
+      let average_data_end = vm.$commonTools.getBeforeDate(1)  //获取当前日期的前1天的日期
+      let average_temp = {
+        operator: String([ttt]),
+        start: average_data_start,
+        end: average_data_end
+      }
+      // console.log(average_temp)
+      var average_data_formData = new FormData();
+      var average_data_formData = new window.FormData();
+      average_data_formData.append("operator", average_temp.operator);
+      average_data_formData.append("start", average_temp.start);
+      average_data_formData.append("end", average_temp.end);
+
+      // console.log("选择运营商为：", ttt)
+
+      //基础功能单日观看时长,各类型节目点播时长数据（今日）
       liveUsers_daliyReport(formData)
         .then((response) => {
-          console.log("G+TV用户活跃发展日报表", response.data)
+          // console.log("用户选择的条件筛选结果为：******")
+          // console.log(response.data)
+          let play_mode_buckets = response.data.responses[4].aggregations.play_mode.buckets  //基础功能观看时长（今日）
+          let program_type_dur_order = response.data.responses[6].aggregations.program_type.buckets  //各类型节目点播时长（今日）
 
-          //户均观看时长（今日）
-          let watch_freq_family = this.returnFloat(response.data.responses[0].aggregations.watch_freq_family.value)
-          // console.log(watch_freq_family)
+          // console.log("program_type_dur_order", program_type_dur_order)
 
-          if (type == "yd") {
-            // console.log("移动今日观看", this.outLookTime.data[1][1][1])
-            this.outLookTime.data[1][1][1] = watch_freq_family  //设置户均观看时长（今日维度）
-          }
-          if (type == "lt") {
-            // console.log("联通今日观看", this.outLookTime.data[1][1][2])
-            this.outLookTime.data[1][1][2] = watch_freq_family
-          }
-          if (type == "dx") {
-            // console.log("电信今日观看", this.outLookTime.data[1][1][3])
-            this.outLookTime.data[1][1][3] = watch_freq_family
-          }
+          //循环遍历播放数据，取出回看，点播，直播数据
+          play_mode_buckets.forEach((value, index) => {
+            // console.log(index, value)
+            if (value.key == '回看') {
+              Vue.set(vm.dayLooktime.data[1][1], 1, value.watch_dur.value) //回看数据
+            } else if (value.key == '点播') {
+              Vue.set(vm.dayLooktime.data[1][1], 2, value.watch_dur.value) //点播数据
+            } else if (value.key == '直播') {
+              Vue.set(vm.dayLooktime.data[1][1], 3, value.watch_dur.value) //直播数据
+            }
+          })
+
+          //循环遍历各类型节目点播时长，取出相应数据
+          program_type_dur_order.forEach((value, index) => {
+            // console.log(index, value)
+            switch (value.key) {
+              case '热剧':
+                Vue.set(vm.typeLooktime.data[1][1], 1, value.demand_dur.value)
+                break;
+              case '少儿':
+                Vue.set(vm.typeLooktime.data[1][1], 2, value.demand_dur.value)
+                break;
+              case '电影':
+                Vue.set(vm.typeLooktime.data[1][1], 3, value.demand_dur.value)
+                break;
+              case '动漫':
+                Vue.set(vm.typeLooktime.data[1][1], 4, value.demand_dur.value)
+                break;
+              case '综艺':
+                Vue.set(vm.typeLooktime.data[1][1], 5, value.demand_dur.value)
+                break;
+              case '游戏':
+                Vue.set(vm.typeLooktime.data[1][1], 6, value.demand_dur.value)
+                break;
+              case '纪实':
+                Vue.set(vm.typeLooktime.data[1][1], 7, value.demand_dur.value)
+                break;
+              case '体育':
+                Vue.set(vm.typeLooktime.data[1][1], 8, value.demand_dur.value)
+                break;
+              case '音乐':
+                Vue.set(vm.typeLooktime.data[1][1], 9, value.demand_dur.value)
+                break;
+              case '资讯':
+                Vue.set(vm.typeLooktime.data[1][1], 10, value.demand_dur.value)
+                break;
+              default:
+                break;
+            }
+          })
 
         })
         .catch((error) => {
           console.log("G+TV用户活跃发展日报表", error)
         })
 
-      //三大基础功能单日观看时长api对接
+      //基础功能单日观看时长,各类型节目点播时长数据（平均）
+      liveUsers_daliyReport(average_data_formData)
+        .then((response) => {
+          // console.log("平均数据", ttt)
+          // console.log(response.data)
+          let average_play_mode_buckets = response.data.responses[5].aggregations.play_mode.buckets  //基础功能观看时长（今日）
+          let average_program_type_dur_order = response.data.responses[7].aggregations.program_type.buckets  //各类型节目点播时长（今日）
 
+          // console.log("program_type_dur_order", program_type_dur_order)
+
+          //   data: [
+          //   [["播放方式", "回看", "点播", "直播"], ["平均",]],
+          //   [["播放方式", "回看", "点播", "直播"], ["今日",]]
+          // ]
+          //循环遍历播放数据，取出回看，点播，直播数据
+          average_play_mode_buckets.forEach((value, index) => {
+            // console.log(index, value)
+            if (value.key == '回看') {
+              Vue.set(vm.dayLooktime.data[0][1], 1, value.watch_dur.value / 7) //回看数据
+            } else if (value.key == '点播') {
+              Vue.set(vm.dayLooktime.data[0][1], 2, value.watch_dur.value / 7) //点播数据
+            } else if (value.key == '直播') {
+              Vue.set(vm.dayLooktime.data[0][1], 3, value.watch_dur.value / 7) //直播数据
+            }
+          })
+
+          //循环遍历各类型节目点播时长，取出相应数据
+          average_program_type_dur_order.forEach((value, index) => {
+            // console.log(index, value)
+            switch (value.key) {
+              case '热剧':
+                Vue.set(vm.typeLooktime.data[0][1], 1, value.demand_dur.value / 7)
+                break;
+              case '少儿':
+                Vue.set(vm.typeLooktime.data[0][1], 2, value.demand_dur.value / 7)
+                break;
+              case '电影':
+                Vue.set(vm.typeLooktime.data[0][1], 3, value.demand_dur.value / 7)
+                break;
+              case '动漫':
+                Vue.set(vm.typeLooktime.data[0][1], 4, value.demand_dur.value / 7)
+                break;
+              case '综艺':
+                Vue.set(vm.typeLooktime.data[0][1], 5, value.demand_dur.value / 7)
+                break;
+              case '游戏':
+                Vue.set(vm.typeLooktime.data[0][1], 6, value.demand_dur.value / 7)
+                break;
+              case '纪实':
+                Vue.set(vm.typeLooktime.data[0][1], 7, value.demand_dur.value / 7)
+                break;
+              case '体育':
+                Vue.set(vm.typeLooktime.data[0][1], 8, value.demand_dur.value / 7)
+                break;
+              case '音乐':
+                Vue.set(vm.typeLooktime.data[0][1], 9, value.demand_dur.value / 7)
+                break;
+              case '资讯':
+                Vue.set(vm.typeLooktime.data[0][1], 10, value.demand_dur.value / 7)
+                break;
+              default:
+                break;
+            }
+          })
+        })
+        .catch((error) => {
+          console.log("G+TV用户活跃发展日报表", error)
+        })
 
     },
 
