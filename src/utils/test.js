@@ -63,7 +63,22 @@ commonTools.currentDay_ndaysAgodate = function (m_date, m_dateInterval) {
     return temp_string;
 }
 
-
+// 返回数组中最大值
+commonTools.returnArrMax = function (arr) {
+    let max;
+    let length = arr.length;
+    let i;
+    for (i = 0; i < length; i++) {
+        if (i == 0) {
+            max = arr[i];
+        } else {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+    }
+    return max;
+}
 
 // 冒泡排序 -- 从序数index几开始 （反向）
 commonTools.sortArr = function (arr, index) {

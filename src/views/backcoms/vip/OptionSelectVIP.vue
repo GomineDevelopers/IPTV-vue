@@ -70,8 +70,8 @@
       </el-checkbox-group>
     </div>
 
-    <div class="programa">
-      <span class="font_title">栏目：</span>
+    <div class="programa" v-show="ifPlaymodeShow_db">
+      <span class="font_title">栏目（点播专属）：</span>
       <el-checkbox v-model="programa_checkAll" @change="programaChoose_all">总体</el-checkbox>
       <el-checkbox-group
         @change="programaChoose_change"
@@ -170,6 +170,8 @@
 
 <script>
 import { commonTools } from "@/utils/test";
+import { mapGetters } from "vuex";
+
 var regionChoose_new = [];
 var regionChoose_old = [];
 var operatorChoose_new = [];
@@ -180,6 +182,54 @@ var programaChoose_new = [];
 var programaChoose_old = [];
 export default {
   name: "OptionSelectVIP",
+  computed: {
+    ...mapGetters(["ADD_VIP_playmode"]),
+    ifPlaymodeShow_zb: {
+      get: function() {
+        if (
+          this.ADD_VIP_playmode == null ||
+          this.ADD_VIP_playmode.length == 0
+        ) {
+          return true;
+        }
+        if (this.ADD_VIP_playmode.indexOf("直播") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifPlaymodeShow_db: {
+      get: function() {
+        if (
+          this.ADD_VIP_playmode == null ||
+          this.ADD_VIP_playmode.length == 0
+        ) {
+          return true;
+        }
+        if (this.ADD_VIP_playmode.indexOf("点播") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifPlaymodeShow_hk: {
+      get: function() {
+        if (
+          this.ADD_VIP_playmode == null ||
+          this.ADD_VIP_playmode.length == 0
+        ) {
+          return true;
+        }
+        if (this.ADD_VIP_playmode.indexOf("回看") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
+  },
   watch: {
     regionChoose(newValue, oldValue) {
       let vm = this;

@@ -37,7 +37,7 @@
           <el-col class="height_auto" :span="12">
             <pie-charts :chartData="playData"></pie-charts>
           </el-col>
-          <el-col class="height_auto" :span="12">
+          <el-col class="height_auto" :span="12" v-show="ifPlaymodeShow_db">
             <!-- 运营商柱状图 -->
             <bar-chart-single :chartData="columnData"></bar-chart-single>
           </el-col>
@@ -55,7 +55,7 @@
         <vip-behavior-top :viewingTopList="viewingTopList"></vip-behavior-top>
       </el-row>
     </el-row>-->
-    <el-row class="viewing_top15">
+    <el-row class="viewing_top15" v-show="ifPlaymodeShow_zb">
       <el-row class="model_title">
         <span class="title_border_left"></span>直播收视TOP15
       </el-row>
@@ -63,7 +63,7 @@
         <user-viewing-behavior-top-vip :viewingTopList="lookBackViewingTopList_VIP"></user-viewing-behavior-top-vip>
       </el-row>
     </el-row>
-    <el-row class="viewing_top15">
+    <el-row class="viewing_top15" v-show="ifPlaymodeShow_db">
       <el-row class="model_title">
         <span class="title_border_left"></span>点播收视TOP15
       </el-row>
@@ -72,7 +72,7 @@
       </el-row>
     </el-row>
 
-    <el-row class="viewing_top15 last_viewing_top15">
+    <el-row class="viewing_top15 last_viewing_top15" v-show="ifPlaymodeShow_hk">
       <el-row class="model_title">
         <span class="title_border_left"></span>回看收视TOP15
       </el-row>
@@ -108,7 +108,43 @@ export default {
       "ADD_VIP_week",
       "ADD_VIP_picker",
       "ADD_VIP_time_type"
-    ])
+    ]),
+    ifPlaymodeShow_zb: {
+      get: function() {
+        if (this.ADD_VIP_playmode == null || this.ADD_VIP_playmode.length == 0) {
+          return true;
+        }
+        if (this.ADD_VIP_playmode.indexOf("直播") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifPlaymodeShow_db: {
+      get: function() {
+        if (this.ADD_VIP_playmode == null || this.ADD_VIP_playmode.length == 0) {
+          return true;
+        }
+        if (this.ADD_VIP_playmode.indexOf("点播") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifPlaymodeShow_hk: {
+      get: function() {
+        if (this.ADD_VIP_playmode == null || this.ADD_VIP_playmode.length == 0) {
+          return true;
+        }
+        if (this.ADD_VIP_playmode.indexOf("回看") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
   },
   mounted() {
     // console.log("~~~~~test");
@@ -363,7 +399,7 @@ export default {
         ]
       },
       columnData: {
-        title: "栏目",
+        title: "栏目（点播专属）",
         id: "columnChart_vip",
         color: ["#FF6123"],
         data: [
