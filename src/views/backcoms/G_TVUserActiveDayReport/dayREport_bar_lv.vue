@@ -14,14 +14,14 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
   computed: {
     ...mapGetters(["PR_operator"]),
     fillinData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let length1 = vm.fillinData.data.length;
@@ -69,7 +69,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
@@ -82,7 +82,7 @@ export default {
         }
         return vm.fillinData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
 
@@ -172,6 +172,13 @@ export default {
         },
         yAxis: {
           type: "value",
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#939393",
+              opacity: 0.2
+            }
+          },
           axisLine: {
             lineStyle: {
               color: "#A0A4AA"

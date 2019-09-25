@@ -3,7 +3,7 @@
     <div class="back_home_logo">
       <img src="@/assets/logo.png" />
     </div>
-    <div>
+    <div class="back_home_nav_list">
       <el-row>
         <el-col :span="24">
           <!-- <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router> -->
@@ -150,14 +150,14 @@ export default {
     let vm = this;
     vm.$store
       .dispatch("get_ifTest")
-      .then(function(response) {
+      .then(function (response) {
         if (response) {
           // 测试情况
           vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
           vm.$store
             .dispatch("set_current_authority", vm.authorityData)
-            .then(function(response) {})
-            .catch(function(error) {
+            .then(function (response) { })
+            .catch(function (error) {
               console.info(error);
             });
         } else {
@@ -165,7 +165,7 @@ export default {
           // this.authorityData = this.current_authority; // 刷新会归零
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.info(error);
       });
   },
@@ -178,9 +178,9 @@ export default {
       // console.log(this.authorityData);
     },
     $route: {
-      handler: function(val, oldVal) {
+      handler: function (val, oldVal) {
         let vm = this;
-        setTimeout(function() {
+        setTimeout(function () {
           console.log("~~~~~~~val.path:");
           console.log(val.path);
           let pathLink = val.path;
@@ -218,7 +218,7 @@ export default {
       let newToken = token.replace('"', "").replace('"', "");
       vm.authorityData = [];
       get_user_permissions(newToken)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           let m_data = response.data.data;
           let length = m_data.length;
@@ -232,22 +232,22 @@ export default {
           temp_authorizationChoose = temp;
           vm.$store
             .dispatch("set_current_authority", temp_authorizationChoose)
-            .then(function(response) {
+            .then(function (response) {
               console.log("~~~~set_current_authority");
               // console.log(response);
               // console.log(temp_authorizationChoose);
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
     handlerClass() {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(vm.$route.path);
         let pathLink = vm.$route.path;
         let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
@@ -315,8 +315,24 @@ export default {
 }
 .back_home_logo {
   background: #002140;
-  height: 58px;
-  line-height: 58px;
+  height: 68px;
+  line-height: 68px;
+}
+.back_home_nav_list {
+  height: calc(100% - 68px);
+  overflow-y: auto;
+}
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+.back_home_nav_list::-webkit-scrollbar {
+  width: 3px;
+  background-color: rgba(0, 0, 0, 0);
+}
+/*定义滑块 内阴影+圆角*/
+.back_home_nav_list::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  /* -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3); */
+  background-color: #fff;
 }
 .back_home_logo img {
   width: 90%;
@@ -325,9 +341,9 @@ export default {
 .back_home_nav .iconfont {
   margin-right: 14px;
 }
-.acticv_class {
-  /* background: ; */
-}
+/* .acticv_class {
+  
+} */
 </style>
 
 
