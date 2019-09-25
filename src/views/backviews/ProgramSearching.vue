@@ -31,7 +31,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="这是一个时间段，如选择12:00则代表是12:00-13:00小时段"
+              content="这是一个时间段，如选择12:00则代表是00:00-12:00小时段"
               placement="right"
             >
               <i class="iconfont">&#xe605;</i>
@@ -60,19 +60,19 @@
           <el-row>
             <el-table :data="tableData" style="width: 100%">
               <el-table-column
-                prop="date(aggregations.demand_user_num.value,aggregations.onlive_user_num.value)"
+                prop="date(hits.hits[0]._source.demand_user_num,hits.hits[0]._source.onlive_user_num)"
                 label="观看户数"
               >
                 <template
                   slot-scope="scope"
-                >{{scope.row.aggregations.demand_user_num.value + scope.row.aggregations.onlive_user_num.value}}</template>
+                >{{scope.row.hits.hits[0]._source.demand_user_num + scope.row.hits.hits[0]._source.onlive_user_num}}</template>
               </el-table-column>
-              <el-table-column prop="aggregations.watch_freq.value" label="观看次数"></el-table-column>
-              <el-table-column prop="aggregations.watch_dur.value" label="观看时长（小时）"></el-table-column>
-              <el-table-column prop="aggregations.watch_num_per_family.value" label="户均收视次数"></el-table-column>
-              <el-table-column prop="aggregations.watch_dur_per_time.value" label="次均收视时长"></el-table-column>
-              <el-table-column prop="aggregations.rank_demand_freq.value" label="节目收视排名（点播）"></el-table-column>
-              <el-table-column prop="aggregations.rank_onlive_freq.value" label="节目收视排名（直播）"></el-table-column>
+              <el-table-column prop="hits.hits[0]._source.watch_freq" label="观看次数"></el-table-column>
+              <el-table-column prop="hits.hits[0]._source.watch_dur" label="观看时长（小时）"></el-table-column>
+              <el-table-column prop="hits.hits[0]._source.watch_freq_family" label="户均收视次数"></el-table-column>
+              <el-table-column prop="hits.hits[0]._source.watch_dur_mean" label="次均收视时长"></el-table-column>
+              <el-table-column prop="hits.hits[0]._source.rank_demand_dur" label="节目收视排名（点播）"></el-table-column>
+              <el-table-column prop="hits.hits[0]._source.rank_onlive_dur" label="节目收视排名（直播）"></el-table-column>
             </el-table>
           </el-row>
         </el-col>
@@ -132,26 +132,26 @@ export default {
         // console.log("当前时间第一位不是0")
         startTime = time.slice(0, 2)
       }
-      let endTime = String(Number(startTime) + 1)   //结束时间是开始时间 + 1小时
+      // let endTime = String(Number(startTime) + 1)   //结束时间是开始时间 + 1小时
 
-      // console.log("开始时间", startTime)
+      console.log("开始时间", startTime)
       // console.log("结束时间", endTime)
       // console.log("日期", this.date)
       // console.log("节目名称", this.programInput)
 
       let formData = new FormData()
       formData.append("name", this.programInput)
-      formData.append("start", startTime)
-      formData.append("end", endTime)
+      formData.append("time", startTime)
+      // formData.append("end", endTime)
       formData.append("date", this.date)
 
-      if (startTime != '' && endTime != '' && this.date != '' && this.programInput != '') {
+      if (startTime != '' && this.date != '' && this.programInput != '') {
         // console.log("可以提交数据")
         program_search(formData)
           .then((response) => {
             this.tableData = response.data.responses
             this.showMessage('success', '查询成功！')
-            console.log("返回的数据tableData为：", this.tableData)
+            // console.log("返回的数据tableData为：", response.data.responses)
           })
           .catch((error) => {
             console.log(error)

@@ -46,6 +46,7 @@
 import OptionSelectEPG from "../backcoms/epg/OptionSelectEPG";
 import EpgPageOne from "../backcoms/epg/EpgPageOne";
 import EpgPageTwo from "../backcoms/epg/EpgPageTwo";
+
 export default {
   name: "EPG", //EPG
   components: {
@@ -56,10 +57,13 @@ export default {
   data() {
     return {
       pageOneShow: true,
-      pageTwoShow: false
+      pageTwoShow: false,
+      epgProgramsTotal: null  //总的栏目分类
     };
   },
-  mounted() { },
+  mounted() {
+
+  },
   methods: {
     //一级页面与二级页面切换选项卡
     changePage(string) {
@@ -79,7 +83,7 @@ export default {
   margin-bottom: 50px;
 }
 .epg {
-  height: 250px;
+  height: 260px;
 }
 .epg_body {
   margin: 14px 0px;

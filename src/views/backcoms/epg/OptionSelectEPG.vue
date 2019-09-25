@@ -14,7 +14,7 @@
         :key="index + 'a' "
         v-show="operator_isIndeterminate"
       >
-        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+        <el-checkbox :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
       <el-checkbox-group
         @change="operatorChoose_change"
@@ -65,6 +65,7 @@
         v-model="value_others"
         filterable
         allow-create
+        clearable
         default-first-option
         placeholder="其他"
       >
@@ -85,9 +86,11 @@
           v-model="time.weekValue"
           filterable
           allow-create
+          clearable
           default-first-option
           placeholder="请设置周数"
           style="width:300px;"
+          @change="handleWeek"
         >
           <el-option
             v-for="item in time.week"
@@ -105,9 +108,11 @@
           v-model="time.monthValue"
           filterable
           allow-create
+          clearable
           default-first-option
           placeholder="请设置月数"
           style="width:300px;"
+          @change="handleMonth"
         >
           <el-option
             v-for="item in time.month"
@@ -120,13 +125,15 @@
       </span>
     </div>
     <div class="submitP">
-      <el-button class="submit">确定</el-button>
+      <el-button class="submit" @click="getBoxDetail">确定</el-button>
     </div>
   </div>
 </template>
 
 <script>
 import { commonTools } from "@/utils/test";
+import { mapGetters } from "vuex";
+import { epg_programs } from "@/api/api_main";
 
 var operatorChoose_new = [];
 var operatorChoose_old = [];
@@ -135,6 +142,66 @@ var programaChoose_old = [];
 
 export default {
   name: "OptionSelectEPG",
+  data() {
+    return {
+      operator: [
+        "移动1.0",
+        "移动2.0",
+        "联通",
+        "电信"
+        //  "其他"
+      ],
+      operatorChoose: [],
+      operator_checkAll: false,
+      operator_isIndeterminate: true,
+      programa: ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"],
+      programaChoose: [],
+      programa_checkAll: false,
+      programa_isIndeterminate: true,
+
+      options_others: [
+        {
+          value: "其他1",
+          label: "其他1"
+        },
+        {
+          value: "其他2",
+          label: "其他2"
+        },
+        {
+          value: "其他3",
+          label: "其他3"
+        }
+      ],
+      value_others: [],
+      timeChoose: '',
+      time: {
+        week: [
+          // {
+          //   value: "选项1",
+          //   label: "第1周（1.1-1.7）"
+          // },
+          // ...
+        ],
+        weekValue: "",
+        month: [
+          // {
+          //   value: "选项1",
+          //   label: "1月"
+          // },
+          // ...
+          // {
+          //   value: "选项12",
+          //   label: "12月"
+          // }
+        ],
+        monthValue: "",
+      }
+    };
+  },
+  computed: {
+    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month"])
+  },
   watch: {
     operatorChoose(newValue, oldValue) {
       let vm = this;
@@ -191,79 +258,52 @@ export default {
         .catch(function (error) {
           console.info(error);
         });
+    },
+
+    //监听运营商的变化
+    EPG_operator(newValue, oldValue) {
+      this.programsSwitch()
     }
   },
-  data() {
-    return {
-      operator: [
-        "移动1.0",
-        "移动2.0",
-        "联通",
-        "电信"
-        //  "其他"
-      ],
-      operatorChoose: [],
-      operator_checkAll: false,
-      operator_isIndeterminate: true,
-      programa: [
-        // "总体",
-        "分类",
-        "电视",
-        "推荐",
-        "电影",
-        "热剧",
-        "少儿",
-        "动漫 ",
-        "综艺",
-        "体育",
-        "游戏",
-        "纪实",
-        "健康",
-        "音乐"
-        // "其他"
-      ],
-      programaChoose: [],
-      programa_checkAll: false,
-      programa_isIndeterminate: true,
+  mounted() {
+    let vm = this;
+    // ▲历史条件获取
+    vm.$store
+      .dispatch("get_EPG_operator")
+      .then(function (response) {
+        // console.log(response);
+        vm.operatorChoose = response;
+      })
+      .catch(function (error) {
+        console.info(error);
+      });
+    vm.$store
+      .dispatch("get_EPG_programa")
+      .then(function (response) {
+        // console.log(response);
+        vm.programaChoose = response;
+      })
+      .catch(function (error) {
+        console.info(error);
+      });
 
-      options_others: [
-        {
-          value: "其他1",
-          label: "其他1"
-        },
-        {
-          value: "其他2",
-          label: "其他2"
-        },
-        {
-          value: "其他3",
-          label: "其他3"
-        }
-      ],
-      value_others: [],
-      time: {
-        week: [
-          // {
-          //   value: "选项1",
-          //   label: "第1周（1.1-1.7）"
-          // },
-          // ...
-        ],
-        weekValue: "",
-        month: [
-          // {
-          //   value: "选项1",
-          //   label: "1月"
-          // },
-          // ...
-          // {
-          //   value: "选项12",
-          //   label: "12月"
-          // }
-        ],
-        monthValue: ""
-      }
-    };
+    // 初始化周
+    let arr_temp = [];
+    arr_temp = commonTools.weekDate(2018);
+    setTimeout(function () {
+      arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      vm.time.week = arr_temp;
+    }, 100);
+
+    // 初始化月
+    let arr_temp2 = commonTools.format_MonthDays(2018);
+    setTimeout(function () {
+      arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
+      vm.time.month = arr_temp2;
+    }, 100);
+
+    this.getEpgProgramsTotal()
+    this.programsSwitch()
   },
   methods: {
     operatorChoose_change(event) {
@@ -309,45 +349,86 @@ export default {
     programaChoose_all(val) {
       this.programaChoose = val ? this.programa : [];
       this.programa_isIndeterminate = !this.programa_isIndeterminate;
-    }
+    },
+
+    getBoxDetail() {
+      let operatorName = this.operatorChoose[0]
+      let programName = this.programaChoose[0]
+      let timeItem = this.timeChoose
+      console.log("查询数据")
+      console.log(operatorName)
+      console.log(programName)
+      console.log(timeItem)
+
+    },
+
+    //点击运营商切换栏目分类
+    programsSwitch() {
+      let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //移动1.0栏目分类
+      let programs_yd_two = ["分类", "电视", "推荐", "VIP", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
+      let programs_lt = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //联通栏目分类
+      let programs_dx = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //电信栏目分类
+
+      // console.log(this.EPG_operator)
+      if (this.EPG_operator.length == 1) {
+        let operatorName = this.EPG_operator[0]
+        console.log("选择运营商：", operatorName)
+        switch (operatorName) {
+          case '移动1.0':
+            this.programa = programs_yd_one;
+            break;
+          case '移动2.0':
+            this.programa = programs_yd_two;
+            break;
+          case '联通':
+            this.programa = programs_lt;
+            break;
+          case '电信':
+            this.programa = programs_dx;
+            break;
+          default:
+            break;
+        }
+
+      }
+    },
+
+    //获取总的栏目分类数据
+    getEpgProgramsTotal() {
+      epg_programs()
+        .then((response) => {
+          // console.log("EPG所有栏目分类", response.data.responses[0])
+          this.epgProgramsTotal = response.data.responses[0].aggregations.ti.buckets
+          // console.log(this.epgProgramsTotal)
+        })
+        .catch((error) => {
+          console.log("EPG", error)
+        })
+    },
+
+    //时间 周 选项的控制
+    handleWeek(event) {
+      if (this.time.weekValue != '') {
+        // console.log("周选择", event)
+        this.timeChoose = event
+        this.time.monthValue = ''
+      } else {
+        this.timeChoose = ''
+      }
+    },
+
+    //时间 月 选项的控制
+    handleMonth(event) {
+      if (this.time.monthValue != '') {
+        // console.log("月选择", event)
+        this.time.weekValue = ''
+        this.timeChoose = event
+      } else {
+        this.timeChoose = ''
+      }
+    },
   },
-  mounted() {
-    let vm = this;
-    // ▲历史条件获取
-    vm.$store
-      .dispatch("get_EPG_operator")
-      .then(function (response) {
-        // console.log(response);
-        vm.operatorChoose = response;
-      })
-      .catch(function (error) {
-        console.info(error);
-      });
-    vm.$store
-      .dispatch("get_EPG_programa")
-      .then(function (response) {
-        // console.log(response);
-        vm.programaChoose = response;
-      })
-      .catch(function (error) {
-        console.info(error);
-      });
 
-    // 初始化周
-    let arr_temp = [];
-    arr_temp = commonTools.weekDate(2018);
-    setTimeout(function () {
-      arr_temp = commonTools.weekDate_add(2019, arr_temp);
-      vm.time.week = arr_temp;
-    }, 100);
-
-    // 初始化月
-    let arr_temp2 = commonTools.format_MonthDays(2018);
-    setTimeout(function () {
-      arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
-      vm.time.month = arr_temp2;
-    }, 100);
-  }
 };
 </script>
 
@@ -377,11 +458,8 @@ export default {
 .other_item_select .el-input input {
   width: 120px;
   height: 35px;
-  line-height: 35px;
 }
 </style>
-
-
 <style scoped>
 .el-checkbox-group {
   display: inline-block;
@@ -398,7 +476,9 @@ export default {
   width: 100%;
   line-height: 32px;
 }
-
+.OptionSelectEPG .operator label {
+  margin-right: 18px;
+}
 .OptionSelectEPG .font_title {
   font-family: PingFangSC-Semibold;
   font-size: 14px;
