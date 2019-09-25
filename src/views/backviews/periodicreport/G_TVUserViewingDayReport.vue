@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="back_white margintop_14">
-      <el-col class="height_auto periodic_report_title" :span="24">G+TV用户活跃发展日报表</el-col>
+      <el-col class="height_auto periodic_report_title" :span="24">G+TV用户收视日报表</el-col>
     </el-row>
     <!-- 移动专项开始 -->
     <el-row
@@ -108,22 +108,70 @@ import dayREportBarSingle from "@/views/backcoms/G_TVUserViewingDayReport/dayREp
 
 import { mapGetters } from "vuex";
 import { users_daliyReport } from "@/api/api_main";
+import Vue from "vue";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "G_TVUserViewingDayReport", //G+TV用户收视日报表
-  created() {
-    this.users_daliyReport("yd");
-    this.users_daliyReport("lt");
-    this.users_daliyReport("dx");
+  mounted() {
+    // singleday - 当天  rangeday - 前七天（不包括当天）
+
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenStartDate")
+        .then(function(res1) {
+          setTimeout(function() {
+            vm.$store
+              .dispatch("get_BigScreenExpirationDate")
+              .then(function(res2) {
+                vm.users_daliyReport("yd", "rangeday", res2, res2);
+                vm.users_daliyReport("lt", "rangeday", res2, res2);
+                vm.users_daliyReport("dx", "rangeday", res2, res2);
+                vm.users_daliyReport("yd", "singleday", res1, res2);
+                vm.users_daliyReport("lt", "singleday", res1, res2);
+                vm.users_daliyReport("dx", "singleday", res1, res2);
+              })
+              .catch(function(error) {
+                console.info(error);
+              });
+          }, 100);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
-  mounted() {},
   watch: {
     PR_day(newValue, oldValue) {
       console.log("~~~~~PR_day");
       console.log(newValue);
-      this.users_daliyReport("yd");
-      this.users_daliyReport("lt");
-      this.users_daliyReport("dx");
+
+      let vm = this;
+      setTimeout(function() {
+        vm.$store
+          .dispatch("get_BigScreenStartDate")
+          .then(function(res1) {
+            setTimeout(function() {
+              vm.$store
+                .dispatch("get_BigScreenExpirationDate")
+                .then(function(res2) {
+                  vm.users_daliyReport("yd", "rangeday", res2, res2);
+                  vm.users_daliyReport("lt", "rangeday", res2, res2);
+                  vm.users_daliyReport("dx", "rangeday", res2, res2);
+                  vm.users_daliyReport("yd", "singleday", res1, res2);
+                  vm.users_daliyReport("lt", "singleday", res1, res2);
+                  vm.users_daliyReport("dx", "singleday", res1, res2);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            }, 100);
+          })
+          .catch(function(error) {
+            console.info(error);
+          });
+      }, 100);
     }
   },
   computed: {
@@ -166,30 +214,30 @@ export default {
     }
   },
   methods: {
-    users_daliyReport(type) {
+    users_daliyReport(operator_type, date_type, StartDate, ExpirationDate) {
       console.log("users_daliyReport");
       let vm = this;
-      let ttt;
-      if (type == "yd") {
-        ttt = "移动";
+      let temp_operator;
+      if (operator_type == "yd") {
+        temp_operator = "移动";
       }
-      if (type == "lt") {
-        ttt = "联通";
+      if (operator_type == "lt") {
+        temp_operator = "联通";
       }
-      if (type == "dx") {
-        ttt = "电信";
+      if (operator_type == "dx") {
+        temp_operator = "电信";
       }
       console.log("~~~~~~!!vm.PR_day");
       console.log(vm.PR_day);
-      let start = "2019-07-01";
-      let end = "2019-07-01";
+      let start = StartDate;
+      let end = ExpirationDate;
       if (vm.PR_day != null) {
         start = vm.PR_day.start;
         end = vm.PR_day.end;
       }
       let temp = {
         // operator: String(["移动"]),
-        operator: String([ttt]),
+        operator: String([temp_operator]),
         // start: "2019-07-01",
         // end: "2019-07-01"
         start: start,
@@ -203,201 +251,408 @@ export default {
 
       users_daliyReport(formData)
         .then(function(response) {
-          console.log(response);
-          ///////////////// 移动侧各类型节目单日点播时长（千小时） - yidongTypeLooktime
-          let buckets0 =
-            response.data.responses[0].aggregations.program_type.buckets;
-          // 平均
-          let temp_0 = [];
-          let temp_0_C1 = [];
-          let temp_0_C2 = [];
-          let top10Num = 10;
-          let length_0 = top10Num; // ▲指定10 - Top
-
-          let i_0;
-          temp_0_C1.push("运营商");
-          temp_0_C2.push("平均");
-          for (i_0 = 0; i_0 < length_0; i_0++) {
-            temp_0_C1.push(buckets0[i_0].key);
-            temp_0_C2.push(
-              String(
-                parseInt(
-                  parseFloat(buckets0[i_0].demand_dur.value) / 1000 / 3600
-                )
-              )
-            ); //秒-》千小时 取整
-          }
-          temp_0.push(temp_0_C1);
-          temp_0.push(temp_0_C2);
-          if (type == "yd") {
-            vm.yidongTypeLooktime.data.push(temp_0);
-          }
-          if (type == "lt") {
-            vm.liantongTypeLooktime.data.push(temp_0);
-          }
-          if (type == "dx") {
-            vm.dianxingTypeLooktime.data.push(temp_0);
-          }
-          // 今日
-          let temp_0B = [];
-          let temp_0_C1B = [];
-          let temp_0_C2B = [];
-          // let length_0B = buckets0.length;
-          let length_0B = top10Num;
-          let i_0B;
-          temp_0_C1B.push("运营商");
-          temp_0_C2B.push("今日");
-          for (i_0B = 0; i_0B < length_0B; i_0B++) {
-            temp_0_C1B.push(buckets0[i_0B].key);
-            temp_0_C2B.push(
-              String(
-                parseInt(
-                  parseFloat(buckets0[i_0B].demand_dur.value) / 1000 / 3600
-                )
-              )
-            );
-          }
-          temp_0B.push(temp_0_C1B);
-          temp_0B.push(temp_0_C2B);
-          ////// 添加平均
-          let temp_0_C1C = [];
-          let temp_0_C2C = [];
-          temp_0_C1C.push("运营商");
-          temp_0_C2C.push("今日");
-          let i_0C;
-
-          let buckets5 =
-            response.data.responses[5].aggregations.program_type.buckets;
-          let length_0C = buckets5.length;
-
-          let length5 = buckets5.length;
-          let i5;
-          let j;
-          for (i_0C = 0; i_0C < length_0C; i_0C++) {
-            for (j = 0; j < 10; j++) {
-              if (buckets0[j].key == buckets5[i_0C].key) {
-                temp_0_C1C.push(buckets0[i_0C].key);
-                temp_0_C2C.push(
-                  String(
-                    parseInt(
-                      parseFloat(buckets0[i_0C].demand_dur.value) / 1000 / 3600
-                    )
-                  )
-                );
-              }
+          if (date_type == "rangeday") {
+            if (operator_type == "yd") {
+              console.log("~~~~yd rangeday");
+              console.log(response);
+            }
+            if (operator_type == "lt") {
+              console.log("~~~~lt rangeday");
+              console.log(response);
+            }
+            if (operator_type == "dx") {
+              console.log("~~~~dx rangeday");
+              console.log(response);
             }
           }
-          temp_0C.push(temp_0_C1C);
-          temp_0C.push(temp_0_C2C);
-          // for (i5 = 0; i5 < length5; i5++) {
-          //   if(i5 < 10){
-          //     if(buckets5[i5].key == "")
-          //   }
-          // }
-          //////
+          if (date_type == "singleday") {
+            if (operator_type == "yd") {
+              console.log("~~~~yd singleday");
+              console.log(response);
+            }
+            if (operator_type == "lt") {
+              console.log("~~~~lt singleday");
+              console.log(response);
+            }
+            if (operator_type == "dx") {
+              console.log("~~~~dx singleday");
+              console.log(response);
+            }
+          }
 
-          if (type == "yd") {
-            // vm.yidongTypeLooktime.data.push(temp_0B); // ▲▲▲临时 - 平均
-            vm.yidongTypeLooktime.data.push(temp_0C); // ▲▲▲临时 - 平均
-          }
-          if (type == "lt") {
-            // vm.liantongTypeLooktime.data.push(temp_0B); // ▲▲▲临时 - 平均
-            vm.liantongTypeLooktime.data.push(temp_0C); // ▲▲▲临时 - 平均
-          }
-          if (type == "dx") {
-            // vm.dianxingTypeLooktime.data.push(temp_0B); // ▲▲▲临时 - 平均
-            vm.dianxingTypeLooktime.data.push(temp_0C); // ▲▲▲临时 - 平均
-          }
-          // console.log(vm.yidongTypeLooktime);
-          //////////////////  移动侧直播频道单日收视率排行-TOP12 -  yidongLiveBroadcast
+          ///////////////// 移动侧各类型节目单日点播时长（千小时） - yidongTypeLooktime
+          if (date_type == "rangeday") {
+            let buckets0 =
+              response.data.responses[1].aggregations.program_type.buckets;
+            // ////// 平均  ( @PS:平均返回的值是所有（7）天的，需要(all_demand_dur)除以7 )
+            // 注意，视图是 先平均 再今日  --- api是  先今日-0  后平均-1
+            let temp_0 = [];
+            let temp_0_C1 = [];
+            let temp_0_C2 = [];
+            // let top10Num = 10;
+            // let length_0 = top10Num; // ▲指定10 - Top
+            let length_0 = buckets0.length; // 由于固定了显示栏目--所以用全length
 
-          let buckets1 =
-            response.data.responses[2].aggregations.channel.buckets;
-          let temp_1 = [];
-          let temp_1_C1 = [];
-          let temp_1_C2 = [];
-          // let length_1 = buckets1.length;
-          let length_1_all = buckets1.length;
-          let length_1 = 12; // ▲▲▲ 固定Top12
-
-          let i_1;
-          temp_1_C1.push("运营商");
-          temp_1_C2.push("平均");
-          let all_count = 0.0;
-          for (i_1 = 0; i_1 < length_1_all; i_1++) {
-            all_count += parseFloat(buckets1[i_1].onlive_dur.value);
-          }
-          for (i_1 = 0; i_1 < length_1; i_1++) {
-            temp_1_C1.push(buckets1[i_1].key);
-            temp_1_C2.push(
-              String(
-                parseInt(
-                  (parseFloat(buckets1[i_1].onlive_dur.value) * 100) / all_count
+            let i_0;
+            temp_0_C1.push("运营商");
+            temp_0_C2.push("平均");
+            function data_manage(i_0, index) {
+              Vue.set(temp_0_C1, index, buckets0[i_0].key);
+              Vue.set(
+                temp_0_C2,
+                index,
+                String(
+                  commonTools.returnFloat_4(
+                    parseFloat(buckets0[i_0].all_demand_dur.value) /
+                      1000 /
+                      3600 /
+                      7
+                  )
                 )
-              )
-            );
+                // buckets0[i_0].all_demand_dur.value
+              );
+            }
+            //（固定排列！） 热剧 少儿 电影 动漫 综艺 游戏 纪实 音乐 体育 新闻资讯
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              // temp_0_C1.push(buckets0[i_0].key);
+              // temp_0_C2.push(
+              // String(
+              //   parseInt(
+              //     parseFloat(buckets0[i_0].all_demand_dur.value) /
+              //       1000 /
+              //       3600 /
+              //       7
+              //   )
+              // )
+              // ); //秒-》千小时 取整
+              if (buckets0[i_0].key == "热剧") {
+                data_manage(i_0, 1);
+              }
+              if (buckets0[i_0].key == "少儿") {
+                data_manage(i_0, 2);
+              }
+              if (buckets0[i_0].key == "电影") {
+                data_manage(i_0, 3);
+              }
+              if (buckets0[i_0].key == "动漫") {
+                data_manage(i_0, 4);
+              }
+              if (buckets0[i_0].key == "综艺") {
+                data_manage(i_0, 5);
+              }
+              if (buckets0[i_0].key == "游戏") {
+                data_manage(i_0, 6);
+              }
+              if (buckets0[i_0].key == "纪实") {
+                data_manage(i_0, 7);
+              }
+              if (buckets0[i_0].key == "音乐") {
+                data_manage(i_0, 8);
+              }
+              if (buckets0[i_0].key == "体育") {
+                data_manage(i_0, 9);
+              }
+              if (buckets0[i_0].key == "新闻资讯") {
+                data_manage(i_0, 10);
+              }
+            }
+            temp_0.push(temp_0_C1);
+            temp_0.push(temp_0_C2);
+            if (operator_type == "yd") {
+              vm.yidongTypeLooktime.data.push(temp_0);
+            }
+            if (operator_type == "lt") {
+              vm.liantongTypeLooktime.data.push(temp_0);
+            }
+            if (operator_type == "dx") {
+              vm.dianxingTypeLooktime.data.push(temp_0);
+            }
+
+            // console.log("~~~~~~~~Test！！！！");
+            // console.log(vm.yidongTypeLooktime);
+            // console.log(vm.liantongTypeLooktime);
+            // console.log(vm.dianxingTypeLooktime);
           }
-          temp_1.push(temp_1_C1);
-          temp_1.push(temp_1_C2);
-          if (type == "yd") {
-            vm.yidongLiveBroadcast.data.push(temp_1);
+
+          // ////// 今日
+          if (date_type == "singleday") {
+            let buckets0 =
+              response.data.responses[0].aggregations.program_type.buckets;
+            let temp_0 = [];
+            let temp_0_C1 = [];
+            let temp_0_C2 = [];
+            // let top10Num = 10;
+            // let length_0 = top10Num; // ▲指定10 - Top
+            let length_0 = buckets0.length; // 由于固定了显示栏目--所以用全length
+
+            let i_0;
+            temp_0_C1.push("运营商");
+            temp_0_C2.push("今日");
+            // Vue.set(temp_0_C1, 0, "运营商");
+            // Vue.set(temp_0_C2, 0, "今日");
+
+            function data_manage(i_0, index) {
+              Vue.set(temp_0_C1, index, buckets0[i_0].key);
+              Vue.set(
+                temp_0_C2,
+                index,
+                String(
+                  commonTools.returnFloat_4(
+                    parseFloat(buckets0[i_0].demand_dur.value) / 1000 / 3600
+                  )
+                )
+                // buckets0[i_0].demand_dur.value
+              );
+            }
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              if (buckets0[i_0].key == "热剧") {
+                data_manage(i_0, 1);
+              }
+              if (buckets0[i_0].key == "少儿") {
+                data_manage(i_0, 2);
+              }
+              if (buckets0[i_0].key == "电影") {
+                data_manage(i_0, 3);
+              }
+              if (buckets0[i_0].key == "动漫") {
+                data_manage(i_0, 4);
+              }
+              if (buckets0[i_0].key == "综艺") {
+                data_manage(i_0, 5);
+              }
+              if (buckets0[i_0].key == "游戏") {
+                data_manage(i_0, 6);
+              }
+              if (buckets0[i_0].key == "纪实") {
+                data_manage(i_0, 7);
+              }
+              if (buckets0[i_0].key == "音乐") {
+                data_manage(i_0, 8);
+              }
+              if (buckets0[i_0].key == "体育") {
+                data_manage(i_0, 9);
+              }
+              if (buckets0[i_0].key == "新闻资讯") {
+                data_manage(i_0, 10);
+              }
+            }
+            // console.log("~~~~");
+            // console.log(temp_0_C1);
+            // console.log(temp_0_C2);
+
+            temp_0.push(temp_0_C1);
+            temp_0.push(temp_0_C2);
+            if (operator_type == "yd") {
+              vm.yidongTypeLooktime.data.push(temp_0);
+            }
+            if (operator_type == "lt") {
+              vm.liantongTypeLooktime.data.push(temp_0);
+            }
+            if (operator_type == "dx") {
+              vm.dianxingTypeLooktime.data.push(temp_0);
+            }
+
+            // console.log("~~~~~~~~Test！！！！");
+            // console.log(vm.yidongTypeLooktime);
+            // console.log(vm.liantongTypeLooktime);
+            // console.log(vm.dianxingTypeLooktime);
           }
-          if (type == "lt") {
-            vm.liantongLiveBroadcast.data.push(temp_1);
+
+          // //////////////////  移动侧直播频道单日收视率排行-TOP12 -  yidongLiveBroadcast
+          if (date_type == "singleday") {
+            let buckets1 =
+              response.data.responses[2].aggregations.channel.buckets;
+            let temp_1 = [];
+            let temp_1_C1 = [];
+            let temp_1_C2 = [];
+            // let length_1 = buckets1.length;
+            let length_1_all = buckets1.length;
+            let length_1 = 12; // ▲▲▲ 固定Top12
+
+            let i_1;
+            // temp_0_C1.push("运营商");
+            // temp_0_C2.push("今日");
+            // Vue.set(temp_0_C1, 0, "运营商");
+            // Vue.set(temp_0_C1, 0, "今日");
+            let all_count = 0.0;
+            for (i_1 = 0; i_1 < length_1_all; i_1++) {
+              all_count += parseFloat(buckets1[i_1].onlive_dur.value);
+            }
+            for (i_1 = 0; i_1 < length_1; i_1++) {
+              temp_1_C1.push(buckets1[i_1].key);
+              temp_1_C2.push(
+                String(
+                  parseInt(
+                    (parseFloat(buckets1[i_1].onlive_dur.value) * 100) /
+                      all_count
+                  )
+                )
+              );
+            }
+            temp_1.push(temp_1_C1);
+            temp_1.push(temp_1_C2);
+            if (operator_type == "yd") {
+              vm.yidongLiveBroadcast.data.push(temp_1);
+            }
+            if (operator_type == "lt") {
+              vm.liantongLiveBroadcast.data.push(temp_1);
+            }
+            if (operator_type == "dx") {
+              vm.dianxingLiveBroadcast.data.push(temp_1);
+            }
           }
-          if (type == "dx") {
-            vm.dianxingLiveBroadcast.data.push(temp_1);
-          }
+
           // console.log(vm.yidongLiveBroadcast);
 
-          ////////////////// 移动侧各栏目单日点击用户数（万户） yidongtypedayusernumber
-          ////////////////// 移动侧各栏目单日点击次数   yidongtypedayclicknumber
+          // ////////////////// 移动侧各栏目单日点击用户数（万户） yidongtypedayusernumber
+          // ////////////////// 移动侧各栏目单日点击次数   yidongtypedayclicknumber
+          // ▲▲ 固定栏目顺序：移动 联通 电信  不一样
+          let yd_channnel_order = [
+            "推荐",
+            "热剧",
+            "少儿",
+            "电影",
+            "电视",
+            "电视剧",
+            "动漫",
+            "游戏",
+            "综艺",
+            "体育",
+            "纪实"
+          ];
+          let lt_channnel_order = [
+            "推荐",
+            "热剧",
+            "少儿",
+            "电影",
+            "电视",
+            "电视剧",
+            "应用",
+            "动漫",
+            "游戏",
+            "综艺",
+            "体育",
+            "纪实"
+          ];
+          let dx_channnel_order = [
+            "推荐",
+            "热剧",
+            "少儿",
+            "电影",
+            "电视",
+            "电视剧",
+            "动漫",
+            "游戏",
+            "综艺",
+            "体育",
+            "纪实"
+          ];
 
-          let buckets2 = response.data.responses[3].aggregations.ti.buckets;
-          let length_3_all = buckets2.length;
-          let length_3_top;
-          if (length_3_all >= 12) {
-            length_3_top = 12;
-          } else {
+          if (date_type == "singleday") {
+            let buckets2 = response.data.responses[3].aggregations.ti.buckets;
+            let length_3_all = buckets2.length;
+            let length_3_top;
+            // if (length_3_all >= 12) {
+            //   length_3_top = 12;
+            // } else {
+            //   length_3_top = length_3_all;
+            // }
             length_3_top = length_3_all;
-          }
-          let temp_3 = [];
-          let temp_3_C1 = [];
-          let temp_3_C2 = [];
-          let temp_3B = [];
-          let temp_3_C1B = [];
-          let temp_3_C2B = [];
-          temp_3_C1.push("运营商");
-          temp_3_C2.push("平均");
-          temp_3_C1B.push("运营商");
-          temp_3_C2B.push("平均");
+            let temp_3 = [];
+            let temp_3_C1 = [];
+            let temp_3_C2 = [];
+            let temp_3B = [];
+            let temp_3_C1B = [];
+            let temp_3_C2B = [];
+            let i_0;
+            temp_3_C1.push("运营商");
+            temp_3_C2.push("平均");
+            temp_3_C1B.push("运营商");
+            temp_3_C2B.push("平均");
+            function data_manage(i_0) {
+              if (operator_type == "yd") {
+                if (buckets2[i_0].key == yd_channnel_order[i_0]) {
+                  Vue.set(temp_3_C1, i_0 + 1, buckets2[i_0].key);
+                  Vue.set(
+                    temp_3_C2,
+                    i_0 + 1,
+                    String(
+                      parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                    )
+                  );
+                  Vue.set(temp_3_C1B, i_0 + 1, buckets2[i_0].key);
+                  Vue.set(
+                    temp_3_C2B,
+                    i_0 + 1,
+                    String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
+                  );
+                }
+              }
+              if (operator_type == "lt") {
+                if (buckets2[i_0].key == lt_channnel_order[i_0]) {
+                  Vue.set(temp_3_C1, i_0 + 1, buckets2[i_0].key);
+                  Vue.set(
+                    temp_3_C2,
+                    i_0 + 1,
+                    String(
+                      parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                    )
+                  );
+                  Vue.set(temp_3_C1B, i_0 + 1, buckets2[i_0].key);
+                  Vue.set(
+                    temp_3_C2B,
+                    i_0 + 1,
+                    String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
+                  );
+                }
+              }
+              if (operator_type == "dx") {
+                if (buckets2[i_0].key == dx_channnel_order[i_0]) {
+                  Vue.set(temp_3_C1, i_0 + 1, buckets2[i_0].key);
+                  Vue.set(
+                    temp_3_C2,
+                    i_0 + 1,
+                    String(
+                      parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                    )
+                  );
+                  Vue.set(temp_3_C1B, i_0 + 1, buckets2[i_0].key);
+                  Vue.set(
+                    temp_3_C2B,
+                    i_0 + 1,
+                    String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
+                  );
+                }
+              }
+            }
+            for (i_0 = 0; i_0 < length_3_top; i_0++) {
+              data_manage(i_0);
+              // temp_3_C1.push(buckets2[i_0].key);
+              // temp_3_C2.push(
+              //   String(parseInt(parseFloat(buckets2[i_0].click_user_num.value)))
+              // );
+              // temp_3_C1B.push(buckets2[i_0].key);
+              // temp_3_C2B.push(
+              //   String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
+              // );
+            }
+            temp_3.push(temp_3_C1);
+            temp_3.push(temp_3_C2);
+            temp_3B.push(temp_3_C1B);
+            temp_3B.push(temp_3_C2B);
 
-          for (i_0 = 0; i_0 < length_3_top; i_0++) {
-            temp_3_C1.push(buckets2[i_0].key);
-            temp_3_C2.push(
-              String(parseInt(parseFloat(buckets2[i_0].click_user_num.value)))
-            );
-            temp_3_C1B.push(buckets2[i_0].key);
-            temp_3_C2B.push(
-              String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
-            );
-          }
-          temp_3.push(temp_3_C1);
-          temp_3.push(temp_3_C2);
-          temp_3B.push(temp_3_C1B);
-          temp_3B.push(temp_3_C2B);
-
-          if (type == "yd") {
-            vm.yidongtypedayusernumber.data.push(temp_3);
-            vm.yidongtypedayclicknumber.data.push(temp_3B);
-          }
-          if (type == "lt") {
-            vm.liantongtypedayusernumber.data.push(temp_3);
-            vm.liantongtypedayclicknumber.data.push(temp_3B);
-          }
-          if (type == "dx") {
-            vm.dianxingtypedayusernumber.data.push(temp_3);
-            vm.dianxingtypedayclicknumber.data.push(temp_3B);
+            if (operator_type == "yd") {
+              vm.yidongtypedayusernumber.data.push(temp_3);
+              vm.yidongtypedayclicknumber.data.push(temp_3B);
+            }
+            if (operator_type == "lt") {
+              vm.liantongtypedayusernumber.data.push(temp_3);
+              vm.liantongtypedayclicknumber.data.push(temp_3B);
+            }
+            if (operator_type == "dx") {
+              vm.dianxingtypedayusernumber.data.push(temp_3);
+              vm.dianxingtypedayclicknumber.data.push(temp_3B);
+            }
           }
         })
         .catch(function(error) {
