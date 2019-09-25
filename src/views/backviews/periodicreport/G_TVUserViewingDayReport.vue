@@ -570,63 +570,82 @@ export default {
             temp_3_C1B.push("运营商");
             temp_3_C2B.push("平均");
             function data_manage(i_0) {
+              let t_leng2;
+              let t_i2;
+
               if (operator_type == "yd") {
-                if (buckets2[i_0].key == yd_channnel_order[i_0]) {
-                  Vue.set(temp_3_C1, i_0 + 1, buckets2[i_0].key);
-                  Vue.set(
-                    temp_3_C2,
-                    i_0 + 1,
-                    String(
-                      parseInt(parseFloat(buckets2[i_0].click_user_num.value))
-                    )
-                  );
-                  Vue.set(temp_3_C1B, i_0 + 1, buckets2[i_0].key);
-                  Vue.set(
-                    temp_3_C2B,
-                    i_0 + 1,
-                    String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
-                  );
+                t_leng2 = yd_channnel_order.length;
+                for (t_i2 = 0; t_i2 < t_leng2; t_i2++) {
+                  if (buckets2[i_0].key == yd_channnel_order[t_i2]) {
+                    Vue.set(temp_3_C1, t_i2 + 1, buckets2[i_0].key);
+                    Vue.set(
+                      temp_3_C2,
+                      t_i2 + 1,
+                      String(
+                        parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                      )
+                    );
+                    Vue.set(temp_3_C1B, t_i2 + 1, buckets2[i_0].key);
+                    Vue.set(
+                      temp_3_C2B,
+                      t_i2 + 1,
+                      String(
+                        parseInt(parseFloat(buckets2[i_0].click_freq.value))
+                      )
+                    );
+                  }
                 }
               }
               if (operator_type == "lt") {
-                if (buckets2[i_0].key == lt_channnel_order[i_0]) {
-                  Vue.set(temp_3_C1, i_0 + 1, buckets2[i_0].key);
-                  Vue.set(
-                    temp_3_C2,
-                    i_0 + 1,
-                    String(
-                      parseInt(parseFloat(buckets2[i_0].click_user_num.value))
-                    )
-                  );
-                  Vue.set(temp_3_C1B, i_0 + 1, buckets2[i_0].key);
-                  Vue.set(
-                    temp_3_C2B,
-                    i_0 + 1,
-                    String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
-                  );
+                t_leng2 = lt_channnel_order.length;
+                for (t_i2 = 0; t_i2 < t_leng2; t_i2++) {
+                  if (buckets2[i_0].key == lt_channnel_order[t_i2]) {
+                    Vue.set(temp_3_C1, t_i2 + 1, buckets2[i_0].key);
+                    Vue.set(
+                      temp_3_C2,
+                      t_i2 + 1,
+                      String(
+                        parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                      )
+                    );
+                    Vue.set(temp_3_C1B, t_i2 + 1, buckets2[i_0].key);
+                    Vue.set(
+                      temp_3_C2B,
+                      t_i2 + 1,
+                      String(
+                        parseInt(parseFloat(buckets2[i_0].click_freq.value))
+                      )
+                    );
+                  }
                 }
               }
               if (operator_type == "dx") {
-                if (buckets2[i_0].key == dx_channnel_order[i_0]) {
-                  Vue.set(temp_3_C1, i_0 + 1, buckets2[i_0].key);
-                  Vue.set(
-                    temp_3_C2,
-                    i_0 + 1,
-                    String(
-                      parseInt(parseFloat(buckets2[i_0].click_user_num.value))
-                    )
-                  );
-                  Vue.set(temp_3_C1B, i_0 + 1, buckets2[i_0].key);
-                  Vue.set(
-                    temp_3_C2B,
-                    i_0 + 1,
-                    String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
-                  );
+                t_leng2 = dx_channnel_order.length;
+                for (t_i2 = 0; t_i2 < t_leng2; t_i2++) {
+                  if (buckets2[i_0].key == dx_channnel_order[t_i2]) {
+                    Vue.set(temp_3_C1, t_i2 + 1, buckets2[i_0].key);
+                    Vue.set(
+                      temp_3_C2,
+                      t_i2 + 1,
+                      String(
+                        parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                      )
+                    );
+                    Vue.set(temp_3_C1B, t_i2 + 1, buckets2[i_0].key);
+                    Vue.set(
+                      temp_3_C2B,
+                      t_i2 + 1,
+                      String(
+                        parseInt(parseFloat(buckets2[i_0].click_freq.value))
+                      )
+                    );
+                  }
                 }
               }
             }
             for (i_0 = 0; i_0 < length_3_top; i_0++) {
               data_manage(i_0);
+
               // temp_3_C1.push(buckets2[i_0].key);
               // temp_3_C2.push(
               //   String(parseInt(parseFloat(buckets2[i_0].click_user_num.value)))

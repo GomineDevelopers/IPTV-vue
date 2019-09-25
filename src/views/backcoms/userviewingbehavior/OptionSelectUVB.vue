@@ -77,8 +77,8 @@
       </el-checkbox-group>
     </div>
 
-    <div class="programa">
-      <span class="font_title">栏目：</span>
+    <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db">
+      <span class="font_title">栏目（点播专属）：</span>
       <!-- <el-checkbox-group
         v-model=" programaChoose"
         v-for="(item,index) in programa"
@@ -107,8 +107,8 @@
       </el-checkbox-group>
     </div>
 
-    <div class="contenttype">
-      <span class="font_title">内容类型：</span>
+    <div class="contenttype" v-show="ifPlaymodeShow_db && if_playmode_is_single_db">
+      <span class="font_title">内容类型（点播专属）：</span>
       <el-checkbox v-model="contenttype_checkAll" @change="contenttypeChoose_all">总体</el-checkbox>
 
       <el-checkbox-group
@@ -186,11 +186,14 @@
     <div class="submitP">
       <el-button class="submit">确定</el-button>
     </div>
+    <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span>
   </div>
 </template>
 
 <script>
 import { commonTools } from "@/utils/test";
+import { mapGetters } from "vuex";
+
 var regionChoose_new = [];
 var regionChoose_old = [];
 var operatorChoose_new = [];
@@ -204,6 +207,58 @@ var contenttypeChoose_old = [];
 
 export default {
   name: "OptionSelectUVB",
+  computed: {
+    ...mapGetters(["UVB_playmode"]),
+    ifPlaymodeShow_zb: {
+      get: function() {
+        if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
+          return true;
+        }
+        if (this.UVB_playmode.indexOf("直播") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifPlaymodeShow_db: {
+      get: function() {
+        if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
+          return true;
+        }
+        if (this.UVB_playmode.indexOf("点播") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifPlaymodeShow_hk: {
+      get: function() {
+        if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
+          return true;
+        }
+        if (this.UVB_playmode.indexOf("回看") > -1) {
+          return true;
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    if_playmode_is_single_db: {
+      get: function() {
+        if (
+          this.UVB_playmode.indexOf("点播") > -1 &&
+          this.UVB_playmode.length == 1
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      set: function(newValue) {}
+    }
+  },
   watch: {
     regionChoose(newValue, oldValue) {
       let vm = this;
@@ -482,7 +537,7 @@ export default {
       this.time.dayValue = "";
       this.time.weekValue = "";
       // this.time.pickerValue = String(event);
-      this.time.pickerValue = event;  // 显示为object
+      this.time.pickerValue = event; // 显示为object
       let newValue = String(event); // 传入为string
       // let newValue = event;
       vm.$store
