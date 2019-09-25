@@ -1,7 +1,8 @@
 const getters = {
 
-
-
+    // 大屏截止日期
+    BigScreenExpirationDate: state => state.app.BigScreenExpirationDate,
+    BigScreenStartDate: state => state.app.BigScreenStartDate,
     // ////////////////// 定期报告 - 指定报告（页面显示时间范围）
     // 日报-day-1 周报-week-2 月报-month-3 专区-范围-4
     PR_assignReportNum: state => state.app.PR_assignReportNum,
@@ -16,7 +17,7 @@ const getters = {
     ULC_day: state => state.app.ULC_day,
     ULC_week: state => state.app.ULC_week,
     ULC_month: state => state.app.ULC_month,
-    ULC_time_type: state => state.app.ULC_time_type,  
+    ULC_time_type: state => state.app.ULC_time_type,
 
     // UVB 用户收视行为（地区、运营商、播放方式、栏目）（天、周、范围）
     UVB_region: state => state.app.UVB_region,
@@ -27,7 +28,7 @@ const getters = {
     UVB_day: state => state.app.UVB_day,
     UVB_week: state => state.app.UVB_week,
     UVB_picker: state => state.app.UVB_picker,
-    UVB_time_type: state => state.app.UVB_time_type, 
+    UVB_time_type: state => state.app.UVB_time_type,
 
     // PR  定期报告（运营商）（天、周、月、范围）
     PR_operator: state => state.app.PR_operator,
@@ -50,7 +51,7 @@ const getters = {
     ADD_ALL_programa: state => state.app.ADD_ALL_programa,
     ADD_ALL_week: state => state.app.ADD_ALL_week,
     ADD_ALL_month: state => state.app.ADD_ALL_month,
-    ADD_ALL_time_type: state => state.app.ADD_ALL_time_type, 
+    ADD_ALL_time_type: state => state.app.ADD_ALL_time_type,
 
 
     // ADD_VIP 增值业务-VIP（地区、运营商、播放方式、栏目）（天、周、范围）
@@ -62,7 +63,7 @@ const getters = {
     ADD_VIP_day: state => state.app.ADD_VIP_day,
     ADD_VIP_week: state => state.app.ADD_VIP_week,
     ADD_VIP_picker: state => state.app.ADD_VIP_picker,
-    ADD_VIP_time_type: state => state.app.ADD_VIP_time_type, 
+    ADD_VIP_time_type: state => state.app.ADD_VIP_time_type,
 
     // 节目搜索（时间段）
     PS_time: state => state.app.PS_time,
@@ -74,7 +75,7 @@ const getters = {
 
     // 测试
     ifTest: state => state.app.ifTest,
-    
+
 
 }
 export default getters

@@ -59,19 +59,28 @@ export default {
   },
   mounted() {
     let vm = this;
-    this.demandProgramTop();
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.demandProgramTop(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
 
     setTimeout(function() {
       vm.scrollLoopUp("viewingTOP_list");
     }, 100);
   },
   methods: {
-    demandProgramTop() {
+    demandProgramTop(ExpirationDate) {
       console.log("demandProgramTop");
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       console.log("~~~~~demandProgramTop");

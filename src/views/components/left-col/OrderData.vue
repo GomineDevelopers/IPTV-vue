@@ -3,9 +3,12 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>订购数据
     </el-row>
-    <el-row class="order_data_body">
+    <el-row v-show="ifgetdata" class="order_data_body">
       <el-row class="order_data_row1" id="order_data_circular"></el-row>
-      <el-row class="order_data_row2" id="paid_data">ccc</el-row>
+      <el-row class="order_data_row2" id="paid_data"></el-row>
+    </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
     </el-row>
   </div>
 </template>
@@ -16,6 +19,8 @@ export default {
   name: "OrderData", //订购数据组件
   data() {
     return {
+      ifgetdata: true,
+
       order_data_circular: {
         data: [
           // {
@@ -36,17 +41,27 @@ export default {
   },
   mounted() {
     // this.drawLine();
-    this.users_subscribe();
-    this.drawLine2();
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.users_subscribe(response);
+          vm.drawLine2();
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
-    users_subscribe() {
+    users_subscribe(ExpirationDate) {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
       let data = {
-        operator: String(["移动","联通","电信"]),
-        start: "2019-06-01",
-        end: "2019-06-01" // 先 7-1 ，之后改成 7-31
+        operator: String(["移动", "联通", "电信"]),
+        start: ExpirationDate,
+        end: ExpirationDate // 先 7-1 ，之后改成 7-31
       };
       // console.log("~~~~~~~users_subscribe");
       // console.log(String(["移动"]));
@@ -88,12 +103,15 @@ export default {
               vm.order_data_circular.data.push(temp);
             }
           }
+          vm.ifgetdata = true;
+
           setTimeout(function() {
             vm.drawLine();
           }, 300);
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
     },
     drawLine() {

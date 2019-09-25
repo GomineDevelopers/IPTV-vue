@@ -6,6 +6,99 @@ const commonTools = {}
 //  import { commonTools } from "@/utils/test";
 
 
+
+
+
+// //////////////// 返回当前天的前七天（不包括当天）
+
+// 返回当前的前7天（不包括当天）的范围
+// console.log("~~~~~~~!")
+// console.log(commonTools.currentDay_7daysAgoRange("2019-06-07"));
+commonTools.currentDay_7daysAgoRange = function (m_date) {
+    return {
+        start: commonTools.currentDay_ndaysAgodate(m_date, 7),
+        end: commonTools.currentDay_ndaysAgodate(m_date, 1)
+    }
+}
+
+// 返回当天日期 - 都作为start end （原因：后台7日留存率逻辑变了）
+commonTools.currentDay_currenDayRange = function (m_date) {
+    return {
+        start: m_date,
+        end: m_date
+    }
+}
+
+// date格式： 2019-06-07
+// dateInterval:时间间隔 如：7天 =》  7
+// console.log("~~~~~~~!")
+// console.log(commonTools.currentDay_ndaysAgodate("2019-06-07", 7));
+commonTools.currentDay_ndaysAgodate = function (m_date, m_dateInterval) {
+    let dateInterval = m_dateInterval;
+    let split_arr = m_date.split("-");
+
+    let num_year = parseInt(split_arr[0]);
+    let num_month = parseInt(split_arr[1]) - 1;
+    let num_day = parseInt(split_arr[2]);
+    // let date = new Date();
+    let date = new Date(num_year, num_month, num_day); // 传入为num,year day正常 1+ ， month 0+
+    // console.log("~~~~~~date");
+    // console.log(date);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    if (day <= dateInterval) {
+        if (month > 1) {
+            month = month - 1;
+        } else {
+            year = year - 1;
+            month = 12;
+        }
+    }
+    date.setDate(date.getDate() - dateInterval);
+    year = date.getFullYear();
+    month = date.getMonth() + 1;
+    day = date.getDate();
+    let temp_string = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (day < 10 ? ('0' + day) : day);
+    return temp_string;
+}
+
+
+
+// 冒泡排序 -- 从序数index几开始 （反向）
+commonTools.sortArr = function (arr, index) {
+    for (var i = 0; i < arr.length - 1; i++) {
+        //决定每一轮比较多少次
+        for (var j = index; j < arr.length - i - 1; j++) {
+            if (arr[j][1] < arr[j + 1][1]) {
+                // 判断第二位
+                var tmp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = tmp;
+            }
+        }
+    }
+    return arr;
+}
+//冒泡排序 -- 从序数index几开始
+commonTools.sortArrZ = function (arr, index) {
+    for (var i = 0; i < arr.length - 1; i++) {
+        //决定每一轮比较多少次
+        for (var j = index; j < arr.length - i - 1; j++) {
+            if (arr[j][1] > arr[j + 1][1]) {
+                // 判断第二位
+                var tmp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = tmp;
+            }
+        }
+    }
+    return arr;
+}
+
+// 反序
+
+
 // 保留一位小数
 commonTools.returnFloat_1 = function (value) {
     var value = Math.round(parseFloat(value) * 10) / 10;

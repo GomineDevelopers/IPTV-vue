@@ -1,20 +1,26 @@
 <template>
   <!-- <div id="eMap_guizhou" :style="{width: '32vw',height: '54vh'}"></div> -->
   <div class="height_auto">
-    <div id="eMap_guizhou"></div>
+    <div v-show="ifgetdata" id="eMap_guizhou"></div>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 
 
 <script>
 import myJson from "@/assets/json/guizhou_chinaChange";
-import { users_basic } from "@/api/api_main";
+import { users_basic, users_retention } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "ThermodynamicChart",
   props: ["value_p"],
   data() {
     return {
+      ifgetdata: true,
+
       myNums: [],
       myNumsArr: [],
       royalty: [],
@@ -40,20 +46,29 @@ export default {
   },
   mounted() {
     let vm = this;
-    this.users_basic();
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.users_basic(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
     // setTimeout(function() {
     //   setInterval(this.get, 1000);
     // }, 300);
     setInterval(vm.get, 1000);
   },
   methods: {
-    users_basic() {
+    users_basic(ExpirationDate) {
       console.log("~~~~~~users_basic");
       let vm = this;
       let temp = {
         operator: String(["移动", "联通", "电信"]),
-        start: "2019-06-01",
-        end: "2019-06-01"
+        start: ExpirationDate,
+        end: ExpirationDate
       };
       users_basic(temp)
         .then(function(response) {
@@ -66,22 +81,65 @@ export default {
           let temp2 = [];
           let temp3 = [];
           let temp4 = []; // 激活率暂时没有
-          for (i = 0; i < length; i++) {
-            temp1.push(buckets[i].register_num.value);
-            temp2.push(buckets[i].active_num.value);
-            temp3.push(
-              buckets[i].activate_user_num.value / buckets[i].register_num.value
-            ); //显示百分比
-            temp4.push(1000); // 临时
+
+          //////// 嵌套留存率
+          function m_users_retention(ExpirationDate) {
+            console.log("users_retention");
+            // 七天留存和三十天留存（0=7天，1=30天留存率）
+            // console.log("~~~~~~~!!!");
+            let date_range = commonTools.currentDay_currenDayRange(
+              ExpirationDate
+            );
+            console.log(date_range);
+
+            // let vm = this;
+            let temp_p = {
+              operator: String(["移动", "联通", "电信"]),
+              start: date_range.start,
+              end: date_range.end
+            };
+            // console.log("~~~~~~~!!!2");
+
+            users_retention(temp_p)
+              .then(function(response2) {
+                // console.log("~~~~~~~!!!3");
+
+                console.log(response2);
+                let hits2 = response2.data.responses[0].hits.hits;
+
+                for (i = 0; i < length; i++) {
+                  temp1.push(buckets[i].register_num.value);
+                  temp2.push(buckets[i].active_num.value);
+                  temp3.push(
+                    buckets[i].activate_user_num.value /
+                      buckets[i].register_num.value
+                  ); //显示百分比
+                  // temp4.push(
+                  //   hits2[i]._source.remain_num /
+                  //     hits2[i]._source.new_activate_num
+                  // );
+                  temp4.push(hits2[i]._source.remain_rate);
+                }
+                vm.myNumsArr.push(temp1);
+                vm.myNumsArr.push(temp2);
+                vm.myNumsArr.push(temp3);
+                vm.myNumsArr.push(temp4); // 临时
+
+                console.log(vm.myNumsArr);
+                vm.ifgetdata = true;
+              })
+              .catch(function(error) {
+                console.info(error);
+                vm.ifgetdata = false;
+              });
           }
-          vm.myNumsArr.push(temp1);
-          vm.myNumsArr.push(temp2);
-          vm.myNumsArr.push(temp3);
-          vm.myNumsArr.push(temp4); // 临时
-          // console.log(vm.myNumsArr);
+          m_users_retention(ExpirationDate);
+
+          //////// 嵌套留存率
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
     },
     get() {

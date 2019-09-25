@@ -15,7 +15,17 @@ import { commonTools } from "@/utils/test";
 export default {
   name: "NewUserNum", //新增用户数组件
   mounted() {
-    this.users_basic();
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.users_basic(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   data() {
     return {
@@ -29,13 +39,13 @@ export default {
     };
   },
   methods: {
-    users_basic() {
+    users_basic(ExpirationDate) {
       // console.log("~~~~~~users_basic");
       let vm = this;
       let temp = {
         operator: String(["移动", "联通", "电信"]),
-        start: "2019-06-01",
-        end: "2019-06-01"
+        start: ExpirationDate,
+        end: ExpirationDate
       };
       users_basic(temp)
         .then(function(response) {
@@ -50,6 +60,9 @@ export default {
             temp1.push(buckets[i].key);
             temp2.push(buckets[i].new_num.value);
           }
+          // temp1 = temp1.reverse();
+          // temp2 = temp2.reverse();
+
           // console.log(temp1);
           vm.echarts_data.name = commonTools.acConvert_reverse(temp1);
           vm.echarts_data.value = temp2; // 待优化 -- 根据数据大小排列

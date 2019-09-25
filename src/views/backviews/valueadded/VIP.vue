@@ -47,20 +47,46 @@
     <!-- 收视行为结束 -->
 
     <!-- 收视TOP开始 -->
-    <el-row class="vip_top15">
+    <!-- <el-row class="vip_top15">
       <el-row class="model_title">
         <span class="title_border_left"></span>收视TOP15
       </el-row>
       <el-row class="chart_body back_white vip_top15_list">
         <vip-behavior-top :viewingTopList="viewingTopList"></vip-behavior-top>
       </el-row>
+    </el-row>-->
+    <el-row class="viewing_top15">
+      <el-row class="model_title">
+        <span class="title_border_left"></span>直播收视TOP15
+      </el-row>
+      <el-row class="chart_body back_white viewing_top15_list">
+        <user-viewing-behavior-top-vip :viewingTopList="lookBackViewingTopList_VIP"></user-viewing-behavior-top-vip>
+      </el-row>
+    </el-row>
+    <el-row class="viewing_top15">
+      <el-row class="model_title">
+        <span class="title_border_left"></span>点播收视TOP15
+      </el-row>
+      <el-row class="chart_body back_white viewing_top15_list">
+        <user-viewing-behavior-top-vip :viewingTopList="orderViewingTopList_VIP"></user-viewing-behavior-top-vip>
+      </el-row>
+    </el-row>
+
+    <el-row class="viewing_top15 last_viewing_top15">
+      <el-row class="model_title">
+        <span class="title_border_left"></span>回看收视TOP15
+      </el-row>
+      <el-row class="chart_body back_white viewing_top15_list">
+        <user-viewing-behavior-top-vip :viewingTopList="lookBackViewingTopList_VIP"></user-viewing-behavior-top-vip>
+      </el-row>
     </el-row>
     <!-- 收视TOP结束 -->
   </div>
 </template>
 <script>
+import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 import OptionSelectVIP from "@/views/backcoms/vip/OptionSelectVIP"; // 条件筛选
-import VIPBehaviorTOP from "@/views/backcoms/vip/VIPBehaviorTOP"; //收视TOP组件
+// import VIPBehaviorTOP from "@/views/backcoms/vip/VIPBehaviorTOP"; //收视TOP组件
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
 import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"; //公用柱状图堆叠
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //公用柱状图单个
@@ -83,6 +109,10 @@ export default {
       "ADD_VIP_picker",
       "ADD_VIP_time_type"
     ])
+  },
+  mounted() {
+    // console.log("~~~~~test");
+    // console.log(this.lookBackViewingTopList_VIP);
   },
   watch: {
     ADD_VIP_region(newValue, oldValue) {
@@ -258,8 +288,9 @@ export default {
     }
   },
   components: {
+    "user-viewing-behavior-top-vip": UserViewingBehaviorTOP,
     "com-optionselectVIP": OptionSelectVIP,
-    "vip-behavior-top": VIPBehaviorTOP,
+    // "vip-behavior-top": VIPBehaviorTOP,
     "pie-charts": PieCharts,
     "bar-charts-stack": BarChartsStack,
     "bar-chart-single": BarChartSingle
@@ -268,7 +299,13 @@ export default {
     return {
       targetOption: "", //存放选择的指标
       //选择指标数据
-      target: ["观看次数", "观看时长", "户均收视次数", "次均收视次数"],
+      target: [
+        "观看次数",
+        "观看时长",
+        "观看户数",
+        "户均收视次数",
+        "次均收视次数"
+      ],
       //地区数据
       regionData: {
         title: "地区",
@@ -342,9 +379,234 @@ export default {
           ["黔西南", 72.4]
         ]
       },
-      //收视时长TOP
-      viewingTopList: {
-        id: "vipBehavior",
+      //直播收视时长TOP
+      liveViewingTopList_VIP: {
+        type: "live",
+        id: "liveViewingTopList_VIP",
+        data: [
+          {
+            topNum: 1,
+            programName: "疯狂的外星人",
+            programSource: "电影",
+            hot: "90%",
+            playNum: "12.3"
+          },
+          {
+            topNum: 2,
+            programName: "熊出没.原始",
+            programSource: "少儿",
+            hot: "85%",
+            playNum: "11.2"
+          },
+          {
+            topNum: 3,
+            programName: "流浪地球",
+            programSource: "电影",
+            hot: "83%",
+            playNum: "10.3"
+          },
+          {
+            topNum: 4,
+            programName: "人间.喜剧",
+            programSource: "电影",
+            hot: "80%",
+            playNum: "10.1"
+          },
+          {
+            topNum: 5,
+            programName: "白发",
+            programSource: "电视剧",
+            hot: "78%",
+            playNum: "9.5"
+          },
+          {
+            topNum: 6,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "73%",
+            playNum: "9.2"
+          },
+          {
+            topNum: 7,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "70%",
+            playNum: "9.0"
+          },
+          {
+            topNum: 8,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "68%",
+            playNum: "8.7"
+          },
+          {
+            topNum: 9,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "64%",
+            playNum: "8.5"
+          },
+          {
+            topNum: 10,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "60%",
+            playNum: "8.0"
+          },
+          {
+            topNum: 11,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "56%",
+            playNum: "7.5"
+          },
+          {
+            topNum: 12,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "53%",
+            playNum: "7.0"
+          },
+          {
+            topNum: 13,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "50%",
+            playNum: "6.8"
+          },
+          {
+            topNum: 14,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "45%",
+            playNum: "6.3"
+          },
+          {
+            topNum: 15,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "40%",
+            playNum: "6.0"
+          }
+        ]
+      },
+      //点播收视时长TOP
+      orderViewingTopList_VIP: {
+        type: "demand",
+        id: "orderViewingTopList_VIP",
+        data: [
+          {
+            topNum: 1,
+            programName: "疯狂的外星人",
+            programSource: "电影",
+            hot: "90%",
+            playNum: "12.3"
+          },
+          {
+            topNum: 2,
+            programName: "熊出没.原始",
+            programSource: "少儿",
+            hot: "85%",
+            playNum: "11.2"
+          },
+          {
+            topNum: 3,
+            programName: "流浪地球",
+            programSource: "电影",
+            hot: "83%",
+            playNum: "10.3"
+          },
+          {
+            topNum: 4,
+            programName: "人间.喜剧",
+            programSource: "电影",
+            hot: "80%",
+            playNum: "10.1"
+          },
+          {
+            topNum: 5,
+            programName: "白发",
+            programSource: "电视剧",
+            hot: "78%",
+            playNum: "9.5"
+          },
+          {
+            topNum: 6,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "73%",
+            playNum: "9.2"
+          },
+          {
+            topNum: 7,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "70%",
+            playNum: "9.0"
+          },
+          {
+            topNum: 8,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "68%",
+            playNum: "8.7"
+          },
+          {
+            topNum: 9,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "64%",
+            playNum: "8.5"
+          },
+          {
+            topNum: 10,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "60%",
+            playNum: "8.0"
+          },
+          {
+            topNum: 11,
+            programName: "反贪风暴",
+            programSource: "电影",
+            hot: "56%",
+            playNum: "7.5"
+          },
+          {
+            topNum: 12,
+            programName: "一出好戏",
+            programSource: "电影",
+            hot: "53%",
+            playNum: "7.0"
+          },
+          {
+            topNum: 13,
+            programName: "拜托了冰箱",
+            programSource: "综艺",
+            hot: "50%",
+            playNum: "6.8"
+          },
+          {
+            topNum: 14,
+            programName: "极限挑战",
+            programSource: "真人秀",
+            hot: "45%",
+            playNum: "6.3"
+          },
+          {
+            topNum: 15,
+            programName: "陈情令",
+            programSource: "电视剧",
+            hot: "40%",
+            playNum: "6.0"
+          }
+        ]
+      },
+      //回看收视时长TOP
+      lookBackViewingTopList_VIP: {
+        type: "review",
+        id: "lookBackViewingTopList_VIP",
         data: [
           {
             topNum: 1,
@@ -453,6 +715,117 @@ export default {
           }
         ]
       }
+      //收视时长TOP
+      // viewingTopList: {
+      //   id: "vipBehavior",
+      //   data: [
+      //     {
+      //       topNum: 1,
+      //       programName: "疯狂的外星人",
+      //       programSource: "电影",
+      //       hot: "90%",
+      //       playNum: "12.3"
+      //     },
+      //     {
+      //       topNum: 2,
+      //       programName: "熊出没.原始",
+      //       programSource: "少儿",
+      //       hot: "85%",
+      //       playNum: "11.2"
+      //     },
+      //     {
+      //       topNum: 3,
+      //       programName: "流浪地球",
+      //       programSource: "电影",
+      //       hot: "83%",
+      //       playNum: "10.3"
+      //     },
+      //     {
+      //       topNum: 4,
+      //       programName: "人间.喜剧",
+      //       programSource: "电影",
+      //       hot: "80%",
+      //       playNum: "10.1"
+      //     },
+      //     {
+      //       topNum: 5,
+      //       programName: "白发",
+      //       programSource: "电视剧",
+      //       hot: "78%",
+      //       playNum: "9.5"
+      //     },
+      //     {
+      //       topNum: 6,
+      //       programName: "反贪风暴",
+      //       programSource: "电影",
+      //       hot: "73%",
+      //       playNum: "9.2"
+      //     },
+      //     {
+      //       topNum: 7,
+      //       programName: "一出好戏",
+      //       programSource: "电影",
+      //       hot: "70%",
+      //       playNum: "9.0"
+      //     },
+      //     {
+      //       topNum: 8,
+      //       programName: "拜托了冰箱",
+      //       programSource: "综艺",
+      //       hot: "68%",
+      //       playNum: "8.7"
+      //     },
+      //     {
+      //       topNum: 9,
+      //       programName: "极限挑战",
+      //       programSource: "真人秀",
+      //       hot: "64%",
+      //       playNum: "8.5"
+      //     },
+      //     {
+      //       topNum: 10,
+      //       programName: "陈情令",
+      //       programSource: "电视剧",
+      //       hot: "60%",
+      //       playNum: "8.0"
+      //     },
+      //     {
+      //       topNum: 11,
+      //       programName: "反贪风暴",
+      //       programSource: "电影",
+      //       hot: "56%",
+      //       playNum: "7.5"
+      //     },
+      //     {
+      //       topNum: 12,
+      //       programName: "一出好戏",
+      //       programSource: "电影",
+      //       hot: "53%",
+      //       playNum: "7.0"
+      //     },
+      //     {
+      //       topNum: 13,
+      //       programName: "拜托了冰箱",
+      //       programSource: "综艺",
+      //       hot: "50%",
+      //       playNum: "6.8"
+      //     },
+      //     {
+      //       topNum: 14,
+      //       programName: "极限挑战",
+      //       programSource: "真人秀",
+      //       hot: "45%",
+      //       playNum: "6.3"
+      //     },
+      //     {
+      //       topNum: 15,
+      //       programName: "陈情令",
+      //       programSource: "电视剧",
+      //       hot: "40%",
+      //       playNum: "6.0"
+      //     }
+      //   ]
+      // }
     };
   }
 };
@@ -468,6 +841,13 @@ export default {
 .vip_behavior {
   height: 500px;
   margin: 14px 0px;
+}
+.viewing_top15 {
+  height: 520px;
+  margin-bottom: 14px;
+}
+.last_viewing_top15 {
+  margin-bottom: 50px;
 }
 .vip_top15 {
   height: 520px;

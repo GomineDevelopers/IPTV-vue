@@ -29,22 +29,32 @@ export default {
     };
   },
   mounted() {
-    this.demands_location();
     // this.drawLine();
     // this.drawLine2();
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.demands_location(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
-    demands_location() {
+    demands_location(ExpirationDate) {
       // console.log("demands_location");
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       demands_location(data)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
           //           data:
           // responses: Array(1)
           // 0:
@@ -74,12 +84,10 @@ export default {
           vm.drawLine();
           vm.drawLine2();
           vm.ifgetdata = true;
-
         })
         .catch(function(error) {
           console.info(error);
           vm.ifgetdata = false;
-
         });
     },
     drawLine() {
@@ -91,6 +99,8 @@ export default {
       let i;
       let temp;
       let legend_data = [];
+      // let legend_data = ["综艺", "微电影", "纪实", "电影", "新闻", "时尚生活"];
+
       let data = [
         // { value: 350, name: "综艺" },
         // { value: 300, name: "微电影" },
@@ -99,6 +109,17 @@ export default {
         // { value: 170, name: "新闻" },
         // { value: 150, name: "时尚生活" }
       ];
+      let o_color = [
+        "#6648FF",
+        "#4346D3",
+        "#2D99FF",
+        "#00c2ff",
+        "#16CEB9",
+        "#6F38FC"
+      ];
+      let m_color = [];
+      // let m_color = o_color;
+
       for (i = 0; i < length; i++) {
         legend_data.push(vm.pie_data.name[i]);
         temp = {
@@ -106,20 +127,16 @@ export default {
           name: vm.pie_data.name[i]
         };
         data.push(temp);
+        m_color.push(o_color[i]);
       }
-      // console.log("~~~~");
-      // console.log(legend_data);
-      // console.log(data);
+
+      console.log("~~~~");
+      console.log(legend_data);
+      console.log(data);
+      console.log(m_color);
 
       var option11 = {
-        color: [
-          "#6648FF",
-          "#4346D3",
-          "#2D99FF",
-          "#00c2ff",
-          "#16CEB9",
-          "#6F38FC"
-        ],
+        color: m_color,
         legend: [
           {
             show: true,

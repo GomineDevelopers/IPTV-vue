@@ -4,7 +4,7 @@
       <span class="title_border_left"></span>数据总览
     </el-row>
     <div class="city fontBold">{{city}}</div>
-    <div class="datatotal_date">2019-07-01</div>
+    <div class="datatotal_date">{{ExpirationDate}}</div>
   </div>
 </template>
 
@@ -13,9 +13,24 @@ export default {
   name: "DataOverview",
   props: ["city"],
   data() {
-    return {};
+    return {
+      ExpirationDate: ""
+    };
   },
-  methods: {}
+  methods: {},
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.ExpirationDate = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
+  }
 };
 </script>
 

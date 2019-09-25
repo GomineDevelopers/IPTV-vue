@@ -107,56 +107,56 @@ export default {
     UVB_region(newValue, oldValue) {
       let vm = this;
       console.log("UVB_region: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_operator(newValue, oldValue) {
       let vm = this;
       console.log("UVB_operator: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_playmode(newValue, oldValue) {
       let vm = this;
       console.log("UVB_playmode: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_programa(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
       console.log("UVB_contenttype: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_day(newValue, oldValue) {
       let vm = this;
       console.log("UVB_day: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_week(newValue, oldValue) {
       let vm = this;
       console.log("UVB_week: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     UVB_picker(newValue, oldValue) {
       let vm = this;
       console.log("UVB_picker: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
@@ -282,7 +282,13 @@ export default {
     return {
       targetOption: "", //存放选择的指标
       //选择指标数据
-      target: ["观看次数", "观看时长", "户均收视次数", "次均收视次数"],
+      target: [
+        "观看次数",
+        "观看时长",
+        "观看户数",
+        "户均收视次数",
+        "次均收视次数"
+      ],
       //地区数据
       regionData: {
         title: "地区",
@@ -358,6 +364,7 @@ export default {
       },
       //直播收视时长TOP
       liveViewingTopList: {
+        type: "live",
         id: "liveViewingTopList",
         data: [
           {
@@ -469,6 +476,7 @@ export default {
       },
       //点播收视时长TOP
       orderViewingTopList: {
+        type: "demand",
         id: "orderViewingTopList",
         data: [
           {
@@ -580,6 +588,7 @@ export default {
       },
       //回看收视时长TOP
       lookBackViewingTopList: {
+        type: "review",
         id: "lookBackViewingTopList",
         data: [
           {
@@ -688,7 +697,7 @@ export default {
             playNum: "6.0"
           }
         ]
-      },
+      }
     };
   }
 };

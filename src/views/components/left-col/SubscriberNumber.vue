@@ -3,7 +3,7 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>订购用户数
     </el-row>
-    <el-row class="paid_users_row proportion">
+    <el-row v-show="ifgetdata" class="paid_users_row proportion">
       <el-col :span="12" class="height_auto">
         <el-row id="proportion_of_subscribers"></el-row>
         <el-row class="order_user_title">订购用户占比</el-row>
@@ -27,7 +27,7 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-row class="paid_users_row add_order">
+    <el-row v-show="ifgetdata" class="paid_users_row add_order">
       <el-col :span="12" class="height_auto">
         <el-row id="add_order_conversion_rate"></el-row>
         <el-row class="order_user_title">新增订购转换率</el-row>
@@ -51,6 +51,9 @@
         </el-row>
       </el-col>
     </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
@@ -60,6 +63,8 @@ export default {
   name: "SubscriberNumber", //订购用户数组件
   data() {
     return {
+      ifgetdata: true,
+
       cum_paid_num: null,
       cum_income: null,
       new_paid_num: null,
@@ -67,18 +72,27 @@ export default {
     };
   },
   mounted() {
-    this.users_subscribe();
-
-    this.drawLine();
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.users_subscribe(response);
+          vm.drawLine();
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
-    users_subscribe() {
+    users_subscribe(ExpirationDate) {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
       let data = {
         operator: String(["移动", "联通", "电信"]),
-        start: "2019-06-01",
-        end: "2019-06-01" // 先 7-1 ，之后改成 7-31
+        start: ExpirationDate,
+        end: ExpirationDate // 先 7-1 ，之后改成 7-31
       };
 
       users_subscribe(data)
@@ -91,12 +105,15 @@ export default {
           vm.cum_income = aggregations.cum_income.value;
           vm.new_paid_num = aggregations.new_paid_num.value;
           vm.new_income = aggregations.new_income.value;
+
+          vm.ifgetdata = true;
           setTimeout(function() {
             vm.drawLine();
           }, 300);
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
     },
     drawLine() {

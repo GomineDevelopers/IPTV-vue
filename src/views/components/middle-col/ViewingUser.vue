@@ -38,21 +38,30 @@ export default {
   },
   mounted() {
     let vm = this;
-    this.broadcast_demand();
-    this.broadcast_review();
-    this.media_watch_total();
-    this.broadcast_onlive();
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.broadcast_demand(response);
+          vm.broadcast_review(response);
+          vm.media_watch_total(response);
+          vm.broadcast_onlive(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
 
     setTimeout(function() {
       vm.setNewUserChart();
     }, 1000);
   },
   methods: {
-    broadcast_demand() {
+    broadcast_demand(ExpirationDate) {
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       // console.log("~~~~~~broadcast_demand");
@@ -73,11 +82,14 @@ export default {
           vm.ifgetdata = false;
         });
     },
-    broadcast_review() {
+    broadcast_review(ExpirationDate) {
+      console.log("~~~~~~!!!!!ExpirationDate");
+      console.log(ExpirationDate);
+
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       broadcast_review(data)
@@ -97,11 +109,11 @@ export default {
           vm.ifgetdata = false;
         });
     },
-    media_watch_total() {
+    media_watch_total(ExpirationDate) {
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       media_watch_total(data)
@@ -121,12 +133,12 @@ export default {
           vm.ifgetdata = false;
         });
     },
-    broadcast_onlive() {
+    broadcast_onlive(ExpirationDate) {
       // console.log("broadcast_onlive");
       let vm = this;
       let data = {
-        start: "2019-06-01",
-        end: "2019-06-01",
+        start: ExpirationDate,
+        end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
       broadcast_onlive(data)
