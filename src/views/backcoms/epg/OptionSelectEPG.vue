@@ -61,6 +61,7 @@
       </el-checkbox-group>
 
       <el-select
+        class="other_item_select"
         v-model="value_others"
         filterable
         allow-create
@@ -139,10 +140,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_operator", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -151,10 +152,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_programa", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -162,10 +163,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_value_others", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -173,10 +174,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_week", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -184,10 +185,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_month", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -275,7 +276,7 @@ export default {
         this.operator_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         operatorChoose_new = vm.operatorChoose;
         vm.operatorChoose = commonTools.delete_repet_origin(
           operatorChoose_new,
@@ -297,7 +298,7 @@ export default {
         this.programa_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         programaChoose_new = vm.programaChoose;
         vm.programaChoose = commonTools.delete_repet_origin(
           programaChoose_new,
@@ -315,34 +316,34 @@ export default {
     // ▲历史条件获取
     vm.$store
       .dispatch("get_EPG_operator")
-      .then(function(response) {
+      .then(function (response) {
         // console.log(response);
         vm.operatorChoose = response;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.info(error);
       });
     vm.$store
       .dispatch("get_EPG_programa")
-      .then(function(response) {
+      .then(function (response) {
         // console.log(response);
         vm.programaChoose = response;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.info(error);
       });
 
     // 初始化周
     let arr_temp = [];
     arr_temp = commonTools.weekDate(2018);
-    setTimeout(function() {
+    setTimeout(function () {
       arr_temp = commonTools.weekDate_add(2019, arr_temp);
       vm.time.week = arr_temp;
     }, 100);
 
     // 初始化月
     let arr_temp2 = commonTools.format_MonthDays(2018);
-    setTimeout(function() {
+    setTimeout(function () {
       arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
       vm.time.month = arr_temp2;
     }, 100);
@@ -372,6 +373,11 @@ export default {
 .el-date-table td.end-date span,
 .el-date-table td.start-date span {
   background-color: #ff6123;
+}
+.other_item_select .el-input input {
+  width: 120px;
+  height: 35px;
+  line-height: 35px;
 }
 </style>
 
@@ -423,5 +429,11 @@ export default {
   margin: 0px;
   padding: 0px;
   width: 68px;
+}
+.programa {
+  margin: 0px 0px;
+}
+.time {
+  margin-top: 10px;
 }
 </style>
