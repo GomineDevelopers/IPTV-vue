@@ -118,14 +118,11 @@ export default {
     ifPlaymodeShow_db: {
       get: function() {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
-          // console.log("~~~~~ifPlaymodeShow_db: true");
           return true;
         }
         if (this.UVB_playmode.indexOf("点播") > -1) {
-          // console.log("~~~~~ifPlaymodeShow_db: true");
           return true;
         }
-        // console.log("~~~~~ifPlaymodeShow_db: false");
         return false;
       },
       set: function(newValue) {}
@@ -148,10 +145,8 @@ export default {
           this.UVB_playmode.indexOf("点播") > -1 &&
           this.UVB_playmode.length == 1
         ) {
-          // console.log("~~~~~if_playmode_is_single_db: true");
           return true;
         } else {
-          // console.log("~~~~~if_playmode_is_single_db: false");
           return false;
         }
       },

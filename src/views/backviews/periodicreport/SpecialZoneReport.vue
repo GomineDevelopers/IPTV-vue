@@ -592,6 +592,7 @@ export default {
   width: 130px;
   font-weight: bold;
   color: red;
+  justify-content: center;
 }
 .chart_explain {
   font-size: 16px;

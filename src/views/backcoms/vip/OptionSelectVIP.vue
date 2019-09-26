@@ -70,7 +70,7 @@
       </el-checkbox-group>
     </div>
 
-    <div class="programa" v-show="ifPlaymodeShow_db">
+    <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db">
       <span class="font_title">栏目（点播专属）：</span>
       <el-checkbox v-model="programa_checkAll" @change="programaChoose_all">总体</el-checkbox>
       <el-checkbox-group
@@ -92,8 +92,8 @@
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
-    <div class="valueAddedPackage">
-      <span class="font_title">增值包：</span>
+    <div class="valueAddedPackage" v-show="ifPlaymodeShow_db && if_playmode_is_single_db">
+      <span class="font_title">增值包（点播专属）：</span>
       <el-select
         v-model="value_valueAddedPackage"
         filterable
@@ -165,6 +165,7 @@
     <div class="submitP">
       <el-button class="submit">确定</el-button>
     </div>
+    <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span>
   </div>
 </template>
 
@@ -226,6 +227,19 @@ export default {
           return true;
         }
         return false;
+      },
+      set: function(newValue) {}
+    },
+    if_playmode_is_single_db: {
+      get: function() {
+        if (
+          this.ADD_VIP_playmode.indexOf("点播") > -1 &&
+          this.ADD_VIP_playmode.length == 1
+        ) {
+          return true;
+        } else {
+          return false;
+        }
       },
       set: function(newValue) {}
     }

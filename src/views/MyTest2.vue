@@ -11,6 +11,9 @@
     <button @click="create_users">create_users √√√</button>
     <button @click="get_allusersinfo">get_allusersinfo √√√</button>
     <button @click="get_myinfo">get_myinfo √√√</button>
+    <br />
+    <br />
+    <button @click="refreshToken">refreshToken</button>
   </div>
 </template>
 
@@ -30,7 +33,8 @@ import {
   get_userinfo_byid,
   create_users,
   get_allusersinfo,
-  get_myinfo
+  get_myinfo,
+  refreshToken
 } from "@/api/api_main";
 
 import { commonTools } from "@/utils/test";
@@ -217,6 +221,26 @@ export default {
           console.log("~~~user:" + user);
 
           vm.$commonTools.setCookieCry("user", user, 1);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    refreshToken() {
+      console.log("refreshToken");
+      let vm = this;
+      let token = vm.$commonTools.getCookie("user_token");
+      let newToken = token.replace('"', "").replace('"', "");
+      refreshToken(newToken)
+        .then(function(response) {
+          console.log(response);
+          let access_token = response.data.access_token;
+          console.log(access_token);
+          vm.$commonTools.setCookie(
+            "user_token",
+            JSON.stringify(access_token),
+            60
+          );
         })
         .catch(function(error) {
           console.info(error);

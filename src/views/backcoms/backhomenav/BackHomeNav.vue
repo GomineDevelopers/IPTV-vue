@@ -181,7 +181,7 @@ export default {
       handler: function (val, oldVal) {
         let vm = this;
         setTimeout(function () {
-          console.log("~~~~~~~val.path:");
+          // console.log("~~~~~~~val.path:");
           console.log(val.path);
           let pathLink = val.path;
           let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
