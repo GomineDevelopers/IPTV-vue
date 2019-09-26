@@ -557,4 +557,7 @@ export default {
 .bottomborder {
   border-bottom: 1px dashed #f0f0f0;
 }
+.new_add_user_percent:last-child {
+  margin-bottom: 70px;
+}
 </style>

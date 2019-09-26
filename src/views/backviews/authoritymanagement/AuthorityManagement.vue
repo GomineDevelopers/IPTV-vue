@@ -731,7 +731,7 @@ export default {
 .el-dialog {
   width: 500px !important;
 }
-.el-input {
+.el-dialog__body .el-input {
   width: 260px !important;
 }
 .el-button--primary {
@@ -742,7 +742,7 @@ export default {
 .el-dialog__header {
   padding: 0px !important;
 }
-.el-textarea {
+.el-dialog__body .el-textarea {
   width: 240px !important;
 }
 .el-radio__input.is-checked .el-radio__inner {
