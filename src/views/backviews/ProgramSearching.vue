@@ -225,7 +225,7 @@ export default {
   color: #999999;
 }
 .program_searching_content .el-table th > .cell {
-  font-size: 12px;
+  font-size: 14px;
   color: #333333;
 }
 .date_option {
