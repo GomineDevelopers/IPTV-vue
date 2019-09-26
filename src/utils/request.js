@@ -7,8 +7,8 @@ import utils from "./formutils"
 // 创建axios实例
 const service = axios.create({
     // baseURL: 'http://172.17.103.213:8080/api', // 线下测试
-    // baseURL: 'http://10.5.1.13/api', // 线下测试
-    baseURL: 'http://10.5.1.15/api', // 线下测试
+    baseURL: 'http://10.5.1.13/api', // 线下测试
+    // baseURL: 'http://10.5.1.15/api', // 线下测试
     // baseURL: 'http://172.17.103.213:8087/api', // 线上测试
     timeout: 15000 // 请求超时时间
 })
