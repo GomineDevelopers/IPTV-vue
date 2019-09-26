@@ -24,13 +24,13 @@ import { commonTools } from '@/utils/common'
 Vue.prototype.$commonTools = commonTools
 
 
-import { get_user_permissions } from "@/api/api_main";
+import { get_user_permissions, refreshToken } from "@/api/api_main";
 
 // 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
 store
   .dispatch("set_BigScreenStartDate", "2019-06-01")
   .then(function (response) {
-    console.log(response);
+    // console.log(response);
   })
   .catch(function (error) {
     console.info(error);
@@ -40,11 +40,14 @@ store
 store
   .dispatch("set_BigScreenExpirationDate", "2019-06-05")
   .then(function (response) {
-    console.log(response);
+    // console.log(response);
   })
   .catch(function (error) {
     console.info(error);
   });
+
+let ifTest = false;
+
 
 // var routerform = [
 //   // '/backhome/datatotal',
@@ -77,10 +80,10 @@ var current_topath = null;
 
 // 路由处理
 function jumpStatus(authority_arr, topath, frompath, next) {
-  console.log("~~~~~~jumpStatus:")
+  // console.log("~~~~~~jumpStatus:")
   // console.log(authority_arr)
-  console.log(topath)
-  console.log(frompath)
+  // console.log(topath)
+  // console.log(frompath)
 
 
 
@@ -130,15 +133,15 @@ function jumpStatus(authority_arr, topath, frompath, next) {
     function LoginTo_Manage(callback) {
       if (count < length) {
         my_return = ManageLoginToPath(t_id[count], t_path[count])
-        console.log(count);
-        console.log(my_return);
+        // console.log(count);
+        // console.log(my_return);
         count++;
         if (my_return.status) {
           callback(LoginTo_Manage);
         }
         else {
           ifFirstLogin = true;
-          console.log("ifFirstLogin = true;");
+          // console.log("ifFirstLogin = true;");
           temp_type = type3;
           if (topath == my_return.path) {
             next()
@@ -148,7 +151,7 @@ function jumpStatus(authority_arr, topath, frompath, next) {
           return type3;
         }
       } else {
-        console.log("over~~");
+        // console.log("over~~");
         // next("/");
       }
     }
@@ -247,7 +250,6 @@ router.beforeEach((to, from, next) => {
     //   .catch(function (error) {
     //     console.info(error);
     //   });
-    let ifTest = false;
     if (ifTest) {
       store
         .dispatch("set_ifTest", ifTest)
@@ -275,6 +277,8 @@ router.beforeEach((to, from, next) => {
         next()
       }
       if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
+        // if (topath == '/mytest' || topath == '/mytest2' || topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
+
         next()
       }
       else {
@@ -288,6 +292,9 @@ router.beforeEach((to, from, next) => {
           }
         } // if (!token)
         else if (token) {
+
+
+
 
           store.dispatch("get_current_authority")
             .then(function (response) {
@@ -349,7 +356,30 @@ router.beforeEach((to, from, next) => {
                   }
                   else if (status == type1) {  // url直接跳转-有权限
                     if (topath == current_topath) {
-                      next()
+
+                      /////////////// 新增token刷新
+                      // 当路由跳转到 非404 非权限 非login页 非大屏（/）页（上面已经做判断）
+                      console.log("refreshToken");
+                      let token_r = commonTools.getCookie("user_token");
+                      let newToken_r = token_r.replace('"', "").replace('"', "");
+                      // console.log("old token");
+                      // console.log(newToken_r);
+                      refreshToken(newToken_r)
+                        .then(function (response) {
+                          console.log(response);
+                          let access_token_r = response.data.access_token;
+                          // console.log("new token");
+                          // console.log(access_token_r);
+                          commonTools.setCookie(
+                            "user_token",
+                            JSON.stringify(access_token_r),
+                            60
+                          );
+                          next()
+                        }) // token 刷新收尾
+                        .catch(function (error) {
+                          console.info(error);
+                        });
                     } else {
                       next(current_topath);
                     }
@@ -362,6 +392,8 @@ router.beforeEach((to, from, next) => {
               next()
 
             });
+
+
 
           // next() 
 

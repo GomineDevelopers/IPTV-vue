@@ -47,10 +47,7 @@
     </div>
     <div v-show="ifOperatorShow" class="operator">
       <span class="font_title">运营商：</span>
-      <el-checkbox
-        v-model="operator_checkAll"
-        @change="operatorChoose_all"
-      >全部</el-checkbox>
+      <el-checkbox v-model="operator_checkAll" @change="operatorChoose_all">全部</el-checkbox>
 
       <el-checkbox-group
         @change="operatorChoose_change"
@@ -252,7 +249,9 @@ export default {
       this.$store
         .dispatch("set_PR_value_specialName", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
+          console.log("专题报告-专题名称：");
+          console.log(newValue);
         })
         .catch(function(error) {
           console.info(error);
@@ -358,30 +357,32 @@ export default {
           //   value: "选项1",
           //   label: "第1周（1.1-1.7）"
           // },
-          {
-            value: "选项1",
-            label: "第26周（2019.07.01-07.07）"
-          },
-          {
-            value: "选项2",
-            label: "第27周（2019.07.08-07.14）"
-          },
-          {
-            value: "选项3",
-            label: "第28周（2019.07.15-07.21）"
-          },
-          {
-            value: "选项4",
-            label: "第29周（2019.07.22-07.28）"
-          }
+          // //// 下面是临时-周
+          // {
+          //   value: "选项1",
+          //   label: "第26周（2019.07.01-07.07）"
+          // },
+          // {
+          //   value: "选项2",
+          //   label: "第27周（2019.07.08-07.14）"
+          // },
+          // {
+          //   value: "选项3",
+          //   label: "第28周（2019.07.15-07.21）"
+          // },
+          // {
+          //   value: "选项4",
+          //   label: "第29周（2019.07.22-07.28）"
+          // }
           // ...
         ],
         weekValue: "",
         month: [
-          {
-            value: "选项1",
-            label: "2019年7月"
-          }
+          // //// 下面是临时-月
+          // {
+          //   value: "选项1",
+          //   label: "2019年7月"
+          // }
           // ...
           // {
           //   value: "选项12",
@@ -462,20 +463,19 @@ export default {
       });
 
     // 初始化周
-    // let arr_temp = [];
-    // arr_temp = commonTools.weekDate(2018);
-    // setTimeout(function() {
-    //   arr_temp = commonTools.weekDate_add(2019, arr_temp);
-    //   vm.time.week = arr_temp;
-    // }, 100);
+    let arr_temp = [];
+    arr_temp = commonTools.weekDate(2018);
+    setTimeout(function() {
+      arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      vm.time.week = arr_temp;
+    }, 100);
 
-    // 初始化月 - 临时关掉
-    // let arr_temp2 = commonTools.format_MonthDays(2018);
-    // setTimeout(function() {
-    //   arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
-    //   vm.time.month = arr_temp2;
-    // }, 100);
-    //
+    // 初始化月
+    let arr_temp2 = commonTools.format_MonthDays(2018);
+    setTimeout(function() {
+      arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
+      vm.time.month = arr_temp2;
+    }, 100);
   },
   methods: {
     dayChange(event) {

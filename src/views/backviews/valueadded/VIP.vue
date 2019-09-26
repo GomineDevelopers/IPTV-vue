@@ -81,6 +81,7 @@
       </el-row>
     </el-row>
     <!-- 收视TOP结束 -->
+    <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span>
   </div>
 </template>
 <script>
@@ -111,7 +112,10 @@ export default {
     ]),
     ifPlaymodeShow_zb: {
       get: function() {
-        if (this.ADD_VIP_playmode == null || this.ADD_VIP_playmode.length == 0) {
+        if (
+          this.ADD_VIP_playmode == null ||
+          this.ADD_VIP_playmode.length == 0
+        ) {
           return true;
         }
         if (this.ADD_VIP_playmode.indexOf("直播") > -1) {
@@ -123,7 +127,10 @@ export default {
     },
     ifPlaymodeShow_db: {
       get: function() {
-        if (this.ADD_VIP_playmode == null || this.ADD_VIP_playmode.length == 0) {
+        if (
+          this.ADD_VIP_playmode == null ||
+          this.ADD_VIP_playmode.length == 0
+        ) {
           return true;
         }
         if (this.ADD_VIP_playmode.indexOf("点播") > -1) {
@@ -135,13 +142,29 @@ export default {
     },
     ifPlaymodeShow_hk: {
       get: function() {
-        if (this.ADD_VIP_playmode == null || this.ADD_VIP_playmode.length == 0) {
+        if (
+          this.ADD_VIP_playmode == null ||
+          this.ADD_VIP_playmode.length == 0
+        ) {
           return true;
         }
         if (this.ADD_VIP_playmode.indexOf("回看") > -1) {
           return true;
         }
         return false;
+      },
+      set: function(newValue) {}
+    },
+    if_playmode_is_single_db: {
+      get: function() {
+        if (
+          this.ADD_VIP_playmode.indexOf("点播") > -1 &&
+          this.ADD_VIP_playmode.length == 1
+        ) {
+          return true;
+        } else {
+          return false;
+        }
       },
       set: function(newValue) {}
     }
