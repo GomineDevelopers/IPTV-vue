@@ -8,22 +8,22 @@
         <el-row class="programInput_elrow">
           <el-button class="search_btn" @click="add_user()">＋ 添加用户</el-button>
           <el-row class="form_titleP">
-            <el-col :span="3" class="form_title">&nbsp;&nbsp;&nbsp;&nbsp;{{form.title[0]}}</el-col>
-            <el-col :span="3" class="form_title">{{form.title[1]}}</el-col>
-            <el-col :span="3" class="form_title">{{form.title[2]}}</el-col>
+            <el-col :span="2" class="form_title">&nbsp;&nbsp;&nbsp;&nbsp;{{form.title[0]}}</el-col>
+            <el-col :span="2" class="form_title">{{form.title[1]}}</el-col>
+            <el-col :span="4" class="form_title">{{form.title[2]}}</el-col>
             <el-col :span="3" class="form_title">{{form.title[3]}}</el-col>
             <el-col :span="3" class="form_title">{{form.title[4]}}</el-col>
             <el-col :span="3" class="form_title">{{form.title[5]}}</el-col>
-            <el-col :span="6" class="form_title">{{form.title[6]}}</el-col>
+            <el-col :span="7" class="form_title">{{form.title[6]}}</el-col>
           </el-row>
           <el-row class="form_rowP" v-for="(item,index) in form.row" :key="index">
-            <el-col :span="3" class="form_row">&nbsp;&nbsp;&nbsp;&nbsp;{{item.serialNumber}}</el-col>
-            <el-col :span="3" class="form_row">{{item.userName}}</el-col>
-            <el-col :span="3" class="form_row">{{item.email}}</el-col>
+            <el-col :span="2" class="form_row">&nbsp;&nbsp;&nbsp;&nbsp;{{item.serialNumber}}</el-col>
+            <el-col :span="2" class="form_row">{{item.userName}}</el-col>
+            <el-col :span="4" class="form_row">{{item.email}}</el-col>
             <el-col :span="3" class="form_row">{{item.department}}</el-col>
             <el-col :span="3" class="form_row">{{item.ReportingManager}}</el-col>
             <el-col :span="3" class="form_row">{{item.jobRole}}</el-col>
-            <el-col :span="6" class="form_row">
+            <el-col :span="7" class="form_row">
               <el-button class="form_btn1" @click="authorityManage(index)">
                 <i class="iconfont">&#xe613;</i> 授权
               </el-button>
@@ -73,9 +73,18 @@
             <el-input v-model="m_form.jobRole" placeholder="请输入名称" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码：" :label-width="formLabelWidth">
-            <el-input v-model="m_form.password" placeholder="请设置密码" autocomplete="off"></el-input>
+            <el-input
+              type="password"
+              v-model="m_form.password"
+              placeholder="请设置密码"
+              autocomplete="off"
+              show-password
+            ></el-input>
           </el-form-item>
         </el-form>
+        <div class="notice_info">
+          <span>{{noticeMessage}}</span>
+        </div>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="userinfo_submit()">确 定</el-button>
           <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -132,6 +141,8 @@ export default {
   name: "AuthorityManagement", //热点监控
   data() {
     return {
+      // noticeShow: false,
+      noticeMessage: '',
       form: {
         title: [
           "用户ID",
@@ -228,7 +239,7 @@ export default {
       let newToken = token.replace('"', "").replace('"', "");
       let user = String(vm.m_data[index].id);
       get_user_permissions_byid(newToken, user)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           let m_res_data = response.data.data;
           let length = m_res_data.length;
@@ -278,7 +289,7 @@ export default {
           //   vm.authorizationChoose = response;
           // });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       this.dialogFormVisible3 = true;
@@ -338,18 +349,18 @@ export default {
       // let user = "1";
       let user = String(vm.m_data[vm.current_choose_index].id);
       post_users_permissions(newToken, user, formData)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           // 获取所有用户信息
           // vm.get_allusersinfo();
           // window.location.href = "/backhome/authoritymanagement";
           // 重新获取当前登录账户权限 - 使刷新
-          setTimeout(function() {
+          setTimeout(function () {
             // 权限判定
             let token = vm.$commonTools.getCookie("user_token");
             let newToken = token.replace('"', "").replace('"', "");
             get_user_permissions(newToken)
-              .then(function(response) {
+              .then(function (response) {
                 console.log(response);
                 console.log("~~~~获取权限成功！2222");
                 let m_res_data = response.data.data;
@@ -363,22 +374,22 @@ export default {
                 temp_authorizationChoose = temp;
                 vm.$store
                   .dispatch("set_current_authority", temp_authorizationChoose)
-                  .then(function(response) {
+                  .then(function (response) {
                     console.log(response);
                     console.log(temp_authorizationChoose);
                     // 跳转-后台主页面
                     // vm.$router.push({ path: "/backhome" });
                   })
-                  .catch(function(error) {
+                  .catch(function (error) {
                     console.info(error);
                   });
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 console.info(error);
               });
           }, 300);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       this.dialogFormVisible3 = false;
@@ -391,7 +402,7 @@ export default {
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_allusersinfo(newToken)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
 
           let m_data = response.data.data;
@@ -412,7 +423,7 @@ export default {
             vm.form.row.push(temp);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -433,13 +444,13 @@ export default {
       // let user = "3";
       let user = String(vm.m_data[index].id);
       del_user(newToken, user)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           // 获取所有用户信息
           vm.get_allusersinfo();
           vm.dialogFormVisible5 = false;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -471,7 +482,28 @@ export default {
     userinfo_submit() {
       if (this.submitType == "add") {
         console.log("add");
-        this.create_users();
+        let name = this.m_form.userName
+        let email = this.m_form.email
+        let department = this.m_form.department
+        let reporter = this.m_form.ReportingManager
+        let role = this.m_form.jobRole
+        let password = this.m_form.password
+        // console.log(name, name, department, reporter, role, password)
+        if (name == undefined || name == undefined || department == undefined || reporter == undefined || role == undefined) {
+          this.noticeMessage = '请填写完整用户信息'
+          setTimeout(() => {
+            this.noticeMessage = ''
+          }, 3000)
+        } else if (password.length < 6) {
+          this.noticeMessage = '请输入6位数以上的密码'
+          setTimeout(() => {
+            this.noticeMessage = ''
+          }, 3000)
+        }
+        else {
+          this.noticeMessage = ''
+          this.create_users()
+        }
       }
       if (this.submitType == "change") {
         console.log("change");
@@ -496,16 +528,23 @@ export default {
       };
       // console.log("~~~~~~~temp：");
       // console.log(temp);
-      update_users(newToken, user, temp)
-        .then(function(response) {
-          console.log(response);
-          // 获取所有用户信息
-          vm.get_allusersinfo();
-          vm.dialogFormVisible = false;
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      if (vm.m_form.password < 6) {
+        this.noticeMessage = '请输入6位数以上的密码'
+        setTimeout(() => {
+          this.noticeMessage = ''
+        }, 3000)
+      } else {
+        update_users(newToken, user, temp)
+          .then(function (response) {
+            console.log(response);
+            // 获取所有用户信息
+            vm.get_allusersinfo();
+            vm.dialogFormVisible = false;
+          })
+          .catch(function (error) {
+            console.info(error);
+          });
+      }
     },
     // 判断字符串状态
     determineString(m_string) {
@@ -570,14 +609,14 @@ export default {
       formData.append("role", temp.role);
 
       create_users(newToken, formData)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           // 获取所有用户信息
           vm.get_allusersinfo();
           vm.dialogFormVisible = false;
           return true;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -644,31 +683,28 @@ export default {
 }
 .form_row {
   height: 40px;
+  line-height: 40px;
   font-size: 14px;
   font-family: PingFangSC;
   font-weight: 400;
-  color: rgba(153, 153, 153, 1);
+  color: #909399;
+}
+.form_btn1,
+.form_btn2,
+.form_btn3 {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 1);
 }
 .form_btn1 {
-  width: 28%;
-  /* height: 32px; */
   background: rgba(126, 205, 244, 1);
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 1);
 }
 .form_btn2 {
-  width: 28%;
-  /* height: 32px; */
   background: rgba(121, 171, 252, 1);
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 1);
 }
 .form_btn3 {
-  width: 28%;
-  /* height: 32px; */
   background: rgba(255, 136, 89, 1);
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 1);
 }
 .add_user {
   height: 50px;
@@ -684,6 +720,11 @@ export default {
   font-size: 16px;
   color: red;
 }
+.notice_info {
+  width: 100%;
+  height: 20px;
+  color: red;
+}
 </style>
 
 <style>
@@ -691,7 +732,7 @@ export default {
   width: 500px !important;
 }
 .el-input {
-  width: 240px !important;
+  width: 260px !important;
 }
 .el-button--primary {
   color: #fff;
@@ -700,12 +741,6 @@ export default {
 }
 .el-dialog__header {
   padding: 0px !important;
-}
-.el-dialog__body {
-  /* padding: 0px !important; */
-}
-.el-dialog__footer {
-  /* padding: 0px !important; */
 }
 .el-textarea {
   width: 240px !important;
@@ -723,6 +758,10 @@ export default {
 }
 .el-form-item__label {
   font-weight: bold;
+  width: 140px !important;
+}
+.el-form-item__content .el-input {
+  margin-left: -80px !important;
 }
 .el-radio {
   margin-right: 0px;
@@ -747,5 +786,8 @@ export default {
   text-align: left !important;
   margin-left: 50px !important;
   line-height: 25px !important;
+}
+.el-dialog .el-dialog__body {
+  padding: 30px 20px 0px 20px !important;
 }
 </style>

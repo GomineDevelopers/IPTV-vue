@@ -6,17 +6,15 @@
     <div class="backHome_body">
       <div class="backHome_body_title">
         <p class="backhome_title">贵州广电新媒体数据分析平台</p>
-        <el-row class="aboutuser">
-          <el-col :span="16">
-            <!-- <div class="m_imgP">
+        <div class="aboutuser">
+          <!-- <div class="m_imgP">
               <img class="m_img" src="../assets/pic/user.png" alt />
-            </div>-->
-            <div class="account_name">&nbsp;{{username}}</div>
-          </el-col>
-          <el-col :span="8">
+          </div>-->
+          <div class="account_name">&nbsp;{{username}}</div>
+          <div>
             <button class="signout" @click="logout">退出</button>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
       </div>
       <div class="backHome_body_main">
         <router-view />
@@ -124,7 +122,7 @@ export default {
   margin-left: 17.1%;
   display: inline-block;
   width: 50%;
-  margin-top: 20px;
+  margin-top: 17px;
 }
 .backHome_body .backHome_body_main {
   height: calc(100% - 60px);
@@ -135,14 +133,23 @@ export default {
 }
 
 .aboutuser {
-  width: 16%;
-  display: block;
+  width: 150px;
   float: right;
-  margin: 18px;
+  margin: 16.5px;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.account_name {
+  display: inline-block;
+  color: #ff6123;
+  font-size: 14px;
+  text-align: left;
 }
 .signout {
-  width: 73px;
-  height: 25px;
+  width: 70px;
+  height: 30px;
   border-radius: 3px;
   border: 1px solid #ff6123;
   background: rgba(255, 255, 255, 1);
@@ -162,12 +169,5 @@ export default {
 .m_img {
   height: 15px;
   width: 15px;
-}
-.account_name {
-  display: inline-block;
-  color: #ff6123;
-  font-size: 12px;
-  width: 70%;
-  text-align: left;
 }
 </style>
