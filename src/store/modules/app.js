@@ -5,7 +5,8 @@ const app = {
     state: {
         BigScreenExpirationDate: "",
         BigScreenStartDate: "",
-        PR_assignReportNum: 4, //默认：专区4
+        PR_assignReportNum: 4, // 默认：专区4
+        PR_Report_index: 8,    // 默认专区 - 8（第8个）
 
         ULC_region: [],
         ULC_operator: [],
@@ -114,6 +115,17 @@ const app = {
         get_PR_assignReportNum({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.PR_assignReportNum);
+            })
+        },
+        set_PR_Report_index({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_Report_index = data;
+                resolve("PR_Report_index - SUCCESS !");
+            })
+        },
+        get_PR_Report_index({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_Report_index);
             })
         },
         // /////////////////////////////////////

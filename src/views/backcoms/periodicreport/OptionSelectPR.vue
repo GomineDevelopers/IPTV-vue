@@ -8,7 +8,7 @@
           :key="index + 'aa' "
           class="r_btn"
           :class="item.routerLink==routerLink ? 'active_btn': ''"
-          @click="setReportOption(item.name,item.routerLink,1)"
+          @click="setReportOption(item.name,item.routerLink,1,index)"
         >{{item.name}}</el-button>
       </div>
       <div class="mspace"></div>
@@ -19,7 +19,7 @@
           :key="index + 'bb' "
           class="r_btn"
           :class="item.routerLink==routerLink ? 'active_btn': ''"
-          @click="setReportOption(item.name,item.routerLink,2)"
+          @click="setReportOption(item.name,item.routerLink,2,index)"
         >{{item.name}}</el-button>
       </div>
       <div class="mspace"></div>
@@ -30,7 +30,7 @@
           :key="index + 'cc' "
           class="r_btn"
           :class="item.routerLink==routerLink ? 'active_btn': ''"
-          @click="setReportOption(item.name,item.routerLink,3)"
+          @click="setReportOption(item.name,item.routerLink,3,index)"
         >{{item.name}}</el-button>
       </div>
       <div class="mspace"></div>
@@ -41,7 +41,7 @@
           :key="index + 'dd' "
           class="r_btn"
           :class="item.routerLink==routerLink ? 'active_btn': ''"
-          @click="setReportOption(item.name,item.routerLink,4)"
+          @click="setReportOption(item.name,item.routerLink,4,index)"
         >{{item.name}}</el-button>
       </div>
     </div>
@@ -449,6 +449,8 @@ export default {
     this.handlerClass();
   },
   mounted() {
+    console.log(commonTools.format_MonthDays_byDWMMr(2018, 4));
+
     let vm = this;
 
     // ▲历史条件获取
@@ -471,9 +473,14 @@ export default {
     }, 100);
 
     // 初始化月
-    let arr_temp2 = commonTools.format_MonthDays(2018);
+    // let arr_temp2 = commonTools.format_MonthDays(2018);
+    // setTimeout(function() {
+    //   arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
+    //   vm.time.month = arr_temp2;
+    // }, 100);
+    let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
     setTimeout(function() {
-      arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
+      arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
       vm.time.month = arr_temp2;
     }, 100);
   },
@@ -507,22 +514,23 @@ export default {
       let m_time1;
       let m_time2;
 
-      if (String(event) == "选项1") {
-        m_time1 = "2019-07-01";
-        m_time2 = "2019-07-07";
-      }
-      if (String(event) == "选项2") {
-        m_time1 = "2019-07-08";
-        m_time2 = "2019-07-14";
-      }
-      if (String(event) == "选项3") {
-        m_time1 = "2019-07-15";
-        m_time2 = "2019-07-21";
-      }
-      if (String(event) == "选项4") {
-        m_time1 = "2019-07-22";
-        m_time2 = "2019-07-28";
-      }
+      // if (String(event) == "选项1") {
+      //   m_time1 = "2019-07-01";
+      //   m_time2 = "2019-07-07";
+      // }
+      // if (String(event) == "选项2") {
+      //   m_time1 = "2019-07-08";
+      //   m_time2 = "2019-07-14";
+      // }
+      // if (String(event) == "选项3") {
+      //   m_time1 = "2019-07-15";
+      //   m_time2 = "2019-07-21";
+      // }
+      // if (String(event) == "选项4") {
+      //   m_time1 = "2019-07-22";
+      //   m_time2 = "2019-07-28";
+      // }
+
       let vm = this;
       let newValue = {
         start: m_time1,
@@ -540,6 +548,17 @@ export default {
     monthChange(event) {
       console.log("~~~~~~month event:");
       console.log(event);
+      console.log("~~~split");
+      console.log(commonTools.split_MonthDays_byDWMMr(event));
+      let newValue = event;
+      this.$store
+        .dispatch("set_PR_month", newValue)
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     },
     operatorChoose_change(event) {
       operatorChoose_old = operatorChoose_new;
@@ -564,18 +583,44 @@ export default {
       this.operator_isIndeterminate = !this.operator_isIndeterminate;
     },
     //点击报表对应切换
-    setReportOption(reportName, routerLink, num) {
+    setReportOption(reportName, routerLink, num, index) {
       let vm = this;
-      this.$store
-        .dispatch("set_PR_assignReportNum", num)
+
+      let value1;
+      let value2;
+      let temp_PR_Report_index = 0;
+      if (num == 1) {
+        value1 = 1;
+      }
+      if (num == 2) {
+        value1 = 3;
+      }
+      if (num == 3) {
+        value1 = 6;
+      }
+      if (num == 4) {
+        value1 = 8;
+      }
+      value2 = index;
+      temp_PR_Report_index = value1 + value2;
+      // console.log("~~~~~~temp_PR_Report_index:" + temp_PR_Report_index);
+      vm.$store
+        .dispatch("set_PR_Report_index", temp_PR_Report_index)
         .then(function(response) {
-          vm.reportOption = reportName;
-          vm.routerLink = routerLink;
-          if (reportName == "移动运营数据周报") {
-            vm.ifOperatorShow = false;
-          } else {
-            vm.ifOperatorShow = true;
-          }
+          vm.$store
+            .dispatch("set_PR_assignReportNum", num)
+            .then(function(response) {
+              vm.reportOption = reportName;
+              vm.routerLink = routerLink;
+              if (reportName == "移动运营数据周报") {
+                vm.ifOperatorShow = false;
+              } else {
+                vm.ifOperatorShow = true;
+              }
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
@@ -600,37 +645,49 @@ export default {
     },
     // 下载excel表格
     export2Excel() {
-      require.ensure([], () => {
-        console.log("~~~~export2Excel1");
-        const {
-          export_json_to_excel
-        } = require("../../../vendor/Export2Excel");
-        console.log("~~~~export2Excel2");
-        const tHeader = [
-          "商品名称",
-          "商品货号",
-          "售价",
-          "库存",
-          "销量",
-          "分享"
-        ];
-        const filterVal = [
-          "name",
-          "number",
-          "salePrice",
-          "stocknums",
-          "salesnums",
-          "sharenums"
-        ];
-        // const list = this.goodsItems;
-        const list = this.list;
-        console.log(list);
-        console.log(filterVal);
-        const data = this.formatJson(filterVal, list);
-        console.log(tHeader);
-        console.log(data);
-        export_json_to_excel(tHeader, data, "商品管理列表");
-      });
+      // 获取当前报告序数index
+
+      this.$store
+        .dispatch("get_PR_Report_index")
+        .then(function(response) {
+          console.log("~~~~~当前报告序数");
+          console.log(response);
+
+          require.ensure([], () => {
+            console.log("~~~~export2Excel1");
+            const {
+              export_json_to_excel
+            } = require("../../../vendor/Export2Excel");
+            console.log("~~~~export2Excel2");
+            const tHeader = [
+              "商品名称",
+              "商品货号",
+              "售价",
+              "库存",
+              "销量",
+              "分享"
+            ];
+            const filterVal = [
+              "name",
+              "number",
+              "salePrice",
+              "stocknums",
+              "salesnums",
+              "sharenums"
+            ];
+            // const list = this.goodsItems;
+            const list = this.list;
+            console.log(list);
+            console.log(filterVal);
+            const data = this.formatJson(filterVal, list);
+            console.log(tHeader);
+            console.log(data);
+            export_json_to_excel(tHeader, data, "商品管理列表");
+          });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     },
     formatJson(filterVal, jsonData) {
       //   let temp1 = [55, 66];

@@ -178,6 +178,8 @@ commonTools.returnFloat_4 = function (value) {
     }
 }
 
+
+
 // ///////////////////// ac 地区码
 // 851：贵阳
 // 852：遵义
@@ -356,6 +358,56 @@ commonTools.programaConvert = function (programa_arr) {
 }
 
 
+
+////////////////////// 
+// 分割自定义时间格式
+// 处理 2018&3week 2018&3month 类似格式，返回 year 和 time(week或month)
+// 处理 =》 weekDate weekDate_add format_MonthDays format_MonthDays_add
+commonTools.split_yearAtime = function (str) {
+    let t_year;
+    let t_time;
+    let strs = str.split('&');
+    t_year = strs[0];
+    t_time = strs[1];
+    return {
+        year: t_year,
+        time: t_time
+    };
+}
+// commonTools.split_yearAtime = function (str) {
+//     let t_year;
+//     let t_time;
+//     let strs = str.split('&');
+//     t_year = strs[0];
+//     t_time = strs[1];
+//     return {
+//         year: t_year,
+//         time: t_time
+//     };
+// }
+
+// 处理 2018*2018-01-01*2018-01-07 或者  2018*1week*4week
+// 处理 weekDate_byday  weekDate_add_byday format_MonthDays_byweek format_MonthDays_add_byweek
+commonTools.split_yearAtime_byweekOrDay = function (str) {
+    // let t_year;
+    let t_year = commonTools.split_yearAtime(str).year;
+    // let t_time;
+    let t_time1;
+    let t_time2;
+
+    let strs = str.split('*');
+    // t_year = strs[0];
+    t_time1 = strs[1];
+    t_time2 = strs[2];
+
+    return {
+        year: t_year,
+        time1: t_time1,
+        time2: t_time2,
+    };
+}
+
+
 // 时间格式转换
 // Wed Sep 11 2019 00:00:00 GMT+0800 (中国标准时间),Wed Oct 16 2019 00:00:00 GMT+0800 (中国标准时间)
 // =》 2019-09-11   2019-10-16
@@ -370,7 +422,6 @@ commonTools.split_picker = function (str) {
         end: t2
     }
 }
-
 
 // 时间格式转换
 // Tue Sep 03 2019 00:00:00 GMT+0800 (中国标准时间) => 2019-09-03
@@ -770,53 +821,6 @@ commonTools.createWeeks = function* (year) {
     yield [startTime, +end];
 }
 
-////////////////////// 
-// 分割自定义时间格式
-// 处理 2018&3week 类似格式，返回 year 和 time(week或month)
-commonTools.split_yearAtime = function (str) {
-    let t_year;
-    let t_time;
-    let strs = str.split('&');
-    t_year = strs[0];
-    t_time = strs[1];
-    return {
-        year: t_year,
-        time: t_time
-    };
-
-}
-commonTools.split_yearAtime = function (str) {
-    let t_year;
-    let t_time;
-    let strs = str.split('&');
-    t_year = strs[0];
-    t_time = strs[1];
-    return {
-        year: t_year,
-        time: t_time
-    };
-
-}
-commonTools.split_yearAtime_byweekOrDay = function (str) {
-    // let t_year;
-    let t_year = commonTools.split_yearAtime(str).year;
-    // let t_time;
-    let t_time1;
-    let t_time2;
-
-    let strs = str.split('*');
-    // t_year = strs[0];
-    t_time1 = strs[1];
-    t_time2 = strs[2];
-
-    return {
-        year: t_year,
-        time1: t_time1,
-        time2: t_time2,
-    };
-
-}
-
 
 
 
@@ -862,7 +866,127 @@ commonTools.getMonthDays_y = function (year) {
     return monthDays;
 }
 
+// /////// // /////// // /////// // /////// // /////// // /////// 
+// /////// // /////// // /////// // /////// // /////// // /////// 
 
+// /////// ▲▲▲ 显示格式 - 月 up（by day by week by month）
+// 显示值： 4.1~4.30  xweek~(x+3)week 4month 1~4month  (特殊处理 1 2 3 )
+// format_MonthDays_byDayWeekMonthMonthrange
+// monthsRange 时间范围（用于处理月范围：eg：传入范围4 5-1234 4-1234 3-123）
+commonTools.manageTIMEsRange = function (currentTIME, TIMEsRange) {
+    let start;
+    let differ = currentTIME - (TIMEsRange - 1);
+    if (differ < 1) {
+        start = 1;
+    }
+    else {
+        start = differ
+    }
+    return {
+        start: start,
+        end: currentTIME
+    }
+}
+commonTools.format_MonthDays_byDWMMr = function (year, monthsRange) {
+    let monthDays = commonTools.getMonthDays_y(year);
+    let m_format = [];
+    let length = 12;
+    let i;
+    let temp;
+    let t_week_arr;
+    let t_week_arr_length
+    let monthsRange_sAe;
+    for (i = 1; i <= length; i++) {
+        t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
+        t_week_arr_length = t_week_arr.length;
+        monthsRange_sAe = commonTools.manageTIMEsRange(i, monthsRange);
+        temp = {
+            // value: "(" + "&" + String(year) + "&" + String(i) + "month" + "&" + "@" + monthDays.firstDay[i - 1] + "@" + monthDays.lastDay[i - 1] + "@" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week" + "*" + "^" + String(monthsRange_sAe.start) + "month" + "^" + String(monthsRange_sAe.end) + "month" + "^" + ")",
+            // label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+            value: "(" + "&" + String(year) + "&" + String(i) + "month" + "&" + "@" + monthDays.firstDay[i - 1] + "@" + monthDays.lastDay[i - 1] + "@" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[t_week_arr_length - 1]) + "week" + "*" + "^" + String(monthsRange_sAe.start) + "month" + "^" + String(monthsRange_sAe.end) + "month" + "^" + ")",
+            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[t_week_arr_length - 1] + "周" + ")"
+        }
+        m_format.push(temp);
+    }
+    return m_format;
+}
+commonTools.format_MonthDays_byDWMMr_add = function (year, monthsRange, m_format) {
+    let monthDays = commonTools.getMonthDays_y(year);
+    // let m_format = [];
+    let length = 12;
+    let i;
+    let temp;
+    let t_week_arr;
+    let t_week_arr_length
+    let monthsRange_sAe;
+    for (i = 1; i <= length; i++) {
+        t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
+        t_week_arr_length = t_week_arr.length;
+        monthsRange_sAe = commonTools.manageTIMEsRange(i, monthsRange);
+        temp = {
+            // value: "(" + "&" + String(year) + "&" + String(i) + "month" + "&" + "@" + monthDays.firstDay[i - 1] + "@" + monthDays.lastDay[i - 1] + "@" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week" + "*" + "^" + String(monthsRange_sAe.start) + "month" + "^" + String(monthsRange_sAe.end) + "month" + "^" + ")",
+            // label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+            value: "(" + "&" + String(year) + "&" + String(i) + "month" + "&" + "@" + monthDays.firstDay[i - 1] + "@" + monthDays.lastDay[i - 1] + "@" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[t_week_arr_length - 1]) + "week" + "*" + "^" + String(monthsRange_sAe.start) + "month" + "^" + String(monthsRange_sAe.end) + "month" + "^" + ")",
+            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[t_week_arr_length - 1] + "周" + ")"
+        }
+        m_format.push(temp);
+    }
+    return m_format;
+}
+// /////// 切割单个value的内容=》 format_MonthDays_byDWMMr format_MonthDays_byDWMMr_add
+commonTools.split_MonthDays_byDWMMr = function (str) {
+    let arr1;  // & 1-年  2-月
+    let arr2;  // @ 1-日s 2-日e
+    let arr3;  // * 1-周s 2-周e
+    let arr4;  // ^ 1-月s 2-月e
+    arr1 = str.split("&");
+    arr2 = str.split("@");
+    arr3 = str.split("*");
+    arr4 = str.split("^");
+
+    let year = arr1[1];
+    let month = arr1[2];
+    let month_day_start = arr2[1];
+    let month_day_end = arr2[2];
+    let month_week_start = arr3[1];
+    let month_week_end = arr3[2];
+    let monthsRange_start = arr4[1];
+    let monthsRange_end = arr4[2];
+
+    return {
+        year: year,
+        month: month,
+        month_day_start: month_day_start,
+        month_day_end: month_day_end,
+        month_week_start: month_week_start,
+        month_week_end: month_week_end,
+        monthsRange_start: monthsRange_start,
+        monthsRange_end: monthsRange_end
+    }
+}
+
+
+// /////// // /////// // /////// // /////// // /////// // /////// 
+// /////// // /////// // /////// // /////// // /////// // /////// 
+
+commonTools.format_WeeksDays_byDWwr = function (year, weeksRange) {
+
+}
+commonTools.format_WeeksDays_byDWwr_add = function (year, weeksRange) {
+
+}
+commonTools.split_WeeksDays_byDWwr = function (str) {
+
+    return {
+
+    }
+}
+
+
+
+
+// /////// // /////// // /////// // /////// // /////// // /////// 
+// /////// // /////// // /////// // /////// // /////// // /////// 
 // /////// 显示格式 - 月（by day）
 // 某年1~12月（下拉框数据格式）
 commonTools.format_MonthDays = function (year) {
@@ -907,19 +1031,24 @@ commonTools.format_MonthDays_add = function (year, m_format) {
 // /////// 显示格式 - 月（by week）
 // 某年1~12月（下拉框数据格式）
 commonTools.format_MonthDays_byweek = function (year) {
-
-    let monthDays = commonTools.getMonthDays_y(year);
-
     let m_format = [];
     let length = 12;
     let i;
     let temp;
     let t_week_arr;
+    let t_week_arr_length
     for (i = 1; i <= length; i++) {
         t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
+        // console.log("~~~~~t_week_arr");
+        // console.log(t_week_arr);
+        t_week_arr_length = t_week_arr.length;
         temp = {
-            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
-            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+            // value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
+            // 会有跨6周的情况
+            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[t_week_arr_length - 1]) + "week",
+            // label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[t_week_arr_length - 1] + "周" + ")"
+
         }
         m_format.push(temp);
     }
@@ -928,17 +1057,20 @@ commonTools.format_MonthDays_byweek = function (year) {
 }
 // 某年1~12月（下拉框数据格式） 与 累加
 commonTools.format_MonthDays_add_byweek = function (year, m_format) {
-    let monthDays = commonTools.getMonthDays_y(year);
     // let m_format = [];
     let length = 12;
     let i;
     let temp;
     let t_week_arr;
+    let t_week_arr_length
     for (i = 1; i <= length; i++) {
         t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
+        t_week_arr_length = t_week_arr.length;
         temp = {
-            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
-            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+            // value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
+            value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[t_week_arr_length - 1]) + "week",
+            // label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[3] + "周" + ")"
+            label: String(year) + "年" + String(i) + "月" + "(" + t_week_arr[0] + "周" + "至" + t_week_arr[t_week_arr_length - 1] + "周" + ")"
         }
         m_format.push(temp);
     }
@@ -969,6 +1101,12 @@ commonTools.get_YweeksRange_InMonth = function (year, month) {
         per_split_label_1_2.push(per_split_label_1[i][1].split("周"))
         if (parseInt(per_split_label[i][1]) <= parseInt(month) && parseInt(per_split_label[i][4]) == parseInt(month)) {
             index_arr.push(i + 1); // 序数 变成 第几周
+            // if (year == 2018) {
+            //     console.log("~~~~~~~i+1:" + String(i + 1))
+            //     console.log("month: " + month)
+            //     console.log(parseInt(per_split_label[i][1]))
+            //     console.log(parseInt(per_split_label[i][4]))
+            // }
         }
     }
     // console.log(per_split_label); // 1-月a  4-月b 

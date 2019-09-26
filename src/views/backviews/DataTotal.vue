@@ -405,9 +405,37 @@ export default {
       // for(i=0;i<length;i++){
       // }
       if (this.ifRequestSuccess == 0) {
-        this.data.datashow[2].numT = "数据请求失败！";
+        // this.data.datashow[2].numT = "...";
+        this.data.datashow[0].numT = "...";
+        this.data.datashow[0].numC = "...";
+        this.data.datashow[1].numT = "...";
+        this.data.datashow[1].numC = "...";
+        this.data.datashow[2].numT = "...";
+        this.data.datashow[2].numC = "...";
+        this.data.datashow[3].numT = "...";
+        this.data.datashow[3].numC = "...";
+        this.data.datashow[4].numT = "...";
+        this.data.datashow[4].numC = "...";
+        this.data.datashow[5].numT = "...";
+        this.data.datashow[5].numC = "...";
+        this.data.datashow[6].numT = "...";
+        this.data.datashow[6].numC = "...";
       } else if (this.ifRequestSuccess == 2) {
-        this.data.datashow[2].numT = "数据请求中...";
+        // this.data.datashow[2].numT = "数据请求中...";
+        this.data.datashow[0].numT = "...";
+        this.data.datashow[0].numC = "...";
+        this.data.datashow[1].numT = "...";
+        this.data.datashow[1].numC = "...";
+        this.data.datashow[2].numT = "...";
+        this.data.datashow[2].numC = "...";
+        this.data.datashow[3].numT = "...";
+        this.data.datashow[3].numC = "...";
+        this.data.datashow[4].numT = "...";
+        this.data.datashow[4].numC = "...";
+        this.data.datashow[5].numT = "...";
+        this.data.datashow[5].numC = "...";
+        this.data.datashow[6].numT = "...";
+        this.data.datashow[6].numC = "...";
       } else {
         // this.data.datashow[2].numT = this.api_data.module2_numT[city_num];
 
