@@ -197,6 +197,9 @@ import ManyPieChart2 from "@/views/backcoms/vipaddmonthreport/ManyPieChart2"; //
 import DibbleTable from "@/views/backcoms/vipaddmonthreport/DibbleTable"; //表格组件
 
 import { mapGetters } from "vuex";
+import { users_vipReport } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
+
 export default {
   name: "VIPAddMonthReport", //VIP增值业务专项分析
   components: {
@@ -211,33 +214,87 @@ export default {
   mounted() {},
   computed: {
     // ...this.$mapGetters(["PR_operator"])
-    ...mapGetters(["PR_operator"])
-
+    ...mapGetters(["PR_operator", "PR_month"])
   },
-  methods: {
-    users_vipReport() {
-      // console.log("users_vipReport");
+  watch: {
+    PR_operator(newValue, oldValue) {
       let vm = this;
-      let operator_arr = this.PR_operator;
-      let temp = {
-        // operator: String(["联通", "移动"]),
-        operator: String(operator_arr),
-        start: "2019-07-03",
-        end: "2019-07-03"
-      };
-      var formData = new FormData();
-      var formData = new window.FormData();
-      formData.append("operator", temp.operator);
-      formData.append("start", temp.start);
-      formData.append("end", temp.end);
-      users_vipReport(formData)
-        .then(function(response) {
-          // console.log(response);
-          // console.log(response.data.responses[0].aggregations.ti.buckets);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      console.log("PR_operator: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data("month_day");
+        vm.refresh_api_data("month_week");
+        vm.refresh_api_data("monthsRange");
+      }, 100);
+    },
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      console.log("PR_month: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data("month_day");
+        vm.refresh_api_data("month_week");
+        vm.refresh_api_data("monthsRange");
+      }, 100);
+    }
+  },
+
+  methods: {
+    // 请求类型 RequestType - month_day(包括month)  month_week  monthsRange
+    refresh_api_data(RequestType) {
+      this.users_vipReport(RequestType);
+    },
+    users_vipReport(RequestType) {
+      console.log("~~~~~~users_vipReport");
+      let vm = this;
+      if (
+        vm.PR_month == null ||
+        vm.PR_month == undefined ||
+        vm.PR_month == ""
+      ) {
+        return;
+      }
+      let temp_operator = commonTools.operatorConvert(vm.PR_operator);
+      let temp_time = commonTools.split_MonthDays_byDWMMr(vm.PR_month);
+      let temp;
+
+      if (RequestType == "month_day") {
+        temp = {
+          operator: String(temp_operator),
+          year: temp_time.year,
+          start: temp_time.month_day_start,
+          end: temp_time.month_day_end
+        };
+      }
+      if (RequestType == "month_week") {
+        temp = {
+          operator: String(temp_operator),
+          year: temp_time.year,
+          start: temp_time.month_week_start,
+          end: temp_time.month_week_end
+        };
+      }
+      if (RequestType == "monthsRange") {
+        temp = {
+          operator: String(temp_operator),
+          year: temp_time.year,
+          start: temp_time.monthsRange_start,
+          end: temp_time.monthsRange_end
+        };
+      }
+      console.log(temp);
+
+      // var formData = new FormData();
+      // var formData = new window.FormData();
+      // formData.append("operator", temp.operator);
+      // formData.append("start", temp.start);
+      // formData.append("end", temp.end);
+      // users_vipReport(formData)
+      //   .then(function(response) {
+      //     // console.log(response);
+      //     // console.log(response.data.responses[0].aggregations.ti.buckets);
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
     }
   },
   data() {

@@ -970,15 +970,72 @@ commonTools.split_MonthDays_byDWMMr = function (str) {
 // /////// // /////// // /////// // /////// // /////// // /////// 
 
 commonTools.format_WeeksDays_byDWwr = function (year, weeksRange) {
+    let arr_temp = [];
+    let temp;
+    let start;
+    let end;
+    let index1 = 1;
+    let weeksRange_sAe;
 
+    for (let i of commonTools.createWeeks(year)) {
+        weeksRange_sAe = commonTools.manageTIMEsRange(index1, weeksRange);
+
+        start = i[0];
+        end = i[1];
+        temp = {
+
+            value: "(" + "&" + String(year) + "&" + String(index1) + "week" + "&" + "@" + commonTools.formatDate3(start) + "@" + commonTools.formatDate3(end) + "@" + "*" + String(weeksRange_sAe.start) + "week" + "*" + String(weeksRange_sAe.end) + "week" + "*" + ")",
+            label: String(year) + `年第${commonTools.formatDig(
+                index1++
+            )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
+        };
+        arr_temp.push(temp);
+    }
+    return arr_temp
 }
-commonTools.format_WeeksDays_byDWwr_add = function (year, weeksRange) {
+commonTools.format_WeeksDays_byDWwr_add = function (year, weeksRange, arr_temp) {
+    // let arr_temp = [];
+    let temp;
+    let start;
+    let end;
+    let index1 = 1;
+    let weeksRange_sAe;
 
+    for (let i of commonTools.createWeeks(year)) {
+        weeksRange_sAe = commonTools.manageTIMEsRange(index1, weeksRange);
+
+        start = i[0];
+        end = i[1];
+        temp = {
+            value: "(" + "&" + String(year) + "&" + String(index1) + "week" + "&" + "@" + commonTools.formatDate3(start) + "@" + commonTools.formatDate3(end) + "@" + "*" + String(weeksRange_sAe.start) + "week" + "*" + String(weeksRange_sAe.end) + "week" + "*" + ")",
+            label: String(year) + `年第${commonTools.formatDig(
+                index1++
+            )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
+        };
+        arr_temp.push(temp);
+    }
+    return arr_temp
 }
 commonTools.split_WeeksDays_byDWwr = function (str) {
-
+    let arr1;  // & 1-年  2-周
+    let arr2;  // @ 1-日s 2-日e
+    let arr3;  // * 1-周s 2-周e
+    arr1 = str.split("&");
+    arr2 = str.split("@");
+    arr3 = str.split("*");
+    let year = arr1[1];
+    let week = arr1[2];
+    let week_day_start = arr2[1];
+    let week_day_end = arr2[2];
+    let weeksRange_start = arr3[1];
+    let weeksRange_end = arr3[2];
     return {
-
+        year: year,
+        week: week,
+        week_day_start: week_day_start,
+        week_day_end: week_day_end,
+        weeksRange_start: weeksRange_start,
+        weeksRange_end: weeksRange_end
     }
 }
 

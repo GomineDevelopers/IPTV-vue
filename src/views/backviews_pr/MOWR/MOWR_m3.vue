@@ -53,7 +53,14 @@
 export default {
   name: "MOWR_m3",
   components: {},
-  mounted() { },
+  props: ["m3_data"],
+  watch: {
+    m3_data(newValue, oldValue) {
+      console.log("m3_data - newValue");
+      console.log(newValue);
+    }
+  },
+  mounted() {},
   data() {
     return {
       form: {

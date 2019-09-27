@@ -44,6 +44,13 @@ export default {
   components: {
     "smooth-line-chart2": SmoothLineChart2
   },
+  props: ["m2_data"],
+  watch: {
+    m2_data(newValue, oldValue) {
+      console.log("m2_data - newValue");
+      console.log(newValue);
+    }
+  },
   mounted() {},
   computed: {
     ...mapGetters(["PR_operator"]),

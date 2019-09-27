@@ -75,17 +75,26 @@
         <el-col :span="8" class="height_auto">
           <p class="m_common_sm_title_font">周新增占比</p>
           <!-- <div id="MOWR_m7_A1" :style="{width: '100%',height: '300px'}"></div> -->
-          <numberOfRegisteredUsers2 :fillinData="MOWR_m7_A1" :style="{width: '100%',height: '300px'}"></numberOfRegisteredUsers2>
+          <numberOfRegisteredUsers2
+            :fillinData="MOWR_m7_A1"
+            :style="{width: '100%',height: '300px'}"
+          ></numberOfRegisteredUsers2>
         </el-col>
         <el-col :span="8" class="height_auto">
           <p class="m_common_sm_title_font">周销户占比</p>
           <!-- <div id="MOWR_m7_A2" :style="{width: '100%',height: '300px'}"></div> -->
-          <numberOfRegisteredUsers2 :fillinData="MOWR_m7_A2" :style="{width: '100%',height: '300px'}"></numberOfRegisteredUsers2>
+          <numberOfRegisteredUsers2
+            :fillinData="MOWR_m7_A2"
+            :style="{width: '100%',height: '300px'}"
+          ></numberOfRegisteredUsers2>
         </el-col>
         <el-col :span="8" class="height_auto">
           <p class="m_common_sm_title_font">周净增占比</p>
           <!-- <div id="MOWR_m7_A3" :style="{width: '100%',height: '300px'}"></div> -->
-          <numberOfRegisteredUsers2 :fillinData="MOWR_m7_A3" :style="{width: '100%',height: '300px'}"></numberOfRegisteredUsers2>
+          <numberOfRegisteredUsers2
+            :fillinData="MOWR_m7_A3"
+            :style="{width: '100%',height: '300px'}"
+          ></numberOfRegisteredUsers2>
         </el-col>
       </el-row>
     </el-row>
@@ -106,6 +115,13 @@ export default {
   components: {
     "bar-chart-single2": BarChartSingle2,
     numberOfRegisteredUsers2: numberOfRegisteredUsers2
+  },
+  props: ["m7_data"],
+  watch: {
+    m7_data(newValue, oldValue) {
+      console.log("m7_data - newValue");
+      console.log(newValue);
+    }
   },
   computed: {
     ...mapGetters(["PR_operator"]),

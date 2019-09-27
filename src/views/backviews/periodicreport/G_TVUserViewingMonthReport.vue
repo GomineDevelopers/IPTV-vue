@@ -450,6 +450,7 @@ import {
   users_monthActiveReport_range,
   users_monthActiveReport
 } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "G_TVUserViewingMonthReport", //G+TV月度用户收视行为报告
@@ -468,14 +469,25 @@ export default {
   },
   watch: {
     PR_operator(newValue, oldValue) {
-      this.api_data_set("mixture", "month"); // mixture - 混合数据类型
-      this.api_data_set("mixture", "week"); // mixture - 混合数据类型
+      let vm = this;
+      setTimeout(function() {
+        vm.api_data_set("mixture", "month"); // mixture - 混合数据类型
+        vm.api_data_set("mixture", "week"); // mixture - 混合数据类型
+      }, 100);
+    },
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      console.log("PR_month: " + newValue);
+      setTimeout(function() {
+        vm.api_data_set("mixture", "month"); // mixture - 混合数据类型
+        vm.api_data_set("mixture", "week"); // mixture - 混合数据类型
+      }, 100);
     }
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_month"]),
     ifModuleydShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -486,10 +498,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifModuleltShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -500,10 +512,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifModuledxShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -514,12 +526,12 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   mounted() {
     //监听滚动事件
-    $(".monthly_report_body").scroll(function (event) {
+    $(".monthly_report_body").scroll(function(event) {
       let scrollTopHeight = $(".monthly_report_body").scrollTop();
       // let user_development_data = document.querySelector('#user_development_data').offsetTop
       // let operational_data = document.querySelector('#operational_data').offsetTop
@@ -653,19 +665,46 @@ export default {
       let tempOperatorArr = m_PR_operator;
       let start;
       let end;
+
+      //// 时间引入
+      if (
+        vm.PR_month == null ||
+        vm.PR_month == undefined ||
+        vm.PR_month == ""
+      ) {
+        return;
+      }
+      // if (timetype == "week") {
+      //   start = "26week";
+      //   start = "29week";
+      // }
+      // if (timetype == "month") {
+      //   start = "2019-07-01";
+      //   end = "2019-07-31";
+      // }
+      let temp_time = commonTools.split_MonthDays_byDWMMr(vm.PR_month);
+
       if (timetype == "week") {
-        start = "26week";
-        start = "29week";
+        // start = "26week";
+        // start = "29week"; // --之前的问题点 - 跨week接不上
+        // end = "29week";
+        start = temp_time.month_week_start;
+        end = temp_time.month_week_end;
       }
       if (timetype == "month") {
-        start = "2019-07-01";
-        end = "2019-07-31";
+        // start = "2019-07-01";
+        // end = "2019-07-31";
+        start = temp_time.month_day_start;
+        end = temp_time.month_day_end;
       }
       let temp = {
         operator: String([tempOperatorArr]),
         start: start,
         end: end // 暂定这一周
       };
+      console.log("~~~~~~~~~~~~~~~~~  temp");
+      console.log(temp);
+
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("operator", temp.operator);
@@ -673,7 +712,7 @@ export default {
       formData.append("end", temp.end);
 
       users_monthActiveReport(formData)
-        .then(function (response) {
+        .then(function(response) {
           if (datatype == "mixture" && timetype == "month") {
             // //////////////////
 
@@ -810,7 +849,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -839,7 +878,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
 
-      users_monthActiveReport_range(formData).then(function (response) {
+      users_monthActiveReport_range(formData).then(function(response) {
         if (datatype == "mixture" && timetype == "month") {
           // usingTheUser;
           // usingTheTimes;
@@ -915,19 +954,19 @@ export default {
           let td2 = [];
           let freq2 = vm.returnFloat(
             (parseFloat(q1_f) + parseFloat(q2_f) + parseFloat(q3_f)) /
-            100 /
-            10000
+              100 /
+              10000
           );
           let dur2 = vm.returnFloat(
             (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
-            100 /
-            10000 /
-            3600
+              100 /
+              10000 /
+              3600
           ); // 观看时长计时 - 秒 =》百万小时
           let user_num2 = vm.returnFloat(
             (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /
-            100 /
-            10000
+              100 /
+              10000
           );
           td2.push(["product", "7月"]);
           td2.push(["观看次数（百万次）", freq2]);
@@ -1396,7 +1435,7 @@ export default {
       let scrollDiv = document.querySelector(".monthly_report_body"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".monthly_nav a").on("click", function () {
+      $(".monthly_nav a").on("click", function() {
         $(this)
           .addClass("avtive_link")
           .parent()

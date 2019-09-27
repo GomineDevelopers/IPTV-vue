@@ -119,6 +119,8 @@ import DayRankTop5 from "@/views/backcoms/commoncomponents/DayRankTop5"; //每�
 
 import { users_subReport } from "@/api/api_main";
 import { mapGetters } from "vuex";
+import { commonTools } from "@/utils/test";
+
 export default {
   name: "SpecialZoneReport", //专题专区数据报告
 
@@ -130,72 +132,117 @@ export default {
     "day-rank-top5": DayRankTop5
   },
   computed: {
-    ...mapGetters(["PR_operator"])
+    ...mapGetters(["PR_operator", "PR_picker", "PR_value_specialName"])
     // ...mapGetters(["PR_operator", "PR_day"])
   },
   mounted() {
-    this.users_subReport();
+    // this.users_subReport();
+  },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      console.log("PR_operator: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    PR_picker(newValue, oldValue) {
+      let vm = this;
+      console.log("PR_picker: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    },
+    PR_value_specialName(newValue, oldValue) {
+      let vm = this;
+      console.log("PR_value_specialName: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 100);
+    }
   },
   methods: {
+    refresh_api_data() {
+      this.users_subReport();
+    },
     users_subReport() {
-      // console.log("users_subReport");
-
+      console.log("~~~~~users_subReport");
       let vm = this;
-      // console.log(String(["联通", "移动"]));
-      let operator_arr = this.PR_operator;
+
+      if (vm.PR_picker.length == 0) {
+        return;
+      }
+      let temp_operator = commonTools.operatorConvert(vm.PR_operator);
+      let temp_time = commonTools.split_picker(vm.PR_picker);
+      let temp_specialName = vm.PR_value_specialName;
+      if (
+        temp_specialName == undefined ||
+        temp_specialName == "" ||
+        temp_specialName == null
+      ) {
+        return;
+      }
+
+      console.log("PR_value_specialName: ");
+      console.log(this.PR_value_specialName);
+      console.log(typeof this.PR_value_specialName);
+
       let temp = {
         // operator: String(["联通", "移动"]),
-        operator: String(operator_arr),
-        start: "2019-07-15",
-        end: "2019-07-15"
+        operator: String(temp_operator),
+        start: temp_time.start,
+        end: temp_time.end,
+        name: temp_specialName
       };
+      console.log(temp);
 
-      var formData = new FormData();
-      var formData = new window.FormData();
-      formData.append("operator", temp.operator);
-      formData.append("start", temp.start);
-      formData.append("end", temp.end);
+      // var formData = new FormData();
+      // var formData = new window.FormData();
+      // formData.append("operator", temp.operator);
+      // formData.append("start", temp.start);
+      // formData.append("end", temp.end);
 
-      users_subReport(formData)
-        .then(function(response) {
-          // console.log(response);
-          // console.log(response.data.responses[0].aggregations.ti.buckets);
-          let data = response.data.responses[0].aggregations.ti.buckets;
-          let length = data.length;
-          let i;
-          let d1 = null,
-            d2 = null,
-            d3 = null;
-          for (i = 0; i < length; i++) {
-            // console.log(data[i].key);
-            if (data[i].key == "推荐") {
-              d1 = data[i];
-              // console.log("~~~~i: " + i);
-            }
-            if (data[i].key == "少儿") {
-              d2 = data[i];
-              // console.log("~~~~i: " + i);
-            }
-            if (data[i].key == "分类") {
-              d3 = data[i];
-              // console.log("~~~~i: " + i);
-            }
-            if (d1 != null && d2 != null && d3 != null) {
-              break;
-            }
-            // console.log("~~~~i: " + i);
-          }
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      // users_subReport(formData)
+      //   .then(function(response) {
+      //     // console.log(response);
+      //     // console.log(response.data.responses[0].aggregations.ti.buckets);
+      //     let data = response.data.responses[0].aggregations.ti.buckets;
+      //     let length = data.length;
+      //     let i;
+      //     let d1 = null,
+      //       d2 = null,
+      //       d3 = null;
+      //     for (i = 0; i < length; i++) {
+      //       // console.log(data[i].key);
+      //       if (data[i].key == "推荐") {
+      //         d1 = data[i];
+      //         // console.log("~~~~i: " + i);
+      //       }
+      //       if (data[i].key == "少儿") {
+      //         d2 = data[i];
+      //         // console.log("~~~~i: " + i);
+      //       }
+      //       if (data[i].key == "分类") {
+      //         d3 = data[i];
+      //         // console.log("~~~~i: " + i);
+      //       }
+      //       if (d1 != null && d2 != null && d3 != null) {
+      //         break;
+      //       }
+      //       // console.log("~~~~i: " + i);
+      //     }
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
     }
   },
   data() {
     return {
-      //各页面专区入口点击次数
+      //各页面专区入口点击次= 》  专区各页面入口点击次数
       clickNumData: {
-        title: "各页面专区入口点击次数",
+        // title: "各页面专区入口点击次数",
+        title: "专区各页面入口点击次数",
         id: "specialClickNum",
         color: ["#5B9BD4", "#FFC000", "#EC7C30"],
         data: [

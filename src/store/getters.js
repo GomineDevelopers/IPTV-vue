@@ -3,16 +3,6 @@ const getters = {
     // 大屏截止日期
     BigScreenExpirationDate: state => state.app.BigScreenExpirationDate,
     BigScreenStartDate: state => state.app.BigScreenStartDate,
-    // ////////////////// 定期报告 - 指定报告（页面显示时间范围）
-    // 日报-day-1 周报-week-2 月报-month-3 专区-范围-4
-    PR_assignReportNum: state => state.app.PR_assignReportNum,
-
-    // 定期报告-顺序-用于excel数据下载
-    // 1 - G+TV用户活跃发展日报表   2 - G+TV用户收视日报表
-    // 3 - 市场业务运营数据分析周报  4 - 移动运营数据周报   5 - G+TV用户收视行为周报
-    // 6 - VIP增值业务专项分析      7 - G+TV月度用户收视行为报告
-    // 8 - 专题专区数据报告
-    PR_Report_index: state => state.app.PR_Report_index,
 
     // ////////////////// 条件
     // ////// region operator playmode programa
@@ -43,7 +33,17 @@ const getters = {
     PR_week: state => state.app.PR_week,
     PR_month: state => state.app.PR_month,
     PR_picker: state => state.app.PR_picker,
+    // 专题专区-（选择的）专题名称
     PR_value_specialName: state => state.app.PR_value_specialName,
+    // ////////////////// 定期报告 - 指定报告（页面显示时间范围）
+    // 日报-day-1 周报-week-2 月报-month-3 专区-范围-4
+    PR_assignReportNum: state => state.app.PR_assignReportNum,
+    // 定期报告-顺序-用于excel数据下载
+    // 1 - G+TV用户活跃发展日报表   2 - G+TV用户收视日报表
+    // 3 - 市场业务运营数据分析周报  4 - 移动运营数据周报   5 - G+TV用户收视行为周报
+    // 6 - VIP增值业务专项分析      7 - G+TV月度用户收视行为报告
+    // 8 - 专题专区数据报告
+    PR_Report_index: state => state.app.PR_Report_index,
 
 
     // EPG（运营商、栏目）（周、月）

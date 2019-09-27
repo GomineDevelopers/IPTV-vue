@@ -470,7 +470,7 @@ export default {
 }
 
 .OptionSelectEPG .operator,
-.OptionSelectUVB .programa,
+.OptionSelectEPG .programa,
 .OptionSelectEPG .time {
   display: inline-block;
   width: 100%;

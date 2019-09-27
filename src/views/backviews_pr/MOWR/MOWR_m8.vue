@@ -56,7 +56,14 @@ export default {
   components: {
     "smooth-line-chart2": SmoothLineChart2
   },
-  mounted() { },
+  props: ["m8_data"],
+  watch: {
+    m8_data(newValue, oldValue) {
+      console.log("m8_data - newValue");
+      console.log(newValue);
+    }
+  },
+  mounted() {},
   data() {
     return {
       form: {

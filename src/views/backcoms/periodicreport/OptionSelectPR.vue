@@ -135,6 +135,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :picker-options="time.pickerOptions"
+            @change="pickerValue_change"
           ></el-date-picker>
         </div>
       </span>
@@ -271,7 +272,7 @@ export default {
           return time.getTime() > Date.now();
         }
       },
-      reportOptionRouter: "专题专区数据报告", //点击不同报表选项对应切换
+      // reportOptionRouter: "专题专区数据报告", //点击不同报表选项对应切换
       // operatorChoose: ["总体"], //绑定选择运营商数据的数组
       routerLink: "/backhome/periodicreport/SpecialZoneReport", //不同报表对应的路由  默认是专题专区数据报告路由
       daily: [
@@ -333,6 +334,7 @@ export default {
       operator_checkAll: false,
       operator_isIndeterminate: true,
       options_specialName: [
+        // 专区专题名称 -- 先从后台获取
         {
           value: "小小福星",
           label: "小小福星"
@@ -449,26 +451,22 @@ export default {
     this.handlerClass();
   },
   mounted() {
-    console.log(commonTools.format_MonthDays_byDWMMr(2018, 4));
+    // console.log(commonTools.format_MonthDays_byDWMMr(2018, 4));
+    // console.log(commonTools.format_WeeksDays_byDWwr(2018, 4));
 
     let vm = this;
 
-    // ▲历史条件获取
-    vm.$store
-      .dispatch("get_PR_operator")
-      .then(function(response) {
-        // console.log(response);
-        vm.operatorChoose = response;
-      })
-      .catch(function(error) {
-        console.info(error);
-      });
-
     // 初始化周
+    // let arr_temp = [];
+    // arr_temp = commonTools.weekDate(2018);
+    // setTimeout(function() {
+    //   arr_temp = commonTools.weekDate_add(2019, arr_temp);
+    //   vm.time.week = arr_temp;
+    // }, 100);
     let arr_temp = [];
-    arr_temp = commonTools.weekDate(2018);
+    arr_temp = commonTools.format_WeeksDays_byDWwr(2018, 4);
     setTimeout(function() {
-      arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      arr_temp = commonTools.format_WeeksDays_byDWwr_add(2019, 4, arr_temp);
       vm.time.week = arr_temp;
     }, 100);
 
@@ -483,6 +481,80 @@ export default {
       arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
       vm.time.month = arr_temp2;
     }, 100);
+
+    // ▲历史条件获取
+    setTimeout(function() {
+      // 历史选中的定期报告
+      vm.$store
+        .dispatch("get_PR_Report_index")
+        .then(function(response) {
+          switch (response) {
+            case 1:
+              vm.routerLink =
+                "/backhome/periodicreport/G_TVUserActiveDayReport";
+              break;
+            case 2:
+              vm.routerLink =
+                "/backhome/periodicreport/G_TVUserViewingDayReport";
+              break;
+            case 3:
+              vm.routerLink =
+                "/backhome/periodicreport/MarketOperationalWeekReport";
+              break;
+            case 4:
+              vm.routerLink = "/backhome/periodicreport/OperationalWeekReport";
+              break;
+            case 5:
+              vm.routerLink =
+                "/backhome/periodicreport/G_TVUserViewingWeekReport";
+              break;
+            case 6:
+              vm.routerLink = "/backhome/periodicreport/VIPAddMonthReport";
+              break;
+            case 7:
+              vm.routerLink =
+                "/backhome/periodicreport/G_TVUserViewingMonthReport";
+              break;
+            case 8:
+              vm.routerLink = "/backhome/periodicreport/SpecialZoneReport";
+              break;
+            default:
+              break;
+          }
+          vm.$router.push({ path: vm.routerLink });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+
+      // 运营商
+      vm.$store
+        .dispatch("get_PR_operator")
+        .then(function(response) {
+          // console.log(response);
+          vm.operatorChoose = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      // 范围
+      vm.$store
+        .dispatch("get_PR_picker")
+        .then(function(res) {
+          // console.log("~~~~res： ");
+          // console.log(res);
+          if (res.length != 0) {
+            let temp = [];
+            let t_arr = res.split(",");
+            temp.push(t_arr[0]);
+            temp.push(t_arr[1]);
+            vm.time.pickerValue = temp;
+          }
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 200);
   },
   methods: {
     dayChange(event) {
@@ -511,9 +583,14 @@ export default {
     weekChange(event) {
       console.log("~~~~~~event:");
       console.log(event);
-      let m_time1;
-      let m_time2;
+      console.log("~~~split");
+      console.log(commonTools.split_WeeksDays_byDWwr(event));
 
+      let vm = this;
+      let newValue = event;
+
+      // let m_time1;
+      // let m_time2;
       // if (String(event) == "选项1") {
       //   m_time1 = "2019-07-01";
       //   m_time2 = "2019-07-07";
@@ -530,12 +607,11 @@ export default {
       //   m_time1 = "2019-07-22";
       //   m_time2 = "2019-07-28";
       // }
+      // newValue = {
+      //   start: m_time1,
+      //   end: m_time2
+      // };
 
-      let vm = this;
-      let newValue = {
-        start: m_time1,
-        end: m_time2
-      };
       this.$store
         .dispatch("set_PR_week", newValue)
         .then(function(response) {
@@ -560,6 +636,25 @@ export default {
           console.info(error);
         });
     },
+    pickerValue_change(event) {
+      console.log(event);
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = "";
+      // this.time.pickerValue = String(event);
+      this.time.pickerValue = event; // 显示为object
+      let newValue = String(event); // 传入为string
+      // let newValue = event;
+      vm.$store
+        .dispatch("set_PR_picker", newValue)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+
     operatorChoose_change(event) {
       operatorChoose_old = operatorChoose_new;
       let checkedCount = event.length;

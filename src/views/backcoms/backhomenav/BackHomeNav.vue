@@ -150,14 +150,14 @@ export default {
     let vm = this;
     vm.$store
       .dispatch("get_ifTest")
-      .then(function (response) {
+      .then(function(response) {
         if (response) {
           // 测试情况
           vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
           vm.$store
             .dispatch("set_current_authority", vm.authorityData)
-            .then(function (response) { })
-            .catch(function (error) {
+            .then(function(response) {})
+            .catch(function(error) {
               console.info(error);
             });
         } else {
@@ -165,7 +165,7 @@ export default {
           // this.authorityData = this.current_authority; // 刷新会归零
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.info(error);
       });
   },
@@ -178,9 +178,9 @@ export default {
       // console.log(this.authorityData);
     },
     $route: {
-      handler: function (val, oldVal) {
+      handler: function(val, oldVal) {
         let vm = this;
-        setTimeout(function () {
+        setTimeout(function() {
           // console.log("~~~~~~~val.path:");
           console.log(val.path);
           let pathLink = val.path;
@@ -202,6 +202,46 @@ export default {
     router_to(str) {
       let vm = this;
       vm.$router.push({ path: str });
+
+      // 添加历史报告选中 - 这里加会出现 导航栏选中样式遗留不更新问题 - Pass
+      // PR_Report_index - 有默认值
+      // vm.$store
+      //   .dispatch("get_PR_Report_index")
+      //   .then(function(response) {
+      //     switch (response) {
+      //       case 1:
+      //         str = "/backhome/periodicreport/G_TVUserActiveDayReport";
+      //         break;
+      //       case 2:
+      //         str = "/backhome/periodicreport/G_TVUserViewingDayReport";
+      //         break;
+      //       case 3:
+      //         str = "/backhome/periodicreport/MarketOperationalWeekReport";
+      //         break;
+      //       case 4:
+      //         str = "/backhome/periodicreport/OperationalWeekReport";
+      //         break;
+      //       case 5:
+      //         str = "/backhome/periodicreport/G_TVUserViewingWeekReport";
+      //         break;
+      //       case 6:
+      //         str = "/backhome/periodicreport/VIPAddMonthReport";
+      //         break;
+      //       case 7:
+      //         str = "/backhome/periodicreport/G_TVUserViewingMonthReport";
+      //         break;
+      //       case 8:
+      //         str = "/backhome/periodicreport/SpecialZoneReport";
+      //         break;
+      //       default:
+      //         break;
+      //     }
+      //     vm.$router.push({ path: str });
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+
     },
     ifShowMenu(item) {
       // console.log(this.authorityData);
@@ -218,7 +258,7 @@ export default {
       let newToken = token.replace('"', "").replace('"', "");
       vm.authorityData = [];
       get_user_permissions(newToken)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
           let m_data = response.data.data;
           let length = m_data.length;
@@ -232,22 +272,22 @@ export default {
           temp_authorizationChoose = temp;
           vm.$store
             .dispatch("set_current_authority", temp_authorizationChoose)
-            .then(function (response) {
+            .then(function(response) {
               console.log("~~~~set_current_authority");
               // console.log(response);
               // console.log(temp_authorizationChoose);
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
     handlerClass() {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         console.log(vm.$route.path);
         let pathLink = vm.$route.path;
         let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由

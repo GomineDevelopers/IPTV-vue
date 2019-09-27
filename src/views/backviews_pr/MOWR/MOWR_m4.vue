@@ -1,7 +1,7 @@
 <template>
   <div class="MOWR_m4">
     <el-row class="special_click_data back_white">
-      <p class="m_common_sm_title_font">电信24小时新增激活情况</p>
+      <p class="m_common_sm_title_font">联通24小时新增激活情况</p>
       <table class="m_table" border="1">
         <tr class="tr_title">
           <td v-for="(item,index) in form.title " :key="index + 'a' " colspan="1">{{item}}</td>
@@ -53,12 +53,19 @@
 export default {
   name: "MOWR_m4",
   components: {},
-  mounted() { },
+  props: ["m4_data"],
+  watch: {
+    m4_data(newValue, oldValue) {
+      console.log("m4_data - newValue");
+      console.log(newValue);
+    }
+  },
+  mounted() {},
   data() {
     return {
       form: {
         title: ["运营商", "地区", "在册用户", "新增激活率"],
-        row1: ["电信", "安顺", "83508", "74.46%"],
+        row1: ["联通", "安顺", "83508", "74.46%"],
         row2: ["遵义", "83508", "74.46%"],
         row3: ["六盘水", "83508", "74.46%"],
         row4: ["贵阳", "83508", "74.46%"],

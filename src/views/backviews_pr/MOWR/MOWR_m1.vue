@@ -44,6 +44,13 @@ export default {
   components: {
     "bar-chart-single3": BarChartSingle3
   },
+  props: ["m1_data"],
+  watch: {
+    m1_data(newValue, oldValue) {
+      console.log("m1_data - newValue");
+      console.log(newValue);
+    }
+  },
   mounted() {},
   computed: {
     ...mapGetters(["PR_operator"]),
@@ -192,7 +199,8 @@ export default {
         rowD: ["", "", "", "", "", "", "", "", "66666"]
       },
       MOWR_m1_A1: {
-        title: "各页面专区入口点击次数",
+        // title: "各页面专区入口点击次数",
+        title: "专区各页面入口点击次数",
         id: "MOWR_m1_A1",
         height: "height:300px;",
         color: ["#8064A2", "#9BBB59", "#C0504D"],
