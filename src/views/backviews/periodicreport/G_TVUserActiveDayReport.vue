@@ -184,8 +184,8 @@ export default {
       }
       // console.log("~~~~~~!!vm.PR_day");
       // console.log(vm.PR_day);
-      let start = "2019-06-01";
-      let end = "2019-06-01";
+      let start = "2019-06-03";
+      let end = "2019-06-03";
       // if (vm.PR_day != null) {
       //   start = vm.PR_day.start;
       //   end = vm.PR_day.end;
@@ -228,11 +228,11 @@ export default {
           // let open_rate1 = (open_num / register_num) * 100 //开机率
           let open_rate = this.returnFloat((open_num / register_num) * 100) //开机率
           let watch_freq_family = this.returnFloat(response.data.responses[2].aggregations.watch_freq_family.value) //户均观看时长
-          console.log("在册用户数（今日）", ttt, register_num)
-          console.log("新增在册用户数（今日）", ttt, new_num)
-          console.log("开机用户数（今日）", ttt, open_num)
-          console.log("开机率（今日）", ttt, open_rate)
-          console.log("户均观看时长（今日）", ttt, watch_freq_family)
+          // console.log("在册用户数（今日）", ttt, register_num)
+          // console.log("新增在册用户数（今日）", ttt, new_num)
+          // console.log("开机用户数（今日）", ttt, open_num)
+          // console.log("开机率（今日）", ttt, open_rate)
+          // console.log("户均观看时长（今日）", ttt, watch_freq_family)
 
           // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
@@ -268,15 +268,15 @@ export default {
       //平均数据的获取 （当前日期前7天）
       liveUsers_daliyReport(average_data_formData)
         .then((response) => {
-          // console.log("前7天平均数据为", ttt, response.data)
+          console.log("前7天平均数据为", ttt, response.data)
           let average_register_num = response.data.responses[1].aggregations.register_num.value  //在册用户数
-          let average_new_num = response.data.responses[1].aggregations.new_num.value  //新增在册用户数（平均）
+          let average_new_num = Math.floor(response.data.responses[1].aggregations.new_num.value / 7)  //新增在册用户数（平均）
           let average_open_num = response.data.responses[1].aggregations.open_num.value  //开机用户
           let average_open_rate = this.returnFloat(((average_open_num / average_register_num) * 100) / 7) //开机率
           let average_watch_freq_family = this.returnFloat((response.data.responses[3].aggregations.watch_freq_family.value) / 7) //户均观看时长
 
           // console.log("在册用户数average_register_num（平均）", ttt, average_register_num)
-          // console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num)
+          console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num)
           // console.log("开机用户数average_open_num（平均）", ttt, average_open_num)
           // console.log("开机率average_open_rate（平均）", ttt, average_open_rate)
           // console.log("户均观看时长average_watch_freq_family（平均）", ttt, average_watch_freq_family)
@@ -319,8 +319,8 @@ export default {
       } else {
         ttt = this.PR_operator  //运营商
       }
-      let start = "2019-06-01";
-      let end = "2019-06-01";
+      let start = "2019-06-03";
+      let end = "2019-06-03";
       // if (vm.PR_day != null) {
       //   start = vm.PR_day.start;
       //   end = vm.PR_day.end;
@@ -440,13 +440,6 @@ export default {
             } else if (value.key == '直播') {
               Vue.set(vm.dayLooktime.data[0][1], 3, vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)) //直播数据
             }
-            // if (value.key == '回看') {
-            //   Vue.set(vm.dayLooktime.data[0][1], 1, value.watch_dur.value / 7) //回看数据
-            // } else if (value.key == '点播') {
-            //   Vue.set(vm.dayLooktime.data[0][1], 2, value.watch_dur.value / 7) //点播数据
-            // } else if (value.key == '直播') {
-            //   Vue.set(vm.dayLooktime.data[0][1], 3, value.watch_dur.value / 7) //直播数据
-            // }
           })
 
           //循环遍历各类型节目点播时长，取出相应数据

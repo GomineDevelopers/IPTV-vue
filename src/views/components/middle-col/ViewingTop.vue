@@ -53,26 +53,74 @@ export default {
         //   programSource: "少儿",
         //   hot: "70%"
         // },
-        // ...
+        // {
+        //   topNum: 3,
+        //   programName: "疯狂的外星人",
+        //   programSource: "电影",
+        //   hot: "80%"
+        // },
+        // {
+        //   topNum: 4,
+        //   programName: "熊出没.原始",
+        //   programSource: "少儿",
+        //   hot: "70%"
+        // },
+        // {
+        //   topNum: 5,
+        //   programName: "疯狂的外星人",
+        //   programSource: "电影",
+        //   hot: "80%"
+        // },
+        // {
+        //   topNum: 6,
+        //   programName: "熊出没.原始",
+        //   programSource: "少儿",
+        //   hot: "70%"
+        // },
+        // {
+        //   topNum: 7,
+        //   programName: "疯狂的外星人",
+        //   programSource: "电影",
+        //   hot: "80%"
+        // },
+        // {
+        //   topNum: 8,
+        //   programName: "熊出没.原始",
+        //   programSource: "少儿",
+        //   hot: "70%"
+        // },
+        // {
+        //   topNum: 9,
+        //   programName: "疯狂的外星人",
+        //   programSource: "电影",
+        //   hot: "80%"
+        // },
+        // {
+        //   topNum: 10,
+        //   programName: "熊出没.原始",
+        //   programSource: "少儿",
+        //   hot: "70%"
+        // },
+
       ]
     };
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.demandProgramTop(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
 
-    setTimeout(function() {
+    setTimeout(function () {
       vm.scrollLoopUp("viewingTOP_list");
-    }, 100);
+    }, 1000);
   },
   methods: {
     demandProgramTop(ExpirationDate) {
@@ -85,13 +133,14 @@ export default {
       };
       console.log("~~~~~demandProgramTop");
       demandProgramTop(data)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           let m_data =
             response.data.responses[0].aggregations.programname.buckets;
           let length = m_data.length;
           let i;
           let temp;
+          // let tempArr = [];
           let totalvalue = m_data[0].demand_freq.value; // hot需要百分比，这里用排名第一的热度值做分母，即第一为百分百
           for (i = 0; i < length; i++) {
             temp = {
@@ -101,18 +150,19 @@ export default {
               hot:
                 String((m_data[i].demand_freq.value / totalvalue) * 100) + "%"
             };
-            vm.viewingTopList.push(temp);
+            vm.viewingTopList.push(temp)
           }
+          // console.log('收视TOP')
           vm.ifgetdata = true;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
           vm.ifgetdata = false;
         });
     },
-    scrollLoopUp: function(id) {
+    scrollLoopUp: function (id) {
       var scrollBox = document.getElementById(id);
-      var lineHeight = scrollBox.clientHeight / 6;
+      var lineHeight = scrollBox.clientHeight / 5;
       //var lineHeight = 30
       var time = 100;
       scrollBox.innerHTML += scrollBox.innerHTML;
@@ -167,7 +217,7 @@ export default {
   overflow: hidden;
 }
 #viewingTOP_list .viewing_top_list {
-  height: calc(100% / 6);
+  height: calc(100% / 5);
   border-bottom: 1px solid rgba(147, 147, 147, 0.2);
 }
 #viewingTOP_list .viewing_top_list .el-col {

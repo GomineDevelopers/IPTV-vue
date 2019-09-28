@@ -59,17 +59,21 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.demands_VipProgramTop(response);
-          vm.scrollLoopUp("ValueProgramsTOP_list");
+          // vm.scrollLoopUp("ValueProgramsTOP_list");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
+
+    setTimeout(function () {
+      vm.scrollLoopUp("ValueProgramsTOP_list");
+    }, 1000);
   },
   methods: {
     demands_VipProgramTop(ExpirationDate) {
@@ -82,7 +86,7 @@ export default {
         operator: String(["移动", "联通", "电信"])
       };
       demands_VipProgramTop(data)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           let m_data =
             response.data.responses[0].aggregations.programname.buckets;
@@ -102,14 +106,14 @@ export default {
           }
           vm.ifgetdata = true;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
           vm.ifgetdata = false;
         });
     },
-    scrollLoopUp: function(id) {
+    scrollLoopUp: function (id) {
       var scrollBox = document.getElementById(id);
-      var lineHeight = scrollBox.clientHeight / 7;
+      var lineHeight = scrollBox.clientHeight / 6;
       //var lineHeight = 35
       var time = 100;
       scrollBox.innerHTML += scrollBox.innerHTML;
@@ -164,7 +168,7 @@ export default {
   overflow: hidden;
 }
 #ValueProgramsTOP_list .viewing_top_list {
-  height: calc(100% / 7);
+  height: calc(100% / 6);
   border-bottom: 1px solid rgba(147, 147, 147, 0.2);
 }
 #ValueProgramsTOP_list .viewing_top_list .el-col {

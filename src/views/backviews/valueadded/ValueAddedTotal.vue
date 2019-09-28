@@ -18,7 +18,7 @@
       </el-row>
       <el-row class="chart_body back_white">
         <el-col class="height_auto" :span="12">
-          <line-chart-single :lineData="newUserTotal"></line-chart-single>
+          <line-chart-single2 :lineData="newUserTotal"></line-chart-single2>
         </el-col>
         <el-col class="height_auto" :span="12">
           <line-chart-single-prop :lineData="newPayingUsersProportion"></line-chart-single-prop>
@@ -51,8 +51,9 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import OptionSelectValueAdd from "@/views/backcoms/valueaddedtotal/OptionSelectValueAdd"; //数据总览条件筛选
-import LineChartSingle from "@/views/backcoms/commoncomponents/LineChartSingle"; //单数据折线图组件（新增用户概览）
+import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件（新增用户概览）
 import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
 
@@ -74,29 +75,29 @@ export default {
   watch: {
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_ALL_operator: " + newValue);
-      setTimeout(function() {
+      // console.log("ADD_ALL_operator: " + newValue);
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_ALL_programa(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_programa: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_week: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_month: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
@@ -112,7 +113,9 @@ export default {
     increment(time_type) {
       console.log("increment");
       let vm = this;
-
+      if (vm.ADD_ALL_operator.length == 0) {
+        return;
+      }
       let temp_operator = commonTools.operatorConvert(vm.ADD_ALL_operator);
       let temp_programa = commonTools.programaConvert(vm.ADD_ALL_programa);
 
@@ -123,6 +126,9 @@ export default {
         end: null
       };
 
+      if (vm.ADD_ALL_week == null || vm.ADD_ALL_week == undefined || vm.ADD_ALL_week == "") {
+        return;
+      }
       if (time_type == 1) {
         // 时间类型-1-周
         // console.log("~~~~~week:" + vm.ADD_ALL_week);
@@ -170,10 +176,69 @@ export default {
 
 
       increment(formData)
-        .then(function(response) {
-          console.log(response);
+        .then(function (response) {
+          console.log("增值业务总览", response.data.responses);
+          let newUserdata = response.data.responses[0].aggregations.statistical_granularity.buckets  //新增用户概览
+          // let paidUserData = response.data.responses[0].aggregations.statistical_granularity.buckets  //新增付费用户占比
+          let dateYear;
+          let dateMonth;
+          let temp = {
+            title: "新增用户概览（户）",
+            id: "newUserTotal",
+            color: "#FF6123",
+            date_year: "",
+            date_month: "",
+            data: [
+              ["product"],
+              ["新增用户"],
+            ]
+          }
+          let paidTemp = {
+            title: "新增付费用户占比",
+            id: "newPayingUsers_ADD_ALL",
+            color: "#5E70F1",
+            date_year: "",
+            date_month: "",
+            data: [
+              ["product"],
+              ["新增付费用户占比"],
+              // ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
+              // ["新增用户占比", 3, 4, 3, 7, 9, 5, 8]
+            ]
+          }
+          newUserdata.forEach((value, index) => {
+            // console.log("新增业务item", value)
+            if (time_type == 1) {
+              console.log("周请求")
+              let date = new Date(value.key)
+              dateYear = date.getFullYear() + "年"
+              dateMonth = (date.getMonth() + 1) + "月"
+              temp.data[0].push(date.getDate() + '日')
+              paidTemp.data[0].push(date.getDate() + '日')
+              temp.data[1].push(value.new_num.value)
+              let newPaidRate = ((value.new_paid_num.value / value.new_num.value) * 100).toFixed(2)
+              paidTemp.data[1].push(newPaidRate)
+            }
+            if (time_type == 2) {
+              console.log("月请求")
+            }
+          })
+          //新增用户概览数据渲染开始
+          temp.date_year = dateYear
+          temp.date_month = dateMonth
+          vm.newUserTotal = temp
+          // console.log("新增用户概览数据为：", temp)
+          //新增用户概览数据渲染结束
+
+          //新增付费用户转化率开始
+          paidTemp.date_year = dateYear
+          paidTemp.date_month = dateMonth
+          vm.newPayingUsersProportion = paidTemp
+          console.log("新增付费用户转化率：", paidTemp)
+          // Vue.set(paidTemp.data, 1, dataList)
+
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -181,32 +246,16 @@ export default {
 
   components: {
     "option-select-valueAdd": OptionSelectValueAdd,
-    "line-chart-single": LineChartSingle,
+    "line-chart-single2": LineChartSingle2,
     "line-chart-single-prop": LineChartSingleProp,
     "bar-chart-single": BarChartSingle
   },
   data() {
     return {
       //新增用户概览数据
-      newUserTotal: {
-        title: "新增用户概览（户）",
-        id: "newUserTotal",
-        color: "#FF6123",
-        data: [
-          ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
-          ["新增用户", 140, 170, 180, 200, 234, 240, 259]
-        ]
-      },
+      newUserTotal: {},
       //新增付费用户占比
-      newPayingUsersProportion: {
-        title: "新增付费用户占比",
-        id: "newPayingUsers_ADD_ALL",
-        color: "#5E70F1",
-        data: [
-          ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
-          ["新增用户占比", 3, 4, 3, 7, 9, 5, 8]
-        ]
-      },
+      newPayingUsersProportion: {},
       //订购用户数据
       subscribersData: {
         title: "订购用户",
