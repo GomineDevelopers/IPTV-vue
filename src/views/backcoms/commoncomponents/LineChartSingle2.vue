@@ -1,6 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="height_auto" :id="lineData.id"></el-row>
+    <!-- <el-row class="height_auto" :id="lineData.id"></el-row> -->
   </div>
 </template>
 <script>
@@ -15,9 +16,19 @@ export default {
   mounted() {
     // console.log(this.lineData)
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
+  },
+  watch: {
+    lineData(newValue, oldValue) {
+      // console.log("~~~~~~");
+      // console.log(newValue);
+      let vm = this;
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
+    }
   },
   methods: {
     setLineChart() {
@@ -79,7 +90,7 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function(params) {
+          formatter: function (params) {
             // console.log(params);
             let title = params[0].data[0];
 
@@ -90,7 +101,16 @@ export default {
             let value1 = params[0].data[1];
 
             if (length == 1) {
-              return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
+              // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
+              //设置日期显示 年-月-日
+              return date_year +
+                date_month +
+                title +
+                "<br/>" +
+                marker1 +
+                t1 +
+                ":  " +
+                value1
             }
 
             let t2 = params[1].seriesName;

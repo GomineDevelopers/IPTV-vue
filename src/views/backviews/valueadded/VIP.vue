@@ -60,7 +60,7 @@
         <span class="title_border_left"></span>直播收视TOP15
       </el-row>
       <el-row class="chart_body back_white viewing_top15_list">
-        <user-viewing-behavior-top-vip :viewingTopList="lookBackViewingTopList_VIP"></user-viewing-behavior-top-vip>
+        <user-viewing-behavior-top-vip :viewingTopList="liveViewingTopList_VIP"></user-viewing-behavior-top-vip>
       </el-row>
     </el-row>
     <el-row class="viewing_top15" v-show="ifPlaymodeShow_db">
@@ -81,7 +81,7 @@
       </el-row>
     </el-row>
     <!-- 收视TOP结束 -->
-    <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span>
+    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 <script>
@@ -111,7 +111,7 @@ export default {
       "ADD_VIP_time_type"
     ]),
     ifPlaymodeShow_zb: {
-      get: function() {
+      get: function () {
         if (
           this.ADD_VIP_playmode == null ||
           this.ADD_VIP_playmode.length == 0
@@ -123,10 +123,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifPlaymodeShow_db: {
-      get: function() {
+      get: function () {
         if (
           this.ADD_VIP_playmode == null ||
           this.ADD_VIP_playmode.length == 0
@@ -138,10 +138,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifPlaymodeShow_hk: {
-      get: function() {
+      get: function () {
         if (
           this.ADD_VIP_playmode == null ||
           this.ADD_VIP_playmode.length == 0
@@ -153,21 +153,21 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
-    if_playmode_is_single_db: {
-      get: function() {
-        if (
-          this.ADD_VIP_playmode.indexOf("点播") > -1 &&
-          this.ADD_VIP_playmode.length == 1
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      set: function(newValue) {}
-    }
+    // if_playmode_is_single_db: {
+    //   get: function () {
+    //     if (
+    //       this.ADD_VIP_playmode.indexOf("点播") > -1 &&
+    //       this.ADD_VIP_playmode.length == 1
+    //     ) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   },
+    //   set: function (newValue) { }
+    // }
   },
   mounted() {
     // console.log("~~~~~test");
@@ -177,56 +177,56 @@ export default {
     ADD_VIP_region(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_region: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_operator(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_playmode(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_playmode: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_programa: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_valueAddedPackage(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_valueAddedPackage: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_day: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_week(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_week: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_VIP_picker(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_picker: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
@@ -237,44 +237,96 @@ export default {
   },
   methods: {
     refresh_api_data() {
+      // this.vip_increment(this.ADD_VIP_time_type, this.if_playmode_is_single_db);
       this.vip_increment(this.ADD_VIP_time_type);
+
     },
+    // vip_increment(time_type, if_playmode_is_single_db) {
     vip_increment(time_type) {
       let vm = this;
-
       console.log("vip_increment");
 
-      let temp_region = commonTools.acConvert(vm.ADD_VIP_region);
-      let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator);
-      let temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage;
-      let temp_playmode = commonTools.playmodeConvert(vm.ADD_VIP_playmode);
-      let temp_programa = commonTools.programaConvert(vm.ADD_VIP_programa);
+      let temp_region = commonTools.acConvert(vm.ADD_VIP_region);  //地区
+      let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator);  //运营商
+      let temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage;  //点播专属（增值包）
+      let temp_playmode = commonTools.playmodeConvert(vm.ADD_VIP_playmode);  //播放方式
+      let temp_programa = commonTools.programaConvert(vm.ADD_VIP_programa);   //点播专属（栏目）
 
-      let temp = {
+      // if (if_playmode_is_single_db) {
+      //   temp_programa = commonTools.programaConvert(vm.UVB_programa);
+      //   temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
+      // }
+      // console.log("temp_contenttype:" + temp_contenttype);
+      // ▲▲▲ 接口再增加 contenttype  ---暂定  contenttype  --alex
+
+      // let temp = {
+      //   area: null,
+      //   operator: null,
+      //   method: null,
+      //   list: null,
+      //   start: null,
+      //   end: null
+      // };
+
+      let temp;
+      // if (if_playmode_is_single_db) {
+      //   temp = {
+      //     area: null,
+      //     operator: null,
+      //     method: null,
+      //     list: null,
+      //     contenttype: null,
+      //     start: null,
+      //     end: null
+      //   };
+      // } else {
+      temp = {
         area: null,
         operator: null,
         method: null,
-        list: null,
-        increment: null,
+        // list: null,
+        // contenttype: null,
         start: null,
         end: null
       };
-      if (temp_valueAddedPackage == null || temp_valueAddedPackage == "") {
-        console.log("需要新增 - 增值包为空提示");
-        return;
-      }
+      // }
+
+      // if (temp_valueAddedPackage == null || temp_valueAddedPackage == "") {
+      //   console.log("需要新增 - 增值包为空提示");
+      //   return;
+      // }
+
       if (time_type == 1) {
         // 时间类型-1-天
         // console.log("~~~~~day:" + vm.ADD_VIP_day);
+        // temp = {
+        //   area: String(temp_region),
+        //   operator: String(temp_operator),
+        //   method: String(temp_playmode),
+        //   list: String(temp_programa),
+        //   increment: temp_valueAddedPackage,
+        //   start: vm.ADD_VIP_day,
+        //   end: vm.ADD_VIP_day
+        // };
+        // if (if_playmode_is_single_db) {
+        //   temp = {
+        //     area: String(temp_region),
+        //     operator: String(temp_operator),
+        //     method: String(temp_playmode),
+        //     list: String(temp_programa),
+        //     contenttype: String(temp_contenttype),
+        //     start: vm.UVB_day,
+        //     end: vm.UVB_day
+        //   };
+        // } else {
         temp = {
           area: String(temp_region),
           operator: String(temp_operator),
           method: String(temp_playmode),
-          list: String(temp_programa),
-          increment: temp_valueAddedPackage,
-          start: vm.ADD_VIP_day,
-          end: vm.ADD_VIP_day
+          start: vm.UVB_day,
+          end: vm.UVB_day
         };
+        // }
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~1:");
         console.log(temp);
@@ -283,16 +335,37 @@ export default {
         // 时间类型-2-周
         // console.log("~~~~~week:" + vm.ADD_VIP_week);
         let temp_time = commonTools.split_yearAtime(vm.ADD_VIP_week);
+        // temp = {
+        //   area: String(temp_region),
+        //   operator: String(temp_operator),
+        //   method: String(temp_playmode),
+        //   list: String(temp_programa),
+        //   increment: temp_valueAddedPackage,
+        //   start: temp_time.time,
+        //   end: temp_time.time,
+        //   year: temp_time.year
+        // };
+        // if (if_playmode_is_single_db) {
+        //   temp = {
+        //     area: String(temp_region),
+        //     operator: String(temp_operator),
+        //     method: String(temp_playmode),
+        //     list: String(temp_programa),
+        //     contenttype: String(temp_contenttype),
+        //     start: temp_time.time,
+        //     end: temp_time.time,
+        //     year: temp_time.year
+        //   };
+        // } else {
         temp = {
           area: String(temp_region),
           operator: String(temp_operator),
           method: String(temp_playmode),
-          list: String(temp_programa),
-          increment: temp_valueAddedPackage,
           start: temp_time.time,
           end: temp_time.time,
           year: temp_time.year
         };
+        // }
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~2:");
         console.log(temp);
@@ -303,19 +376,122 @@ export default {
         console.log(typeof vm.ADD_VIP_picker);
         let temp_time = commonTools.split_picker(vm.ADD_VIP_picker);
         console.log(temp_time);
+        // temp = {
+        //   area: String(temp_region),
+        //   operator: String(temp_operator),
+        //   method: String(temp_playmode),
+        //   list: String(temp_programa),
+        //   increment: temp_valueAddedPackage,
+        //   start: temp_time.start,
+        //   end: temp_time.end
+        // };
+        // if (if_playmode_is_single_db) {
+        //   temp = {
+        //     area: String(temp_region),
+        //     operator: String(temp_operator),
+        //     method: String(temp_playmode),
+        //     list: String(temp_programa),
+        //     contenttype: String(temp_contenttype),
+        //     start: temp_time.start,
+        //     end: temp_time.end
+        //   };
+        // } else {
+
+        //*****注意传参格式为这个 */
         temp = {
           area: String(temp_region),
           operator: String(temp_operator),
-          method: String(temp_playmode),
-          list: String(temp_programa),
-          increment: temp_valueAddedPackage,
+          ti: String(temp_programa), //栏目
+          package: temp_valueAddedPackage,
+          // method: String(temp_playmode),
           start: temp_time.start,
           end: temp_time.end
         };
+        // }
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~3:");
         console.log(temp);
       }
+
+      // if (if_playmode_is_single_db) {
+      // api 2
+      // } else {
+      // api 1
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("ac", temp.area);
+      formData.append("operator", temp.operator);
+      formData.append("mode", temp.method);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      vip_increment(formData)
+        .then(function (response) {
+          console.log("vip数据", response.data.responses);
+          // /////////// 0 - 暂无数据
+          let length_0;
+          // /////////// liveViewingTopList - 1 - 直播Top15
+          // 获得最大值
+          let buckets_1 =
+            response.data.responses[1].aggregations.programname.buckets;
+          let length_1 = buckets_1.length;
+          let i_1;
+          let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
+          let temp_data;
+          for (i_1 = 0; i_1 < length_1; i_1++) {
+            temp_data = {
+              // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
+              topNum: i_1 + 1,
+              programName: buckets_1[i_1].channel.buckets[0].key,
+              programSource: buckets_1[i_1].key,
+              hot:
+                String(
+                  commonTools.returnFloat_2(
+                    (buckets_1[i_1].onlive_freq.value / temp_max_value) * 100
+                  )
+                ) + "%",
+              playNum: String(
+                commonTools.returnFloat_2(
+                  buckets_1[i_1].onlive_freq.value / 10000
+                )
+              ) // 次数（万）
+            };
+            vm.liveViewingTopList_VIP.data.push(temp_data);
+          }
+          console.log("直播数据", vm.liveViewingTopList_VIP)
+
+          // /////////// lookBackViewingTopList - 2 - 回看Top15
+          let buckets_2 =
+            response.data.responses[2].aggregations.programname.buckets;
+          let length_2 = buckets_2.length;
+          let i_2;
+          let temp_max_value2 = buckets_2[0].watch_freq.value; // 取第一个为最大值
+          let temp_data2;
+          for (i_2 = 0; i_2 < length_2; i_2++) {
+            temp_data2 = {
+              // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
+              topNum: i_2 + 1,
+              programName: buckets_2[i_2].channel.buckets[0].key,
+              programSource: buckets_2[i_2].key,
+              hot:
+                String(
+                  commonTools.returnFloat_2(
+                    (buckets_2[i_2].watch_freq.value / temp_max_value2) * 100
+                  )
+                ) + "%",
+              playNum: String(
+                commonTools.returnFloat_2(
+                  buckets_2[i_2].watch_freq.value / 10000
+                )
+              ) // 次数（万）
+            };
+            vm.lookBackViewingTopList_VIP.data.push(temp_data2);
+          }
+          console.log("回看数据", vm.lookBackViewingTopList_VIP)
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+      // }
 
       // let temp = {
       //   area: "all", // 地区码，all和贵州省地级市代码
@@ -445,111 +621,111 @@ export default {
         type: "live",
         id: "liveViewingTopList_VIP",
         data: [
-          {
-            topNum: 1,
-            programName: "疯狂的外星人",
-            programSource: "电影",
-            hot: "90%",
-            playNum: "12.3"
-          },
-          {
-            topNum: 2,
-            programName: "熊出没.原始",
-            programSource: "少儿",
-            hot: "85%",
-            playNum: "11.2"
-          },
-          {
-            topNum: 3,
-            programName: "流浪地球",
-            programSource: "电影",
-            hot: "83%",
-            playNum: "10.3"
-          },
-          {
-            topNum: 4,
-            programName: "人间.喜剧",
-            programSource: "电影",
-            hot: "80%",
-            playNum: "10.1"
-          },
-          {
-            topNum: 5,
-            programName: "白发",
-            programSource: "电视剧",
-            hot: "78%",
-            playNum: "9.5"
-          },
-          {
-            topNum: 6,
-            programName: "反贪风暴",
-            programSource: "电影",
-            hot: "73%",
-            playNum: "9.2"
-          },
-          {
-            topNum: 7,
-            programName: "一出好戏",
-            programSource: "电影",
-            hot: "70%",
-            playNum: "9.0"
-          },
-          {
-            topNum: 8,
-            programName: "拜托了冰箱",
-            programSource: "综艺",
-            hot: "68%",
-            playNum: "8.7"
-          },
-          {
-            topNum: 9,
-            programName: "极限挑战",
-            programSource: "真人秀",
-            hot: "64%",
-            playNum: "8.5"
-          },
-          {
-            topNum: 10,
-            programName: "陈情令",
-            programSource: "电视剧",
-            hot: "60%",
-            playNum: "8.0"
-          },
-          {
-            topNum: 11,
-            programName: "反贪风暴",
-            programSource: "电影",
-            hot: "56%",
-            playNum: "7.5"
-          },
-          {
-            topNum: 12,
-            programName: "一出好戏",
-            programSource: "电影",
-            hot: "53%",
-            playNum: "7.0"
-          },
-          {
-            topNum: 13,
-            programName: "拜托了冰箱",
-            programSource: "综艺",
-            hot: "50%",
-            playNum: "6.8"
-          },
-          {
-            topNum: 14,
-            programName: "极限挑战",
-            programSource: "真人秀",
-            hot: "45%",
-            playNum: "6.3"
-          },
-          {
-            topNum: 15,
-            programName: "陈情令",
-            programSource: "电视剧",
-            hot: "40%",
-            playNum: "6.0"
-          }
+          // {
+          //   topNum: 1,
+          //   programName: "疯狂的外星人",
+          //   programSource: "电影",
+          //   hot: "90%",
+          //   playNum: "12.3"
+          // },
+          // {
+          //   topNum: 2,
+          //   programName: "熊出没.原始",
+          //   programSource: "少儿",
+          //   hot: "85%",
+          //   playNum: "11.2"
+          // },
+          // {
+          //   topNum: 3,
+          //   programName: "流浪地球",
+          //   programSource: "电影",
+          //   hot: "83%",
+          //   playNum: "10.3"
+          // },
+          // {
+          //   topNum: 4,
+          //   programName: "人间.喜剧",
+          //   programSource: "电影",
+          //   hot: "80%",
+          //   playNum: "10.1"
+          // },
+          // {
+          //   topNum: 5,
+          //   programName: "白发",
+          //   programSource: "电视剧",
+          //   hot: "78%",
+          //   playNum: "9.5"
+          // },
+          // {
+          //   topNum: 6,
+          //   programName: "反贪风暴",
+          //   programSource: "电影",
+          //   hot: "73%",
+          //   playNum: "9.2"
+          // },
+          // {
+          //   topNum: 7,
+          //   programName: "一出好戏",
+          //   programSource: "电影",
+          //   hot: "70%",
+          //   playNum: "9.0"
+          // },
+          // {
+          //   topNum: 8,
+          //   programName: "拜托了冰箱",
+          //   programSource: "综艺",
+          //   hot: "68%",
+          //   playNum: "8.7"
+          // },
+          // {
+          //   topNum: 9,
+          //   programName: "极限挑战",
+          //   programSource: "真人秀",
+          //   hot: "64%",
+          //   playNum: "8.5"
+          // },
+          // {
+          //   topNum: 10,
+          //   programName: "陈情令",
+          //   programSource: "电视剧",
+          //   hot: "60%",
+          //   playNum: "8.0"
+          // },
+          // {
+          //   topNum: 11,
+          //   programName: "反贪风暴",
+          //   programSource: "电影",
+          //   hot: "56%",
+          //   playNum: "7.5"
+          // },
+          // {
+          //   topNum: 12,
+          //   programName: "一出好戏",
+          //   programSource: "电影",
+          //   hot: "53%",
+          //   playNum: "7.0"
+          // },
+          // {
+          //   topNum: 13,
+          //   programName: "拜托了冰箱",
+          //   programSource: "综艺",
+          //   hot: "50%",
+          //   playNum: "6.8"
+          // },
+          // {
+          //   topNum: 14,
+          //   programName: "极限挑战",
+          //   programSource: "真人秀",
+          //   hot: "45%",
+          //   playNum: "6.3"
+          // },
+          // {
+          //   topNum: 15,
+          //   programName: "陈情令",
+          //   programSource: "电视剧",
+          //   hot: "40%",
+          //   playNum: "6.0"
+          // }
         ]
       },
       //点播收视时长TOP
@@ -669,111 +845,111 @@ export default {
         type: "review",
         id: "lookBackViewingTopList_VIP",
         data: [
-          {
-            topNum: 1,
-            programName: "疯狂的外星人",
-            programSource: "电影",
-            hot: "90%",
-            playNum: "12.3"
-          },
-          {
-            topNum: 2,
-            programName: "熊出没.原始",
-            programSource: "少儿",
-            hot: "85%",
-            playNum: "11.2"
-          },
-          {
-            topNum: 3,
-            programName: "流浪地球",
-            programSource: "电影",
-            hot: "83%",
-            playNum: "10.3"
-          },
-          {
-            topNum: 4,
-            programName: "人间.喜剧",
-            programSource: "电影",
-            hot: "80%",
-            playNum: "10.1"
-          },
-          {
-            topNum: 5,
-            programName: "白发",
-            programSource: "电视剧",
-            hot: "78%",
-            playNum: "9.5"
-          },
-          {
-            topNum: 6,
-            programName: "反贪风暴",
-            programSource: "电影",
-            hot: "73%",
-            playNum: "9.2"
-          },
-          {
-            topNum: 7,
-            programName: "一出好戏",
-            programSource: "电影",
-            hot: "70%",
-            playNum: "9.0"
-          },
-          {
-            topNum: 8,
-            programName: "拜托了冰箱",
-            programSource: "综艺",
-            hot: "68%",
-            playNum: "8.7"
-          },
-          {
-            topNum: 9,
-            programName: "极限挑战",
-            programSource: "真人秀",
-            hot: "64%",
-            playNum: "8.5"
-          },
-          {
-            topNum: 10,
-            programName: "陈情令",
-            programSource: "电视剧",
-            hot: "60%",
-            playNum: "8.0"
-          },
-          {
-            topNum: 11,
-            programName: "反贪风暴",
-            programSource: "电影",
-            hot: "56%",
-            playNum: "7.5"
-          },
-          {
-            topNum: 12,
-            programName: "一出好戏",
-            programSource: "电影",
-            hot: "53%",
-            playNum: "7.0"
-          },
-          {
-            topNum: 13,
-            programName: "拜托了冰箱",
-            programSource: "综艺",
-            hot: "50%",
-            playNum: "6.8"
-          },
-          {
-            topNum: 14,
-            programName: "极限挑战",
-            programSource: "真人秀",
-            hot: "45%",
-            playNum: "6.3"
-          },
-          {
-            topNum: 15,
-            programName: "陈情令",
-            programSource: "电视剧",
-            hot: "40%",
-            playNum: "6.0"
-          }
+          // {
+          //   topNum: 1,
+          //   programName: "疯狂的外星人",
+          //   programSource: "电影",
+          //   hot: "90%",
+          //   playNum: "12.3"
+          // },
+          // {
+          //   topNum: 2,
+          //   programName: "熊出没.原始",
+          //   programSource: "少儿",
+          //   hot: "85%",
+          //   playNum: "11.2"
+          // },
+          // {
+          //   topNum: 3,
+          //   programName: "流浪地球",
+          //   programSource: "电影",
+          //   hot: "83%",
+          //   playNum: "10.3"
+          // },
+          // {
+          //   topNum: 4,
+          //   programName: "人间.喜剧",
+          //   programSource: "电影",
+          //   hot: "80%",
+          //   playNum: "10.1"
+          // },
+          // {
+          //   topNum: 5,
+          //   programName: "白发",
+          //   programSource: "电视剧",
+          //   hot: "78%",
+          //   playNum: "9.5"
+          // },
+          // {
+          //   topNum: 6,
+          //   programName: "反贪风暴",
+          //   programSource: "电影",
+          //   hot: "73%",
+          //   playNum: "9.2"
+          // },
+          // {
+          //   topNum: 7,
+          //   programName: "一出好戏",
+          //   programSource: "电影",
+          //   hot: "70%",
+          //   playNum: "9.0"
+          // },
+          // {
+          //   topNum: 8,
+          //   programName: "拜托了冰箱",
+          //   programSource: "综艺",
+          //   hot: "68%",
+          //   playNum: "8.7"
+          // },
+          // {
+          //   topNum: 9,
+          //   programName: "极限挑战",
+          //   programSource: "真人秀",
+          //   hot: "64%",
+          //   playNum: "8.5"
+          // },
+          // {
+          //   topNum: 10,
+          //   programName: "陈情令",
+          //   programSource: "电视剧",
+          //   hot: "60%",
+          //   playNum: "8.0"
+          // },
+          // {
+          //   topNum: 11,
+          //   programName: "反贪风暴",
+          //   programSource: "电影",
+          //   hot: "56%",
+          //   playNum: "7.5"
+          // },
+          // {
+          //   topNum: 12,
+          //   programName: "一出好戏",
+          //   programSource: "电影",
+          //   hot: "53%",
+          //   playNum: "7.0"
+          // },
+          // {
+          //   topNum: 13,
+          //   programName: "拜托了冰箱",
+          //   programSource: "综艺",
+          //   hot: "50%",
+          //   playNum: "6.8"
+          // },
+          // {
+          //   topNum: 14,
+          //   programName: "极限挑战",
+          //   programSource: "真人秀",
+          //   hot: "45%",
+          //   playNum: "6.3"
+          // },
+          // {
+          //   topNum: 15,
+          //   programName: "陈情令",
+          //   programSource: "电视剧",
+          //   hot: "40%",
+          //   playNum: "6.0"
+          // }
         ]
       }
       //收视时长TOP
@@ -892,12 +1068,8 @@ export default {
 };
 </script>
 <style scoped>
-.vip {
-  height: 342px;
-}
-
 .option_select {
-  height: 342px;
+  height: 372px;
 }
 .vip_behavior {
   height: 500px;

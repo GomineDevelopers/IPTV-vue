@@ -14,7 +14,7 @@ export default {
   computed: {
     ...mapGetters(["ULC_region", "PR_operator"]),
     lineData_Change: {
-      get: function() {
+      get: function () {
         var vm = this;
         if (vm.lineData.id == "newPayingUsers") {
           // 用户生命周期-激活(right-折线图)
@@ -66,7 +66,7 @@ export default {
             data.push(d3);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("newPayingUsers 视图更新");
             vm.setLineChart();
           }, 1000);
@@ -105,7 +105,7 @@ export default {
             // console.log(data);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 1000);
           return {
@@ -115,9 +115,13 @@ export default {
             data: data
           };
         }
+        // 视图更新
+        setTimeout(function () {
+          vm.setLineChart();
+        }, 1000);
         return vm.lineData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -125,7 +129,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -137,6 +141,8 @@ export default {
         document.getElementById(this.lineData_Change.id)
       );
       let seriesData = [];
+      let date_year = this.lineData.date_year;
+      let date_month = this.lineData.date_month;
       //设置series数据条数
       for (let i = 1; i <= this.lineData_Change.data.length - 1; i++) {
         seriesData.push({
@@ -175,6 +181,29 @@ export default {
           trigger: "axis",
           textStyle: {
             align: "left"
+          },
+          formatter: function (params) {
+            // console.log(params);
+            let title = params[0].data[0];
+
+            let length = params.length;
+
+            let t1 = params[0].seriesName;
+            let marker1 = params[0].marker;
+            let value1 = params[0].data[1];
+
+            if (length == 1) {
+              // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
+              //设置日期显示 年-月-日
+              return date_year +
+                date_month +
+                title +
+                "<br/>" +
+                marker1 +
+                t1 +
+                ":  " +
+                value1 + '%'
+            }
           }
         },
         //图表自带工具
