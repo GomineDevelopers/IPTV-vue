@@ -83,6 +83,8 @@ const getters = {
     // 测试
     ifTest: state => state.app.ifTest,
 
+    GuizhouChannel_unit: state => state.app.GuizhouChannel_unit,
+
 
 }
 export default getters

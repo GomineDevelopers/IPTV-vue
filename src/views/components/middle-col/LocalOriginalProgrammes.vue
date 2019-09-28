@@ -54,7 +54,7 @@ export default {
       };
       demands_location(data)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           //           data:
           // responses: Array(1)
           // 0:
@@ -130,10 +130,10 @@ export default {
         m_color.push(o_color[i]);
       }
 
-      console.log("~~~~");
-      console.log(legend_data);
-      console.log(data);
-      console.log(m_color);
+      // console.log("~~~~");
+      // console.log(legend_data);
+      // console.log(data);
+      // console.log(m_color);
 
       var option11 = {
         color: m_color,

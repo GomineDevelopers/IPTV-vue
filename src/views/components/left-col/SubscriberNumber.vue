@@ -57,7 +57,8 @@
   </div>
 </template>
 <script>
-import { users_subscribe } from "@/api/api_main";
+import { users_subscribe, users_basic } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "SubscriberNumber", //订购用户数组件
@@ -68,7 +69,9 @@ export default {
       cum_paid_num: null,
       cum_income: null,
       new_paid_num: null,
-      new_income: null
+      new_income: null,
+      subscriber_proportion: 0,
+      New_order_conversion_rate: 0
     };
   },
   mounted() {
@@ -77,7 +80,8 @@ export default {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
         .then(function(response) {
-          vm.users_subscribe(response);
+          vm.users_subscribe(response, "day"); // 当天
+          vm.users_subscribe(response, "7days"); // 前七天（包括当天）
           vm.drawLine();
         })
         .catch(function(error) {
@@ -86,30 +90,84 @@ export default {
     }, 100);
   },
   methods: {
-    users_subscribe(ExpirationDate) {
+    users_subscribe(ExpirationDate, date_time) {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
-      let data = {
-        operator: String(["移动", "联通", "电信"]),
-        start: ExpirationDate,
-        end: ExpirationDate // 先 7-1 ，之后改成 7-31
-      };
-
+      let data;
+      if (date_time == "day") {
+        data = {
+          operator: String(["移动", "联通", "电信"]),
+          start: ExpirationDate,
+          end: ExpirationDate
+        };
+      }
+      if (date_time == "7days") {
+        data = {
+          operator: String(["移动", "联通", "电信"]),
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
+          end: ExpirationDate
+        };
+      }
+      // console.log("~~~~~~~time data");
+      // console.log(data);
       users_subscribe(data)
         .then(function(response) {
-          // console.log(response);
+          if (date_time == "day") {
+            // console.log(response);
+          }
+          if (date_time == "7days") {
+            // console.log(response);
+          }
 
-          let aggregations = response.data.responses[0].aggregations;
+          users_basic(data)
+            .then(function(response2) {
+              // console.log("~~~~users_basic");
+              if (date_time == "day") {
+                // console.log(response2);
+              }
+              if (date_time == "7days") {
+                // console.log(response2);
+              }
 
-          vm.cum_paid_num = aggregations.cum_paid_num.value;
-          vm.cum_income = aggregations.cum_income.value;
-          vm.new_paid_num = aggregations.new_paid_num.value;
-          vm.new_income = aggregations.new_income.value;
+              let aggregations = response.data.responses[0].aggregations;
+              let aggregations2 = response2.data.responses[0].aggregations;
+              if (date_time == "day") {
+                vm.cum_paid_num = aggregations.cum_paid_num.value;
+                vm.cum_income = aggregations.cum_income.value;
+                // 订购用户占比
+                vm.subscriber_proportion = commonTools.returnFloat_2(
+                  (aggregations.cum_paid_num.value /
+                    (aggregations2.all_register_num.value +
+                      aggregations2.all_unsub_user_num.value)) *
+                    100
+                );
+              }
 
-          vm.ifgetdata = true;
-          setTimeout(function() {
-            vm.drawLine();
-          }, 300);
+              // console.log("~~~!!subscriber_proportion");
+              // console.log(vm.subscriber_proportion);
+              // console.log(aggregations.cum_paid_num.value);
+              // console.log(aggregations2.all_register_num.value);
+              // console.log(aggregations2.all_unsub_user_num.value);
+              if (date_time == "7days") {
+                vm.new_paid_num = aggregations.new_paid_num.value;
+                vm.new_income = aggregations.new_income.value;
+                vm.New_order_conversion_rate = commonTools.returnFloat_2(
+                  (aggregations.new_paid_num.value /
+                    aggregations.new_num.value) *
+                    100
+                );
+              }
+
+              vm.ifgetdata = true;
+              setTimeout(function() {
+                vm.drawLine();
+              }, 300);
+            })
+
+            .catch(function(error) {
+              console.info(error);
+              vm.ifgetdata = false;
+            });
         })
         .catch(function(error) {
           console.info(error);
@@ -117,6 +175,7 @@ export default {
         });
     },
     drawLine() {
+      let vm = this;
       // 基于准备好的dom，初始化echarts实例
       var myChart = this.$echarts.init(
         document.getElementById("proportion_of_subscribers")
@@ -125,7 +184,8 @@ export default {
       // 指定图表的配置项和数据
       var option = {
         title: {
-          text: "68%",
+          // text: "68%",
+          text: String(vm.subscriber_proportion) + "%",
           x: "center",
           y: "center",
           textStyle: {
@@ -156,7 +216,7 @@ export default {
             hoverAnimation: false, //鼠标放上不放大
             data: [
               {
-                value: 68,
+                value: vm.subscriber_proportion,
                 name: "订购用户数",
                 itemStyle: {
                   normal: {
@@ -191,6 +251,7 @@ export default {
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
+      myChart.clear();
       myChart.setOption(option);
 
       var myChart2 = this.$echarts.init(
@@ -198,7 +259,8 @@ export default {
       );
       var option2 = {
         title: {
-          text: "29%",
+          // text: "29%",
+          text: String(vm.New_order_conversion_rate) + "%",
           x: "center",
           y: "center",
           textStyle: {
@@ -234,7 +296,7 @@ export default {
             hoverAnimation: false, //鼠标放上不放大
             data: [
               {
-                value: 29,
+                value: vm.New_order_conversion_rate,
                 name: "新增订购用户数",
                 itemStyle: {
                   normal: {
@@ -268,6 +330,7 @@ export default {
           }
         ]
       };
+      myChart2.clear();
       myChart2.setOption(option2);
 
       //图表自适应

@@ -72,10 +72,10 @@ export default {
         end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
-      console.log("media_content");
+      // console.log("media_content");
       media_content(data)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           vm.programNum =
             response.data.responses[0].aggregations.program_content_num.value;
         })
@@ -115,7 +115,7 @@ export default {
       // let vm = this;
       media_watch_total(data)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           // console.log(
           //   response.data.responses[0].aggregations.watch_user_num.value
           // );

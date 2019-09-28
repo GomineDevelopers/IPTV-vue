@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     setLineChart() {
+      let vm = this;
       var barListChart = this.$echarts.init(
         document.getElementById(this.barListData_Change.id)
       );
@@ -114,6 +115,7 @@ export default {
         xAxis: {
           type: "value",
           boundaryGap: [0, 0.01],
+
           axisTick: {
             show: false //设置坐标轴刻度不显示
           },
@@ -121,6 +123,70 @@ export default {
             show: true,
             textStyle: {
               fontSize: "10" //设置坐标轴文字颜大小
+            },
+            formatter: function(value) {
+              if (vm.barListData_Change.id == "GuizhouChannel") {
+                // console.log(value);
+                value = parseInt(value);
+                // console.log(value);
+                // console.log("~~~~~~~~~~~~~~~~~~~~!!!!!!");
+
+                let m_Unit;
+                let m_result;
+                function Manage_Unit(Unit, result) {
+                  // GuizhouChannel
+                  // console.log("~~~~~~~~~~~~~~~~~~~~xxxxxxx");
+                  vm.$store
+                    .dispatch("set_GuizhouChannel_unit", Unit)
+                    .then(function(response) {
+                      // console.log("~~~~~~~~~~~~~~~~~~~~!!!!!!");
+                      // console.log(result);
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
+                }
+                if (value == 0) {
+                  return 0;
+                }
+
+                if (vm.barListData_Change.data[5][1] > 100000000) {
+                  m_Unit = "亿";
+                  // m_result = String(value / 10000 / 10000) + "亿";
+                  m_result = String(value / 10000 / 10000);
+                  Manage_Unit(m_Unit, m_result);
+                  return m_result;
+                }
+                if (
+                  vm.barListData_Change.data[5][1] > 10000000 &&
+                  vm.barListData_Change.data[5][1] <= 100000000
+                ) {
+                  m_Unit = "千万";
+                  m_result = String(value / 10000 / 1000);
+                  Manage_Unit(m_Unit, m_result);
+                  return m_result;
+                }
+                if (
+                  vm.barListData_Change.data[5][1] > 1000000 &&
+                  vm.barListData_Change.data[5][1] <= 10000000
+                ) {
+                  m_Unit = "百万";
+                  m_result = String(value / 10000 / 100);
+                  Manage_Unit(m_Unit, m_result);
+                  return m_result;
+                }
+                if (
+                  vm.barListData_Change.data[5][1] > 10000 &&
+                  vm.barListData_Change.data[5][1] <= 1000000
+                ) {
+                  m_Unit = "万";
+                  m_result = String(value / 10000);
+                  Manage_Unit(m_Unit, m_result);
+                  return m_result;
+                }
+              }
+              console.log("~~~~~~~~~~~~~~~~over");
+              return String(value);
             }
           },
           // 刻度线的设置

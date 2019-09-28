@@ -34,6 +34,7 @@
 </template>
 <script>
 import { demandProgramTop } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "ViewingTop", //收视TOP组件
@@ -76,17 +77,17 @@ export default {
   },
   methods: {
     demandProgramTop(ExpirationDate) {
-      console.log("demandProgramTop");
+      // console.log("demandProgramTop");
       let vm = this;
       let data = {
-        start: ExpirationDate,
+        start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
         end: ExpirationDate,
         operator: String(["移动", "联通", "电信"])
       };
-      console.log("~~~~~demandProgramTop");
+      // console.log("~~~~~demandProgramTop");
       demandProgramTop(data)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let m_data =
             response.data.responses[0].aggregations.programname.buckets;
           let length = m_data.length;

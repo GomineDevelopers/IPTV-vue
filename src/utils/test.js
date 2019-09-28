@@ -241,6 +241,39 @@ commonTools.acConvert_reverse = function (area_arr) {
 
     return ac_arr
 }
+commonTools.acConvert_R_reverse = function (area_arr) {
+    let ac_arr = [];
+
+    // 暂定ac格式为 string
+    if (area_arr.indexOf("859") > -1) {
+        ac_arr.push("黔西南");
+    }
+    if (area_arr.indexOf("858") > -1) {
+        ac_arr.push("六盘水");
+    }
+    if (area_arr.indexOf("857") > -1) {
+        ac_arr.push("毕节");
+    }
+    if (area_arr.indexOf("856") > -1) {
+        ac_arr.push("铜仁");
+    }
+    if (area_arr.indexOf("855") > -1) {
+        ac_arr.push("黔东南");
+    }
+    if (area_arr.indexOf("854") > -1) {
+        ac_arr.push("黔南");
+    }
+    if (area_arr.indexOf("853") > -1) {
+        ac_arr.push("安顺");
+    }
+    if (area_arr.indexOf("852") > -1) {
+        ac_arr.push("遵义");
+    }
+    if (area_arr.indexOf("851") > -1) {
+        ac_arr.push("贵阳");
+    }
+    return ac_arr
+}
 // ac 地区码转换
 commonTools.acConvert = function (area_arr) {
     let ac_arr = [];

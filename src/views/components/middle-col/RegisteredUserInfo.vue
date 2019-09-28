@@ -108,11 +108,11 @@ export default {
   },
   methods: {
     users_retention(ExpirationDate) {
-      console.log("users_retention");
+      // console.log("users_retention");
       // 七天留存和三十天留存（0=7天，1=30天留存率）
-      console.log("~~~~~~~!");
+      // console.log("~~~~~~~!");
       let date_range = commonTools.currentDay_currenDayRange(ExpirationDate);
-      console.log(date_range);
+      // console.log(date_range);
 
       let vm = this;
       let temp = {
@@ -123,7 +123,7 @@ export default {
 
       users_retention(temp)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let aggregations = response.data.responses[0].aggregations;
           let t1 = aggregations.all_remain_num.value; // 留存用户数
           let t2 = aggregations.all_new_activate_num.value; // 新增激活用户数
@@ -136,7 +136,7 @@ export default {
         });
     },
     users_basic(ExpirationDate) {
-      console.log("~~~~~~users_basic");
+      // console.log("~~~~~~users_basic");
       let vm = this;
       let temp = {
         operator: String(["移动", "联通", "电信"]),
@@ -145,7 +145,7 @@ export default {
       };
       users_basic(temp)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let aggregations = response.data.responses[0].aggregations;
           let t1 = aggregations.all_register_num.value; // 在册
           let t2 = aggregations.all_active_num.value; // 日活

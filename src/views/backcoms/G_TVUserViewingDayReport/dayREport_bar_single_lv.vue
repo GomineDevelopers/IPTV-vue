@@ -129,7 +129,7 @@ export default {
         },
         series: seriesData
       };
-
+      lineChart.clear();
       lineChart.setOption(option);
       window.addEventListener("resize", () => {
         lineChart.resize();

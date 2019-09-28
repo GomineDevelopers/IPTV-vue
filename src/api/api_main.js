@@ -824,19 +824,21 @@ export function users_subscribe(data) {
 
 // 用户激活率
 // get http://{{iptv}}/api/users/activationRate
-export function users_activationRate(hours) {
+export function users_activationRate(data) {
     return request({
         method: 'get',
         url: '/users/activationRate',
         params: {
-            hours: hours
+            start: data.start,
+            end: data.end,
+            operator: data.operator
         }
     })
 }
 
 // 用户留存率
 // get http://{{iptv}}/api/users/retention
-export function users_retention(data ) {
+export function users_retention(data) {
     return request({
         method: 'get',
         url: '/users/retention',
@@ -848,6 +850,19 @@ export function users_retention(data ) {
     })
 }
 
+// 贵州频道收视TOP5
+// get http://{{iptv}}/api/onlive/location
+export function onlive_location(data) {
+    return request({
+        method: 'get',
+        url: '/onlive/location',
+        params: {
+            start: data.start,
+            end: data.end,
+            operator: data.operator
+        }
+    })
+}
 
 // //////////////////////// 用户
 

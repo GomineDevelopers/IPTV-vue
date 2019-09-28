@@ -64,8 +64,9 @@ export default {
           // temp2 = temp2.reverse();
 
           // console.log(temp1);
-          vm.echarts_data.name = commonTools.acConvert_reverse(temp1);
-          vm.echarts_data.value = temp2; // 待优化 -- 根据数据大小排列
+          vm.echarts_data.name = commonTools.acConvert_R_reverse(temp1); // 反序（后台返回是851-859，这里反序成859-851）
+          // vm.echarts_data.name = temp1;
+          vm.echarts_data.value = temp2.reverse();  // 反序
           // console.log(vm.echarts_data);
           vm.setNewUserChart();
           vm.ifgetdata = true;

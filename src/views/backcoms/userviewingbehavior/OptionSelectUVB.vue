@@ -77,7 +77,8 @@
       </el-checkbox-group>
     </div>
 
-    <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db">
+    <!-- <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
+    <div class="programa" v-show="ifPlaymodeShow_db">
       <span class="font_title">栏目（点播专属）：</span>
       <!-- <el-checkbox-group
         v-model=" programaChoose"
@@ -107,7 +108,8 @@
       </el-checkbox-group>
     </div>
 
-    <div class="contenttype" v-show="ifPlaymodeShow_db && if_playmode_is_single_db">
+    <!-- <div class="contenttype" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
+    <div class="contenttype" v-show="ifPlaymodeShow_db">
       <span class="font_title">内容类型（点播专属）：</span>
       <el-checkbox v-model="contenttype_checkAll" @change="contenttypeChoose_all">总体</el-checkbox>
 
@@ -186,7 +188,7 @@
     <div class="submitP">
       <el-button class="submit">确定</el-button>
     </div>
-    <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span>
+    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 
@@ -244,20 +246,20 @@ export default {
         return false;
       },
       set: function(newValue) {}
-    },
-    if_playmode_is_single_db: {
-      get: function() {
-        if (
-          this.UVB_playmode.indexOf("点播") > -1 &&
-          this.UVB_playmode.length == 1
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      set: function(newValue) {}
     }
+    // if_playmode_is_single_db: {
+    //   get: function() {
+    //     if (
+    //       this.UVB_playmode.indexOf("点播") > -1 &&
+    //       this.UVB_playmode.length == 1
+    //     ) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   },
+    //   set: function(newValue) {}
+    // }
   },
   watch: {
     regionChoose(newValue, oldValue) {

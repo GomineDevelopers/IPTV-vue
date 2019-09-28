@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     users_basic(ExpirationDate) {
-      console.log("~~~~~~users_basic");
+      // console.log("~~~~~~users_basic");
       let vm = this;
       let temp = {
         operator: String(["移动", "联通", "电信"]),
@@ -84,13 +84,13 @@ export default {
 
           //////// 嵌套留存率
           function m_users_retention(ExpirationDate) {
-            console.log("users_retention");
+            // console.log("users_retention");
             // 七天留存和三十天留存（0=7天，1=30天留存率）
             // console.log("~~~~~~~!!!");
             let date_range = commonTools.currentDay_currenDayRange(
               ExpirationDate
             );
-            console.log(date_range);
+            // console.log(date_range);
 
             // let vm = this;
             let temp_p = {
@@ -104,8 +104,9 @@ export default {
               .then(function(response2) {
                 // console.log("~~~~~~~!!!3");
 
-                console.log(response2);
+                // console.log(response2);
                 let hits2 = response2.data.responses[0].hits.hits;
+                let aggregations2 = response2.data.responses[0].aggregations.ac.buckets;
 
                 for (i = 0; i < length; i++) {
                   temp1.push(buckets[i].register_num.value);
@@ -118,14 +119,18 @@ export default {
                   //   hits2[i]._source.remain_num /
                   //     hits2[i]._source.new_activate_num
                   // );
-                  temp4.push(hits2[i]._source.remain_rate);
+                  // temp4.push(hits2[i]._source.remain_rate);
+                  temp4.push(
+                    aggregations2[i].remain_num.value /
+                      aggregations2[i].new_activate_num.value
+                  );
                 }
                 vm.myNumsArr.push(temp1);
                 vm.myNumsArr.push(temp2);
                 vm.myNumsArr.push(temp3);
-                vm.myNumsArr.push(temp4); // 临时
+                vm.myNumsArr.push(temp4);
 
-                console.log(vm.myNumsArr);
+                // console.log(vm.myNumsArr);
                 vm.ifgetdata = true;
               })
               .catch(function(error) {

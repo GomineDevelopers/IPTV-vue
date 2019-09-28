@@ -7,6 +7,9 @@
   </div>
 </template>
 <script>
+import { users_retention, users_activationRate } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
+
 export default {
   name: "RetentionAndActivation", //留存率和激活趋势组件
   data() {
@@ -14,63 +17,180 @@ export default {
       echarts_data: {
         id: "retention_and_activation",
         data_date: [
-          "02",
-          "03",
-          "04",
-          "05",
-          "06",
-          "07",
-          "08",
-          "09",
-          "10",
-          "11",
-          "12",
-          "13",
-          "14",
-          "15",
-          "16"
+          // "02",
+          // "03",
+          // "04",
+          // "05",
+          // "06",
+          // "07",
+          // "08",
+          // "09",
+          // "10",
+          // "11",
+          // "12",
+          // "13",
+          // "14",
+          // "15",
+          // "16"
         ],
         h_48: [
-          0.8,
-          0.82,
-          0.83,
-          0.84,
-          0.85,
-          0.86,
-          0.87,
-          0.85,
-          0.84,
-          0.86,
-          0.89,
-          0.9,
-          0.91,
-          0.94
+          // 0.8,
+          // 0.82,
+          // 0.83,
+          // 0.84,
+          // 0.85,
+          // 0.86,
+          // 0.87,
+          // 0.85,
+          // 0.84,
+          // 0.86,
+          // 0.89,
+          // 0.9,
+          // 0.91,
+          // 0.94
         ],
         h_24: [
-          0.7,
-          0.72,
-          0.73,
-          0.74,
-          0.75,
-          0.76,
-          0.77,
-          0.65,
-          0.7,
-          0.78,
-          0.79,
-          0.8,
-          0.81,
-          0.84,
-          0.86
+          // 0.7,
+          // 0.72,
+          // 0.73,
+          // 0.74,
+          // 0.75,
+          // 0.76,
+          // 0.77,
+          // 0.65,
+          // 0.7,
+          // 0.78,
+          // 0.79,
+          // 0.8,
+          // 0.81,
+          // 0.84,
+          // 0.86
         ],
         d_7: [0.4, 0.42, 0.43, 0.44, 0.45, 0.46, 0.5]
-      }
+      },
+      datum_line:0.52
     };
   },
   mounted() {
-    this.setRntenChart();
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          // 时间逻辑
+          // 假设今天16号：
+          // 24小时激活率 15天 2~16号（截止前14~截止今天）
+          // 48小时激活率14天 2~15号 （截止前14~截止前1）
+          // 七日留存率7天 2~8号     （截止前14~截止前8）
+          vm.api_data_set(response, "hours_24");
+          vm.api_data_set(response, "hours_48");
+          vm.api_data_set(response, "days7");
+          // vm.setRntenChart();
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
+    api_data_set(ExpirationDate, time_type) {
+      let vm = this;
+      let temp;
+      if (time_type == "hours_24") {
+        temp = {
+          operator: String(["移动", "联通", "电信"]),
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
+          end: ExpirationDate
+        };
+        console.log(temp);
+      }
+      if (time_type == "hours_48") {
+        temp = {
+          operator: String(["移动", "联通", "电信"]),
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
+          end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 1)
+        };
+        console.log(temp);
+      }
+      if (time_type == "days7") {
+        temp = {
+          operator: String(["移动", "联通", "电信"]),
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
+          end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 8)
+        };
+        console.log(temp);
+      }
+
+      users_retention(temp)
+        .then(function(response) {
+          if (time_type == "hours_24") {
+            console.log(response);
+          }
+          if (time_type == "hours_48") {
+            console.log(response);
+          }
+          if (time_type == "days7") {
+            console.log(response);
+          }
+          users_activationRate(temp)
+            .then(function(response2) {
+              if (time_type == "hours_24") {
+                console.log(response2);
+                let buckets2 =
+                  response2.data.responses[0].aggregations.statistical_date
+                    .buckets;
+                let length = buckets2.length;
+                let i;
+                let temp_h_24 = [];
+                let temp_data_date = [];
+                function keyManage(key) {
+                  let str = key.split("-");
+                  return str[2];
+                }
+                for (i = 0; i < length; i++) {
+                  temp_data_date.push(keyManage(buckets2[i].key));
+                  temp_h_24.push(
+                    buckets2[i].new_activate_num.value /
+                      buckets2[i].new_num.value
+                  );
+                }
+                console.log("~~~~~~~");
+                // console.log(temp_h_24);
+                console.log(temp_data_date);
+                vm.echarts_data.data_date = temp_data_date;
+                vm.echarts_data.h_24 = temp_h_24;
+              }
+              if (time_type == "hours_48") {
+                console.log(response2);
+                let buckets2 =
+                  response2.data.responses[1].aggregations.statistical_date
+                    .buckets;
+                let length = buckets2.length;
+                let i;
+                let temp_h_48 = [];
+                for (i = 0; i < length; i++) {
+                  temp_h_48.push(
+                    buckets2[i].new_activate_num.value /
+                      buckets2[i].new_num.value
+                  );
+                }
+                // console.log("~~~~~~~");
+                // console.log(temp_h_48);
+                vm.echarts_data.h_48 = temp_h_48;
+              }
+              if (time_type == "days7") {
+                console.log(response2);
+              }
+              vm.setRntenChart();
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     setRntenChart() {
       let vm = this;
       // 基于准备好的dom，初始化echarts实例
@@ -194,7 +314,7 @@ export default {
               formatter: function(params) {
                 //根据值判断是否显示提示
                 var index = params.value;
-                if (index < 0.7) {
+                if (index < vm.datum_line) {  // 基准线
                   return "低于平均值";
                 } else {
                   return " ";
@@ -222,7 +342,7 @@ export default {
                     position: "end",
                     formatter: "24小时\n激活率\n基准线"
                   },
-                  yAxis: 0.7
+                  yAxis: vm.datum_line  // 基准线
                 }
               ]
             }

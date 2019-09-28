@@ -55,8 +55,10 @@ const app = {
         PS_name: null,
 
         current_authority: [],
-        ifTest: null
+        ifTest: null,
 
+        // 视图优化相关
+        GuizhouChannel_unit: null
     },
     mutations: {
 
@@ -641,6 +643,21 @@ const app = {
                 resolve(state.ifTest);
             })
         },
+
+        // /////////////////
+        set_GuizhouChannel_unit({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.GuizhouChannel_unit = data;
+                resolve("GuizhouChannel_unit - SUCCESS !");
+            })
+        },
+        get_GuizhouChannel_unit({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.GuizhouChannel_unit);
+            })
+        }
+
+
     }
 }
 

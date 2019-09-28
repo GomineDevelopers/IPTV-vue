@@ -1,7 +1,8 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>收视用户
+      <span class="title_border_left"></span>
+      收视用户({{m_Unit}})
     </el-row>
     <el-row v-show="ifgetdata" class="chart_height" id="viewing_user"></el-row>
     <el-row v-show="!ifgetdata" class="exception_p">
@@ -19,6 +20,7 @@ import {
 
 export default {
   name: "ViewingUser", //收视用户组件
+
   data() {
     return {
       ifgetdata: true,
@@ -33,7 +35,9 @@ export default {
       media_watch_total_3: null,
       broadcast_onlive_1: null,
       broadcast_onlive_2: null,
-      broadcast_onlive_3: null
+      broadcast_onlive_3: null,
+      // 单位
+      m_Unit: null
     };
   },
   mounted() {
@@ -83,8 +87,8 @@ export default {
         });
     },
     broadcast_review(ExpirationDate) {
-      console.log("~~~~~~!!!!!ExpirationDate");
-      console.log(ExpirationDate);
+      // console.log("~~~~~~!!!!!ExpirationDate");
+      // console.log(ExpirationDate);
 
       let vm = this;
       let data = {
@@ -297,25 +301,30 @@ export default {
                 return 0;
               }
               if (vm.media_watch_total_2 > 100000000) {
-                return String(value / 10000 / 10000) + "亿";
+                vm.m_Unit = "亿";
+                // return String(value / 10000 / 10000) + "亿";
+                return String(value / 10000 / 10000);
               }
               if (
                 vm.media_watch_total_2 > 10000000 &&
                 vm.media_watch_total_2 <= 100000000
               ) {
-                return String(value / 10000 / 1000) + "千万";
+                vm.m_Unit = "千万";
+                return String(value / 10000 / 1000);
               }
               if (
                 vm.media_watch_total_2 > 1000000 &&
                 vm.media_watch_total_2 <= 10000000
               ) {
-                return String(value / 10000 / 100) + "百万";
+                vm.m_Unit = "百万";
+                return String(value / 10000 / 100);
               }
               if (
                 vm.media_watch_total_2 > 10000 &&
                 vm.media_watch_total_2 <= 1000000
               ) {
-                return String(value / 10000) + "万";
+                vm.m_Unit = "万";
+                return String(value / 10000);
               }
               return String(value);
             }

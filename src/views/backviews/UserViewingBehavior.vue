@@ -75,7 +75,7 @@
       </el-row>
     </el-row>
     <!-- 收视TOP结束 -->
-    <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span>
+    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 <script>
@@ -138,20 +138,20 @@ export default {
         return false;
       },
       set: function(newValue) {}
-    },
-    if_playmode_is_single_db: {
-      get: function() {
-        if (
-          this.UVB_playmode.indexOf("点播") > -1 &&
-          this.UVB_playmode.length == 1
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      set: function(newValue) {}
     }
+    // if_playmode_is_single_db: {
+    //   get: function() {
+    //     if (
+    //       this.UVB_playmode.indexOf("点播") > -1 &&
+    //       this.UVB_playmode.length == 1
+    //     ) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   },
+    //   set: function(newValue) {}
+    // }
   },
   watch: {
     UVB_region(newValue, oldValue) {
@@ -217,9 +217,11 @@ export default {
   },
   methods: {
     refresh_api_data() {
-      this.userAction(this.UVB_time_type, this.if_playmode_is_single_db);
+      // this.userAction(this.UVB_time_type, this.if_playmode_is_single_db);
+      this.userAction(this.UVB_time_type);
     },
-    userAction(time_type, if_playmode_is_single_db) {
+    // userAction(time_type, if_playmode_is_single_db) {
+    userAction(time_type) {
       let vm = this;
       console.log("userAction");
 
@@ -229,66 +231,66 @@ export default {
       let temp_programa;
       let temp_contenttype;
 
-      if (if_playmode_is_single_db) {
-        temp_programa = commonTools.programaConvert(vm.UVB_programa);
-        temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
-      }
+      // if (if_playmode_is_single_db) {
+      //   temp_programa = commonTools.programaConvert(vm.UVB_programa);
+      //   temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
+      // }
       // console.log("temp_contenttype:" + temp_contenttype);
       // ▲▲▲ 接口再增加 contenttype  ---暂定  contenttype  --alex
 
       // let temp = {
-      //   area: null,
+      //   ac: null,
       //   operator: null,
-      //   method: null,
+      //   mode: null,
       //   list: null,
       //   start: null,
       //   end: null
       // };
       let temp;
-      if (if_playmode_is_single_db) {
-        temp = {
-          area: null,
-          operator: null,
-          method: null,
-          list: null,
-          contenttype: null,
-          start: null,
-          end: null
-        };
-      } else {
-        temp = {
-          area: null,
-          operator: null,
-          method: null,
-          // list: null,
-          // contenttype: null,
-          start: null,
-          end: null
-        };
-      }
+      // if (if_playmode_is_single_db) {
+      //   temp = {
+      //     ac: null,
+      //     operator: null,
+      //     mode: null,
+      //     list: null,
+      //     contenttype: null,
+      //     start: null,
+      //     end: null
+      //   };
+      // } else {
+      temp = {
+        ac: null,
+        operator: null,
+        mode: null,
+        // list: null,
+        // contenttype: null,
+        start: null,
+        end: null
+      };
+      // }
 
       if (time_type == 1) {
         // 时间类型-1-天
         // console.log("~~~~~day:" + vm.UVB_day);
-        if (if_playmode_is_single_db) {
-          temp = {
-            area: String(temp_region),
-            operator: String(temp_operator),
-            method: String(temp_playmode),
-            list: String(temp_programa),
-            contenttype: String(temp_contenttype),
-            start: vm.UVB_day,
-            end: vm.UVB_day
-          };
-        } else {
-          temp = {
-            area: String(temp_region),
-            operator: String(temp_operator),
-            method: String(temp_playmode),
-            start: vm.UVB_day,
-            end: vm.UVB_day
-          };
-        }
+        // if (if_playmode_is_single_db) {
+        //   temp = {
+        //     ac: String(temp_region),
+        //     operator: String(temp_operator),
+        //     mode: String(temp_playmode),
+        //     list: String(temp_programa),
+        //     contenttype: String(temp_contenttype),
+        //     start: vm.UVB_day,
+        //     end: vm.UVB_day
+        //   };
+        // } else {
+        temp = {
+          ac: String(temp_region),
+          operator: String(temp_operator),
+          mode: String(temp_playmode),
+          start: vm.UVB_day,
+          end: vm.UVB_day
+        };
+        // }
 
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~1:");
@@ -298,27 +300,27 @@ export default {
         // 时间类型-2-周
         // console.log("~~~~~week:" + vm.UVB_week);
         let temp_time = commonTools.split_yearAtime(vm.UVB_week);
-        if (if_playmode_is_single_db) {
-          temp = {
-            area: String(temp_region),
-            operator: String(temp_operator),
-            method: String(temp_playmode),
-            list: String(temp_programa),
-            contenttype: String(temp_contenttype),
-            start: temp_time.time,
-            end: temp_time.time,
-            year: temp_time.year
-          };
-        } else {
-          temp = {
-            area: String(temp_region),
-            operator: String(temp_operator),
-            method: String(temp_playmode),
-            start: temp_time.time,
-            end: temp_time.time,
-            year: temp_time.year
-          };
-        }
+        // if (if_playmode_is_single_db) {
+        //   temp = {
+        //     ac: String(temp_region),
+        //     operator: String(temp_operator),
+        //     mode: String(temp_playmode),
+        //     list: String(temp_programa),
+        //     contenttype: String(temp_contenttype),
+        //     start: temp_time.time,
+        //     end: temp_time.time,
+        //     year: temp_time.year
+        //   };
+        // } else {
+        temp = {
+          ac: String(temp_region),
+          operator: String(temp_operator),
+          mode: String(temp_playmode),
+          start: temp_time.time,
+          end: temp_time.time,
+          year: temp_time.year
+        };
+        // }
 
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~2:");
@@ -330,109 +332,109 @@ export default {
         // console.log(typeof vm.UVB_picker);
         let temp_time = commonTools.split_picker(vm.UVB_picker);
         // console.log(temp_time);
-        if (if_playmode_is_single_db) {
-          temp = {
-            area: String(temp_region),
-            operator: String(temp_operator),
-            method: String(temp_playmode),
-            list: String(temp_programa),
-            contenttype: String(temp_contenttype),
-            start: temp_time.start,
-            end: temp_time.end
-          };
-        } else {
-          temp = {
-            area: String(temp_region),
-            operator: String(temp_operator),
-            method: String(temp_playmode),
-            start: temp_time.start,
-            end: temp_time.end
-          };
-        }
+        // if (if_playmode_is_single_db) {
+        //   temp = {
+        //     ac: String(temp_region),
+        //     operator: String(temp_operator),
+        //     mode: String(temp_playmode),
+        //     list: String(temp_programa),
+        //     contenttype: String(temp_contenttype),
+        //     start: temp_time.start,
+        //     end: temp_time.end
+        //   };
+        // } else {
+        temp = {
+          ac: String(temp_region),
+          operator: String(temp_operator),
+          mode: String(temp_playmode),
+          start: temp_time.start,
+          end: temp_time.end
+        };
+        // }
 
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~3:");
         console.log(temp);
       }
 
-      if (if_playmode_is_single_db) {
-        // api 2
-      } else {
-        // api 1
+      // if (if_playmode_is_single_db) {
+      //   // api 2
+      // } else {
+      // api 1
 
-        var formData = new FormData();
-        var formData = new window.FormData();
-        formData.append("ac", temp.area);
-        formData.append("operator", temp.operator);
-        formData.append("mode", temp.method);
-        formData.append("start", temp.start);
-        formData.append("end", temp.end);
-        userAction(formData)
-          .then(function(response) {
-            console.log(response);
-            // /////////// 0 - 暂无数据
-            let length_0;
-            // /////////// liveViewingTopList - 1 - 直播Top15
-            // 获得最大值
-            let buckets_1 =
-              response.data.responses[1].aggregations.programname.buckets;
-            let length_1 = buckets_1.length;
-            let i_1;
-            let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
-            let temp_data;
-            for (i_1 = 0; i_1 < length_1; i_1++) {
-              temp_data = {
-                // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
-                topNum: i_1 + 1,
-                programName: buckets_1[i_1].channel.buckets[0].key,
-                programSource: buckets_1[i_1].key,
-                hot:
-                  String(
-                    commonTools.returnFloat_2(
-                      (buckets_1[i_1].onlive_freq.value / temp_max_value) * 100
-                    )
-                  ) + "%",
-                playNum: String(
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("ac", temp.ac);
+      formData.append("operator", temp.operator);
+      formData.append("mode", temp.mode);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      userAction(formData)
+        .then(function(response) {
+          console.log(response);
+          // /////////// 0 - 暂无数据
+          let length_0;
+          // /////////// liveViewingTopList - 1 - 直播Top15
+          // 获得最大值
+          let buckets_1 =
+            response.data.responses[1].aggregations.programname.buckets;
+          let length_1 = buckets_1.length;
+          let i_1;
+          let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
+          let temp_data;
+          for (i_1 = 0; i_1 < length_1; i_1++) {
+            temp_data = {
+              // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
+              topNum: i_1 + 1,
+              programName: buckets_1[i_1].channel.buckets[0].key,
+              programSource: buckets_1[i_1].key,
+              hot:
+                String(
                   commonTools.returnFloat_2(
-                    buckets_1[i_1].onlive_freq.value / 10000
+                    (buckets_1[i_1].onlive_freq.value / temp_max_value) * 100
                   )
-                ) // 次数（万）
-              };
-              vm.liveViewingTopList.data.push(temp_data);
-            }
+                ) + "%",
+              playNum: String(
+                commonTools.returnFloat_2(
+                  buckets_1[i_1].onlive_freq.value / 10000
+                )
+              ) // 次数（万）
+            };
+            vm.liveViewingTopList.data.push(temp_data);
+          }
 
-            // /////////// lookBackViewingTopList - 2 - 回看Top15
-            let buckets_2 =
-              response.data.responses[2].aggregations.programname.buckets;
-            let length_2 = buckets_2.length;
-            let i_2;
-            let temp_max_value2 = buckets_2[0].watch_freq.value; // 取第一个为最大值
-            let temp_data2;
-            for (i_2 = 0; i_2 < length_2; i_2++) {
-              temp_data2 = {
-                // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
-                topNum: i_2 + 1,
-                programName: buckets_2[i_2].channel.buckets[0].key,
-                programSource: buckets_2[i_2].key,
-                hot:
-                  String(
-                    commonTools.returnFloat_2(
-                      (buckets_2[i_2].watch_freq.value / temp_max_value2) * 100
-                    )
-                  ) + "%",
-                playNum: String(
+          // /////////// lookBackViewingTopList - 2 - 回看Top15
+          let buckets_2 =
+            response.data.responses[2].aggregations.programname.buckets;
+          let length_2 = buckets_2.length;
+          let i_2;
+          let temp_max_value2 = buckets_2[0].watch_freq.value; // 取第一个为最大值
+          let temp_data2;
+          for (i_2 = 0; i_2 < length_2; i_2++) {
+            temp_data2 = {
+              // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
+              topNum: i_2 + 1,
+              programName: buckets_2[i_2].channel.buckets[0].key,
+              programSource: buckets_2[i_2].key,
+              hot:
+                String(
                   commonTools.returnFloat_2(
-                    buckets_2[i_2].watch_freq.value / 10000
+                    (buckets_2[i_2].watch_freq.value / temp_max_value2) * 100
                   )
-                ) // 次数（万）
-              };
-              vm.lookBackViewingTopList.data.push(temp_data2);
-            }
-          })
-          .catch(function(error) {
-            console.info(error);
-          });
-      }
+                ) + "%",
+              playNum: String(
+                commonTools.returnFloat_2(
+                  buckets_2[i_2].watch_freq.value / 10000
+                )
+              ) // 次数（万）
+            };
+            vm.lookBackViewingTopList.data.push(temp_data2);
+          }
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      // }
     }
   },
   components: {
