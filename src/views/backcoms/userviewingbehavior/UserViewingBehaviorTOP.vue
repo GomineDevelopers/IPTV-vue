@@ -48,32 +48,46 @@ export default {
       }
     };
   },
+  watch: {
+    viewingTopList(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 100);
+    }
+  },
   mounted() {
-    console.log("~~~~~test");
-    console.log(this.viewingTopList);
-
-    if (
-      this.viewingTopList.type == "live" ||
-      this.viewingTopList.type == "review"
-    ) {
-      this.TopTitleInfo = {
-        i1: "排名",
-        i2: "频道",
-        i3: "节目",
-        i4: "次数（万）"
-      };
-    }
-    if (this.viewingTopList.type == "demand") {
-      this.TopTitleInfo = {
-        i1: "排名",
-        i2: "节目类型",
-        i3: "节目",
-        i4: "次数（万）"
-      };
-    }
-    this.scrollLoopUp(this.viewingTopList.id);
+    let vm = this;
+    setTimeout(function() {
+      vm.drawEcharts();
+    }, 100);
   },
   methods: {
+    drawEcharts() {
+      console.log("~~~~~test");
+      console.log(this.viewingTopList);
+
+      if (
+        this.viewingTopList.type == "live" ||
+        this.viewingTopList.type == "review"
+      ) {
+        this.TopTitleInfo = {
+          i1: "排名",
+          i2: "频道",
+          i3: "节目",
+          i4: "次数（万）"
+        };
+      }
+      if (this.viewingTopList.type == "demand") {
+        this.TopTitleInfo = {
+          i1: "排名",
+          i2: "节目类型",
+          i3: "节目",
+          i4: "次数（万）"
+        };
+      }
+      this.scrollLoopUp(this.viewingTopList.id);
+    },
     scrollLoopUp: function(id) {
       var scrollBox = document.getElementById(id);
       var lineHeight = 42.5;
