@@ -22,13 +22,13 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let color = [];
         let data = [];
         if (vm.chartData.id == "GT_UVWR1_B2") {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 1000);
             return vm.chartData;
@@ -62,7 +62,7 @@ export default {
             for (i = 0; i < length; i++) {
               data[i].push(vm.chartData.data[i][4]);
             }
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 300);
             return {
@@ -73,15 +73,18 @@ export default {
             };
           }
         }
+        setTimeout(function () {
+          vm.drawLine();
+        }, 300);
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
 
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },
@@ -127,7 +130,7 @@ export default {
                 label: {
                   show: true,
                   color: "black",
-                  formatter: function(value) {
+                  formatter: function (value) {
                     // return "{a|" + value.data + "}";
                     // console.log(value);
                     return value.data[length - 1] + "%";

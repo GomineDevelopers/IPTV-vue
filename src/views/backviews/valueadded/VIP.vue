@@ -674,6 +674,10 @@ export default {
             };
             vm.lookBackViewingTopList_VIP.data.push(temp_data2);
           }
+
+          // console.log("回看数据", vm.lookBackViewingTopList_VIP)
+
+
         })
         .catch(function(error) {
           console.info(error);
@@ -1252,7 +1256,7 @@ export default {
       //       hot: "40%",
       //       playNum: "6.0"
       //     }
-      //   ]
+      //   ] 
       // }
     };
   }

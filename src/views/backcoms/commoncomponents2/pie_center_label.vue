@@ -13,10 +13,28 @@ export default {
       type: Object
     }
   },
+  watch: {
+    // chartData(newValue, oldValue) {
+    //   let vm = this;
+    //   console.log("AAAAAAAAAAAAAAA")
+
+    //   setTimeout(function () {
+    //     vm.drawLine();
+    //   }, 1000);
+    // },
+    chartData_Change(newValue, oldValue) {
+      let vm = this;
+      console.log("AAAAAAAAAAAAAAA")
+
+      setTimeout(function () {
+        vm.drawLine();
+      }, 1000);
+    }
+  },
   computed: {
     ...mapGetters(["PR_operator"]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.chartData.id == "GT_UVWR1_A2") {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
@@ -40,7 +58,7 @@ export default {
               m_data.push(vm.chartData.m_data[2]);
               m_data2.push(vm.chartData.m_data2[2]);
             }
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 1000);
             let temp = {
@@ -54,13 +72,31 @@ export default {
               legend_show: vm.chartData.legend_show
             };
             // console.log(temp);
+            setTimeout(function () {
+              vm.drawLine();
+            }, 500);
             return temp;
           }
           // return vm.chartData;
         }
+        if (vm.chartData.id == "GT_UVWR1_B1") {
+          // console.log(vm.PR_operator);
+          if (vm.PR_operator.length == 0) {
+            // do nothing.
+          }
+          // console.log("-------------mytest")
+          // console.log(vm.chartData)
+          setTimeout(function () {
+            vm.drawLine();
+          }, 1000);
+          return vm.chartData;
+        }
+        setTimeout(function () {
+          vm.drawLine();
+        }, 1000);
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -68,7 +104,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },

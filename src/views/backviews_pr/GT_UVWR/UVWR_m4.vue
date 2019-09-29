@@ -19,8 +19,6 @@
           <span class="m_common_content_font">注：由内而外分别是新增在册用户数、在册用户数</span>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">电信用户一周新增在册用户数31,643户，较前一周增加1,795户，增幅6.0%。</p>
-      <!-- <p>黔西南州用户数超越安顺市，摆脱副班长的位置。贵阳、毕节、铜仁、黔西南新增用户占比高于在册用户占比，上周用户增速高于平均水平。</p> -->
     </el-row>
 
     <!-- ///////////////////////// N -->
@@ -41,11 +39,6 @@
           <line-dotted-chart :lineData="GT_UVWR1_N2"></line-dotted-chart>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">上周电信侧总收视次数1771.6万次，环比下降4.6%；总收视时长1944.5万小时，下降7.0%。</p>
-      <!-- <p>各功能均有下跌，点播降幅最大。</p> -->
-      <!-- <p>电信侧受到部分用户升级成为2.0的影响，上周收视数据尤其是收视时长滑落较多。从开机情况来推算，大概有2~3万的用户受到影响。</p> -->
-      <!-- <p>同时，受到贵阳地区数博会放假与调休影响，开机用户走势呈现两头高，中间低的现象，周六与周一达到峰值。</p> -->
-      <!-- <p>点播用户与开机用户保持一致走势，周六达到峰值。直播用户数则在周一、周二达到峰值。这表明受到放假影响的贵阳机关单位用户更偏向于使用直播功能。</p> -->
     </el-row>
 
     <!-- ///////////////////////// O -->
@@ -68,10 +61,6 @@
           <bar-chart-single :chartData="GT_UVWR1_O3"></bar-chart-single>
         </el-col>
       </el-row>
-      <p
-        class="m_common_content_font"
-      >去重后电信侧直播用户数32.2万户，环比下降3.9%，一周直播收视次数661.0万次，下降4.3%；直播收视时长502.6万小时，下降4.4%。</p>
-      <!-- <p>分组来看，直播收视规模地方频道和轮播频道降幅较小， 但收视时长降幅较大，用户粘性下降；央视、卫视组则正好相反。</p> -->
     </el-row>
     <!-- ///////////////////////// P -->
     <el-row class="model_title">
@@ -118,9 +107,6 @@
           <bar-list-chart :barListData="GT_UVWR1_Q3"></bar-list-chart>
         </el-col>
       </el-row>
-      <p
-        class="m_common_content_font"
-      >去重后电信侧一周总点播用户41.2万户，环比下降2.0%。总点播次数1096.7万次，下降4.8%；点播时长1430.1万小时，下降7.9%。</p>
     </el-row>
 
     <!-- ///////////////////////// R -->
@@ -143,7 +129,6 @@
           <bar-list-chart :barListData="GT_UVWR1_R3"></bar-list-chart>
         </el-col>
       </el-row>
-      <p class="m_common_content_font">电信侧一级页面总点击次数1332.2万次，环比下降6.1%；页面播放时长1258.9万小时，下降17.0%。</p>
     </el-row>
   </div>
 </template>
@@ -371,7 +356,7 @@ export default {
       data8 = vm.sortArrZ(data8, 1);
       vm.GT_UVWR1_Q3.data = data8;
 
- 
+
       let buckets10 = newValue.data.responses[10].aggregations.ti.buckets;
       let length10 = buckets10.length;
       let i10;
