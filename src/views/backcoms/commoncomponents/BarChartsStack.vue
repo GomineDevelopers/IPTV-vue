@@ -264,6 +264,9 @@ export default {
             data: data
           };
         }
+        setTimeout(function() {
+          vm.drawLine();
+        }, 1000);
         return vm.chartData;
       },
       set: function(newValue) {}

@@ -95,6 +95,7 @@ import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; /
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
 import { vip_increment } from "@/api/api_main";
+import Vue from "vue";
 
 export default {
   name: "VIP", //增值业务VIP
@@ -111,7 +112,7 @@ export default {
       "ADD_VIP_time_type"
     ]),
     ifPlaymodeShow_zb: {
-      get: function () {
+      get: function() {
         if (
           this.ADD_VIP_playmode == null ||
           this.ADD_VIP_playmode.length == 0
@@ -123,10 +124,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifPlaymodeShow_db: {
-      get: function () {
+      get: function() {
         if (
           this.ADD_VIP_playmode == null ||
           this.ADD_VIP_playmode.length == 0
@@ -138,10 +139,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifPlaymodeShow_hk: {
-      get: function () {
+      get: function() {
         if (
           this.ADD_VIP_playmode == null ||
           this.ADD_VIP_playmode.length == 0
@@ -153,8 +154,8 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
-    },
+      set: function(newValue) {}
+    }
     // if_playmode_is_single_db: {
     //   get: function () {
     //     if (
@@ -177,190 +178,183 @@ export default {
     ADD_VIP_region(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_region: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_operator(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_operator: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_playmode(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_playmode: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_programa: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_valueAddedPackage(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_valueAddedPackage: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_day: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_week(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_week: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_picker(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_picker: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     ADD_VIP_time_type(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_time_type: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
+      }, 100);
+    },
+    targetOption(newValue, oldValue) {
+      let vm = this;
+      // 监听指标选中
+      // console.log("targetOption");
+      // console.log(newValue);
+      setTimeout(function() {
+        vm.refreshPerData();
+      }, 200);
     }
   },
   methods: {
+    refreshPerData() {
+      let vm = this;
+      let newValue = vm.targetOption;
+      if (newValue == "观看次数") {
+        vm.regionData.data = vm.regionData_data_arr[0];
+        vm.operatorData.data = vm.operatorData_arr[0];
+      }
+      if (newValue == "观看时长") {
+        vm.regionData.data = vm.regionData_data_arr[1];
+        vm.operatorData.data = vm.operatorData_arr[1];
+      }
+      if (newValue == "观看户数") {
+        vm.regionData.data = vm.regionData_data_arr[2];
+        vm.operatorData.data = vm.operatorData_arr[2];
+      }
+      if (newValue == "户均收视次数") {
+        vm.regionData.data = vm.regionData_data_arr[3];
+        vm.operatorData.data = vm.operatorData_arr[3];
+      }
+      if (newValue == "次均收视次数") {
+        vm.regionData.data = vm.regionData_data_arr[4];
+        vm.operatorData.data = vm.operatorData_arr[4];
+      }
+    },
     refresh_api_data() {
       // this.vip_increment(this.ADD_VIP_time_type, this.if_playmode_is_single_db);
       this.vip_increment(this.ADD_VIP_time_type);
-
     },
     // vip_increment(time_type, if_playmode_is_single_db) {
     vip_increment(time_type) {
       let vm = this;
       console.log("vip_increment");
 
-      let temp_region = commonTools.acConvert(vm.ADD_VIP_region);  //地区
-      let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator);  //运营商
-      let temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage;  //点播专属（增值包）
-      let temp_playmode = commonTools.playmodeConvert(vm.ADD_VIP_playmode);  //播放方式
-      let temp_programa = commonTools.programaConvert(vm.ADD_VIP_programa);   //点播专属（栏目）
+      let temp_region = commonTools.acConvert(vm.ADD_VIP_region); //地区
+      let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator); //运营商
+      let temp_playmode = commonTools.playmodeConvert(vm.ADD_VIP_playmode); //播放方式
 
-      // if (if_playmode_is_single_db) {
-      //   temp_programa = commonTools.programaConvert(vm.UVB_programa);
-      //   temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
-      // }
-      // console.log("temp_contenttype:" + temp_contenttype);
-      // ▲▲▲ 接口再增加 contenttype  ---暂定  contenttype  --alex
-
-      // let temp = {
-      //   area: null,
-      //   operator: null,
-      //   method: null,
-      //   list: null,
-      //   start: null,
-      //   end: null
-      // };
-
-      let temp;
-      // if (if_playmode_is_single_db) {
-      //   temp = {
-      //     area: null,
-      //     operator: null,
-      //     method: null,
-      //     list: null,
-      //     contenttype: null,
-      //     start: null,
-      //     end: null
-      //   };
-      // } else {
-      temp = {
-        area: null,
-        operator: null,
-        method: null,
-        // list: null,
-        // contenttype: null,
-        start: null,
-        end: null
-      };
-      // }
-
+      // let temp_programa = commonTools.programaConvert(vm.ADD_VIP_programa); //点播专属（栏目）
+      // let temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage; //点播专属（增值包）
       // if (temp_valueAddedPackage == null || temp_valueAddedPackage == "") {
       //   console.log("需要新增 - 增值包为空提示");
       //   return;
       // }
 
+      let temp_programa;
+      let temp_contenttype;
+
+      let temp;
+
+      temp = {
+        ac: null,
+        operator: null,
+        mode: null,
+        start: null,
+        end: null
+      };
+
       if (time_type == 1) {
         // 时间类型-1-天
-        // console.log("~~~~~day:" + vm.ADD_VIP_day);
-        // temp = {
-        //   area: String(temp_region),
-        //   operator: String(temp_operator),
-        //   method: String(temp_playmode),
-        //   list: String(temp_programa),
-        //   increment: temp_valueAddedPackage,
-        //   start: vm.ADD_VIP_day,
-        //   end: vm.ADD_VIP_day
-        // };
-        // if (if_playmode_is_single_db) {
-        //   temp = {
-        //     area: String(temp_region),
-        //     operator: String(temp_operator),
-        //     method: String(temp_playmode),
-        //     list: String(temp_programa),
-        //     contenttype: String(temp_contenttype),
-        //     start: vm.UVB_day,
-        //     end: vm.UVB_day
-        //   };
-        // } else {
+
         temp = {
-          area: String(temp_region),
+          ac: String(temp_region),
           operator: String(temp_operator),
-          method: String(temp_playmode),
-          start: vm.UVB_day,
-          end: vm.UVB_day
+          mode: String(temp_playmode),
+          start: vm.ADD_VIP_day,
+          end: vm.ADD_VIP_day
         };
-        // }
-        // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~1:");
         console.log(temp);
       }
-      if (time_type == 2) {
+      else if (time_type == 2) {
         // 时间类型-2-周
         // console.log("~~~~~week:" + vm.ADD_VIP_week);
         let temp_time = commonTools.split_yearAtime(vm.ADD_VIP_week);
-        // temp = {
-        //   area: String(temp_region),
-        //   operator: String(temp_operator),
-        //   method: String(temp_playmode),
-        //   list: String(temp_programa),
-        //   increment: temp_valueAddedPackage,
-        //   start: temp_time.time,
-        //   end: temp_time.time,
-        //   year: temp_time.year
-        // };
-        // if (if_playmode_is_single_db) {
-        //   temp = {
-        //     area: String(temp_region),
-        //     operator: String(temp_operator),
-        //     method: String(temp_playmode),
-        //     list: String(temp_programa),
-        //     contenttype: String(temp_contenttype),
-        //     start: temp_time.time,
-        //     end: temp_time.time,
-        //     year: temp_time.year
-        //   };
-        // } else {
+
         temp = {
-          area: String(temp_region),
+          ac: String(temp_region),
           operator: String(temp_operator),
-          method: String(temp_playmode),
+          mode: String(temp_playmode),
           start: temp_time.time,
           end: temp_time.time,
           year: temp_time.year
@@ -370,65 +364,260 @@ export default {
         console.log("~~~~~2:");
         console.log(temp);
       }
-      if (time_type == 3) {
+      else if (time_type == 3) {
         // 时间类型-3-范围
-        console.log("~~~~~picker:" + vm.ADD_VIP_picker);
-        console.log(typeof vm.ADD_VIP_picker);
+        // console.log("~~~~~picker:" + vm.ADD_VIP_picker);
+        // console.log(typeof vm.ADD_VIP_picker);
         let temp_time = commonTools.split_picker(vm.ADD_VIP_picker);
-        console.log(temp_time);
-        // temp = {
-        //   area: String(temp_region),
-        //   operator: String(temp_operator),
-        //   method: String(temp_playmode),
-        //   list: String(temp_programa),
-        //   increment: temp_valueAddedPackage,
-        //   start: temp_time.start,
-        //   end: temp_time.end
-        // };
-        // if (if_playmode_is_single_db) {
-        //   temp = {
-        //     area: String(temp_region),
-        //     operator: String(temp_operator),
-        //     method: String(temp_playmode),
-        //     list: String(temp_programa),
-        //     contenttype: String(temp_contenttype),
-        //     start: temp_time.start,
-        //     end: temp_time.end
-        //   };
-        // } else {
+        // console.log(temp_time);
 
         //*****注意传参格式为这个 */
         temp = {
-          area: String(temp_region),
+          ac: String(temp_region),
           operator: String(temp_operator),
-          ti: String(temp_programa), //栏目
-          package: temp_valueAddedPackage,
-          // method: String(temp_playmode),
+          mode: String(temp_playmode),
           start: temp_time.start,
           end: temp_time.end
         };
+        // temp = {
+        //   ac: String(temp_region),
+        //   operator: String(temp_operator),
+        //   ti: String(temp_programa), //栏目
+        //   package: temp_valueAddedPackage,
+        //   // mode: String(temp_playmode),
+        //   start: temp_time.start,
+        //   end: temp_time.end
+        // };
         // }
-        // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~3:");
         console.log(temp);
+      } else {
+        console.log("请选择时间！");
+        return;
       }
 
-      // if (if_playmode_is_single_db) {
-      // api 2
-      // } else {
-      // api 1
       var formData = new FormData();
       var formData = new window.FormData();
-      formData.append("ac", temp.area);
+      formData.append("ac", temp.ac);
       formData.append("operator", temp.operator);
-      formData.append("mode", temp.method);
+      formData.append("mode", temp.mode);
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       vip_increment(formData)
-        .then(function (response) {
-          console.log("vip数据", response.data.responses);
-          // /////////// 0 - 暂无数据
-          let length_0;
+        .then(function(response) {
+          console.log(response);
+          // /////////// 0 -
+          let aggregations_0 = response.data.responses[0].aggregations;
+          let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
+          let length_0 = buckets_0.length;
+          let i_0;
+          let temp1 = []; // 观看次数 - watch_freq
+          let temp2 = []; // 观看时长 - watch_dur
+          let temp3 = []; // 观看户数 - watch_user_num
+          let temp4 = []; // 户均收视次数 - watch_freq_family
+          let temp5 = []; // 次均收视次数 - watch_dur_mean
+          let temp_all = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ac
+          for (i_0 = 0; i_0 < length_0; i_0++) {
+            temp1.push({
+              value: buckets_0[i_0].watch_dur_mean.value,
+              name: commonTools.acConvert_Single(buckets_0[i_0].key)
+            });
+            temp2.push({
+              value: buckets_0[i_0].watch_dur.value,
+              name: commonTools.acConvert_Single(buckets_0[i_0].key)
+            });
+            temp3.push({
+              value: buckets_0[i_0].watch_user_num.value,
+              name: commonTools.acConvert_Single(buckets_0[i_0].key)
+            });
+            temp4.push({
+              value: buckets_0[i_0].watch_freq_family.value,
+              name: commonTools.acConvert_Single(buckets_0[i_0].key)
+            });
+            temp5.push({
+              value: buckets_0[i_0].watch_dur_mean.value,
+              name: commonTools.acConvert_Single(buckets_0[i_0].key)
+            });
+          }
+          temp_all.push(temp1);
+          temp_all.push(temp2);
+          temp_all.push(temp3);
+          temp_all.push(temp4);
+          temp_all.push(temp5);
+          vm.regionData_data_arr = temp_all;
+          // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
+          // console.log(vm.regionData_data_arr);
+          // ////////////////////////////
+
+          let buckets_0B = response.data.responses[0].aggregations.ac1.buckets; // x3
+          let length_0B = buckets_0B.length;
+          let i_0B;
+          let temp1_B = []; // 观看次数 - watch_freq
+          let temp2_B = []; // 观看时长 - watch_dur
+          let temp3_B = []; // 观看户数 - watch_user_num
+          let temp4_B = []; // 户均收视次数 - watch_freq_family
+          let temp5_B = []; // 次均收视次数 - watch_dur_mean
+          let temp_all_B = []; //包含temp1_B~temp5_B // ▲ 5种值-分别对应运营商-分别对应ac
+
+          temp1_B.push(["product", "移动", "联通", "电信"]);
+          temp2_B.push(["product", "移动", "联通", "电信"]);
+          temp3_B.push(["product", "移动", "联通", "电信"]);
+          temp4_B.push(["product", "移动", "联通", "电信"]);
+          temp5_B.push(["product", "移动", "联通", "电信"]);
+          for (let j = 0; j < 9; j++) {
+            // 推入9个地区的 []
+            temp1_B.push([]);
+            temp2_B.push([]);
+            temp3_B.push([]);
+            temp4_B.push([]);
+            temp5_B.push([]);
+          }
+
+          for (i_0B = 0; i_0B < length_0B; i_0B++) {
+            // x9
+            Vue.set(
+              temp1_B[i_0B + 1],
+              0,
+              commonTools.acConvert_Single(buckets_0B[i_0B].key)
+            );
+            Vue.set(
+              temp2_B[i_0B + 1],
+              0,
+              commonTools.acConvert_Single(buckets_0B[i_0B].key)
+            );
+            Vue.set(
+              temp3_B[i_0B + 1],
+              0,
+              commonTools.acConvert_Single(buckets_0B[i_0B].key)
+            );
+            Vue.set(
+              temp4_B[i_0B + 1],
+              0,
+              commonTools.acConvert_Single(buckets_0B[i_0B].key)
+            );
+            Vue.set(
+              temp5_B[i_0B + 1],
+              0,
+              commonTools.acConvert_Single(buckets_0B[i_0B].key)
+            );
+
+            let operator_length = 3;
+            let operator_i;
+            let temp_aa = [];
+            for (operator_i = 0; operator_i < operator_length; operator_i++) {
+              if (
+                buckets_0B[i_0B].operators.buckets[operator_i].key == "移动"
+              ) {
+                Vue.set(
+                  temp1_B[i_0B + 1],
+                  1,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                    .value
+                );
+                Vue.set(
+                  temp2_B[i_0B + 1],
+                  1,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_dur.value
+                );
+                Vue.set(
+                  temp3_B[i_0B + 1],
+                  1,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_user_num
+                    .value
+                );
+                Vue.set(
+                  temp4_B[i_0B + 1],
+                  1,
+                  buckets_0B[i_0B].operators.buckets[operator_i]
+                    .watch_freq_family.value
+                );
+                Vue.set(
+                  temp5_B[i_0B + 1],
+                  1,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_dur_mean
+                    .value
+                );
+              }
+              if (
+                buckets_0B[i_0B].operators.buckets[operator_i].key == "联通"
+              ) {
+                Vue.set(
+                  temp1_B[i_0B + 1],
+                  2,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                    .value
+                );
+                Vue.set(
+                  temp2_B[i_0B + 1],
+                  2,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_dur.value
+                );
+                Vue.set(
+                  temp3_B[i_0B + 1],
+                  2,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_user_num
+                    .value
+                );
+                Vue.set(
+                  temp4_B[i_0B + 1],
+                  2,
+                  buckets_0B[i_0B].operators.buckets[operator_i]
+                    .watch_freq_family.value
+                );
+                Vue.set(
+                  temp5_B[i_0B + 1],
+                  2,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_dur_mean
+                    .value
+                );
+              }
+              if (
+                buckets_0B[i_0B].operators.buckets[operator_i].key == "电信"
+              ) {
+                Vue.set(
+                  temp1_B[i_0B + 1],
+                  3,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                    .value
+                );
+                Vue.set(
+                  temp2_B[i_0B + 1],
+                  3,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_dur.value
+                );
+                Vue.set(
+                  temp3_B[i_0B + 1],
+                  3,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_user_num
+                    .value
+                );
+                Vue.set(
+                  temp4_B[i_0B + 1],
+                  3,
+                  buckets_0B[i_0B].operators.buckets[operator_i]
+                    .watch_freq_family.value
+                );
+                Vue.set(
+                  temp5_B[i_0B + 1],
+                  3,
+                  buckets_0B[i_0B].operators.buckets[operator_i].watch_dur_mean
+                    .value
+                );
+              }
+            }
+          }
+
+          // // ▲▲ 应该是返回 地区分运营商，不是 运营商分地区
+
+          temp_all_B.push(temp1_B);
+          temp_all_B.push(temp2_B);
+          temp_all_B.push(temp3_B);
+          temp_all_B.push(temp4_B);
+          temp_all_B.push(temp5_B);
+          console.log("~~~~~~~~temp_all_B");
+          console.log(temp_all_B);
+          vm.operatorData_arr = temp_all_B;
+
           // /////////// liveViewingTopList - 1 - 直播Top15
           // 获得最大值
           let buckets_1 =
@@ -457,7 +646,6 @@ export default {
             };
             vm.liveViewingTopList_VIP.data.push(temp_data);
           }
-          console.log("直播数据", vm.liveViewingTopList_VIP)
 
           // /////////// lookBackViewingTopList - 2 - 回看Top15
           let buckets_2 =
@@ -486,17 +674,16 @@ export default {
             };
             vm.lookBackViewingTopList_VIP.data.push(temp_data2);
           }
-          console.log("回看数据", vm.lookBackViewingTopList_VIP)
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
       // }
 
       // let temp = {
-      //   area: "all", // 地区码，all和贵州省地级市代码
+      //   ac: "all", // 地区码，all和贵州省地级市代码
       //   operator: "all", // 运营商列表：根据用户收视行为运营商api为准的列表单，all为全部运营商
-      //   method: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
+      //   mode: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
       //   list: "all", // 节目列表：根据栏目api为准的列表单，all为全部节目
       //   start: "2019-07-12",
       //   end: "2019-07-31",
@@ -505,9 +692,9 @@ export default {
 
       // var formData = new FormData();
       // var formData = new window.FormData();
-      // formData.append("area", temp.area);
+      // formData.append("ac", temp.ac);
       // formData.append("operator", temp.operator);
-      // formData.append("method", temp.method);
+      // formData.append("mode", temp.mode);
       // formData.append("list", temp.list);
       // formData.append("start", temp.start);
       // formData.append("end", temp.end);
@@ -557,35 +744,39 @@ export default {
           "#4ADBC7"
         ],
         data: [
-          { value: 1335, name: "贵阳" },
-          { value: 810, name: "遵义" },
-          { value: 648, name: "安顺" },
-          { value: 148, name: "黔南" },
-          { value: 108, name: "黔东南" },
-          { value: 248, name: "铜仁" },
-          { value: 535, name: "毕节" },
-          { value: 234, name: "六盘水" },
-          { value: 348, name: "黔西南" }
+          // { value: 1335, name: "贵阳" },
+          // { value: 810, name: "遵义" },
+          // { value: 648, name: "安顺" },
+          // { value: 148, name: "黔南" },
+          // { value: 108, name: "黔东南" },
+          // { value: 248, name: "铜仁" },
+          // { value: 535, name: "毕节" },
+          // { value: 234, name: "六盘水" },
+          // { value: 348, name: "黔西南" }
         ]
       },
+      regionData_data_arr: [], // 用于存储多个指标-方便切换
+
       //运营商数据
       operatorData: {
         title: "运营商",
         id: "operatorChart_vip",
         color: ["#FF6123", "#FF8859", "#FFAA89"],
         data: [
-          ["product", "移动", "联通", "电信"],
-          ["贵阳", 43.3, 85.8, 93.7],
-          ["遵义", 83.1, 73.4, 55.1],
-          ["安顺", 43.3, 85.8, 93.7],
-          ["黔南", 83.1, 73.4, 55.1],
-          ["黔东南", 86.4, 65.2, 82.5],
-          ["铜仁", 72.4, 53.9, 39.1],
-          ["毕节", 86.4, 65.2, 82.5],
-          ["六盘水", 43.3, 85.8, 93.7],
-          ["黔西南", 72.4, 53.9, 39.1]
+          // ["product", "移动", "联通", "电信"],
+          // ["贵阳", 43.3, 85.8, 93.7],
+          // ["遵义", 83.1, 73.4, 55.1],
+          // ["安顺", 43.3, 85.8, 93.7],
+          // ["黔南", 83.1, 73.4, 55.1],
+          // ["黔东南", 86.4, 65.2, 82.5],
+          // ["铜仁", 72.4, 53.9, 39.1],
+          // ["毕节", 86.4, 65.2, 82.5],
+          // ["六盘水", 43.3, 85.8, 93.7],
+          // ["黔西南", 72.4, 53.9, 39.1]
         ]
       },
+      operatorData_arr: [],
+
       //播放数据
       playData: {
         title: "播放",

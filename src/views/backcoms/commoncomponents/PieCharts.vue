@@ -70,6 +70,10 @@ export default {
         }
 
         if (vm.chartData.id == "regionChart") {
+          if (vm.UVB_playmode) {
+            // do nothing. -- 监听刷新
+          }
+
           if (vm.UVB_region == null || vm.UVB_region.length == 0) {
             color = vm.chartData.color;
             data = vm.chartData.data;
@@ -238,6 +242,9 @@ export default {
             data: data
           };
         }
+        setTimeout(function() {
+          vm.drawLine();
+        }, 1000);
         return vm.chartData;
       },
 

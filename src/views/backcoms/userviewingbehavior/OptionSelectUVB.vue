@@ -195,6 +195,7 @@
 <script>
 import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
+import { userAction_programs } from "@/api/api_main";
 
 var regionChoose_new = [];
 var regionChoose_old = [];
@@ -408,18 +409,19 @@ export default {
       playmode_isIndeterminate: true,
 
       programa: [
+        // 改成由api获取
         // "总体",
-        "分类",
-        "电视",
-        "推荐",
-        "电影",
-        "热剧",
-        "少儿",
-        "动漫 ",
-        "综艺",
-        "体育",
-        "游戏",
-        "纪实"
+        // "分类",
+        // "电视",
+        // "推荐",
+        // "电影",
+        // "热剧",
+        // "少儿",
+        // "动漫 ",
+        // "综艺",
+        // "体育",
+        // "游戏",
+        // "纪实"
         // "健康",
         // "音乐",
         // "其他"
@@ -486,6 +488,24 @@ export default {
     };
   },
   methods: {
+    userAction_programs() {
+      let vm = this;
+      userAction_programs()
+        .then(function(response) {
+          console.log(response);
+          let buckets = response.data.responses[0].aggregations.ti.buckets;
+          let length = buckets.length;
+          let i;
+          let temp = [];
+          for (i = 0; i < length; i++) {
+            temp.push(buckets[i].key);
+          }
+          vm.programa = temp;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     dayValue_change(event) {
       // console.log(event);
       // console.log(typeof event);
@@ -673,6 +693,9 @@ export default {
     }
   },
   mounted() {
+    // 获取用户收视行为的栏目
+    this.userAction_programs();
+
     let vm = this;
 
     // 初始化周

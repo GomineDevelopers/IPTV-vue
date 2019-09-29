@@ -369,6 +369,16 @@ export function userAction(postData) {
     })
 }
 
+// 用户收视行为标签搜索 - 直播专用
+// post http://{{iptv}}/api/userAction/demand
+export function userAction_demand(postData) {
+    return request({
+        method: 'post',
+        url: '/userAction/demand',
+        data: postData
+    })
+}
+
 // let temp = {
 //     area: area,
 //     operator: operator,

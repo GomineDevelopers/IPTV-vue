@@ -154,12 +154,16 @@ export default {
     //   set: function(newValue) {}
     // }
   },
+
   watch: {
     UVB_region(newValue, oldValue) {
       let vm = this;
       console.log("UVB_region: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_operator(newValue, oldValue) {
@@ -167,6 +171,9 @@ export default {
       console.log("UVB_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_playmode(newValue, oldValue) {
@@ -174,6 +181,9 @@ export default {
       console.log("UVB_playmode: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_programa(newValue, oldValue) {
@@ -181,6 +191,9 @@ export default {
       console.log("UVB_programa: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_contenttype(newValue, oldValue) {
@@ -188,6 +201,9 @@ export default {
       console.log("UVB_contenttype: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_day(newValue, oldValue) {
@@ -195,6 +211,9 @@ export default {
       console.log("UVB_day: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_week(newValue, oldValue) {
@@ -202,6 +221,9 @@ export default {
       console.log("UVB_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_picker(newValue, oldValue) {
@@ -209,17 +231,37 @@ export default {
       console.log("UVB_picker: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
       }, 100);
     },
     UVB_time_type(newValue, oldValue) {
       let vm = this;
       console.log("UVB_time_type: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
+      }, 100);
     },
     targetOption(newValue, oldValue) {
       let vm = this;
       // 监听指标选中
-      console.log("targetOption");
-      console.log(newValue);
+      // console.log("targetOption");
+      // console.log(newValue);
+      setTimeout(function() {
+        vm.refreshPerData();
+      }, 200);
+    }
+  },
+
+  methods: {
+    refreshPerData() {
+      let vm = this;
+
+      let newValue = vm.targetOption;
       if (newValue == "观看次数") {
         vm.regionData.data = vm.regionData_data_arr[0];
         vm.operatorData.data = vm.operatorData_arr[0];
@@ -240,9 +282,7 @@ export default {
         vm.regionData.data = vm.regionData_data_arr[4];
         vm.operatorData.data = vm.operatorData_arr[4];
       }
-    }
-  },
-  methods: {
+    },
     refresh_api_data() {
       // this.userAction(this.UVB_time_type, this.if_playmode_is_single_db);
       this.userAction(this.UVB_time_type);
@@ -263,13 +303,13 @@ export default {
       //   temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
       // }
       // console.log("temp_contenttype:" + temp_contenttype);
-      // ▲▲▲ 接口再增加 contenttype  ---暂定  contenttype  --alex
+      // ▲▲▲ 接口再增加 program_type  ---暂定  program_type  --alex
 
       // let temp = {
       //   ac: null,
       //   operator: null,
       //   mode: null,
-      //   list: null,
+      //   ti: null,
       //   start: null,
       //   end: null
       // };
@@ -279,8 +319,8 @@ export default {
       //     ac: null,
       //     operator: null,
       //     mode: null,
-      //     list: null,
-      //     contenttype: null,
+      //     ti: null,
+      //     program_type: null,
       //     start: null,
       //     end: null
       //   };
@@ -289,8 +329,8 @@ export default {
         ac: null,
         operator: null,
         mode: null,
-        // list: null,
-        // contenttype: null,
+        // ti: null,
+        // program_type: null,
         start: null,
         end: null
       };
@@ -303,9 +343,9 @@ export default {
         //   temp = {
         //     ac: String(temp_region),
         //     operator: String(temp_operator),
-        //     mode: String(temp_playmode),
-        //     list: String(temp_programa),
-        //     contenttype: String(temp_contenttype),
+        //     mode: String(temp_playmode), // 没有mode
+        ////     ti: String(temp_programa),
+        ////     program_type: String(temp_contenttype),
         //     start: vm.UVB_day,
         //     end: vm.UVB_day
         //   };
@@ -331,8 +371,8 @@ export default {
         //     ac: String(temp_region),
         //     operator: String(temp_operator),
         //     mode: String(temp_playmode),
-        //     list: String(temp_programa),
-        //     contenttype: String(temp_contenttype),
+        //     ti: String(temp_programa),
+        //     program_type: String(temp_contenttype),
         //     start: temp_time.time,
         //     end: temp_time.time,
         //     year: temp_time.year
@@ -362,8 +402,8 @@ export default {
         //     ac: String(temp_region),
         //     operator: String(temp_operator),
         //     mode: String(temp_playmode),
-        //     list: String(temp_programa),
-        //     contenttype: String(temp_contenttype),
+        //     ti: String(temp_programa),
+        //     program_type: String(temp_contenttype),
         //     start: temp_time.start,
         //     end: temp_time.end
         //   };
@@ -389,6 +429,8 @@ export default {
       //   // api 2
       // } else {
       // api 1
+
+      // userAction/demand post
 
       var formData = new FormData();
       var formData = new window.FormData();
@@ -439,8 +481,8 @@ export default {
           temp_all.push(temp4);
           temp_all.push(temp5);
           vm.regionData_data_arr = temp_all;
-          // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
-          // console.log(vm.regionData_data_arr);
+          console.log("~~~~~~~~~~~~~~~regionData_data_arr");
+          console.log(vm.regionData_data_arr);
           // ////////////////////////////
 
           let buckets_0B = response.data.responses[0].aggregations.ac1.buckets; // x3
@@ -611,8 +653,6 @@ export default {
           console.log("~~~~~~~~temp_all_B");
           console.log(temp_all_B);
           vm.operatorData_arr = temp_all_B;
-
-
 
           // /////////// liveViewingTopList - 1 - 直播Top15
           // 获得最大值
