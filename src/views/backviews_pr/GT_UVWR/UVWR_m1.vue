@@ -10,32 +10,32 @@
           <!-- 柱状图 -->
           <p class="m_common_sm_title_font">平台累计在册用户数总览</p>
           <div class="m_common_echarts_styleA" id="GT_UVWR1_A1"></div>
-          <p class="m_margin_0a m_common_content_font">
+          <!-- <p class="m_margin_0a m_common_content_font">
             截至2019年6月3日凌晨，平台累计 在册用户数
             <span class="font_color_r">2,133,546</span>户，较前一周增长
             <span class="font_color_r">2.0%</span>，增速回落0.5个百分点。
-          </p>
+          </p>-->
         </el-col>
 
         <el-col :span="8">
           <!-- 饼图 -->
-          <p class="m_common_sm_title_font">各大运营商在册用户数总览</p>
+          <p class="m_common_sm_title_font">各大运营商在册用户数总览（万）</p>
           <!-- <pie-center-label :chartData="GT_UVWR1_A2"></pie-center-label> -->
           <numberOfRegisteredUsers :fillinData="GT_UVWR1_A2"></numberOfRegisteredUsers>
-          <p class="m_margin_0a m_common_content_font">
+          <!-- <p class="m_margin_0a m_common_content_font">
             移动在册用户
             <span class="font_color_r">1,162,381</span>户，较前一周增长 2.5%，增速提升0.1个百分点。 电信在册用户
             <span class="font_color_r">594,456</span>户，较前一周增长3.9%， 增速提升0.1个百分点。 联通在册用户
             <span class="font_color_r">376,709</span>户，较前一周减少9,533 户。
-          </p>
+          </p>-->
         </el-col>
         <el-col :span="8">
           <!-- 柱状图 -->
-          <p class="m_common_sm_title_font">新增、停机、销户用户数总览</p>
+          <p class="m_common_sm_title_font">新增、停机、销户用户数总览（万）</p>
           <div class="m_common_echarts_styleA" id="GT_UVWR1_A3"></div>
-          <p
+          <!-- <p
             class="m_margin_0a m_common_content_font"
-          >周新增60,798户，较前一周增加8.6%。 周停机12,369户，较前一周增加969.1%， 较上月同期（0426-0502）增长108.9%。 周销户21,165户，较前一周增长247.5%， 较上月同期增长39.6%。</p>
+          >周新增60,798户，较前一周增加8.6%。 周停机12,369户，较前一周增加969.1%， 较上月同期（0426-0502）增长108.9%。 周销户21,165户，较前一周增长247.5%， 较上月同期增长39.6%。</p>-->
         </el-col>
       </el-row>
       <div class="m_init_div m_width_25 m_padding_l_4"></div>
@@ -59,11 +59,10 @@
         <p class="m_common_sm_title_font">各大运营商各市州一周新增在册用户数（户）</p>
         <bar-charts-stack :chartData="GT_UVWR1_B2"></bar-charts-stack>
       </div>
-
-      <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p>
+      <!-- <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p>
       <p
         class="m_margin_0a m_common_content_font"
-      >各市州平均增速2.8%，环比提升0.2个百分点。毕节市增速3.7%最高，环比提升0.7个百分点；安顺市增速2.0%最低，环比提升0.4个百分点。</p>
+      >各市州平均增速2.8%，环比提升0.2个百分点。毕节市增速3.7%最高，环比提升0.7个百分点；安顺市增速2.0%最低，环比提升0.4个百分点。</p>-->
     </el-row>
     <!-- ///////////////////////// C -->
     <el-row class="model_title">
@@ -105,9 +104,9 @@
         </el-col>
       </el-row>
 
-      <p
+      <!-- <p
         class="m_margin_0a m_common_content_font"
-      >*注：停机、销户数据统计时间为2019年6月3日24:00（不同时间点统计，停机数和销户数会有所区别）。</p>
+      >*注：停机、销户数据统计时间为2019年6月3日24:00（不同时间点统计，停机数和销户数会有所区别）。</p>-->
     </el-row>
     <!-- ///////////////////////// D -->
     <el-row class="model_title">
@@ -124,10 +123,9 @@
           <bar-charts-stack3 :chartData="GT_UVWR1_D2"></bar-charts-stack3>
         </el-col>
       </el-row>
-
-      <p
+      <!-- <p
         class="m_margin_0a m_common_content_font"
-      >*注：电信全省放号后大量使用融合终端，导致不关机顶盒的用户大幅上升，以开机行为计算的开机率大幅下降。</p>
+      >*注：电信全省放号后大量使用融合终端，导致不关机顶盒的用户大幅上升，以开机行为计算的开机率大幅下降。</p>-->
       <!-- <p>上周各运营商一周开机率保持稳定，其中联通有所上升，电信继续下降。平均每日开机率则是联通下降，电信上升。这代表联通活跃用户规模增加，但活跃程度有 所降低。移动两项数据均与前一周持平。</p> -->
       <!-- <p>分地区来看，铜仁市、遵义市两地整体开机率下降较多，铜仁市开机用户数环比减少293户。遵义市电信侧开机率大降2.9%。毕节市开机率大幅增加。</p> -->
     </el-row>
@@ -177,6 +175,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import pie_center_label from "@/views/backcoms/commoncomponents2/pie_center_label"; //（空心）饼图组件
 import numberOfRegisteredUsers from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change"; //在册用户数
 
@@ -190,6 +189,7 @@ import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change
 import BarChartsStack3 from "@/views/backcoms/commoncomponents2/BarChartsStack_Change3"; // 公用柱状图堆叠3 - 左侧Y轴百分比
 
 import { mapGetters } from "vuex";
+import { debuglog } from 'util';
 
 export default {
   name: "UVWR_m1",
@@ -205,9 +205,14 @@ export default {
   },
   props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4"],
   mounted() {
-    this.render();
-    this.render2();
     let vm = this;
+
+    setTimeout(function () {
+      vm.render();
+      vm.render2();
+    }, 300);
+    // this.render();
+    // this.render2();
     // setTimeout(function() {
     //   console.log("api_data_m1");
     //   console.log(vm.api_data_m1);
@@ -215,15 +220,75 @@ export default {
   },
   watch: {
     api_data_m1(newValue, oldValue) {
-      console.log("api_data_m1 - newValue");
-      console.log(newValue);
+      let vm = this
+      console.log("混合数据模块一api_data_m1 - newValue");
+      let blendedDataModule = vm.api_data_m1.data.responses  //总的混合数据
+      console.log("模块一，G+tv用户发展数据", blendedDataModule);
+      let dataMudule_1 = blendedDataModule[0].aggregations  //G+tv用户发展数据
+      let temp = []
+      temp.push(String(dataMudule_1.new_num.value))
+      temp.push(String(dataMudule_1.downtime_user_num.value))
+      temp.push(String(dataMudule_1.unsub_user_num.value))
+      vm.GT_UVWR1_A3.data2 = temp  //新增，停机，销户用户数
+      // console.log('新增，停机，销户', vm.GT_UVWR1_A3)
+      vm.render();
+      vm.render2();
+
+      //各州市在册用户占比
+      let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets
+      let temp2 = []  //各州市在册用户占比temp
+      dataMudule_2.forEach((value, index) => {
+        console.log("各州市在册用户占比", value)
+        // 851：贵阳
+        // 852：遵义
+        // 853: 安顺
+        // 854：黔南
+        // 855：黔东南
+        // 856：铜仁
+        // 857：毕节
+        // 858：六盘水
+        // 859：黔西南
+
+        // m_data2: [
+        //   { value: 116.4, name: "贵阳" },
+        //   { value: 59.7, name: "遵义" },
+        //   { value: 32.4, name: "黔东南" },
+        //   { value: 32.4, name: "毕节" },
+        //   { value: 32.4, name: "黔南" },
+        //   { value: 32.4, name: "铜仁" },
+        //   { value: 32.4, name: "六盘水" },
+        //   { value: 32.4, name: "安顺" },
+        //   { value: 32.4, name: "黔西南" }
+        // ],
+
+      })
+
     },
     api_data_m2(newValue, oldValue) {
-      console.log("api_data_m2 - newValue");
+      console.log("移动数据模块二api_data_m2 - newValue");
       console.log(newValue);
       //////////////////// E1
       let vm = this;
-      let buckets = newValue.data.responses[0].aggregations.channel.buckets;
+      let buckets = newValue.data.responses[1].aggregations.channel.buckets;
+      let userBuckets = newValue.data.responses[0].aggregations;  //移动在册用户数据总览
+
+      //新增
+
+      // GT_UVWR1_A2: {
+      //   title: "",
+      //   height: "height:300px;",
+      //   id: "GT_UVWR1_A2",
+      //   color: ["#ED7D31", "#5B9BD5", "#FFC000"],
+      //   data: [["运营商", "移动", "联通", "电信"], ["占比", 116.4, 32.4, 59.7]],
+      //   label_formatter: "{c}\n{d}%"
+      // },
+
+      Vue.set(vm.GT_UVWR1_A2.data[1], 1, (userBuckets.register_num.value / 10000).toFixed(2))
+      console.log("vm.GT_UVWR1_A2", vm.GT_UVWR1_A2)
+
+      // debugger
+
+      //翌光之前写的
       let length = buckets.length;
       let i;
       let data = [];
@@ -236,7 +301,6 @@ export default {
       if (length >= 15) {
         length = 15; // 设置最大长度是15 - Top15
       }
-
       data.push(["product", "0527-0602", "0520-0526"]);
       for (i = 0; i < length; i++) {
         data_item = [];
@@ -302,10 +366,15 @@ export default {
     },
 
     api_data_m3(newValue, oldValue) {
-      console.log("api_data_m3 - newValue");
+      console.log("联通数据模块三api_data_m3 - newValue");
       console.log(newValue);
       let vm = this;
-      let buckets = newValue.data.responses[0].aggregations.channel.buckets;
+      let buckets = newValue.data.responses[1].aggregations.channel.buckets;
+
+      let userBuckets = newValue.data.responses[0].aggregations;  //联通在册用户数据总览
+      Vue.set(vm.GT_UVWR1_A2.data[1], 2, (userBuckets.register_num.value / 10000).toFixed(2))
+      // console.log("vm.GT_UVWR1_A2联通", vm.GT_UVWR1_A2)
+
       let length = buckets.length;
       let i;
       let data = [];
@@ -379,10 +448,14 @@ export default {
     },
 
     api_data_m4(newValue, oldValue) {
-      console.log("api_data_m4 - newValue");
+      console.log("电信数据模块四api_data_m4 - newValue");
       console.log(newValue);
       let vm = this;
-      let buckets = newValue.data.responses[0].aggregations.channel.buckets;
+      let buckets = newValue.data.responses[1].aggregations.channel.buckets;
+
+      let userBuckets = newValue.data.responses[0].aggregations;  //电信在册用户数据总览
+      Vue.set(vm.GT_UVWR1_A2.data[1], 3, (userBuckets.register_num.value / 10000).toFixed(2))
+
       let length = buckets.length;
       let i;
       let data = [];
@@ -458,7 +531,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -469,10 +542,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -483,10 +556,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -497,7 +570,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -505,38 +578,27 @@ export default {
       GT_UVWR1_A1: {
         id: "GT_UVWR1_A1",
         title: "",
+        date: ["0520-0526", "0527-0602"],
         data: ["209.4", "213.4"],
         color: ["#EDEDED", "#ED7D31"]
       },
-      GT_UVWR1_A3: {
-        id: "GT_UVWR1_A3",
-        title: "",
-        data: ["新增用户数", "停机用户数", "销户用户数"],
-        color: ["#5B9BD5", "#FFC000", "#ED7D31"]
-      },
-      // GT_UVWR1_A2: {
-      //   title: "",
-      //   id: "GT_UVWR1_A2",
-      //   height: "height:300px;",
-      //   m_data: ["移动", "联通", "电信"],
-      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-      //   m_data2: [
-      //     { value: 116.4, name: "移动" },
-      //     { value: 32.4, name: "联通" },
-      //     { value: 59.7, name: "电信" }
-      //   ],
-      //   label_formatter: "{c}\n{d}%",
-      //   legend_show: true
-      // },
+      //各大运营商在册用户数总览
       GT_UVWR1_A2: {
         title: "",
         height: "height:300px;",
         id: "GT_UVWR1_A2",
         color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-        data: [["运营商", "移动", "联通", "电信"], ["占比", 116.4, 32.4, 59.7]],
+        data: [["运营商", "移动", "联通", "电信"], ["占比",]],
         label_formatter: "{c}\n{d}%"
       },
-
+      //新增、停机、销户用户数总览
+      GT_UVWR1_A3: {
+        id: "GT_UVWR1_A3",
+        title: "",
+        data: ["新增用户数", "停机用户数", "销户用户数"],
+        data2: [],
+        color: ["#5B9BD5", "#FFC000", "#ED7D31"],
+      },
       GT_UVWR1_B1: {
         title: "",
         id: "GT_UVWR1_B1",
@@ -577,39 +639,6 @@ export default {
         label_formatter: "{b}\n{c}\n{d}%",
         legend_show: false
       },
-      // GT_UVWR1_B1: {
-      //   title: "",
-      //   height: "height:500px;",
-      //   id: "GT_UVWR1_B1",
-      //   color: [
-      //     "#5B9BD5",
-      //     "#FFC000",
-      //     "#ED7D31",
-      //     "#9DC3E6",
-      //     "#FFD966",
-      //     "#F4B183",
-      //     "#DEEBF7",
-      //     "#FFF2CC",
-      //     "#FBE5D6"
-      //   ],
-      //   data: [
-      //     [
-      //       "运营商",
-      //       "贵阳",
-      //       "遵义",
-      //       "黔东南",
-      //       "毕节",
-      //       "黔南",
-      //       "铜仁",
-      //       "六盘水",
-      //       "安顺",
-      //       "黔西南"
-      //     ],
-      //     ["占比", 116.4, 32.4, 59.7, 32.4, 32.4, 32.4, 32.4, 32.4, 32.4]
-      //   ],
-      //   label_formatter: "{a} <br/>{b}: {c} ({d}%)"
-      // },
-
       GT_UVWR1_B2: {
         title: "",
         id: "GT_UVWR1_B2",
@@ -627,48 +656,6 @@ export default {
           ["安顺", 43.3, 85.8, 93.7, 2.8]
         ]
       },
-      // GT_UVWR1_C1: {
-      //   title: "",
-      //   id: "GT_UVWR1_C1",
-      //   height: "height:300px;",
-      //   m_data: ["移动", "联通", "电信"],
-      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-      //   m_data2: [
-      //     { value: 7, name: "移动" },
-      //     { value: 38, name: "联通" },
-      //     { value: 55, name: "电信" }
-      //   ],
-      //   label_formatter: "{d}%",
-      //   legend_show: true
-      // },
-      // GT_UVWR1_C2: {
-      //   title: "",
-      //   id: "GT_UVWR1_C2",
-      //   height: "height:300px;",
-      //   m_data: ["移动", "联通", "电信"],
-      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-      //   m_data2: [
-      //     { value: 100, name: "移动" },
-      //     { value: 0, name: "联通" },
-      //     { value: 0, name: "电信" }
-      //   ],
-      //   label_formatter: "{c}\n{d}%",
-      //   legend_show: true
-      // },
-      // GT_UVWR1_C3: {
-      //   title: "",
-      //   id: "GT_UVWR1_C3",
-      //   height: "height:300px;",
-      //   m_data: ["移动", "联通", "电信"],
-      //   m_color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-      //   m_data2: [
-      //     { value: 116.4, name: "移动" },
-      //     { value: 59.7, name: "联通" },
-      //     { value: 32.4, name: "电信" }
-      //   ],
-      //   label_formatter: "{c}\n{d}%",
-      //   legend_show: true
-      // },
       GT_UVWR1_C1: {
         title: "",
         height: "height:300px;",
@@ -882,7 +869,6 @@ export default {
           ]
         ]
       },
-
       GT_UVWR1_D1: {
         data: [
           ["product", "0520-0526", "0527-0602"],
@@ -1169,7 +1155,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["0520-0526", "0527-0602"],
+            data: vm.GT_UVWR1_A1.date,
             axisTick: {
               alignWithLabel: true
             },
@@ -1183,7 +1169,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              formatter: function() {
+              formatter: function () {
                 return ""; // 隐藏Y左边数据
               }
             },
@@ -1215,7 +1201,7 @@ export default {
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function(params) {
+                color: function (params) {
                   let colorList = vm.GT_UVWR1_A1.color;
                   return colorList[params.dataIndex];
                 },
@@ -1294,7 +1280,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              formatter: function() {
+              formatter: function () {
                 return ""; // 隐藏Y左边数据
               }
             },
@@ -1322,11 +1308,12 @@ export default {
             name: "",
             type: "bar",
             barWidth: "40%",
-            data: ["65453", "12356", "21235"],
+            // data: ["65453", "12356", "21235"],
+            data: vm.GT_UVWR1_A3.data2,
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function(params) {
+                color: function (params) {
                   let colorList = vm.GT_UVWR1_A3.color;
                   return colorList[params.dataIndex];
                 },

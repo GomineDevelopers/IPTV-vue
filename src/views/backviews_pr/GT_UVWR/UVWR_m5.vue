@@ -43,7 +43,6 @@
           <bar-list-chart :barListData="GT_UVWR1_Z3"></bar-list-chart>
         </el-col>
       </el-row>
-      <!-- <p class="m_common_content_font">移动侧一级页面总点击次数1332.2万次，环比下降6.1%；页面播放时长1258.9万小时，下降17.0%。</p> -->
     </el-row>
   </div>
 </template>
@@ -73,7 +72,7 @@ export default {
     this.drawLine();
     // this.drawLine2();
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       console.log("api_data_m5");
       console.log(vm.api_data_m5);
     }, 300);
@@ -81,7 +80,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -92,10 +91,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -106,10 +105,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -120,7 +119,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {

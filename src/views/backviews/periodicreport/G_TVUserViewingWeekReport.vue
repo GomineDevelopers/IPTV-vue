@@ -39,7 +39,7 @@
       </el-col>
 
       <!-- 右侧导航开始 -->
-      <el-col class="viewing_behavior_nav height_auto">
+      <!-- <el-col class="viewing_behavior_nav height_auto">
         <el-row>
           <a
             href="javascript:void(0)"
@@ -71,7 +71,7 @@
         <el-row>
           <a href="javascript:void(0)" class="anchor_link5" @click="goAnchor('#module5')">本土原创节目点播数据</a>
         </el-row>
-      </el-col>
+      </el-col>-->
       <!-- 右侧导航结束 -->
     </el-row>
     <!-- 收视行为结束 -->
@@ -107,7 +107,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -118,10 +118,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -132,10 +132,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -146,7 +146,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -163,7 +163,7 @@ export default {
   },
   mounted() {
     //监听滚动事件
-    $(".viewing_behavior_report_left").scroll(function(event) {
+    $(".viewing_behavior_report_left").scroll(function (event) {
       let scrollTopHeight = $(".viewing_behavior_report_left").scrollTop();
       if (0 <= scrollTopHeight) {
         $(".anchor_link1")
@@ -245,12 +245,15 @@ export default {
           // 执行 1个
           if (vm.PR_operator.indexOf("移动") > -1) {
             vm.users_weekActiveReport("yd", ["移动"]);
+            vm.users_weekActiveReport("all", ["移动"]);
           }
           if (vm.PR_operator.indexOf("联通") > -1) {
             vm.users_weekActiveReport("lt", ["联通"]);
+            vm.users_weekActiveReport("all", ["联通"]);
           }
           if (vm.PR_operator.indexOf("电信") > -1) {
             vm.users_weekActiveReport("dx", ["电信"]);
+            vm.users_weekActiveReport("all", ["电信"]);
           }
         }
       }
@@ -262,8 +265,8 @@ export default {
       // console.log(tempOperatorArr);
       let temp = {
         operator: String([tempOperatorArr]),
-        start: "2019-07-01",
-        end: "2019-07-07" // 暂定这一周
+        start: "2019-06-03",
+        end: "2019-06-09"    //暂定这一周
       };
       var formData = new FormData();
       var formData = new window.FormData();
@@ -272,7 +275,7 @@ export default {
       formData.append("end", temp.end);
 
       users_weekActiveReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // console.log("users_weekActiveReport");
           // console.log("~~~~~:" + type);
           // console.log(response);
@@ -305,7 +308,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -314,7 +317,7 @@ export default {
       let scrollDiv = document.querySelector(".viewing_behavior_report_left"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".viewing_behavior_nav a").on("click", function() {
+      $(".viewing_behavior_nav a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
