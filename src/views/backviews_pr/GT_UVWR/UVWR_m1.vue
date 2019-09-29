@@ -19,7 +19,7 @@
 
         <el-col :span="8">
           <!-- 饼图 -->
-          <p class="m_common_sm_title_font">各大运营商在册用户数总览（万）</p>
+          <p class="m_common_sm_title_font">各大运营商在册用户数总览（万户）</p>
           <!-- <pie-center-label :chartData="GT_UVWR1_A2"></pie-center-label> -->
           <numberOfRegisteredUsers :fillinData="GT_UVWR1_A2"></numberOfRegisteredUsers>
           <!-- <p class="m_margin_0a m_common_content_font">
@@ -31,7 +31,7 @@
         </el-col>
         <el-col :span="8">
           <!-- 柱状图 -->
-          <p class="m_common_sm_title_font">新增、停机、销户用户数总览（万）</p>
+          <p class="m_common_sm_title_font">新增、停机、销户用户数总览（万户）</p>
           <div class="m_common_echarts_styleA" id="GT_UVWR1_A3"></div>
           <!-- <p
             class="m_margin_0a m_common_content_font"
@@ -56,7 +56,7 @@
 
       <!-- 柱状图 + 折线图 -->
       <div class="m_init_div m_width_40 m_padding_l_5">
-        <p class="m_common_sm_title_font">各大运营商各市州一周新增在册用户数（户）</p>
+        <p class="m_common_sm_title_font">各大运营商各市州一周新增在册用户数（万户）</p>
         <bar-charts-stack :chartData="GT_UVWR1_B2"></bar-charts-stack>
       </div>
       <!-- <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p>
@@ -176,6 +176,7 @@
 
 <script>
 import Vue from 'vue'
+import { commonTools } from "@/utils/test";
 import pie_center_label from "@/views/backcoms/commoncomponents2/pie_center_label"; //（空心）饼图组件
 import numberOfRegisteredUsers from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change"; //在册用户数
 
@@ -206,63 +207,54 @@ export default {
   props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4"],
   mounted() {
     let vm = this;
-
     setTimeout(function () {
       vm.render();
       vm.render2();
     }, 300);
-    // this.render();
-    // this.render2();
-    // setTimeout(function() {
-    //   console.log("api_data_m1");
-    //   console.log(vm.api_data_m1);
-    // }, 300);
   },
   watch: {
+    api_data_m1_range(newValue, oldValue) {
+      // 在这里获取上期week的数据
+      console.log("上期数据", newValue)
+    },
     api_data_m1(newValue, oldValue) {
       let vm = this
       console.log("混合数据模块一api_data_m1 - newValue");
       let blendedDataModule = vm.api_data_m1.data.responses  //总的混合数据
       console.log("模块一，G+tv用户发展数据", blendedDataModule);
-      let dataMudule_1 = blendedDataModule[0].aggregations  //G+tv用户发展数据
+
+      //G+tv用户发展数据
+      let dataMudule_1 = blendedDataModule[0].aggregations
       let temp = []
       temp.push(String(dataMudule_1.new_num.value))
       temp.push(String(dataMudule_1.downtime_user_num.value))
       temp.push(String(dataMudule_1.unsub_user_num.value))
       vm.GT_UVWR1_A3.data2 = temp  //新增，停机，销户用户数
       // console.log('新增，停机，销户', vm.GT_UVWR1_A3)
-      vm.render();
-      vm.render2();
+      setTimeout(function () {
+        vm.render();
+        vm.render2();
+      }, 300);
 
       //各州市在册用户占比
       let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets
       let temp2 = []  //各州市在册用户占比temp
+
       dataMudule_2.forEach((value, index) => {
-        console.log("各州市在册用户占比", value)
-        // 851：贵阳
-        // 852：遵义
-        // 853: 安顺
-        // 854：黔南
-        // 855：黔东南
-        // 856：铜仁
-        // 857：毕节
-        // 858：六盘水
-        // 859：黔西南
+        // console.log("各州市在册用户占比", value, index)
+        if (index < 9) {
+          temp2.push({
+            value: (value.register_num.value / 10000).toFixed(2),
+            name: commonTools.acConvert_Single(value.key)
+          })
 
-        // m_data2: [
-        //   { value: 116.4, name: "贵阳" },
-        //   { value: 59.7, name: "遵义" },
-        //   { value: 32.4, name: "黔东南" },
-        //   { value: 32.4, name: "毕节" },
-        //   { value: 32.4, name: "黔南" },
-        //   { value: 32.4, name: "铜仁" },
-        //   { value: 32.4, name: "六盘水" },
-        //   { value: 32.4, name: "安顺" },
-        //   { value: 32.4, name: "黔西南" }
-        // ],
-
+          //（本期新增用户 - 上期新增用户） / 上期新增用户
+          //将数据提出存入data，再计算
+          let current_new_add_register_num = value.new_num.value  //本期新增
+          console.log("本期新增总用户", current_new_add_register_num)
+        }
       })
-
+      vm.GT_UVWR1_B1.m_data2 = temp2  //各州市在册用户占比数据渲染
     },
     api_data_m2(newValue, oldValue) {
       console.log("移动数据模块二api_data_m2 - newValue");
@@ -270,23 +262,53 @@ export default {
       //////////////////// E1
       let vm = this;
       let buckets = newValue.data.responses[1].aggregations.channel.buckets;
+      let data_yd = newValue.data.responses  //总的移动数据
       let userBuckets = newValue.data.responses[0].aggregations;  //移动在册用户数据总览
 
-      //新增
-
-      // GT_UVWR1_A2: {
-      //   title: "",
-      //   height: "height:300px;",
-      //   id: "GT_UVWR1_A2",
-      //   color: ["#ED7D31", "#5B9BD5", "#FFC000"],
-      //   data: [["运营商", "移动", "联通", "电信"], ["占比", 116.4, 32.4, 59.7]],
-      //   label_formatter: "{c}\n{d}%"
-      // },
-
+      //各大运营商在册用户数总览
       Vue.set(vm.GT_UVWR1_A2.data[1], 1, (userBuckets.register_num.value / 10000).toFixed(2))
-      console.log("vm.GT_UVWR1_A2", vm.GT_UVWR1_A2)
+      // console.log("vm.GT_UVWR1_A2移动运营商", vm.GT_UVWR1_A2)
 
-      // debugger
+      //各大运营商各市州一周新增在册用户数（户）
+      let dataMudule_2 = data_yd[0].aggregations.ac.buckets
+
+      dataMudule_2.forEach((value, index) => {
+        if (index < 9) {
+          // console.log("一周新增在册用户数temp", value, index)
+          switch (value.key) {
+            case '851':
+              Vue.set(vm.GT_UVWR1_B2.data[1], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '852':
+              Vue.set(vm.GT_UVWR1_B2.data[2], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '853':
+              Vue.set(vm.GT_UVWR1_B2.data[3], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '854':
+              Vue.set(vm.GT_UVWR1_B2.data[4], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '855':
+              Vue.set(vm.GT_UVWR1_B2.data[5], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '856':
+              Vue.set(vm.GT_UVWR1_B2.data[6], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '857':
+              Vue.set(vm.GT_UVWR1_B2.data[7], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '858':
+              Vue.set(vm.GT_UVWR1_B2.data[8], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '859':
+              Vue.set(vm.GT_UVWR1_B2.data[9], 1, (value.new_num.value / 10000).toFixed(2))
+              break;
+            default:
+              break;
+          }
+        }
+      })
+      // console.log("一周新增在册用户数", vm.GT_UVWR1_B2)
 
       //翌光之前写的
       let length = buckets.length;
@@ -369,11 +391,53 @@ export default {
       console.log("联通数据模块三api_data_m3 - newValue");
       console.log(newValue);
       let vm = this;
+      let data_lt = newValue.data.responses  //总的联通数据
       let buckets = newValue.data.responses[1].aggregations.channel.buckets;
 
       let userBuckets = newValue.data.responses[0].aggregations;  //联通在册用户数据总览
       Vue.set(vm.GT_UVWR1_A2.data[1], 2, (userBuckets.register_num.value / 10000).toFixed(2))
       // console.log("vm.GT_UVWR1_A2联通", vm.GT_UVWR1_A2)
+
+      //各大运营商各市州一周新增在册用户数（户）
+      let dataMudule_2 = data_lt[0].aggregations.ac.buckets
+      dataMudule_2.forEach((value, index) => {
+        //（本期新增用户 - 上期新增用户） / 上期新增用户
+        // let current_new_add_register_num = value.new_num.value  //本期新增
+        if (index < 9) {
+          // console.log("一周新增在册用户数temp", value, index)
+          switch (value.key) {
+            case '851':
+              Vue.set(vm.GT_UVWR1_B2.data[1], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '852':
+              Vue.set(vm.GT_UVWR1_B2.data[2], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '853':
+              Vue.set(vm.GT_UVWR1_B2.data[3], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '854':
+              Vue.set(vm.GT_UVWR1_B2.data[4], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '855':
+              Vue.set(vm.GT_UVWR1_B2.data[5], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '856':
+              Vue.set(vm.GT_UVWR1_B2.data[6], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '857':
+              Vue.set(vm.GT_UVWR1_B2.data[7], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '858':
+              Vue.set(vm.GT_UVWR1_B2.data[8], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '859':
+              Vue.set(vm.GT_UVWR1_B2.data[9], 2, (value.new_num.value / 10000).toFixed(2))
+              break;
+            default:
+              break;
+          }
+        }
+      })
 
       let length = buckets.length;
       let i;
@@ -451,10 +515,53 @@ export default {
       console.log("电信数据模块四api_data_m4 - newValue");
       console.log(newValue);
       let vm = this;
+      let data_dx = newValue.data.responses  //总的移动数据
       let buckets = newValue.data.responses[1].aggregations.channel.buckets;
 
       let userBuckets = newValue.data.responses[0].aggregations;  //电信在册用户数据总览
       Vue.set(vm.GT_UVWR1_A2.data[1], 3, (userBuckets.register_num.value / 10000).toFixed(2))
+      // console.log("电信", vm.GT_UVWR1_A2)
+
+      //各大运营商各市州一周新增在册用户数（户）
+      let dataMudule_2 = data_dx[0].aggregations.ac.buckets
+      dataMudule_2.forEach((value, index) => {
+        //（本期新增用户 - 上期新增用户） / 上期新增用户
+        // let current_new_add_register_num = value.new_num.value  //本期新增
+        if (index < 9) {
+          // console.log("一周新增在册用户数temp", value, index)
+          switch (value.key) {
+            case '851':
+              Vue.set(vm.GT_UVWR1_B2.data[1], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '852':
+              Vue.set(vm.GT_UVWR1_B2.data[2], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '853':
+              Vue.set(vm.GT_UVWR1_B2.data[3], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '854':
+              Vue.set(vm.GT_UVWR1_B2.data[4], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '855':
+              Vue.set(vm.GT_UVWR1_B2.data[5], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '856':
+              Vue.set(vm.GT_UVWR1_B2.data[6], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '857':
+              Vue.set(vm.GT_UVWR1_B2.data[7], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '858':
+              Vue.set(vm.GT_UVWR1_B2.data[8], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            case '859':
+              Vue.set(vm.GT_UVWR1_B2.data[9], 3, (value.new_num.value / 10000).toFixed(2))
+              break;
+            default:
+              break;
+          }
+        }
+      })
 
       let length = buckets.length;
       let i;
@@ -625,17 +732,18 @@ export default {
           "#FFF2CC",
           "#FBE5D6"
         ],
-        m_data2: [
-          { value: 116.4, name: "贵阳" },
-          { value: 59.7, name: "遵义" },
-          { value: 32.4, name: "黔东南" },
-          { value: 32.4, name: "毕节" },
-          { value: 32.4, name: "黔南" },
-          { value: 32.4, name: "铜仁" },
-          { value: 32.4, name: "六盘水" },
-          { value: 32.4, name: "安顺" },
-          { value: 32.4, name: "黔西南" }
-        ],
+        // m_data2: [
+        //   { value: 116.4, name: "贵阳" },
+        //   { value: 59.7, name: "遵义" },
+        //   { value: 32.4, name: "黔东南" },
+        //   { value: 32.4, name: "毕节" },
+        //   { value: 32.4, name: "黔南" },
+        //   { value: 32.4, name: "铜仁" },
+        //   { value: 32.4, name: "六盘水" },
+        //   { value: 32.4, name: "安顺" },
+        //   { value: 32.4, name: "黔西南" }
+        // ],
+        m_data2: [],
         label_formatter: "{b}\n{c}\n{d}%",
         legend_show: false
       },
@@ -645,15 +753,25 @@ export default {
         color: ["#5B9BD5", "#FFC000", "#ED7D31", "#BFBFBF"],
         data: [
           ["product", "移动", "联通", "电信", "增速"],
-          ["贵阳", 43.3, 85.8, 93.7, 2.7],
-          ["遵义", 83.1, 73.4, 55.1, 3.5],
-          ["毕节", 86.4, 65.2, 82.5, 2.3],
-          ["铜仁", 72.4, 53.9, 39.1, 2.6],
-          ["六盘水", 43.3, 85.8, 93.7, 3.0],
-          ["黔南", 83.1, 73.4, 55.1, 3.2],
-          ["黔东南", 86.4, 65.2, 82.5, 2.3],
-          ["黔西南", 72.4, 53.9, 39.1, 3.6],
-          ["安顺", 43.3, 85.8, 93.7, 2.8]
+          ["贵阳",],
+          ["遵义",],
+          ["安顺",],
+          ["黔南",],
+          ["黔东南",],
+          ["铜仁",],
+          ["毕节",],
+          ["六盘水",],
+          ["黔西南",]
+
+          // ["贵阳", 43.3, 85.8, 93.7, 2.7],
+          // ["遵义", 83.1, 73.4, 55.1, 3.5],
+          // ["安顺", 86.4, 65.2, 82.5, 2.3],
+          // ["黔南", 72.4, 53.9, 39.1, 2.6],
+          // ["黔东南", 43.3, 85.8, 93.7, 3.0],
+          // ["铜仁", 83.1, 73.4, 55.1, 3.2],
+          // ["毕节", 86.4, 65.2, 82.5, 2.3],
+          // ["六盘水", 72.4, 53.9, 39.1, 3.6],
+          // ["黔西南", 43.3, 85.8, 93.7, 2.8]
         ]
       },
       GT_UVWR1_C1: {
