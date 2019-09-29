@@ -191,9 +191,44 @@ commonTools.returnFloat_4 = function (value) {
 // 858：六盘水
 // 859：黔西南
 
+
+commonTools.acConvert_Single = function (ac) {
+    let city;
+    switch (ac) {
+        case "851":
+            city = "贵阳";
+            break;
+        case "852":
+            city = "遵义";
+            break;
+        case "853":
+            city = "安顺";
+            break;
+        case "854":
+            city = "黔南";
+            break;
+        case "855":
+            city = "黔东南";
+            break;
+        case "856":
+            city = "铜仁";
+            break;
+        case "857":
+            city = "毕节";
+            break;
+        case "858":
+            city = "六盘水";
+            break;
+        case "859":
+            city = "黔西南";
+            break;
+        default:
+            console.log("none!");
+    }
+    return city;
+}
+
 // ac 地区码转换-反向
-
-
 commonTools.acConvert_reverse = function (area_arr) {
     let ac_arr = [];
     // if (area_arr.length == 0) {
