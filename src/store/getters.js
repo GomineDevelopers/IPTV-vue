@@ -29,6 +29,8 @@ const getters = {
     UVB_week: state => state.app.UVB_week,
     UVB_picker: state => state.app.UVB_picker,
     UVB_time_type: state => state.app.UVB_time_type,
+    UVB_programa_list: state => state.app.UVB_programa_list, // 栏目 - 点播专属
+
 
     // PR  定期报告（运营商）（天、周、月、范围）
     PR_operator: state => state.app.PR_operator,
