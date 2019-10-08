@@ -215,8 +215,9 @@ export default {
   watch: {
     api_data_m1_range(newValue, oldValue) {
       // 在这里获取上期week的数据
-      console.log("上期数据", newValue)
+      console.log("上周（上期）数据", newValue)
     },
+    //本周数据
     api_data_m1(newValue, oldValue) {
       let vm = this
       console.log("混合数据模块一api_data_m1 - newValue");

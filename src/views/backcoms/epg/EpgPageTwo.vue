@@ -1,6 +1,6 @@
 <template>
   <div class="epg_page_one epg_page_container">
-    <div class="epg_page_row" v-for="(item,index) in programesList" :key="index + 'a'">
+    <div class="epg_page_row" v-for="(item,index) in programesListTwo" :key="index + 'a'">
       <div class="epg_page_col" v-for="(list,index2) in item" :key="index2 + 'b'">
         <ul>
           <li>
@@ -27,35 +27,14 @@
 <script>
 export default {
   name: 'EpgPageTwo', //EPG一级页面
+  props: ['programesListTwo'],
   data() {
     return {
-      programesList: [
-        [
-          { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-        ],
-      ]
+
     }
+  },
+  mounted() {
+    // console.log("二级页面", this.programesListTwo)
   }
 }
 </script>

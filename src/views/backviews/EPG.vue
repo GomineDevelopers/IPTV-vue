@@ -31,11 +31,11 @@
         </div>
         <!-- 一级页面内容 -->
         <div class="pageOneContent" v-show="pageOneShow">
-          <epg-page-one></epg-page-one>
+          <epg-page-one :programesListOne="programesListOne"></epg-page-one>
         </div>
         <!-- 二级页面内容 -->
         <div class="pageTwoContent" v-show="pageTwoShow">
-          <epg-page-two></epg-page-two>
+          <epg-page-two :programesListTwo="programesListTwo"></epg-page-two>
         </div>
       </el-row>
     </el-row>
@@ -46,6 +46,7 @@
 import OptionSelectEPG from "../backcoms/epg/OptionSelectEPG";
 import EpgPageOne from "../backcoms/epg/EpgPageOne";
 import EpgPageTwo from "../backcoms/epg/EpgPageTwo";
+import { mapGetters } from "vuex";
 
 export default {
   name: "EPG", //EPG
@@ -54,17 +55,134 @@ export default {
     "epg-page-one": EpgPageOne,
     "epg-page-two": EpgPageTwo
   },
-  data() {
-    return {
-      pageOneShow: true,
-      pageTwoShow: false,
-      epgProgramsTotal: null  //总的栏目分类
-    };
+  computed: {
+    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month"])
+  },
+  watch: {
+    EPG_operator(newValue, oldValue) {
+      if (this.EPG_operator.length == 1) {
+        this.getEpgProgramsTotal()
+      }
+    },
+    EPG_programa(newValue, oldValue) {
+      if (this.EPG_programa.length == 1) {
+        this.getEpgProgramsTotal()
+      }
+    },
+    EPG_week(newValue, oldValue) {
+      this.getEpgProgramsTotal()
+    },
+    EPG_month(newValue, oldValue) {
+      this.getEpgProgramsTotal()
+    },
   },
   mounted() {
 
   },
+  data() {
+    return {
+      pageOneShow: true,
+      pageTwoShow: false,
+      //一级页面数据
+      programesListOne: [
+        [
+          { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+      ],
+      //二级页面数据
+      programesListTwo: [
+        [
+          { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+          { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        ],
+        [
+          { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        ],
+      ]
+    };
+  },
   methods: {
+    //获取当前选项的页面数据
+    getEpgProgramsTotal() {
+      let temp_operator  //运营商选项
+      if (this.EPG_operator.length == 1) {
+        temp_operator = this.EPG_operator[0]
+      }
+      let temp_programa = this.EPG_programa[0]
+      let temp_week = this.EPG_week
+      let temp_month = this.EPG_month
+      let time = null
+      console.log("temp_operator", temp_operator, typeof (temp_operator))
+      console.log("temp_programa", temp_programa, typeof (temp_programa))
+      console.log("temp_week", temp_week, typeof (temp_week))
+      console.log("temp_month", temp_month, typeof (temp_month))
+      if (temp_operator == undefined) {
+        return false
+      }
+      if (temp_programa == undefined) {
+        return false
+      }
+      // if (temp_month != null) {
+      //   time = temp_month
+      // }
+      // if (temp_week != null) {
+      //   time = temp_week
+      // }
+
+      // if (time == null) {
+      //   return false
+      // }
+      console.log("可以开始请求数据,时间是：", time)
+      // epg()
+      //   .then((response) => {
+      //     console.log("EPG所有栏目分类", response.data)
+      //   })
+      //   .catch((error) => {
+      //     console.log("EPG", error)
+      //   })
+    },
+
     //一级页面与二级页面切换选项卡
     changePage(string) {
       if (string == "one") {

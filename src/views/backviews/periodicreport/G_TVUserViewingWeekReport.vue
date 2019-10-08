@@ -284,6 +284,7 @@ export default {
           end: "2019-06-16"    //暂定这一周
         };
       }
+      //上一周的数据
       if (wee_type == "weekRange") {
         temp = {
           operator: String([tempOperatorArr]),
