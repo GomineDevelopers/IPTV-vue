@@ -24,7 +24,7 @@ export default {
     // },
     chartData_Change(newValue, oldValue) {
       let vm = this;
-      console.log("AAAAAAAAAAAAAAA")
+      // console.log("AAAAAAAAAAAAAAA")
 
       setTimeout(function () {
         vm.drawLine();

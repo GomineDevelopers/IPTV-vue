@@ -372,7 +372,7 @@ export default {
       // console.log(this.EPG_operator)
       if (this.EPG_operator.length == 1) {
         let operatorName = this.EPG_operator[0]
-        console.log("选择运营商：", operatorName)
+        // console.log("选择运营商：", operatorName)
         switch (operatorName) {
           case '移动1.0':
             this.programa = programs_yd_one;
