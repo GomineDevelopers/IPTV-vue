@@ -222,6 +222,12 @@ export default {
         .dispatch("set_EPG_programa", newValue)
         .then(function (response) {
           // console.log(response);
+          vm.$store
+            .dispatch("set_EPG_programa_type", 1)
+            .then(function (response) { })
+            .catch(function (error) {
+              console.info(error);
+            });
         })
         .catch(function (error) {
           console.info(error);
@@ -233,6 +239,13 @@ export default {
         .dispatch("set_EPG_value_others", newValue)
         .then(function (response) {
           // console.log(response);
+          // 设置 ULC_row3是否显示
+          vm.$store
+            .dispatch("set_EPG_programa_type", 2)
+            .then(function (response) { })
+            .catch(function (error) {
+              console.info(error);
+            });
         })
         .catch(function (error) {
           console.info(error);
@@ -264,6 +277,7 @@ export default {
     //监听运营商的变化
     EPG_operator(newValue, oldValue) {
       this.programsSwitch()
+      this.getEpgProgramsTotal()
     }
   },
   mounted() {
@@ -330,7 +344,7 @@ export default {
     //   this.operator_isIndeterminate = !this.operator_isIndeterminate;
     // }
     programaChoose_change(event) {
-      //this.value_others = null  //点击除其他栏目时清空其他栏目的下拉框
+      this.value_others = null  //点击除其他栏目时清空其他栏目的下拉框
       programaChoose_old = programaChoose_new;
       let checkedCount = event.length;
       this.programa_checkAll = checkedCount === this.programa.length;
@@ -390,44 +404,66 @@ export default {
           default:
             break;
         }
-
       }
     },
 
     //获取总的栏目分类数据
     getEpgProgramsTotal() {
-      epg_programs()
-        .then((response) => {
-          // console.log("EPG所有栏目分类", response.data.responses[0])
-          this.epgProgramsTotal = response.data.responses[0].aggregations.ti.buckets
-          console.log("栏目分类", this.epgProgramsTotal)
-        })
-        .catch((error) => {
-          console.log("EPG", error)
-        })
+      let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //移动1.0栏目分类
+      let programs_yd_two = ["分类", "电视", "推荐", "VIP", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
+      let programs_lt = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //联通栏目分类
+      let programs_dx = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //电信栏目分类
+      // console.log(this.EPG_operator)
+      let operator
+      if (this.EPG_operator.length == 1) {
+        // operator = this.EPG_operator[0]
+        if (this.EPG_operator[0] == '移动1.0' || this.EPG_operator[0] == '移动2.0') {
+          operator = '移动'
+        } else {
+          operator = this.EPG_operator[0]
+        }
+        var formData = new FormData();
+        var formData = new window.FormData();
+        formData.append("operator", operator);
+        epg_programs(formData)
+          .then((response) => {
+            console.log(operator)
+            console.log("EPG所有栏目分类", response.data.responses)
+            let programs_total = null
+            let epg_programs_total = []
+            if (this.EPG_operator[0] == '移动2.0') {
+              programs_total = response.data.responses[1].aggregations.ti.buckets
+              console.log("EPG栏目分类移动2.0", epg_programs_total)
+              let other_programs = this.distinct(epg_programs_total, programs_yd_two)
+              // epg_programs_total.forEach((value, index) => {
+              //   console.log(value)
+              // })
+              // console.log("去重的数据为", other_programs)
+            } else {
+              programs_total = response.data.responses[0].aggregations.ti.buckets
+              console.log("EPG栏目分类1.0", epg_programs_total)
+              programs_total.forEach((value, index) => {
+                epg_programs_total.push(value.key)
+              })
+              console.log('epg_programs_total', epg_programs_total)
+              let other_programs = this.distinct(epg_programs_total, programs_yd_one)
+              console.log("去重的数据为", this.distinct(epg_programs_total, programs_yd_one))
+            }
+
+            //this.epgProgramsTotal = response.data.responses[0].aggregations.ti.buckets
+            // console.log("栏目分类", this.epgProgramsTotal)
+          })
+          .catch((error) => {
+            console.log("EPG", error)
+          })
+      }
     },
 
     //栏目 其他选项的控制
     otherOption(event) {
       console.log(event)
       let vm = this
-      console.log('vm.programaChoose', vm.programaChoose)
       vm.programaChoose = []
-      // vm.$store
-      //   .dispatch("set_EPG_programa_other", event)
-      //   .then(function (response) {
-      //     console.log(response);
-      //     // 设置当前选择为下拉选项中的栏目分类
-      //     vm.$store
-      //       .dispatch("set_EPG_programa_type", 2)
-      //       .then(function (response) { })
-      //       .catch(function (error) {
-      //         console.info(error);
-      //       });
-      //   })
-      //   .catch(function (error) {
-      //     console.info(error);
-      //   });
     },
 
     //时间 周 选项的控制
@@ -495,6 +531,28 @@ export default {
 
 
     },
+
+    distinct(a, b) {
+      let arr = a.concat(b)
+      var x = new Set(arr)
+      return [...x]
+    }
+    // distinct(a, b) {
+    //   let arr = a.concat(b)
+    //   let result = []
+    //   for (let i of arr) {
+    //     !result.includes(i) && result.push(i)
+    //   }
+    //   return result
+    // }
+
+    //     function unique5(arr){
+    //   var x = new Set(arr);
+    //   return [...x];
+    // },
+    // distinct(a, b) {
+    //   return Array.from(new Set([...a, ...b]))
+    // }
   },
 
 };
