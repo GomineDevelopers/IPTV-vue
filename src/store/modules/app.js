@@ -36,6 +36,8 @@ const app = {
         EPG_value_others: null,
         EPG_week: null,
         EPG_month: null,
+        EPG_time_type: 0, // 0-未选择 1-周 2-月
+
         ADD_ALL_operator: [],
         ADD_ALL_programa: [],
         ADD_ALL_week: null,
@@ -438,6 +440,17 @@ const app = {
         get_EPG_month({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.EPG_month);
+            })
+        },
+        set_EPG_time_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.EPG_time_type = data;
+                resolve("EPG_time_type - SUCCESS !");
+            })
+        },
+        get_EPG_time_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.EPG_time_type);
             })
         },
         set_ADD_ALL_operator({ commit, state }, data) {

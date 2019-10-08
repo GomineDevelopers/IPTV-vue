@@ -68,7 +68,7 @@ export default {
         ],
         d_7: [0.4, 0.42, 0.43, 0.44, 0.45, 0.46, 0.5]
       },
-      datum_line:0.52
+      datum_line: 0.52
     };
   },
   mounted() {
@@ -96,9 +96,12 @@ export default {
     api_data_set(ExpirationDate, time_type) {
       let vm = this;
       let temp;
+      let m_operator = commonTools.GetBigScreenOperator();
+
       if (time_type == "hours_24") {
         temp = {
-          operator: String(["移动", "联通", "电信"]),
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: ExpirationDate
         };
@@ -106,7 +109,8 @@ export default {
       }
       if (time_type == "hours_48") {
         temp = {
-          operator: String(["移动", "联通", "电信"]),
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 1)
         };
@@ -114,7 +118,8 @@ export default {
       }
       if (time_type == "days7") {
         temp = {
-          operator: String(["移动", "联通", "电信"]),
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 8)
         };
@@ -314,7 +319,8 @@ export default {
               formatter: function(params) {
                 //根据值判断是否显示提示
                 var index = params.value;
-                if (index < vm.datum_line) {  // 基准线
+                if (index < vm.datum_line) {
+                  // 基准线
                   return "低于平均值";
                 } else {
                   return " ";
@@ -342,7 +348,7 @@ export default {
                     position: "end",
                     formatter: "24小时\n激活率\n基准线"
                   },
-                  yAxis: vm.datum_line  // 基准线
+                  yAxis: vm.datum_line // 基准线
                 }
               ]
             }

@@ -3,11 +3,54 @@
 const commonTools = {}
 
 
-//  import { commonTools } from "@/utils/test";
+// import { commonTools } from "@/utils/test";
+// import { commonTools } from "@/utils/common";
+import CryptoJS from 'crypto-js' //加密js
 
+commonTools.getCookieCry = function (name) {
+    if (document.cookie.length > 0) {
+        var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
+        for (var i = 0; i < arr.length; i++) {
+            var arr2 = arr[i].split('='); //再次切割
+            if (arr2[0] == name) {
+                //拿到拿到加密后的密码arr2[1]并解密
+                var bytes = CryptoJS.AES.decrypt(arr2[1].toString(), 'secret key 123');
+                var plaintext = bytes.toString(CryptoJS.enc.Utf8); //拿到解密后的密码（登录时输入的密码）
+                return plaintext
+            }
+        }
+    } else {
+        return ""
+    }
+    return ""
+}
+// 获取当前运营商 - by cookie
+commonTools.GetBigScreenOperator = function () {
+    let currentOperator;
+    let temp_status = commonTools.getCookieCry("bigscreenchoose");
+    if (
+        temp_status == null ||
+        temp_status == undefined ||
+        temp_status == ""
+    ) {
+        currentOperator = ["移动", "联通", "电信"];
+    } else {
+        if (temp_status == "综合") {
+            currentOperator = ["移动", "联通", "电信"];
+        }
+        if (temp_status == "移动") {
+            currentOperator = ["移动"];
+        }
+        if (temp_status == "联通") {
+            currentOperator = ["联通"];
+        }
+        if (temp_status == "电信") {
+            currentOperator = ["电信"];
+        }
+    }
+    return String(currentOperator);
 
-
-
+}
 
 // //////////////// 返回当前天的前七天（不包括当天）
 

@@ -14,6 +14,7 @@
 </template>
 <script>
 import { users_subscribe } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "OrderData", //订购数据组件
@@ -58,14 +59,15 @@ export default {
     users_subscribe(ExpirationDate) {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
+
+      let m_operator = commonTools.GetBigScreenOperator();
       let data = {
-        operator: String(["移动", "联通", "电信"]),
+        // operator: String(["移动", "联通", "电信"]),
+        operator: m_operator,
         start: ExpirationDate,
         end: ExpirationDate // 先 7-1 ，之后改成 7-31
       };
       // console.log("~~~~~~~users_subscribe");
-      // console.log(String(["移动"]));
-      // console.log(String(["移动", "联通", "电信"]));
       users_subscribe(data)
         .then(function(response) {
           // console.log(response);

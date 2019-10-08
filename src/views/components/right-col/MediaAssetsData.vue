@@ -38,6 +38,7 @@
 </template>
 <script>
 import { media_watch_total, media_content } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "MediaAssetsData",
@@ -67,10 +68,11 @@ export default {
   methods: {
     media_content(ExpirationDate) {
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
-        end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        end: ExpirationDate
+        // operator: String(["移动", "联通", "电信"])
       };
       // console.log("media_content");
       media_content(data)
@@ -107,10 +109,13 @@ export default {
     media_watch_total(ExpirationDate) {
       let vm = this;
       // console.log("media_watch_total");
+      let m_operator = commonTools.GetBigScreenOperator();
+
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator
       };
       // let vm = this;
       media_watch_total(data)
@@ -133,7 +138,8 @@ export default {
           let data2 = {
             start: ExpirationDate,
             end: ExpirationDate,
-            operator: String(["移动", "联通", "电信"])
+            // operator: String(["移动", "联通", "电信"])
+            operator: m_operator
           };
           setTimeout(function() {
             media_watch_total(data2)
