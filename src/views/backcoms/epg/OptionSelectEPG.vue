@@ -68,6 +68,7 @@
         clearable
         default-first-option
         placeholder="其他"
+        @change="otherOption"
       >
         <el-option
           v-for="item in options_others"
@@ -161,19 +162,19 @@ export default {
 
       options_others: [
         {
-          value: "其他1",
+          value: "选项1",
           label: "其他1"
         },
         {
-          value: "其他2",
+          value: "选项2",
           label: "其他2"
         },
         {
-          value: "其他3",
+          value: "选项3",
           label: "其他3"
         }
       ],
-      value_others: [],
+      value_others: [], //其他节目类型选择
       timeChoose: '',
       time: {
         week: [
@@ -329,6 +330,7 @@ export default {
     //   this.operator_isIndeterminate = !this.operator_isIndeterminate;
     // }
     programaChoose_change(event) {
+      //this.value_others = null  //点击除其他栏目时清空其他栏目的下拉框
       programaChoose_old = programaChoose_new;
       let checkedCount = event.length;
       this.programa_checkAll = checkedCount === this.programa.length;
@@ -352,14 +354,13 @@ export default {
     },
 
     getBoxDetail() {
-      let operatorName = this.operatorChoose[0]
-      let programName = this.programaChoose[0]
-      let timeItem = this.timeChoose
-      console.log("查询数据")
-      console.log(operatorName)
-      console.log(programName)
-      console.log(timeItem)
-
+      // let operatorName = this.operatorChoose[0]
+      // let programName = this.programaChoose[0]
+      // let timeItem = this.timeChoose
+      // console.log("查询数据")
+      // console.log(operatorName)
+      // console.log(programName)
+      // console.log(timeItem)
     },
 
     //点击运营商切换栏目分类
@@ -399,33 +400,100 @@ export default {
         .then((response) => {
           // console.log("EPG所有栏目分类", response.data.responses[0])
           this.epgProgramsTotal = response.data.responses[0].aggregations.ti.buckets
-          // console.log(this.epgProgramsTotal)
+          console.log("栏目分类", this.epgProgramsTotal)
         })
         .catch((error) => {
           console.log("EPG", error)
         })
     },
 
+    //栏目 其他选项的控制
+    otherOption(event) {
+      console.log(event)
+      let vm = this
+      console.log('vm.programaChoose', vm.programaChoose)
+      vm.programaChoose = []
+      // vm.$store
+      //   .dispatch("set_EPG_programa_other", event)
+      //   .then(function (response) {
+      //     console.log(response);
+      //     // 设置当前选择为下拉选项中的栏目分类
+      //     vm.$store
+      //       .dispatch("set_EPG_programa_type", 2)
+      //       .then(function (response) { })
+      //       .catch(function (error) {
+      //         console.info(error);
+      //       });
+      //   })
+      //   .catch(function (error) {
+      //     console.info(error);
+      //   });
+    },
+
     //时间 周 选项的控制
     handleWeek(event) {
-      if (this.time.weekValue != '') {
-        // console.log("周选择", event)
-        this.timeChoose = event
-        this.time.monthValue = ''
-      } else {
-        this.timeChoose = ''
-      }
+      let vm = this;
+      this.time.weekValue = String(event);
+      this.time.monthValue = "";
+      let newValue = String(event);
+
+      vm.$store
+        .dispatch("set_EPG_week", newValue)
+        .then(function (response) {
+          console.log(response);
+          // 设置 ULC_row3是否显示
+          vm.$store
+            .dispatch("set_EPG_time_type", 1)
+            .then(function (response) { })
+            .catch(function (error) {
+              console.info(error);
+            });
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+
+      // if (this.time.weekValue != '') {
+      //   // console.log("周选择", event)
+      //   this.timeChoose = event
+      //   this.time.monthValue = ''
+      // } else {
+      //   this.timeChoose = ''
+      // }
     },
 
     //时间 月 选项的控制
     handleMonth(event) {
-      if (this.time.monthValue != '') {
-        // console.log("月选择", event)
-        this.time.weekValue = ''
-        this.timeChoose = event
-      } else {
-        this.timeChoose = ''
-      }
+
+      let vm = this;
+      this.time.weekValue = "";
+      this.time.monthValue = String(event);
+      let newValue = String(event);
+
+      vm.$store
+        .dispatch("set_EPG_month", newValue)
+        .then(function (response) {
+          console.log(response);
+          // 设置 ULC_row3是否显示
+          vm.$store
+            .dispatch("set_EPG_time_type", 2)
+            .then(function (response) { })
+            .catch(function (error) {
+              console.info(error);
+            });
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+      // if (this.time.monthValue != '') {
+      //   // console.log("月选择", event)
+      //   this.time.weekValue = ''
+      //   this.timeChoose = event
+      // } else {
+      //   this.timeChoose = ''
+      // }
+
+
     },
   },
 

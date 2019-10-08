@@ -37,6 +37,7 @@ const app = {
         EPG_week: null,
         EPG_month: null,
         EPG_time_type: 0, // 0-未选择 1-周 2-月
+        EPG_programa_type: 0,   //栏目类型 （0—未选择  1-展示的单选栏目  2-下拉框中的选择）
 
         ADD_ALL_operator: [],
         ADD_ALL_programa: [],

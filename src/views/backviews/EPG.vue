@@ -56,25 +56,29 @@ export default {
     "epg-page-two": EpgPageTwo
   },
   computed: {
-    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month"])
+    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month", "EPG_time_type"])
   },
   watch: {
     EPG_operator(newValue, oldValue) {
       if (this.EPG_operator.length == 1) {
-        this.getEpgProgramsTotal()
+        this.getEpgBoxData(this.EPG_time_type)
       }
     },
     EPG_programa(newValue, oldValue) {
       if (this.EPG_programa.length == 1) {
-        this.getEpgProgramsTotal()
+        this.getEpgBoxData(this.EPG_time_type)
       }
     },
-    EPG_week(newValue, oldValue) {
-      this.getEpgProgramsTotal()
-    },
-    EPG_month(newValue, oldValue) {
-      this.getEpgProgramsTotal()
-    },
+    // EPG_week(newValue, oldValue) {
+    //   this.getEpgBoxData(this.EPG_time_type)
+    // },
+    // EPG_month(newValue, oldValue) {
+    //   this.getEpgBoxData(this.EPG_time_type)
+    // },
+    EPG_time_type(newValue, oldValue) {
+      this.getEpgBoxData(this.EPG_time_type)
+      console.log("时间类型", newValue)
+    }
   },
   mounted() {
 
@@ -143,37 +147,62 @@ export default {
     };
   },
   methods: {
+    refresh_api_data() {
+      this.getEpgBoxData(this.EPG_time_type);
+    },
     //获取当前选项的页面数据
-    getEpgProgramsTotal() {
+    getEpgBoxData(time_type) {
       let temp_operator  //运营商选项
       if (this.EPG_operator.length == 1) {
         temp_operator = this.EPG_operator[0]
       }
+      let temp = {
+        operator: null,
+        list: null,
+        start: null,
+        end: null
+      };
       let temp_programa = this.EPG_programa[0]
       let temp_week = this.EPG_week
       let temp_month = this.EPG_month
-      let time = null
-      console.log("temp_operator", temp_operator, typeof (temp_operator))
-      console.log("temp_programa", temp_programa, typeof (temp_programa))
-      console.log("temp_week", temp_week, typeof (temp_week))
-      console.log("temp_month", temp_month, typeof (temp_month))
+      // console.log("temp_operator", temp_operator, typeof (temp_operator))
+      // console.log("temp_programa", temp_programa, typeof (temp_programa))
+      // console.log("temp_week", temp_week, typeof (temp_week))
+      // console.log("temp_month", temp_month, typeof (temp_month))
       if (temp_operator == undefined) {
-        return false
+        return
       }
       if (temp_programa == undefined) {
-        return false
+        return
       }
-      // if (temp_month != null) {
-      //   time = temp_month
-      // }
-      // if (temp_week != null) {
-      //   time = temp_week
-      // }
-
-      // if (time == null) {
-      //   return false
-      // }
-      console.log("可以开始请求数据,时间是：", time)
+      console.log("time_type", time_type)
+      if (time_type == 1) {
+        // time = temp_week
+        temp = {
+          operator: String(temp_operator),
+          list: String(temp_programa),
+          start: temp_week,
+          end: temp_week
+        };
+      } else if (time_type == 2) {
+        // time = temp_month
+        temp = {
+          operator: String(temp_operator),
+          list: String(temp_programa),
+          start: temp_month,
+          end: temp_month
+        };
+      } else {
+        return
+      }
+      console.log(temp)
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("list", temp.list);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      // console.log("可以开始请求数据,时间是：", time)
       // epg()
       //   .then((response) => {
       //     console.log("EPG所有栏目分类", response.data)
