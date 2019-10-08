@@ -115,8 +115,11 @@ export default {
       // console.log(date_range);
 
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
+
       let temp = {
-        operator: String(["移动", "联通", "电信"]),
+        // operator: String(["移动", "联通", "电信"]),
+        operator: m_operator,
         start: date_range.start,
         end: date_range.end
       };
@@ -138,8 +141,10 @@ export default {
     users_basic(ExpirationDate) {
       // console.log("~~~~~~users_basic");
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
       let temp = {
-        operator: String(["移动", "联通", "电信"]),
+        // operator: String(["移动", "联通", "电信"]),
+        operator: m_operator,
         start: ExpirationDate,
         end: ExpirationDate
       };

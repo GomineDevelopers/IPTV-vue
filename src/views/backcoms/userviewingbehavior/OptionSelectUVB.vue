@@ -79,7 +79,7 @@
 
     <!-- <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
     <div class="programa" v-show="ifPlaymodeShow_db">
-      <span class="font_title">栏目（点播专属）：</span>
+      <span class="font_title">栏目（点播-收视行为专属）：</span>
       <!-- <el-checkbox-group
         v-model=" programaChoose"
         v-for="(item,index) in programa"
@@ -110,7 +110,7 @@
 
     <!-- <div class="contenttype" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
     <div class="contenttype" v-show="ifPlaymodeShow_db">
-      <span class="font_title">内容类型（点播专属）：</span>
+      <span class="font_title">内容类型（点播-收视Top专属）：</span>
       <el-checkbox v-model="contenttype_checkAll" @change="contenttypeChoose_all">总体</el-checkbox>
 
       <el-checkbox-group

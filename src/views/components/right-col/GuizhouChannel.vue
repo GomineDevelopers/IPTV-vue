@@ -67,10 +67,13 @@ export default {
   methods: {
     onlive_location(ExpirationDate) {
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
+
       let data = {
         start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator
       };
       onlive_location(data)
         .then(function(response) {

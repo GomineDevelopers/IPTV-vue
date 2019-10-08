@@ -17,6 +17,7 @@ import {
   media_watch_total,
   broadcast_onlive
 } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "ViewingUser", //收视用户组件
@@ -63,10 +64,12 @@ export default {
   methods: {
     broadcast_demand(ExpirationDate) {
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator,
       };
       // console.log("~~~~~~broadcast_demand");
       broadcast_demand(data)
@@ -91,10 +94,12 @@ export default {
       // console.log(ExpirationDate);
 
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator,
       };
       broadcast_review(data)
         .then(function(response) {
@@ -115,10 +120,12 @@ export default {
     },
     media_watch_total(ExpirationDate) {
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator,
       };
       media_watch_total(data)
         .then(function(response) {
@@ -140,10 +147,12 @@ export default {
     broadcast_onlive(ExpirationDate) {
       // console.log("broadcast_onlive");
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator,
       };
       broadcast_onlive(data)
         .then(function(response) {

@@ -878,557 +878,563 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
 
-      users_monthActiveReport_range(formData).then(function(response) {
-        if (datatype == "mixture" && timetype == "month") {
-          // usingTheUser;
-          // usingTheTimes;
-          // usingTheDuration;
-          // 直播onlive =》 回看watch =》 点播demand
-          // 用户user 次数freq 时长dur
-          let q1_u;
-          let q1_f;
-          let q1_d;
-          let q2_u;
-          let q2_f;
-          let q2_d;
-          let q3_u;
-          let q3_f;
-          let q3_d;
-          console.log("~~~~~~~~~xxx");
-          console.log(response);
-          console.log(response.data);
-          console.log(response.data.responses[0].aggregations.item);
-          console.log(response.data.responses[0].aggregations.item.buckets[0]);
-          console.log(
-            response.data.responses[0].aggregations.item.buckets[0]
-              .onlive_user_num
-          );
-          q1_u =
-            response.data.responses[0].aggregations.item.buckets[0]
-              .onlive_user_num.value;
-          q1_f =
-            response.data.responses[0].aggregations.item.buckets[0].onlive_freq
-              .value;
-          q1_d =
-            response.data.responses[0].aggregations.item.buckets[0].onlive_dur
-              .value;
-          console.log("~~~~~~~~~xxx2");
-
-          q2_u =
-            response.data.responses[1].aggregations.item.buckets[0]
-              .demand_user_num.value;
-          q2_f =
-            response.data.responses[1].aggregations.item.buckets[0].demand_freq
-              .value;
-          q2_d =
-            response.data.responses[1].aggregations.item.buckets[0].demand_dur
-              .value;
-          console.log("~~~~~~~~~xxx3");
-
-          q3_u =
-            response.data.responses[2].aggregations.item.buckets[0]
-              .watch_user_num.value;
-          q3_f =
-            response.data.responses[2].aggregations.item.buckets[0].watch_freq
-              .value;
-          q3_d =
-            response.data.responses[2].aggregations.item.buckets[0].watch_dur
-              .value;
-
-          vm.usingTheUser.content[0].data = [
-            { value: q1_u, name: "直播" },
-            { value: q2_u, name: "回看" },
-            { value: q3_u, name: "点播" }
-          ];
-          vm.usingTheTime.content[0].data = [
-            { value: q1_f, name: "直播" },
-            { value: q2_f, name: "回看" },
-            { value: q3_f, name: "点播" }
-          ];
-          vm.usingTheDuration.content[0].data = [
-            { value: q1_d, name: "直播" },
-            { value: q2_d, name: "回看" },
-            { value: q3_d, name: "点播" }
-          ];
-          // x 月总体收视数据
-          let td2 = [];
-          let freq2 = vm.returnFloat(
-            (parseFloat(q1_f) + parseFloat(q2_f) + parseFloat(q3_f)) /
-              100 /
-              10000
-          );
-          let dur2 = vm.returnFloat(
-            (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
-              100 /
-              10000 /
-              3600
-          ); // 观看时长计时 - 秒 =》百万小时
-          let user_num2 = vm.returnFloat(
-            (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /
-              100 /
-              10000
-          );
-          td2.push(["product", "7月"]);
-          td2.push(["观看次数（百万次）", freq2]);
-          td2.push(["观看时长数（百万小时）", dur2]);
-          td2.push(["观看用户数（百万户）", user_num2]);
-          vm.monthlyTotalViewingData.data = td2;
-          console.log(vm.monthlyTotalViewingData);
-
-          /////////// 直播 （freq dur user_num）
-          // x 月直播收视数据
-          vm.monthlyTotalViewingData2.data = [
-            ["product", "7月"],
-            [
-              "直播观看次数（百万次）",
-              vm.returnFloat(parseFloat(q1_f) / 100 / 10000)
-            ],
-            [
-              "直播观看时长数（百万小时）",
-              vm.returnFloat(parseFloat(q1_d) / 100 / 10000)
-            ],
-            [
-              "直播观看用户数（百万户）",
-              vm.returnFloat(parseFloat(q1_u) / 100 / 10000)
-            ]
-          ];
-        }
-        if (datatype == "single" && timetype == "month") {
-          // /////////// liveViewingDurationData  liveViewingUserData liveViewingTimesData
-
-          if (type == "yd") {
-            let onlive_dur_yd;
-            let onlive_usernum_yd;
-            let onlive_freq_yd;
-            onlive_usernum_yd =
+      users_monthActiveReport_range(formData)
+        .then(function(response) {
+          if (datatype == "mixture" && timetype == "month") {
+            // usingTheUser;
+            // usingTheTimes;
+            // usingTheDuration;
+            // 直播onlive =》 回看watch =》 点播demand
+            // 用户user 次数freq 时长dur
+            let q1_u;
+            let q1_f;
+            let q1_d;
+            let q2_u;
+            let q2_f;
+            let q2_d;
+            let q3_u;
+            let q3_f;
+            let q3_d;
+            console.log("~~~~~~~~~xxx");
+            console.log(response);
+            console.log(response.data);
+            console.log(response.data.responses[0].aggregations.item);
+            console.log(
+              response.data.responses[0].aggregations.item.buckets[0]
+            );
+            console.log(
+              response.data.responses[0].aggregations.item.buckets[0]
+                .onlive_user_num
+            );
+            q1_u =
               response.data.responses[0].aggregations.item.buckets[0]
                 .onlive_user_num.value;
-            onlive_freq_yd =
+            q1_f =
               response.data.responses[0].aggregations.item.buckets[0]
                 .onlive_freq.value;
-            onlive_dur_yd =
+            q1_d =
               response.data.responses[0].aggregations.item.buckets[0].onlive_dur
                 .value;
-            vm.liveViewingDurationData.content[0].data.push({
-              value: onlive_dur_yd,
-              name: "移动"
-            });
-            vm.liveViewingUserData.content[0].data.push({
-              value: onlive_usernum_yd,
-              name: "移动"
-            });
-            vm.liveViewingTimesData.content[0].data.push({
-              value: onlive_freq_yd,
-              name: "移动"
-            });
-          }
-          if (type == "lt") {
-            let onlive_dur_lt;
-            let onlive_usernum_lt;
-            let onlive_freq_lt;
-            onlive_usernum_lt =
-              response.data.responses[0].aggregations.item.buckets[0]
-                .onlive_user_num.value;
-            onlive_freq_lt =
-              response.data.responses[0].aggregations.item.buckets[0]
-                .onlive_freq.value;
-            onlive_dur_lt =
-              response.data.responses[0].aggregations.item.buckets[0].onlive_dur
+            console.log("~~~~~~~~~xxx2");
+
+            q2_u =
+              response.data.responses[1].aggregations.item.buckets[0]
+                .demand_user_num.value;
+            q2_f =
+              response.data.responses[1].aggregations.item.buckets[0]
+                .demand_freq.value;
+            q2_d =
+              response.data.responses[1].aggregations.item.buckets[0].demand_dur
                 .value;
-            vm.liveViewingDurationData.content[0].data.push({
-              value: onlive_dur_lt,
-              name: "联通"
-            });
-            vm.liveViewingUserData.content[0].data.push({
-              value: onlive_usernum_lt,
-              name: "联通"
-            });
-            vm.liveViewingTimesData.content[0].data.push({
-              value: onlive_freq_lt,
-              name: "联通"
-            });
-          }
-          if (type == "dx") {
-            let onlive_dur_dx;
-            let onlive_usernum_dx;
-            let onlive_freq_dx;
-            onlive_usernum_dx =
-              response.data.responses[0].aggregations.item.buckets[0]
-                .onlive_user_num.value;
-            onlive_freq_dx =
-              response.data.responses[0].aggregations.item.buckets[0]
-                .onlive_freq.value;
-            onlive_dur_dx =
-              response.data.responses[0].aggregations.item.buckets[0].onlive_dur
+            console.log("~~~~~~~~~xxx3");
+
+            q3_u =
+              response.data.responses[2].aggregations.item.buckets[0]
+                .watch_user_num.value;
+            q3_f =
+              response.data.responses[2].aggregations.item.buckets[0].watch_freq
+                .value;
+            q3_d =
+              response.data.responses[2].aggregations.item.buckets[0].watch_dur
                 .value;
 
-            vm.liveViewingDurationData.content[0].data.push({
-              value: onlive_dur_dx,
-              name: "电信"
-            });
-            vm.liveViewingUserData.content[0].data.push({
-              value: onlive_usernum_dx,
-              name: "电信"
-            });
-            vm.liveViewingTimesData.content[0].data.push({
-              value: onlive_freq_dx,
-              name: "电信"
-            });
+            vm.usingTheUser.content[0].data = [
+              { value: q1_u, name: "直播" },
+              { value: q2_u, name: "回看" },
+              { value: q3_u, name: "点播" }
+            ];
+            vm.usingTheTime.content[0].data = [
+              { value: q1_f, name: "直播" },
+              { value: q2_f, name: "回看" },
+              { value: q3_f, name: "点播" }
+            ];
+            vm.usingTheDuration.content[0].data = [
+              { value: q1_d, name: "直播" },
+              { value: q2_d, name: "回看" },
+              { value: q3_d, name: "点播" }
+            ];
+            // x 月总体收视数据
+            let td2 = [];
+            let freq2 = vm.returnFloat(
+              (parseFloat(q1_f) + parseFloat(q2_f) + parseFloat(q3_f)) /
+                100 /
+                10000
+            );
+            let dur2 = vm.returnFloat(
+              (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
+                100 /
+                10000 /
+                3600
+            ); // 观看时长计时 - 秒 =》百万小时
+            let user_num2 = vm.returnFloat(
+              (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /
+                100 /
+                10000
+            );
+            td2.push(["product", "7月"]);
+            td2.push(["观看次数（百万次）", freq2]);
+            td2.push(["观看时长数（百万小时）", dur2]);
+            td2.push(["观看用户数（百万户）", user_num2]);
+            vm.monthlyTotalViewingData.data = td2;
+            console.log(vm.monthlyTotalViewingData);
+
+            /////////// 直播 （freq dur user_num）
+            // x 月直播收视数据
+            vm.monthlyTotalViewingData2.data = [
+              ["product", "7月"],
+              [
+                "直播观看次数（百万次）",
+                vm.returnFloat(parseFloat(q1_f) / 100 / 10000)
+              ],
+              [
+                "直播观看时长数（百万小时）",
+                vm.returnFloat(parseFloat(q1_d) / 100 / 10000)
+              ],
+              [
+                "直播观看用户数（百万户）",
+                vm.returnFloat(parseFloat(q1_u) / 100 / 10000)
+              ]
+            ];
           }
-          // console.log("~~~~!!!! sss");
-          // console.log(vm.liveViewingDurationData);
-          // console.log(vm.liveViewingUserData);
-          // console.log(vm.liveViewingTimesData);
+          if (datatype == "single" && timetype == "month") {
+            // /////////// liveViewingDurationData  liveViewingUserData liveViewingTimesData
 
-          // ///////////
-        }
-        if (datatype == "mixture" && timetype == "week") {
-        }
-        if (datatype == "single" && timetype == "week") {
-          // weekLiveViewUser
-          // weekLiveViewTimes
-          // weekliveViewDuration
-          // response.data.responses[0].aggregations.item.buckets[0];
-          //      0 1 2 3(onlive demand watch watch)          0 1 2 3(26~29week)
-          //    .key     .onlive_dur.value  .onlive_freq.value   .onlive_user_num.value
+            if (type == "yd") {
+              let onlive_dur_yd;
+              let onlive_usernum_yd;
+              let onlive_freq_yd;
+              onlive_usernum_yd =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_user_num.value;
+              onlive_freq_yd =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_freq.value;
+              onlive_dur_yd =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_dur.value;
+              vm.liveViewingDurationData.content[0].data.push({
+                value: onlive_dur_yd,
+                name: "移动"
+              });
+              vm.liveViewingUserData.content[0].data.push({
+                value: onlive_usernum_yd,
+                name: "移动"
+              });
+              vm.liveViewingTimesData.content[0].data.push({
+                value: onlive_freq_yd,
+                name: "移动"
+              });
+            }
+            if (type == "lt") {
+              let onlive_dur_lt;
+              let onlive_usernum_lt;
+              let onlive_freq_lt;
+              onlive_usernum_lt =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_user_num.value;
+              onlive_freq_lt =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_freq.value;
+              onlive_dur_lt =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_dur.value;
+              vm.liveViewingDurationData.content[0].data.push({
+                value: onlive_dur_lt,
+                name: "联通"
+              });
+              vm.liveViewingUserData.content[0].data.push({
+                value: onlive_usernum_lt,
+                name: "联通"
+              });
+              vm.liveViewingTimesData.content[0].data.push({
+                value: onlive_freq_lt,
+                name: "联通"
+              });
+            }
+            if (type == "dx") {
+              let onlive_dur_dx;
+              let onlive_usernum_dx;
+              let onlive_freq_dx;
+              onlive_usernum_dx =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_user_num.value;
+              onlive_freq_dx =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_freq.value;
+              onlive_dur_dx =
+                response.data.responses[0].aggregations.item.buckets[0]
+                  .onlive_dur.value;
 
-          console.log("~~~~~~~~~~~!!!!~~~a0");
+              vm.liveViewingDurationData.content[0].data.push({
+                value: onlive_dur_dx,
+                name: "电信"
+              });
+              vm.liveViewingUserData.content[0].data.push({
+                value: onlive_usernum_dx,
+                name: "电信"
+              });
+              vm.liveViewingTimesData.content[0].data.push({
+                value: onlive_freq_dx,
+                name: "电信"
+              });
+            }
+            // console.log("~~~~!!!! sss");
+            // console.log(vm.liveViewingDurationData);
+            // console.log(vm.liveViewingUserData);
+            // console.log(vm.liveViewingTimesData);
 
-          // if (type == "yd") {
-          //   let onlive_dur_yd_w1;
-          //   let onlive_usernum_yd_w1;
-          //   let onlive_freq_yd_w1;
-          //   let onlive_dur_yd_w2;
-          //   let onlive_usernum_yd_w2;
-          //   let onlive_freq_yd_w2;
-          //   let onlive_dur_yd_w3;
-          //   let onlive_usernum_yd_w3;
-          //   let onlive_freq_yd_w3;
-          //   let onlive_dur_yd_w4;
-          //   let onlive_usernum_yd_w4;
-          //   let onlive_freq_yd_w4;
-          //   console.log("~~~~~~~~~~~!!!!~~~a1");
-          //   console.log(response)
-          //   console.log(response.data.responses[0].aggregations.item.buckets)
-          //   onlive_usernum_yd_w1 =
-          //     response.data.responses[0].aggregations.item.buckets[0]
-          //       .onlive_user_num.value;
-          //   // onlive_usernum_yd_w2 =
-          //   //   response.data.responses[0].aggregations.item.buckets[1]
-          //   //     .onlive_user_num.value;
-          //   // onlive_usernum_yd_w3 =
-          //   //   response.data.responses[0].aggregations.item.buckets[2]
-          //   //     .onlive_user_num.value
-          //   // onlive_usernum_yd_w4 =
-          //   //   response.data.responses[0].aggregations.item.buckets[3]
-          //   //     .onlive_user_num.value;
-          //   // console.log("~~~~~~~~~~~!!!!~~~a2");
+            // ///////////
+          }
+          if (datatype == "mixture" && timetype == "week") {
+          }
+          if (datatype == "single" && timetype == "week") {
+            // weekLiveViewUser
+            // weekLiveViewTimes
+            // weekliveViewDuration
+            // response.data.responses[0].aggregations.item.buckets[0];
+            //      0 1 2 3(onlive demand watch watch)          0 1 2 3(26~29week)
+            //    .key     .onlive_dur.value  .onlive_freq.value   .onlive_user_num.value
 
-          //   onlive_freq_yd_w1 =
-          //     response.data.responses[0].aggregations.item.buckets[0]
-          //       .onlive_freq.value;
-          //   // onlive_freq_yd_w2 =
-          //   //   response.data.responses[0].aggregations.item.buckets[1]
-          //   //     .onlive_freq.value;
-          //   // onlive_freq_yd_w3 =
-          //   //   response.data.responses[0].aggregations.item.buckets[2]
-          //   //     .onlive_freq.value;
-          //   // onlive_freq_yd_w4 =
-          //   //   response.data.responses[0].aggregations.item.buckets[3]
-          //   //     .onlive_freq.value;
-          //   // console.log("~~~~~~~~~~~!!!!~~~a3");
+            console.log("~~~~~~~~~~~!!!!~~~a0");
 
-          //   onlive_dur_yd_w1 =
-          //     response.data.responses[0].aggregations.item.buckets[0].onlive_dur
-          //       .value;
-          //   // onlive_dur_yd_w2 =
-          //   //   response.data.responses[0].aggregations.item.buckets[1].onlive_dur
-          //   //     .value;
-          //   // onlive_dur_yd_w3 =
-          //   //   response.data.responses[0].aggregations.item.buckets[2].onlive_dur
-          //   //     .value;
-          //   // onlive_dur_yd_w4 =
-          //   //   response.data.responses[0].aggregations.item.buckets[3].onlive_dur
-          //   //     .value;
-          //   // console.log("~~~~~~~~~~~!!!!~~~a4");
+            // if (type == "yd") {
+            //   let onlive_dur_yd_w1;
+            //   let onlive_usernum_yd_w1;
+            //   let onlive_freq_yd_w1;
+            //   let onlive_dur_yd_w2;
+            //   let onlive_usernum_yd_w2;
+            //   let onlive_freq_yd_w2;
+            //   let onlive_dur_yd_w3;
+            //   let onlive_usernum_yd_w3;
+            //   let onlive_freq_yd_w3;
+            //   let onlive_dur_yd_w4;
+            //   let onlive_usernum_yd_w4;
+            //   let onlive_freq_yd_w4;
+            //   console.log("~~~~~~~~~~~!!!!~~~a1");
+            //   console.log(response)
+            //   console.log(response.data.responses[0].aggregations.item.buckets)
+            //   onlive_usernum_yd_w1 =
+            //     response.data.responses[0].aggregations.item.buckets[0]
+            //       .onlive_user_num.value;
+            //   // onlive_usernum_yd_w2 =
+            //   //   response.data.responses[0].aggregations.item.buckets[1]
+            //   //     .onlive_user_num.value;
+            //   // onlive_usernum_yd_w3 =
+            //   //   response.data.responses[0].aggregations.item.buckets[2]
+            //   //     .onlive_user_num.value
+            //   // onlive_usernum_yd_w4 =
+            //   //   response.data.responses[0].aggregations.item.buckets[3]
+            //   //     .onlive_user_num.value;
+            //   // console.log("~~~~~~~~~~~!!!!~~~a2");
 
-          //   vm.weekliveViewDuration.content[0].data.push({
-          //     value: onlive_dur_yd_w1,
-          //     name: "移动"
-          //   });
-          //   // vm.weekliveViewDuration.content[1].data.push({
-          //   //   value: onlive_dur_yd_w2,
-          //   //   name: "移动"
-          //   // });
-          //   // vm.weekliveViewDuration.content[2].data.push({
-          //   //   value: onlive_dur_yd_w3,
-          //   //   name: "移动"
-          //   // });
-          //   // vm.weekliveViewDuration.content[3].data.push({
-          //   //   value: onlive_dur_yd_w4,
-          //   //   name: "移动"
-          //   // });
+            //   onlive_freq_yd_w1 =
+            //     response.data.responses[0].aggregations.item.buckets[0]
+            //       .onlive_freq.value;
+            //   // onlive_freq_yd_w2 =
+            //   //   response.data.responses[0].aggregations.item.buckets[1]
+            //   //     .onlive_freq.value;
+            //   // onlive_freq_yd_w3 =
+            //   //   response.data.responses[0].aggregations.item.buckets[2]
+            //   //     .onlive_freq.value;
+            //   // onlive_freq_yd_w4 =
+            //   //   response.data.responses[0].aggregations.item.buckets[3]
+            //   //     .onlive_freq.value;
+            //   // console.log("~~~~~~~~~~~!!!!~~~a3");
 
-          //   vm.weekLiveViewUser.content[0].data.push({
-          //     value: onlive_usernum_yd_w1,
-          //     name: "移动"
-          //   });
-          //   // vm.weekLiveViewUser.content[1].data.push({
-          //   //   value: onlive_usernum_yd_w2,
-          //   //   name: "移动"
-          //   // });
-          //   // vm.weekLiveViewUser.content[2].data.push({
-          //   //   value: onlive_usernum_yd_w3,
-          //   //   name: "移动"
-          //   // });
-          //   // vm.weekLiveViewUser.content[3].data.push({
-          //   //   value: onlive_usernum_yd_w4,
-          //   //   name: "移动"
-          //   // });
+            //   onlive_dur_yd_w1 =
+            //     response.data.responses[0].aggregations.item.buckets[0].onlive_dur
+            //       .value;
+            //   // onlive_dur_yd_w2 =
+            //   //   response.data.responses[0].aggregations.item.buckets[1].onlive_dur
+            //   //     .value;
+            //   // onlive_dur_yd_w3 =
+            //   //   response.data.responses[0].aggregations.item.buckets[2].onlive_dur
+            //   //     .value;
+            //   // onlive_dur_yd_w4 =
+            //   //   response.data.responses[0].aggregations.item.buckets[3].onlive_dur
+            //   //     .value;
+            //   // console.log("~~~~~~~~~~~!!!!~~~a4");
 
-          //   vm.weekLiveViewTimes.content[0].data.push({
-          //     value: onlive_freq_yd_w1,
-          //     name: "移动"
-          //   });
-          //   // vm.weekLiveViewTimes.content[1].data.push({
-          //   //   value: onlive_freq_yd_w2,
-          //   //   name: "移动"
-          //   // });
-          //   // vm.weekLiveViewTimes.content[2].data.push({
-          //   //   value: onlive_freq_yd_w3,
-          //   //   name: "移动"
-          //   // });
-          //   // vm.weekLiveViewTimes.content[3].data.push({
-          //   //   value: onlive_freq_yd_w4,
-          //   //   name: "移动"
-          //   // });
-          // }
+            //   vm.weekliveViewDuration.content[0].data.push({
+            //     value: onlive_dur_yd_w1,
+            //     name: "移动"
+            //   });
+            //   // vm.weekliveViewDuration.content[1].data.push({
+            //   //   value: onlive_dur_yd_w2,
+            //   //   name: "移动"
+            //   // });
+            //   // vm.weekliveViewDuration.content[2].data.push({
+            //   //   value: onlive_dur_yd_w3,
+            //   //   name: "移动"
+            //   // });
+            //   // vm.weekliveViewDuration.content[3].data.push({
+            //   //   value: onlive_dur_yd_w4,
+            //   //   name: "移动"
+            //   // });
 
-          // // if (type == "lt") {
-          // //   let onlive_dur_lt_w1;
-          // //   let onlive_usernum_lt_w1;
-          // //   let onlive_freq_lt_w1;
-          // //   let onlive_dur_lt_w2;
-          // //   let onlive_usernum_lt_w2;
-          // //   let onlive_freq_lt_w2;
-          // //   let onlive_dur_lt_w3;
-          // //   let onlive_usernum_lt_w3;
-          // //   let onlive_freq_lt_w3;
-          // //   let onlive_dur_lt_w4;
-          // //   let onlive_usernum_lt_w4;
-          // //   let onlive_freq_lt_w4;
+            //   vm.weekLiveViewUser.content[0].data.push({
+            //     value: onlive_usernum_yd_w1,
+            //     name: "移动"
+            //   });
+            //   // vm.weekLiveViewUser.content[1].data.push({
+            //   //   value: onlive_usernum_yd_w2,
+            //   //   name: "移动"
+            //   // });
+            //   // vm.weekLiveViewUser.content[2].data.push({
+            //   //   value: onlive_usernum_yd_w3,
+            //   //   name: "移动"
+            //   // });
+            //   // vm.weekLiveViewUser.content[3].data.push({
+            //   //   value: onlive_usernum_yd_w4,
+            //   //   name: "移动"
+            //   // });
 
-          // //   onlive_usernum_lt_w1 =
-          // //     response.data.responses[0].aggregations.item.buckets[0]
-          // //       .onlive_user_num.value;
-          // //   onlive_usernum_lt_w2 =
-          // //     response.data.responses[0].aggregations.item.buckets[1]
-          // //       .onlive_user_num.value;
-          // //   onlive_usernum_lt_w3 =
-          // //     response.data.responses[0].aggregations.item.buckets[2]
-          // //       .onlive_user_num.value;
-          // //   onlive_usernum_lt_w4 =
-          // //     response.data.responses[0].aggregations.item.buckets[3]
-          // //       .onlive_user_num.value;
+            //   vm.weekLiveViewTimes.content[0].data.push({
+            //     value: onlive_freq_yd_w1,
+            //     name: "移动"
+            //   });
+            //   // vm.weekLiveViewTimes.content[1].data.push({
+            //   //   value: onlive_freq_yd_w2,
+            //   //   name: "移动"
+            //   // });
+            //   // vm.weekLiveViewTimes.content[2].data.push({
+            //   //   value: onlive_freq_yd_w3,
+            //   //   name: "移动"
+            //   // });
+            //   // vm.weekLiveViewTimes.content[3].data.push({
+            //   //   value: onlive_freq_yd_w4,
+            //   //   name: "移动"
+            //   // });
+            // }
 
-          // //   onlive_freq_lt_w1 =
-          // //     response.data.responses[0].aggregations.item.buckets[0]
-          // //       .onlive_freq.value;
-          // //   onlive_freq_lt_w2 =
-          // //     response.data.responses[0].aggregations.item.buckets[1]
-          // //       .onlive_freq.value;
-          // //   onlive_freq_lt_w3 =
-          // //     response.data.responses[0].aggregations.item.buckets[2]
-          // //       .onlive_freq.value;
-          // //   onlive_freq_lt_w4 =
-          // //     response.data.responses[0].aggregations.item.buckets[3]
-          // //       .onlive_freq.value;
+            // // if (type == "lt") {
+            // //   let onlive_dur_lt_w1;
+            // //   let onlive_usernum_lt_w1;
+            // //   let onlive_freq_lt_w1;
+            // //   let onlive_dur_lt_w2;
+            // //   let onlive_usernum_lt_w2;
+            // //   let onlive_freq_lt_w2;
+            // //   let onlive_dur_lt_w3;
+            // //   let onlive_usernum_lt_w3;
+            // //   let onlive_freq_lt_w3;
+            // //   let onlive_dur_lt_w4;
+            // //   let onlive_usernum_lt_w4;
+            // //   let onlive_freq_lt_w4;
 
-          // //   onlive_dur_lt_w1 =
-          // //     response.data.responses[0].aggregations.item.buckets[0].onlive_dur
-          // //       .value;
-          // //   onlive_dur_lt_w2 =
-          // //     response.data.responses[0].aggregations.item.buckets[1].onlive_dur
-          // //       .value;
-          // //   onlive_dur_lt_w3 =
-          // //     response.data.responses[0].aggregations.item.buckets[2].onlive_dur
-          // //       .value;
-          // //   onlive_dur_lt_w4 =
-          // //     response.data.responses[0].aggregations.item.buckets[3].onlive_dur
-          // //       .value;
+            // //   onlive_usernum_lt_w1 =
+            // //     response.data.responses[0].aggregations.item.buckets[0]
+            // //       .onlive_user_num.value;
+            // //   onlive_usernum_lt_w2 =
+            // //     response.data.responses[0].aggregations.item.buckets[1]
+            // //       .onlive_user_num.value;
+            // //   onlive_usernum_lt_w3 =
+            // //     response.data.responses[0].aggregations.item.buckets[2]
+            // //       .onlive_user_num.value;
+            // //   onlive_usernum_lt_w4 =
+            // //     response.data.responses[0].aggregations.item.buckets[3]
+            // //       .onlive_user_num.value;
 
-          // //   vm.weekliveViewDuration.content[0].data.push({
-          // //     value: onlive_dur_lt_w1,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekliveViewDuration.content[1].data.push({
-          // //     value: onlive_dur_lt_w2,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekliveViewDuration.content[2].data.push({
-          // //     value: onlive_dur_lt_w3,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekliveViewDuration.content[3].data.push({
-          // //     value: onlive_dur_lt_w4,
-          // //     name: "联通"
-          // //   });
+            // //   onlive_freq_lt_w1 =
+            // //     response.data.responses[0].aggregations.item.buckets[0]
+            // //       .onlive_freq.value;
+            // //   onlive_freq_lt_w2 =
+            // //     response.data.responses[0].aggregations.item.buckets[1]
+            // //       .onlive_freq.value;
+            // //   onlive_freq_lt_w3 =
+            // //     response.data.responses[0].aggregations.item.buckets[2]
+            // //       .onlive_freq.value;
+            // //   onlive_freq_lt_w4 =
+            // //     response.data.responses[0].aggregations.item.buckets[3]
+            // //       .onlive_freq.value;
 
-          // //   vm.weekLiveViewUser.content[0].data.push({
-          // //     value: onlive_usernum_lt_w1,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekLiveViewUser.content[1].data.push({
-          // //     value: onlive_usernum_lt_w2,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekLiveViewUser.content[2].data.push({
-          // //     value: onlive_usernum_lt_w3,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekLiveViewUser.content[3].data.push({
-          // //     value: onlive_usernum_lt_w4,
-          // //     name: "联通"
-          // //   });
+            // //   onlive_dur_lt_w1 =
+            // //     response.data.responses[0].aggregations.item.buckets[0].onlive_dur
+            // //       .value;
+            // //   onlive_dur_lt_w2 =
+            // //     response.data.responses[0].aggregations.item.buckets[1].onlive_dur
+            // //       .value;
+            // //   onlive_dur_lt_w3 =
+            // //     response.data.responses[0].aggregations.item.buckets[2].onlive_dur
+            // //       .value;
+            // //   onlive_dur_lt_w4 =
+            // //     response.data.responses[0].aggregations.item.buckets[3].onlive_dur
+            // //       .value;
 
-          // //   vm.weekLiveViewTimes.content[0].data.push({
-          // //     value: onlive_freq_lt_w1,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekLiveViewTimes.content[1].data.push({
-          // //     value: onlive_freq_lt_w2,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekLiveViewTimes.content[2].data.push({
-          // //     value: onlive_freq_lt_w3,
-          // //     name: "联通"
-          // //   });
-          // //   vm.weekLiveViewTimes.content[3].data.push({
-          // //     value: onlive_freq_lt_w4,
-          // //     name: "联通"
-          // //   });
-          // // }
+            // //   vm.weekliveViewDuration.content[0].data.push({
+            // //     value: onlive_dur_lt_w1,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekliveViewDuration.content[1].data.push({
+            // //     value: onlive_dur_lt_w2,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekliveViewDuration.content[2].data.push({
+            // //     value: onlive_dur_lt_w3,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekliveViewDuration.content[3].data.push({
+            // //     value: onlive_dur_lt_w4,
+            // //     name: "联通"
+            // //   });
 
-          // // if (type == "dx") {
-          // //   let onlive_dur_dx_w1;
-          // //   let onlive_usernum_dx_w1;
-          // //   let onlive_freq_dx_w1;
-          // //   let onlive_dur_dx_w2;
-          // //   let onlive_usernum_dx_w2;
-          // //   let onlive_freq_dx_w2;
-          // //   let onlive_dur_dx_w3;
-          // //   let onlive_usernum_dx_w3;
-          // //   let onlive_freq_dx_w3;
-          // //   let onlive_dur_dx_w4;
-          // //   let onlive_usernum_dx_w4;
-          // //   let onlive_freq_dx_w4;
+            // //   vm.weekLiveViewUser.content[0].data.push({
+            // //     value: onlive_usernum_lt_w1,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekLiveViewUser.content[1].data.push({
+            // //     value: onlive_usernum_lt_w2,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekLiveViewUser.content[2].data.push({
+            // //     value: onlive_usernum_lt_w3,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekLiveViewUser.content[3].data.push({
+            // //     value: onlive_usernum_lt_w4,
+            // //     name: "联通"
+            // //   });
 
-          // //   onlive_usernum_dx_w1 =
-          // //     response.data.responses[0].aggregations.item.buckets[0]
-          // //       .onlive_user_num.value;
-          // //   onlive_usernum_dx_w2 =
-          // //     response.data.responses[0].aggregations.item.buckets[1]
-          // //       .onlive_user_num.value;
-          // //   onlive_usernum_dx_w3 =
-          // //     response.data.responses[0].aggregations.item.buckets[2]
-          // //       .onlive_user_num.value;
-          // //   onlive_usernum_dx_w4 =
-          // //     response.data.responses[0].aggregations.item.buckets[3]
-          // //       .onlive_user_num.value;
+            // //   vm.weekLiveViewTimes.content[0].data.push({
+            // //     value: onlive_freq_lt_w1,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekLiveViewTimes.content[1].data.push({
+            // //     value: onlive_freq_lt_w2,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekLiveViewTimes.content[2].data.push({
+            // //     value: onlive_freq_lt_w3,
+            // //     name: "联通"
+            // //   });
+            // //   vm.weekLiveViewTimes.content[3].data.push({
+            // //     value: onlive_freq_lt_w4,
+            // //     name: "联通"
+            // //   });
+            // // }
 
-          // //   onlive_freq_dx_w1 =
-          // //     response.data.responses[0].aggregations.item.buckets[0]
-          // //       .onlive_freq.value;
-          // //   onlive_freq_dx_w2 =
-          // //     response.data.responses[0].aggregations.item.buckets[1]
-          // //       .onlive_freq.value;
-          // //   onlive_freq_dx_w3 =
-          // //     response.data.responses[0].aggregations.item.buckets[2]
-          // //       .onlive_freq.value;
-          // //   onlive_freq_dx_w4 =
-          // //     response.data.responses[0].aggregations.item.buckets[3]
-          // //       .onlive_freq.value;
+            // // if (type == "dx") {
+            // //   let onlive_dur_dx_w1;
+            // //   let onlive_usernum_dx_w1;
+            // //   let onlive_freq_dx_w1;
+            // //   let onlive_dur_dx_w2;
+            // //   let onlive_usernum_dx_w2;
+            // //   let onlive_freq_dx_w2;
+            // //   let onlive_dur_dx_w3;
+            // //   let onlive_usernum_dx_w3;
+            // //   let onlive_freq_dx_w3;
+            // //   let onlive_dur_dx_w4;
+            // //   let onlive_usernum_dx_w4;
+            // //   let onlive_freq_dx_w4;
 
-          // //   onlive_dur_dx_w1 =
-          // //     response.data.responses[0].aggregations.item.buckets[0].onlive_dur
-          // //       .value;
-          // //   onlive_dur_dx_w2 =
-          // //     response.data.responses[0].aggregations.item.buckets[1].onlive_dur
-          // //       .value;
-          // //   onlive_dur_dx_w3 =
-          // //     response.data.responses[0].aggregations.item.buckets[2].onlive_dur
-          // //       .value;
-          // //   onlive_dur_dx_w4 =
-          // //     response.data.responses[0].aggregations.item.buckets[3].onlive_dur
-          // //       .value;
+            // //   onlive_usernum_dx_w1 =
+            // //     response.data.responses[0].aggregations.item.buckets[0]
+            // //       .onlive_user_num.value;
+            // //   onlive_usernum_dx_w2 =
+            // //     response.data.responses[0].aggregations.item.buckets[1]
+            // //       .onlive_user_num.value;
+            // //   onlive_usernum_dx_w3 =
+            // //     response.data.responses[0].aggregations.item.buckets[2]
+            // //       .onlive_user_num.value;
+            // //   onlive_usernum_dx_w4 =
+            // //     response.data.responses[0].aggregations.item.buckets[3]
+            // //       .onlive_user_num.value;
 
-          // //   vm.weekliveViewDuration.content[0].data.push({
-          // //     value: onlive_dur_dx_w1,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekliveViewDuration.content[1].data.push({
-          // //     value: onlive_dur_dx_w2,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekliveViewDuration.content[2].data.push({
-          // //     value: onlive_dur_dx_w3,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekliveViewDuration.content[3].data.push({
-          // //     value: onlive_dur_dx_w4,
-          // //     name: "电信"
-          // //   });
+            // //   onlive_freq_dx_w1 =
+            // //     response.data.responses[0].aggregations.item.buckets[0]
+            // //       .onlive_freq.value;
+            // //   onlive_freq_dx_w2 =
+            // //     response.data.responses[0].aggregations.item.buckets[1]
+            // //       .onlive_freq.value;
+            // //   onlive_freq_dx_w3 =
+            // //     response.data.responses[0].aggregations.item.buckets[2]
+            // //       .onlive_freq.value;
+            // //   onlive_freq_dx_w4 =
+            // //     response.data.responses[0].aggregations.item.buckets[3]
+            // //       .onlive_freq.value;
 
-          // //   vm.weekLiveViewUser.content[0].data.push({
-          // //     value: onlive_usernum_dx_w1,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekLiveViewUser.content[1].data.push({
-          // //     value: onlive_usernum_dx_w2,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekLiveViewUser.content[2].data.push({
-          // //     value: onlive_usernum_dx_w3,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekLiveViewUser.content[3].data.push({
-          // //     value: onlive_usernum_dx_w4,
-          // //     name: "电信"
-          // //   });
+            // //   onlive_dur_dx_w1 =
+            // //     response.data.responses[0].aggregations.item.buckets[0].onlive_dur
+            // //       .value;
+            // //   onlive_dur_dx_w2 =
+            // //     response.data.responses[0].aggregations.item.buckets[1].onlive_dur
+            // //       .value;
+            // //   onlive_dur_dx_w3 =
+            // //     response.data.responses[0].aggregations.item.buckets[2].onlive_dur
+            // //       .value;
+            // //   onlive_dur_dx_w4 =
+            // //     response.data.responses[0].aggregations.item.buckets[3].onlive_dur
+            // //       .value;
 
-          // //   vm.weekLiveViewTimes.content[0].data.push({
-          // //     value: onlive_freq_dx_w1,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekLiveViewTimes.content[1].data.push({
-          // //     value: onlive_freq_dx_w2,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekLiveViewTimes.content[2].data.push({
-          // //     value: onlive_freq_dx_w3,
-          // //     name: "电信"
-          // //   });
-          // //   vm.weekLiveViewTimes.content[3].data.push({
-          // //     value: onlive_freq_dx_w4,
-          // //     name: "电信"
-          // //   });
-          // // }
-        }
-        switch (type) {
-          case "all":
-            break;
-          case "part":
-            break;
-          case "yd":
-            break;
-          case "lt":
-            break;
-          case "dx":
-            break;
-          default:
-            console.log("none!");
-        }
-      });
+            // //   vm.weekliveViewDuration.content[0].data.push({
+            // //     value: onlive_dur_dx_w1,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekliveViewDuration.content[1].data.push({
+            // //     value: onlive_dur_dx_w2,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekliveViewDuration.content[2].data.push({
+            // //     value: onlive_dur_dx_w3,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekliveViewDuration.content[3].data.push({
+            // //     value: onlive_dur_dx_w4,
+            // //     name: "电信"
+            // //   });
+
+            // //   vm.weekLiveViewUser.content[0].data.push({
+            // //     value: onlive_usernum_dx_w1,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekLiveViewUser.content[1].data.push({
+            // //     value: onlive_usernum_dx_w2,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekLiveViewUser.content[2].data.push({
+            // //     value: onlive_usernum_dx_w3,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekLiveViewUser.content[3].data.push({
+            // //     value: onlive_usernum_dx_w4,
+            // //     name: "电信"
+            // //   });
+
+            // //   vm.weekLiveViewTimes.content[0].data.push({
+            // //     value: onlive_freq_dx_w1,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekLiveViewTimes.content[1].data.push({
+            // //     value: onlive_freq_dx_w2,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekLiveViewTimes.content[2].data.push({
+            // //     value: onlive_freq_dx_w3,
+            // //     name: "电信"
+            // //   });
+            // //   vm.weekLiveViewTimes.content[3].data.push({
+            // //     value: onlive_freq_dx_w4,
+            // //     name: "电信"
+            // //   });
+            // // }
+          }
+          switch (type) {
+            case "all":
+              break;
+            case "part":
+              break;
+            case "yd":
+              break;
+            case "lt":
+              break;
+            case "dx":
+              break;
+            default:
+              console.log("none!");
+          }
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     },
     //点击锚点实现左侧滚动
     goAnchor(selector) {

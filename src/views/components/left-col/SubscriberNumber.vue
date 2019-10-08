@@ -94,16 +94,20 @@ export default {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
       let data;
+      let m_operator = commonTools.GetBigScreenOperator();
+
       if (date_time == "day") {
         data = {
-          operator: String(["移动", "联通", "电信"]),
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
           start: ExpirationDate,
           end: ExpirationDate
         };
       }
       if (date_time == "7days") {
         data = {
-          operator: String(["移动", "联通", "电信"]),
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
           end: ExpirationDate
         };

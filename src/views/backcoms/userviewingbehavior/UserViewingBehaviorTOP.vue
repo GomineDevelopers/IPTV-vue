@@ -81,7 +81,7 @@ export default {
       if (this.viewingTopList.type == "demand") {
         this.TopTitleInfo = {
           i1: "排名",
-          i2: "节目类型",
+          i2: "内容类型",
           i3: "节目",
           i4: "次数（万）"
         };

@@ -65,8 +65,11 @@ export default {
     users_basic(ExpirationDate) {
       // console.log("~~~~~~users_basic");
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
+
       let temp = {
-        operator: String(["移动", "联通", "电信"]),
+        // operator: String(["移动", "联通", "电信"]),
+        operator: m_operator,
         start: ExpirationDate,
         end: ExpirationDate
       };
@@ -94,7 +97,8 @@ export default {
 
             // let vm = this;
             let temp_p = {
-              operator: String(["移动", "联通", "电信"]),
+              // operator: String(["移动", "联通", "电信"]),
+              operator: m_operator,
               start: date_range.start,
               end: date_range.end
             };
@@ -106,7 +110,8 @@ export default {
 
                 // console.log(response2);
                 let hits2 = response2.data.responses[0].hits.hits;
-                let aggregations2 = response2.data.responses[0].aggregations.ac.buckets;
+                let aggregations2 =
+                  response2.data.responses[0].aggregations.ac.buckets;
 
                 for (i = 0; i < length; i++) {
                   temp1.push(buckets[i].register_num.value);

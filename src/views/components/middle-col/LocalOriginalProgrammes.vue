@@ -14,6 +14,7 @@
 </template>
 <script>
 import { demands_location } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "LocalOriginalProgrammes",
@@ -47,10 +48,13 @@ export default {
     demands_location(ExpirationDate) {
       // console.log("demands_location");
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
+
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator
       };
       demands_location(data)
         .then(function(response) {

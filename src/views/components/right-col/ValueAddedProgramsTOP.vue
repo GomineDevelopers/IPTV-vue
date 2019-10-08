@@ -7,7 +7,7 @@
       <el-row class="viewing_top_title">
         <el-col :span="3">排名</el-col>
         <el-col :span="9">节目名称</el-col>
-        <el-col :span="6">节目类型</el-col>
+        <el-col :span="6">内容类型</el-col>
         <el-col :span="6">热度</el-col>
       </el-row>
       <el-row id="ValueProgramsTOP_list">
@@ -60,31 +60,33 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function (response) {
+        .then(function(response) {
           vm.demands_VipProgramTop(response);
           // vm.scrollLoopUp("ValueProgramsTOP_list");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }, 100);
 
-    setTimeout(function () {
+    setTimeout(function() {
       vm.scrollLoopUp("ValueProgramsTOP_list");
     }, 1000);
   },
   methods: {
     demands_VipProgramTop(ExpirationDate) {
       let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
 
       // console.log("~~~~~~~demands_VipProgramTop");
       let data = {
-        start:  commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
+        start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
         end: ExpirationDate,
-        operator: String(["移动", "联通", "电信"])
+        // operator: String(["移动", "联通", "电信"])
+        operator: m_operator
       };
       demands_VipProgramTop(data)
         .then(function(response) {
@@ -108,12 +110,12 @@ export default {
           }
           vm.ifgetdata = true;
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
           vm.ifgetdata = false;
         });
     },
-    scrollLoopUp: function (id) {
+    scrollLoopUp: function(id) {
       var scrollBox = document.getElementById(id);
       var lineHeight = scrollBox.clientHeight / 6;
       //var lineHeight = 35
