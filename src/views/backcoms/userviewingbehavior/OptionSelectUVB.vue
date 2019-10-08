@@ -501,6 +501,14 @@ export default {
             temp.push(buckets[i].key);
           }
           vm.programa = temp;
+          vm.$store
+            .dispatch("set_UVB_programa_list", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);

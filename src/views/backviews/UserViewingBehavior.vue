@@ -87,8 +87,12 @@ import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; /
 
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
-import { userAction } from "@/api/api_main";
+import { userAction, userAction_demand } from "@/api/api_main";
 import Vue from "vue";
+
+// 当前逻辑 - 由于后台表结构设计不合理，前端逻辑如下设置使简化
+// 点播必请求
+// 如果有点播则加进去，没有点播则不加，点播单独则只用点播即可
 
 export default {
   name: "UserViewingBehavior", //用户收视行为
@@ -286,6 +290,7 @@ export default {
     refresh_api_data() {
       // this.userAction(this.UVB_time_type, this.if_playmode_is_single_db);
       this.userAction(this.UVB_time_type);
+      this.userAction_demand(this.UVB_time_type);
     },
     // userAction(time_type, if_playmode_is_single_db) {
     userAction(time_type) {
@@ -715,6 +720,86 @@ export default {
           console.info(error);
         });
       // }
+    },
+    userAction_demand(time_type) {
+      let vm = this;
+      console.log("~~~~~~~~~~~~~~~~~~userAction_demand");
+      let temp_region = commonTools.acConvert(vm.UVB_region);
+      let temp_operator = commonTools.operatorConvert(vm.UVB_operator);
+      console.log(vm.UVB_programa);
+      console.log(vm.UVB_contenttype);
+
+
+      let temp = {
+        ac: null,
+        operator: null,
+        mode: null,
+        ti: null,
+        program_type: null,
+        start: null,
+        end: null
+      };
+
+      if (time_type == 1) {
+        temp = {
+          ac: String(temp_region),
+          operator: String(temp_operator),
+          mode: String(["点播"]),
+          ti: String(["动漫"]),
+          program_type: String(["健康"]),
+          start: vm.UVB_day,
+          end: vm.UVB_day
+        };
+
+        console.log("~~~~~1:");
+        console.log(temp);
+      } else if (time_type == 2) {
+        let temp_time = commonTools.split_yearAtime(vm.UVB_week);
+
+        temp = {
+          ac: String(temp_region),
+          operator: String(temp_operator),
+          mode: String(temp_playmode),
+          start: temp_time.time,
+          end: temp_time.time,
+          year: temp_time.year
+        };
+
+        console.log("~~~~~2:");
+        console.log(temp);
+      } else if (time_type == 3) {
+        let temp_time = commonTools.split_picker(vm.UVB_picker);
+
+        temp = {
+          ac: String(temp_region),
+          operator: String(temp_operator),
+          mode: String(temp_playmode),
+          start: temp_time.start,
+          end: temp_time.end
+        };
+        console.log("~~~~~3:");
+        console.log(temp);
+      } else {
+        console.log("请选择时间！");
+        return;
+      }
+
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("ac", temp.ac);
+      formData.append("operator", temp.operator);
+      formData.append("mode", temp.mode);
+      formData.append("ti", temp.ti);
+      formData.append("program_type", temp.program_type);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      userAction_demand(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     }
   },
   components: {
@@ -723,6 +808,46 @@ export default {
     "pie-charts": PieCharts,
     "bar-charts-stack": BarChartsStack,
     "bar-chart-single": BarChartSingle
+  },
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_UVB_programa_list")
+        .then(function(response) {
+          console.log(response);
+          let length = response.length;
+          let i;
+          let temp = [];
+          temp.push(["product", "观看数"]);
+          for (i = 0; i < length; i++) {
+            temp.push([response[i], 66.6]);
+          }
+          vm.columnData.data = temp;
+          // console.log(vm.columnData.data);
+          //       columnData: {
+          // title: "栏目（点播专属）",
+          // id: "columnChart",
+          // color: ["#FF6123"],
+          // data: [
+          //   // ["product", "观看数"]
+          //   // ["分类", 43.3],
+          //   // ["电视", 83.1],
+          //   // ["推荐", 43.3],
+          //   // ["电影", 83.1],
+          //   // ["热剧", 86.4],
+          //   // ["少儿", 72.4],
+          //   // ["动漫", 86.4],
+          //   // ["综艺", 43.3],
+          //   // ["体育", 72.4],
+          //   // ["游戏", 72.4],
+          //   // ["纪实", 86.4]
+          // ]
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 1000);
   },
   data() {
     return {
@@ -798,18 +923,18 @@ export default {
         id: "columnChart",
         color: ["#FF6123"],
         data: [
-          ["product", "观看数"],
-          ["分类", 43.3],
-          ["电视", 83.1],
-          ["推荐", 43.3],
-          ["电影", 83.1],
-          ["热剧", 86.4],
-          ["少儿", 72.4],
-          ["动漫", 86.4],
-          ["综艺", 43.3],
-          ["体育", 72.4],
-          ["游戏", 72.4],
-          ["纪实", 86.4]
+          // ["product", "观看数"]
+          // ["分类", 43.3],
+          // ["电视", 83.1],
+          // ["推荐", 43.3],
+          // ["电影", 83.1],
+          // ["热剧", 86.4],
+          // ["少儿", 72.4],
+          // ["动漫", 86.4],
+          // ["综艺", 43.3],
+          // ["体育", 72.4],
+          // ["游戏", 72.4],
+          // ["纪实", 86.4]
         ]
       },
       //直播收视时长TOP

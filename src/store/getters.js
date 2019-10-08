@@ -6,7 +6,7 @@ const getters = {
 
     // 大屏贵州频道Top5 - 单位（全局）
     GuizhouChannel_unit: state => state.app.GuizhouChannel_unit,
-    
+
     // ////////////////// 条件
     // ////// region operator playmode programa
     // ////// day week month picker
@@ -29,6 +29,8 @@ const getters = {
     UVB_week: state => state.app.UVB_week,
     UVB_picker: state => state.app.UVB_picker,
     UVB_time_type: state => state.app.UVB_time_type,
+    UVB_programa_list: state => state.app.UVB_programa_list, // 栏目 - 点播专属
+
 
     // PR  定期报告（运营商）（天、周、月、范围）
     PR_operator: state => state.app.PR_operator,
@@ -56,6 +58,7 @@ const getters = {
     EPG_week: state => state.app.EPG_week,
     EPG_month: state => state.app.EPG_month,
     EPG_time_type: state => state.app.EPG_time_type,
+    EPG_programa_type: state => state.app.EPG_programa_type,
 
     // ADD_ALL 增值业务-总览（运营商、栏目）（周、月）
     ADD_ALL_operator: state => state.app.ADD_ALL_operator,

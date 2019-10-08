@@ -20,7 +20,10 @@ export default {
       "UVB_region",
       "ADD_VIP_region",
       "UVB_playmode",
-      "ADD_VIP_playmode"
+      "ADD_VIP_playmode",
+      "UVB_day",
+      "UVB_week",
+      "UVB_picker"
     ]),
     chartData_Change: {
       get: function() {
@@ -73,7 +76,15 @@ export default {
           if (vm.UVB_playmode) {
             // do nothing. -- 监听刷新
           }
-
+          if (vm.UVB_day) {
+            // do nothing. --监听
+          }
+          if (vm.UVB_week) {
+            // do nothing. --监听
+          }
+          if (vm.UVB_picker) {
+            // do nothing. --监听
+          }
           if (vm.UVB_region == null || vm.UVB_region.length == 0) {
             color = vm.chartData.color;
             data = vm.chartData.data;

@@ -23,6 +23,7 @@ const app = {
         UVB_week: null,
         UVB_picker: [],
         UVB_time_type: 0, // 0-未选择 1-天 2-周 3-范围
+        UVB_programa: [],
         PR_operator: [],
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值
@@ -37,6 +38,7 @@ const app = {
         EPG_week: null,
         EPG_month: null,
         EPG_time_type: 0, // 0-未选择 1-周 2-月
+        EPG_programa_type:0, //  0-未选择 1-固定 2-其他
 
         ADD_ALL_operator: [],
         ADD_ALL_programa: [],
@@ -308,6 +310,17 @@ const app = {
                 resolve(state.UVB_time_type);
             })
         },
+        set_UVB_programa_list({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.UVB_programa_list = data;
+                resolve("UVB_programa_list - SUCCESS !");
+            })
+        },
+        get_UVB_programa_list({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.UVB_programa_list);
+            })
+        },
         set_PR_operator({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PR_operator = data;
@@ -451,6 +464,17 @@ const app = {
         get_EPG_time_type({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.EPG_time_type);
+            })
+        },
+        set_EPG_programa_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.EPG_programa_type = data;
+                resolve("EPG_programa_type - SUCCESS !");
+            })
+        },
+        get_EPG_programa_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.EPG_programa_type);
             })
         },
         set_ADD_ALL_operator({ commit, state }, data) {
