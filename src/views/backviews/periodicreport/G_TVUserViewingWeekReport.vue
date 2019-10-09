@@ -229,7 +229,7 @@ export default {
         let count = vm.PR_operator.length;
         if (count == 3) {
           // 执行 1+3个
-          vm.users_weekActiveReport("all", temp_operator, "weekRange");
+          vm.users_weekActiveReport("all", vm.PR_operator, "weekRange");
           vm.users_weekActiveReport("all", vm.PR_operator, "week");
           vm.users_weekActiveReport("yd", ["移动"], "week");
           vm.users_weekActiveReport("lt", ["联通"], "week");

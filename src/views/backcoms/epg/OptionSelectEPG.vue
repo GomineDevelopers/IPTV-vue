@@ -161,18 +161,18 @@ export default {
       programa_isIndeterminate: true,
 
       options_others: [
-        {
-          value: "选项1",
-          label: "其他1"
-        },
-        {
-          value: "选项2",
-          label: "其他2"
-        },
-        {
-          value: "选项3",
-          label: "其他3"
-        }
+        // {
+        //   value: "选项1",
+        //   label: "其他1"
+        // },
+        // {
+        //   value: "选项2",
+        //   label: "其他2"
+        // },
+        // {
+        //   value: "选项3",
+        //   label: "其他3"
+        // }
       ],
       value_others: [], //其他节目类型选择
       timeChoose: '',
@@ -380,7 +380,7 @@ export default {
     //点击运营商切换栏目分类
     programsSwitch() {
       let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //移动1.0栏目分类
-      let programs_yd_two = ["分类", "电视", "推荐", "VIP", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
+      let programs_yd_two = ["分类", "电视", "推荐", "vip", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
       let programs_lt = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //联通栏目分类
       let programs_dx = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //电信栏目分类
 
@@ -409,10 +409,7 @@ export default {
 
     //获取总的栏目分类数据
     getEpgProgramsTotal() {
-      let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //移动1.0栏目分类
-      let programs_yd_two = ["分类", "电视", "推荐", "VIP", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
-      let programs_lt = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //联通栏目分类
-      let programs_dx = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //电信栏目分类
+      let programs_yd_two = ["分类", "电视", "推荐", "vip", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
       // console.log(this.EPG_operator)
       let operator
       if (this.EPG_operator.length == 1) {
@@ -430,24 +427,39 @@ export default {
             console.log(operator)
             console.log("EPG所有栏目分类", response.data.responses)
             let programs_total = null
-            let epg_programs_total = []
+            let epg_programs_total = []  //后台返回的总的节目类型
             if (this.EPG_operator[0] == '移动2.0') {
               programs_total = response.data.responses[1].aggregations.ti.buckets
               console.log("EPG栏目分类移动2.0", epg_programs_total)
-              let other_programs = this.distinct(epg_programs_total, programs_yd_two)
-              // epg_programs_total.forEach((value, index) => {
-              //   console.log(value)
-              // })
-              // console.log("去重的数据为", other_programs)
-            } else {
-              programs_total = response.data.responses[0].aggregations.ti.buckets
-              console.log("EPG栏目分类1.0", epg_programs_total)
               programs_total.forEach((value, index) => {
                 epg_programs_total.push(value.key)
               })
-              console.log('epg_programs_total', epg_programs_total)
-              let other_programs = this.distinct(epg_programs_total, programs_yd_one)
-              console.log("去重的数据为", this.distinct(epg_programs_total, programs_yd_one))
+              var otherProgramsList = []  //其他节目类型数组（下拉框的值）
+              epg_programs_total.forEach((value, index) => {
+                if (programs_yd_two.indexOf(value) == -1) {
+                  otherProgramsList.push({
+                    value: value,
+                    lable: value
+                  })
+                }
+              })
+              this.options_others = otherProgramsList  //设置 ‘其他’ 节目类型下拉框的值
+            } else {
+              programs_total = response.data.responses[0].aggregations.ti.buckets
+              // console.log("EPG栏目分类1.0", epg_programs_total)
+              programs_total.forEach((value, index) => {
+                epg_programs_total.push(value.key)
+              })
+              var otherProgramsList = []  //其他节目类型数组（下拉框的值）
+              epg_programs_total.forEach((value, index) => {
+                if (programs_yd_two.indexOf(value) == -1) {
+                  otherProgramsList.push({
+                    value: value,
+                    lable: value
+                  })
+                }
+              })
+              this.options_others = otherProgramsList  //设置 ‘其他’ 节目类型下拉框的值
             }
 
             //this.epgProgramsTotal = response.data.responses[0].aggregations.ti.buckets
@@ -537,22 +549,6 @@ export default {
       var x = new Set(arr)
       return [...x]
     }
-    // distinct(a, b) {
-    //   let arr = a.concat(b)
-    //   let result = []
-    //   for (let i of arr) {
-    //     !result.includes(i) && result.push(i)
-    //   }
-    //   return result
-    // }
-
-    //     function unique5(arr){
-    //   var x = new Set(arr);
-    //   return [...x];
-    // },
-    // distinct(a, b) {
-    //   return Array.from(new Set([...a, ...b]))
-    // }
   },
 
 };
