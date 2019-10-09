@@ -19,7 +19,7 @@
           <span class="title_border_left"></span>在网
         </el-row>
         <el-row class="chart_body back_white">
-          <com-registered></com-registered>
+          <com-registered v-bind:api_data1="api_data1"></com-registered>
         </el-row>
       </el-col>
       <el-col class="user_register_right height_auto" :span="12">
@@ -27,7 +27,7 @@
           <span class="title_border_left"></span>激活
         </el-row>
         <el-row class="chart_body back_white">
-          <com-activate></com-activate>
+          <com-activate v-bind:api_data2="api_data2"></com-activate>
         </el-row>
       </el-col>
     </el-row>
@@ -40,7 +40,7 @@
           <span class="title_border_left"></span>在网
         </el-row>
         <el-row class="chart_body user_online_body back_white">
-          <com-inthenetwork></com-inthenetwork>
+          <com-inthenetwork v-bind:api_data3="api_data3"></com-inthenetwork>
         </el-row>
       </el-col>
       <el-col class="height_auto padding_left" :span="10">
@@ -48,7 +48,7 @@
           <span class="title_border_left"></span>在网用户结构
         </el-row>
         <el-row class="chart_body user_structure_body back_white">
-          <com-userstructure></com-userstructure>
+          <com-userstructure v-bind:api_data4="api_data4"></com-userstructure>
         </el-row>
       </el-col>
     </el-row>
@@ -60,7 +60,7 @@
         <span class="title_border_left"></span>用户细分
       </el-row>
       <el-row class="chart_body padding_10">
-        <com-customersegmentation></com-customersegmentation>
+        <com-customersegmentation v-bind:api_data5="api_data5"></com-customersegmentation>
       </el-row>
     </el-row>
     <!-- 用户细分结束 -->
@@ -133,7 +133,17 @@ export default {
   },
   data() {
     return {
-      form: {}
+      form: {},
+      // 在网
+      // 激活
+      // 在网（2）
+      // 在网用户结构
+      // 用户细分
+      api_data1: [],
+      api_data2: [],
+      api_data3: [],
+      api_data4: [],
+      api_data5: []
     };
   },
   methods: {
@@ -169,8 +179,7 @@ export default {
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~1:");
         console.log(temp);
-      }
-      if (time_type == 2) {
+      } else if (time_type == 2) {
         // 时间类型-2-周
         // console.log("~~~~~week:" + vm.ULC_week);
         let temp_time = commonTools.split_yearAtime(vm.ULC_week);
@@ -184,8 +193,7 @@ export default {
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~2:");
         console.log(temp);
-      }
-      if (time_type == 3) {
+      } else if (time_type == 3) {
         // 时间类型-3-月
         // console.log("~~~~~month:" + vm.ULC_month);
         let temp_time = commonTools.split_yearAtime(vm.ULC_month);
@@ -201,22 +209,39 @@ export default {
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~3:");
         console.log(temp);
+      } else {
+        // 未选择时间情况
+        return;
       }
 
-      // var formData = new FormData();
-      // var formData = new window.FormData();
-      // formData.append("area", temp.area);
-      // formData.append("operator", temp.operator);
-      // formData.append("start", temp.start);
-      // formData.append("end", temp.end);
+      // 测试开启
+      vm.api_data1 = [1];
+      vm.api_data2 = [1];
+      vm.api_data3 = [1];
+      vm.api_data4 = [1];
+      vm.api_data5 = [1];
+      return; // 测试开启
 
-      // userLives(formData)
-      //   .then(function(response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("area", temp.area);
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+
+      userLives(formData)
+        .then(function(response) {
+          console.log(response);
+
+          // 在网
+          // 激活
+          // 在网（2）
+          // 在网用户结构
+          // 用户细分
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     }
   },
   components: {

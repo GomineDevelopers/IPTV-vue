@@ -30,17 +30,63 @@
 <script>
 import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图Y轴显示百分比组件
 import { mapGetters } from "vuex";
+import Vue from "vue";
 
 export default {
   name: "Activate",
+  props: ["api_data2"],
   components: {
     "line-chart-single-prop": LineChartSingleProp
   },
+  watch: {
+    api_data2(newValue, oldValue) {
+      let vm = this;
+
+      console.log("ULC - api_data2:");
+      console.log(newValue);
+      // vm.activationNum.title = "激活用户数-测试";
+      // vm.activationRate.title = "激活率-测试";
+
+      // 此处组件-刷新-drawline()
+    },
+    ULC_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        let str;
+        if (newValue == 1) {
+          str = "当日";
+        }
+        if (newValue == 2) {
+          str = "本周";
+        }
+        if (newValue == 3) {
+          str = "本月";
+        }
+        Vue.set(vm.activationRate.data[1], 0, str);
+      }, 1000);
+    }
+  },
   computed: {
-    ...mapGetters(["ULC_region"]),
+    ...mapGetters([
+      "ULC_region",
+      "ULC_time_type",
+      "ULC_operator",
+      "ULC_day",
+      "ULC_week",
+      "ULC_month"
+    ]),
     activationNum_Change: {
       get: function() {
         let vm = this;
+        if (
+          vm.ULC_region &&
+          vm.ULC_operator &&
+          vm.ULC_day &&
+          vm.ULC_week &&
+          vm.ULC_month
+        ) {
+          // do nothing. -- 监听
+        }
         let id = vm.activationNum.id;
         let title = vm.activationNum.title;
         let dataName = vm.activationNum.dataName;
@@ -109,6 +155,24 @@ export default {
 
   data() {
     return {
+      activationNum: {
+        id: "echartsAA",
+        title: "激活用户数",
+        dataName: ["激活数"],
+        color: ["#FF6123"],
+        data_region: [
+          "贵阳",
+          "遵义",
+          "安顺",
+          "黔南",
+          "黔东南",
+          "铜仁",
+          "毕节",
+          "六盘水",
+          "黔西南"
+        ],
+        series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+      },
       activationRate: {
         title: "激活率",
         id: "newPayingUsers",
@@ -129,24 +193,6 @@ export default {
           ["本月", 30, 40, 30, 70, 90, 50, 80, 30, 40],
           ["同期", 20, 40, 50, 40, 60, 40, 77, 50, 80]
         ]
-      },
-      activationNum: {
-        id: "echartsAA",
-        title: "激活用户数",
-        dataName: ["激活数"],
-        color: ["#FF6123"],
-        data_region: [
-          "贵阳",
-          "遵义",
-          "安顺",
-          "黔南",
-          "黔东南",
-          "铜仁",
-          "毕节",
-          "六盘水",
-          "黔西南"
-        ],
-        series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
       }
     };
   },
@@ -281,6 +327,7 @@ export default {
           }
         ]
       };
+      myChart2.clear();
       myChart2.setOption(option2);
       window.addEventListener("resize", () => {
         myChart2.resize();

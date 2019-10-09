@@ -118,7 +118,7 @@
     <button @click="login">login</button>
     <!-- <button @click="register">register</button> -->
 
-    <div id="echartsUA" :style="{width: '14vw',height: '14vw'}"></div>
+    <div id="echartsTESTUA" :style="{width: '14vw',height: '14vw'}"></div>
   </div>
 </template>
 
@@ -1421,7 +1421,7 @@ export default {
       });
     },
     drawLine() {
-      var myChart = this.$echarts.init(document.getElementById("echartsUA"));
+      var myChart = this.$echarts.init(document.getElementById("echartsTESTUA"));
       let vm = this;
       var option = {
         title: {

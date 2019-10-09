@@ -3,7 +3,10 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>留存率和激活趋势
     </el-row>
-    <el-row id="retention_and_activation"></el-row>
+    <el-row id="retention_and_activation" v-show="ifgetdata"></el-row>
+    <el-row v-show="!ifgetdata" class="exception_p2">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
@@ -14,6 +17,7 @@ export default {
   name: "RetentionAndActivation", //留存率和激活趋势组件
   data() {
     return {
+      ifgetdata: true,
       echarts_data: {
         id: "retention_and_activation",
         data_date: [
@@ -186,14 +190,17 @@ export default {
               if (time_type == "days7") {
                 console.log(response2);
               }
+              vm.ifgetdata = true;
               vm.setRntenChart();
             })
             .catch(function(error) {
               console.info(error);
+              vm.ifgetdata = false;
             });
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
     },
     setRntenChart() {

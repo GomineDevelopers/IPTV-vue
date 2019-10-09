@@ -14,14 +14,14 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 1000);
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_day"]),
     fillinData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         let data = [];
         let length1 = vm.fillinData.data.length;
@@ -34,6 +34,9 @@ export default {
         let d1_1 = [];
 
         if (vm.fillinData.id == "turnOnRate_UADR") {
+          if (vm.PR_day) {
+            // do nothing. -- 监听
+          }
           if (this.PR_operator == null || this.PR_operator.length == 0) {
             data = vm.fillinData.data;
           } else {
@@ -69,7 +72,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
@@ -82,7 +85,7 @@ export default {
         }
         return vm.fillinData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
 

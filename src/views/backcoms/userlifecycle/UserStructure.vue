@@ -19,12 +19,58 @@
 <script>
 export default {
   name: "UserStructure",
-  data() {
-    return {};
+  props: ["api_data4"],
+  watch: {
+    api_data4(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC - api_data4:");
+      console.log(newValue);
+      // 测试
+      vm.US_data1.data1 = [
+        { value: 123, name: "订购" },
+        { value: 77, name: "未订购" }
+      ];
+      vm.US_data2.data1 = [
+        { value: 111, name: "firsttime" },
+        { value: 13, name: "onetime" },
+        { value: 19, name: "周期性购买" },
+        { value: 317, name: "忠诚用户" },
+        { value: 22, name: "疑似流失" }
+      ];
+      // 此处组件-刷新-drawline()
+      setTimeout(function() {
+        vm.drawLine();
+        vm.drawLine2();
+      }, 100);
+    }
   },
+  mounted() {
+    this.drawLine();
+    this.drawLine2();
+  },
+  data() {
+    return {
+      US_data1: {
+        id: "echartsUA",
+        data1: [{ value: 23, name: "订购" }, { value: 77, name: "未订购" }]
+      },
+      US_data2: {
+        id: "echartsUB",
+        data1: [
+          { value: 11, name: "firsttime" },
+          { value: 13, name: "onetime" },
+          { value: 19, name: "周期性购买" },
+          { value: 37, name: "忠诚用户" },
+          { value: 22, name: "疑似流失" }
+        ]
+      }
+    };
+  },
+
   methods: {
     drawLine() {
-      var myChart = this.$echarts.init(document.getElementById("echartsUA"));
+      let vm = this;
+      var myChart = this.$echarts.init(document.getElementById(vm.US_data1.id));
 
       var option = {
         title: {
@@ -63,7 +109,7 @@ export default {
                 length: 1
               }
             },
-            data: [{ value: 23, name: "订购" }, { value: 77, name: "未订购" }],
+            data: vm.US_data1.data1,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -74,14 +120,15 @@ export default {
           }
         ]
       };
-
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
       });
     },
     drawLine2() {
-      var myChart = this.$echarts.init(document.getElementById("echartsUB"));
+      let vm = this;
+      var myChart = this.$echarts.init(document.getElementById(vm.US_data2.id));
 
       var option = {
         title: {
@@ -120,13 +167,7 @@ export default {
                 length: 0
               }
             },
-            data: [
-              { value: 11, name: "firsttime" },
-              { value: 13, name: "onetime" },
-              { value: 19, name: "周期性购买" },
-              { value: 37, name: "忠诚用户" },
-              { value: 22, name: "疑似流失" }
-            ],
+            data: vm.US_data2.data1,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -137,16 +178,12 @@ export default {
           }
         ]
       };
-
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
       });
     }
-  },
-  mounted() {
-    this.drawLine();
-    this.drawLine2();
   }
 };
 </script>

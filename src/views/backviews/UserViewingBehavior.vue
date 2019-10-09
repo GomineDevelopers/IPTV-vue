@@ -106,7 +106,8 @@ export default {
       "UVB_day",
       "UVB_week",
       "UVB_picker",
-      "UVB_time_type"
+      "UVB_time_type",
+      "UVB_programa_list"
     ]),
     ifPlaymodeShow_zb: {
       get: function() {
@@ -269,22 +270,27 @@ export default {
       if (newValue == "观看次数") {
         vm.regionData.data = vm.regionData_data_arr[0];
         vm.operatorData.data = vm.operatorData_arr[0];
+        vm.columnData.data = vm.columnData_arr[0];
       }
       if (newValue == "观看时长") {
         vm.regionData.data = vm.regionData_data_arr[1];
         vm.operatorData.data = vm.operatorData_arr[1];
+        vm.columnData.data = vm.columnData_arr[1];
       }
       if (newValue == "观看户数") {
         vm.regionData.data = vm.regionData_data_arr[2];
         vm.operatorData.data = vm.operatorData_arr[2];
+        vm.columnData.data = vm.columnData_arr[2];
       }
       if (newValue == "户均收视次数") {
         vm.regionData.data = vm.regionData_data_arr[3];
         vm.operatorData.data = vm.operatorData_arr[3];
+        vm.columnData.data = vm.columnData_arr[3];
       }
       if (newValue == "次均收视次数") {
         vm.regionData.data = vm.regionData_data_arr[4];
         vm.operatorData.data = vm.operatorData_arr[4];
+        vm.columnData.data = vm.columnData_arr[4];
       }
     },
     refresh_api_data() {
@@ -486,8 +492,8 @@ export default {
           temp_all.push(temp4);
           temp_all.push(temp5);
           vm.regionData_data_arr = temp_all;
-          console.log("~~~~~~~~~~~~~~~regionData_data_arr");
-          console.log(vm.regionData_data_arr);
+          // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
+          // console.log(vm.regionData_data_arr);
           // ////////////////////////////
 
           let buckets_0B = response.data.responses[0].aggregations.ac1.buckets; // x3
@@ -655,8 +661,8 @@ export default {
           temp_all_B.push(temp3_B);
           temp_all_B.push(temp4_B);
           temp_all_B.push(temp5_B);
-          console.log("~~~~~~~~temp_all_B");
-          console.log(temp_all_B);
+          // console.log("~~~~~~~~temp_all_B");
+          // console.log(temp_all_B);
           vm.operatorData_arr = temp_all_B;
 
           // /////////// liveViewingTopList - 1 - 直播Top15
@@ -726,9 +732,20 @@ export default {
       console.log("~~~~~~~~~~~~~~~~~~userAction_demand");
       let temp_region = commonTools.acConvert(vm.UVB_region);
       let temp_operator = commonTools.operatorConvert(vm.UVB_operator);
-      console.log(vm.UVB_programa);
-      console.log(vm.UVB_contenttype);
-
+      let temp_programa;
+      if (vm.UVB_programa.length == 0) {
+        temp_programa = vm.UVB_programa_list;
+      } else {
+        temp_programa = vm.UVB_programa;
+      }
+      let temp_contenttype;
+      if (vm.UVB_contenttype.length == 0) {
+        temp_contenttype = ["健康", "音乐"];
+      } else {
+        temp_contenttype = vm.UVB_contenttype;
+      }
+      console.log(temp_programa);
+      console.log(temp_contenttype);
 
       let temp = {
         ac: null,
@@ -745,8 +762,8 @@ export default {
           ac: String(temp_region),
           operator: String(temp_operator),
           mode: String(["点播"]),
-          ti: String(["动漫"]),
-          program_type: String(["健康"]),
+          ti: String(temp_programa),
+          program_type: String(temp_contenttype),
           start: vm.UVB_day,
           end: vm.UVB_day
         };
@@ -759,7 +776,9 @@ export default {
         temp = {
           ac: String(temp_region),
           operator: String(temp_operator),
-          mode: String(temp_playmode),
+          mode: String(["点播"]),
+          ti: String(temp_programa),
+          program_type: String(temp_contenttype),
           start: temp_time.time,
           end: temp_time.time,
           year: temp_time.year
@@ -773,7 +792,9 @@ export default {
         temp = {
           ac: String(temp_region),
           operator: String(temp_operator),
-          mode: String(temp_playmode),
+          mode: String(["点播"]),
+          ti: String(temp_programa),
+          program_type: String(temp_contenttype),
           start: temp_time.start,
           end: temp_time.end
         };
@@ -796,6 +817,93 @@ export default {
       userAction_demand(formData)
         .then(function(response) {
           console.log(response);
+
+          let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
+          let length_ti = buckets_ti.length;
+          let i_ti;
+          let temp1 = []; // 观看次数 - demand_freq
+          let temp2 = []; // 观看时长 - demand_dur
+          let temp3 = []; // 观看户数 - demand_user_num
+          let temp4 = []; // 户均收视次数 - watch_freq_family
+          let temp5 = []; // 次均收视次数 - watch_dur_mean
+          let temp_all_C = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ti
+
+          // ["product", "观看数"]
+          // ["分类", 43.3],
+          // ["电视", 83.1],
+          // ["推荐", 43.3],
+          // ["电影", 83.1],
+          // ["热剧", 86.4],
+          // ["少儿", 72.4],
+          // ["动漫", 86.4],
+          // ["综艺", 43.3],
+          // ["体育", 72.4],
+          // ["游戏", 72.4],
+          // ["纪实", 86.4]
+          temp1.push(["product", "观看次数"]);
+          temp2.push(["product", "观看时长"]);
+          temp3.push(["product", "观看户数"]);
+          temp4.push(["product", "户均收视次数"]);
+          temp5.push(["product", "次均收视次数"]);
+
+          function dataManage(ti_name) {
+            for (i_ti = 0; i_ti < length_ti; i_ti++) {
+              if (buckets_ti[i_ti].key == ti_name) {
+                temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
+                temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
+                temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
+                temp4.push([ti_name, buckets_ti[i_ti].watch_freq_family.value]);
+                temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
+              }
+            }
+          }
+
+          let length_pl = vm.UVB_programa_list.length;
+          let i_pl;
+          for (i_pl = 0; i_pl < length_pl; i_pl++) {
+            // 按照 UVB_programa_list 的顺序写入数据
+            dataManage(vm.UVB_programa_list[i_pl]);
+          }
+
+          temp_all_C.push(temp1);
+          temp_all_C.push(temp2);
+          temp_all_C.push(temp3);
+          temp_all_C.push(temp4);
+          temp_all_C.push(temp5);
+          // console.log("~~~~~~~~temp_all_C");
+          // console.log(temp_all_C);
+          vm.columnData_arr = temp_all_C;
+
+          // /////////// orderViewingTopList - 2 - 点播Top15
+          let buckets_top =
+            response.data.responses[1].aggregations.programname.buckets;
+          let length_top = buckets_top.length;
+          let i_top;
+          let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
+          let temp_data_top;
+          for (i_top = 0; i_top < length_top; i_top++) {
+            temp_data_top = {
+              // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
+              topNum: i_top + 1,
+              programName: buckets_top[i_top].program_type.buckets[0].key,
+              programSource: buckets_top[i_top].key,
+              hot:
+                String(
+                  commonTools.returnFloat_2(
+                    (buckets_top[i_top].demand_freq.value /
+                      temp_max_value_top) *
+                      100
+                  )
+                ) + "%",
+              // playNum: String(
+              //   commonTools.returnFloat_2(
+              //     buckets_top[i_top].demand_freq.value / 10000
+              //   )
+              // ) // 次数（万）
+              playNum: String(buckets_top[i_top].demand_freq.value) // 次数 （单次）
+            };
+            vm.orderViewingTopList.data.push(temp_data_top);
+          }
         })
         .catch(function(error) {
           console.info(error);
@@ -821,7 +929,7 @@ export default {
           let temp = [];
           temp.push(["product", "观看数"]);
           for (i = 0; i < length; i++) {
-            temp.push([response[i], 66.6]);
+            temp.push([response[i], 0]);
           }
           vm.columnData.data = temp;
           // console.log(vm.columnData.data);
@@ -937,6 +1045,7 @@ export default {
           // ["纪实", 86.4]
         ]
       },
+      columnData_arr: [],
       //直播收视时长TOP
       liveViewingTopList: {
         type: "live",
@@ -1054,111 +1163,111 @@ export default {
         type: "demand",
         id: "orderViewingTopList",
         data: [
-          {
-            topNum: 1,
-            programName: "疯狂的外星人",
-            programSource: "电影",
-            hot: "90%",
-            playNum: "12.3"
-          },
-          {
-            topNum: 2,
-            programName: "熊出没.原始",
-            programSource: "少儿",
-            hot: "85%",
-            playNum: "11.2"
-          },
-          {
-            topNum: 3,
-            programName: "流浪地球",
-            programSource: "电影",
-            hot: "83%",
-            playNum: "10.3"
-          },
-          {
-            topNum: 4,
-            programName: "人间.喜剧",
-            programSource: "电影",
-            hot: "80%",
-            playNum: "10.1"
-          },
-          {
-            topNum: 5,
-            programName: "白发",
-            programSource: "电视剧",
-            hot: "78%",
-            playNum: "9.5"
-          },
-          {
-            topNum: 6,
-            programName: "反贪风暴",
-            programSource: "电影",
-            hot: "73%",
-            playNum: "9.2"
-          },
-          {
-            topNum: 7,
-            programName: "一出好戏",
-            programSource: "电影",
-            hot: "70%",
-            playNum: "9.0"
-          },
-          {
-            topNum: 8,
-            programName: "拜托了冰箱",
-            programSource: "综艺",
-            hot: "68%",
-            playNum: "8.7"
-          },
-          {
-            topNum: 9,
-            programName: "极限挑战",
-            programSource: "真人秀",
-            hot: "64%",
-            playNum: "8.5"
-          },
-          {
-            topNum: 10,
-            programName: "陈情令",
-            programSource: "电视剧",
-            hot: "60%",
-            playNum: "8.0"
-          },
-          {
-            topNum: 11,
-            programName: "反贪风暴",
-            programSource: "电影",
-            hot: "56%",
-            playNum: "7.5"
-          },
-          {
-            topNum: 12,
-            programName: "一出好戏",
-            programSource: "电影",
-            hot: "53%",
-            playNum: "7.0"
-          },
-          {
-            topNum: 13,
-            programName: "拜托了冰箱",
-            programSource: "综艺",
-            hot: "50%",
-            playNum: "6.8"
-          },
-          {
-            topNum: 14,
-            programName: "极限挑战",
-            programSource: "真人秀",
-            hot: "45%",
-            playNum: "6.3"
-          },
-          {
-            topNum: 15,
-            programName: "陈情令",
-            programSource: "电视剧",
-            hot: "40%",
-            playNum: "6.0"
-          }
+          // {
+          //   topNum: 1,
+          //   programName: "疯狂的外星人",
+          //   programSource: "电影",
+          //   hot: "90%",
+          //   playNum: "12.3"
+          // },
+          // {
+          //   topNum: 2,
+          //   programName: "熊出没.原始",
+          //   programSource: "少儿",
+          //   hot: "85%",
+          //   playNum: "11.2"
+          // },
+          // {
+          //   topNum: 3,
+          //   programName: "流浪地球",
+          //   programSource: "电影",
+          //   hot: "83%",
+          //   playNum: "10.3"
+          // },
+          // {
+          //   topNum: 4,
+          //   programName: "人间.喜剧",
+          //   programSource: "电影",
+          //   hot: "80%",
+          //   playNum: "10.1"
+          // },
+          // {
+          //   topNum: 5,
+          //   programName: "白发",
+          //   programSource: "电视剧",
+          //   hot: "78%",
+          //   playNum: "9.5"
+          // },
+          // {
+          //   topNum: 6,
+          //   programName: "反贪风暴",
+          //   programSource: "电影",
+          //   hot: "73%",
+          //   playNum: "9.2"
+          // },
+          // {
+          //   topNum: 7,
+          //   programName: "一出好戏",
+          //   programSource: "电影",
+          //   hot: "70%",
+          //   playNum: "9.0"
+          // },
+          // {
+          //   topNum: 8,
+          //   programName: "拜托了冰箱",
+          //   programSource: "综艺",
+          //   hot: "68%",
+          //   playNum: "8.7"
+          // },
+          // {
+          //   topNum: 9,
+          //   programName: "极限挑战",
+          //   programSource: "真人秀",
+          //   hot: "64%",
+          //   playNum: "8.5"
+          // },
+          // {
+          //   topNum: 10,
+          //   programName: "陈情令",
+          //   programSource: "电视剧",
+          //   hot: "60%",
+          //   playNum: "8.0"
+          // },
+          // {
+          //   topNum: 11,
+          //   programName: "反贪风暴",
+          //   programSource: "电影",
+          //   hot: "56%",
+          //   playNum: "7.5"
+          // },
+          // {
+          //   topNum: 12,
+          //   programName: "一出好戏",
+          //   programSource: "电影",
+          //   hot: "53%",
+          //   playNum: "7.0"
+          // },
+          // {
+          //   topNum: 13,
+          //   programName: "拜托了冰箱",
+          //   programSource: "综艺",
+          //   hot: "50%",
+          //   playNum: "6.8"
+          // },
+          // {
+          //   topNum: 14,
+          //   programName: "极限挑战",
+          //   programSource: "真人秀",
+          //   hot: "45%",
+          //   playNum: "6.3"
+          // },
+          // {
+          //   topNum: 15,
+          //   programName: "陈情令",
+          //   programSource: "电视剧",
+          //   hot: "40%",
+          //   playNum: "6.0"
+          // }
         ]
       },
       //回看收视时长TOP

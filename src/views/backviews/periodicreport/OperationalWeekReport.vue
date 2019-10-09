@@ -380,6 +380,9 @@ export default {
     "line-chart-single": LineChartSingle,
     "thematic-data-trend-chart": ThematicDataTrendChart
   },
+  computed: {
+    ...mapGetters(["PR_week"])
+  },
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
@@ -458,23 +461,42 @@ export default {
     },
     users_mobileReport(operator_type, week_type) {
       let vm = this;
+      console.log("~~~~~!users_mobileReport");
+      console.log(vm.PR_week);
       if (vm.PR_week == "" || vm.PR_week == null || vm.PR_week == undefined) {
         return;
       }
 
       let m_operator;
-      if (operator_type == "yd") {  // 暂且只有移动的
+      if (operator_type == "yd") {
+        // 暂且只有移动的
         m_operator = "移动";
       }
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
       let temp;
+
+      let WeekFormat = commonTools.weekDaysShowFormat_AndBeforeWeek(
+        temp_time.week_day_start,
+        temp_time.week_day_end
+      );
+      beforeWeekFormat = WeekFormat.beforeWeekFormat;
+      currentWeekFormat = WeekFormat.currentWeekFormat; // 用于显示（将传入数据）
+      console.log(WeekFormat);
+      let beforeWeekFormat;
+      let currentWeekFormat;
       if (week_type == "week") {
         temp = {
           operator: String([m_operator]),
           year: temp_time.year,
-          start: temp_time.week,
+          // start: temp_time.week,
+          start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
           end: temp_time.week
+          // start: "22week",
+          // end: "23week"
+          // date: temp_time.week
         };
+        console.log("~~~~~~a");
+        console.log(temp);
       }
       if (week_type == "week_days") {
         temp = {
@@ -483,25 +505,62 @@ export default {
           start: temp_time.week_day_start,
           end: temp_time.week_day_end
         };
+        console.log("~~~~~~b");
+        console.log(temp);
       }
 
-      // var formData = new FormData();
-      // var formData = new window.FormData();
-      // formData.append("operator", temp.operator);
-      // formData.append("start", temp.start);
-      // formData.append("end", temp.end);
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      formData.append("year", temp.year);
+      users_mobileReport(formData)
+        .then(function(response) {
+          // //////////////////////////////// 数据填充
+          if (week_type == "week") {
+            console.log("users_mobileReport  week");
+            console.log(response);
+            let buckets_0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
+            let length_0 = buckets_0.length;
+            let i_0;
+            // 在册用户数（万户） register_num
+            // 开机用户数（万户） open_num
+            // 开机率  --- 待看表
+            // let temp_data_0 = [];
+            // temp_data_0.push([
+            //   "product",
+            //   "在册用户数（万户）",
+            //   "开机用户数（万户）",
+            //   "开机率"
+            // ]);
+            // for (i_0 = 0; i_0 < length_0; i_0++) {
+            //   if (i_0 == 0) {
+            //     temp_data_0.push([
+            //       beforeWeekFormat,
+            //       parseInt(buckets_0[i_0].open_num_chain) / 10000,
+            //       parseInt(buckets_0[i_0].register_num) / 10000,
+            //       100
+            //     ]);
+            //   }
+            //   if (i_0 == 1) {
+            //     temp_data_0.push([currentWeekFormat, 113.4, 54.4, 48.0]);
+            //   }
+            // }
+            // vm.userNumAddPowerData = temp_data_0; // 周末用户总量与一周开机率
+          }
 
-      // users_mobileReport(formData)
-      //   .then(function(response) {
-      // if (week_type == "week") {
-      // }
-      // if (week_type == "week_days") {
-      // }
-
-      // })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
+          if (week_type == "week_days") {
+            console.log("users_mobileReport  week_days");
+            console.log(response);
+          }
+          // //////////////////////////////// 数据填充
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     },
     //点击锚点实现左侧滚动
     goAnchor(selector) {

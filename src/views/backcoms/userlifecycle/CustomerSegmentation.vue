@@ -150,6 +150,13 @@ export default {
   components: {
     "user-viewing-behavior-top": UserViewingBehaviorTOP
   },
+  props: ["api_data5"],
+  watch: {
+    api_data5(newValue, oldValue) {
+      console.log("ULC - api_data5:");
+      console.log(newValue);
+    }
+  },
   data() {
     return {
       targetOption: "", //存放选择的指标
@@ -377,96 +384,97 @@ export default {
           }
         ]
       },
-      customerSegmentation: {  // 用户细分数据
-        title: ['VIP包', '用户数（万）', '户均观看时长', '完播率', '观看行为'],
-        viewingBehaviorCategory: ['少儿', '影视', '非少儿非影视'],
+      customerSegmentation: {
+        // 用户细分数据
+        title: ["VIP包", "用户数（万）", "户均观看时长", "完播率", "观看行为"],
+        viewingBehaviorCategory: ["少儿", "影视", "非少儿非影视"],
         categoryData: [
           {
-            userCategoryName: '订购-Firsttime',
+            userCategoryName: "订购-Firsttime",
             data: [
               {
-                title: '家庭包',
-                userNum: '12',
-                familyWatchTime: '123',
-                theSeedingRate: '59%',
-                viewingBehaviorData: ['30', '58', '12']
+                title: "家庭包",
+                userNum: "12",
+                familyWatchTime: "123",
+                theSeedingRate: "59%",
+                viewingBehaviorData: ["30", "58", "12"]
               },
               {
-                title: '少儿包',
-                userNum: '13',
-                familyWatchTime: '13',
-                theSeedingRate: '19%',
-                viewingBehaviorData: ['54', '20', '26']
+                title: "少儿包",
+                userNum: "13",
+                familyWatchTime: "13",
+                theSeedingRate: "19%",
+                viewingBehaviorData: ["54", "20", "26"]
               },
               {
-                title: '影视包',
-                userNum: '22',
-                familyWatchTime: '103',
-                theSeedingRate: '40%',
-                viewingBehaviorData: ['13', '30', '57']
-              },
+                title: "影视包",
+                userNum: "22",
+                familyWatchTime: "103",
+                theSeedingRate: "40%",
+                viewingBehaviorData: ["13", "30", "57"]
+              }
             ]
           },
           {
-            userCategoryName: '订购-Onetime',
+            userCategoryName: "订购-Onetime",
             data: [
               {
-                title: '家庭包',
-                userNum: '121',
-                familyWatchTime: '13',
-                theSeedingRate: '29%',
-                viewingBehaviorData: ['50', '20', '30']
+                title: "家庭包",
+                userNum: "121",
+                familyWatchTime: "13",
+                theSeedingRate: "29%",
+                viewingBehaviorData: ["50", "20", "30"]
               },
               {
-                title: '少儿包',
-                userNum: '134',
-                familyWatchTime: '134',
-                theSeedingRate: '89%',
-                viewingBehaviorData: ['54', '40', '6']
+                title: "少儿包",
+                userNum: "134",
+                familyWatchTime: "134",
+                theSeedingRate: "89%",
+                viewingBehaviorData: ["54", "40", "6"]
               },
               {
-                title: '影视包',
-                userNum: '22',
-                familyWatchTime: '103',
-                theSeedingRate: '40%',
-                viewingBehaviorData: ['10', '30', '60']
-              },
+                title: "影视包",
+                userNum: "22",
+                familyWatchTime: "103",
+                theSeedingRate: "40%",
+                viewingBehaviorData: ["10", "30", "60"]
+              }
             ]
           },
           {
-            userCategoryName: '订购-忠诚用户',
+            userCategoryName: "订购-忠诚用户",
             data: [
               {
-                title: '家庭包',
-                userNum: '436',
-                familyWatchTime: '123',
-                theSeedingRate: '80%',
-                viewingBehaviorData: ['20', '60', '20']
+                title: "家庭包",
+                userNum: "436",
+                familyWatchTime: "123",
+                theSeedingRate: "80%",
+                viewingBehaviorData: ["20", "60", "20"]
               },
               {
-                title: '少儿包',
-                userNum: '13',
-                familyWatchTime: '13',
-                theSeedingRate: '19%',
-                viewingBehaviorData: ['54', '20', '26']
+                title: "少儿包",
+                userNum: "13",
+                familyWatchTime: "13",
+                theSeedingRate: "19%",
+                viewingBehaviorData: ["54", "20", "26"]
               },
               {
-                title: '影视包',
-                userNum: '22',
-                familyWatchTime: '103',
-                theSeedingRate: '40%',
-                viewingBehaviorData: ['10', '30', '60']
-              },
+                title: "影视包",
+                userNum: "22",
+                familyWatchTime: "103",
+                theSeedingRate: "40%",
+                viewingBehaviorData: ["10", "30", "60"]
+              }
             ]
           },
           {
-            userCategoryName: '未订购用户',
+            userCategoryName: "未订购用户",
             data: [
               {
-                title: '',
-                userNum: '12',
-                familyWatchTime: '',
-                theSeedingRate: '',
+                title: "",
+                userNum: "12",
+                familyWatchTime: "",
+                theSeedingRate: "",
                 viewingBehaviorData: []
               }
             ]
@@ -475,9 +483,7 @@ export default {
       }
     };
   },
-  created() {
-
-  },
+  created() {},
   methods: {}
 };
 </script>

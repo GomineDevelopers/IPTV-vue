@@ -572,104 +572,104 @@ export default {
           {
             icon: "&#xe600;",
             title: "在册用户",
-            numT: "231.1",
+            numT: "0",
             content: "每日新增在册用户",
-            numC: "12423"
+            numC: "0"
           },
           {
             icon: "&#xe620;",
             title: "激活用户",
-            numT: "132.2",
+            numT: "0",
             content: "激活率",
-            numC: "67%"
+            numC: "0%"
           },
 
           {
             icon: "&#xe60c;",
             title: "开机用户",
-            numT: "23.1",
+            numT: "0",
             content: "开机率",
-            numC: "32%"
+            numC: "0%"
           },
           {
             icon: "&#xe641;",
             title: "收视用户",
-            numT: "29.1",
+            numT: "0",
             content: "户均收视次数",
-            numC: "12231"
+            numC: "0"
           },
           {
             icon: "&#xe64f;",
             title: "付费用户",
-            numT: "18.1",
+            numT: "0",
             content: "付费转化率",
-            numC: "12423"
+            numC: "0"
           },
           {
             icon: "&#xe612;",
             title: "停机",
-            numT: "0.7",
+            numT: "0",
             content: "每日停机户",
-            numC: "32"
+            numC: "0"
           },
           {
             icon: "&#xe601;",
             title: "销户",
-            numT: "2.5",
+            numT: "0",
             content: "每日销户数",
-            numC: "25"
+            numC: "0"
           }
         ],
         datashow2: [
           {
             icon: "&#xe600;",
             title: "在册用户",
-            numT: "231.1",
+            numT: "0",
             content: "每日新增在册用户",
-            numC: "12423"
+            numC: "0"
           },
           {
             icon: "&#xe620;",
             title: "激活用户",
-            numT: "132.2",
+            numT: "0",
             content: "激活率",
-            numC: "67%"
+            numC: "0%"
           },
 
           {
             icon: "&#xe60c;",
             title: "开机用户",
-            numT: "23.1",
+            numT: "0",
             content: "开机率",
-            numC: "32%"
+            numC: "0%"
           },
           {
             icon: "&#xe641;",
             title: "收视用户",
-            numT: "29.1",
+            numT: "0",
             content: "户均收视次数",
-            numC: "12231"
+            numC: "0"
           },
           {
             icon: "&#xe64f;",
             title: "付费用户",
-            numT: "18.1",
+            numT: "0",
             content: "付费转化率",
-            numC: "12423"
+            numC: "0"
           },
           {
             icon: "&#xe612;",
             title: "停机",
-            numT: "0.7",
+            numT: "0",
             content: "每日停机户",
-            numC: "32"
+            numC: "0"
           },
           {
             icon: "&#xe601;",
             title: "销户",
-            numT: "2.5",
+            numT: "0",
             content: "每日销户数",
-            numC: "25"
+            numC: "0"
           }
         ],
         datashow2_beifen: [

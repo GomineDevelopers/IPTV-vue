@@ -12,11 +12,27 @@ export default {
     lineData: Object
   },
   computed: {
-    ...mapGetters(["ULC_region", "PR_operator"]),
+    ...mapGetters([
+      "ULC_region",
+      "PR_operator",
+      "ULC_operator",
+      "ULC_day",
+      "ULC_week",
+      "ULC_month"
+    ]),
     lineData_Change: {
-      get: function () {
+      get: function() {
         var vm = this;
         if (vm.lineData.id == "newPayingUsers") {
+          if (
+            vm.ULC_region &&
+            vm.ULC_operator &&
+            vm.ULC_day &&
+            vm.ULC_week &&
+            vm.ULC_month
+          ) {
+            // do nothing. -- 监听
+          }
           // 用户生命周期-激活(right-折线图)
           let id = vm.lineData.id;
           let title = vm.lineData.title;
@@ -34,6 +50,9 @@ export default {
               d2.push(vm.lineData.data[1][num]);
               d3.push(vm.lineData.data[2][num]);
             }
+            d1.push(vm.lineData.data[0][0]);
+            d2.push(vm.lineData.data[1][0]);
+            d3.push(vm.lineData.data[2][0]);
             if (vm.ULC_region.indexOf("贵阳") > -1) {
               itemManage(1);
             }
@@ -66,7 +85,7 @@ export default {
             data.push(d3);
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("newPayingUsers 视图更新");
             vm.setLineChart();
           }, 1000);
@@ -105,7 +124,7 @@ export default {
             // console.log(data);
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             vm.setLineChart();
           }, 1000);
           return {
@@ -116,12 +135,12 @@ export default {
           };
         }
         // 视图更新
-        setTimeout(function () {
+        setTimeout(function() {
           vm.setLineChart();
         }, 1000);
         return vm.lineData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   data() {
@@ -129,7 +148,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 1000);
   },
@@ -182,7 +201,7 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function (params) {
+          formatter: function(params) {
             // console.log(params);
             let title = params[0].data[0];
 
@@ -195,14 +214,17 @@ export default {
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
-              return date_year +
+              return (
+                date_year +
                 date_month +
                 title +
                 "<br/>" +
                 marker1 +
                 t1 +
                 ":  " +
-                value1 + '%'
+                value1 +
+                "%"
+              );
             }
           }
         },

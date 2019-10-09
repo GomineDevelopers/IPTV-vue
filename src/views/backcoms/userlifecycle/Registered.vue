@@ -1,6 +1,6 @@
 <template>
   <div class="Registered">
-    <div id="echartsA" class="echarts1"></div>
+    <div :id="data1_Change.id" class="echarts1"></div>
     <!-- <div id="echartsB" class="echarts2"></div> -->
     <div :id="data2_Change.id" class="echarts2"></div>
   </div>
@@ -11,12 +11,57 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Registered",
+  props: ["api_data1"],
+  watch: {
+    api_data1(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC - api_data1:");
+      console.log(newValue);
+      // vm.data1.data2 = ["299.5", "213.4"]; // 测试
+
+      // 此处组件-刷新-drawline()
+    }
+  },
   computed: {
-    ...mapGetters(["ULC_region", "ULC_operator"]),
+    ...mapGetters([
+      "ULC_region",
+      "ULC_operator",
+      "ULC_day",
+      "ULC_week",
+      "ULC_month"
+    ]),
+    data1_Change: {
+      get: function() {
+        let vm = this;
+        if (
+          vm.ULC_region &&
+          vm.ULC_operator &&
+          vm.ULC_day &&
+          vm.ULC_week &&
+          vm.ULC_month
+        ) {
+          // do nothing. -- 监听
+        }
+
+        setTimeout(function() {
+          vm.drawLine();
+        }, 300);
+        return vm.data1;
+      },
+      set: function(newValue) {}
+    },
     data2_Change: {
       get: function() {
         var vm = this;
-
+      if (
+          vm.ULC_region &&
+          vm.ULC_operator &&
+          vm.ULC_day &&
+          vm.ULC_week &&
+          vm.ULC_month
+        ) {
+          // do nothing. -- 监听
+        }
         // /////////////// 地区判断
 
         var region = [];
@@ -120,8 +165,14 @@ export default {
   },
   data() {
     return {
+      data1: {
+        id: "ULC_echartsA",
+        title: "在网用户数",
+        data1: ["7.08-7.14", "7.15-7.21"],
+        data2: ["219.4", "213.4"]
+      },
       data2: {
-        id: "echartsB",
+        id: "ULC_echartsB",
         color: ["#FF6123", "#FF8859", "#FFAA89"],
         region: [
           "贵阳",
@@ -144,16 +195,19 @@ export default {
     };
   },
   mounted() {
-    this.drawLine();
+    // this.drawLine();
     // this.drawLine2();
   },
   methods: {
     drawLine() {
-      var myChart = this.$echarts.init(document.getElementById("echartsA"));
+      let vm = this;
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.data1_Change.id)
+      );
       var option = {
         title: {
           // text: "在册用户数",
-          text: "在网用户数",
+          text: vm.data1_Change.title,
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
@@ -188,7 +242,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["7.08-7.14", "7.15-7.21"],
+            data: vm.data1_Change.data1,
             axisTick: {
               alignWithLabel: true
             },
@@ -228,10 +282,10 @@ export default {
         series: [
           {
             // name: "在册用户数",
-            name: "在网用户数",
+            name: vm.data1_Change.title,
             type: "bar",
             barWidth: "40%",
-            data: ["209.4", "213.4"],
+            data: vm.data1_Change.data2,
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
@@ -253,6 +307,7 @@ export default {
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();

@@ -125,6 +125,13 @@ export default {
             vm.$store
               .dispatch("get_BigScreenExpirationDate")
               .then(function(res2) {
+                if (
+                  vm.PR_day == null ||
+                  vm.PR_day == undefined ||
+                  vm.PR_day == ""
+                ) {
+                  return;
+                }
                 vm.users_daliyReport("yd", "rangeday", res2, res2);
                 vm.users_daliyReport("lt", "rangeday", res2, res2);
                 vm.users_daliyReport("dx", "rangeday", res2, res2);
@@ -156,6 +163,13 @@ export default {
               vm.$store
                 .dispatch("get_BigScreenExpirationDate")
                 .then(function(res2) {
+                  if (
+                    newValue == null ||
+                    newValue == undefined ||
+                    newValue == ""
+                  ) {
+                    return;
+                  }
                   vm.users_daliyReport("yd", "rangeday", res2, res2);
                   vm.users_daliyReport("lt", "rangeday", res2, res2);
                   vm.users_daliyReport("dx", "rangeday", res2, res2);
@@ -229,11 +243,23 @@ export default {
       }
       console.log("~~~~~~!!vm.PR_day");
       console.log(vm.PR_day);
-      let start = StartDate;
-      let end = ExpirationDate;
+
+      // let start = StartDate;
+      // let end = ExpirationDate;
+      let start;
+      let end;
       if (vm.PR_day != null) {
-        start = vm.PR_day.start;
-        end = vm.PR_day.end;
+        if (date_type == "singleday") {
+          start = vm.PR_day.start;
+          end = vm.PR_day.end;
+        }
+        if (date_type == "rangeday") {
+          let temp_b7d = commonTools.currentDay_7daysAgoRange(vm.PR_day.start);
+          let data_start = temp_b7d.start;
+          let data_end = temp_b7d.end;
+          start = data_start;
+          end = data_end;
+        }
       }
       let temp = {
         // operator: String(["移动"]),
@@ -241,8 +267,13 @@ export default {
         // start: "2019-07-01",
         // end: "2019-07-01"
         start: start,
-        end: start
+        end: end
       };
+
+      console.log("~~~~~~~!");
+      console.log(temp);
+
+      return;
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("operator", temp.operator);

@@ -63,6 +63,9 @@ export default {
   float: right;
   margin-right: 4px;
 }
+/* .DataShow .info:hover{
+  cursor: pointer;
+} */
 
 .DataShow .Dtop {
   margin: 0;

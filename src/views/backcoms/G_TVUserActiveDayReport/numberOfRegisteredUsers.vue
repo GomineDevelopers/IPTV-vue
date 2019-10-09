@@ -14,15 +14,18 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_day"]),
     fillinData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         let data = [];
         let color = [];
         let d0 = [];
         let d1 = [];
         if (vm.fillinData.id == "registeredUsers_UADR") {
+          if (vm.PR_day) {
+            // do nothing. -- 监听
+          }
           if (this.PR_operator == null || this.PR_operator.length == 0) {
             data = vm.fillinData.data;
             color = vm.fillinData.color;
@@ -54,7 +57,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("视图更新");
             vm.setLineChart();
           }, 300);
@@ -68,7 +71,7 @@ export default {
 
         return vm.fillinData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   mounted() {

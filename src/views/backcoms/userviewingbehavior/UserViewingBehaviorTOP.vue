@@ -21,7 +21,7 @@
               <span>{{item.programSource}}</span>
             </el-col>
             <el-col :span="6" class="hotWidth">
-              <span :style="{width:item.hot}">{{item.playNum}}</span>
+              <span :style="{width:item.hot,paddingRight:'5%',paddingLeft:'5%'}">{{item.playNum}}</span>
             </el-col>
           </el-row>
         </el-row>
@@ -83,7 +83,9 @@ export default {
           i1: "排名",
           i2: "内容类型",
           i3: "节目",
-          i4: "次数（万）"
+          // i4: "次数（万）"
+          i4: "次数"
+
         };
       }
       this.scrollLoopUp(this.viewingTopList.id);

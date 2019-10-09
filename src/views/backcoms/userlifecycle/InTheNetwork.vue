@@ -54,29 +54,111 @@
 export default {
   name: "InTheNetwork",
   data() {
-    return {}
+    return {
+      Net_data1: {
+        id: "Net_echartsA",
+        data1: ["A", "B", "C", "D"],
+        data2: [
+          { value: 1035, name: "A" },
+          { value: 979, name: "B" },
+          { value: 848, name: "C" },
+          { value: 748, name: "D" }
+        ]
+      },
+      Net_data2: {
+        id: "Net_echartsB",
+        data2: [
+          { value: 1035, name: "A" },
+          { value: 979, name: "B" },
+          { value: 848, name: "C" },
+          { value: 748, name: "D" }
+        ]
+      },
+      Net_data3: {
+        id: "Net_echartsC",
+        data2: [
+          { value: 1035, name: "A" },
+          { value: 979, name: "B" },
+          { value: 848, name: "C" },
+          { value: 748, name: "D" }
+        ]
+      },
+      Net_data4: {
+        id: "Net_echartsD",
+        data2: [
+          { value: 1035, name: "A" },
+          { value: 979, name: "B" },
+          { value: 848, name: "C" },
+          { value: 748, name: "D" }
+        ]
+      }
+    };
+  },
+  props: ["api_data3"],
+  watch: {
+    api_data3(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC - api_data3:");
+      console.log(newValue);
+
+      // 测试
+      vm.Net_data1.data2 = [
+        { value: 1000, name: "A" },
+        { value: 50, name: "B" },
+        { value: 50, name: "C" },
+        { value: 50, name: "D" }
+      ];
+      vm.Net_data2.data2 = [
+        { value: 1000, name: "A" },
+        { value: 50, name: "B" },
+        { value: 50, name: "C" },
+        { value: 50, name: "D" }
+      ];
+      vm.Net_data3.data2 = [
+        { value: 1000, name: "A" },
+        { value: 50, name: "B" },
+        { value: 50, name: "C" },
+        { value: 50, name: "D" }
+      ];
+      vm.Net_data4.data2 = [
+        { value: 1000, name: "A" },
+        { value: 50, name: "B" },
+        { value: 50, name: "C" },
+        { value: 50, name: "D" }
+      ];
+      // 此处组件-刷新-drawline()
+      setTimeout(function() {
+        vm.drawLine1();
+        vm.drawLine2();
+        vm.drawLine3();
+        vm.drawLine4();
+      }, 100);
+    }
   },
   mounted() {
-    this.drawLine1()
-    this.drawLine2()
-    this.drawLine3()
-    this.drawLine4()
+    this.drawLine1();
+    this.drawLine2();
+    this.drawLine3();
+    this.drawLine4();
   },
   methods: {
     drawLine1() {
-      var myChart = this.$echarts.init(document.getElementById("Net_echartsA"));
+      let vm = this;
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.Net_data1.id)
+      );
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: 'width:120px;height:60px',
-          formatter: "{a} <br/>{b}: {c} ({d}%)",
+          extraCssText: "width:120px;height:60px",
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: [
           {
             show: true,
             top: "15%",
             left: "80%",
-            data: ["A", "B", "C", "D"],
+            data: vm.Net_data1.data1,
             itemWidth: 12,
             itemHeight: 6,
             width: 40,
@@ -111,15 +193,11 @@ export default {
               }
             },
             hoverAnimation: false, //鼠标移入变大false
-            data: [
-              { value: 1035, name: "A", },
-              { value: 979, name: "B" },
-              { value: 848, name: "C" },
-              { value: 748, name: "D" }
-            ]
+            data: vm.Net_data1.data2
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
@@ -127,11 +205,15 @@ export default {
     },
 
     drawLine2() {
-      var myChart = this.$echarts.init(document.getElementById("Net_echartsB"));
+      let vm = this;
+
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.Net_data2.id)
+      );
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: 'width:120px;height:60px',
+          extraCssText: "width:120px;height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
@@ -159,15 +241,11 @@ export default {
                 show: false
               }
             },
-            data: [
-              { value: 1035, name: "A" },
-              { value: 979, name: "B" },
-              { value: 848, name: "C" },
-              { value: 748, name: "D" }
-            ]
+            data: vm.Net_data2.data2
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
@@ -175,11 +253,15 @@ export default {
     },
 
     drawLine3() {
-      var myChart = this.$echarts.init(document.getElementById("Net_echartsC"));
+      let vm = this;
+
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.Net_data3.id)
+      );
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: 'width:120px;height:60px',
+          extraCssText: "width:120px;height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
@@ -207,15 +289,11 @@ export default {
                 show: false
               }
             },
-            data: [
-              { value: 1035, name: "A" },
-              { value: 979, name: "B" },
-              { value: 848, name: "C" },
-              { value: 748, name: "D" }
-            ]
+            data: vm.Net_data3.data2
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
@@ -223,11 +301,14 @@ export default {
     },
 
     drawLine4() {
-      var myChart = this.$echarts.init(document.getElementById("Net_echartsD"));
+      let vm = this;
+      var myChart = this.$echarts.init(
+        document.getElementById(vm.Net_data4.id)
+      );
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: 'width:120px;height:60px',
+          extraCssText: "width:120px;height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
@@ -255,22 +336,18 @@ export default {
                 show: false
               }
             },
-            data: [
-              { value: 1035, name: "A" },
-              { value: 979, name: "B" },
-              { value: 848, name: "C" },
-              { value: 748, name: "D" }
-            ]
+            data: vm.Net_data4.data2
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
       });
     }
   }
-}
+};
 </script>
 
 <style>

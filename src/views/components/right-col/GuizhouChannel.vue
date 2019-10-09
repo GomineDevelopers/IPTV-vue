@@ -5,7 +5,7 @@
       贵州频道收视TOP5({{GuizhouChannel_unit}})
     </el-row>
     <el-row class="programmes_name"></el-row>
-    <el-row class="zone_programmes_body">
+    <el-row class="zone_programmes_body" v-show="ifgetdata">
       <!-- <el-row :id="echarts_data.id"></el-row> -->
       <live-view-behavior-analysis :barListData="GuizhouChannelData"></live-view-behavior-analysis>
     </el-row>

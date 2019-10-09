@@ -7,6 +7,49 @@ const commonTools = {}
 // import { commonTools } from "@/utils/common";
 import CryptoJS from 'crypto-js' //加密js
 
+
+
+
+// 返回当前周前n周的week
+// 传入：22week ，1   输出  21week
+commonTools.ReturnBeforeWeek = function (weekString, before_n) {
+    let str_split = weekString.split("week");
+    let reStr;
+    if (parseInt(str_split[0]) == 1) { // 第1周 处理 则 1week~1week
+        reStr = String(parseInt(str_split[0])) + "week";
+    }
+    else {
+        reStr = String(parseInt(str_split[0]) - before_n) + "week";
+    }
+    return reStr;
+}
+// 周-天格式显示转换
+// 2019-09-01 ,2019-09-07 =》  0901-0907
+commonTools.weekDaysShowFormat = function (date1, date2) {
+    let str_split1 = date1.split("-");
+    let str_split2 = date2.split("-");
+    return str_split1[1] + str_split1[2] + "-" + str_split2[1] + str_split2[2];
+}
+// 周-天格式显示转换+上一周的
+// 2019-09-01 ,2019-09-07 =》 2019-08-25,2019-08-31,2019-09-01 ,2019-09-07 => 0825-0831,0901-0907
+// 注意传入的 date1为本(年)周的第一天，date2为(年)周的第二天
+commonTools.weekDaysShowFormat_AndBeforeWeek = function (date1, date2) {
+    let str_split1 = date1.split("-");
+    let str_split2 = date2.split("-");
+
+    let beforeWeekDays = commonTools.currentDay_7daysAgoRange(date1);
+    let date3 = beforeWeekDays.start; // 上（年）周一
+    let date4 = beforeWeekDays.end;   // 上（年）周日
+    let str_split3 = date3.split("-");
+    let str_split4 = date4.split("-");
+
+    return {
+        beforeWeekFormat: str_split3[1] + str_split3[2] + "-" + str_split4[1] + str_split4[2],
+        currentWeekFormat: str_split1[1] + str_split1[2] + "-" + str_split2[1] + str_split2[2]
+    }
+}
+
+
 commonTools.getCookieCry = function (name) {
     if (document.cookie.length > 0) {
         var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
