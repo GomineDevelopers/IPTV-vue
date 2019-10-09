@@ -623,10 +623,11 @@ export function epg(postData) {
 // 获取epg栏目
 // post http://{{iptv}}/api/epg/programs/list
 
-export function epg_programs() {
+export function epg_programs(postData) {
     return request({
-        method: 'get',
+        method: 'post',
         url: '/epg/programs/list',
+        data: postData
     })
 }
 
