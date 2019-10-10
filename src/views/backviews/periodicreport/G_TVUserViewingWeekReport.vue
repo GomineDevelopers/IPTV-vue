@@ -14,6 +14,9 @@
               v-bind:api_data_m2="api_data_m2"
               v-bind:api_data_m3="api_data_m3"
               v-bind:api_data_m4="api_data_m4"
+              v-bind:api_data_m2_range="api_data_m2_range"
+              v-bind:api_data_m3_range="api_data_m3_range"
+              v-bind:api_data_m4_range="api_data_m4_range"
             ></com-UVWR-m1>
           </el-row>
 
@@ -89,6 +92,7 @@ import UVWR_m5 from "@/views/backviews_pr/GT_UVWR/UVWR_m5";
 
 import { mapGetters } from "vuex";
 import { users_weekActiveReport } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
 import { timeout } from "q";
 
 export default {
@@ -103,10 +107,14 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       this.api_data_set();
-    }
+    },
+    PR_week(newValue, oldValue) {
+      // console.log("当前选择时间为", newValue)
+      this.api_data_set();
+    },
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
     ifModuleydShow: {
       get: function () {
         let vm = this;
@@ -157,10 +165,14 @@ export default {
       api_data_m1: null, //single/part/all
       api_data_m1_range: null,
       api_data_m2: null, //yd
+      api_data_m2_range: null, //yd（周对比）
       api_data_m3: null, //lt
+      api_data_m3_range: null, //lt（周对比）
       api_data_m4: null, //dx
+      api_data_m4_range: null, //dx（周对比）
       api_data_m5: null, //single/part/all
       // updateDoor: true
+      // WeekFormat: null
     };
   },
   mounted() {
@@ -221,8 +233,11 @@ export default {
         vm.users_weekActiveReport("all", temp_operator, "week");
 
         vm.users_weekActiveReport("yd", ["移动"], "week");
+        vm.users_weekActiveReport("yd", ["移动"], "weekRange");
         vm.users_weekActiveReport("lt", ["联通"], "week");
+        vm.users_weekActiveReport("lt", ["联通"], "weekRange");
         vm.users_weekActiveReport("dx", ["电信"], "week");
+        vm.users_weekActiveReport("dx", ["电信"], "weekRange");
 
 
       } else {
@@ -232,19 +247,25 @@ export default {
           vm.users_weekActiveReport("all", vm.PR_operator, "weekRange");
           vm.users_weekActiveReport("all", vm.PR_operator, "week");
           vm.users_weekActiveReport("yd", ["移动"], "week");
+          vm.users_weekActiveReport("yd", ["移动"], "weekRange");
           vm.users_weekActiveReport("lt", ["联通"], "week");
+          vm.users_weekActiveReport("lt", ["联通"], "weekRange");
           vm.users_weekActiveReport("dx", ["电信"], "week");
+          vm.users_weekActiveReport("dx", ["电信"], "weekRange");
         }
         if (count == 2) {
           // 执行 1+2个
           if (vm.PR_operator.indexOf("移动") > -1) {
             vm.users_weekActiveReport("yd", ["移动"], "week");
+            vm.users_weekActiveReport("yd", ["移动"], "weekRange");
           }
           if (vm.PR_operator.indexOf("联通") > -1) {
             vm.users_weekActiveReport("lt", ["联通"], "week");
+            vm.users_weekActiveReport("yd", ["联通"], "weekRange");
           }
           if (vm.PR_operator.indexOf("电信") > -1) {
             vm.users_weekActiveReport("dx", ["电信"], "week");
+            vm.users_weekActiveReport("yd", ["电信"], "weekRange");
           }
           vm.users_weekActiveReport("part", vm.PR_operator, "weekRange");
           vm.users_weekActiveReport("part", vm.PR_operator, "week");
@@ -254,17 +275,20 @@ export default {
           // 执行 1个
           if (vm.PR_operator.indexOf("移动") > -1) {
             vm.users_weekActiveReport("yd", ["移动"], "week");
+            vm.users_weekActiveReport("yd", ["移动"], "weekRange");
             vm.users_weekActiveReport("all", ["移动"], "weekRange");
             vm.users_weekActiveReport("all", ["移动"], "week");
 
           }
           if (vm.PR_operator.indexOf("联通") > -1) {
             vm.users_weekActiveReport("lt", ["联通"], "week");
+            vm.users_weekActiveReport("lt", ["联通"], "weekRange");
             vm.users_weekActiveReport("all", ["联通"], "weekRange");
             vm.users_weekActiveReport("all", ["联通"], "week");
           }
           if (vm.PR_operator.indexOf("电信") > -1) {
             vm.users_weekActiveReport("dx", ["电信"], "week");
+            vm.users_weekActiveReport("dx", ["电信"], "weekRange");
             vm.users_weekActiveReport("all", ["电信"], "weekRange");
             vm.users_weekActiveReport("all", ["电信"], "week");
           }
@@ -276,20 +300,30 @@ export default {
       let tempOperatorArr = m_PR_operator;
       // console.log("~~~~~");
       // console.log(tempOperatorArr);
+      let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);  //本周时间
+      // console.log("本周时间temp_time：", temp_time)
+      // vm.WeekFormat = WeekFormat
       let temp;
       if (wee_type == "week") {
         temp = {
           operator: String([tempOperatorArr]),
-          start: "2019-06-10",
-          end: "2019-06-16"    //暂定这一周
+          start: temp_time.week_day_start,
+          end: temp_time.week_day_end
+          // start: "2019-06-10",
+          // end: "2019-06-16"    //暂定这一周
         };
       }
+      // console.log("temp", temp)
+      let last_week = commonTools.currentDay_7daysAgoRange(temp_time.week_day_start)  //获取上周的时间
+      // console.log("last_week", last_week)
       //上一周的数据
       if (wee_type == "weekRange") {
         temp = {
           operator: String([tempOperatorArr]),
-          start: "2019-06-03",
-          end: "2019-06-09"    //暂定这一周
+          start: last_week.start,
+          end: last_week.end,
+          // start: "2019-06-03",
+          // end: "2019-06-09"    //暂定这一周
         };
       }
       var formData = new FormData();
@@ -343,12 +377,15 @@ export default {
                 // vm.api_data_m5 = response;
                 break;
               case "yd":
+                vm.api_data_m2_range = response;
                 // vm.api_data_m2 = response;
                 break;
               case "lt":
+                vm.api_data_m3_range = response;
                 // vm.api_data_m3 = response;
                 break;
               case "dx":
+                vm.api_data_m4_range = response;
                 // vm.api_data_m4 = response;
                 break;
               default:

@@ -8,6 +8,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "BarListChart_Change", //专题专区数据报告
   props: {
@@ -15,12 +16,23 @@ export default {
       type: Object
     }
   },
+  computed: {
+    ...mapGetters(["PR_week"]),
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
+    },
+  },
   data() {
     return {};
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -134,6 +146,20 @@ export default {
             show: false, //Y轴不显示
             lineStyle: {
               color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+            }
+          },
+          axisLabel: {
+            interval: 0,
+            show: true,
+            formatter: function (val) {
+              var strs = val.split(""); //字符串数组
+              var str = "";
+              for (var i = 0, s; (s = strs[i++]);) {
+                //遍历字符串数组
+                str += s;
+                if (!(i % 9)) str += "\n";
+              }
+              return str;
             }
           }
         },

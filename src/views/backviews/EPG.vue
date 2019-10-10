@@ -48,6 +48,7 @@ import EpgPageOne from "../backcoms/epg/EpgPageOne";
 import EpgPageTwo from "../backcoms/epg/EpgPageTwo";
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
+import { epg } from "@/api/api_main";
 
 export default {
   name: "EPG", //EPG
@@ -246,19 +247,19 @@ export default {
       console.log('temp', temp)
 
       //设置上周或者上月的时间选项
-      let last_temp = temp
-      let last_date
-      if (time_type == 1) {
-        last_date = temp.date.replace(/[^0-9]/ig, "") - 1
-        last_temp.date = last_date + 'week'
-      } else if (time_type == 2) {
-        last_date = temp.date.replace(/[^0-9]/ig, "") - 1
-        last_temp.date = last_date + 'month'
-      } else {
-        console.log("请选择时间！")
-      }
+      // let last_temp = temp
+      // let last_date
+      // if (time_type == 1) {
+      //   last_date = temp.date.replace(/[^0-9]/ig, "") - 1
+      //   last_temp.date = last_date + 'week'
+      // } else if (time_type == 2) {
+      //   last_date = temp.date.replace(/[^0-9]/ig, "") - 1
+      //   last_temp.date = last_date + 'month'
+      // } else {
+      //   console.log("请选择时间！")
+      // }
 
-      // console.log("上期时间last_temp", last_temp)
+      // console.log("上周last_temp", last_temp)
 
       var formData = new FormData();
       var formData = new window.FormData();
@@ -267,20 +268,20 @@ export default {
       formData.append("date", temp.date);
       formData.append("year", temp.year);
 
-      var last_formData = new FormData();
-      var last_formData = new window.FormData();
-      last_formData.append("operator", last_temp.operator);
-      last_formData.append("list", last_temp.list);
-      last_formData.append("date", last_temp.date);
-      last_formData.append("year", last_temp.year);
+      // var last_formData = new FormData();
+      // var last_formData = new window.FormData();
+      // last_formData.append("operator", last_temp.operator);
+      // last_formData.append("list", last_temp.list);
+      // last_formData.append("date", last_temp.date);
+      // last_formData.append("year", last_temp.year);
 
-      // epg()
-      //   .then((response) => {
-      //     console.log("EPG所有栏目分类", response.data)
-      //   })
-      //   .catch((error) => {
-      //     console.log("EPG", error)
-      //   })
+      epg(formData)
+        .then((response) => {
+          console.log("EPG页面box信息", response.data)
+        })
+        .catch((error) => {
+          console.log("EPG", error)
+        })
     },
 
     //一级页面与二级页面切换选项卡

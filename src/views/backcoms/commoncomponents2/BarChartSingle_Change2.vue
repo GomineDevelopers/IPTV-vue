@@ -18,12 +18,12 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         if (vm.chartData.id == "GT_UVWR1_D1") {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 1000);
             return vm.chartData;
@@ -38,7 +38,7 @@ export default {
             if (vm.PR_operator.indexOf("电信") > -1) {
               data.push(vm.chartData.data[3]);
             }
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 1000);
             return {
@@ -55,7 +55,7 @@ export default {
         }
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },
@@ -72,60 +72,122 @@ export default {
       var m_barWidth = this.chartData_Change.m_barWidth;
       var ifYaxisShow = this.chartData_Change.ifYaxisShow;
       var ifLegendShow = this.chartData_Change.ifLegendShow;
+      var chartId = this.chartData_Change.id
       var Ybool;
+      var tooltip;
       if (ifYaxisShow) {
-        Ybool = {
-          // 刻度线的设置
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              type: "dotted",
-              opacity: 0.2
-            }
+        tooltip = {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           },
-          axisLine: {
-            show: false, //Y轴不显示
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          },
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字颜大小
-            }
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
+          textStyle: {
+            align: "left"
           }
-        };
+        },
+          Ybool = {
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              }
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
+            }
+          };
+      } if (ifYaxisShow && this.chartData_Change.id == 'GT_UVWR1_D1') {
+        tooltip = {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          },
+          textStyle: {
+            align: "left"
+          },
+          // formatter: '{b}<br />{a}:{c}%'
+        },
+          Ybool = {
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              },
+              formatter: '{value}%'
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
+            }
+          };
       } else {
-        Ybool = {
-          axisLabel: {
-            formatter: function() {
-              return ""; // 隐藏Y左边数据
-            }
+        tooltip = {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
           },
-          // 刻度线的设置
-          splitLine: {
-            show: false
-          },
-          axisLine: {
-            show: false, //Y轴不显示
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          },
-          axisLabel: {
-            //横坐标类目文字
-            show: false
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
+          textStyle: {
+            align: "left"
           }
-        };
+        },
+          Ybool = {
+            axisLabel: {
+              formatter: function () {
+                return ""; // 隐藏Y左边数据
+              }
+            },
+            // 刻度线的设置
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: false
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
+            }
+          };
       }
 
       var barChartSingle = this.$echarts.init(
@@ -151,32 +213,23 @@ export default {
         legend: {
           // show: ifLegendShow,
           show: ifLegendShow,
-          top: "18%",
-          right: "20%",
+          top: "5%",
+          // right: "20%",
           itemWidth: 12,
           itemHeight: 7
         },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          },
-          textStyle: {
-            align: "left"
-          }
-        },
+        tooltip: tooltip,
         //图表自带工具
         toolbox: {
           show: true,
-          top: "16%",
+          top: "3%",
           right: "6%",
           feature: {
             saveAsImage: {}
           }
         },
         grid: {
-          top: "35%",
+          top: "20%",
           left: "10%",
           right: "1%",
           bottom: "10%"

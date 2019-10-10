@@ -22,17 +22,26 @@ export default {
     //     vm.drawLine();
     //   }, 1000);
     // },
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 1000);
+    },
+
     chartData_Change(newValue, oldValue) {
       let vm = this;
       // console.log("AAAAAAAAAAAAAAA")
-
+      // if (vm.PR_week) {
+      //   // do nothing. --监听
+      // }
       setTimeout(function () {
         vm.drawLine();
       }, 1000);
     }
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
     chartData_Change: {
       get: function () {
         let vm = this;
