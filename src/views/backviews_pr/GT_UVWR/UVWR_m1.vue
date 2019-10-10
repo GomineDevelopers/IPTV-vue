@@ -115,7 +115,7 @@
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <el-row class>
         <el-col :span="10">
-          <p class="m_common_sm_title_font">各运营商周一开机率</p>
+          <p class="m_common_sm_title_font">各运营商一周开机率</p>
           <bar-chart-single2 :chartData="GT_UVWR1_D1"></bar-chart-single2>
         </el-col>
         <el-col :span="14">
@@ -440,20 +440,14 @@ export default {
       Vue.set(vm.GT_UVWR1_C6.data, 0, unsub_user_array_temp1)
       Vue.set(vm.GT_UVWR1_C6.data, 1, unsub_user_array_temp2)
 
-      //各运营商周一开机率
-      // data: [
-      //     ["product", "0520-0526", "0527-0602"],
-      //     ["移动", 48.0, 48.1],
-      //     ["联通", 54.2, 57.4],
-      //     ["电信", 20.1, 20.0]
-      //   ]
+      //移动本周开机率
       let current_open_num = userBuckets.open_num.value
       let current_register_num = userBuckets.register_num.value
       let current_open_rate = (current_open_num / current_register_num) * 100
       Vue.set(vm.GT_UVWR1_D1.data[0], 1, beforeWeekFormat)
       Vue.set(vm.GT_UVWR1_D1.data[0], 2, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate)
-      console.log("本周开机率", current_open_rate)
+      Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate.toFixed(2))
+      // console.log("本周开机率", current_open_rate)
 
 
       //移动top15
@@ -625,6 +619,12 @@ export default {
       Vue.set(vm.GT_UVWR1_C6.data, 0, unsub_user_array_temp1)
       Vue.set(vm.GT_UVWR1_C6.data, 2, unsub_user_array_temp2)
 
+      //联通本周开机率
+      let current_open_num = userBuckets.open_num.value
+      let current_register_num = userBuckets.register_num.value
+      let current_open_rate = (current_open_num / current_register_num) * 100
+      Vue.set(vm.GT_UVWR1_D1.data[2], 2, current_open_rate.toFixed(2))
+
       //联通用户本周直播节目收视TOP15
       Vue.set(vm.GT_UVWR1_E2.data[0], 1, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_E2.data[0], 2, beforeWeekFormat)
@@ -792,6 +792,12 @@ export default {
       Vue.set(vm.GT_UVWR1_C6.data, 0, unsub_user_array_temp1)
       Vue.set(vm.GT_UVWR1_C6.data, 3, unsub_user_array_temp2)
 
+      //电信本周开机率
+      let current_open_num = userBuckets.open_num.value
+      let current_register_num = userBuckets.register_num.value
+      let current_open_rate = (current_open_num / current_register_num) * 100
+      Vue.set(vm.GT_UVWR1_D1.data[3], 2, current_open_rate.toFixed(2))
+
       //电信用户本周直播节目收视TOP15
       Vue.set(vm.GT_UVWR1_E3.data[0], 1, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_E3.data[0], 2, beforeWeekFormat)
@@ -854,9 +860,7 @@ export default {
       let current_open_num = userBuckets.open_num.value
       let current_register_num = userBuckets.register_num.value
       let current_open_rate = (current_open_num / current_register_num) * 100
-      Vue.set(vm.GT_UVWR1_D1.data[1], 1, current_open_rate)
-
-      console.log("vm.GT_UVWR1_D1.data", vm.GT_UVWR1_D1.data)
+      Vue.set(vm.GT_UVWR1_D1.data[1], 1, current_open_rate.toFixed(2))
 
       //移动top15
       buckets.forEach((value, index) => {
@@ -874,6 +878,13 @@ export default {
       console.log("联通上周", newValue)
       let vm = this
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
+      let userBuckets = newValue.data.responses[0].aggregations;  //联通数据
+
+      //联通上周开机率
+      let current_open_num = userBuckets.open_num.value
+      let current_register_num = userBuckets.register_num.value
+      let current_open_rate = (current_open_num / current_register_num) * 100
+      Vue.set(vm.GT_UVWR1_D1.data[2], 1, current_open_rate.toFixed(2))
       //联通top15
       buckets.forEach((value, index) => {
         let program = value.key
@@ -890,6 +901,13 @@ export default {
       console.log("电信数据（上周）", newValue)
       let vm = this
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
+      let userBuckets = newValue.data.responses[0].aggregations;  //电信数据总览
+      //联通上周开机率
+      let current_open_num = userBuckets.open_num.value
+      let current_register_num = userBuckets.register_num.value
+      let current_open_rate = (current_open_num / current_register_num) * 100
+      Vue.set(vm.GT_UVWR1_D1.data[3], 1, current_open_rate.toFixed(2))
+
       //电信top15
       buckets.forEach((value, index) => {
         let program = value.key
@@ -1094,11 +1112,17 @@ export default {
         ifLegendShow: true,
         m_barWidth: "20%",
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["移动", 48.0, 48.1],
-          ["联通", 54.2, 57.4],
-          ["电信", 20.1, 20.0]
+          ["product",],
+          ["移动",],
+          ["联通",],
+          ["电信",]
         ]
+        // data: [
+        //   ["product", "0520-0526", "0527-0602"],
+        //   ["移动", 48.0, 48.1],
+        //   ["联通", 54.2, 57.4],
+        //   ["电信", 20.1, 20.0]
+        // ]
       },
       GT_UVWR1_D2: {
         title: "",

@@ -93,7 +93,7 @@ export default {
           top: "10%",
           left: "32%",
           right: "8%",
-          bottom: "10%"
+          bottom: "5%"
         },
         tooltip: {
           trigger: "axis",
