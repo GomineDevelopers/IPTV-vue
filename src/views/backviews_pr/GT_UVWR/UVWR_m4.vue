@@ -34,7 +34,7 @@
           <span class="m_common_content_font">注：由内而外分别是观看用户数、观看次数、观看总时长</span>
         </el-col>
         <el-col :span="12">
-          <p class="m_common_sm_title_font">三大基础功能观看用户数每日走势（万户）</p>
+          <p class="m_common_sm_title_font">三大基础功能观看用户数每日走势（户）</p>
           <!-- 曲线图 -->
           <line-dotted-chart :lineData="GT_UVWR1_N2"></line-dotted-chart>
         </el-col>
@@ -134,6 +134,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import { commonTools } from "@/utils/test";
+import { mapGetters } from "vuex";
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
 import BarListChart2 from "@/views/backcoms/commoncomponents2/BarListChart_Change2"; //排名柱状图
 
@@ -154,31 +157,72 @@ export default {
     "line-dotted-chart": LineDottedChart,
     "smooth-line-chart": SmoothLineChart
   },
-  props: ["api_data_m4"],
+  props: ["api_data_m4", "api_data_m4_range"],
+  computed: {
+    ...mapGetters(["PR_week"]),
+  },
   watch: {
     api_data_m4(newValue, oldValue) {
-      console.log("api_data_m4 - newValue");
-      console.log(newValue);
-
+      // console.log("api_data_m4 - 电信专项数据", newValue)
       let vm = this;
+      //设置本周与上周时间（0603——0609  0610-0616）
+      let temp_time = commonTools.split_WeeksDays_byDWwr(this.PR_week);
+      let WeekFormat = commonTools.weekDaysShowFormat_AndBeforeWeek(
+        temp_time.week_day_start,
+        temp_time.week_day_end
+      );
+      let beforeWeekFormat = WeekFormat.beforeWeekFormat;  //上周时间
+      let currentWeekFormat = WeekFormat.currentWeekFormat; // 本周时间
+
       ////////// 三大基础功能收视数据（移动） 一周总体观看数据  GT_UVWR1_H1
       // 内-》外 1-》3 用户数 次数 总时长
-      let onlive1 = newValue.data.responses[2].aggregations.onlive_user_num.value;
-      let onlive2 = newValue.data.responses[2].aggregations.onlive_freq.value;
-      let onlive3 = newValue.data.responses[2].aggregations.onlive_dur.value;
-      let demand1 = newValue.data.responses[3].aggregations.demand_user_num.value;
-      let demand2 = newValue.data.responses[3].aggregations.demand_freq.value;
-      let demand3 = newValue.data.responses[3].aggregations.demand_dur.value;
-      let watch1 = newValue.data.responses[4].aggregations.watch_user_num.value;
-      let watch2 = newValue.data.responses[4].aggregations.watch_freq.value;
-      let watch3 = newValue.data.responses[4].aggregations.watch_dur.value;
+
+      //在册用户数与新增在册用户数（户）
+      let register_and_new_num = newValue.data.responses[0].aggregations.ac.buckets
+      let register_num_temp = []
+      let new_num_temp = []
+      register_and_new_num.forEach((value, index) => {
+        if (index < 9) {
+          //console.log(commonTools.acConvert_Single(value.key), value.register_num.value, value.new_num.value)
+          //在册用户数与新增在册用户数（户）
+          Vue.set(vm.GT_UVWR1_M1.data[9 - index], 0, commonTools.acConvert_Single(value.key))
+          Vue.set(vm.GT_UVWR1_M1.data[9 - index], 1, value.register_num.value)
+          Vue.set(vm.GT_UVWR1_M1.data[9 - index], 2, value.new_num.value)
+
+          //在册用户占比
+          register_num_temp.push({
+            name: commonTools.acConvert_Single(value.key),
+            value: value.register_num.value
+          })
+          //新增用户占比
+          new_num_temp.push({
+            name: commonTools.acConvert_Single(value.key),
+            value: value.new_num.value
+          })
+        }
+      })
+      vm.GT_UVWR1_M2.content[0].data = register_num_temp
+      vm.GT_UVWR1_M2.content[1].data = new_num_temp
+      // console.log("GT_UVWR1_M2", vm.GT_UVWR1_M2.content)
+
+      //三大基础功能收视数据（电信）
+      //一周总体观看数据
+      let onlive1 = newValue.data.responses[3].aggregations.onlive_user_num.value;
+      let onlive2 = newValue.data.responses[3].aggregations.onlive_freq.value;
+      let onlive3 = newValue.data.responses[3].aggregations.onlive_dur.value;
+      let demand1 = newValue.data.responses[4].aggregations.demand_user_num.value;
+      let demand2 = newValue.data.responses[4].aggregations.demand_freq.value;
+      let demand3 = newValue.data.responses[4].aggregations.demand_dur.value;
+      let watch1 = newValue.data.responses[5].aggregations.watch_user_num.value;
+      let watch2 = newValue.data.responses[5].aggregations.watch_freq.value;
+      let watch3 = newValue.data.responses[5].aggregations.watch_dur.value;
       let content = [
         {
-          title: "观看用户数",
+          title: "观看总时长",
           data: [
-            { value: onlive1, name: "直播" },
-            { value: demand1, name: "点播" },
-            { value: watch1, name: "回看" }
+            { value: onlive3, name: "直播" },
+            { value: demand3, name: "点播" },
+            { value: watch3, name: "回看" }
           ]
         },
         {
@@ -190,201 +234,224 @@ export default {
           ]
         },
         {
-          title: "观看总时长",
+          title: "观看用户数",
           data: [
-            { value: onlive3, name: "直播" },
-            { value: demand3, name: "点播" },
-            { value: watch3, name: "回看" }
+            { value: onlive1, name: "直播" },
+            { value: demand1, name: "点播" },
+            { value: watch1, name: "回看" }
           ]
         }
       ];
-
       vm.GT_UVWR1_N1.content = content;
 
-      // ////////////////////////////
-      let arrContent5 =
-        newValue.data.responses[5].aggregations.channel_flag.buckets;
-      let length5 = arrContent5.length;
-      let i5;
-      let data1 = [];
-      data1.push(["product", "0520-0526", "0527-0602"]);
+      //三大基础功能观看用户数每日走势（万户）
+      let week_user_temp = [
+        ["product",], ["直播",], ["点播",], ["回看",], ["开机用户数",]
+      ]
+      let open_num = newValue.data.responses[6].aggregations.statistical_granularity.buckets  //一周开机用户数
+      let onlive_num = newValue.data.responses[7].aggregations.statistical_granularity.buckets  //一周直播观看用户
+      let demand_num = newValue.data.responses[8].aggregations.statistical_granularity.buckets  //一周点播观看用户
+      let watch_num = newValue.data.responses[9].aggregations.statistical_granularity.buckets  //一周回看观看用户
+      open_num.forEach((value, index) => {
+        // console.log("一周开机用户数", value.key, value.open_num.value)
+        let setDate = new Date(value.key)
+        let setdateYear = (setDate.getFullYear()) + "年"
+        let setDateMonth = (setDate.getMonth() + 1) + "月"
+        let setDateDay = (setDate.getDate()) + '日'
+        let weekDate = setDateMonth + setDateDay
+        week_user_temp[0].push(weekDate)
+        week_user_temp[4].push(value.open_num.value)
+      })
+      onlive_num.forEach((value, index) => {
+        week_user_temp[1].push(value.onlive_user_num.value)
+      })
+      demand_num.forEach((value, index) => {
+        week_user_temp[2].push(value.demand_user_num.value)
+      })
+      watch_num.forEach((value, index) => {
+        week_user_temp[3].push(value.watch_user_num.value)
+      })
+      vm.GT_UVWR1_N2.data = week_user_temp
 
-      // ▲▲▲问题点：周报 - 012345的 0为空 用1-4  ---暂定
-      // onlive_user_num
-      // onlive_freq
-      // onlive_dur
-      let temp1 = [];
-      let temp2 = [];
-      let temp3 = [];
-      let temp4 = [];
+      //电视直播频道分组收视数据（移动）
+      let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets
+      // vm.GT_UVWR1_I1.data[0].push(beforeWeekFormat, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_O1.data[0], 1, beforeWeekFormat)
+      Vue.set(vm.GT_UVWR1_O1.data[0], 2, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_O2.data[0], 1, beforeWeekFormat)
+      Vue.set(vm.GT_UVWR1_O2.data[0], 2, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_O3.data[0], 1, beforeWeekFormat)
+      Vue.set(vm.GT_UVWR1_O3.data[0], 2, currentWeekFormat)
+      onlive_data.forEach((value, index) => {
+        switch (value.key) {
+          case '央视':
+            Vue.set(vm.GT_UVWR1_O1.data[1], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[1], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[1], 2, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+          case '卫视':
+            Vue.set(vm.GT_UVWR1_O1.data[2], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[2], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[2], 2, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+          case '本地':
+            Vue.set(vm.GT_UVWR1_O1.data[3], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[3], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[3], 2, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+          case '轮播':
+            Vue.set(vm.GT_UVWR1_O1.data[4], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[4], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[4], 2, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+        }
+      })
 
-      // for (i5 = 1; i5 < length5; i5++) {
-      temp1.push(arrContent5[1].key);
-      temp1.push(vm.returnFloat(arrContent5[1].onlive_user_num.value));
-      temp1.push(vm.returnFloat(arrContent5[1].onlive_user_num.value)); // ▲▲▲▲▲ 注意！！！ 这里是临时的（要比前期）
+      //各类型节目点播数据（移动）
+      //点播用户数TOP20
+      let demand_top = newValue.data.responses[11].aggregations.channel.buckets
+      Vue.set(vm.GT_UVWR1_P1.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_P1.data[0], 2, beforeWeekFormat)
+      demand_top.forEach((value, index) => {
+        if (index < 20) {
+          // console.log(value.key, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+          Vue.set(vm.GT_UVWR1_P1.data[20 - index], 0, value.key)
+          Vue.set(vm.GT_UVWR1_P1.data[20 - index], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+        }
+      })
 
-      temp2.push(arrContent5[2].key);
-      temp2.push(vm.returnFloat(arrContent5[2].onlive_user_num.value));
-      temp2.push(vm.returnFloat(arrContent5[2].onlive_user_num.value));
+      //轮播频道每日收视走势（户）
+      let lunbo_top = newValue.data.responses[12].aggregations.channel.buckets
+      let week_time_data = lunbo_top[0].statistical_granularity.buckets
+      let week_time_temp = [["product"], [], [], [], [], []]
+      week_time_data.forEach((value, index) => {
+        let setDate = new Date(value.key)
+        let setdateYear = (setDate.getFullYear()) + "年"
+        let setDateMonth = (setDate.getMonth() + 1) + "月"
+        let setDateDay = (setDate.getDate()) + '日'
+        let weekDate = setDateMonth + setDateDay
+        week_time_temp[0].push(weekDate)
+      })
+      lunbo_top.forEach((value, index) => {
+        if (index < 5) {
+          week_time_temp[index + 1].push(value.key)
+          value.statistical_granularity.buckets.forEach((value2, index2) => {
+            week_time_temp[index + 1].push(value2.onlive_user_num.value)
+          })
+        }
+      });
+      vm.GT_UVWR1_P2.data = week_time_temp
 
-      temp3.push(arrContent5[3].key);
-      temp3.push(vm.returnFloat(arrContent5[3].onlive_user_num.value));
-      temp3.push(vm.returnFloat(arrContent5[3].onlive_user_num.value));
-
-      temp4.push(arrContent5[4].key);
-      temp4.push(vm.returnFloat(arrContent5[4].onlive_user_num.value));
-      temp4.push(vm.returnFloat(arrContent5[4].onlive_user_num.value));
-      // }
-      data1.push(temp1);
-      data1.push(temp2);
-      data1.push(temp3);
-      data1.push(temp4);
-
-      vm.GT_UVWR1_O1.data = data1;
-
-      data1 = [];
-      data1.push(["product", "0520-0526", "0527-0602"]);
-
-      temp1 = [];
-      temp2 = [];
-      temp3 = [];
-      temp4 = [];
-      temp1.push(arrContent5[1].key);
-      temp1.push(vm.returnFloat(arrContent5[1].onlive_freq.value));
-      temp1.push(vm.returnFloat(arrContent5[1].onlive_freq.value));
-
-      temp2.push(arrContent5[2].key);
-      temp2.push(vm.returnFloat(arrContent5[2].onlive_freq.value));
-      temp2.push(vm.returnFloat(arrContent5[2].onlive_freq.value));
-
-      temp3.push(arrContent5[3].key);
-      temp3.push(vm.returnFloat(arrContent5[3].onlive_freq.value));
-      temp3.push(vm.returnFloat(arrContent5[3].onlive_freq.value));
-
-      temp4.push(arrContent5[4].key);
-      temp4.push(vm.returnFloat(arrContent5[4].onlive_freq.value));
-      temp4.push(vm.returnFloat(arrContent5[4].onlive_freq.value));
-      data1.push(temp1);
-      data1.push(temp2);
-      data1.push(temp3);
-      data1.push(temp4);
-      vm.GT_UVWR1_O2.data = data1;
-
-      data1 = [];
-      data1.push(["product", "0520-0526", "0527-0602"]);
-
-      temp1 = [];
-      temp2 = [];
-      temp3 = [];
-      temp4 = [];
-      temp1.push(arrContent5[1].key);
-      temp1.push(vm.returnFloat(arrContent5[1].onlive_dur.value));
-      temp1.push(vm.returnFloat(arrContent5[1].onlive_dur.value));
-
-      temp2.push(arrContent5[2].key);
-      temp2.push(vm.returnFloat(arrContent5[2].onlive_dur.value));
-      temp2.push(vm.returnFloat(arrContent5[2].onlive_dur.value));
-
-      temp3.push(arrContent5[3].key);
-      temp3.push(vm.returnFloat(arrContent5[3].onlive_dur.value));
-      temp3.push(vm.returnFloat(arrContent5[3].onlive_dur.value));
-
-      temp4.push(arrContent5[4].key);
-      temp4.push(vm.returnFloat(arrContent5[4].onlive_dur.value));
-      temp4.push(vm.returnFloat(arrContent5[4].onlive_dur.value));
-      data1.push(temp1);
-      data1.push(temp2);
-      data1.push(temp3);
-      data1.push(temp4);
-      vm.GT_UVWR1_O3.data = data1;
-
-      // ////////////////////////////
-
-      let buckets6 = newValue.data.responses[6].aggregations.channel.buckets;
-      let length6 = buckets6.length;
-      let data6 = [];
-      let temp6;
-      let i6;
-      //
-      temp6 = [];
-      data6.push(["product", "0527-0602", "0520-0526"]);
-      for (i6 = 0; i6 < length6; i6++) {
-        temp6 = [];
-        temp6.push(buckets6[i6].key);
-        temp6.push(vm.returnFloat(buckets6[i6].onlive_user_num.value));
-        temp6.push(vm.returnFloat(buckets6[i6].onlive_user_num.value)); // ▲▲▲注意 临时点
-        data6.push(temp6);
-      }
-      //
-      data6 = vm.sortArr(data6, 1);
-      vm.GT_UVWR1_P1.data = data6;
-
-      //////////////////////
-
-      let buckets7 = newValue.data.responses[7].aggregations.channel.buckets;
-      let length7 = buckets7.length;
-      let i7;
-      let data7 = [];
-      let temp7 = [];
-      data7.push(["product", "0520-0526", "0527-0602"]);
-      for (i7 = 0; i7 < length7; i7++) {
-        temp7 = [];
-        temp7.push(buckets7[i7].key);
-        temp7.push(vm.returnFloat(buckets7[i7].doc_count));
-        temp7.push(vm.returnFloat(buckets7[i7].doc_count)); // ▲▲▲注意 临时点
-        data7.push(temp7);
-      }
-      data7 = vm.sortArr(data7, 1);
-      vm.GT_UVWR1_P3.data = data7;
-
-      // ///////////▲▲▲ 应该是 channel 第8个 --暂时先接上.jpg （暂用节目名称）（数据给错了）
-      let buckets8 = newValue.data.responses[8].aggregations.channel.buckets;
-      let length8 = buckets8.length;
-      let i8;
-      let data8 = [];
-      let temp8 = [];
-      data8.push(["product", "0520-0526", "0527-0602"]);
-      for (i8 = 0; i8 < length8; i8++) {
-        temp8 = [];
-        temp8.push(buckets8[i8].key);
-        temp8.push(vm.returnFloat(buckets8[i8].onlive_dur.value));
-        temp8.push(vm.returnFloat(buckets8[i8].onlive_dur.value)); // ▲▲▲注意 临时点
-        data8.push(temp8);
-      }
-      data8 = vm.sortArrZ(data8, 1);
-      vm.GT_UVWR1_Q3.data = data8;
+      //本地自办节目top5
+      let local_program = newValue.data.responses[13].aggregations.channel.buckets
+      Vue.set(vm.GT_UVWR1_P3.data[0], 1, beforeWeekFormat)
+      Vue.set(vm.GT_UVWR1_P3.data[0], 2, currentWeekFormat)
+      local_program.forEach((value, index) => {
+        if (index < 5) {
+          Vue.set(vm.GT_UVWR1_P3.data[index + 1], 0, value.key)
+          Vue.set(vm.GT_UVWR1_P3.data[index + 1], 2, Number((value.onlive_dur.value / 10000).toFixed(1)))
+        }
+      });
 
 
-      let buckets10 = newValue.data.responses[10].aggregations.ti.buckets;
-      let length10 = buckets10.length;
-      let i10;
-      ////
-      let data10 = [];
-      let temp10 = [];
-      let data10B = [];
-      let temp10B = [];
+      //主要栏目点击和播放数据
+      //页面点击用户数
+      let program_click_data = newValue.data.responses[15].aggregations.ti.buckets
+      Vue.set(vm.GT_UVWR1_R1.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_R1.data[0], 2, beforeWeekFormat)
+      Vue.set(vm.GT_UVWR1_R2.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_R2.data[0], 2, beforeWeekFormat)
+      program_click_data.forEach((value, index) => {
+        if (index < 10) {
+          // console.log('页面点击和播放时长数据', value.key, value.click_user_num.value)
+          Vue.set(vm.GT_UVWR1_R1.data[10 - index], 0, value.key)
+          Vue.set(vm.GT_UVWR1_R1.data[10 - index], 1, Number((value.click_user_num.value / 10000).toFixed(1)))
+          Vue.set(vm.GT_UVWR1_R2.data[10 - index], 0, value.key)
+          Vue.set(vm.GT_UVWR1_R2.data[10 - index], 1, Number((value.click_freq.value / 10000).toFixed(1)))
+        }
+      })
 
-      data10.push(["product", "0520-0526", "0527-0602"]);
-      data10B.push(["product", "0520-0526", "0527-0602"]);
+      //页面播放时长（万小时）
+      let program_play_data = newValue.data.responses[16].aggregations.ti.buckets
+      Vue.set(vm.GT_UVWR1_R3.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_R3.data[0], 2, beforeWeekFormat)  //
+      program_play_data.forEach((value, index) => {
+        if (index < 10) {
+          // console.log('页面点击和播放时长数据', value.key, value.demand_dur.value)
+          Vue.set(vm.GT_UVWR1_R3.data[10 - index], 0, value.key)
+          Vue.set(vm.GT_UVWR1_R3.data[10 - index], 1, Number((value.demand_dur.value / 10000).toFixed(1)))
+        }
+      })
 
-      for (i10 = 0; i10 < length10; i10++) {
-        ////  点播用户
-        temp10 = [];
-        temp10.push(buckets10[i10].key);
-        temp10.push(vm.returnFloat(buckets10[i10].click_freq.value));
-        temp10.push(vm.returnFloat(buckets10[i10].click_freq.value)); // ▲▲▲注意 临时点
-        data10.push(temp10);
-        ////  点播次数
-        temp10B = [];
-        temp10B.push(buckets10[i10].key);
-        temp10B.push(vm.returnFloat(buckets10[i10].click_user_num.value));
-        temp10B.push(vm.returnFloat(buckets10[i10].click_user_num.value)); // ▲▲▲注意 临时点
-        data10B.push(temp10B);
-      }
-      data10 = vm.sortArrZ(data10, 1);
-      vm.GT_UVWR1_R1.data = data10;
-      data10B = vm.sortArrZ(data10B, 1);
-      vm.GT_UVWR1_R2.data = data10B;
+    },
+    //电信上周数据
+    api_data_m4_range(newValue, oldValue) {
+      // console.log("电信上周数据", newValue)
+      let vm = this
+      //电视直播频道分组收视数据（移动）
+      let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets  //分组频道直播数据
+      onlive_data.forEach((value, index) => {
+        switch (value.key) {
+          case '央视':
+            Vue.set(vm.GT_UVWR1_O1.data[1], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[1], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[1], 1, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+          case '卫视':
+            Vue.set(vm.GT_UVWR1_O1.data[2], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[2], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[2], 1, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+          case '本地':
+            Vue.set(vm.GT_UVWR1_O1.data[3], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[3], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[3], 1, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+          case '轮播':
+            Vue.set(vm.GT_UVWR1_O1.data[4], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O2.data[4], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_O3.data[4], 1, Number((value.onlive_dur.value / 10000).toFixed(1)))
+            break;
+        }
+      })
+
+      //本地频道收视规模排名（万户）
+      let demand_top = newValue.data.responses[11].aggregations.channel.buckets
+      demand_top.forEach((value, index) => {
+        if (index < 20) {
+          // console.log(value.key, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+          Vue.set(vm.GT_UVWR1_P1.data[20 - index], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+        }
+      })
+
+      //本地自办节目TOP5（万小时）
+      let local_program = newValue.data.responses[13].aggregations.channel.buckets
+      local_program.forEach((value, index) => {
+        if (index < 5) {
+          Vue.set(vm.GT_UVWR1_P3.data[index + 1], 1, Number((value.onlive_dur.value / 10000).toFixed(1)))
+        }
+      });
+
+
+
+      //主要栏目点击和播放数据
+      //页面点击用户数
+      let program_click_data = newValue.data.responses[15].aggregations.ti.buckets
+      program_click_data.forEach((value, index) => {
+        if (index < 10) {
+          Vue.set(vm.GT_UVWR1_R1.data[10 - index], 2, Number((value.click_user_num.value / 10000).toFixed(1)))
+          Vue.set(vm.GT_UVWR1_R2.data[10 - index], 2, Number((value.click_freq.value / 10000).toFixed(1)))
+        }
+      })
+
+      //页面播放时长（万小时）
+      let program_play_data = newValue.data.responses[16].aggregations.ti.buckets
+      program_play_data.forEach((value, index) => {
+        if (index < 10) {
+          Vue.set(vm.GT_UVWR1_R3.data[10 - index], 2, Number((value.demand_dur.value / 10000).toFixed(1)))
+        }
+      })
+
     }
   },
   methods: {
@@ -448,15 +515,16 @@ export default {
         color: ["#5B9BD5", "#FFC000"],
         data: [
           ["product", "在册用户数", "新增在册用户数"],
-          ["遵义", 152, 111],
-          ["贵阳", 242, 222],
-          ["黔东南", 485, 433],
-          ["毕节", 717, 777],
-          ["黔南", 733, 656],
-          ["铜仁", 894, 888],
-          ["六盘水", 928, 854],
-          ["黔西南", 937, 999],
-          ["安顺", 1324, 1111]
+          [], [], [], [], [], [], [], [], []
+          // ["遵义", 152, 111],
+          // ["贵阳", 242, 222],
+          // ["黔东南", 485, 433],
+          // ["毕节", 717, 777],
+          // ["黔南", 733, 656],
+          // ["铜仁", 894, 888],
+          // ["六盘水", 928, 854],
+          // ["黔西南", 937, 999],
+          // ["安顺", 1324, 1111]
         ]
       },
       GT_UVWR1_M2: {
@@ -475,31 +543,31 @@ export default {
         ],
         content: [
           {
-            title: "新增在册用户数",
+            title: "在册用户数",
             data: [
-              { value: 535, name: "遵义" },
-              { value: 410, name: "贵阳" },
-              { value: 348, name: "黔东南" },
-              { value: 410, name: "毕节" },
-              { value: 410, name: "黔南" },
-              { value: 410, name: "铜仁" },
-              { value: 410, name: "六盘水" },
-              { value: 410, name: "黔西南" },
-              { value: 410, name: "安顺" }
+              // { value: 535, name: "遵义" },
+              // { value: 410, name: "贵阳" },
+              // { value: 348, name: "黔东南" },
+              // { value: 410, name: "毕节" },
+              // { value: 410, name: "黔南" },
+              // { value: 410, name: "铜仁" },
+              // { value: 410, name: "六盘水" },
+              // { value: 410, name: "黔西南" },
+              // { value: 410, name: "安顺" }
             ]
           },
           {
-            title: "在册用户数",
+            title: "新增在册用户数",
             data: [
-              { value: 535, name: "遵义" },
-              { value: 410, name: "贵阳" },
-              { value: 348, name: "黔东南" },
-              { value: 410, name: "毕节" },
-              { value: 410, name: "黔南" },
-              { value: 410, name: "铜仁" },
-              { value: 410, name: "六盘水" },
-              { value: 410, name: "黔西南" },
-              { value: 410, name: "安顺" }
+              // { value: 535, name: "遵义" },
+              // { value: 410, name: "贵阳" },
+              // { value: 348, name: "黔东南" },
+              // { value: 410, name: "毕节" },
+              // { value: 410, name: "黔南" },
+              // { value: 410, name: "铜仁" },
+              // { value: 410, name: "六盘水" },
+              // { value: 410, name: "黔西南" },
+              // { value: 410, name: "安顺" }
             ]
           }
         ]
@@ -540,28 +608,33 @@ export default {
         id: "GT_UVWR1_N2",
         color: ["#70AD47", "#5B9BD5", "#A6A6A6", "#FFC000"],
         data: [
-          [
-            "product",
-            "4月1日",
-            "4月2日",
-            "4月3日",
-            "4月4日",
-            "4月5日",
-            "4月6日",
-            "4月7日"
-          ],
-          ["直播", 11.7, 11.8, 11.1, 10.9, 10.8, 11.2, 10.8],
-          ["点播", 20.4, 20.3, 20.2, 20.1, 20.8, 20.1, 20.2],
-          ["开机用户数", 32.9, 31.9, 31.5, 31.4, 31.2, 30.8, 30.7],
-          ["回看", 0.9, 1.1, 0.7, 1.2, 1.3, 0.7, 0.8]
+          // [
+          //   "product",
+          //   "4月1日",
+          //   "4月2日",
+          //   "4月3日",
+          //   "4月4日",
+          //   "4月5日",
+          //   "4月6日",
+          //   "4月7日"
+          // ],
+          // ["直播", 11.7, 11.8, 11.1, 10.9, 10.8, 11.2, 10.8],
+          // ["点播", 20.4, 20.3, 20.2, 20.1, 20.8, 20.1, 20.2],
+          // ["开机用户数", 32.9, 31.9, 31.5, 31.4, 31.2, 30.8, 30.7],
+          // ["回看", 0.9, 1.1, 0.7, 1.2, 1.3, 0.7, 0.8]
         ]
       },
       GT_UVWR1_O1: {
         data: [
+          ["product",],
+          ["央视",],
+          ["卫视",],
+          ["本地",],
+          ["轮播",]
           // ["product", "0520-0526", "0527-0602"],
           // ["央视", 48.0, 48.1],
           // ["卫视", 154.2, 157.4],
-          // ["地方", 60.1, 65.0],
+          // ["本地", 60.1, 65.0],
           // ["轮播", 15.1, 16.0]
         ],
         title: "",
@@ -573,10 +646,15 @@ export default {
       },
       GT_UVWR1_O2: {
         data: [
+          ["product",],
+          ["央视",],
+          ["卫视",],
+          ["本地",],
+          ["轮播",]
           // ["product", "0520-0526", "0527-0602"],
           // ["央视", 48.0, 48.1],
           // ["卫视", 154.2, 157.4],
-          // ["地方", 60.1, 65.0],
+          // ["本地", 60.1, 65.0],
           // ["轮播", 15.1, 16.0]
         ],
         title: "",
@@ -588,10 +666,15 @@ export default {
       },
       GT_UVWR1_O3: {
         data: [
+          ["product",],
+          ["央视",],
+          ["卫视",],
+          ["本地",],
+          ["轮播",]
           // ["product", "0520-0526", "0527-0602"],
           // ["央视", 48.0, 48.1],
           // ["卫视", 154.2, 157.4],
-          // ["地方", 60.1, 65.0],
+          // ["本地", 60.1, 65.0],
           // ["轮播", 15.1, 16.0]
         ],
         title: "",
@@ -607,6 +690,8 @@ export default {
         height: "height:720px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
+          ["product",],
+          [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["贵州卫视", 20, 20],
           // ["贵州-2 公共频道", 18, 18],
@@ -637,25 +722,26 @@ export default {
         id: "GT_UVWR1_P2",
         color: ["#70AD47", "#FFCCCC ", "#5B9BD5", "#FFC000", "#ED7D31"],
         data: [
-          [
-            "product",
-            "6月24日",
-            "6月25日",
-            "6月26日",
-            "6月27日",
-            "6月28日",
-            "6月29日",
-            "6月30日"
-          ],
-          ["谍战剧场", 12140, 12370, 12800, 12200, 12234, 12640, 12859],
-          ["华语影院", 41400, 41700, 41800, 42000, 42340, 42400, 42590],
-          ["海外佳片", 52140, 52170, 52580, 52400, 52534, 52640, 52759],
-          ["都市剧场", 21140, 22170, 25280, 24200, 25234, 22640, 22759],
-          ["动画乐园", 32140, 32170, 32580, 32400, 32534, 32640, 32759]
+          // [
+          //   "product",
+          //   "6月24日",
+          //   "6月25日",
+          //   "6月26日",
+          //   "6月27日",
+          //   "6月28日",
+          //   "6月29日",
+          //   "6月30日"
+          // ],
+          // ["谍战剧场", 12140, 12370, 12800, 12200, 12234, 12640, 12859],
+          // ["华语影院", 41400, 41700, 41800, 42000, 42340, 42400, 42590],
+          // ["海外佳片", 52140, 52170, 52580, 52400, 52534, 52640, 52759],
+          // ["都市剧场", 21140, 22170, 25280, 24200, 25234, 22640, 22759],
+          // ["动画乐园", 32140, 32170, 32580, 32400, 32534, 32640, 32759]
         ]
       },
       GT_UVWR1_P3: {
         data: [
+          ["product",], [], [], [], [], []
           // ["product", "0520-0526", "0527-0602"],
           // ["百姓关注 贵州-2", 48.0, 48.1],
           // ["贵州新闻联播 贵州卫视", 154.2, 157.4],
@@ -667,7 +753,7 @@ export default {
         id: "GT_UVWR1_P3",
         color: ["#E7E6E6", "#5B9BD5"],
         ifYaxisShow: false,
-        ifLegendShow: false,
+        ifLegendShow: true,
         m_barWidth: "40%"
       },
       GT_UVWR1_Q1: {
@@ -733,6 +819,7 @@ export default {
         height: "height:600px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
+          ["product",], [], [], [], [], [], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["少儿", 20, 20],
           // ["电影", 18, 18],
@@ -752,6 +839,7 @@ export default {
         height: "height:600px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
+          ["product",], [], [], [], [], [], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["少儿", 20, 20],
           // ["电影", 18, 18],
@@ -771,17 +859,18 @@ export default {
         height: "height:600px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          ["product",], [], [], [], [], [], [], [], [], [], []
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       }
     };

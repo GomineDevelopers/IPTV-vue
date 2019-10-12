@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "ManyPieChart_Change", //饼图组件
   props: {
@@ -11,12 +12,23 @@ export default {
       type: Object
     }
   },
+  computed: {
+    ...mapGetters(["PR_week"]),
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawline();
+      }, 1000);
+    },
+  },
   data() {
     return {};
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawline();
     }, 1000);
   },

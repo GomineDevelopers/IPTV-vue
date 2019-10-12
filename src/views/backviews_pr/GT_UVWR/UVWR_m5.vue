@@ -52,6 +52,8 @@ import BarChartSingle2 from "@/views/backcoms/commoncomponents2/BarChartSingle_C
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
 import numberOfRegisteredUsers2 from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change2"; //在册用户数
 
+import Vue from 'vue'
+import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
 
 export default {
@@ -61,24 +63,95 @@ export default {
     "bar-list-chart": BarListChart,
     numberOfRegisteredUsers2: numberOfRegisteredUsers2
   },
-  props: ["api_data_m5"],
+  props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4", "api_data_m1_range", "api_data_m2_range", "api_data_m3_range", "api_data_m4_range"],
   watch: {
-    api_data_m5(newValue, oldValue) {
-      console.log("api_data_m5 - newValue");
-      console.log(newValue);
-    }
+    //本周数据
+    api_data_m1(newValue, oldValue) {
+      console.log("api_data_m1模块5（本周）", newValue)
+      let vm = this;
+      //设置本周与上周时间（0603——0609  0610-0616）
+      let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
+      let WeekFormat = commonTools.weekDaysShowFormat_AndBeforeWeek(
+        temp_time.week_day_start,
+        temp_time.week_day_end
+      );
+      let beforeWeekFormat = WeekFormat.beforeWeekFormat;  //上周时间
+      let currentWeekFormat = WeekFormat.currentWeekFormat; // 本周时间
+
+      //本土原创节目点播数据
+      //本土原创节目一周点播数据
+      let program_play_data = newValue.data.responses[17].aggregations
+      Vue.set(vm.GT_UVWR1_Y1.data[0], 1, beforeWeekFormat)
+      Vue.set(vm.GT_UVWR1_Y1.data[0], 2, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_Y1.data[1], 2, program_play_data.demand_user_num.value)
+      Vue.set(vm.GT_UVWR1_Y1.data[2], 2, program_play_data.demand_freq.value)
+      Vue.set(vm.GT_UVWR1_Y1.data[3], 2, program_play_data.demand_dur.value)
+
+      let content_type_data = newValue.data.responses[18].aggregations.program_type.buckets
+      let content_type_temp = []
+      content_type_data.forEach((value, index) => {
+        content_type_temp.push({
+          value: value.demand_freq.value,
+          name: value.key
+        })
+        // console.log(value)
+      })
+      vm.GT_UVWR1_Y2.data = content_type_temp
+      setTimeout(function () {
+        vm.drawLine()
+      }, 300)
+
+    },
+    //上周数据
+    api_data_m1_range(newValue, oldValue) {
+      console.log("api_data_m1模块5（上周）", newValue)
+      let vm = this
+
+      //本土原创节目点播数据
+      //本土原创节目一周点播数据
+      let program_play_data = newValue.data.responses[17].aggregations
+      // console.log("上周数据program_play_data", program_play_data)
+      Vue.set(vm.GT_UVWR1_Y1.data[1], 1, program_play_data.demand_user_num.value)
+      Vue.set(vm.GT_UVWR1_Y1.data[2], 1, program_play_data.demand_freq.value)
+      Vue.set(vm.GT_UVWR1_Y1.data[3], 1, program_play_data.demand_dur.value)
+      // console.log("vm.GT_UVWR1_Y1.data", vm.GT_UVWR1_Y1.data)
+    },
+    //移动本周数据
+    api_data_m2(newValue, oldValue) {
+      console.log("移动本周数据", newValue)
+    },
+    //联通本周数据
+    api_data_m3(newValue, oldValue) {
+      console.log("联通本周数据", newValue)
+    },
+    //电信本周数据
+    api_data_m4(newValue, oldValue) {
+      console.log("电信本周数据", newValue)
+    },
+    //移动上周数据
+    api_data_m2_range(newValue, oldValue) {
+      console.log("移动上周数据", newValue)
+    },
+    //联通上周数据
+    api_data_m3_range(newValue, oldValue) {
+      console.log("移动上周数据", newValue)
+    },
+    //电信上周数据
+    api_data_m4_range(newValue, oldValue) {
+      console.log("移动上周数据", newValue)
+    },
   },
   mounted() {
     this.drawLine();
     // this.drawLine2();
     let vm = this;
     setTimeout(function () {
-      console.log("api_data_m5");
-      console.log(vm.api_data_m5);
+      // console.log("api_data_m1");
+      // console.log(vm.api_data_m1);
     }, 300);
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
     ifModuleydShow: {
       get: function () {
         let vm = this;
@@ -126,24 +199,40 @@ export default {
     return {
       GT_UVWR1_Y1: {
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["点播用户数（户）", 48.0, 48.1],
-          ["点播次数（次）", 54.2, 57.4],
-          ["点播时长（小时）", 20.1, 20.0]
+          ["product",],
+          ["点播用户数（户）",],
+          ["点播次数（次）",],
+          ["点播时长（小时）",]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["点播用户数（户）", 48.0, 48.1],
+          // ["点播次数（次）", 54.2, 57.4],
+          // ["点播时长（小时）", 20.1, 20.0]
         ],
         title: "",
         id: "GT_UVWR1_Y1",
         height: "height:600px;",
         color: ["#EDEDED", "#A9D18E"],
         ifYaxisShow: true,
-        ifLegendShow: false,
+        ifLegendShow: true,
         m_barWidth: "20%"
+      },
+      GT_UVWR1_Y2: {
+        data: [
+          // { value: 70, name: "综艺" },
+          // { value: 20, name: "微电影" },
+          // { value: 14, name: "纪实" },
+          // { value: 10, name: "其他" },
+          // { value: 8, name: "电影" },
+          // { value: 4, name: "新闻" },
+          // { value: 8, name: "时尚生活" },
+          // { value: 5, name: "纪录片" }
+        ]
       },
       GT_UVWR1_Y3: {
         title: "",
         id: "GT_UVWR1_Y3",
         color: ["#5B9BD5", "#ED7D31", "#FFC000"],
-        data: [["运营商", "移动", "联通", "电信"], ["占比", 70, 20, 14]],
+        data: [["运营商", "移动", "联通", "电信"], ["占比", 90, 30, 54]],
         label_formatter: "{c}\n{d}%"
       },
       GT_UVWR1_Z1: {
@@ -152,17 +241,18 @@ export default {
         height: "height:600px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          ["product",], [], [], [], [], [], [], [], [], [], []
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       },
       GT_UVWR1_Z2: {
@@ -207,6 +297,7 @@ export default {
   },
   methods: {
     drawLine() {
+      let vm = this
       var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_Y2"));
       var data = {
         color: [
@@ -219,16 +310,7 @@ export default {
           "#FFCCCC",
           "#E3E55D"
         ],
-        data: [
-          { value: 70, name: "综艺" },
-          { value: 20, name: "微电影" },
-          { value: 14, name: "纪实" },
-          { value: 10, name: "其他" },
-          { value: 8, name: "电影" },
-          { value: 4, name: "新闻" },
-          { value: 8, name: "时尚生活" },
-          { value: 5, name: "纪录片" }
-        ]
+        data: vm.GT_UVWR1_Y2.data
       };
       var option = this.common(data);
       myChart.setOption(option);
@@ -238,14 +320,14 @@ export default {
     },
     drawLine2() {
       var myChart = this.$echarts.init(document.getElementById("GT_UVWR1_Y3"));
-      var data = {
-        color: ["#5B9BD5", "#ED7D31", "#FFC000"],
-        data: [
-          { value: 70, name: "移动" },
-          { value: 20, name: "联通" },
-          { value: 14, name: "电信" }
-        ]
-      };
+      // var data = {
+      //   color: ["#5B9BD5", "#ED7D31", "#FFC000"],
+      //   // data: [
+      //   //   { value: 70, name: "移动" },
+      //   //   { value: 20, name: "联通" },
+      //   //   { value: 14, name: "电信" }
+      //   // ]
+      // };
       var option = this.common(data);
       myChart.setOption(option);
       window.addEventListener("resize", () => {

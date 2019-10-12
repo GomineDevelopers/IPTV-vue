@@ -22,22 +22,40 @@
 
           <!-- ■■■■■■■■■■ 2 移动侧节目收视与页面热度 -->
           <el-row v-show="ifModuleydShow" id="module2">
-            <com-UVWR-m2 v-bind:api_data_m2="api_data_m2"></com-UVWR-m2>
+            <com-UVWR-m2
+              v-bind:api_data_m2="api_data_m2"
+              v-bind:api_data_m2_range="api_data_m2_range"
+            ></com-UVWR-m2>
           </el-row>
 
           <!-- ■■■■■■■■■■ 3 联通侧节目收视与页面热度 -->
           <el-row v-show="ifModuleltShow" id="module3">
-            <com-UVWR-m3 v-bind:api_data_m3="api_data_m3"></com-UVWR-m3>
+            <com-UVWR-m3
+              v-bind:api_data_m3="api_data_m3"
+              v-bind:api_data_m3_range="api_data_m3_range"
+            ></com-UVWR-m3>
           </el-row>
 
           <!-- ■■■■■■■■■■ 4 电信侧节目收视与页面热度 -->
           <el-row v-show="ifModuledxShow" id="module4">
-            <com-UVWR-m4 v-bind:api_data_m4="api_data_m4"></com-UVWR-m4>
+            <com-UVWR-m4
+              v-bind:api_data_m4="api_data_m4"
+              v-bind:api_data_m4_range="api_data_m4_range"
+            ></com-UVWR-m4>
           </el-row>
 
           <!-- ■■■■■■■■■■ 5 本土原创节目点播数据 -->
           <el-row id="module5">
-            <com-UVWR-m5 v-bind:api_data_m5="api_data_m5"></com-UVWR-m5>
+            <com-UVWR-m5
+              v-bind:api_data_m1="api_data_m1"
+              v-bind:api_data_m1_range="api_data_m1_range"
+              v-bind:api_data_m2="api_data_m2"
+              v-bind:api_data_m2_range="api_data_m2_range"
+              v-bind:api_data_m3="api_data_m3"
+              v-bind:api_data_m3_range="api_data_m3_range"
+              v-bind:api_data_m4="api_data_m4"
+              v-bind:api_data_m4_range="api_data_m4_range"
+            ></com-UVWR-m5>
           </el-row>
         </el-row>
       </el-col>

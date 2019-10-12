@@ -5,6 +5,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "BarChartSingle_Change",
   props: {
@@ -13,38 +14,54 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["PR_week"]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
-        if (vm.chartData.id == "GT_UVWR1_I1") {
-          setTimeout(function() {
+        if (vm.chartData.id == "GT_UVWR1_I1" ||
+          vm.chartData.id == "GT_UVWR1_I2" ||
+          vm.chartData.id == "GT_UVWR1_I3" ||
+          vm.chartData.id == "GT_UVWR1_U1" ||
+          vm.chartData.id == "GT_UVWR1_U2" ||
+          vm.chartData.id == "GT_UVWR1_U3" ||
+          vm.chartData.id == "GT_UVWR1_O1" ||
+          vm.chartData.id == "GT_UVWR1_O2" ||
+          vm.chartData.id == "GT_UVWR1_O3" ||
+          vm.chartData.id == "GT_UVWR1_J3" ||
+          vm.chartData.id == "GT_UVWR1_V3" ||
+          vm.chartData.id == "GT_UVWR1_P3"
+        ) {
+          setTimeout(function () {
             vm.drawLine();
           }, 1000);
-          // console.log("~~~~~~~~xxx");
-          // console.log(vm.chartData);
-          return vm.chartData;
+          if (vm.PR_week) {
+            //do nothing  监听视图变化作用
+          }
         }
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 1000);
+    },
   },
   data() {
     return {};
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },
   methods: {
     drawLine() {
-      if (this.chartData_Change.id == "GT_UVWR1_I1") {
-        // console.log("~~~~~~~~xxx ---- yyyy");
-        // console.log(this.chartData_Change);
-      }
-
       var m_barWidth = this.chartData_Change.m_barWidth;
       var ifYaxisShow = this.chartData_Change.ifYaxisShow;
       var ifLegendShow = this.chartData_Change.ifLegendShow;
@@ -80,7 +97,7 @@ export default {
       } else {
         Ybool = {
           axisLabel: {
-            formatter: function() {
+            formatter: function () {
               return ""; // 隐藏Y左边数据
             }
           },
@@ -96,7 +113,7 @@ export default {
           },
           axisLabel: {
             //横坐标类目文字
-            show: false
+            show: false,
           },
           axisTick: {
             show: false //设置坐标轴刻度不显示
@@ -126,8 +143,8 @@ export default {
         },
         legend: {
           show: ifLegendShow,
-          top: "18%",
-          right: "20%",
+          top: "8%",
+          // right: "20%",
           itemWidth: 12,
           itemHeight: 7
         },
@@ -144,17 +161,18 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "16%",
+          top: "6%",
           right: "6%",
           feature: {
             saveAsImage: {}
           }
         },
         grid: {
-          top: "35%",
-          left: "10%",
-          right: "1%",
-          bottom: "10%"
+          containLabel: true,
+          top: "25%",
+          left: "10",
+          right: "15",
+          bottom: "10"
         },
         dataset: {
           source: this.chartData_Change.data
@@ -167,6 +185,17 @@ export default {
             interval: 0, // 坐标轴显示不全问题解决方案
             textStyle: {
               fontSize: "12" //设置横坐标轴文字大小
+            },
+            formatter: function (val) {
+              //验证后台返回的名称中是否含有空格，如有，需要做换行
+              var reg = /\s/
+              if (reg.test(val)) {
+                let name = val.trim().split(/\s+/)
+                let value = name[0] + '\n' + name[1]
+                return value;
+              } else {
+                return val
+              }
             }
           },
           axisTick: {

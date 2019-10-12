@@ -16,7 +16,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
     chartData_Change: {
       get: function () {
         let vm = this;
@@ -52,11 +52,26 @@ export default {
               m_barWidth: vm.chartData.m_barWidth
             };
           }
+        } else if (vm.chartData.id == "GT_UVWR1_Y1") {
+          setTimeout(function () {
+            vm.drawLine();
+          }, 1000);
+          if (vm.PR_week) {
+            //do nothing  监听视图变化作用
+          }
         }
         return vm.chartData;
       },
       set: function (newValue) { }
     }
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 1000);
+    },
   },
   data() {
     return {};

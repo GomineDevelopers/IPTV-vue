@@ -174,7 +174,6 @@ export default {
       formData.append("end", temp.end);
       formData.append("year", temp.year);
 
-
       increment(formData)
         .then(function (response) {
           console.log("增值业务总览", response.data.responses);

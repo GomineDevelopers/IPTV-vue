@@ -211,9 +211,9 @@ export default {
     //上周数据
     api_data_m1_range(newValue, oldValue) {
       // 在这里获取上期week的数据
-      console.log("混合数据上周数据")
+      // console.log("混合数据上周数据")
       let last_week_data = newValue.data.responses  //上周总数据
-      console.log("last_week_data", last_week_data)
+      // console.log("last_week_data", last_week_data)
 
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(this.PR_week);
@@ -246,9 +246,9 @@ export default {
     //本周数据
     api_data_m1(newValue, oldValue) {
       let vm = this
-      console.log("混合数据模块一api_data_m1 - newValue");
+      // console.log("混合数据模块一api_data_m1 - newValue");
       let blendedDataModule = vm.api_data_m1.data.responses  //总的混合数据
-      console.log("模块一，G+tv用户发展数据（本周）", blendedDataModule);
+      // console.log("模块一，G+tv用户发展数据（本周）", blendedDataModule);
 
       //G+tv用户发展数据
       let dataMudule_1 = blendedDataModule[0].aggregations
@@ -297,7 +297,7 @@ export default {
         }
       })
       vm.GT_UVWR1_B1.m_data2 = temp2  //各州市在册用户占比数据渲染
-      console.log("各州市在册用户占比数据渲染", vm.GT_UVWR1_B1)
+      // console.log("各州市在册用户占比数据渲染", vm.GT_UVWR1_B1)
 
       vm.current_newadd_num_arr = current_newadd_num_arr  //存入本周新增用户数
       setTimeout(() => {
@@ -325,8 +325,8 @@ export default {
     },
     //移动数据(本周)
     api_data_m2(newValue, oldValue) {
-      console.log("移动数据模块二api_data_m2 - newValue");
-      console.log(newValue);
+      // console.log("移动数据模块二api_data_m2 - newValue");
+      // console.log(newValue);
       //////////////////// E1
       let vm = this;
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
@@ -449,65 +449,39 @@ export default {
       Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate.toFixed(2))
       // console.log("本周开机率", current_open_rate)
 
-
-      //移动top15
+      //移动一周直播节目TOP15
       Vue.set(vm.GT_UVWR1_E1.data[0], 1, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_E1.data[0], 2, beforeWeekFormat)
       buckets.forEach((value, index) => {
         let program = value.key
         let program_name = value.channel.buckets[0].key
         if (index < 15) {
-          // console.log("移动本周收视数据top15", value)
-          Vue.set(vm.GT_UVWR1_E1.data[index + 1], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E1.data[index + 1], 1, parseInt(value.onlive_dur.value / 1000000))
+          Vue.set(vm.GT_UVWR1_E1.data[15 - index], 0, program + '—' + program_name)
+          Vue.set(vm.GT_UVWR1_E1.data[15 - index], 1, (value.onlive_dur.value / 1000000).toFixed(1))
         }
       })
 
-      //////////////////// F1  --- ▲▲▲ 无节目类型--channel（写成 channel）
-      let Arr2 = newValue.data.responses[1].hits.hits;
+      //移动一周点播节目TOP15
+      let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets;
+      Vue.set(vm.GT_UVWR1_F1.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_F1.data[0], 2, beforeWeekFormat)
+      // console.log("order_paly_data", order_paly_data)
+      order_paly_data.forEach((value, index) => {
+        let program = value.programname.buckets[0].key
+        let program_name = value.key
+        if (index < 15) {
+          // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
+          Vue.set(vm.GT_UVWR1_F1.data[15 - index], 0, program + '—' + program_name)
+          Vue.set(vm.GT_UVWR1_F1.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
+        }
+      })
+      // console.log("vm.GT_UVWR1_F1.data", vm.GT_UVWR1_F1.data)
 
-      let length2 = Arr2.length;
-      let i2;
-      let data2 = [];
-      let data_item2 = [];
-      let temp_channel_key2; // 栏目
-      let temp_channel_top1_key2; // 栏目-节目top1-名称
-      let temp_channel_top1_onlive_dur2; // 栏目-节目top1-时长
-      let data_item_name2; // 栏目-节目top1-时长
-      if (length2 >= 15) {
-        length2 = 15; // 设置最大长度是15 - Top15
-      }
-
-      // data2.push(["product", "0527-0602", "0520-0526"]);
-      data2.push(["product", currentWeekFormat, beforeWeekFormat])
-      for (i2 = 0; i2 < length2; i2++) {
-        data_item2 = [];
-        // temp_channel_key2 = Arr2[i2]._source.channel;
-        temp_channel_key2 = "channel"; // 暂无 channel
-        // temp_channel_top1_key2 = Arr2[i2]._source.programname; // 正确的
-        temp_channel_top1_key2 = Arr2[i2]._source.program_type; // 临时的
-        temp_channel_top1_onlive_dur2 = parseInt(
-          vm.returnFloat(Arr2[i2]._source.demand_freq)
-        );
-        data_item_name2 = vm.cutString(
-          temp_channel_key2 + "-" + temp_channel_top1_key2,
-          23
-        ); // 字符串省略
-        data_item2.push(data_item_name2);
-        data_item2.push(temp_channel_top1_onlive_dur2); // 本期（本周）
-        // data_item2.push(temp_channel_top1_onlive_dur2); // 临时：本期（本周） --（应该是上期上周）
-        data2.push(data_item2);
-      }
-
-      data2 = vm.sortArr(data2, 1);
-      vm.GT_UVWR1_F1.data = data2;
-      // console.log("~~~~~~~!GT_UVWR1_F1");
-      // console.log(vm.GT_UVWR1_F1);
     },
     //联通数据（本周）
     api_data_m3(newValue, oldValue) {
-      console.log("联通数据模块三api_data_m3 - newValue");
-      console.log(newValue);
+      // console.log("联通数据模块三api_data_m3 - newValue");
+      // console.log(newValue);
       let vm = this;
       let data_lt = newValue.data.responses  //总的联通数据
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
@@ -632,55 +606,33 @@ export default {
         let program = value.key
         let program_name = value.channel.buckets[0].key
         if (index < 15) {
-          // console.log("移动本周收视数据top15", value)
-          Vue.set(vm.GT_UVWR1_E2.data[index + 1], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E2.data[index + 1], 1, parseInt(value.onlive_dur.value / 1000000))
+          // console.log("联通本周收视数据top15", value)
+          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 0, program + '—' + program_name)
+          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 1, (value.onlive_dur.value / 1000000).toFixed(1))
         }
       })
       // console.log(vm.GT_UVWR1_E1.data)
 
-      //////////////////// F2  --- ▲▲▲ 无节目类型--channel（写成 channel）
-      let Arr2 = newValue.data.responses[1].hits.hits;
+      //联通一周点播节目TOP15
+      let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets;
+      Vue.set(vm.GT_UVWR1_F2.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_F2.data[0], 2, beforeWeekFormat)
+      // console.log("order_paly_data", order_paly_data)
+      order_paly_data.forEach((value, index) => {
+        let program = value.programname.buckets[0].key
+        let program_name = value.key
+        if (index < 15) {
+          // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
+          Vue.set(vm.GT_UVWR1_F2.data[15 - index], 0, program + '—' + program_name)
+          Vue.set(vm.GT_UVWR1_F2.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
+        }
+      })
 
-      let length2 = Arr2.length;
-      let i2;
-      let data2 = [];
-      let data_item2 = [];
-      let temp_channel_key2; // 栏目
-      let temp_channel_top1_key2; // 栏目-节目top1-名称
-      let temp_channel_top1_onlive_dur2; // 栏目-节目top1-时长
-      let data_item_name2; // 栏目-节目top1-时长
-      if (length2 >= 15) {
-        length2 = 15; // 设置最大长度是15 - Top15
-      }
-
-      // data2.push(["product", "0527-0602", "0520-0526"]);
-      data2.push(["product", vm.beforeWeekFormat, vm.currentWeekFormat])
-      for (i2 = 0; i2 < length2; i2++) {
-        data_item2 = [];
-        // temp_channel_key2 = Arr2[i2]._source.channel;
-        temp_channel_key2 = "channel"; // 暂无 channel
-        // temp_channel_top1_key2 = Arr2[i2]._source.programname; // 正确的
-        temp_channel_top1_key2 = Arr2[i2]._source.program_type; // 临时的
-        temp_channel_top1_onlive_dur2 = parseInt(
-          vm.returnFloat(Arr2[i2]._source.demand_freq)
-        );
-        data_item_name2 = vm.cutString(
-          temp_channel_key2 + "-" + temp_channel_top1_key2,
-          23
-        ); // 字符串省略
-        data_item2.push(data_item_name2);
-        data_item2.push(temp_channel_top1_onlive_dur2); // 本期（本周）
-        data_item2.push(temp_channel_top1_onlive_dur2); // 临时：本期（本周） --（应该是上期上周）
-        data2.push(data_item2);
-      }
-      data2 = vm.sortArr(data2, 1);
-      vm.GT_UVWR1_F2.data = data2;
     },
     //电信数据（本周）
     api_data_m4(newValue, oldValue) {
-      console.log("电信数据模块四api_data_m4 - newValue");
-      console.log(newValue);
+      // console.log("电信数据模块四api_data_m4 - newValue");
+      // console.log(newValue);
       let vm = this;
       let data_dx = newValue.data.responses  //总的移动数据
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
@@ -806,54 +758,30 @@ export default {
         let program_name = value.channel.buckets[0].key
         if (index < 15) {
           // console.log("移动本周收视数据top15", value)
-          Vue.set(vm.GT_UVWR1_E3.data[index + 1], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E3.data[index + 1], 1, parseInt(value.onlive_dur.value / 10000000))
+          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 0, program + '—' + program_name)
+          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 1, (value.onlive_dur.value / 10000000).toFixed(1))
         }
       })
 
-      //////////////////// F3  --- ▲▲▲ 无节目类型--channel（写成 channel）
-      let Arr2 = newValue.data.responses[1].hits.hits;
-
-      let length2 = Arr2.length;
-      let i2;
-      let data2 = [];
-      let data_item2 = [];
-      let temp_channel_key2; // 栏目
-      let temp_channel_top1_key2; // 栏目-节目top1-名称
-      let temp_channel_top1_onlive_dur2; // 栏目-节目top1-时长
-      let data_item_name2; // 栏目-节目top1-时长
-      if (length2 >= 15) {
-        length2 = 15; // 设置最大长度是15 - Top15
-      }
-
-      // data2.push(["product", "0527-0602", "0520-0526"]);
-      data2.push(["product", vm.beforeWeekFormat, vm.currentWeekFormat])
-      for (i2 = 0; i2 < length2; i2++) {
-        data_item2 = [];
-        // temp_channel_key2 = Arr2[i2]._source.channel;
-        temp_channel_key2 = "channel"; // 暂无 channel
-        // temp_channel_top1_key2 = Arr2[i2]._source.programname; // 正确的
-        temp_channel_top1_key2 = Arr2[i2]._source.program_type; // 临时的
-        temp_channel_top1_onlive_dur2 = parseInt(
-          vm.returnFloat(Arr2[i2]._source.demand_freq)
-        );
-        data_item_name2 = vm.cutString(
-          temp_channel_key2 + "-" + temp_channel_top1_key2,
-          23
-        ); // 字符串省略
-        data_item2.push(data_item_name2);
-        data_item2.push(temp_channel_top1_onlive_dur2); // 本期（本周）
-        data_item2.push(temp_channel_top1_onlive_dur2); // 临时：本期（本周） --（应该是上期上周）
-        data2.push(data_item2);
-      }
-
-      data2 = vm.sortArr(data2, 1);
-      vm.GT_UVWR1_F3.data = data2;
+      //电信一周点播节目TOP15
+      let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets;
+      Vue.set(vm.GT_UVWR1_F3.data[0], 1, currentWeekFormat)
+      Vue.set(vm.GT_UVWR1_F3.data[0], 2, beforeWeekFormat)
+      // console.log("order_paly_data", order_paly_data)
+      order_paly_data.forEach((value, index) => {
+        let program = value.programname.buckets[0].key
+        let program_name = value.key
+        if (index < 15) {
+          // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
+          Vue.set(vm.GT_UVWR1_F3.data[15 - index], 0, program + '—' + program_name)
+          Vue.set(vm.GT_UVWR1_F3.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
+        }
+      })
     },
     //移动数据（上周）
     api_data_m2_range(newValue, oldValue) {
       let vm = this
-      console.log("移动数据（上周）", newValue)
+      // console.log("移动数据（上周）", newValue)
       let buckets = newValue.data.responses[1].aggregations.programname.buckets
       let userBuckets = newValue.data.responses[0].aggregations
 
@@ -862,20 +790,29 @@ export default {
       let current_open_rate = (current_open_num / current_register_num) * 100
       Vue.set(vm.GT_UVWR1_D1.data[1], 1, current_open_rate.toFixed(2))
 
-      //移动top15
+      //移动直播top15
       buckets.forEach((value, index) => {
-        let program = value.key
-        let program_name = value.channel.buckets[0].key
         if (index < 15) {
-          // Vue.set(vm.GT_UVWR1_E1.data[index + 1], 0, program + '-' + program_name)
-          Vue.set(vm.GT_UVWR1_E1.data[index + 1], 2, parseInt(value.onlive_dur.value / 1000000))
+          Vue.set(vm.GT_UVWR1_E1.data[15 - index], 2, (value.onlive_dur.value / 1000000).toFixed(1))
         }
       })
       // console.log("移动~~~~~~~~", vm.GT_UVWR1_E1.data)
+
+      //移动点播top15
+      let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets
+      order_paly_data.forEach((value, index) => {
+        if (index < 15) {
+          let program = value.programname.buckets[0].key
+          let program_name = value.key
+          // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
+          Vue.set(vm.GT_UVWR1_F1.data[15 - index], 2, (value.demand_freq.value / 10000).toFixed(1))
+        }
+      })
+      // console.log("vm.GT_UVWR1_F1.data", vm.GT_UVWR1_F1.data)
     },
     //联通数据（上周）
     api_data_m3_range(newValue, oldValue) {
-      console.log("联通上周", newValue)
+      // console.log("联通上周", newValue)
       let vm = this
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
       let userBuckets = newValue.data.responses[0].aggregations;  //联通数据
@@ -891,14 +828,25 @@ export default {
         let program_name = value.channel.buckets[0].key
         if (index < 15) {
           // Vue.set(vm.GT_UVWR1_E1.data[index + 1], 0, program + '-' + program_name)
-          Vue.set(vm.GT_UVWR1_E2.data[index + 1], 2, parseInt(value.onlive_dur.value / 1000000))
+          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 2, (value.onlive_dur.value / 1000000).toFixed(1))
         }
       })
       // console.log("电信！！！！！", vm.GT_UVWR1_E2.data)
+
+      //联通点播top15
+      let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets
+      order_paly_data.forEach((value, index) => {
+        if (index < 15) {
+          let program = value.programname.buckets[0].key
+          let program_name = value.key
+          // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
+          Vue.set(vm.GT_UVWR1_F2.data[15 - index], 2, (value.demand_freq.value / 10000).toFixed(1))
+        }
+      })
     },
     //电信数据（上周）
     api_data_m4_range(newValue, oldValue) {
-      console.log("电信数据（上周）", newValue)
+      // console.log("电信数据（上周）", newValue)
       let vm = this
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
       let userBuckets = newValue.data.responses[0].aggregations;  //电信数据总览
@@ -914,10 +862,21 @@ export default {
         let program_name = value.channel.buckets[0].key
         if (index < 15) {
           // Vue.set(vm.GT_UVWR1_E1.data[index + 1], 0, program + '-' + program_name)
-          Vue.set(vm.GT_UVWR1_E3.data[index + 1], 2, parseInt(value.onlive_dur.value / 1000000))
+          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 2, (value.onlive_dur.value / 1000000).toFixed(1))
         }
       })
       // console.log("电信！！！！！", vm.GT_UVWR1_E3.data)
+
+      //移动点播top15
+      let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets
+      order_paly_data.forEach((value, index) => {
+        if (index < 15) {
+          let program = value.programname.buckets[0].key
+          let program_name = value.key
+          // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
+          Vue.set(vm.GT_UVWR1_F3.data[15 - index], 2, (value.demand_freq.value / 10000).toFixed(1))
+        }
+      })
     },
   },
   computed: {
@@ -1235,6 +1194,8 @@ export default {
         height: "height:800px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
+          ["product",],
+          [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["CCTV-13-新闻直播间", 152, 111],
           // ["贵州卫视-铁核桃之无间风云", 242, 222],
@@ -1259,6 +1220,8 @@ export default {
         height: "height:800px;",
         color: ["#ED7D31", "#EDEDED"],
         data: [
+          ["product",],
+          [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["CCTV-13-新闻直播间", 152, 111],
           // ["贵州卫视-铁核桃之无间风云", 242, 222],
@@ -1283,6 +1246,8 @@ export default {
         height: "height:800px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
+          ["product",],
+          [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["CCTV-13-新闻直播间", 152, 111],
           // ["贵州卫视-铁核桃之无间风云", 242, 222],

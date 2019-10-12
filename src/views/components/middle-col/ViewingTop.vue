@@ -107,18 +107,18 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.demandProgramTop(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
 
-    setTimeout(function() {
+    setTimeout(function () {
       vm.scrollLoopUp("viewingTOP_list");
     }, 1000);
   },
@@ -136,7 +136,7 @@ export default {
       };
       // console.log("~~~~~demandProgramTop");
       demandProgramTop(data)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
 
           let m_data =
@@ -159,12 +159,12 @@ export default {
           // console.log('收视TOP')
           vm.ifgetdata = true;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
           vm.ifgetdata = false;
         });
     },
-    scrollLoopUp: function(id) {
+    scrollLoopUp: function (id) {
       var scrollBox = document.getElementById(id);
       var lineHeight = scrollBox.clientHeight / 5;
       //var lineHeight = 30

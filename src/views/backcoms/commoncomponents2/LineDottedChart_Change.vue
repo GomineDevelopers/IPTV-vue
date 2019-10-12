@@ -4,10 +4,22 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "LineDottedChart_Change",
   props: {
     lineData: Object
+  },
+  computed: {
+    ...mapGetters(["PR_week"]),
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
+    },
   },
   data() {
     return {};
@@ -15,7 +27,7 @@ export default {
   mounted() {
     // console.log(this.lineData)
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -56,19 +68,20 @@ export default {
           }
         },
         grid: {
+          containLabel: true,  //设置图表位置自动填充
           top: "30%",
-          left: "5%",
-          right: "5%",
-          bottom: "15%"
+          left: 20,
+          right: 20,
+          bottom: "2%"
         },
         tooltip: {
           trigger: "axis",
-          axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#6a7985"
-            }
-          },
+          // axisPointer: {
+          //   type: "cross",
+          //   label: {
+          //     backgroundColor: "#6a7985"
+          //   }
+          // },
           textStyle: {
             align: "left"
           }

@@ -18,9 +18,9 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
     smoothLineData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (
           vm.smoothLineData.id == "GT_UVWR1_C4" ||
@@ -28,7 +28,7 @@ export default {
           vm.smoothLineData.id == "GT_UVWR1_C6"
         ) {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-            setTimeout(function() {
+            setTimeout(function () {
               vm.setLineChart();
             }, 1000);
             return vm.smoothLineData;
@@ -48,7 +48,7 @@ export default {
               color.push(vm.smoothLineData.color[2]);
               data.push(vm.smoothLineData.data[3]);
             }
-            setTimeout(function() {
+            setTimeout(function () {
               vm.setLineChart();
             }, 1000);
             return {
@@ -58,15 +58,34 @@ export default {
               data: data
             };
           }
+        } else if (
+          vm.smoothLineData.id == "GT_UVWR1_J2" ||
+          vm.smoothLineData.id == "GT_UVWR1_V2" ||
+          vm.smoothLineData.id == "GT_UVWR1_P2"
+        ) {
+          setTimeout(function () {
+            vm.setLineChart();
+          }, 1000);
+          if (vm.PR_week) {
+            //do nothing  监听视图变化作用
+          }
         }
         return vm.smoothLineData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
+    }
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
     }
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -102,20 +121,21 @@ export default {
         },
         legend: {
           icon: "re",
-          top: "10%",
+          top: "2%",
           itemWidth: 12, // 设置宽度
           itemHeight: 7, // 设置高度
           itemGap: 20, // 设置间距
           textStyle: {
-            fontSize: 14,
+            fontSize: 12,
             color: "rgba(0, 0, 0, 0.65)"
           }
         },
         grid: {
-          top: "20%",
-          left: "12%",
-          right: "5%",
-          bottom: "15%"
+          containLabel: true,
+          top: "25%",
+          left: "35",
+          right: "5",
+          bottom: "5"
         },
         tooltip: {
           trigger: "axis",
@@ -126,8 +146,8 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "9%",
-          right: "6%",
+          top: "0%",
+          right: "1%",
           feature: {
             saveAsImage: {}
           }
