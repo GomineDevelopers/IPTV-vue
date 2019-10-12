@@ -124,7 +124,6 @@ export default {
             type: "line",
             stack: "堆叠",
             yAxisIndex: "1",
-
             itemStyle: {
               normal: {
                 label: {
@@ -133,7 +132,7 @@ export default {
                   formatter: function (value) {
                     // return "{a|" + value.data + "}";
                     // console.log(value);
-                    return value.data[length - 1] + "%";
+                    return value.data[i] + "%";
                   }
                 }
               }

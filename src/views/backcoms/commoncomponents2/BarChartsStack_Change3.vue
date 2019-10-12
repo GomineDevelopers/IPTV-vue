@@ -16,13 +16,13 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let color = [];
         let data = [];
         if (vm.chartData.id == "GT_UVWR1_D2") {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 1000);
             return vm.chartData;
@@ -52,7 +52,7 @@ export default {
                 data[i].push(vm.chartData.data[i][3]);
               }
             }
-            setTimeout(function() {
+            setTimeout(function () {
               vm.drawLine();
             }, 1000);
             let temp = {
@@ -67,7 +67,7 @@ export default {
         }
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -75,7 +75,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },
@@ -97,10 +97,15 @@ export default {
             normal: {
               label: {
                 show: true,
-                color: "black"
+                color: "black",
+                formatter: function (value) {
+                  // return "{a|" + value.data + "}";
+                  // console.log(value);
+                  return value.data[i] + "%";
+                }
               }
             }
-          }
+          },
         });
       }
       var option = {
@@ -116,8 +121,8 @@ export default {
           }
         },
         legend: {
-          top: "18%",
-          right: "20%",
+          top: "5%",
+          // right: "20%",
           itemWidth: 12,
           itemHeight: 7
         },
@@ -134,14 +139,14 @@ export default {
         //图表自带工具
         toolbox: {
           show: true,
-          top: "16%",
+          top: "3%",
           right: "6%",
           feature: {
             saveAsImage: {}
           }
         },
         grid: {
-          top: "35%",
+          top: "20%",
           left: "8%",
           right: "1%",
           bottom: "10%"

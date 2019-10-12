@@ -163,12 +163,10 @@ export default {
       let vm = this;
       ////////// 三大基础功能收视数据（移动） 一周总体观看数据  GT_UVWR1_H1
       // 内-》外 1-》3 用户数 次数 总时长
-      let onlive1 =
-        newValue.data.responses[2].aggregations.onlive_user_num.value;
+      let onlive1 = newValue.data.responses[2].aggregations.onlive_user_num.value;
       let onlive2 = newValue.data.responses[2].aggregations.onlive_freq.value;
       let onlive3 = newValue.data.responses[2].aggregations.onlive_dur.value;
-      let demand1 =
-        newValue.data.responses[3].aggregations.demand_user_num.value;
+      let demand1 = newValue.data.responses[3].aggregations.demand_user_num.value;
       let demand2 = newValue.data.responses[3].aggregations.demand_freq.value;
       let demand3 = newValue.data.responses[3].aggregations.demand_dur.value;
       let watch1 = newValue.data.responses[4].aggregations.watch_user_num.value;
