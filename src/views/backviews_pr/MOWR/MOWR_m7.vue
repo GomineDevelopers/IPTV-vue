@@ -119,8 +119,13 @@ export default {
   props: ["m7_data"],
   watch: {
     m7_data(newValue, oldValue) {
-      console.log("m7_data - newValue");
-      console.log(newValue);
+      // console.log("m7_data - newValue");
+      // console.log(newValue);
+      let vm = this;
+      vm.form = newValue[0][0];
+      vm.MOWR_m7_A1 = newValue[0][1];
+      vm.MOWR_m7_A2 = newValue[0][2];
+      vm.MOWR_m7_A3 = newValue[0][3];
     }
   },
   computed: {

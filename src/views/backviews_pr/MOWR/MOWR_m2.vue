@@ -31,6 +31,52 @@
           <smooth-line-chart2 :smoothLineData="MOWR_m2_A1"></smooth-line-chart2>
         </el-col>
       </el-row>
+      <el-row :gutter="100" class="special_click_chart">
+        <el-col :span="12" class="height_auto">
+          <p class="m_common_sm_title_font">24小时新增用户激活率表（上周）</p>
+          <table class="m_table" border="1">
+            <tr class="tr_title">
+              <td
+                v-for="(item,index) in form_Change2.title "
+                :key="index + 'a' "
+                colspan="1"
+              >{{item}}</td>
+            </tr>
+            <tr v-show="ifFormRowShow_yd" class="tr_row">
+              <td
+                v-for="(item,index) in form_Change2.rowA "
+                :key="index + 'b' "
+                colspan="1"
+              >{{item}}</td>
+            </tr>
+            <tr v-show="ifFormRowShow_lt" class="tr_row">
+              <td
+                v-for="(item,index) in form_Change2.rowB "
+                :key="index + 'c' "
+                colspan="1"
+              >{{item}}</td>
+            </tr>
+            <tr v-show="ifFormRowShow_dx" class="tr_row">
+              <td
+                v-for="(item,index) in form_Change2.rowC "
+                :key="index + 'd' "
+                colspan="1"
+              >{{item}}</td>
+            </tr>
+            <tr class="tr_row">
+              <td
+                v-for="(item,index) in form_Change2.rowD "
+                :key="index + 'e' "
+                colspan="1"
+              >{{item}}</td>
+            </tr>
+          </table>
+        </el-col>
+        <el-col :span="12" class="height_auto">
+          <p class="m_common_sm_title_font">24小时新增用户激活率图（上周）</p>
+          <smooth-line-chart2 :smoothLineData="MOWR_m2_A2"></smooth-line-chart2>
+        </el-col>
+      </el-row>
     </el-row>
   </div>
 </template>
@@ -47,8 +93,13 @@ export default {
   props: ["m2_data"],
   watch: {
     m2_data(newValue, oldValue) {
-      console.log("m2_data - newValue");
-      console.log(newValue);
+      let vm = this;
+      // console.log("m2_data - newValue");
+      // console.log(newValue);
+      vm.form = newValue[0][0];
+      vm.MOWR_m2_A1 = newValue[0][1];
+      vm.form2 = newValue[1][0];
+      vm.MOWR_m2_A2 = newValue[1][1];
     }
   },
   mounted() {},
@@ -109,13 +160,13 @@ export default {
             sum += parseInt(sumArr[i]);
           }
           rowD = this.form.rowD;
-          rowD[8] = String(sum);
+          // rowD[8] = String(sum);
           return {
             title: this.form.title,
             rowA: this.form.rowA,
             rowB: this.form.rowB,
             rowC: this.form.rowC,
-            rowD: rowD
+            rowD: this.form.rowD
           };
         } else {
           if (this.PR_operator.indexOf("移动") > -1) {
@@ -132,18 +183,72 @@ export default {
             sum += parseInt(sumArr[i]);
           }
           rowD = this.form.rowD;
-          rowD[8] = String(sum);
+          // rowD[8] = String(sum);
 
           return {
             title: this.form.title,
             rowA: this.form.rowA,
             rowB: this.form.rowB,
             rowC: this.form.rowC,
-            rowD: rowD
+            rowD: this.form.rowD
           };
         }
 
         return this.form;
+      },
+      set: function(newValue) {}
+    },
+    form_Change2: {
+      get: function() {
+        let sumArr = [];
+        let sum = 0;
+        let length;
+        let i;
+        let rowD;
+        if (this.PR_operator == null || this.PR_operator.length == 0) {
+          sumArr.push(this.form2.rowA[8]);
+          sumArr.push(this.form2.rowB[8]);
+          sumArr.push(this.form2.rowC[8]);
+          length = sumArr.length;
+          for (i = 0; i < length; i++) {
+            sum += parseInt(sumArr[i]);
+          }
+          rowD = this.form2.rowD;
+          // rowD[8] = String(sum);
+          return {
+            title: this.form2.title,
+            rowA: this.form2.rowA,
+            rowB: this.form2.rowB,
+            rowC: this.form2.rowC,
+            rowD: this.form2.rowD
+          };
+        } else {
+          if (this.PR_operator.indexOf("移动") > -1) {
+            sumArr.push(this.form2.rowA[8]);
+          }
+          if (this.PR_operator.indexOf("联通") > -1) {
+            sumArr.push(this.form2.rowB[8]);
+          }
+          if (this.PR_operator.indexOf("电信") > -1) {
+            sumArr.push(this.form2.rowC[8]);
+          }
+          length = sumArr.length;
+          for (i = 0; i < length; i++) {
+            sum += parseInt(sumArr[i]);
+          }
+          rowD = this.form2.rowD;
+          // rowD[8] = String(sum);
+
+          return {
+            title: this.form2.title,
+            rowA: this.form2.rowA,
+            rowB: this.form2.rowB,
+            rowC: this.form2.rowC,
+            rowD: this.form2.rowD
+          };
+        }
+
+        return this.form2;
       },
       set: function(newValue) {}
     }
@@ -153,49 +258,49 @@ export default {
       form: {
         title: [
           "日新增",
-          "7月1日",
-          "7月2日",
-          "7月3日",
-          "7月4日",
-          "7月5日",
-          "7月6日",
-          "7月7日",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
           "总计"
         ],
         rowA: [
           "移动",
-          "2575",
-          "2222",
-          "3131",
-          "2424",
-          "3636",
-          "2929",
-          "3261",
-          "20000"
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
         ],
         rowB: [
           "联通",
-          "2575",
-          "2222",
-          "3131",
-          "2424",
-          "3636",
-          "2929",
-          "3261",
-          "20000"
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
         ],
         rowC: [
           "电信",
-          "2575",
-          "2222",
-          "3131",
-          "2424",
-          "3636",
-          "2929",
-          "3261",
-          "20000"
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
         ],
-        rowD: ["", "", "", "", "", "", "", "", "66666"]
+        rowD: ["", "", "", "", "", "", "", "", "0"]
       },
       MOWR_m2_A1: {
         title: "",
@@ -204,21 +309,86 @@ export default {
         data: [
           [
             "product",
-            "6月24日",
-            "6月25日",
-            "6月26日",
-            "6月27日",
-            "6月28日",
-            "6月29日",
-            "6月30日",
-            "7月1日",
-            "7月2日",
-            "7月3日",
-            "7月4日"
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+  
           ],
-          ["移动", 60, 61, 55, 47, 58, 66, 62, 67, 64, 58, 54],
-          ["联通", 22, 23, 25, 22, 22, 26, 22, 28, 22, 26, 22],
-          ["电信", 77, 79, 74, 77, 72, 75, 78, 77, 71, 77, 79]
+          ["移动", 0, 0, 0, 0, 0, 0, 0],
+          ["联通", 0, 0, 0, 0, 0, 0, 0],
+          ["电信", 0, 0, 0, 0, 0, 0, 0]
+        ]
+      },
+      form2: {
+        title: [
+          "日新增",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "总计"
+        ],
+        rowA: [
+          "移动",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        rowB: [
+          "联通",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        rowC: [
+          "电信",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        rowD: ["", "", "", "", "", "", "", "", "0"]
+      },
+      MOWR_m2_A2: {
+        title: "",
+        id: "MOWR_m2_A2",
+        color: ["#8064A2", "#9BBB59", "#C0504D"],
+        data: [
+          [
+            "product",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+  
+          ],
+          ["移动", 0, 0, 0, 0, 0, 0, 0],
+          ["联通", 0, 0, 0, 0, 0, 0, 0],
+          ["电信", 0, 0, 0, 0, 0, 0, 0]
         ]
       }
     };

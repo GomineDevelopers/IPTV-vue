@@ -17,6 +17,7 @@ export default {
   },
   computed: {
     ...mapGetters(["PR_operator", "PR_week"]),
+
     chartData_Change: {
       get: function () {
         let vm = this;
@@ -60,6 +61,19 @@ export default {
             //do nothing  监听视图变化作用
           }
         }
+        if (
+          vm.chartData.id == "MOWR_m7_A1" ||
+          vm.chartData.id == "MOWR_m7_A2" ||
+          vm.chartData.id == "MOWR_m7_A3"
+        ) {
+          if (vm.PR_week) {
+            // do nothing. --监听
+          }
+        }
+
+        setTimeout(function () {
+          vm.drawLine();
+        }, 1000);
         return vm.chartData;
       },
       set: function (newValue) { }

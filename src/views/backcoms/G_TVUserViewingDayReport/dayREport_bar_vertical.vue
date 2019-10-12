@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "registereduserpie", //用户注册人数饼图
   props: ["fillinData"],
@@ -15,6 +16,23 @@ export default {
     setTimeout(function() {
       vm.setLineChart();
     }, 1000);
+  },
+  computed: {
+    ...mapGetters(["PR_operator", "PR_day"])
+  },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    PR_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    }
   },
   methods: {
     setLineChart() {

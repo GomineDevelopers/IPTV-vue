@@ -25,7 +25,8 @@ export default {
       "UVB_region",
       "ADD_VIP_region",
       "UVB_programa",
-      "ADD_VIP_programa"
+      "ADD_VIP_programa",
+      "PR_week"
     ]),
     // ...this.$mapGetters(["PR_operator"]),
 
@@ -187,7 +188,26 @@ export default {
             data: data
           };
         }
-
+        if (
+          vm.chartData.id == "hebdomadViewNum" ||
+          vm.chartData.id == "hebdomadDibbleSeeding" ||
+          vm.chartData.id == "localProgramsPlay" ||
+          vm.chartData.id == "hebdomadLive" ||
+          vm.chartData.id == "channelLiveUserNum" ||
+          vm.chartData.id == "channelLiveTimes" ||
+          vm.chartData.id == "channelLiveDuration" ||
+          vm.chartData.id == "liveProgramTOP" ||
+          vm.chartData.id == "localProgramTOP" ||
+          vm.chartData.id == "satelliteLiveProgramTOP"
+        ) {
+          if (vm.PR_week) {
+            // do nothing. --监听
+          }
+        }
+        // 视图更新
+        setTimeout(function() {
+          vm.drawLine();
+        }, 1000);
         return vm.chartData;
       },
       set: function(newValue) {

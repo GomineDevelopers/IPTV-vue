@@ -156,35 +156,15 @@ export default {
 
       let vm = this;
       setTimeout(function() {
-        vm.$store
-          .dispatch("get_BigScreenStartDate")
-          .then(function(res1) {
-            setTimeout(function() {
-              vm.$store
-                .dispatch("get_BigScreenExpirationDate")
-                .then(function(res2) {
-                  if (
-                    newValue == null ||
-                    newValue == undefined ||
-                    newValue == ""
-                  ) {
-                    return;
-                  }
-                  vm.users_daliyReport("yd", "rangeday", res2, res2);
-                  vm.users_daliyReport("lt", "rangeday", res2, res2);
-                  vm.users_daliyReport("dx", "rangeday", res2, res2);
-                  vm.users_daliyReport("yd", "singleday", res1, res2);
-                  vm.users_daliyReport("lt", "singleday", res1, res2);
-                  vm.users_daliyReport("dx", "singleday", res1, res2);
-                })
-                .catch(function(error) {
-                  console.info(error);
-                });
-            }, 100);
-          })
-          .catch(function(error) {
-            console.info(error);
-          });
+        if (newValue == null || newValue == undefined || newValue == "") {
+          return;
+        }
+        vm.users_daliyReport("yd", "rangeday");
+        vm.users_daliyReport("lt", "rangeday");
+        vm.users_daliyReport("dx", "rangeday");
+        vm.users_daliyReport("yd", "singleday");
+        vm.users_daliyReport("lt", "singleday");
+        vm.users_daliyReport("dx", "singleday");
       }, 100);
     }
   },
@@ -228,7 +208,7 @@ export default {
     }
   },
   methods: {
-    users_daliyReport(operator_type, date_type, StartDate, ExpirationDate) {
+    users_daliyReport(operator_type, date_type) {
       console.log("users_daliyReport");
       let vm = this;
       let temp_operator;
@@ -244,14 +224,12 @@ export default {
       console.log("~~~~~~!!vm.PR_day");
       console.log(vm.PR_day);
 
-      // let start = StartDate;
-      // let end = ExpirationDate;
       let start;
       let end;
       if (vm.PR_day != null) {
         if (date_type == "singleday") {
           start = vm.PR_day.start;
-          end = vm.PR_day.end;
+          end = vm.PR_day.end; // 同 start
         }
         if (date_type == "rangeday") {
           let temp_b7d = commonTools.currentDay_7daysAgoRange(vm.PR_day.start);
@@ -273,7 +251,6 @@ export default {
       console.log("~~~~~~~!");
       console.log(temp);
 
-      return;
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("operator", temp.operator);
@@ -390,12 +367,15 @@ export default {
             temp_0.push(temp_0_C1);
             temp_0.push(temp_0_C2);
             if (operator_type == "yd") {
+              vm.yidongTypeLooktime.data = []; // 初始化
               vm.yidongTypeLooktime.data.push(temp_0);
             }
             if (operator_type == "lt") {
+              vm.liantongTypeLooktime.data = []; // 初始化
               vm.liantongTypeLooktime.data.push(temp_0);
             }
             if (operator_type == "dx") {
+              vm.dianxingTypeLooktime.data = []; // 初始化
               vm.dianxingTypeLooktime.data.push(temp_0);
             }
 
@@ -474,12 +454,15 @@ export default {
             temp_0.push(temp_0_C1);
             temp_0.push(temp_0_C2);
             if (operator_type == "yd") {
+              // vm.yidongTypeLooktime.data = []; // 初始化
               vm.yidongTypeLooktime.data.push(temp_0);
             }
             if (operator_type == "lt") {
+              // vm.liantongTypeLooktime.data = []; // 初始化
               vm.liantongTypeLooktime.data.push(temp_0);
             }
             if (operator_type == "dx") {
+              // vm.dianxingTypeLooktime.data = []; // 初始化
               vm.dianxingTypeLooktime.data.push(temp_0);
             }
 
@@ -505,6 +488,8 @@ export default {
             // temp_0_C2.push("今日");
             // Vue.set(temp_0_C1, 0, "运营商");
             // Vue.set(temp_0_C1, 0, "今日");
+            temp_1_C1.push("运营商");
+            temp_1_C2.push("今日");
             let all_count = 0.0;
             for (i_1 = 0; i_1 < length_1_all; i_1++) {
               all_count += parseFloat(buckets1[i_1].onlive_dur.value);
@@ -523,20 +508,26 @@ export default {
             temp_1.push(temp_1_C1);
             temp_1.push(temp_1_C2);
             if (operator_type == "yd") {
+              vm.yidongLiveBroadcast.data = []; // 初始化
               vm.yidongLiveBroadcast.data.push(temp_1);
+              console.log("~~~~~!!!");
+              console.log(buckets1);
+              console.log(vm.yidongLiveBroadcast.data);
             }
             if (operator_type == "lt") {
+              vm.liantongLiveBroadcast.data = []; // 初始化
               vm.liantongLiveBroadcast.data.push(temp_1);
             }
             if (operator_type == "dx") {
+              vm.dianxingLiveBroadcast.data = []; // 初始化
               vm.dianxingLiveBroadcast.data.push(temp_1);
             }
           }
 
           // console.log(vm.yidongLiveBroadcast);
 
-          // ////////////////// 移动侧各栏目单日点击用户数（万户） yidongtypedayusernumber
-          // ////////////////// 移动侧各栏目单日点击次数   yidongtypedayclicknumber
+          // ////////////////// 移动侧各栏目单日点击用户数（户） yidongtypedayusernumber
+          // ////////////////// 移动侧各栏目单日点击次数（次）   yidongtypedayclicknumber
           // ▲▲ 固定栏目顺序：移动 联通 电信  不一样
           let yd_channnel_order = [
             "推荐",
@@ -544,7 +535,7 @@ export default {
             "少儿",
             "电影",
             "电视",
-            "电视剧",
+            // "电视剧",
             "动漫",
             "游戏",
             "综艺",
@@ -557,7 +548,7 @@ export default {
             "少儿",
             "电影",
             "电视",
-            "电视剧",
+            // "电视剧",
             "应用",
             "动漫",
             "游戏",
@@ -571,7 +562,7 @@ export default {
             "少儿",
             "电影",
             "电视",
-            "电视剧",
+            // "电视剧",
             "动漫",
             "游戏",
             "综艺",
@@ -597,9 +588,11 @@ export default {
             let temp_3_C2B = [];
             let i_0;
             temp_3_C1.push("运营商");
-            temp_3_C2.push("平均");
+            // temp_3_C2.push("平均");
+            temp_3_C2.push("今日");
             temp_3_C1B.push("运营商");
-            temp_3_C2B.push("平均");
+            // temp_3_C2B.push("平均");
+            temp_3_C2B.push("今日");
             function data_manage(i_0) {
               let t_leng2;
               let t_i2;
@@ -692,14 +685,23 @@ export default {
             temp_3B.push(temp_3_C2B);
 
             if (operator_type == "yd") {
+              vm.yidongtypedayusernumber.data = []; // 初始化
+              vm.yidongtypedayclicknumber.data = []; // 初始化
+
               vm.yidongtypedayusernumber.data.push(temp_3);
               vm.yidongtypedayclicknumber.data.push(temp_3B);
             }
             if (operator_type == "lt") {
+              vm.liantongtypedayusernumber.data = []; // 初始化
+              vm.liantongtypedayclicknumber.data = []; // 初始化
+
               vm.liantongtypedayusernumber.data.push(temp_3);
               vm.liantongtypedayclicknumber.data.push(temp_3B);
             }
             if (operator_type == "dx") {
+              vm.dianxingtypedayusernumber.data = []; // 初始化
+              vm.dianxingtypedayclicknumber.data = []; // 初始化
+
               vm.dianxingtypedayusernumber.data.push(temp_3);
               vm.dianxingtypedayclicknumber.data.push(temp_3B);
             }

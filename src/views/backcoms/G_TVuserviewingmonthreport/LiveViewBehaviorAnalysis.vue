@@ -5,6 +5,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "LiveViewBehaviorAnalysis", //直播收视行为分析（列表柱状图）
   props: {
@@ -22,6 +24,7 @@ export default {
     }, 1000);
   },
   computed: {
+    ...mapGetters(["PR_week"]),
     barListData_Change: {
       get: function() {
         let vm = this;
@@ -31,6 +34,14 @@ export default {
         return vm.barListData;
       },
       set: function(newValue) {}
+    }
+  },
+  watch: {
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
     }
   },
   methods: {

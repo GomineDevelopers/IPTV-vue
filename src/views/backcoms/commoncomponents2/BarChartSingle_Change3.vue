@@ -22,7 +22,7 @@ export default {
         let data = [];
         let color = [];
 
-        if (vm.chartData.id == "MOWR_m1_A1") {
+        if (vm.chartData.id == "MOWR_m1_A1" || vm.chartData.id == "MOWR_m1_A2" ) {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
             color = vm.chartData.color;
             data = vm.chartData.data;
