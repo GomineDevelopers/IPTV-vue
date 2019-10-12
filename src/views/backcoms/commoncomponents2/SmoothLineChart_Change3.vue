@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "SmoothLineChart_Change2", //专题专区数据报告
+  name: "SmoothLineChart_Change3", //专题专区数据报告
   props: {
     smoothLineData: {
       type: Object
@@ -18,45 +18,28 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
     smoothLineData_Change: {
       get: function() {
         let vm = this;
         let data = [];
         let color = [];
-
-        if (vm.smoothLineData.id == "MOWR_m2_A1" || vm.smoothLineData.id == "MOWR_m2_A2") {
-          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-            color = vm.smoothLineData.color;
-            data = vm.smoothLineData.data;
-          } else {
-            data.push(vm.smoothLineData.data[0]);
-            if (vm.PR_operator.indexOf("移动") > -1) {
-              color.push(vm.smoothLineData.color[0]);
-              data.push(vm.smoothLineData.data[1]);
-            }
-            if (vm.PR_operator.indexOf("联通") > -1) {
-              color.push(vm.smoothLineData.color[1]);
-              data.push(vm.smoothLineData.data[2]);
-            }
-            if (vm.PR_operator.indexOf("电信") > -1) {
-              color.push(vm.smoothLineData.color[2]);
-              data.push(vm.smoothLineData.data[3]);
-            }
+        if (
+          vm.smoothLineData.id == "MOWR_m6_A1" ||
+          vm.smoothLineData.id == "MOWR_m6_A2" ||
+          vm.smoothLineData.id == "MOWR_m6_A3" ||
+          vm.smoothLineData.id == "MOWR_m6_A1_2" ||
+          vm.smoothLineData.id == "MOWR_m6_A2_2" ||
+          vm.smoothLineData.id == "MOWR_m6_A3_2"
+        ) {
+          if (vm.PR_week) {
+            // do nothing. -- 监听
           }
-          setTimeout(function() {
-            vm.setLineChart();
-          }, 1000);
-          let temp = {
-            title: vm.smoothLineData.title,
-            id: vm.smoothLineData.id,
-            height: vm.smoothLineData.height,
-            color: color,
-            data: data
-          };
-          // console.log(temp);
-          return temp;
         }
+
+        setTimeout(function() {
+          vm.setLineChart();
+        }, 1000);
         return vm.smoothLineData;
       }
     },
@@ -131,8 +114,11 @@ export default {
             let marker1 = params[0].marker;
             let value1 = params[0].data[1];
 
+            // if (length == 1) {
+            //   return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
+            // }
             if (length == 1) {
-              return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
+              return title + ":<br/>" + marker1 + t1 + ":" + value1;
             }
 
             let t2 = params[1].seriesName;
@@ -149,19 +135,16 @@ export default {
               t1 +
               ":" +
               value1 +
-              "%" +
               "<br/>" +
               marker2 +
               t2 +
               ":" +
               value2 +
-              "%" +
               "<br/>" +
               marker3 +
               t3 +
               ":" +
-              value3 +
-              "%"
+              value3
             );
           }
         },
@@ -201,7 +184,7 @@ export default {
           },
           axisLabel: {
             show: true,
-            formatter: "{value}%", //右侧Y轴文字显示
+            formatter: "{value}", //右侧Y轴文字显示
             textStyle: {
               color: "#333"
             }

@@ -2,7 +2,7 @@
   <div class="height_auto">
     <!-- VIP增值业务专项分析开始 -->
     <el-row class="VIP_value_added_body">
-      <el-row class="periodic_report_title">VIP增值业务专项分析</el-row>
+      <el-row class="periodic_report_title">电信VIP增值业务专项分析</el-row>
 
       <!-- 新增用户转化率开始 -->
       <el-row class="new_add_user_percent back_white marginbottom_14">
@@ -282,19 +282,19 @@ export default {
       }
       console.log(temp);
 
-      // var formData = new FormData();
-      // var formData = new window.FormData();
-      // formData.append("operator", temp.operator);
-      // formData.append("start", temp.start);
-      // formData.append("end", temp.end);
-      // users_vipReport(formData)
-      //   .then(function(response) {
-      //     // console.log(response);
-      //     // console.log(response.data.responses[0].aggregations.ti.buckets);
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      users_vipReport(formData)
+        .then(function(response) {
+          console.log(response);
+          // console.log(response.data.responses[0].aggregations.ti.buckets);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     }
   },
   data() {

@@ -17,7 +17,8 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_week"]),
+
     smoothLineData_Change: {
       get: function() {
         let vm = this;
@@ -59,7 +60,14 @@ export default {
             data: data
           };
         }
-
+        if (vm.smoothLineData.id == "originalProgramsDemand") {
+          if (vm.PR_week) {
+            // do nothing. --监听
+          }
+        }
+        setTimeout(function() {
+          vm.setLineChart();
+        }, 1000);
         return vm.smoothLineData;
       },
       set: function(newValue) {}

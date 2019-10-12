@@ -306,7 +306,7 @@ export default {
       ],
       monthly: [
         {
-          name: "VIP增值业务专项分析",
+          name: "电信VIP增值业务专项分析",
           pointStatus: false,
           routerLink: "/backhome/periodicreport/VIPAddMonthReport"
         },
@@ -708,6 +708,11 @@ export default {
               vm.reportOption = reportName;
               vm.routerLink = routerLink;
               if (reportName == "移动运营数据周报") {
+                vm.ifOperatorShow = false;
+              } else {
+                vm.ifOperatorShow = true;
+              }
+              if (reportName == "电信VIP增值业务专项分析") {
                 vm.ifOperatorShow = false;
               } else {
                 vm.ifOperatorShow = true;

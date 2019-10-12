@@ -231,7 +231,22 @@
             <el-row class="recommended_column_body back_white">
               <el-row>
                 <el-tabs v-model="activeName">
-                  <el-tab-pane label="分类" name="classify">
+                  <!-- <com-el-tab-pane v-bind:paneData="itemX"></com-el-tab-pane> -->
+                  <!-- <template v-for="(itemX,index) in paneArr">
+                    <el-tab-pane
+                      :key="index + 'X' "
+                      :label="paneData.data"
+                      :name="paneData.id"
+                      lazy
+                    >~~!!!{{paneData.data}}</el-tab-pane>
+                  </template>-->
+                  <template v-for="(itemX,index) in paneArr">
+                    <el-tab-pane :key="index + 'X' " :label="itemX.data" :name="itemX.id" lazy>
+                      <recommend-column-week-data :columnData="Pane_ColumnData[index]"></recommend-column-week-data>
+                    </el-tab-pane>
+                    <!-- <el-tab-pane label="热剧" name="hotShow" lazy>热剧</el-tab-pane> -->
+                  </template>
+                  <!-- <el-tab-pane label="分类" name="classify">
                     <recommend-column-week-data
                       :columnData="classifyColumnData"
                       v-if="'classify' === activeName"
@@ -257,7 +272,7 @@
                   <el-tab-pane label="体育" name="PE" lazy>体育</el-tab-pane>
                   <el-tab-pane label="纪实" name="documentary" lazy>纪实</el-tab-pane>
                   <el-tab-pane label="游戏" name="game" lazy>游戏</el-tab-pane>
-                  <el-tab-pane label="应用" name="apply" lazy>应用</el-tab-pane>
+                  <el-tab-pane label="应用" name="apply" lazy>应用</el-tab-pane>-->
                 </el-tabs>
               </el-row>
             </el-row>
@@ -355,14 +370,17 @@ import ManyPieChart3 from "@/views/backcoms/OperationalWeekReport/ManyPieChart3"
 import TypesProgrammesPlay from "@/views/backcoms/OperationalWeekReport/TypesProgrammesPlay"; //TOP排名（柱状图列表）
 import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"; //TOP排名（柱状图列表）
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"; //平滑曲线折线图组件
-import RecommendColumnWeekData from "@/views/backcoms/OperationalWeekReport/RecommendColumnWeekData"; //推荐栏目一周数据概览组件
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
 import LineChartSingle from "@/views/backcoms/commoncomponents/LineChartSingle"; //单数据折线图组件（新增用户概览）
 import ThematicDataTrendChart from "@/views/backcoms/OperationalWeekReport/ThematicDataTrendChart"; //一周专题数据走势折线组件
 
+import RecommendColumnWeekData from "@/views/backcoms/OperationalWeekReport/RecommendColumnWeekData"; //推荐栏目一周数据概览组件
+// import EL_TAB_PANE from "@/views/backcoms/OperationalWeekReport/el_tab_pane"; //推荐栏目一周数据概览组件
+
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
 import { users_mobileReport } from "@/api/api_main";
+import Vue from "vue";
 
 export default {
   name: "OperationalWeekReport", // 移动运营数据周报
@@ -376,6 +394,7 @@ export default {
     "live-view-behavior-analysis": LiveViewBehaviorAnalysis,
     "smooth-line-chart": SmoothLineChart,
     "recommend-column-week-data": RecommendColumnWeekData,
+    // "com-el-tab-pane": EL_TAB_PANE,
     "pie-charts": PieCharts,
     "line-chart-single": LineChartSingle,
     "thematic-data-trend-chart": ThematicDataTrendChart
@@ -383,6 +402,7 @@ export default {
   computed: {
     ...mapGetters(["PR_week"])
   },
+  // ▲注意有三种类型 =》 两种请求结构：  week-对应的 23~24week     week_days对应的是 23week（不用） 01~07（都用这种）
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
@@ -520,7 +540,11 @@ export default {
           // //////////////////////////////// 数据填充
           if (week_type == "week") {
             console.log("users_mobileReport  week");
+
             console.log(response);
+
+            // 一周用户活跃情况
+            // ////////// 周末用户总量与一周开机率  (row 1 left)
             let buckets_0 =
               response.data.responses[0].aggregations.statistical_granularity
                 .buckets;
@@ -528,35 +552,1567 @@ export default {
             let i_0;
             // 在册用户数（万户） register_num
             // 开机用户数（万户） open_num
-            // 开机率  --- 待看表
-            // let temp_data_0 = [];
-            // temp_data_0.push([
-            //   "product",
-            //   "在册用户数（万户）",
-            //   "开机用户数（万户）",
-            //   "开机率"
-            // ]);
-            // for (i_0 = 0; i_0 < length_0; i_0++) {
-            //   if (i_0 == 0) {
-            //     temp_data_0.push([
-            //       beforeWeekFormat,
-            //       parseInt(buckets_0[i_0].open_num_chain) / 10000,
-            //       parseInt(buckets_0[i_0].register_num) / 10000,
-            //       100
-            //     ]);
-            //   }
-            //   if (i_0 == 1) {
-            //     temp_data_0.push([currentWeekFormat, 113.4, 54.4, 48.0]);
-            //   }
-            // }
-            // vm.userNumAddPowerData = temp_data_0; // 周末用户总量与一周开机率
-          }
+            // 开机率   // 开机用户数/在册用户数
+            let temp_data_0 = [];
+            temp_data_0.push([
+              "product",
+              "在册用户数（万户）",
+              "开机用户数（万户）",
+              "开机率"
+            ]);
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              if (i_0 == 0) {
+                temp_data_0.push([
+                  beforeWeekFormat,
+                  parseInt(buckets_0[i_0].register_num.value) / 10000,
+                  parseInt(buckets_0[i_0].open_num.value) / 10000,
+                  parseInt(buckets_0[i_0].open_num.value) /
+                    parseInt(buckets_0[i_0].register_num.value)
+                ]);
+              }
+              if (i_0 == 1) {
+                temp_data_0.push([
+                  currentWeekFormat,
+                  parseInt(buckets_0[i_0].register_num.value) / 10000,
+                  parseInt(buckets_0[i_0].open_num.value) / 10000,
+                  parseInt(buckets_0[i_0].open_num.value) /
+                    parseInt(buckets_0[i_0].register_num.value)
+                ]);
+              }
+            }
+            vm.userNumAddPowerData.data = temp_data_0; // 周末用户总量与一周开机率
+            // console.log("~~~~~!!!!!");
+            // console.log(vm.userNumAddPowerData);
+
+            // //////////////// 一周热力数据概览 ///////  （row 3） responses 8 9 10  ---跳过 数据补全
+            // 上周 本周
+            // 访问用户数 访问次数 页面点击用户数 页面点击次数 页面播放次数 页面播放时长
+            // access_user_num access_freq click_user_num click_freq access_freq  access_dur(用demand_dur)
+            // 8 access_freq access_user_num
+            // 9 click_freq click_user_num
+            // 10 demand_dur
+            let buckets_8 =
+              response.data.responses[8].aggregations.statistical_granularity
+                .buckets;
+            let buckets_9 =
+              response.data.responses[9].aggregations.statistical_granularity
+                .buckets;
+            let buckets_10 =
+              response.data.responses[10].aggregations.statistical_granularity
+                .buckets;
+            let length_8910 = 2;
+            let i_8910;
+            let temp_data_8910 = [];
+            let temp_data_8910_1 = [];
+            let temp_data_8910_2 = [];
+            let temp_data_8910_3 = [];
+            let temp_data_8910_4 = [];
+            let temp_data_8910_5 = [];
+            let temp_data_8910_6 = [];
+
+            temp_data_8910.push([
+              "product",
+              beforeWeekFormat,
+              currentWeekFormat,
+              "环比"
+            ]);
+            temp_data_8910_1.push("访问用户数");
+            temp_data_8910_2.push("访问次数");
+            temp_data_8910_3.push("页面点击用户数");
+            temp_data_8910_4.push("页面点击次数");
+            temp_data_8910_5.push("页面播放次数");
+            temp_data_8910_6.push("页面播放时长");
+
+            temp_data_8910_1.push(buckets_8[0].access_user_num.value);
+            temp_data_8910_2.push(buckets_8[0].access_freq.value);
+            temp_data_8910_3.push(buckets_9[0].click_user_num.value);
+            temp_data_8910_4.push(buckets_9[0].click_freq.value);
+            temp_data_8910_5.push(buckets_8[0].access_freq.value);
+            temp_data_8910_6.push(buckets_10[0].demand_dur.value); //
+
+            temp_data_8910_1.push(buckets_8[1].access_user_num.value);
+            temp_data_8910_2.push(buckets_8[1].access_freq.value);
+            temp_data_8910_3.push(buckets_9[1].click_user_num.value);
+            temp_data_8910_4.push(buckets_9[1].click_freq.value);
+            temp_data_8910_5.push(buckets_8[1].access_freq.value);
+            temp_data_8910_6.push(buckets_10[1].demand_dur.value); //
+
+            // 环比算法  （本期数值-上期数值）/上期数值
+
+            temp_data_8910_1.push(
+              (buckets_8[1].access_user_num.value -
+                buckets_8[0].access_user_num.value) /
+                buckets_8[0].access_user_num.value
+            );
+            temp_data_8910_2.push(
+              (buckets_8[1].access_freq.value -
+                buckets_8[0].access_freq.value) /
+                buckets_8[0].access_freq.value
+            );
+            temp_data_8910_3.push(
+              (buckets_9[1].click_user_num.value -
+                buckets_9[0].click_user_num.value) /
+                buckets_9[0].click_user_num.value
+            );
+            temp_data_8910_4.push(
+              (buckets_9[1].click_freq.value - buckets_9[0].click_freq.value) /
+                buckets_9[0].click_freq.value
+            );
+            temp_data_8910_5.push(
+              (buckets_8[1].access_freq.value -
+                buckets_8[0].access_freq.value) /
+                buckets_8[0].access_freq.value
+            );
+            temp_data_8910_6.push(
+              (buckets_10[1].demand_dur.value -
+                buckets_10[0].demand_dur.value) /
+                buckets_10[0].demand_dur.value
+            ); //
+
+            temp_data_8910.push(temp_data_8910_1);
+            temp_data_8910.push(temp_data_8910_2);
+            temp_data_8910.push(temp_data_8910_3);
+            temp_data_8910.push(temp_data_8910_4);
+            temp_data_8910.push(temp_data_8910_5);
+            temp_data_8910.push(temp_data_8910_6);
+            vm.hebdomadHotData.data = temp_data_8910;
+
+            // //////////////// 一周点播数据概览 (row4 left)   responses 11
+            let buckets_11 =
+              response.data.responses[11].aggregations.statistical_granularity
+                .buckets;
+            let length_11 = buckets_11.length;
+            let i_11;
+            let temp_data_11 = [];
+            let temp_data_11_1 = [];
+            let temp_data_11_2 = [];
+            let temp_data_11_3 = [];
+            temp_data_11_1.push("点播用户数（万户）");
+            temp_data_11_2.push("点播次数（万次）");
+            temp_data_11_3.push("点播时长（万小时）");
+
+            temp_data_11.push(["product", beforeWeekFormat, currentWeekFormat]);
+
+            for (i_11 = 0; i_11 < length_11; i_11++) {
+              temp_data_11_1.push(
+                buckets_11[i_11].demand_user_num.value / 10000
+              );
+              temp_data_11_2.push(buckets_11[i_11].demand_freq.value / 10000);
+              temp_data_11_3.push(
+                buckets_11[i_11].demand_dur.value / 10000 / 3600
+              );
+            }
+            temp_data_11.push(temp_data_11_1);
+            temp_data_11.push(temp_data_11_2);
+            temp_data_11.push(temp_data_11_3);
+            vm.hebdomadDibbleSeedingData.data = temp_data_11;
+            // console.log("~~~~~!!!!!");
+            // console.log(vm.hebdomadDibbleSeedingData);
+
+            // //////////////// 一周点播数据概览 (row4 right)   responses 12
+            // ////// 本周（先） 上周（后）
+            let buckets_12 =
+              response.data.responses[12].aggregations.statistical_granularity
+                .buckets;
+            // let length_12 = buckets_12.length; // 默认两周 - 2
+            let i_12;
+            let temp_data_12 = [];
+            temp_data_12.push(["product", currentWeekFormat, beforeWeekFormat]);
+            let top15_length_12 = 15;
+            for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+              temp_data_12.push([]);
+            }
+
+            // 本周
+            for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+              Vue.set(
+                temp_data_12[top15_length_12 - i_12],
+                0,
+                buckets_12[1].program_type.buckets[i_12].key
+              );
+              Vue.set(
+                temp_data_12[top15_length_12 - i_12],
+                1,
+                buckets_12[1].program_type.buckets[i_12].demand_freq.value /
+                  10000
+              );
+              // 临时设置
+              // Vue.set(
+              //   temp_data_12[top15_length_12 - i_12],
+              //   2,
+              //   buckets_12[1].program_type.buckets[i_12].demand_freq.value /
+              //     10000
+              // );
+            }
+            // ////// 上周
+            let buckets_child_12_2 =
+              response.data.responses[12].aggregations.statistical_granularity
+                .buckets[0].program_type.buckets;
+            let top15_length_week2_all = buckets_child_12_2.length; // 200个
+            let i_12_2;
+            function Return_KeyValue_12(key) {
+              let value;
+              for (i_12_2 = 0; i_12_2 < top15_length_week2_all; i_12_2++) {
+                if (buckets_child_12_2[i_12_2].key == key) {
+                  // console.log(buckets_child_12_2[i_12_2].key);
+                  value = buckets_child_12_2[i_12_2].demand_freq.value / 10000;
+                  break;
+                }
+              }
+              return value;
+            }
+            // 遍历 本周（先）top 15的key
+            for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+              Vue.set(
+                temp_data_12[top15_length_12 - i_12],
+                2,
+                Return_KeyValue_12(temp_data_12[top15_length_12 - i_12][0])
+              );
+            }
+
+            vm.hebdomadDibbleSeedingTOPData.data = temp_data_12;
+            // console.log("~~~~~!!!!!");
+            // console.log(vm.hebdomadDibbleSeedingTOPData);
+
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            // //////////////// 各类型节目点播数据 (row5 )   responses 13  -- 暂无数据
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+
+            // //////////////// 主要栏目点击次数（万次） (row6 )   responses 14  -- 暂无数据
+            // 上周（显示先） 本周（显示后）
+
+            let buckets_14_1 =
+              response.data.responses[14].aggregations.statistical_granularity
+                .buckets[1].ti.buckets;
+            let length_14_1 = buckets_14_1.length; // 以本周为主
+            let i_14;
+            let temp_data_14 = [];
+            temp_data_14.push([
+              "product",
+              beforeWeekFormat,
+              currentWeekFormat,
+              "环比"
+            ]);
+            for (i_14 = 0; i_14 < length_14_1; i_14++) {
+              temp_data_14.push([]);
+            }
+
+            // 本周 - 虽然上周（先） 但以 本周从大到小排列
+            for (i_14 = 0; i_14 < length_14_1; i_14++) {
+              Vue.set(temp_data_14[i_14 + 1], 0, buckets_14_1[i_14].key); // ▲ 0
+              Vue.set(
+                temp_data_14[i_14 + 1],
+                2,
+                buckets_14_1[i_14].demand_freq.value / 10000
+              ); // ▲ 2
+            }
+            // 上周
+            let buckets_14_0 =
+              response.data.responses[14].aggregations.statistical_granularity
+                .buckets[0].ti.buckets;
+            let length_14_0 = buckets_14_0.length; // length_14_0
+            let i_14_2;
+            function Return_KeyValue_14(key) {
+              let value;
+              for (i_14_2 = 0; i_14_2 < top15_length_week2_all; i_14_2++) {
+                if (buckets_14_0[i_14_2].key == key) {
+                  // console.log(buckets_14_0[i_14_2].key);
+                  value = buckets_14_0[i_14_2].demand_freq.value / 10000;
+                  break;
+                }
+              }
+              return value;
+            }
+            for (i_14 = 0; i_14 < length_14_1; i_14++) {
+              // length_14_1
+              Vue.set(
+                temp_data_14[i_14 + 1],
+                1,
+                Return_KeyValue_14(temp_data_14[i_14 + 1][0])
+              ); // ▲ 1
+            }
+            // 环比 第4位置 即3
+            // 环比算法  （本期数值-上期数值）/上期数值
+            for (i_14 = 0; i_14 < length_14_1; i_14++) {
+              // length_14_1
+              Vue.set(
+                temp_data_14[i_14 + 1],
+                3,
+                (temp_data_14[i_14 + 1][2] - temp_data_14[i_14 + 1][1]) /
+                  temp_data_14[i_14 + 1][1]
+              ); // ▲ 3
+            }
+            // console.log("~~~~~~~~!!!");
+            // console.log(vm.mainProgramaPlayData);
+            vm.mainProgramaPlayData.data = temp_data_14;
+
+            // //////////////// 本土原创节目点播数据 (row7 left )   responses 15 (同row4 left)
+            let buckets_15 =
+              response.data.responses[15].aggregations.statistical_granularity
+                .buckets;
+            let length_15 = buckets_15.length;
+            let i_15;
+            let temp_data_15 = [];
+            let temp_data_15_1 = [];
+            let temp_data_15_2 = [];
+            let temp_data_15_3 = [];
+            temp_data_15_1.push("点播用户数（户）");
+            temp_data_15_2.push("点播次数（次）");
+            temp_data_15_3.push("点播时长（小时）");
+
+            temp_data_15.push(["product", beforeWeekFormat, currentWeekFormat]);
+
+            for (i_15 = 0; i_15 < length_15; i_15++) {
+              temp_data_15_1.push(buckets_15[i_15].demand_user_num.value);
+              temp_data_15_2.push(buckets_15[i_15].demand_freq.value);
+              temp_data_15_3.push(buckets_15[i_15].demand_dur.value / 3600);
+            }
+            temp_data_15.push(temp_data_15_1);
+            temp_data_15.push(temp_data_15_2);
+            temp_data_15.push(temp_data_15_3);
+            vm.localProgramsPlayData.data = temp_data_15;
+            // console.log("~~~~~!!!!!");
+            // console.log(vm.localProgramsPlayData);
+
+            // //////////////// 本土原创节目点播数据 (row7 right )   responses 16 (同row4 right)
+            // ////// 本周（先） 上周（后）
+            let buckets_16 =
+              response.data.responses[16].aggregations.statistical_granularity
+                .buckets;
+            // let length_16 = buckets_16.length; // 默认两周 - 2
+            let i_16;
+            let temp_data_16 = [];
+            temp_data_16.push(["product", currentWeekFormat, beforeWeekFormat]);
+            let top10_length_16 = 10;
+            for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+              temp_data_16.push([]);
+            }
+
+            // 本周
+            for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+              Vue.set(
+                temp_data_16[top10_length_16 - i_16],
+                0,
+                buckets_16[1].program_type.buckets[i_16].key
+              );
+              Vue.set(
+                temp_data_16[top10_length_16 - i_16],
+                1,
+                buckets_16[1].program_type.buckets[i_16].demand_freq.value /
+                  10000
+              );
+            }
+            // ////// 上周
+            let buckets_child_16_2 =
+              response.data.responses[16].aggregations.statistical_granularity
+                .buckets[0].program_type.buckets;
+            let top10_length_16_week2_all = buckets_child_16_2.length; // 200个
+            let i_16_2;
+            function Return_KeyValue_16(key) {
+              let value;
+              for (i_16_2 = 0; i_16_2 < top10_length_16_week2_all; i_16_2++) {
+                if (buckets_child_16_2[i_16_2].key == key) {
+                  // console.log(buckets_child_16_2[i_16_2].key);
+                  value = buckets_child_16_2[i_16_2].demand_freq.value / 10000;
+                  break;
+                }
+              }
+              return value;
+            }
+            // 遍历 本周（先）top 15的key
+            for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+              Vue.set(
+                temp_data_16[top10_length_16 - i_16],
+                2,
+                Return_KeyValue_16(temp_data_16[top10_length_16 - i_16][0])
+              );
+            }
+            vm.localProgramsPlayTOPData.data = temp_data_16;
+
+            // //////////////// 一周直播数据概览 (row8 left )   responses 17  (类似 row4/7 left)
+
+            let buckets_17 =
+              response.data.responses[17].aggregations.statistical_granularity
+                .buckets;
+            let length_17 = buckets_17.length;
+            let i_17;
+            let temp_data_17 = [];
+            let temp_data_17_1 = [];
+            let temp_data_17_2 = [];
+            let temp_data_17_3 = [];
+            temp_data_17_1.push("直播收视用户数（万户）");
+            temp_data_17_2.push("直播收视次数（万次）");
+            temp_data_17_3.push("直播收视时长（万小时）");
+
+            temp_data_17.push(["product", beforeWeekFormat, currentWeekFormat]);
+
+            for (i_17 = 0; i_17 < length_17; i_17++) {
+              temp_data_17_1.push(
+                buckets_17[i_17].onlive_user_num.value / 10000
+              );
+              temp_data_17_2.push(buckets_17[i_17].onlive_freq.value / 10000);
+              temp_data_17_3.push(
+                buckets_17[i_17].onlive_dur.value / 10000 / 3600
+              );
+            }
+            temp_data_17.push(temp_data_17_1);
+            temp_data_17.push(temp_data_17_2);
+            temp_data_17.push(temp_data_17_3);
+            vm.hebdomadLiveData.data = temp_data_17;
+            // console.log("~~~~~!!!!!");
+            // console.log(vm.hebdomadLiveData);
+
+            // ////////////////  一周直播数据概览 (row8 right )   responses 18 (同row4/7 right)
+            // ////// 本周（先） 上周（后）
+            let buckets_18 =
+              response.data.responses[18].aggregations.statistical_granularity
+                .buckets;
+            // let length_18 = buckets_18.length; // 默认两周 - 2
+            let i_18;
+            let temp_data_18 = [];
+            temp_data_18.push(["product", currentWeekFormat, beforeWeekFormat]);
+            let top15_length_18 = 15;
+            for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+              temp_data_18.push([]);
+            }
+
+            // 本周
+            for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+              Vue.set(
+                temp_data_18[top15_length_18 - i_18],
+                0,
+                buckets_18[1].programname.buckets[i_18].key
+              );
+              Vue.set(
+                temp_data_18[top15_length_18 - i_18],
+                1,
+                commonTools.returnFloat_2(
+                  buckets_18[1].programname.buckets[i_18].onlive_dur.value /
+                    10000 /
+                    3600
+                )
+              );
+            }
+            // ////// 上周
+            let buckets_child_18_2 =
+              response.data.responses[18].aggregations.statistical_granularity
+                .buckets[0].programname.buckets;
+            let top15_length_18_week2_all = buckets_child_18_2.length; // 200个
+            let i_18_2;
+            function Return_KeyValue_18(key) {
+              let value;
+              for (i_18_2 = 0; i_18_2 < top15_length_18_week2_all; i_18_2++) {
+                if (buckets_child_18_2[i_18_2].key == key) {
+                  // console.log(buckets_child_18_2[i_18_2].key);
+                  value = commonTools.returnFloat_2(
+                    buckets_child_18_2[i_18_2].onlive_dur.value / 10000 / 3600
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            // 遍历 本周（先）top 15的key
+            for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+              Vue.set(
+                temp_data_18[top15_length_18 - i_18],
+                2,
+                Return_KeyValue_18(temp_data_18[top15_length_18 - i_18][0])
+              );
+            }
+            vm.hebdomadLiveTOPData.data = temp_data_18;
+
+            // ////////////////  电视直播频道分组收视数据 (row9)   responses 19
+
+            let buckets_19 =
+              response.data.responses[19].aggregations.statistical_granularity
+                .buckets;
+            let buckets_19_child_0 = buckets_19[0].channel_flag.buckets;
+            let buckets_19_child_1 = buckets_19[1].channel_flag.buckets;
+            let length_19 = buckets_19_child_0.length;
+            let i_19;
+            let temp_data_19_1 = [];
+            let temp_data_19_2 = [];
+            let temp_data_19_3 = [];
+            temp_data_19_1.push([
+              "product",
+              beforeWeekFormat,
+              currentWeekFormat
+            ]);
+            temp_data_19_2.push([
+              "product",
+              beforeWeekFormat,
+              currentWeekFormat
+            ]);
+            temp_data_19_3.push([
+              "product",
+              beforeWeekFormat,
+              currentWeekFormat
+            ]);
+            for (i_19 = 0; i_19 < length_19; i_19++) {
+              temp_data_19_1.push([]);
+              temp_data_19_2.push([]);
+              temp_data_19_3.push([]);
+            }
+
+            // 默认排序 - 卫视 央视 本地 轮播 （不分大小）
+            // 以上周为对比
+            for (i_19 = 0; i_19 < length_19; i_19++) {
+              temp_data_19_1[i_19 + 1].push(buckets_19_child_0[i_19].key);
+              temp_data_19_2[i_19 + 1].push(buckets_19_child_0[i_19].key);
+              temp_data_19_3[i_19 + 1].push(buckets_19_child_0[i_19].key);
+
+              temp_data_19_1[i_19 + 1].push(
+                buckets_19_child_0[i_19].onlive_user_num.value / 10000
+              );
+              temp_data_19_2[i_19 + 1].push(
+                buckets_19_child_0[i_19].onlive_freq.value / 10000
+              );
+              temp_data_19_3[i_19 + 1].push(
+                buckets_19_child_0[i_19].onlive_dur.value / 10000 / 3600
+              );
+
+              temp_data_19_1[i_19 + 1].push(
+                buckets_19_child_1[i_19].onlive_user_num.value / 10000
+              );
+              temp_data_19_2[i_19 + 1].push(
+                buckets_19_child_1[i_19].onlive_freq.value / 10000
+              );
+              temp_data_19_3[i_19 + 1].push(
+                buckets_19_child_1[i_19].onlive_dur.value / 10000 / 3600
+              );
+            }
+
+            vm.channelLiveUserNumData.data = temp_data_19_1;
+            vm.channelLiveTimesData.data = temp_data_19_2;
+            vm.channelLiveDurationData.data = temp_data_19_3;
+            // console.log("~~~~~~~~~~~~~~~!!");
+            // console.log(vm.channelLiveUserNumData);
+            // console.log(vm.channelLiveTimesData);
+            // console.log(vm.channelLiveDurationData);
+
+            // ////////////////  央视频道及节目收视排名 (row10 left)   responses 20 (同row4/7/8 right)
+            // ////// 本周（先） 上周（后）
+            let buckets_20 =
+              response.data.responses[20].aggregations.statistical_granularity
+                .buckets;
+            // let length_20 = buckets_20.length; // 默认两周 - 2
+            let i_20;
+            let temp_data_20 = [];
+            temp_data_20.push(["product", currentWeekFormat, beforeWeekFormat]);
+            let top10_length_20 = 10;
+            for (i_20 = 0; i_20 < top10_length_20; i_20++) {
+              temp_data_20.push([]);
+            }
+
+            // 本周
+            for (i_20 = 0; i_20 < top10_length_20; i_20++) {
+              Vue.set(
+                temp_data_20[top10_length_20 - i_20],
+                0,
+                buckets_20[1].channel.buckets[i_20].key
+              );
+              Vue.set(
+                temp_data_20[top10_length_20 - i_20],
+                1,
+                commonTools.returnFloat_2(
+                  buckets_20[1].channel.buckets[i_20].onlive_user_num.value /
+                    10000
+                )
+              );
+            }
+            // ////// 上周
+            let buckets_child_20_2 =
+              response.data.responses[20].aggregations.statistical_granularity
+                .buckets[0].channel.buckets;
+            let top10_length_20_week2_all = buckets_child_20_2.length; // 200个
+            let i_20_2;
+            function Return_KeyValue_20(key) {
+              let value;
+              for (i_20_2 = 0; i_20_2 < top10_length_20_week2_all; i_20_2++) {
+                if (buckets_child_20_2[i_20_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_child_20_2[i_20_2].onlive_user_num.value / 10000
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            // 遍历 本周（先）top 15的key
+            for (i_20 = 0; i_20 < top10_length_20; i_20++) {
+              Vue.set(
+                temp_data_20[top10_length_20 - i_20],
+                2,
+                Return_KeyValue_20(temp_data_20[top10_length_20 - i_20][0])
+              );
+            }
+            vm.liveChannelTOPData.data = temp_data_20;
+
+            // ////////////////  央视频道及节目收视排名 (row10 right)   responses 21
+            let buckets_21 =
+              response.data.responses[21].aggregations.statistical_granularity
+                .buckets;
+            let buckets_21_child_0 = buckets_21[0].channel.buckets;
+            let buckets_21_child_1 = buckets_21[1].channel.buckets;
+            // let length_21 = buckets_21.length; // 默认两周 - 2
+            // 本周top10 名称+数值 (0+2) => 上周数值（1）
+            let i_21;
+            let temp_data_21 = [];
+            temp_data_21.push(["product", beforeWeekFormat, currentWeekFormat]);
+            let top10_length_21 = 10;
+            for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+              temp_data_21.push([]);
+            }
+            // 本周
+            for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+              Vue.set(temp_data_21[i_21 + 1], 0, buckets_21_child_1[i_21].key);
+              Vue.set(
+                temp_data_21[i_21 + 1],
+                2,
+                commonTools.returnFloat_2(
+                  buckets_21_child_1[i_21].onlive_dur.value / 10000 / 3600
+                )
+              );
+            }
+            // 上周
+            let top10_length_21_week2_all = buckets_21_child_0.length; // 至多200个
+            let i_21_2;
+            function Return_KeyValue_21(key) {
+              let value;
+              for (i_21_2 = 0; i_21_2 < top10_length_21_week2_all; i_21_2++) {
+                if (buckets_21_child_0[i_21_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_21_child_0[i_21_2].onlive_dur.value / 10000 / 3600
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+              Vue.set(
+                temp_data_21[i_21 + 1],
+                1,
+                Return_KeyValue_21(temp_data_21[i_21 + 1][0])
+              );
+            }
+            vm.liveProgramTOPData.data = temp_data_21;
+
+            // ////////////////  本地频道及节目收视排名 (row11 left)   responses 22 (类似 row4/7/8 right row10 left)
+            // ////// 本周（先） 上周（后）
+            let buckets_22 =
+              response.data.responses[22].aggregations.statistical_granularity
+                .buckets;
+            let buckets_22_0 = buckets_22[0].channel.buckets;
+            let buckets_22_1 = buckets_22[1].channel.buckets;
+            // let length_22 = buckets_22.length; // 默认两周 - 2
+            let i_22;
+            let temp_data_22 = [];
+            temp_data_22.push(["product", currentWeekFormat, beforeWeekFormat]);
+            let top22_length_22 = 22;
+            if (buckets_22_0.length < top22_length_22) {
+              // 实际没有22个，只有15个-根据实际数据改变
+              top22_length_22 = buckets_22_0.length;
+            }
+            for (i_22 = 0; i_22 < top22_length_22; i_22++) {
+              temp_data_22.push([]);
+            }
+            // 本周
+            for (i_22 = 0; i_22 < top22_length_22; i_22++) {
+              Vue.set(
+                temp_data_22[top22_length_22 - i_22],
+                0,
+                buckets_22[1].channel.buckets[i_22].key
+              );
+              Vue.set(
+                temp_data_22[top22_length_22 - i_22],
+                1,
+                commonTools.returnFloat_2(
+                  buckets_22[1].channel.buckets[i_22].onlive_user_num.value /
+                    10000
+                )
+              );
+            }
+            // ////// 上周
+            let buckets_child_22_2 =
+              response.data.responses[22].aggregations.statistical_granularity
+                .buckets[0].channel.buckets;
+            let top22_length_22_week2_all = buckets_child_22_2.length; // 220个
+            let i_22_2;
+            function Return_KeyValue_22(key) {
+              let value;
+              for (i_22_2 = 0; i_22_2 < top22_length_22_week2_all; i_22_2++) {
+                if (buckets_child_22_2[i_22_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_child_22_2[i_22_2].onlive_user_num.value / 10000
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            // 遍历 本周（先）top 15的key
+            for (i_22 = 0; i_22 < top22_length_22; i_22++) {
+              Vue.set(
+                temp_data_22[top22_length_22 - i_22],
+                2,
+                Return_KeyValue_22(temp_data_22[top22_length_22 - i_22][0])
+              );
+            }
+            vm.localChannelTOPData.data = temp_data_22;
+
+            // ////////////////  本地频道及节目收视排名 (row11 right)   responses 23 (类似 row10 right)
+            let buckets_23 =
+              response.data.responses[23].aggregations.statistical_granularity
+                .buckets;
+            let buckets_23_child_0 = buckets_23[0].channel.buckets;
+            let buckets_23_child_1 = buckets_23[1].channel.buckets;
+            // let length_23 = buckets_23.length; // 默认两周 - 2
+            // 本周top10 名称+数值 (0+2) => 上周数值（1）
+            let i_23;
+            let temp_data_23 = [];
+            temp_data_23.push(["product", beforeWeekFormat, currentWeekFormat]);
+            let top5_length_23 = 5;
+            for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+              temp_data_23.push([]);
+            }
+            // 本周
+            for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+              Vue.set(temp_data_23[i_23 + 1], 0, buckets_23_child_1[i_23].key);
+              Vue.set(
+                temp_data_23[i_23 + 1],
+                2,
+                commonTools.returnFloat_2(
+                  buckets_23_child_1[i_23].onlive_dur.value / 10000 / 3600
+                )
+              );
+            }
+            // 上周
+            let top5_length_23_week2_all = buckets_23_child_0.length; // 至多200个
+            let i_23_2;
+            function Return_KeyValue_23(key) {
+              let value;
+              for (i_23_2 = 0; i_23_2 < top5_length_23_week2_all; i_23_2++) {
+                if (buckets_23_child_0[i_23_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_23_child_0[i_23_2].onlive_dur.value / 10000 / 3600
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+              Vue.set(
+                temp_data_23[i_23 + 1],
+                1,
+                Return_KeyValue_23(temp_data_23[i_23 + 1][0])
+              );
+            }
+            vm.localProgramTOPData.data = temp_data_23;
+
+            // ////////////////  卫视频道及节目收视排名 (row12 left)   responses 24 (同row10 left)
+            // ////// 本周（先） 上周（后）
+            let buckets_24 =
+              response.data.responses[24].aggregations.statistical_granularity
+                .buckets;
+            // let length_24 = buckets_24.length; // 默认两周 - 2
+            let i_24;
+            let temp_data_24 = [];
+            temp_data_24.push(["product", currentWeekFormat, beforeWeekFormat]);
+            let top10_length_24 = 10;
+            for (i_24 = 0; i_24 < top10_length_24; i_24++) {
+              temp_data_24.push([]);
+            }
+
+            // 本周
+            for (i_24 = 0; i_24 < top10_length_24; i_24++) {
+              Vue.set(
+                temp_data_24[top10_length_24 - i_24],
+                0,
+                buckets_24[1].channel.buckets[i_24].key
+              );
+              Vue.set(
+                temp_data_24[top10_length_24 - i_24],
+                1,
+                commonTools.returnFloat_2(
+                  buckets_24[1].channel.buckets[i_24].onlive_user_num.value /
+                    10000
+                )
+              );
+            }
+            // ////// 上周
+            let buckets_child_24_2 =
+              response.data.responses[24].aggregations.statistical_granularity
+                .buckets[0].channel.buckets;
+            let top10_length_24_week2_all = buckets_child_24_2.length; // 240个
+            let i_24_2;
+            function Return_KeyValue_24(key) {
+              let value;
+              for (i_24_2 = 0; i_24_2 < top10_length_24_week2_all; i_24_2++) {
+                if (buckets_child_24_2[i_24_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_child_24_2[i_24_2].onlive_user_num.value / 10000
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            // 遍历 本周（先）top 15的key
+            for (i_24 = 0; i_24 < top10_length_24; i_24++) {
+              Vue.set(
+                temp_data_24[top10_length_24 - i_24],
+                2,
+                Return_KeyValue_24(temp_data_24[top10_length_24 - i_24][0])
+              );
+            }
+            vm.satelliteChannelTOPData.data = temp_data_24;
+
+            // ////////////////  卫视频道及节目收视排名 (row12 right)   responses 25 (同row10 right)
+            let buckets_25 =
+              response.data.responses[25].aggregations.statistical_granularity
+                .buckets;
+            let buckets_25_child_0 = buckets_25[0].channel.buckets;
+            let buckets_25_child_1 = buckets_25[1].channel.buckets;
+            // let length_25 = buckets_25.length; // 默认两周 - 2
+            // 本周top10 名称+数值 (0+2) => 上周数值（1）
+            let i_25;
+            let temp_data_25 = [];
+            temp_data_25.push(["product", beforeWeekFormat, currentWeekFormat]);
+            let top10_length_25 = 10;
+            for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+              temp_data_25.push([]);
+            }
+            // 本周
+            for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+              Vue.set(temp_data_25[i_25 + 1], 0, buckets_25_child_1[i_25].key);
+              Vue.set(
+                temp_data_25[i_25 + 1],
+                2,
+                commonTools.returnFloat_2(
+                  buckets_25_child_1[i_25].onlive_dur.value / 10000 / 3600
+                )
+              );
+            }
+            // 上周
+            let top10_length_25_week2_all = buckets_25_child_0.length; // 至多200个
+            let i_25_2;
+            function Return_KeyValue_25(key) {
+              let value;
+              for (i_25_2 = 0; i_25_2 < top10_length_25_week2_all; i_25_2++) {
+                if (buckets_25_child_0[i_25_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_25_child_0[i_25_2].onlive_dur.value / 10000 / 3600
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+              Vue.set(
+                temp_data_25[i_25 + 1],
+                1,
+                Return_KeyValue_25(temp_data_25[i_25 + 1][0])
+              );
+            }
+            vm.satelliteLiveProgramTOPData.data = temp_data_25;
+
+            // ////////////////  轮播频道及节目收视排名 (row13 left)   responses 26  （类似 row12 right）
+            let buckets_26 =
+              response.data.responses[26].aggregations.statistical_granularity
+                .buckets;
+            let buckets_26_child_0 = buckets_26[0].channel.buckets;
+            let buckets_26_child_1 = buckets_26[1].channel.buckets;
+            // let length_26 = buckets_26.length; // 默认两周 - 2
+            // 本周top10 名称+数值 (0+2) => 上周数值（1）
+            let i_26;
+            let temp_data_26 = [];
+            temp_data_26.push([
+              "product",
+              beforeWeekFormat,
+              currentWeekFormat,
+              "增率"
+            ]);
+            let top5_length_26 = 5;
+            for (i_26 = 0; i_26 < top5_length_26; i_26++) {
+              temp_data_26.push([]);
+            }
+            // 本周  ▲ 0 2
+            for (i_26 = 0; i_26 < top5_length_26; i_26++) {
+              Vue.set(temp_data_26[i_26 + 1], 0, buckets_26_child_1[i_26].key);
+              Vue.set(
+                temp_data_26[i_26 + 1],
+                2,
+                commonTools.returnFloat_2(
+                  buckets_26_child_1[i_26].onlive_user_num.value / 10000
+                )
+              );
+            }
+            // 上周 ▲ 1
+            let top5_length_26_week2_all = buckets_26_child_0.length; // 至多200个
+            let i_26_2;
+            function Return_KeyValue_26(key) {
+              let value;
+              for (i_26_2 = 0; i_26_2 < top5_length_26_week2_all; i_26_2++) {
+                if (buckets_26_child_0[i_26_2].key == key) {
+                  value = commonTools.returnFloat_2(
+                    buckets_26_child_0[i_26_2].onlive_user_num.value / 10000
+                  );
+                  break;
+                }
+              }
+              return value;
+            }
+            for (i_26 = 0; i_26 < top5_length_26; i_26++) {
+              Vue.set(
+                temp_data_26[i_26 + 1],
+                1,
+                Return_KeyValue_26(temp_data_26[i_26 + 1][0])
+              );
+            }
+            // 增率 ▲ 3
+            // 增率算法：-》 直播收视用户环比 -- (直播收视用户数-上期直播收视用户数)/上期直播收视用户数
+            for (i_26 = 0; i_26 < top5_length_26; i_26++) {
+              Vue.set(
+                temp_data_26[i_26 + 1],
+                3,
+                (temp_data_26[i_26 + 1][2] - temp_data_26[i_26 + 1][1]) /
+                  temp_data_26[i_26 + 1][1]
+              );
+            }
+            vm.carouselChannelData.data = temp_data_26;
+            // console.log("~~~~~~~~~~~~~~~!!!!");
+            // console.log(vm.carouselChannelData);
+            // //// 轮播频道及节目收视排名 (row13 right) 在  week_days
+
+            // ////////// 推荐栏目一周数据概览 responses 28 29
+            let buckets_28 =
+              response.data.responses[28].aggregations.ti.buckets;
+            let length_28 = buckets_28.length;
+            let i_28;
+
+            let buckets_29 =
+              response.data.responses[29].aggregations.ti.buckets;
+            let length_29 = buckets_29.length;
+            let i_29;
+
+
+            // ////// 28 29 分别对应字段
+            // 28 access_dur        页面播放时长   5
+            // 28 access_freq       访问次数       2
+            // 28 access_user_num   访问用户数     1
+            // 29 click_freq        页面点击次数   4
+            // 29 click_user_num    页面点击用户数 3
+            // 暂定5行
+            let length_29_row5 = 5;
+            let i_29_row5 = 0;
+
+            // 处理 分栏 - paneArr  与 数据处理
+            let temp_paneArr = [];
+            let temp_Pane_ColumnData = [];
+
+            let DATA_weeklyThermodynamic = [];
+            let DATA_weeklyThermodynamic_all = []; // 整合 DATA_weeklyThermodynamic 目前11个
+
+            // ■■■■ 整合 28的 11个（完整） --主key
+            // 每个 DATA_weeklyThermodynamic 的 i+1 个 分别推入
+            // 1 访问用户数      access_user_num  28
+            // 2 访问次数        access_freq      28
+            // 5 页面播放时长    access_dur       28
+            for (i_28 = 0; i_28 < length_28; i_28++) {
+              // 处理 分栏 - paneArr
+              temp_paneArr.push({
+                data: buckets_28[i_28].key,
+                id: String(i_28)
+              });
+
+              // 统一处理第一个视图:XX一周热力数据
+              DATA_weeklyThermodynamic = [];
+              DATA_weeklyThermodynamic.push([
+                // title数据
+                "product",
+                beforeWeekFormat,
+                currentWeekFormat,
+                "增率"
+              ]); // ▲ row0
+
+              for (i_29_row5 = 0; i_29_row5 < length_29_row5; i_29_row5++) {
+                DATA_weeklyThermodynamic.push([]); // ------------ ▲ row1-5
+              }
+              // key - ▲ 0
+              DATA_weeklyThermodynamic[1].push("访问用户数");
+              DATA_weeklyThermodynamic[2].push("访问次数");
+              DATA_weeklyThermodynamic[3].push("页面点击用户数");
+              DATA_weeklyThermodynamic[4].push("页面点击次数");
+              DATA_weeklyThermodynamic[5].push("页面播放时长");
+
+              // ------------ ▲ row 1 2 5
+              // 本周 - ▲ 2
+              Vue.set(
+                DATA_weeklyThermodynamic[1],
+                2,
+                buckets_28[i_28].statistical_granularity.buckets[1]
+                  .access_user_num.value
+              );
+              Vue.set(
+                DATA_weeklyThermodynamic[2],
+                2,
+                buckets_28[i_28].statistical_granularity.buckets[1].access_freq
+                  .value
+              );
+              Vue.set(
+                DATA_weeklyThermodynamic[5],
+                2,
+                buckets_28[i_28].statistical_granularity.buckets[1].access_dur
+                  .value
+              );
+
+              // 上周 - ▲ 1
+              Vue.set(
+                DATA_weeklyThermodynamic[1],
+                1,
+                buckets_28[i_28].statistical_granularity.buckets[0]
+                  .access_user_num.value
+              );
+              Vue.set(
+                DATA_weeklyThermodynamic[2],
+                1,
+                buckets_28[i_28].statistical_granularity.buckets[0].access_freq
+                  .value
+              );
+              Vue.set(
+                DATA_weeklyThermodynamic[5],
+                1,
+                buckets_28[i_28].statistical_granularity.buckets[0].access_dur
+                  .value
+              );
+
+              // 增率 - ▲ 3   （本期-上期）/上期
+              Vue.set(
+                DATA_weeklyThermodynamic[1],
+                3,
+                (buckets_28[i_28].statistical_granularity.buckets[1]
+                  .access_user_num.value -
+                  buckets_28[i_28].statistical_granularity.buckets[0]
+                    .access_user_num.value) /
+                  buckets_28[i_28].statistical_granularity.buckets[0]
+                    .access_user_num.value
+              );
+              Vue.set(
+                DATA_weeklyThermodynamic[2],
+                3,
+                (buckets_28[i_28].statistical_granularity.buckets[1].access_freq
+                  .value -
+                  buckets_28[i_28].statistical_granularity.buckets[0]
+                    .access_freq.value) /
+                  buckets_28[i_28].statistical_granularity.buckets[0]
+                    .access_freq.value
+              );
+              Vue.set(
+                DATA_weeklyThermodynamic[5],
+                3,
+                (buckets_28[i_28].statistical_granularity.buckets[1].access_dur
+                  .value -
+                  buckets_28[i_28].statistical_granularity.buckets[0].access_dur
+                    .value) /
+                  buckets_28[i_28].statistical_granularity.buckets[0].access_dur
+                    .value
+              );
+
+              // console.log("~~~~~~!DATA_weeklyThermodynamic");
+              // console.log(DATA_weeklyThermodynamic);
+
+              // DATA_weeklyThermodynamic.push(buckets[].access_dur)
+
+              DATA_weeklyThermodynamic_all.push(DATA_weeklyThermodynamic);
+            }
+            // console.log("~~~~~~!DATA_weeklyThermodynamic_all");
+            // console.log(DATA_weeklyThermodynamic_all);
+
+            // ■■■■ 整合 29的 10个（不完整） --对应key
+            // 3 页面点击用户数  click_user_num   29
+            // 4 页面点击次数    click_freq       29
+            function Return_KeyValue_2829(key, current_i_28) {
+              for (i_29 = 0; i_29 < length_29; i_29++) {
+                if (buckets_29[i_29].key == key) {
+                  // ------------ ▲ row 3 4
+                  // 本周 - ▲ 2
+                  Vue.set(
+                    DATA_weeklyThermodynamic_all[current_i_28][3],
+                    2,
+                    buckets_29[i_29].statistical_granularity.buckets[1]
+                      .click_user_num.value
+                  );
+                  Vue.set(
+                    DATA_weeklyThermodynamic_all[current_i_28][4],
+                    2,
+                    buckets_29[i_29].statistical_granularity.buckets[1]
+                      .click_freq.value
+                  );
+
+                  // 上周 - ▲ 1
+                  Vue.set(
+                    DATA_weeklyThermodynamic_all[current_i_28][3],
+                    1,
+                    buckets_29[i_29].statistical_granularity.buckets[0]
+                      .click_user_num.value
+                  );
+                  Vue.set(
+                    DATA_weeklyThermodynamic_all[current_i_28][4],
+                    1,
+                    buckets_29[i_29].statistical_granularity.buckets[0]
+                      .click_freq.value
+                  );
+
+                  // 增率 - ▲ 3   （本期-上期）/上期
+                  Vue.set(
+                    DATA_weeklyThermodynamic_all[current_i_28][3],
+                    3,
+                    (buckets_29[i_29].statistical_granularity.buckets[1]
+                      .click_user_num.value -
+                      buckets_29[i_29].statistical_granularity.buckets[0]
+                        .click_user_num.value) /
+                      buckets_29[i_29].statistical_granularity.buckets[0]
+                        .click_user_num.value
+                  );
+                  Vue.set(
+                    DATA_weeklyThermodynamic_all[current_i_28][4],
+                    3,
+                    (buckets_29[i_29].statistical_granularity.buckets[1]
+                      .click_freq.value -
+                      buckets_29[i_29].statistical_granularity.buckets[0]
+                        .click_freq.value) /
+                      buckets_29[i_29].statistical_granularity.buckets[0]
+                        .click_freq.value
+                  );
+                }
+                // else{  // 没有则设置为undefined 或者 0
+                // }
+              }
+            }
+            for (i_28 = 0; i_28 < length_28; i_28++) {
+              Return_KeyValue_2829(temp_paneArr[i_28].data, i_28);
+            }
+            // console.log("~~~~~~!DATA_weeklyThermodynamic_all");
+            // console.log(DATA_weeklyThermodynamic_all);
+
+            // return; // 测试
+
+            // ■■■■ 最终整合数据
+            for (i_28 = 0; i_28 < length_28; i_28++) {
+              // 数据初始化+总处理
+              temp_Pane_ColumnData.push({
+                //一周热力数据
+                weeklyThermodynamic: {
+                  // title: "分类页一周热力数据",
+                  title: buckets_28[i_28].key + "页一周热力数据",
+                  // id: "classifyWeeklyThermodynamic",
+                  id: "classifyWeeklyThermodynamic" + String(i_28),
+
+                  color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+                  data: DATA_weeklyThermodynamic_all[i_28]
+                  // [
+                  // ["product", "0502-0226", "0527-0602", "增率"],
+                  // ["访问用户数", 49.3, 49.1, -0.5],
+                  // ["访问次数", 659.3, 660.6, -0.2],
+                  // ["页面点击\n用户数", 39.4, 37.8, -4.4],
+                  // ["页面点击次数", 338.3, 312.1, -7.3],
+                  // ["页面播放次数", 141.6, 123.6, -13.2],
+                  // ["页面播放时长", 216.6, 176.6, -18.2],
+                  // ["开机次数", 182.6, 187.6, 2.5]
+                  // ]
+                },
+                //按钮点击排行（万次）
+                buttonClickTOPData: {
+                  // title: "分类页按钮点击排行（万次）",
+                  title: buckets_28[i_28].key + "页按钮点击排行（万次）",
+                  // id: "classifyButtonClickTOP",
+                  id: "classifyButtonClickTOP" + String(i_28),
+
+                  color: ["#5B9BD4", "#CBC9C9"],
+                  data: [
+                    ["product", "0527-0602", "0520-0526"],
+                    ["推荐帮助", 1.4, 1.5],
+                    ["竖图1", 1.5, 1.6],
+                    ["横图", 2.6, 3.2],
+                    ["百姓关注", 3.0, 3.2],
+                    ["VIP限免", 4.5, 5.0],
+                    ["竖图2", 5.9, 7.1],
+                    ["点我换一换", 5.4, 6.0],
+                    ["竖图3", 7.4, 7.0],
+                    ["二屏", 9.4, 10.6],
+                    ["看电视", 16.0, 17.2],
+                    ["推荐个人中心", 23.4, 25.4],
+                    ["推荐搜索", 33.7, 36.1],
+                    ["历史记录", 70.6, 75.1],
+                    ["三屏", 96.8, 104.2],
+                    ["推荐页播放小窗口", 119.4, 129.0]
+                  ]
+                },
+                //栏目各按钮点击次数
+                columnButtonClickNum: {
+                  // title: "分类页各按钮点击次数",
+                  title: buckets_28[i_28].key + "页各按钮点击次数",
+                  data: [
+                    [
+                      {
+                        classify: "搜索",
+                        title: "box0_0",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        classify: "个人中心",
+                        title: "box0_1",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        classify: "帮助",
+                        title: "box0_2",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      }
+                    ],
+                    [
+                      {
+                        title: "box1_1",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box1_2",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      }
+                    ],
+                    [
+                      {
+                        title: "box2_1",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box2_2",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box2_3",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      }
+                    ],
+                    [
+                      {
+                        title: "box3_1",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box3_2",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box3_3",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box3_4",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box3_5",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      }
+                    ],
+                    [
+                      {
+                        title: "box4_1",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box4_2",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box4_3",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      },
+                      {
+                        title: "box4_4",
+                        lastWeek: "361018",
+                        thisWeek: "336859",
+                        chainIndex: "-6.09%"
+                      }
+                    ]
+                  ]
+                },
+                //部分按钮每日走势（次）
+                someButtonDayTrendData: {
+                  // title: "分类页部分按钮每日走势（次）",
+                  title: buckets_28[i_28].key + "页部分按钮每日走势（次）",
+                  // id: "classifySomeButtonDayTrend",
+                  id: "classifySomeButtonDayTrend" + String(i_28),
+                  color: [
+                    "#5B9BD4",
+                    "#FFC000",
+                    "#A6A6A6",
+                    "#EC7C30",
+                    "#6FAC46"
+                  ],
+                  data: [
+                    [
+                      "product",
+                      "周一",
+                      "周二",
+                      "周三",
+                      "周四",
+                      "周五",
+                      "周六",
+                      "周日"
+                    ],
+                    ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+                    ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+                    ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+                    ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+                    ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+                  ]
+                }
+              });
+            }
+
+            // 初始化默认显示页
+            vm.paneArr = temp_paneArr;
+            vm.Pane_ColumnData = temp_Pane_ColumnData;
+            vm.activeName = vm.paneArr[0].id;
+
+            // vm.XX.weeklyThermodynamic = temp_data_28_1;
+            // vm.XX.buttonClickTOPData = temp_data_28_2;
+            // vm.XX.columnButtonClickNum; // box相关 先放置
+          } // if (week_type == "week")
+
+          //////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////
 
           if (week_type == "week_days") {
             console.log("users_mobileReport  week_days");
             console.log(response);
-          }
-          // //////////////////////////////// 数据填充
+            // ////////// 每日开机率走势  (row 1)  responses 0
+            let buckets_0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
+            let length_0 = buckets_0.length;
+            let i_0;
+            // 在册用户数（万户） register_num
+            // 开机用户数（万户） open_num
+            // 开机率   // 开机用户数/在册用户数
+            let temp_data_0 = [];
+            temp_data_0.push([
+              "product",
+              "在册用户数（万户）",
+              "开机用户数（万户）",
+              "开机率"
+            ]);
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              temp_data_0.push([
+                buckets_0[i_0].key,
+                parseInt(buckets_0[i_0].register_num.value) / 10000,
+                parseInt(buckets_0[i_0].open_num.value) / 10000,
+                parseInt(buckets_0[i_0].open_num.value) /
+                  parseInt(buckets_0[i_0].register_num.value)
+              ]);
+            }
+            vm.dailyOperatingRateData.data = temp_data_0;
+
+            // 一周用户活跃情况
+            // ////////// 一周总体观看数据  (row 2 right)  --- 用  responses 1 2 3
+            let aggregations_1 = response.data.responses[1].aggregations;
+            let aggregations_2 = response.data.responses[2].aggregations;
+            let aggregations_3 = response.data.responses[3].aggregations;
+
+            let temp_data_123 = [];
+            temp_data_123.push(["product", "直播", "点播", "回看"]);
+            temp_data_123.push([
+              "观看用户数（万户）",
+              aggregations_1.onlive_user_num.value / 10000,
+              aggregations_2.demand_user_num.value / 10000,
+              aggregations_3.watch_user_num.value / 10000
+            ]);
+
+            temp_data_123.push([
+              "观看次数（万次）",
+              aggregations_1.onlive_freq.value / 10000,
+              aggregations_2.demand_freq.value / 10000,
+              aggregations_3.watch_freq.value / 10000
+            ]);
+            temp_data_123.push([
+              "观看时长（万小时）",
+              aggregations_1.onlive_dur.value / 10000 / 3600,
+              aggregations_2.demand_dur.value / 10000 / 3600,
+              aggregations_3.watch_dur.value / 10000 / 3600
+            ]);
+            vm.hebdomadViewNumData.data = temp_data_123;
+            // console.log("~~~~~~AAAA");
+            // console.log(vm.hebdomadViewNumData);
+
+            // 一周用户收视概览
+            // ////////// 三大基础功能观看用户数每日走势（万户）  (row 2 right) --- 用 responses 0 4 5 6
+            let buckets_4 =
+              response.data.responses[4].aggregations.item.buckets;
+            let buckets_5 =
+              response.data.responses[5].aggregations.item.buckets;
+            let buckets_6 =
+              response.data.responses[6].aggregations.item.buckets;
+
+            let length_0456 = buckets_4.length;
+
+            let i_0456;
+            let temp_data_0456 = [];
+            let temp_data_0456_1 = [];
+            let temp_data_0456_2 = [];
+            let temp_data_0456_3 = [];
+            let temp_data_0456_4 = [];
+            let temp_data_0456_5 = [];
+            temp_data_0456_1.push("product");
+            temp_data_0456_2.push("直播");
+            temp_data_0456_3.push("点播");
+            temp_data_0456_4.push("开机用户数");
+            temp_data_0456_5.push("回看");
+
+            for (i_0456 = 0; i_0456 < length_0456; i_0456++) {
+              temp_data_0456_1.push(buckets_4[i_0456].key);
+              temp_data_0456_2.push(
+                buckets_4[i_0456].onlive_user_num.value / 10000
+              );
+              temp_data_0456_3.push(
+                buckets_5[i_0456].demand_user_num.value / 10000
+              );
+              temp_data_0456_4.push(
+                parseInt(buckets_0[i_0456].open_num.value) / 10000
+              );
+              temp_data_0456_5.push(
+                buckets_6[i_0456].watch_user_num.value / 10000
+              );
+            }
+            temp_data_0456.push(temp_data_0456_1);
+            temp_data_0456.push(temp_data_0456_2);
+            temp_data_0456.push(temp_data_0456_3);
+            temp_data_0456.push(temp_data_0456_4);
+            temp_data_0456.push(temp_data_0456_5);
+            vm.threeBasedUserViewData.data = temp_data_0456;
+            // console.log("~~~~~~AAAA");
+            // console.log(vm.threeBasedUserViewData);
+
+            // ///////// 一周热力数据概览 (row3)  responses 7
+
+            let buckets_7 = response.data.responses[7].aggregations.ti.buckets;
+            let length_7 = buckets_7.length;
+            let i_7;
+            let temp_data_7 = [];
+            let temp_data_7_1 = {
+              title: "页面点击次数",
+              data: []
+            };
+            let temp_data_7_2 = {
+              title: "页面点击用户数",
+              data: []
+            };
+            for (i_7 = 0; i_7 < length_7; i_7++) {
+              temp_data_7_1.data.push({
+                value: buckets_7[i_7].click_freq.value,
+                name: buckets_7[i_7].key
+              });
+              temp_data_7_2.data.push({
+                value: buckets_7[i_7].click_user_num.value,
+                name: buckets_7[i_7].key
+              });
+            }
+            temp_data_7.push(temp_data_7_1);
+            temp_data_7.push(temp_data_7_2);
+            vm.pageClickNumData.content = temp_data_7;
+            // console.log("~~~~~~AAAA");
+            // console.log(vm.pageClickNumData);
+
+            // ///////// 轮播频道及节目收视排名 (row13 right)  responses 27
+            let buckets_27 =
+              response.data.responses[27].aggregations.channel.buckets;
+
+            let length_27 = buckets_27.length;
+
+            let i_27;
+            let temp_data_27 = [];
+            // 第一行 product + 日期：处理
+            temp_data_27.push([]);
+            temp_data_27[0].push("product");
+            for (i_27 = 0; i_27 < length_27; i_27++) {
+              temp_data_27.push([]);
+              temp_data_27[i_27 + 1].push(buckets_27[i_27].key);
+            }
+            let buckets_27_child0 =
+              buckets_27[0].statistical_granularity.buckets;
+            let length_27_child = buckets_27_child0.length;
+            let i_27_child;
+            //  0-名称 1~8 对应7天日期的值
+            for (i_27_child = 0; i_27_child < length_27_child; i_27_child++) {
+              temp_data_27[0].push(buckets_27_child0[i_27_child].key);
+            }
+            for (i_27 = 0; i_27 < length_27; i_27++) {
+              for (i_27_child = 0; i_27_child < length_27_child; i_27_child++) {
+                temp_data_27[i_27 + 1].push(
+                  buckets_27[i_27].statistical_granularity.buckets[i_27_child]
+                    .onlive_user_num.value
+                );
+              }
+            }
+
+            vm.originalProgramsDemandData.data = temp_data_27;
+            // console.log("~~~~~~~~!!!!!");
+            // console.log(temp_data_27);
+          } //  if (week_type == "week_days")
         })
         .catch(function(error) {
           console.info(error);
@@ -579,16 +2135,28 @@ export default {
   },
   data() {
     return {
-      activeName: "classify", //推荐栏目Tab标签默认选中
+      paneArr: [
+        // {
+        //   data: "a",
+        //   id: "1"
+        // },
+        // {
+        //   data: "b",
+        //   id: "2"
+        // }
+      ],
+      // activeName: "classify", //推荐栏目Tab标签默认选中
+      activeName: "0", //推荐栏目Tab标签默认选中
+
       //周末用户总量与一周开机率
       userNumAddPowerData: {
         title: "周末用户总量与一周开机率",
         id: "userNumAddPower",
         color: ["#5B9BD4", "#FFC000", "#EC7C30"],
         data: [
-          ["product", "在册用户数（万户）", "开机用户数（万户）", "开机率"],
-          ["0520-0526", 113.4, 54.4, 48.0],
-          ["0527-0602", 116.2, 55.9, 48.1]
+          // ["product", "在册用户数（万户）", "开机用户数（万户）", "开机率"],
+          // ["0520-0526", 113.4, 54.4, 48.0],
+          // ["0527-0602", 116.2, 55.9, 48.1]
         ]
       },
       // 每日开机率走势
@@ -597,14 +2165,14 @@ export default {
         id: "dailyOperatingRate",
         color: ["#5B9BD4", "#FFC000", "#EC7C30"],
         data: [
-          ["product", "在册用户数（万户）", "开机用户数（万户）", "开机率"],
-          ["5月27日", 113.8, 27.6, 24.3],
-          ["5月28日", 114.2, 27.0, 23.7],
-          ["5月29日", 114.6, 26.3, 22.9],
-          ["5月30日", 114.9, 24.9, 21.7],
-          ["5月31日", 115.3, 27.1, 23.5],
-          ["6月1日", 115.7, 27.7, 23.9],
-          ["6月2日", 116.1, 26.8, 23.1]
+          // ["product", "在册用户数（万户）", "开机用户数（万户）", "开机率"],
+          // ["5月27日", 113.8, 27.6, 24.3],
+          // ["5月28日", 114.2, 27.0, 23.7],
+          // ["5月29日", 114.6, 26.3, 22.9],
+          // ["5月30日", 114.9, 24.9, 21.7],
+          // ["5月31日", 115.3, 27.1, 23.5],
+          // ["6月1日", 115.7, 27.7, 23.9],
+          // ["6月2日", 116.1, 26.8, 23.1]
         ]
       },
 
@@ -614,10 +2182,10 @@ export default {
         id: "hebdomadViewNum",
         color: ["#5B9BD4", "#FFC000", "#EC7C30"],
         data: [
-          ["product", "直播", "点播", "回看"],
-          ["观看用户数（万户）", 32.2, 41.4, 3.6],
-          ["观看次数（万次）", 661.0, 1096.7, 13.9],
-          ["观看时长（万小时）", 502.6, 1430.1, 11.9]
+          // ["product", "直播", "点播", "回看"],
+          // ["观看用户数（万户）", 32.2, 41.4, 3.6],
+          // ["观看次数（万次）", 661.0, 1096.7, 13.9],
+          // ["观看时长（万小时）", 502.6, 1430.1, 11.9]
         ]
       },
       // 三大基础功能观看用户数每日走势（万户）
@@ -626,19 +2194,19 @@ export default {
         id: "threeBasedUserView",
         color: ["#6FAC46", "#5B9BD4", "#A6A6A6", "#FFC000"],
         data: [
-          [
-            "product",
-            "5月27日",
-            "5月28日",
-            "5月29日",
-            "5月30日",
-            "6月1日",
-            "6月2日"
-          ],
-          ["直播", 13.1, 12.2, 9.5, 14.8, 14.6, 14.6],
-          ["点播", 27.3, 21.0, 20.2, 22.9, 24, 24.9],
-          ["开机用户数", 28, 27, 26.3, 26, 27, 28.2],
-          ["回看", 0.9, 0.9, 0.8, 0.7, 1.2, 1.1]
+          // [
+          //   "product",
+          //   "5月27日",
+          //   "5月28日",
+          //   "5月29日",
+          //   "5月30日",
+          //   "6月1日",
+          //   "6月2日"
+          // ],
+          // ["直播", 13.1, 12.2, 9.5, 14.8, 14.6, 14.6],
+          // ["点播", 27.3, 21.0, 20.2, 22.9, 24, 24.9],
+          // ["开机用户数", 28, 27, 26.3, 26, 27, 28.2],
+          // ["回看", 0.9, 0.9, 0.8, 0.7, 1.2, 1.1]
         ]
       },
 
@@ -663,33 +2231,33 @@ export default {
           {
             title: "页面点击次数",
             data: [
-              { value: 1100, name: "推荐" },
-              { value: 610, name: "电影" },
-              { value: 548, name: "热剧" },
-              { value: 535, name: "电视" },
-              { value: 410, name: "少儿" },
-              { value: 348, name: "动漫" },
-              { value: 235, name: "分类" },
-              { value: 410, name: "综艺" },
-              { value: 148, name: "游戏" },
-              { value: 110, name: "纪实" },
-              { value: 248, name: "体育" }
+              // { value: 1100, name: "推荐" },
+              // { value: 610, name: "电影" },
+              // { value: 548, name: "热剧" },
+              // { value: 535, name: "电视" },
+              // { value: 410, name: "少儿" },
+              // { value: 348, name: "动漫" },
+              // { value: 235, name: "分类" },
+              // { value: 410, name: "综艺" },
+              // { value: 148, name: "游戏" },
+              // { value: 110, name: "纪实" },
+              // { value: 248, name: "体育" }
             ]
           },
           {
             title: "页面点击用户数",
             data: [
-              { value: 1035, name: "推荐" },
-              { value: 510, name: "电影" },
-              { value: 448, name: "热剧" },
-              { value: 535, name: "电视" },
-              { value: 410, name: "少儿" },
-              { value: 348, name: "动漫" },
-              { value: 235, name: "分类" },
-              { value: 410, name: "综艺" },
-              { value: 248, name: "游戏" },
-              { value: 110, name: "纪实" },
-              { value: 148, name: "体育" }
+              // { value: 1035, name: "推荐" },
+              // { value: 510, name: "电影" },
+              // { value: 448, name: "热剧" },
+              // { value: 535, name: "电视" },
+              // { value: 410, name: "少儿" },
+              // { value: 348, name: "动漫" },
+              // { value: 235, name: "分类" },
+              // { value: 410, name: "综艺" },
+              // { value: 248, name: "游戏" },
+              // { value: 110, name: "纪实" },
+              // { value: 148, name: "体育" }
             ]
           }
         ]
@@ -700,13 +2268,13 @@ export default {
         id: "hebdomadHot",
         color: ["#FFC000", "#5B9BD4", "#EC7C30"],
         data: [
-          ["product", "0502-0226", "0527-0602", "环比"],
-          ["访问用户数", 234.2, 229.1, -2.2],
-          ["访问次数", 1942.3, 1956.9, 0.8],
-          ["页面点击用户数", 201.9, 193.2, -4.3],
-          ["页面点击次数", 1419.1, 1332.2, -6.1],
-          ["页面播放次数", 1122.6, 985.5, -12.2],
-          ["页面播放时长", 1516.6, 1258.9, -17.0]
+          // ["product", "0502-0226", "0527-0602", "环比"],
+          // ["访问用户数", 234.2, 229.1, -2.2],
+          // ["访问次数", 1942.3, 1956.9, 0.8],
+          // ["页面点击用户数", 201.9, 193.2, -4.3],
+          // ["页面点击次数", 1419.1, 1332.2, -6.1],
+          // ["页面播放次数", 1122.6, 985.5, -12.2],
+          // ["页面播放时长", 1516.6, 1258.9, -17.0]
         ]
       },
 
@@ -716,10 +2284,10 @@ export default {
         id: "hebdomadDibbleSeeding",
         color: ["#FFC000", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["点播用户数（万户）", 42.2, 41.4],
-          ["点播次数（万次）", 1152.3, 1096.7],
-          ["点播时长（万小时）", 1152.2, 1430.1]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["点播用户数（万户）", 42.2, 41.4],
+          // ["点播次数（万次）", 1152.3, 1096.7],
+          // ["点播时长（万小时）", 1152.2, 1430.1]
         ]
       },
       // 一周节目点播TOP15
@@ -728,22 +2296,22 @@ export default {
         id: "hebdomadDibbleSeedingTOP",
         color: ["#5B9BD4", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["（电视剧）封神演义", 12.8, 12.0],
-          ["（电视剧）新白娘子传奇2019", 13.1, 15.5],
-          ["（电影）飞驰人生", 14.0, 12.6],
-          ["（电视剧）青春斗", 15.0, 14.2],
-          ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
-          ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
-          ["（电视剧）招摇", 18.8, 18.0],
-          ["（电视剧）黄河英雄", 19.1, 17.5],
-          ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
-          ["（综艺）王牌对王牌 第四季", 20.0, 17.2],
-          ["（少儿）汪汪队立大功 第四季", 20.2, 16.7],
-          ["（电影）狂暴凶狮", 20.4, 17.3],
-          ["（通灵妃）通灵妃", 20.8, 17.6],
-          ["湖南卫视（高清）", 20.8, 17.2],
-          ["（电影）绿毛怪格林奇（原声版）", 21.4, 19.0]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["（电视剧）封神演义", 12.8, 12.0],
+          // ["（电视剧）新白娘子传奇2019", 13.1, 15.5],
+          // ["（电影）飞驰人生", 14.0, 12.6],
+          // ["（电视剧）青春斗", 15.0, 14.2],
+          // ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
+          // ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
+          // ["（电视剧）招摇", 18.8, 18.0],
+          // ["（电视剧）黄河英雄", 19.1, 17.5],
+          // ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
+          // ["（综艺）王牌对王牌 第四季", 20.0, 17.2],
+          // ["（少儿）汪汪队立大功 第四季", 20.2, 16.7],
+          // ["（电影）狂暴凶狮", 20.4, 17.3],
+          // ["（通灵妃）通灵妃", 20.8, 17.6],
+          // ["湖南卫视（高清）", 20.8, 17.2],
+          // ["（电影）绿毛怪格林奇（原声版）", 21.4, 19.0]
         ]
       },
 
@@ -811,19 +2379,19 @@ export default {
         id: "mainProgramaPlay",
         color: ["#CBC9C9", "#5B9BD4", "#EC7C30"],
         data: [
-          ["product", "0502-0226", "0527-0602", "环比"],
-          ["少儿", 234.2, 229.1, -2.2],
-          ["电影", 1942.3, 1956.9, 0.8],
-          ["热剧", 201.9, 193.2, -4.3],
-          ["综艺", 1419.1, 1332.2, -6.1],
-          ["游戏", 1122.6, 985.5, -12.2],
-          ["纪实", 1516.6, 1258.9, -17.0],
-          ["体育", 234.2, 229.1, -2.2],
-          ["分类", 1942.3, 1956.9, 0.8],
-          ["推荐", 201.9, 193.2, -4.3],
-          ["点视", 1419.1, 1332.2, -6.1],
-          ["动漫", 1122.6, 985.5, -12.2],
-          ["开机次数", 1516.6, 1258.9, -17.0]
+          // ["product", "0502-0226", "0527-0602", "环比"],
+          // ["少儿", 234.2, 229.1, -2.2],
+          // ["电影", 1942.3, 1956.9, 0.8],
+          // ["热剧", 201.9, 193.2, -4.3],
+          // ["综艺", 1419.1, 1332.2, -6.1],
+          // ["游戏", 1122.6, 985.5, -12.2],
+          // ["纪实", 1516.6, 1258.9, -17.0],
+          // ["体育", 234.2, 229.1, -2.2],
+          // ["分类", 1942.3, 1956.9, 0.8],
+          // ["推荐", 201.9, 193.2, -4.3],
+          // ["点视", 1419.1, 1332.2, -6.1],
+          // ["动漫", 1122.6, 985.5, -12.2]
+          // ["开机次数", 1516.6, 1258.9, -17.0] // 暂时不管
         ]
       },
 
@@ -833,10 +2401,10 @@ export default {
         id: "localProgramsPlay",
         color: ["#FFC000", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["点播用户数（万户）", 24400, 25157],
-          ["点播次数（万次）", 31392, 31653],
-          ["点播时长（万小时）", 23292.4, 21224.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["点播用户数（万户）", 24400, 25157],
+          // ["点播次数（万次）", 31392, 31653],
+          // ["点播时长（万小时）", 23292.4, 21224.4]
         ]
       },
       // 点播排行（次）
@@ -845,17 +2413,17 @@ export default {
         id: "localProgramsPlayTOP",
         color: ["#5B9BD4", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["（电视剧）封神演义", 10.8, 10.0],
-          ["（电视剧）新白娘子传奇2019", 13.1, 12.5],
-          ["（电影）飞驰人生", 14.0, 12.6],
-          ["（电视剧）青春斗", 15.0, 14.2],
-          ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
-          ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
-          ["（电视剧）招摇", 18.8, 18.0],
-          ["（电视剧）黄河英雄", 19.1, 17.5],
-          ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
-          ["（综艺）王牌对王牌 第四季", 20.0, 17.2]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["（电视剧）封神演义", 10.8, 10.0],
+          // ["（电视剧）新白娘子传奇2019", 13.1, 12.5],
+          // ["（电影）飞驰人生", 14.0, 12.6],
+          // ["（电视剧）青春斗", 15.0, 14.2],
+          // ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
+          // ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
+          // ["（电视剧）招摇", 18.8, 18.0],
+          // ["（电视剧）黄河英雄", 19.1, 17.5],
+          // ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
+          // ["（综艺）王牌对王牌 第四季", 20.0, 17.2]
         ]
       },
 
@@ -865,10 +2433,10 @@ export default {
         id: "hebdomadLive",
         color: ["#FFC000", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["直播收视用户数（万户）", 24400, 25157],
-          ["直播收视次数（万次）", 31392, 31653],
-          ["直播收视时长（万小时）", 23292.4, 21224.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["直播收视用户数（万户）", 24400, 25157],
+          // ["直播收视次数（万次）", 31392, 31653],
+          // ["直播收视时长（万小时）", 23292.4, 21224.4]
         ]
       },
       // 一周直播节目TOP15（万小时）
@@ -877,22 +2445,22 @@ export default {
         id: "hebdomadLiveTOP",
         color: ["#5B9BD4", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["（电视剧）封神演义", 12.8, 12.0],
-          ["（电视剧）新白娘子传奇2019", 13.1, 15.5],
-          ["（电影）飞驰人生", 14.0, 12.6],
-          ["（电视剧）青春斗", 15.0, 14.2],
-          ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
-          ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
-          ["（电视剧）招摇", 18.8, 18.0],
-          ["（电视剧）黄河英雄", 19.1, 17.5],
-          ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
-          ["（综艺）王牌对王牌 第四季", 20.0, 17.2],
-          ["（少儿）汪汪队立大功 第四季", 20.2, 16.7],
-          ["（电影）狂暴凶狮", 20.4, 17.3],
-          ["（通灵妃）通灵妃", 20.8, 17.6],
-          ["湖南卫视（高清）", 20.8, 17.2],
-          ["（电影）绿毛怪格林奇（原声版）", 21.4, 19.0]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["（电视剧）封神演义", 12.8, 12.0],
+          // ["（电视剧）新白娘子传奇2019", 13.1, 15.5],
+          // ["（电影）飞驰人生", 14.0, 12.6],
+          // ["（电视剧）青春斗", 15.0, 14.2],
+          // ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
+          // ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
+          // ["（电视剧）招摇", 18.8, 18.0],
+          // ["（电视剧）黄河英雄", 19.1, 17.5],
+          // ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
+          // ["（综艺）王牌对王牌 第四季", 20.0, 17.2],
+          // ["（少儿）汪汪队立大功 第四季", 20.2, 16.7],
+          // ["（电影）狂暴凶狮", 20.4, 17.3],
+          // ["（通灵妃）通灵妃", 20.8, 17.6],
+          // ["湖南卫视（高清）", 20.8, 17.2],
+          // ["（电影）绿毛怪格林奇（原声版）", 21.4, 19.0]
         ]
       },
 
@@ -902,11 +2470,11 @@ export default {
         id: "channelLiveUserNum",
         color: ["#CBC9C9", "#A9D18E"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["央视", 55.5, 53.6],
-          ["卫视", 110.7, 108.1],
-          ["地方", 62.4, 61.4],
-          ["轮播", 15.5, 15.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["央视", 55.5, 53.6],
+          // ["卫视", 110.7, 108.1],
+          // ["地方", 62.4, 61.4],
+          // ["轮播", 15.5, 15.4]
         ]
       },
       //分组频道直播次数（万次）
@@ -915,11 +2483,11 @@ export default {
         id: "channelLiveTimes",
         color: ["#CBC9C9", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["央视", 55.5, 53.6],
-          ["卫视", 110.7, 108.1],
-          ["地方", 62.4, 61.4],
-          ["轮播", 15.5, 15.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["央视", 55.5, 53.6],
+          // ["卫视", 110.7, 108.1],
+          // ["地方", 62.4, 61.4],
+          // ["轮播", 15.5, 15.4]
         ]
       },
       //分组频道直播收视时长（万小时）
@@ -928,11 +2496,11 @@ export default {
         id: "channelLiveDuration",
         color: ["#CBC9C9", "#FFC000"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["央视", 55.5, 53.6],
-          ["卫视", 110.7, 108.1],
-          ["地方", 62.4, 61.4],
-          ["轮播", 15.5, 15.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["央视", 55.5, 53.6],
+          // ["卫视", 110.7, 108.1],
+          // ["地方", 62.4, 61.4],
+          // ["轮播", 15.5, 15.4]
         ]
       },
 
@@ -943,17 +2511,17 @@ export default {
         id: "liveChannelTOP",
         color: ["#A9D18E", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["CCTV-11 戏曲", 2.5, 2.7],
-          ["CCTV-2 财经", 3.6, 3.8],
-          ["CCTV-10 科教", 4.7, 5.1],
-          ["CCTV-15 音乐", 4.6, 4.7],
-          ["CCTV-14 少儿", 4.8, 5.1],
-          ["CCTV-7 军事农业", 5.1, 5.1],
-          ["CCTV-4 中文国际", 6.4, 6.3],
-          ["CCTV-12 社会与法", 5.6, 5.7],
-          ["CCTV-13 新闻", 7.9, 7.9],
-          ["CCTV-1 综合", 8.4, 9.2]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["CCTV-11 戏曲", 2.5, 2.7],
+          // ["CCTV-2 财经", 3.6, 3.8],
+          // ["CCTV-10 科教", 4.7, 5.1],
+          // ["CCTV-15 音乐", 4.6, 4.7],
+          // ["CCTV-14 少儿", 4.8, 5.1],
+          // ["CCTV-7 军事农业", 5.1, 5.1],
+          // ["CCTV-4 中文国际", 6.4, 6.3],
+          // ["CCTV-12 社会与法", 5.6, 5.7],
+          // ["CCTV-13 新闻", 7.9, 7.9],
+          // ["CCTV-1 综合", 8.4, 9.2]
         ]
       },
       //直播节目TOP10（万小时）
@@ -962,17 +2530,17 @@ export default {
         id: "liveProgramTOP",
         color: ["#CBC9C9", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["新闻直播间\nCCTV-13", 55.5, 53.6],
-          ["中国新闻\nCCTV-4", 110.7, 108.1],
-          ["普法栏目剧\nCCTV-12", 62.4, 61.4],
-          ["初婚\nCCTV-1", 15.5, 15.4],
-          ["精彩音乐会\nCCTV-15", 55.5, 53.6],
-          ["朝闻天下\nCCTV-13", 110.7, 108.1],
-          ["麦香\nCCTV-1", 62.4, 61.4],
-          ["共同关注\nCCTV-13", 15.5, 15.4],
-          ["红七军\nCCTV-4", 62.4, 61.4],
-          ["新闻联播\nCCTV-13", 15.5, 15.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["新闻直播间\nCCTV-13", 55.5, 53.6],
+          // ["中国新闻\nCCTV-4", 110.7, 108.1],
+          // ["普法栏目剧\nCCTV-12", 62.4, 61.4],
+          // ["初婚\nCCTV-1", 15.5, 15.4],
+          // ["精彩音乐会\nCCTV-15", 55.5, 53.6],
+          // ["朝闻天下\nCCTV-13", 110.7, 108.1],
+          // ["麦香\nCCTV-1", 62.4, 61.4],
+          // ["共同关注\nCCTV-13", 15.5, 15.4],
+          // ["红七军\nCCTV-4", 62.4, 61.4],
+          // ["新闻联播\nCCTV-13", 15.5, 15.4]
         ]
       },
 
@@ -982,29 +2550,29 @@ export default {
         id: "localLiveTOP",
         color: ["#A9D18E", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["黔西南-公共", 4.8, 4.0],
-          ["贵阳-5 旅游生活频道", 5.8, 5.0],
-          ["黔西南-综合", 6.8, 6.0],
-          ["六盘水-1", 7.8, 7.0],
-          ["贵州移动电视", 8.8, 8.0],
-          ["六盘水-2", 9.8, 9.0],
-          ["动画乐园", 10.8, 10.0],
-          ["都市剧场", 12.8, 12.0],
-          ["贵阳-1 新闻综合频道", 13.1, 15.5],
-          ["贵阳-2 经济生活频道", 14.0, 12.6],
-          ["海外佳片", 15.0, 14.2],
-          ["贵阳-3 法制频道", 16.2, 16.7],
-          ["谍战剧场", 17.9, 16.1],
-          ["贵州-7 经济频道", 18.8, 18.0],
-          ["贵州-6 科教健康频道", 19.1, 17.5],
-          ["贵阳-4 都市频道", 20.0, 18.6],
-          ["华语影院", 20.0, 17.2],
-          ["贵州-5 法制频道", 20.2, 16.7],
-          ["贵州-4 大众生活频道", 20.4, 17.3],
-          ["贵州-3 影视文艺频道", 20.8, 17.6],
-          ["贵州-2 公共频道", 20.8, 17.2],
-          ["贵州卫视", 21.4, 19.0]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["黔西南-公共", 4.8, 4.0],
+          // ["贵阳-5 旅游生活频道", 5.8, 5.0],
+          // ["黔西南-综合", 6.8, 6.0],
+          // ["六盘水-1", 7.8, 7.0],
+          // ["贵州移动电视", 8.8, 8.0],
+          // ["六盘水-2", 9.8, 9.0],
+          // ["动画乐园", 10.8, 10.0],
+          // ["都市剧场", 12.8, 12.0],
+          // ["贵阳-1 新闻综合频道", 13.1, 15.5],
+          // ["贵阳-2 经济生活频道", 14.0, 12.6],
+          // ["海外佳片", 15.0, 14.2],
+          // ["贵阳-3 法制频道", 16.2, 16.7],
+          // ["谍战剧场", 17.9, 16.1],
+          // ["贵州-7 经济频道", 18.8, 18.0],
+          // ["贵州-6 科教健康频道", 19.1, 17.5],
+          // ["贵阳-4 都市频道", 20.0, 18.6],
+          // ["华语影院", 20.0, 17.2],
+          // ["贵州-5 法制频道", 20.2, 16.7],
+          // ["贵州-4 大众生活频道", 20.4, 17.3],
+          // ["贵州-3 影视文艺频道", 20.8, 17.6],
+          // ["贵州-2 公共频道", 20.8, 17.2],
+          // ["贵州卫视", 21.4, 19.0]
         ]
       },
       //本地自办节目TOP5（万小时）
@@ -1013,12 +2581,12 @@ export default {
         id: "localProgramTOP",
         color: ["#CBC9C9", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["百姓关注\n贵州-2", 55.5, 53.6],
-          ["贵州新闻联播\n贵州卫视", 110.7, 108.1],
-          ["第二放映室\n贵州-2", 62.4, 61.4],
-          ["谢谢你来了\n贵州-4", 15.5, 15.4],
-          ["天天来帮忙\n贵州-2", 55.5, 53.6]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["百姓关注\n贵州-2", 55.5, 53.6],
+          // ["贵州新闻联播\n贵州卫视", 110.7, 108.1],
+          // ["第二放映室\n贵州-2", 62.4, 61.4],
+          // ["谢谢你来了\n贵州-4", 15.5, 15.4],
+          // ["天天来帮忙\n贵州-2", 55.5, 53.6]
         ]
       },
 
@@ -1029,17 +2597,17 @@ export default {
         id: "satelliteChannelTOP",
         color: ["#A9D18E", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["河南卫视", 2.5, 2.7],
-          ["安徽卫视", 3.6, 3.8],
-          ["广东卫视", 4.7, 5.1],
-          ["重庆卫视", 4.6, 4.7],
-          ["江西卫视", 4.8, 5.1],
-          ["云南卫视", 5.1, 5.1],
-          ["山东卫视", 6.4, 6.3],
-          ["江苏卫视", 5.6, 5.7],
-          ["浙江卫视", 7.9, 7.9],
-          ["湖南卫视", 8.4, 9.2]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["河南卫视", 2.5, 2.7],
+          // ["安徽卫视", 3.6, 3.8],
+          // ["广东卫视", 4.7, 5.1],
+          // ["重庆卫视", 4.6, 4.7],
+          // ["江西卫视", 4.8, 5.1],
+          // ["云南卫视", 5.1, 5.1],
+          // ["山东卫视", 6.4, 6.3],
+          // ["江苏卫视", 5.6, 5.7],
+          // ["浙江卫视", 7.9, 7.9],
+          // ["湖南卫视", 8.4, 9.2]
         ]
       },
       //直播节目TOP10（万小时）
@@ -1048,17 +2616,17 @@ export default {
         id: "satelliteLiveProgramTOP",
         color: ["#CBC9C9", "#5B9BD4"],
         data: [
-          ["product", "0520-0526", "0527-0602"],
-          ["情迷睡美人\n湖南卫视", 55.5, 53.6],
-          ["筑梦情缘\n湖南卫视", 110.7, 108.1],
-          ["我的真朋友\n浙江卫视", 62.4, 61.4],
-          ["非诚勿扰\n江苏卫视", 15.5, 15.4],
-          ["第二次人生\n湖南卫视", 55.5, 53.6],
-          ["向往的生活湘西篇\n湖南卫视", 110.7, 108.1],
-          ["奔跑吧\n浙江卫视", 62.4, 61.4],
-          ["封神演义\n湖南卫视", 15.5, 15.4],
-          ["激战\n重庆卫视", 62.4, 61.4],
-          ["新闻大求真\n湖南卫视", 15.5, 15.4]
+          // ["product", "0520-0526", "0527-0602"],
+          // ["情迷睡美人\n湖南卫视", 55.5, 53.6],
+          // ["筑梦情缘\n湖南卫视", 110.7, 108.1],
+          // ["我的真朋友\n浙江卫视", 62.4, 61.4],
+          // ["非诚勿扰\n江苏卫视", 15.5, 15.4],
+          // ["第二次人生\n湖南卫视", 55.5, 53.6],
+          // ["向往的生活湘西篇\n湖南卫视", 110.7, 108.1],
+          // ["奔跑吧\n浙江卫视", 62.4, 61.4],
+          // ["封神演义\n湖南卫视", 15.5, 15.4],
+          // ["激战\n重庆卫视", 62.4, 61.4],
+          // ["新闻大求真\n湖南卫视", 15.5, 15.4]
         ]
       },
 
@@ -1068,12 +2636,12 @@ export default {
         id: "carouselChannel",
         color: ["#FFC000", "#5B9BD4", "#EC7C30"],
         data: [
-          ["product", "0502-0226", "0527-0602", "增率"],
-          ["华语影院", 5.2, 5.1, -2.2],
-          ["谍战剧场", 4.6, 3.8, -16.5],
-          ["海外佳片", 1.9, 2.8, 49.3],
-          ["都市剧场", 2.3, 2.1, -8.3],
-          ["动画乐园", 1.6, 1.6, 3.2]
+          // ["product", "0502-0226", "0527-0602", "增率"],
+          // ["华语影院", 5.2, 5.1, -2.2],
+          // ["谍战剧场", 4.6, 3.8, -16.5],
+          // ["海外佳片", 1.9, 2.8, 49.3],
+          // ["都市剧场", 2.3, 2.1, -8.3],
+          // ["动画乐园", 1.6, 1.6, 3.2]
         ]
       },
 
@@ -1083,560 +2651,567 @@ export default {
         id: "originalProgramsDemand",
         color: ["#6FAC46", "#F7BCBC", "#5B9BD4", "#FFC000", "#EC7C30"],
         data: [
-          [
-            "product",
-            "5月27日",
-            "5月28日",
-            "5月29日",
-            "5月30日",
-            "5月31日",
-            "6月1日",
-            "6月2日"
-          ],
-          ["谍战剧场", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
-          ["华语影院", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
-          ["海外佳片", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
-          ["都市剧场", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
-          ["动画乐园", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+          // [
+          //   "product",
+          //   "5月27日",
+          //   "5月28日",
+          //   "5月29日",
+          //   "5月30日",
+          //   "5月31日",
+          //   "6月1日",
+          //   "6月2日"
+          // ],
+          // ["谍战剧场", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+          // ["华语影院", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+          // ["海外佳片", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+          // ["都市剧场", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+          // ["动画乐园", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
         ]
       },
 
-      //分类页一周热力数据
-      classifyColumnData: {
-        //一周热力数据
-        weeklyThermodynamic: {
-          title: "分类页一周热力数据",
-          id: "classifyWeeklyThermodynamic",
-          color: ["#FFC000", "#5B9BD4", "#EC7C30"],
-          data: [
-            ["product", "0502-0226", "0527-0602", "增率"],
-            ["访问用户数", 49.3, 49.1, -0.5],
-            ["访问次数", 659.3, 660.6, -0.2],
-            ["页面点击\n用户数", 39.4, 37.8, -4.4],
-            ["页面点击次数", 338.3, 312.1, -7.3],
-            ["页面播放次数", 141.6, 123.6, -13.2],
-            ["页面播放时长", 216.6, 176.6, -18.2],
-            ["开机次数", 182.6, 187.6, 2.5]
-          ]
-        },
-        //按钮点击排行（万次）
-        buttonClickTOPData: {
-          title: "分类页按钮点击排行（万次）",
-          id: "classifyButtonClickTOP",
-          color: ["#5B9BD4", "#CBC9C9"],
-          data: [
-            ["product", "0527-0602", "0520-0526"],
-            ["推荐帮助", 1.4, 1.5],
-            ["竖图1", 1.5, 1.6],
-            ["横图", 2.6, 3.2],
-            ["百姓关注", 3.0, 3.2],
-            ["VIP限免", 4.5, 5.0],
-            ["竖图2", 5.9, 7.1],
-            ["点我换一换", 5.4, 6.0],
-            ["竖图3", 7.4, 7.0],
-            ["二屏", 9.4, 10.6],
-            ["看电视", 16.0, 17.2],
-            ["推荐个人中心", 23.4, 25.4],
-            ["推荐搜索", 33.7, 36.1],
-            ["历史记录", 70.6, 75.1],
-            ["三屏", 96.8, 104.2],
-            ["推荐页播放小窗口", 119.4, 129.0]
-          ]
-        },
-        //栏目各按钮点击次数
-        columnButtonClickNum: {
-          title: "分类页各按钮点击次数",
-          data: [
-            [
-              {
-                classify: "搜索",
-                title: "box0_0",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                classify: "个人中心",
-                title: "box0_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                classify: "帮助",
-                title: "box0_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box1_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box1_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box2_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box2_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box2_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box3_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_4",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_5",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box4_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_4",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ]
-          ]
-        },
-        //部分按钮每日走势（次）
-        someButtonDayTrendData: {
-          title: "分类页部分按钮每日走势（次）",
-          id: "classifySomeButtonDayTrend",
-          color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
-          data: [
-            ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-            ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
-            ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
-            ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
-            ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
-            ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
-          ]
-        }
-      },
+      /////////////////////////
+      // //分类页一周热力数据
+      Pane_ColumnData: [],
+      // weeklyThermodynamic
+      // buttonClickTOPData
+      // columnButtonClickNum
+      // someButtonDayTrendData
 
-      //电视页一周热力数据television
-      televisionColumnData: {
-        //一周热力数据
-        weeklyThermodynamic: {
-          title: "电视页一周热力数据",
-          id: "televisionWeeklyThermodynamic",
-          color: ["#FFC000", "#5B9BD4", "#EC7C30"],
-          data: [
-            ["product", "0502-0226", "0527-0602", "增率"],
-            ["访问用户数", 49.3, 49.1, -0.5],
-            ["访问次数", 659.3, 660.6, -0.2],
-            ["页面点击\n用户数", 39.4, 37.8, -4.4],
-            ["页面点击次数", 338.3, 312.1, -7.3],
-            ["页面播放次数", 141.6, 123.6, -13.2],
-            ["页面播放时长", 216.6, 176.6, -18.2],
-            ["开机次数", 182.6, 187.6, 2.5]
-          ]
-        },
-        //按钮点击排行（万次）
-        buttonClickTOPData: {
-          title: "电视页按钮点击排行（万次）",
-          id: "televisionButtonClickTOP",
-          color: ["#5B9BD4", "#CBC9C9"],
-          data: [
-            ["product", "0527-0602", "0520-0526"],
-            ["推荐帮助", 1.4, 1.5],
-            ["竖图1", 1.5, 1.6],
-            ["横图", 2.6, 3.2],
-            ["百姓关注", 3.0, 3.2],
-            ["VIP限免", 4.5, 5.0],
-            ["竖图2", 5.9, 7.1],
-            ["点我换一换", 5.4, 6.0],
-            ["竖图3", 7.4, 7.0],
-            ["二屏", 9.4, 10.6],
-            ["看电视", 16.0, 17.2],
-            ["推荐个人中心", 23.4, 25.4],
-            ["推荐搜索", 33.7, 36.1],
-            ["历史记录", 70.6, 75.1],
-            ["三屏", 96.8, 104.2],
-            ["推荐页播放小窗口", 119.4, 129.0]
-          ]
-        },
-        //栏目各按钮点击次数
-        columnButtonClickNum: {
-          title: "电视页各按钮点击次数",
-          data: [
-            [
-              {
-                classify: "搜索",
-                title: "box0_0",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                classify: "个人中心",
-                title: "box0_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                classify: "帮助",
-                title: "box0_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box1_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box1_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box2_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box2_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box2_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box3_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_4",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_5",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box4_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_4",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ]
-          ]
-        },
-        //部分按钮每日走势（次）
-        someButtonDayTrendData: {
-          title: "电视页部分按钮每日走势（次）",
-          id: "televisionSomeButtonDayTrend",
-          color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
-          data: [
-            ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-            ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
-            ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
-            ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
-            ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
-            ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
-          ]
-        }
-      },
+      // classifyColumnData: {
+      //   //一周热力数据
+      //   weeklyThermodynamic: {
+      //     title: "分类页一周热力数据",
+      //     id: "classifyWeeklyThermodynamic",
+      //     color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+      //     data: [
+      //       ["product", "0502-0226", "0527-0602", "增率"],
+      //       ["访问用户数", 49.3, 49.1, -0.5],
+      //       ["访问次数", 659.3, 660.6, -0.2],
+      //       ["页面点击\n用户数", 39.4, 37.8, -4.4],
+      //       ["页面点击次数", 338.3, 312.1, -7.3],
+      //       ["页面播放次数", 141.6, 123.6, -13.2],
+      //       ["页面播放时长", 216.6, 176.6, -18.2],
+      //       ["开机次数", 182.6, 187.6, 2.5]
+      //     ]
+      //   },
+      //   //按钮点击排行（万次）
+      //   buttonClickTOPData: {
+      //     title: "分类页按钮点击排行（万次）",
+      //     id: "classifyButtonClickTOP",
+      //     color: ["#5B9BD4", "#CBC9C9"],
+      //     data: [
+      //       ["product", "0527-0602", "0520-0526"],
+      //       ["推荐帮助", 1.4, 1.5],
+      //       ["竖图1", 1.5, 1.6],
+      //       ["横图", 2.6, 3.2],
+      //       ["百姓关注", 3.0, 3.2],
+      //       ["VIP限免", 4.5, 5.0],
+      //       ["竖图2", 5.9, 7.1],
+      //       ["点我换一换", 5.4, 6.0],
+      //       ["竖图3", 7.4, 7.0],
+      //       ["二屏", 9.4, 10.6],
+      //       ["看电视", 16.0, 17.2],
+      //       ["推荐个人中心", 23.4, 25.4],
+      //       ["推荐搜索", 33.7, 36.1],
+      //       ["历史记录", 70.6, 75.1],
+      //       ["三屏", 96.8, 104.2],
+      //       ["推荐页播放小窗口", 119.4, 129.0]
+      //     ]
+      //   },
+      //   //栏目各按钮点击次数
+      //   columnButtonClickNum: {
+      //     title: "分类页各按钮点击次数",
+      //     data: [
+      //       [
+      //         {
+      //           classify: "搜索",
+      //           title: "box0_0",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           classify: "个人中心",
+      //           title: "box0_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           classify: "帮助",
+      //           title: "box0_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box1_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box1_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box2_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box2_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box2_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box3_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_4",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_5",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box4_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_4",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ]
+      //     ]
+      //   },
+      //   //部分按钮每日走势（次）
+      //   someButtonDayTrendData: {
+      //     title: "分类页部分按钮每日走势（次）",
+      //     id: "classifySomeButtonDayTrend",
+      //     color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
+      //     data: [
+      //       ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      //       ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+      //       ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+      //       ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+      //       ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+      //       ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+      //     ]
+      //   }
+      // },
 
-      //推荐页一周热力数据
-      recommendColumnData: {
-        //一周热力数据
-        weeklyThermodynamic: {
-          title: "推荐页一周热力数据",
-          id: "recommendWeeklyThermodynamic",
-          color: ["#FFC000", "#5B9BD4", "#EC7C30"],
-          data: [
-            ["product", "0502-0226", "0527-0602", "增率"],
-            ["访问用户数", 49.3, 49.1, -0.5],
-            ["访问次数", 659.3, 660.6, -0.2],
-            ["页面点击\n用户数", 39.4, 37.8, -4.4],
-            ["页面点击次数", 338.3, 312.1, -7.3],
-            ["页面播放次数", 141.6, 123.6, -13.2],
-            ["页面播放时长", 216.6, 176.6, -18.2],
-            ["开机次数", 182.6, 187.6, 2.5]
-          ]
-        },
-        //按钮点击排行（万次）
-        buttonClickTOPData: {
-          title: "推荐页按钮点击排行（万次）",
-          id: "recommendButtonClickTOP",
-          color: ["#5B9BD4", "#CBC9C9"],
-          data: [
-            ["product", "0527-0602", "0520-0526"],
-            ["推荐帮助", 1.4, 1.5],
-            ["竖图1", 1.5, 1.6],
-            ["横图", 2.6, 3.2],
-            ["百姓关注", 3.0, 3.2],
-            ["VIP限免", 4.5, 5.0],
-            ["竖图2", 5.9, 7.1],
-            ["点我换一换", 5.4, 6.0],
-            ["竖图3", 7.4, 7.0],
-            ["二屏", 9.4, 10.6],
-            ["看电视", 16.0, 17.2],
-            ["推荐个人中心", 23.4, 25.4],
-            ["推荐搜索", 33.7, 36.1],
-            ["历史记录", 70.6, 75.1],
-            ["三屏", 96.8, 104.2],
-            ["推荐页播放小窗口", 119.4, 129.0]
-          ]
-        },
-        //栏目各按钮点击次数
-        columnButtonClickNum: {
-          title: "推荐页各按钮点击次数",
-          data: [
-            [
-              {
-                classify: "搜索",
-                title: "box0_0",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                classify: "个人中心",
-                title: "box0_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                classify: "帮助",
-                title: "box0_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box1_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box1_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box2_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box2_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box2_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box3_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_4",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box3_5",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ],
-            [
-              {
-                title: "box4_1",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_2",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_3",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              },
-              {
-                title: "box4_4",
-                lastWeek: "361018",
-                thisWeek: "336859",
-                chainIndex: "-6.09%"
-              }
-            ]
-          ]
-        },
-        //部分按钮每日走势（次）
-        someButtonDayTrendData: {
-          title: "推荐页分按钮每日走势（次）",
-          id: "recommendSomeButtonDayTrend",
-          color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
-          data: [
-            ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-            ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
-            ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
-            ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
-            ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
-            ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
-          ]
-        }
-      },
+      // //电视页一周热力数据television
+      // televisionColumnData: {
+      //   //一周热力数据
+      //   weeklyThermodynamic: {
+      //     title: "电视页一周热力数据",
+      //     id: "televisionWeeklyThermodynamic",
+      //     color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+      //     data: [
+      //       ["product", "0502-0226", "0527-0602", "增率"],
+      //       ["访问用户数", 49.3, 49.1, -0.5],
+      //       ["访问次数", 659.3, 660.6, -0.2],
+      //       ["页面点击\n用户数", 39.4, 37.8, -4.4],
+      //       ["页面点击次数", 338.3, 312.1, -7.3],
+      //       ["页面播放次数", 141.6, 123.6, -13.2],
+      //       ["页面播放时长", 216.6, 176.6, -18.2],
+      //       ["开机次数", 182.6, 187.6, 2.5]
+      //     ]
+      //   },
+      //   //按钮点击排行（万次）
+      //   buttonClickTOPData: {
+      //     title: "电视页按钮点击排行（万次）",
+      //     id: "televisionButtonClickTOP",
+      //     color: ["#5B9BD4", "#CBC9C9"],
+      //     data: [
+      //       ["product", "0527-0602", "0520-0526"],
+      //       ["推荐帮助", 1.4, 1.5],
+      //       ["竖图1", 1.5, 1.6],
+      //       ["横图", 2.6, 3.2],
+      //       ["百姓关注", 3.0, 3.2],
+      //       ["VIP限免", 4.5, 5.0],
+      //       ["竖图2", 5.9, 7.1],
+      //       ["点我换一换", 5.4, 6.0],
+      //       ["竖图3", 7.4, 7.0],
+      //       ["二屏", 9.4, 10.6],
+      //       ["看电视", 16.0, 17.2],
+      //       ["推荐个人中心", 23.4, 25.4],
+      //       ["推荐搜索", 33.7, 36.1],
+      //       ["历史记录", 70.6, 75.1],
+      //       ["三屏", 96.8, 104.2],
+      //       ["推荐页播放小窗口", 119.4, 129.0]
+      //     ]
+      //   },
+      //   //栏目各按钮点击次数
+      //   columnButtonClickNum: {
+      //     title: "电视页各按钮点击次数",
+      //     data: [
+      //       [
+      //         {
+      //           classify: "搜索",
+      //           title: "box0_0",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           classify: "个人中心",
+      //           title: "box0_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           classify: "帮助",
+      //           title: "box0_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box1_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box1_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box2_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box2_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box2_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box3_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_4",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_5",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box4_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_4",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ]
+      //     ]
+      //   },
+      //   //部分按钮每日走势（次）
+      //   someButtonDayTrendData: {
+      //     title: "电视页部分按钮每日走势（次）",
+      //     id: "televisionSomeButtonDayTrend",
+      //     color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
+      //     data: [
+      //       ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      //       ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+      //       ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+      //       ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+      //       ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+      //       ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+      //     ]
+      //   }
+      // },
+
+      // //推荐页一周热力数据
+      // recommendColumnData: {
+      //   //一周热力数据
+      //   weeklyThermodynamic: {
+      //     title: "推荐页一周热力数据",
+      //     id: "recommendWeeklyThermodynamic",
+      //     color: ["#FFC000", "#5B9BD4", "#EC7C30"],
+      //     data: [
+      //       ["product", "0502-0226", "0527-0602", "增率"],
+      //       ["访问用户数", 49.3, 49.1, -0.5],
+      //       ["访问次数", 659.3, 660.6, -0.2],
+      //       ["页面点击\n用户数", 39.4, 37.8, -4.4],
+      //       ["页面点击次数", 338.3, 312.1, -7.3],
+      //       ["页面播放次数", 141.6, 123.6, -13.2],
+      //       ["页面播放时长", 216.6, 176.6, -18.2],
+      //       ["开机次数", 182.6, 187.6, 2.5]
+      //     ]
+      //   },
+      //   //按钮点击排行（万次）
+      //   buttonClickTOPData: {
+      //     title: "推荐页按钮点击排行（万次）",
+      //     id: "recommendButtonClickTOP",
+      //     color: ["#5B9BD4", "#CBC9C9"],
+      //     data: [
+      //       ["product", "0527-0602", "0520-0526"],
+      //       ["推荐帮助", 1.4, 1.5],
+      //       ["竖图1", 1.5, 1.6],
+      //       ["横图", 2.6, 3.2],
+      //       ["百姓关注", 3.0, 3.2],
+      //       ["VIP限免", 4.5, 5.0],
+      //       ["竖图2", 5.9, 7.1],
+      //       ["点我换一换", 5.4, 6.0],
+      //       ["竖图3", 7.4, 7.0],
+      //       ["二屏", 9.4, 10.6],
+      //       ["看电视", 16.0, 17.2],
+      //       ["推荐个人中心", 23.4, 25.4],
+      //       ["推荐搜索", 33.7, 36.1],
+      //       ["历史记录", 70.6, 75.1],
+      //       ["三屏", 96.8, 104.2],
+      //       ["推荐页播放小窗口", 119.4, 129.0]
+      //     ]
+      //   },
+      //   //栏目各按钮点击次数
+      //   columnButtonClickNum: {
+      //     title: "推荐页各按钮点击次数",
+      //     data: [
+      //       [
+      //         {
+      //           classify: "搜索",
+      //           title: "box0_0",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           classify: "个人中心",
+      //           title: "box0_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           classify: "帮助",
+      //           title: "box0_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box1_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box1_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box2_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box2_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box2_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box3_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_4",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box3_5",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ],
+      //       [
+      //         {
+      //           title: "box4_1",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_2",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_3",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         },
+      //         {
+      //           title: "box4_4",
+      //           lastWeek: "361018",
+      //           thisWeek: "336859",
+      //           chainIndex: "-6.09%"
+      //         }
+      //       ]
+      //     ]
+      //   },
+      //   //部分按钮每日走势（次）
+      //   someButtonDayTrendData: {
+      //     title: "推荐页分按钮每日走势（次）",
+      //     id: "recommendSomeButtonDayTrend",
+      //     color: ["#5B9BD4", "#FFC000", "#A6A6A6", "#EC7C30", "#6FAC46"],
+      //     data: [
+      //       ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      //       ["box3_0", 15172, 13915, 13517, 11567, 10245, 11957, 13657],
+      //       ["box3_1", 12657, 12293, 11627, 11567, 8078, 7925, 8580],
+      //       ["box5_1", 4522, 4700, 5600, 5050, 5700, 5800, 6200],
+      //       ["box3_2", 8139, 5815, 5954, 5075, 6215, 6985, 5862],
+      //       ["box6_3", 3314, 3452, 3165, 3031, 3458, 3518, 3350]
+      //     ]
+      //   }
+      // },
 
       //模块五 专题热力数 据及运营分析
       // 一周专题数据概览（次）
