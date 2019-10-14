@@ -146,10 +146,11 @@ export default {
           }
         },
         grid: {
+          containLabel: true,
           top: "20%",
-          left: "8%",
-          right: "1%",
-          bottom: "10%"
+          left: "10",
+          right: "10",
+          bottom: "10"
         },
         dataset: {
           source: this.chartData_Change.data

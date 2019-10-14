@@ -61,7 +61,7 @@
       </el-col>
 
       <!-- 右侧导航开始 -->
-      <!-- <el-col class="viewing_behavior_nav height_auto">
+      <el-col class="viewing_behavior_nav height_auto">
         <el-row>
           <a
             href="javascript:void(0)"
@@ -93,7 +93,7 @@
         <el-row>
           <a href="javascript:void(0)" class="anchor_link5" @click="goAnchor('#module5')">本土原创节目点播数据</a>
         </el-row>
-      </el-col>-->
+      </el-col>
       <!-- 右侧导航结束 -->
     </el-row>
     <!-- 收视行为结束 -->
@@ -197,6 +197,7 @@ export default {
     //监听滚动事件
     $(".viewing_behavior_report_left").scroll(function (event) {
       let scrollTopHeight = $(".viewing_behavior_report_left").scrollTop();
+      // console.log(scrollTopHeight)
       if (0 <= scrollTopHeight) {
         $(".anchor_link1")
           .addClass("avtive_link")
@@ -205,7 +206,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (4300 <= scrollTopHeight) {
+      if (4000 <= scrollTopHeight) {
         $(".anchor_link2")
           .addClass("avtive_link")
           .parent()
@@ -213,7 +214,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (8600 <= scrollTopHeight) {
+      if (8000 <= scrollTopHeight) {
         $(".anchor_link3")
           .addClass("avtive_link")
           .parent()
@@ -221,7 +222,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (12900 <= scrollTopHeight) {
+      if (12100 <= scrollTopHeight) {
         $(".anchor_link4")
           .addClass("avtive_link")
           .parent()
@@ -229,7 +230,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (17200 <= scrollTopHeight) {
+      if (16100 <= scrollTopHeight) {
         $(".anchor_link5")
           .addClass("avtive_link")
           .parent()

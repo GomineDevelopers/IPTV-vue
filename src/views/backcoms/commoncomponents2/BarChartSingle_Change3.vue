@@ -17,12 +17,12 @@ export default {
   computed: {
     ...mapGetters(["PR_operator"]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let color = [];
 
-        if (vm.chartData.id == "MOWR_m1_A1" || vm.chartData.id == "MOWR_m1_A2" ) {
+        if (vm.chartData.id == "MOWR_m1_A1" || vm.chartData.id == "MOWR_m1_A2") {
           if (vm.PR_operator == null || vm.PR_operator.length == 0) {
             color = vm.chartData.color;
             data = vm.chartData.data;
@@ -52,7 +52,7 @@ export default {
               }
             }
           }
-          setTimeout(function() {
+          setTimeout(function () {
             vm.drawLine();
           }, 1000);
           let temp = {
@@ -68,7 +68,7 @@ export default {
         return vm.chartData;
       },
 
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
 
@@ -77,7 +77,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },
