@@ -14,14 +14,14 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
   computed: {
     ...mapGetters(["PR_operator", "PR_day"]),
     fillinData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let length1 = vm.fillinData.data.length;
@@ -72,7 +72,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
@@ -85,7 +85,7 @@ export default {
         }
         return vm.fillinData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
 
@@ -187,6 +187,9 @@ export default {
               color: "#A0A4AA"
             },
             show: false
+          },
+          axisLabel: {
+            formatter: "{value}%"
           },
           // 影藏刻度
           axisTick: {

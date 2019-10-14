@@ -13,7 +13,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -23,13 +23,13 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     },
     PR_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     }
@@ -91,6 +91,13 @@ export default {
           type: "value",
           // 留白空隙
           boundaryGap: [0, 0.5],
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#939393",
+              opacity: 0.2
+            }
+          },
           axisLine: {
             lineStyle: {
               color: "#A0A4AA"
