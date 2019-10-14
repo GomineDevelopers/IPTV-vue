@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "BarListChart", //专题专区数据报告
   props: {
@@ -11,12 +12,23 @@ export default {
       type: Object
     }
   },
+  computed: {
+    ...mapGetters(["PR_month"]),
+  },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
+    },
+  },
   data() {
     return {};
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },

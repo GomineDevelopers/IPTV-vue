@@ -137,6 +137,7 @@
   </div>
 </template>
 <script>
+import { epg } from "@/api/api_main";
 import DataIntegrityModel from '@/views/backcoms/dataaudit/DataIntegrityModel' //表格组件
 export default {
   name: 'DataIntegrity', //数据完整性
@@ -256,21 +257,13 @@ export default {
     $('#data_integrity_content').scroll(function (event) {
       //console.log($('.backHome_body_main').scrollTop())
       let scrollTopHeight = $('#data_integrity_content').scrollTop()
-      let boot_log = document.querySelector('#boot_log').offsetTop
-      let heartbeat_log = document.querySelector('#heartbeat_log').offsetTop
-      let page_access_log = document.querySelector('#page_access_log').offsetTop
-      let thermodynamic_log = document.querySelector('#thermodynamic_log').offsetTop
-      let bunch_planting_log = document.querySelector('#bunch_planting_log').offsetTop
-      let look_back_log = document.querySelector('#look_back_log').offsetTop
-      let live_log = document.querySelector('#live_log').offsetTop
-      // console.log('scrollTopHeight', scrollTopHeight)
-      // console.log('boot_log 0', boot_log)
-      // console.log('heartbeat_log 442', heartbeat_log)
-      // console.log('page_access_log 884', page_access_log)
-      // console.log('thermodynamic_log 1326', thermodynamic_log)
-      // console.log('bunch_planting_log 1768', bunch_planting_log)
-      // console.log('look_back_log 2210', look_back_log)
-      // console.log('live_log 2652', live_log)
+      // let boot_log = document.querySelector('#boot_log').offsetTop
+      // let heartbeat_log = document.querySelector('#heartbeat_log').offsetTop
+      // let page_access_log = document.querySelector('#page_access_log').offsetTop
+      // let thermodynamic_log = document.querySelector('#thermodynamic_log').offsetTop
+      // let bunch_planting_log = document.querySelector('#bunch_planting_log').offsetTop
+      // let look_back_log = document.querySelector('#look_back_log').offsetTop
+      // let live_log = document.querySelector('#live_log').offsetTop
       if (0 <= scrollTopHeight) {
         $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
       }
@@ -300,12 +293,13 @@ export default {
       let data_integrity_content = document.querySelector('#data_integrity_content')  //外层滚动容器元素
       //console.log("backHome_body_main", backHome_body_main)
       var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
-      //console.log("anchor", anchor)
       data_integrity_content.scrollTop = anchor.offsetTop
-
       $('.anchor_hyperlinks a').on('click', function () {
         $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
       })
+    },
+    getDatategrity() {
+
     }
   }
 }

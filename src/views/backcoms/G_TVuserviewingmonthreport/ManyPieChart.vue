@@ -19,14 +19,14 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
   computed: {
     ...mapGetters(["PR_operator"]),
     pieData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
 
         if (
@@ -61,7 +61,7 @@ export default {
             content.push(temp);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 1000);
 
@@ -140,7 +140,7 @@ export default {
             content.push(temp3);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 1000);
 
@@ -150,19 +150,19 @@ export default {
             color: color,
             content: content
           };
-          console.log("~~~~~ManyPieChart~~~~tempx");
-          console.log(tempx);
+          // console.log("~~~~~ManyPieChart~~~~tempx");
+          // console.log(tempx);
 
           return tempx;
         }
 
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           vm.setLineChart();
         }, 1000);
         return vm.pieData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   methods: {

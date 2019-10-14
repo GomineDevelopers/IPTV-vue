@@ -18,14 +18,14 @@ export default {
   mounted() {
     // console.log(this.lineData)
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_month"]),
     lineData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let color = [];
@@ -53,12 +53,12 @@ export default {
               color.push(vm.lineData.color[2]);
               data.push(vm.lineData.data[3]);
             }
-            console.log(color);
-            console.log(data);
+            // console.log(color);
+            // console.log(data);
           }
 
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 1000);
           return {
@@ -67,10 +67,22 @@ export default {
             color: color,
             data: data
           };
+        } else if (
+          vm.lineData.id == "G_TVUseroVerview" ||
+          vm.lineData.id == "registeredUsers_UVMR" ||
+          vm.lineData.id == "monthNewRegUser_UVMR" ||
+          vm.lineData.id == "monthCancellationUser_UVMR"
+        ) {
+          setTimeout(function () {
+            vm.setLineChart();
+          }, 1000);
+          if (vm.PR_month) {
+            //do nothing  监听视图变化作用
+          }
         }
         return vm.lineData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   methods: {
@@ -79,6 +91,7 @@ export default {
         document.getElementById(this.lineData_Change.id)
       );
       let seriesData = [];
+      // console.log("seriesData", this.lineData_Change.title, this.lineData_Change.data)
       //设置series数据条数
       for (let i = 1; i <= this.lineData_Change.data.length - 1; i++) {
         seriesData.push({
@@ -114,19 +127,20 @@ export default {
           }
         },
         grid: {
+          containLabel: true,
           top: "30%",
-          left: "8%",
-          right: "5%",
-          bottom: "10%"
+          left: "25",
+          right: "10",
+          bottom: "10"
         },
         tooltip: {
           trigger: "axis",
-          axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#6a7985"
-            }
-          },
+          // axisPointer: {
+          //   type: "cross",
+          //   label: {
+          //     backgroundColor: "#6a7985"
+          //   }
+          // },
           textStyle: {
             align: "left"
           }

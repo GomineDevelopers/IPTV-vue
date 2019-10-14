@@ -50,6 +50,7 @@ export default {
       tmpData.name = nameArray[i];
       seriesData[i] = tmpData;
     }
+    console.log('seriesData', seriesData)
     seriesData[5].markPoint = {
       symbol: "Rect",
       symbolSize: [80, 30],
@@ -169,5 +170,6 @@ export default {
 <style scoped>
 .abnormal_value_body {
   height: 750px;
+  margin-bottom: 50px;
 }
 </style>
