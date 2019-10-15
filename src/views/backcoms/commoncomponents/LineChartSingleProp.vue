@@ -15,6 +15,7 @@ export default {
     ...mapGetters([
       "ULC_region",
       "PR_operator",
+      "PR_month",
       "ULC_operator",
       "ULC_day",
       "ULC_week",
@@ -133,6 +134,11 @@ export default {
             color: color,
             data: data
           };
+        }
+        if (vm.lineData.id == "newAddPayingUser") {
+          if (vm.PR_month) {
+            // do nothing. -- 监听
+          }
         }
         // 视图更新
         setTimeout(function() {

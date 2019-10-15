@@ -22,6 +22,7 @@ export default {
   computed: {
     ...mapGetters([
       "PR_operator",
+      "PR_month",
       "UVB_region",
       "ADD_VIP_region",
       "UVB_programa",
@@ -204,6 +205,16 @@ export default {
             // do nothing. --监听
           }
         }
+        if (
+          vm.chartData.id == "monthOrder" ||
+          vm.chartData.id == "monthVIPOrder" ||
+          vm.chartData.id == "monthVIPOrderIncome"
+        ) {
+          if (vm.PR_week) {
+            // do nothing. --监听
+          }
+        }
+
         // 视图更新
         setTimeout(function() {
           vm.drawLine();

@@ -20,10 +20,10 @@
       </el-row>
       <!-- 新增用户转化率结束 -->
 
-      <!-- 6月新增在册用户及开机行为用户数据（日趋势）开始 -->
+      <!-- 新增在册用户及开机行为用户数据（日趋势）开始 -->
       <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
-          <span class="title_border_left"></span>6月新增在册用户及开机行为用户数据（日趋势）
+          <span class="title_border_left"></span>新增在册用户及开机行为用户数据（日趋势）
         </el-row>
         <el-row class="new_registered_users_body">
           <el-col class="height_auto" :span="24">
@@ -31,12 +31,12 @@
           </el-col>
         </el-row>
       </el-row>
-      <!-- 6月新增在册用户及开机行为用户数据（日趋势）结束 -->
+      <!-- 新增在册用户及开机行为用户数据（日趋势）结束 -->
 
-      <!-- 6月新增在册用户、开机行为用户数及新增付费用户数据（日趋势）开始 -->
+      <!-- 新增在册用户、开机行为用户数及新增付费用户数据（日趋势）开始 -->
       <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
-          <span class="title_border_left"></span>6月新增在册用户、开机行为用户数及新增付费用户数据（日趋势）
+          <span class="title_border_left"></span>新增在册用户、开机行为用户数及新增付费用户数据（日趋势）
         </el-row>
         <el-row class="new_registered_users_body">
           <el-col class="height_auto" :span="12">
@@ -47,12 +47,12 @@
           </el-col>
         </el-row>
       </el-row>
-      <!-- 6月新增在册用户、开机行为用户数及新增付费用户数据（日趋势）结束-->
+      <!-- 新增在册用户、开机行为用户数及新增付费用户数据（日趋势）结束-->
 
-      <!-- 6月订购数据开始 -->
+      <!-- 订购数据开始 -->
       <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
-          <span class="title_border_left"></span>6月订购数据
+          <span class="title_border_left"></span>订购数据
         </el-row>
         <el-row class="new_registered_users_body">
           <el-col class="height_auto" :span="8">
@@ -66,7 +66,7 @@
           </el-col>
         </el-row>
       </el-row>
-      <!-- 6月订购数据结束-->
+      <!-- 订购数据结束-->
 
       <!-- 订购内容来源开始 -->
       <el-row class="back_white marginbottom_14">
@@ -84,10 +84,10 @@
       </el-row>
       <!-- 订购内容来源结束 -->
 
-      <!-- 6月订购用户所属地区数据开始 -->
+      <!-- 订购用户所属地区数据开始 -->
       <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
-          <span class="title_border_left"></span>6月订购用户所属地区数据
+          <span class="title_border_left"></span>订购用户所属地区数据
         </el-row>
         <el-row class="order_user_region_body">
           <el-col class="height_auto" :span="12">
@@ -99,7 +99,7 @@
           </el-col>
         </el-row>
       </el-row>
-      <!-- 6月订购用户所属地区数据结束 -->
+      <!-- 订购用户所属地区数据结束 -->
 
       <!-- 分地区订购用户引导付费内容订购排名开始 -->
       <el-row class="back_white marginbottom_14">
@@ -150,10 +150,10 @@
       </el-row>
       <!-- 分地区订购用户引导付费内容订购排名结束 -->
 
-      <!-- 6月订购用户数数据分布对比开始 -->
+      <!-- 订购用户数数据分布对比开始 -->
       <el-row class="back_white marginbottom_14">
         <el-row class="model_title">
-          <span class="title_border_left"></span>6月订购用户数数据分布对比
+          <span class="title_border_left"></span>订购用户数数据分布对比
         </el-row>
         <el-row class="order_user_distribution_body">
           <el-col class="height_auto" :span="12">
@@ -164,7 +164,7 @@
           </el-col>
         </el-row>
       </el-row>
-      <!-- 6月订购用户数数据分布对比结束 -->
+      <!-- 订购用户数数据分布对比结束 -->
 
       <!-- 点播TOP榜单开始 -->
       <el-row class="back_white marginbottom_14 marginbottom_60">
@@ -173,11 +173,11 @@
         </el-row>
         <el-row class="dibble_table_body">
           <el-col class="height_auto table_col_body" :span="12">
-            <el-row class="table_title">2019年5月1-2019年5月31日点播次数排名（TOP15）</el-row>
+            <el-row class="table_title">上月点播次数排名（TOP15）</el-row>
             <dibble-table :tableData="tableData"></dibble-table>
           </el-col>
           <el-col class="height_auto table_col_body" :span="12">
-            <el-row class="table_title">2019年6月1-2019年6月30日点播次数排名（TOP15）</el-row>
+            <el-row class="table_title">本月点播次数排名（TOP15）</el-row>
             <dibble-table :tableData="tableData2"></dibble-table>
           </el-col>
         </el-row>
@@ -199,6 +199,7 @@ import DibbleTable from "@/views/backcoms/vipaddmonthreport/DibbleTable"; //表�
 import { mapGetters } from "vuex";
 import { users_vipReport } from "@/api/api_main";
 import { commonTools } from "@/utils/test";
+import Vue from "vue";
 
 export default {
   name: "VIPAddMonthReport", //VIP增值业务专项分析
@@ -211,7 +212,12 @@ export default {
     "many-pie-chart2": ManyPieChart2,
     "dibble-table": DibbleTable
   },
-  mounted() {},
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.set_api_data();
+    }, 100);
+  },
   computed: {
     // ...this.$mapGetters(["PR_operator"])
     ...mapGetters(["PR_operator", "PR_month"])
@@ -221,23 +227,25 @@ export default {
       let vm = this;
       console.log("PR_operator: " + newValue);
       setTimeout(function() {
-        vm.refresh_api_data("month_day");
-        vm.refresh_api_data("month_week");
-        vm.refresh_api_data("monthsRange");
-      }, 100);
+        vm.set_api_data();
+      }, 1000);
     },
     PR_month(newValue, oldValue) {
       let vm = this;
       console.log("PR_month: " + newValue);
       setTimeout(function() {
-        vm.refresh_api_data("month_day");
-        vm.refresh_api_data("month_week");
-        vm.refresh_api_data("monthsRange");
-      }, 100);
+        vm.set_api_data();
+      }, 1000);
     }
   },
 
   methods: {
+    set_api_data() {
+      let vm = this;
+      vm.refresh_api_data("month_day");
+      // vm.refresh_api_data("month_week");
+      vm.refresh_api_data("monthsRange");
+    },
     // 请求类型 RequestType - month_day(包括month)  month_week  monthsRange
     refresh_api_data(RequestType) {
       this.users_vipReport(RequestType);
@@ -258,23 +266,23 @@ export default {
 
       if (RequestType == "month_day") {
         temp = {
-          operator: String(temp_operator),
+          operator: String(["电信"]),
           year: temp_time.year,
           start: temp_time.month_day_start,
           end: temp_time.month_day_end
         };
       }
-      if (RequestType == "month_week") {
-        temp = {
-          operator: String(temp_operator),
-          year: temp_time.year,
-          start: temp_time.month_week_start,
-          end: temp_time.month_week_end
-        };
-      }
+      // if (RequestType == "month_week") {
+      //   temp = {
+      //     operator: String(["电信"]),
+      //     year: temp_time.year,
+      //     start: temp_time.month_week_start,
+      //     end: temp_time.month_week_end
+      //   };
+      // }
       if (RequestType == "monthsRange") {
         temp = {
-          operator: String(temp_operator),
+          operator: String(["电信"]),
           year: temp_time.year,
           start: temp_time.monthsRange_start,
           end: temp_time.monthsRange_end
@@ -287,10 +295,412 @@ export default {
       formData.append("operator", temp.operator);
       formData.append("start", temp.start);
       formData.append("end", temp.end);
+      formData.append("year", temp.year);
       users_vipReport(formData)
         .then(function(response) {
-          console.log(response);
-          // console.log(response.data.responses[0].aggregations.ti.buckets);
+          // responses0 ru_ord            --普通用户的
+          // responses1 ru_ord_prd        --VIP用户的
+          // responses2 ru_guide_content  -- 订购内容来源  Top那个
+          // responses3      -- 暂时没数据的
+          // responses4      -- 最下面的表单
+
+          if (RequestType == "month_day") {
+            // console.log(response);
+
+            let responses0 = response.data.responses[0];
+
+            // //////////////// 新增在册用户及开机行为用户数据（日趋势） row2 responses0
+            // 新增在册用户数（万户） new_num
+            // 新增付费用户数（万户） new_paid_num
+            // //////////////// 新增在册用户、开机行为用户数及新增付费用户数据（日趋势） row3 left responses0
+            // 开机行为用户数（万户） open_num
+            // 新增在册用户数（万户） new_num
+            // //////////////// 新增在册用户、开机行为用户数及新增付费用户数据（日趋势） row3 right responses0
+            // 开机行为用户数（万户） open_num
+            // 新增付费用户数（万户） new_paid_num  （视图需要改）
+
+            // 上述3个 - 一个 逻辑OK   分别对应 temp_data1 temp_data2 temp_data3
+            let temp_data1 = [];
+            let temp_data2 = [];
+            let temp_data3 = [];
+
+            // 3个数据结构 都为3row
+            let i_0_t;
+            for (i_0_t = 0; i_0_t < 3; i_0_t++) {
+              temp_data1.push([]);
+              temp_data2.push([]);
+              temp_data3.push([]);
+            }
+            temp_data1[0].push("product");
+            temp_data1[1].push("新增在册用户数");
+            temp_data1[2].push("新增付费用户数");
+            temp_data2[0].push("product");
+            temp_data2[1].push("开机行为用户数");
+            temp_data2[2].push("新增在册用户数");
+            temp_data3[0].push("product");
+            temp_data3[1].push("开机行为用户数");
+            temp_data3[2].push("新增在册用户数");
+
+            let buckets_0 =
+              responses0.aggregations.statistical_granularity.buckets;
+            let length_0 = buckets_0.length;
+            let i_0;
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              temp_data1[0].push(buckets_0[i_0].key);
+              temp_data1[1].push(buckets_0[i_0].new_num.value / 10000);
+              temp_data1[2].push(buckets_0[i_0].new_paid_num.value / 10000);
+
+              temp_data2[0].push(buckets_0[i_0].key);
+              temp_data2[1].push(buckets_0[i_0].open_num.value / 10000);
+              temp_data2[2].push(buckets_0[i_0].new_num.value / 10000);
+
+              temp_data3[0].push(buckets_0[i_0].key);
+              temp_data3[1].push(buckets_0[i_0].open_num.value / 10000);
+              temp_data3[2].push(buckets_0[i_0].new_paid_num.value / 10000);
+            }
+
+            // vm.newRegisteredUsersData.data = temp_data1;
+            // vm.powerAddNewUsersData.data = temp_data2;
+            // vm.powerAddNewPayingUsersData.data = temp_data3;
+            // console.log("~~~~~~~~~~~~~~~~~~~~temp_data1~3");
+            // console.log(temp_data1);
+            // console.log(temp_data2);
+            // console.log(temp_data3);
+          }
+          // //////////////////////////////////////////////////////////////////////////////////////////
+          // //////////////////////////////////////////////////////////////////////////////////////////
+          // //////////////////////////////////////////////////////////////////////////////////////////
+          // if (RequestType == "month_week") {
+          //   console.log(response);
+          // }
+          // //////////////////////////////////////////////////////////////////////////////////////////
+          // //////////////////////////////////////////////////////////////////////////////////////////
+          // //////////////////////////////////////////////////////////////////////////////////////////
+
+          if (RequestType == "monthsRange") {
+            console.log(response);
+            let responses0 = response.data.responses[0];
+            let responses1 = response.data.responses[1];
+            let responses2 = response.data.responses[2];
+            let responses3 = response.data.responses[3];
+            let responses4 = response.data.responses[4];
+
+            // 订购-即付费
+
+            // //////////////// 新增用户转化情况 row1 left   responses0
+            // 新增在册用户数（万户） new_num
+            // 开机行为用户数（万户）（开机用户数） open_num
+            // 新增付费用户数（万户） new_paid_num
+            // //////////////// 新增用户转化情况 row1 right  responses0
+            // 新增付费用户占比 new_paid_num   = 新增用户中付费用户数/新增用户
+            // //////////////// 订购数据 row4 left responses0
+            // 订购用户数（户） - 即新增订购用户数 new_paid_num
+            // 收入-即新增收入 newincome  实际后台字段为：new_income
+
+            // 上述3个 为一类结构
+
+            let temp_data_0_1 = [];
+            let temp_data_0_2 = [];
+            let temp_data_0_3 = [];
+
+            let buckets_0 =
+              responses0.aggregations.statistical_granularity.buckets;
+            let length_0 = buckets_0.length; // 月份的个数 - 后台返回的个数
+            let i_0;
+
+            // 注意数据结构类型不同的问题
+            // 第1个（结构a） --固定长度
+            for (i_0 = 0; i_0 < 4; i_0++) {
+              temp_data_0_1.push([]);
+            }
+            temp_data_0_1[0].push("product");
+            temp_data_0_1[1].push("新增在册用户数（万户）");
+            temp_data_0_1[2].push("开机行为用户数（万户）");
+            temp_data_0_1[3].push("新增付费用户数（万户）");
+
+            // 第2个（结构a） --固定长度
+            for (i_0 = 0; i_0 < 2; i_0++) {
+              temp_data_0_2.push([]);
+            }
+            temp_data_0_2[0].push("product");
+            temp_data_0_2[1].push("新增付费用户占比");
+
+            // 第3个（结构b） -- 按月长度分
+            temp_data_0_3.push([]); // 初始title行
+            temp_data_0_3[0].push("product", "订购用户数（户）", "收入（元）");
+
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              // 第1个（结构a）
+              temp_data_0_1[0].push(
+                commonTools.format_monthToChinese(buckets_0[i_0].key)
+              );
+              temp_data_0_1[1].push(buckets_0[i_0].new_num.value);
+              temp_data_0_1[2].push(buckets_0[i_0].open_num.value);
+              temp_data_0_1[3].push(buckets_0[i_0].new_paid_num.value);
+              // 第2个（结构a）
+              temp_data_0_2[0].push(
+                commonTools.format_monthToChinese(buckets_0[i_0].key)
+              );
+              temp_data_0_2[1].push(
+                // 视图需要添加百分号 -- OK
+                commonTools.returnFloat_2(
+                  (buckets_0[i_0].new_paid_num.value /
+                    buckets_0[i_0].new_num.value) *
+                    100
+                )
+              );
+              // 第3个（结构b）
+              temp_data_0_3.push([]);
+              temp_data_0_3[i_0 + 1].push(
+                commonTools.format_monthToChinese(buckets_0[i_0].key)
+              );
+              temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_paid_num.value);
+              temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_income.value);
+            }
+            // vm.newAddUserPercentData.data = temp_data_0_1;
+            // vm.newAddPayingUserData.data = temp_data_0_2;
+            // vm.monthOrderData.data = temp_data_0_3;
+            // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_0_1~3");
+            // console.log(temp_data_0_1);
+            // console.log(temp_data_0_2);
+            // console.log(temp_data_0_3);
+
+            // return;
+
+            // //////////////// 订购数据 row4 middle responses1
+            // VIP包订购用户数(按包分):影视包 少儿包 欢乐家庭包 newpaid_user_num 实际：new_paid_num
+            // //////////////// 订购数据 row4 right responses1
+            // VIP包收入(按包分)(万元):影视包 少儿包 欢乐家庭包 newincome 实际字段： new_income
+            // //////////////// 订购用户数数据分布对比 （vip的）row8 left responses1
+            // （新增）订购用户（按包分-包分为月季年）  newpaid_user_num 实际：new_paid_num
+            // //////////////// 订购用户数数据分布对比 （vip的）row8 right responses1
+            // （新增）收人（按包分-包分为月季年） newincome 实际字段： new_income
+
+            // 上面4个 为一类结构 把8提上来
+
+            let temp_data_1_1 = [];
+            let temp_data_1_2 = [];
+            let temp_data_1_3 = [];
+            let temp_data_1_4 = [];
+
+            let buckets_1 =
+              responses1.aggregations.statistical_granularity.buckets;
+            let length_1 = buckets_1.length; // 月份的个数 - 后台返回的个数
+            let i_1;
+
+            // 数据结构框架
+            // 第一个
+            temp_data_1_1.push([]); // 初始title行
+            temp_data_1_1[0].push(
+              "product",
+              "影视包（户）",
+              "少儿包（户）",
+              "欢乐家庭包（户）"
+            );
+
+            let buckets_1_child_1 =
+              buckets_1[0].value_added_service_package.buckets;
+            let length_1_child_1 = buckets_1_child_1.length; //10~11 ▲▲▲ 注意数据有重复的唯一字段 --需要 try catch
+            let i_1_child_1;
+            // 第二个
+            temp_data_1_2.push([]); // 初始title行
+            temp_data_1_2[0].push(
+              "product",
+              "影视包（万元）",
+              "少儿包（万元）",
+              "欢乐家庭包（万元）"
+            );
+            // let buckets_1_child_2 = buckets_1[1].value_added_service_package.buckets;
+            // let length_1_child_2 = buckets_1_child_2.length;
+            // let i_1_child_2;
+            // 第三个
+            // 第四个
+
+            // 第一、二个
+            function Retrun_KeyValue_1_1a(key, index_month, index_month_child) {
+              if (key == "影视VIP") {
+                // 处理 =》 重复的数据 这里不使用push了，直接固定位置set覆盖！
+                Vue.set(
+                  // 第一个
+                  temp_data_1_1[index_month + 1],
+                  1,
+
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_paid_num.value
+                );
+                Vue.set(
+                  // 第二个
+                  temp_data_1_2[index_month + 1],
+                  1,
+
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_income.value / 10000
+                );
+              }
+              if (key == "少儿VIP") {
+                Vue.set(
+                  // 第一个
+                  temp_data_1_1[index_month + 1],
+                  2,
+
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_paid_num.value
+                );
+                Vue.set(
+                  // 第二个
+                  temp_data_1_2[index_month + 1],
+                  2,
+
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_income.value / 10000
+                );
+              }
+              if (key == "欢乐家庭VIP") {
+                Vue.set(
+                  // 第一个
+                  temp_data_1_1[index_month + 1],
+                  3,
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_paid_num.value
+                );
+                Vue.set(
+                  // 第二个
+                  temp_data_1_2[index_month + 1],
+                  3,
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_income.value / 10000
+                );
+              }
+            } // function （尾巴）
+
+            // 第三、四个
+            function Retrun_KeyValue_1_1b(key, index_month, index_month_child) {
+              if (key == "影视VIP") {
+                // temp_data_1_3  --待处理
+                // temp_data_1_4  --待处理
+              }
+              if (key == "影视VIP包季") {
+              }
+              if (key == "影视VIP包年") {
+              }
+              if (key == "少儿VIP") {
+              }
+              if (key == "少儿VIP包季") {
+              }
+              if (key == "少儿VIP包年") {
+              }
+              if (key == "欢乐家庭VIP") {
+              }
+              if (key == "欢乐家庭VIP包季") {
+              }
+              if (key == "欢乐家庭VIP包年") {
+              }
+            } // function （尾巴）
+            let temp_object = {
+              title: "", // X月订购用户情况（户）
+              data: [
+                { value: 0, name: "影视包" },
+                { value: 0, name: "影视包（包季）" },
+                { value: 0, name: "影视包（包年）" },
+                { value: 0, name: "少儿包" },
+                { value: 0, name: "少儿包（包季）" },
+                { value: 0, name: "少儿包（包年）" },
+                { value: 0, name: "欢乐家庭包" },
+                { value: 0, name: "欢乐家庭包（包季）" },
+                { value: 0, name: "欢乐家庭包（包年）" }
+              ]
+            };
+
+            // 总数据处理
+            for (i_1 = 0; i_1 < length_1; i_1++) {
+              // 第一个
+              temp_data_1_1.push([]);
+              temp_data_1_1[i_1 + 1].push(
+                commonTools.format_monthToChinese(buckets_1[i_1].key)
+              );
+              // 第二个
+              temp_data_1_2.push([]);
+              temp_data_1_2[i_1 + 1].push(
+                commonTools.format_monthToChinese(buckets_1[i_1].key)
+              );
+              // 第三个
+              temp_data_1_3.push(temp_object);
+              // 第四个
+              temp_data_1_4.push(temp_object);
+
+              // 统一点：第一、二、三、四个的for
+              for (
+                i_1_child_1 = 0;
+                i_1_child_1 < length_1_child_1;
+                i_1_child_1++
+              ) {
+                // 第一、二
+                try {
+                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+                  Retrun_KeyValue_1_1a(
+                    buckets_1[i_1].value_added_service_package.buckets[
+                      i_1_child_1
+                    ].key,
+                    i_1, // ?month 同级
+                    i_1_child_1 // ??VIP  同级
+                  );
+                } catch (err) {
+                  console.log(err);
+                  break;
+                }
+                // 第三、四
+                try {
+                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+                  Retrun_KeyValue_1_1b(
+                    buckets_1[i_1].value_added_service_package.buckets[
+                      i_1_child_1
+                    ].key,
+                    i_1, // ?month 同级
+                    i_1_child_1 // ??VIP  同级
+                  );
+                } catch (err) {
+                  console.log(err);
+                  break;
+                }
+              }
+            }
+
+            console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
+            console.log(temp_data_1_1);
+            console.log(temp_data_1_2);
+            console.log(temp_data_1_3);
+            console.log(temp_data_1_4);
+            // vm.monthVIPOrderData.data = temp_data_1_1;
+            // vm.monthVIPOrderIncomeData.data = temp_data_1_2;
+            // vm.orderUserContrastData.content = temp_data_1_3;
+            // vm.incomeContrastData.content = temp_data_1_4;
+
+            // //////////////// 订购内容来源 row5 left right   responses2    （有）
+            // 点击次数 （▲▲▲ 没这东西-视图错了）
+            // 新增订购用户数 new_paid_num
+
+            // //////////////// 订购用户所属地区数据  row6 left responses3   （没有）
+            // （新增）订购用户数（ 按地区分） new_paid_num
+
+            // //////////////// 订购用户所属地区数据  row6 right （实际为：分地区订购用户引导付费内容订购排名） responses0  （有）
+            // //////////////// 分地区订购用户引导付费内容订购排名 row7 全部
+            // （新增）订购用户数（ 先按单地区分，再分别列出Top5的电视节目） new_paid_num
+
+            // //////////////// row8 原位置
+
+            // //////////////// 点播TOP榜单 row9 responses4
+            // /// 节目名 下面4个：
+            // 内容类型 program-type
+            // 点播用户数 demand_user_num
+            // 点播次数 demand_freq
+            // 点播时长 demand_dur
+          }
         })
         .catch(function(error) {
           console.info(error);
@@ -302,13 +712,13 @@ export default {
       //用户数据概览
       newAddUserPercentData: {
         title: "用户数据概览（户）",
-        id: "newAddUserPercen",
+        id: "newAddUserPercent",
         color: ["#EC7C30", "#FFC618", "#70AD47"],
         data: [
-          ["product", "2月", "3月", "4月", "5月", "6月"],
-          ["新增在册用户数（万户）", 7.7, 11.1, 12.0, 9.7, 7.6],
-          ["开机行为用户数（万户）", 12.1, 15.3, 17.2, 17.7, 20.0],
-          ["新增付费用户数（万户）", 0.8, 0.7, 0.7, 0.9, 0.9]
+          // ["product", "2月", "3月", "4月", "5月", "6月"],
+          // ["新增在册用户数（万户）", 7.7, 11.1, 12.0, 9.7, 7.6],
+          // ["开机行为用户数（万户）", 12.1, 15.3, 17.2, 17.7, 20.0],
+          // ["新增付费用户数（万户）", 0.8, 0.7, 0.7, 0.9, 0.9]
         ]
       },
       // 开机行为用户中新增付费用户占比
@@ -317,8 +727,8 @@ export default {
         id: "newAddPayingUser",
         color: ["#EC7C30"],
         data: [
-          ["product", "2月", "3月", "4月", "5月", "6月"],
-          ["新增付费用户占比", 7.0, 4.3, 4.0, 5.0, 4.5]
+          // ["product", "2月", "3月", "4月", "5月", "6月"],
+          // ["新增付费用户占比", 7.0, 4.3, 4.0, 5.0, 4.5]
         ]
       },
 
@@ -328,105 +738,105 @@ export default {
         id: "newRegisteredUsers",
         color: ["#A5A5A5", "#5B9BD5"],
         data: [
-          [
-            "product",
-            "6月1日",
-            "6月2日",
-            "6月3日",
-            "6月4日",
-            "6月5日",
-            "6月6日",
-            "6月7日",
-            "6月8日",
-            "6月9日",
-            "6月10日",
-            "6月11日",
-            "6月12日",
-            "6月13日",
-            "6月14日",
-            "6月15日",
-            "6月16日",
-            "6月17日",
-            "6月18日",
-            "6月19日",
-            "6月20日",
-            "6月21日",
-            "6月22日",
-            "6月23日",
-            "6月24日",
-            "6月25日",
-            "6月26日",
-            "6月27日",
-            "6月28日",
-            "6月29日",
-            "6月30日"
-          ],
-          [
-            "新增在册用户数",
-            2200,
-            2300,
-            2358,
-            2541,
-            2235,
-            2320,
-            2450,
-            2158,
-            2241,
-            2635,
-            2000,
-            2100,
-            2308,
-            2541,
-            2235,
-            2720,
-            2050,
-            2108,
-            2341,
-            2435,
-            2100,
-            2300,
-            2058,
-            2441,
-            2035,
-            2320,
-            2550,
-            2358,
-            2241,
-            2135
-          ],
-          [
-            "新增付费用户数",
-            213,
-            330,
-            430,
-            541,
-            235,
-            220,
-            350,
-            358,
-            241,
-            335,
-            210,
-            230,
-            205,
-            241,
-            235,
-            320,
-            550,
-            358,
-            241,
-            135,
-            220,
-            230,
-            235,
-            251,
-            235,
-            320,
-            450,
-            158,
-            241,
-            635
-          ]
+          // [
+          //   "product",
+          //   "6月1日",
+          //   "6月2日",
+          //   "6月3日",
+          //   "6月4日",
+          //   "6月5日",
+          //   "6月6日",
+          //   "6月7日",
+          //   "6月8日",
+          //   "6月9日",
+          //   "6月10日",
+          //   "6月11日",
+          //   "6月12日",
+          //   "6月13日",
+          //   "6月14日",
+          //   "6月15日",
+          //   "6月16日",
+          //   "6月17日",
+          //   "6月18日",
+          //   "6月19日",
+          //   "6月20日",
+          //   "6月21日",
+          //   "6月22日",
+          //   "6月23日",
+          //   "6月24日",
+          //   "6月25日",
+          //   "6月26日",
+          //   "6月27日",
+          //   "6月28日",
+          //   "6月29日",
+          //   "6月30日"
+          // ],
+          // [
+          //   "新增在册用户数",
+          //   2200,
+          //   2300,
+          //   2358,
+          //   2541,
+          //   2235,
+          //   2320,
+          //   2450,
+          //   2158,
+          //   2241,
+          //   2635,
+          //   2000,
+          //   2100,
+          //   2308,
+          //   2541,
+          //   2235,
+          //   2720,
+          //   2050,
+          //   2108,
+          //   2341,
+          //   2435,
+          //   2100,
+          //   2300,
+          //   2058,
+          //   2441,
+          //   2035,
+          //   2320,
+          //   2550,
+          //   2358,
+          //   2241,
+          //   2135
+          // ],
+          // [
+          //   "新增付费用户数",
+          //   213,
+          //   330,
+          //   430,
+          //   541,
+          //   235,
+          //   220,
+          //   350,
+          //   358,
+          //   241,
+          //   335,
+          //   210,
+          //   230,
+          //   205,
+          //   241,
+          //   235,
+          //   320,
+          //   550,
+          //   358,
+          //   241,
+          //   135,
+          //   220,
+          //   230,
+          //   235,
+          //   251,
+          //   235,
+          //   320,
+          //   450,
+          //   158,
+          //   241,
+          //   635
+          // ]
         ]
       },
 
@@ -436,105 +846,105 @@ export default {
         id: "powerAddNewUsers",
         color: ["#79B253", "#FFD75C"],
         data: [
-          [
-            "product",
-            "6月1日",
-            "6月2日",
-            "6月3日",
-            "6月4日",
-            "6月5日",
-            "6月6日",
-            "6月7日",
-            "6月8日",
-            "6月9日",
-            "6月10日",
-            "6月11日",
-            "6月12日",
-            "6月13日",
-            "6月14日",
-            "6月15日",
-            "6月16日",
-            "6月17日",
-            "6月18日",
-            "6月19日",
-            "6月20日",
-            "6月21日",
-            "6月22日",
-            "6月23日",
-            "6月24日",
-            "6月25日",
-            "6月26日",
-            "6月27日",
-            "6月28日",
-            "6月29日",
-            "6月30日"
-          ],
-          [
-            "开机行为用户数",
-            2200,
-            2300,
-            2358,
-            2541,
-            2235,
-            2320,
-            2450,
-            2158,
-            2241,
-            2635,
-            2000,
-            2100,
-            2308,
-            2541,
-            2235,
-            2720,
-            2050,
-            2108,
-            2341,
-            2435,
-            2100,
-            2300,
-            2058,
-            2441,
-            2035,
-            2320,
-            2550,
-            2358,
-            2241,
-            2135
-          ],
-          [
-            "新增在册用户数",
-            213,
-            330,
-            430,
-            541,
-            235,
-            220,
-            350,
-            358,
-            241,
-            335,
-            210,
-            230,
-            205,
-            241,
-            235,
-            320,
-            550,
-            358,
-            241,
-            135,
-            220,
-            230,
-            235,
-            251,
-            235,
-            320,
-            450,
-            158,
-            241,
-            635
-          ]
+          // [
+          //   "product",
+          //   "6月1日",
+          //   "6月2日",
+          //   "6月3日",
+          //   "6月4日",
+          //   "6月5日",
+          //   "6月6日",
+          //   "6月7日",
+          //   "6月8日",
+          //   "6月9日",
+          //   "6月10日",
+          //   "6月11日",
+          //   "6月12日",
+          //   "6月13日",
+          //   "6月14日",
+          //   "6月15日",
+          //   "6月16日",
+          //   "6月17日",
+          //   "6月18日",
+          //   "6月19日",
+          //   "6月20日",
+          //   "6月21日",
+          //   "6月22日",
+          //   "6月23日",
+          //   "6月24日",
+          //   "6月25日",
+          //   "6月26日",
+          //   "6月27日",
+          //   "6月28日",
+          //   "6月29日",
+          //   "6月30日"
+          // ],
+          // [
+          //   "开机行为用户数",
+          //   2200,
+          //   2300,
+          //   2358,
+          //   2541,
+          //   2235,
+          //   2320,
+          //   2450,
+          //   2158,
+          //   2241,
+          //   2635,
+          //   2000,
+          //   2100,
+          //   2308,
+          //   2541,
+          //   2235,
+          //   2720,
+          //   2050,
+          //   2108,
+          //   2341,
+          //   2435,
+          //   2100,
+          //   2300,
+          //   2058,
+          //   2441,
+          //   2035,
+          //   2320,
+          //   2550,
+          //   2358,
+          //   2241,
+          //   2135
+          // ],
+          // [
+          //   "新增在册用户数",
+          //   213,
+          //   330,
+          //   430,
+          //   541,
+          //   235,
+          //   220,
+          //   350,
+          //   358,
+          //   241,
+          //   335,
+          //   210,
+          //   230,
+          //   205,
+          //   241,
+          //   235,
+          //   320,
+          //   550,
+          //   358,
+          //   241,
+          //   135,
+          //   220,
+          //   230,
+          //   235,
+          //   251,
+          //   235,
+          //   320,
+          //   450,
+          //   158,
+          //   241,
+          //   635
+          // ]
         ]
       },
       //新增在册用户，开机行为用户数及新增付费用户数据（日趋势）
@@ -543,120 +953,120 @@ export default {
         id: "powerAddNewPayingUsers",
         color: ["#79B253", "#FFD75C"],
         data: [
-          [
-            "product",
-            "6月1日",
-            "6月2日",
-            "6月3日",
-            "6月4日",
-            "6月5日",
-            "6月6日",
-            "6月7日",
-            "6月8日",
-            "6月9日",
-            "6月10日",
-            "6月11日",
-            "6月12日",
-            "6月13日",
-            "6月14日",
-            "6月15日",
-            "6月16日",
-            "6月17日",
-            "6月18日",
-            "6月19日",
-            "6月20日",
-            "6月21日",
-            "6月22日",
-            "6月23日",
-            "6月24日",
-            "6月25日",
-            "6月26日",
-            "6月27日",
-            "6月28日",
-            "6月29日",
-            "6月30日"
-          ],
-          [
-            "开机行为用户数",
-            2200,
-            2300,
-            2358,
-            2541,
-            2235,
-            2320,
-            2450,
-            2158,
-            2241,
-            2635,
-            2000,
-            2100,
-            2308,
-            2541,
-            2235,
-            2720,
-            2050,
-            2108,
-            2341,
-            2435,
-            2100,
-            2300,
-            2058,
-            2441,
-            2035,
-            2320,
-            2550,
-            2358,
-            2241,
-            2135
-          ],
-          [
-            "新增在册用户数",
-            213,
-            330,
-            430,
-            541,
-            235,
-            220,
-            350,
-            358,
-            241,
-            335,
-            210,
-            230,
-            205,
-            241,
-            235,
-            320,
-            550,
-            358,
-            241,
-            135,
-            220,
-            230,
-            235,
-            251,
-            235,
-            320,
-            450,
-            158,
-            241,
-            635
-          ]
+          // [
+          //   "product",
+          //   "6月1日",
+          //   "6月2日",
+          //   "6月3日",
+          //   "6月4日",
+          //   "6月5日",
+          //   "6月6日",
+          //   "6月7日",
+          //   "6月8日",
+          //   "6月9日",
+          //   "6月10日",
+          //   "6月11日",
+          //   "6月12日",
+          //   "6月13日",
+          //   "6月14日",
+          //   "6月15日",
+          //   "6月16日",
+          //   "6月17日",
+          //   "6月18日",
+          //   "6月19日",
+          //   "6月20日",
+          //   "6月21日",
+          //   "6月22日",
+          //   "6月23日",
+          //   "6月24日",
+          //   "6月25日",
+          //   "6月26日",
+          //   "6月27日",
+          //   "6月28日",
+          //   "6月29日",
+          //   "6月30日"
+          // ],
+          // [
+          //   "开机行为用户数",
+          //   2200,
+          //   2300,
+          //   2358,
+          //   2541,
+          //   2235,
+          //   2320,
+          //   2450,
+          //   2158,
+          //   2241,
+          //   2635,
+          //   2000,
+          //   2100,
+          //   2308,
+          //   2541,
+          //   2235,
+          //   2720,
+          //   2050,
+          //   2108,
+          //   2341,
+          //   2435,
+          //   2100,
+          //   2300,
+          //   2058,
+          //   2441,
+          //   2035,
+          //   2320,
+          //   2550,
+          //   2358,
+          //   2241,
+          //   2135
+          // ],
+          // [
+          //   "新增在册用户数",
+          //   213,
+          //   330,
+          //   430,
+          //   541,
+          //   235,
+          //   220,
+          //   350,
+          //   358,
+          //   241,
+          //   335,
+          //   210,
+          //   230,
+          //   205,
+          //   241,
+          //   235,
+          //   320,
+          //   550,
+          //   358,
+          //   241,
+          //   135,
+          //   220,
+          //   230,
+          //   235,
+          //   251,
+          //   235,
+          //   320,
+          //   450,
+          //   158,
+          //   241,
+          //   635
+          // ]
         ]
       },
 
       //6月订购数据
       monthOrderData: {
-        title: "6月订购数据",
+        title: "本月订购数据",
         id: "monthOrder",
         color: ["#ED7D31", "#FFC000"],
         data: [
-          ["product", "订购用户数（户）", "收入（元）"],
-          ["2月", 8300, 13330],
-          ["3月", 6457, 13563],
-          ["4月", 6330, 14337],
-          ["5月", 8832, 17330],
-          ["6月", 8935, 17563]
+          // ["product", "订购用户数（户）", "收入（元）"],
+          // ["2月", 8300, 13330],
+          // ["3月", 6457, 13563],
+          // ["4月", 6330, 14337],
+          // ["5月", 8832, 17330],
+          // ["6月", 8935, 17563]
         ]
       },
       //VIP包订购用户数
@@ -665,31 +1075,31 @@ export default {
         id: "monthVIPOrder",
         color: ["#70AD47", "#4472C4", "#FFC000"],
         data: [
-          ["product", "影视包（户）", "少儿包（户）", "欢乐家庭包（户）"],
-          ["2月", 8300, 1330, 854],
-          ["3月", 6457, 1563, 315],
-          ["4月", 6330, 1437, 234],
-          ["5月", 8832, 1330, 256],
-          ["6月", 8935, 1563, 205]
+          // ["product", "影视包（户）", "少儿包（户）", "欢乐家庭包（户）"],
+          // ["2月", 8300, 1330, 854],
+          // ["3月", 6457, 1563, 315],
+          // ["4月", 6330, 1437, 234],
+          // ["5月", 8832, 1330, 256],
+          // ["6月", 8935, 1563, 205]
         ]
       },
       //VIP包收入情况
       monthVIPOrderIncomeData: {
-        title: "VIP包订购用户数",
+        title: "VIP包收入",
         id: "monthVIPOrderIncome",
         color: ["#D39E00", "#FFC000", "#FFD9A0"],
         data: [
-          ["product", "影视包（万元）", "少儿包（万元）", "欢乐家庭包（万元）"],
-          ["2月", 9.6, 1.8, 2.5],
-          ["3月", 10.2, 2.2, 1.3],
-          ["4月", 10.3, 3.0, 1.2],
-          ["5月", 13.3, 3.1, 1.5],
-          ["6月", 13.2, 3.1, 1.0]
+          // ["product", "影视包（万元）", "少儿包（万元）", "欢乐家庭包（万元）"],
+          // ["2月", 9.6, 1.8, 2.5],
+          // ["3月", 10.2, 2.2, 1.3],
+          // ["4月", 10.3, 3.0, 1.2],
+          // ["5月", 13.3, 3.1, 1.5],
+          // ["6月", 13.2, 3.1, 1.0]
         ]
       },
-      //5月引导用户付费内容排名（户）
+      //上月引导用户付费内容排名（户）
       guideUserPayingContentData1: {
-        title: "5月引导用户付费内容排名（户）",
+        title: "上月引导用户付费内容排名（户）",
         id: "guideUserPayingContent1",
         color: ["#ED7D31"],
         data: [
@@ -716,9 +1126,9 @@ export default {
           ["（少儿）假面骑士时王", 560]
         ]
       },
-      //6月引导用户付费内容排名（户）
+      //本月引导用户付费内容排名（户）
       guideUserPayingContentData2: {
-        title: "6月引导用户付费内容排名（户）",
+        title: "本月引导用户付费内容排名（户）",
         id: "guideUserPayingContent2",
         color: ["#5B9BD4"],
         data: [
@@ -910,90 +1320,90 @@ export default {
           "#FFE6C5"
         ],
         content: [
-          {
-            title: "6月订购用户情况（户）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "5月订购用户情况（户）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "4月订购用户情况（户）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "3月订购用户情况（户）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "2月订购用户情况（户）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "1月订购用户情况（户）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          }
+          // {
+          //   title: "6月订购用户情况（户）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "5月订购用户情况（户）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "4月订购用户情况（户）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "3月订购用户情况（户）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "2月订购用户情况（户）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "1月订购用户情况（户）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // }
         ]
       },
       //收入分布对比情况
@@ -1012,90 +1422,90 @@ export default {
           "#D0E0CA"
         ],
         content: [
-          {
-            title: "6月收入分布对比（元）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "5月收入分布对比（元）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "4月收入分布对比（元）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "3月收入分布对比（元）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "2月收入分布对比（元）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          },
-          {
-            title: "1月收入分布对比（元）",
-            data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
-            ]
-          }
+          // {
+          //   title: "6月收入分布对比（元）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "5月收入分布对比（元）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "4月收入分布对比（元）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "3月收入分布对比（元）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "2月收入分布对比（元）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // },
+          // {
+          //   title: "1月收入分布对比（元）",
+          //   data: [
+          //     { value: 535, name: "影视包" },
+          //     { value: 410, name: "影视包（包季）" },
+          //     { value: 348, name: "影视包（包年）" },
+          //     { value: 348, name: "少儿包" },
+          //     { value: 410, name: "少儿包（包季）" },
+          //     { value: 348, name: "少儿包（包年）" },
+          //     { value: 348, name: "欢乐家庭包" },
+          //     { value: 410, name: "欢乐家庭包（包季）" },
+          //     { value: 348, name: "欢乐家庭包（包年）" }
+          //   ]
+          // }
         ]
       },
 

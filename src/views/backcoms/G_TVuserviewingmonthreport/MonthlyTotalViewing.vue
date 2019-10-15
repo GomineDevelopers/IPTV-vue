@@ -22,10 +22,15 @@ export default {
     }, 1000);
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_month"]),
     lineData_Change: {
       get: function() {
         let vm = this;
+        if (vm.lineData.id == "newAddUserPercent") {
+          if (vm.PR_month) {
+            // do nothing. -- 监听
+          }
+        }
         // 视图更新
         setTimeout(function() {
           vm.setLineChart();
@@ -148,6 +153,7 @@ export default {
           }
         ]
       };
+      lineChart.clear();
       lineChart.setOption(option);
       window.addEventListener("resize", () => {
         lineChart.resize();

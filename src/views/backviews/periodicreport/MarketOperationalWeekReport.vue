@@ -99,8 +99,30 @@ export default {
       m8_data: []
     };
   },
+  mounted() {
+    this.api_data_set();
+  },
   watch: {
     PR_operator(newValue, oldValue) {
+      this.api_data_set();
+    },
+    PR_week(newValue, oldValue) {
+      this.api_data_set();
+    }
+  },
+  // ▲▲▲▲ 8个模块的数据传入类型
+  // (该日报只涉及单独运营商数据，不涉及混合运营商数据)
+  // (涉及 week 和 week_days 时间类型)
+  // 1 - single x 3
+  // 2 - single x 3
+  // 3 - single yd
+  // 4 - single lt
+  // 5 - single dx
+  // 6 - single x 3
+  // 7 - single x 3
+  // 8 - single dx
+  methods: {
+    api_data_set() {
       let vm = this;
       setTimeout(function() {
         vm.refresh_api_data("yd", "week");
@@ -118,37 +140,6 @@ export default {
         }, 100);
       }, 100);
     },
-    PR_week(newValue, oldValue) {
-      let vm = this;
-      console.log("PR_week: " + newValue);
-      setTimeout(function() {
-        vm.refresh_api_data("yd", "week");
-        vm.refresh_api_data("lt", "week");
-        vm.refresh_api_data("dx", "week");
-        vm.refresh_api_data("yd", "week_days");
-        vm.refresh_api_data("lt", "week_days");
-        vm.refresh_api_data("dx", "week_days");
-        vm.refresh_api_data("yd", "week_days_last");
-        vm.refresh_api_data("lt", "week_days_last");
-        vm.refresh_api_data("dx", "week_days_last");
-        setTimeout(function() {
-          vm.modulesDataManage();
-        }, 100);
-      }, 100);
-    }
-  },
-  // ▲▲▲▲ 8个模块的数据传入类型
-  // (该日报只涉及单独运营商数据，不涉及混合运营商数据)
-  // (涉及 week 和 week_days 时间类型)
-  // 1 - single x 3
-  // 2 - single x 3
-  // 3 - single yd
-  // 4 - single lt
-  // 5 - single dx
-  // 6 - single x 3
-  // 7 - single x 3
-  // 8 - single dx
-  methods: {
     modulesDataManage() {
       let vm = this;
       // 根据6种数据类型 - 设置好 m1_m8的各数据，再分别传入
@@ -2020,7 +2011,6 @@ export default {
       // console.log(m8);
       vm.m8_data = []; // 初始化
       vm.m8_data.push(m8);
-
     },
     refresh_api_data(operator_type, week_type) {
       this.users_marketReport(operator_type, week_type);
@@ -2175,9 +2165,7 @@ export default {
       },
       set: function(newValue) {}
     }
-  },
-
-  mounted() {}
+  }
 };
 </script>
 <style scoped>
