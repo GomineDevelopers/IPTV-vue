@@ -484,6 +484,21 @@ export default {
     PR_month(newValue, oldValue) {
       let vm = this;
       console.log("PR_month: " + newValue);
+
+      //数据初始化
+      vm.weekNewUserData.data = [
+        ["运营商",], ["移动",], ["联通",], ["电信",]
+      ];
+      vm.registeredUsersData.data = [
+        ["运营商",], ["移动",], ["联通",], ["电信",]
+      ];
+      vm.monthNewRegUserData.data = [
+        ["运营商",], ["移动",], ["联通",], ["电信",]
+      ];
+      vm.monthCancellationUserData.data = [
+        ["运营商",], ["移动",], ["联通",], ["电信",]
+      ];
+
       setTimeout(function () {
         // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
         vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
@@ -491,6 +506,7 @@ export default {
 
         vm.api_data_set("single", "month_range"); // single - 单运营商数据类型（多月）
         vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
+        vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
       }, 100);
     }
   },
@@ -570,6 +586,7 @@ export default {
 
     this.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
     this.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
+    vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
   },
   methods: {
     returnFloat(value) {
@@ -738,7 +755,7 @@ export default {
             //G+TV用户发展情况     //
             let registe_and_new_num = mixture_month_range_data[0].aggregations.statistical_granularity.buckets
             let registe_and_new_num_temp = [
-              ["product",],
+              ["用户",],
               ["在册用户数(万户）",],
               ["新增在册用户数（万户）",]
             ]
@@ -746,8 +763,8 @@ export default {
               // console.log("G+TV用户发展情况", value)
               let data_month = commonTools.format_monthToChinese(value.key)
               registe_and_new_num_temp[0].push(data_month)
-              registe_and_new_num_temp[1].push((value.register_num.value / 10000).toFixed(1))
-              registe_and_new_num_temp[2].push((value.new_num.value / 10000).toFixed(1))
+              registe_and_new_num_temp[1].push(Number((value.register_num.value / 10000).toFixed(1)))
+              registe_and_new_num_temp[2].push(Number((value.new_num.value / 10000).toFixed(1)))
             })
             // console.log("registe_and_new_num_temp", registe_and_new_num_temp)
             vm.G_TVUserData.data = registe_and_new_num_temp
@@ -755,7 +772,7 @@ export default {
             //各州市本月新增在册用户数
             let new_num_user_comparison = mixture_month_range_data[0].aggregations.ac.buckets
             let new_num_user_temp = [
-              ["product",],
+              ["地区",],
               [], [], [], [], [], [], [], [], []
             ]
             new_num_user_comparison.forEach((value, index) => {
@@ -770,7 +787,7 @@ export default {
                     let data_month = commonTools.format_monthToChinese(value2.key)
                     new_num_user_temp[0].push(data_month)
                   }
-                  new_num_user_temp[9 - index].push((value2.open_num.value / 10000).toFixed(1))
+                  new_num_user_temp[9 - index].push(Number((value2.open_num.value / 10000).toFixed(1)))
                   // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.open_num.value / 10000).toFixed(1)))
                 })
               }
@@ -799,28 +816,19 @@ export default {
               //G+TV各运营商侧用户发展数据概览   
               let user_develop_data = totle_data[0].aggregations.statistical_granularity.buckets   //register_num
               //数据初始化 (注意：必须初始化)
-              vm.registeredUsersData.data = [
-                ["product",], ["移动",], ["联通",], ["电信",]
-              ];
-              vm.monthNewRegUserData.data = [
-                ["product",], ["移动",], ["联通",], ["电信",]
-              ];
-              vm.monthCancellationUserData.data = [
-                ["product",], ["移动",], ["联通",], ["电信",]
-              ];
               user_develop_data.forEach((value, index) => {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
                 let data_month = commonTools.format_monthToChinese(value.key)
                 Vue.set(vm.registeredUsersData.data[0], index + 1, data_month)
-                Vue.set(vm.registeredUsersData.data[1], index + 1, (value.register_num.value / 1000000).toFixed(1))
+                Vue.set(vm.registeredUsersData.data[1], index + 1, Number((value.register_num.value / 1000000).toFixed(1)))
 
                 //月新增在册用户对比  monthNewRegUserData
                 Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month)
-                Vue.set(vm.monthNewRegUserData.data[1], index + 1, (value.new_num.value / 10000).toFixed(1))
+                Vue.set(vm.monthNewRegUserData.data[1], index + 1, Number((value.new_num.value / 10000).toFixed(1)))
 
                 //月销户用户对比  monthCancellationUserData
                 Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month)
-                Vue.set(vm.monthCancellationUserData.data[1], index + 1, (value.unsub_user_num.value / 10000).toFixed(1))
+                Vue.set(vm.monthCancellationUserData.data[1], index + 1, Number((value.unsub_user_num.value / 10000).toFixed(1)))
               })
               // console.log("vm.monthCancellationUserData.data移动", vm.monthCancellationUserData.data)
 
@@ -846,7 +854,7 @@ export default {
                   let length = value.statistical_granularity.buckets.length
                   let new_num_arry = value.statistical_granularity.buckets
                   // console.log(new_num_arry[length - 1].key, new_num_arry[length - 1].new_num.value)
-                  Vue.set(vm.G_TVRegionUserData.data[1], index + 1, (Number(new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
+                  Vue.set(vm.G_TVRegionUserData.data[1], index + 1, Number((new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                 }
               })
 
@@ -862,15 +870,15 @@ export default {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
                 let data_month = commonTools.format_monthToChinese(value.key)
                 Vue.set(vm.registeredUsersData.data[0], index + 1, data_month)
-                Vue.set(vm.registeredUsersData.data[2], index + 1, (value.register_num.value / 1000000).toFixed(1))
+                Vue.set(vm.registeredUsersData.data[2], index + 1, Number((value.register_num.value / 1000000).toFixed(1)))
 
                 //月新增在册用户对比  monthNewRegUserData
                 Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month)
-                Vue.set(vm.monthNewRegUserData.data[2], index + 1, (value.new_num.value / 10000).toFixed(1))
+                Vue.set(vm.monthNewRegUserData.data[2], index + 1, Number((value.new_num.value / 10000).toFixed(1)))
 
                 //月销户用户对比  monthCancellationUserData
                 Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month)
-                Vue.set(vm.monthCancellationUserData.data[2], index + 1, (value.unsub_user_num.value / 10000).toFixed(1))
+                Vue.set(vm.monthCancellationUserData.data[2], index + 1, Number((value.unsub_user_num.value / 10000).toFixed(1)))
               })
               // console.log("vm.monthCancellationUserData.data联通", vm.monthCancellationUserData.data)
 
@@ -882,7 +890,7 @@ export default {
                   Vue.set(vm.G_TVRegionUserData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                   let length = value.statistical_granularity.buckets.length
                   let new_num_arry = value.statistical_granularity.buckets
-                  Vue.set(vm.G_TVRegionUserData.data[2], index + 1, (Number(new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
+                  Vue.set(vm.G_TVRegionUserData.data[2], index + 1, Number((new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                 }
               })
 
@@ -896,11 +904,11 @@ export default {
               let user_develop_data = totle_data[0].aggregations.statistical_granularity.buckets   //register_num
               user_develop_data.forEach((value, index) => {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
-                Vue.set(vm.registeredUsersData.data[3], index + 1, (value.register_num.value / 1000000).toFixed(1))
+                Vue.set(vm.registeredUsersData.data[3], index + 1, Number((value.register_num.value / 1000000).toFixed(1)))
                 //月新增在册用户对比  monthNewRegUserData
-                Vue.set(vm.monthNewRegUserData.data[3], index + 1, (value.new_num.value / 10000).toFixed(1))
+                Vue.set(vm.monthNewRegUserData.data[3], index + 1, Number((value.new_num.value / 10000).toFixed(1)))
                 //月销户用户对比  monthCancellationUserData
-                Vue.set(vm.monthCancellationUserData.data[3], index + 1, (value.unsub_user_num.value / 10000).toFixed(1))
+                Vue.set(vm.monthCancellationUserData.data[3], index + 1, Number((value.unsub_user_num.value / 10000).toFixed(1)))
               })
               // console.log("vm.monthCancellationUserData.data电信", vm.monthCancellationUserData.data)
 
@@ -913,7 +921,7 @@ export default {
                   Vue.set(vm.G_TVRegionUserData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                   let length = value.statistical_granularity.buckets.length
                   let new_num_arry = value.statistical_granularity.buckets
-                  Vue.set(vm.G_TVRegionUserData.data[3], index + 1, (Number(new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
+                  Vue.set(vm.G_TVRegionUserData.data[3], index + 1, Number((new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                 }
               })
               // console.log("vm.G_TVRegionUserData.data", vm.G_TVRegionUserData.data)
@@ -931,31 +939,134 @@ export default {
 
               //G+TV本月各周用户发展数据
               let week_user_develop = single_week_data[0].aggregations.statistical_granularity.buckets
-              //   weekNewUserData: {
-                // title: "本月每周新增在册用户数（万户）",
-                // id: "weekNewUser",
-                // color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
-                // data: [
-                //   ["product", "", "", "", ""],
-                //   ["移动", ],
-                //   ["联通",],
-                //   ["电信",]
-          // ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
-          // ["移动", 1.6, 2.2, 2.7, 3.0],
-          // ["联通", 0.4, 0.4, 0.3, 0.3],
-          // ["电信", 2.1, 2.8, 2.8, 3.2]
               week_user_develop.forEach((value, index) => {
-                console.log(value.key, value.new_num.value)
+                // console.log(value.key, value.new_num.value)
+                let week_data = commonTools.format_weekToChinese(value.key)
+                Vue.set(vm.weekNewUserData.data[0], index + 1, week_data)
+                Vue.set(vm.weekNewUserData.data[1], index + 1, Number((value.new_num.value / 10000).toFixed(1)))
               })
+
+              //G+TV各周分地区用户发展数据概览
+              let week_area_data = single_week_data[0].aggregations.ac.buckets
+              let week_area_temp = [
+                ["时间",],
+                [], [], [], [], [], [], [], [], []
+              ]
+              week_area_data.forEach((value, index) => {
+                if (value.key != 'other') {
+                  // console.log(commonTools.acConvert_Single(value.key))
+                  week_area_temp[9 - index].push(commonTools.acConvert_Single(value.key))
+                  value.statistical_granularity.buckets.forEach((value2, index2) => {
+                    // console.log(value2.key, value2.new_num.value)
+                    //设置月份（只执行一次）
+                    if (index == 0) {
+                      let data_week = commonTools.format_weekToChinese(value2.key)
+                      week_area_temp[0].push(data_week)
+                    }
+                    week_area_temp[9 - index].push(Number((value2.new_num.value / 10000).toFixed(1)))
+                    // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.open_num.value / 10000).toFixed(1)))
+                  })
+                }
+              })
+              vm.mobileNewUserData.data = week_area_temp
+              // console.log("vm.mobileNewUserData.data", vm.mobileNewUserData.data)
 
             } else if (type == 'lt') {
               console.log("单运营商一月分周", tempOperatorArr)
               console.log(response.data.responses)
+              let vm = this
+              let single_week_data = response.data.responses  //总数据
+
+              //G+TV本月各周用户发展数据
+              let week_user_develop = single_week_data[0].aggregations.statistical_granularity.buckets
+              week_user_develop.forEach((value, index) => {
+                // console.log(value.key, value.new_num.value)
+                let week_data = commonTools.format_weekToChinese(value.key)
+                Vue.set(vm.weekNewUserData.data[0], index + 1, week_data)
+                Vue.set(vm.weekNewUserData.data[2], index + 1, Number((value.new_num.value / 10000).toFixed(1)))
+              })
+
+
+              //G+TV各周分地区用户发展数据概览
+              let week_area_data = single_week_data[0].aggregations.ac.buckets
+              let week_area_temp = [
+                ["时间",],
+                [], [], [], [], [], [], [], [], []
+              ]
+              week_area_data.forEach((value, index) => {
+                if (value.key != 'other') {
+                  // console.log(commonTools.acConvert_Single(value.key))
+                  week_area_temp[9 - index].push(commonTools.acConvert_Single(value.key))
+                  value.statistical_granularity.buckets.forEach((value2, index2) => {
+                    // console.log(value2.key, value2.new_num.value)
+                    //设置月份（只执行一次）
+                    if (index == 0) {
+                      let data_week = commonTools.format_weekToChinese(value2.key)
+                      week_area_temp[0].push(data_week)
+                    }
+                    week_area_temp[9 - index].push(Number((value2.new_num.value / 10000).toFixed(1)))
+                    // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.open_num.value / 10000).toFixed(1)))
+                  })
+                }
+              })
+              vm.unicornNewUserData.data = week_area_temp
 
             } else if (type == 'dx') {
               console.log("单运营商一月分周", tempOperatorArr)
               console.log(response.data.responses)
+              let vm = this
+              let single_week_data = response.data.responses  //总数据
 
+              //G+TV本月各周用户发展数据
+              let week_user_develop = single_week_data[0].aggregations.statistical_granularity.buckets
+              week_user_develop.forEach((value, index) => {
+                // console.log(value.key, value.new_num.value)
+                let week_data = commonTools.format_weekToChinese(value.key)
+                Vue.set(vm.weekNewUserData.data[0], index + 1, week_data)
+                Vue.set(vm.weekNewUserData.data[3], index + 1, Number((value.new_num.value / 10000).toFixed(1)))
+              })
+              // console.log("vm.weekNewUserData.data", vm.weekNewUserData.data)
+
+
+              //G+TV各周分地区用户发展数据概览
+              let week_area_data = single_week_data[0].aggregations.ac.buckets
+              let week_area_temp = [
+                ["时间",],
+                [], [], [], [], [], [], [], [], []
+              ]
+              week_area_data.forEach((value, index) => {
+                if (value.key != 'other') {
+                  // console.log(commonTools.acConvert_Single(value.key))
+                  week_area_temp[9 - index].push(commonTools.acConvert_Single(value.key))
+                  value.statistical_granularity.buckets.forEach((value2, index2) => {
+                    // console.log(value2.key, value2.new_num.value)
+                    //设置月份（只执行一次）
+                    if (index == 0) {
+                      let data_week = commonTools.format_weekToChinese(value2.key)
+                      week_area_temp[0].push(data_week)
+                    }
+                    week_area_temp[9 - index].push(Number((value2.new_num.value / 10000).toFixed(1)))
+                    // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.open_num.value / 10000).toFixed(1)))
+                  })
+                }
+              })
+              vm.telecomNewUserData.data = week_area_temp
+            }
+          }
+
+          ////运营商 - 一月分天
+          if (datatype == "single" && timetype == "day") {
+            if (type == 'yd') {
+              console.log("单运营商一月分天", tempOperatorArr)
+              console.log(response.data.responses)
+            }
+            if (type == 'lt') {
+              console.log("单运营商一月分天", tempOperatorArr)
+              console.log(response.data.responses)
+            }
+            if (type == 'dx') {
+              console.log("单运营商一月分天", tempOperatorArr)
+              console.log(response.data.responses)
             }
           }
 
@@ -1797,7 +1908,7 @@ export default {
         id: "registeredUsers_UVMR",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
-          ["product",],
+          ["运营商",],
           ["移动",],
           ["联通",],
           ["电信",]
@@ -1814,6 +1925,10 @@ export default {
         id: "monthNewRegUser_UVMR",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
+          ["运营商",],
+          ["移动",],
+          ["联通",],
+          ["电信",]
           // ["product", "4月", "5月", "6月", "7月"],
           // ["移动", 82.2, 83.4, 94.7, 103.6],
           // ["联通", 35.8, 35.9, 36.9, 38.0],
@@ -1827,6 +1942,10 @@ export default {
         id: "monthCancellationUser_UVMR",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
+          ["运营商",],
+          ["移动",],
+          ["联通",],
+          ["电信",]
           // ["product", "4月", "5月", "6月", "7月"],
           // ["移动", 82.2, 83.4, 94.7, 103.6],
           // ["联通", 35.8, 35.9, 36.9, 38.0],
@@ -1840,7 +1959,7 @@ export default {
         id: "G_TVRegionUser",
         color: ["#EC7C30", "#FFC000", "#6FAC46"],
         data: [
-          ["product",],
+          ["运营商",],
           ["移动",],
           ["联通",],
           ["电信",]
@@ -1853,11 +1972,11 @@ export default {
 
       // 7月每周新增在册用户数
       weekNewUserData: {
-        title: "本月每周新增在册用户数（万户）",
+        title: "每周新增在册用户数（万户）",
         id: "weekNewUser",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
-          ["product", "", "", "", ""],
+          ["运营商", "", "", "", ""],
           ["移动",],
           ["联通",],
           ["电信",]
@@ -1868,44 +1987,62 @@ export default {
         ]
       },
 
-      // 移动侧7月各市州新增在册用户数（千户）
+      // 移动侧本月各市州新增在册用户数（千户）
       mobileNewUserData: {
-        title: "移动侧本月各市州新增在册用户数（千户）",
+        // title: "移动侧各市州新增在册用户数（千户）",
+        title: "移动侧各市州新增在册用户数（千户）",
         id: "mobileNewUser",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4", "#FFC000"],
         data: [
-          ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
-          ["安顺", 1.6, 2.0, 2.5, 2.0],
-          ["黔西南", 1.9, 1.8, 2.3, 2.1],
-          ["铜仁", 1.3, 2.2, 2.3, 2.1],
-          ["黔南", 1.5, 2.0, 3.2, 3.6],
-          ["毕节", 1.7, 2.2, 2.8, 3.6],
-          ["黔东南", 1.5, 2.0, 3.4, 3.6],
-          ["贵阳", 2.7, 3.6, 4.2, 5.1],
-          ["遵义", 2.5, 3.9, 4.7, 5.3],
-          ["六盘水", 7.5, 7.5, 7.5, 2.8]
+          // ["时间", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
+          // ["安顺", 1.6, 2.0, 2.5, 2.0],
+          // ["黔西南", 1.9, 1.8, 2.3, 2.1],
+          // ["铜仁", 1.3, 2.2, 2.3, 2.1],
+          // ["黔南", 1.5, 2.0, 3.2, 3.6],
+          // ["毕节", 1.7, 2.2, 2.8, 3.6],
+          // ["黔东南", 1.5, 2.0, 3.4, 3.6],
+          // ["贵阳", 2.7, 3.6, 4.2, 5.1],
+          // ["遵义", 2.5, 3.9, 4.7, 5.3],
+          // ["六盘水", 7.5, 7.5, 7.5, 2.8]
         ]
       },
 
-      // 联通侧7月各市州新增在册用户数（千户）
+      // 联通侧本月各市州新增在册用户数（千户）
       unicornNewUserData: {
-        title: "联通侧本月各市州新增在册用户数（千户）",
+        title: "联通侧各市州新增在册用户数（千户）",
         id: "unicornNewUser",
         color: ["#EC7C30", "#FFC000", "#6FAC46", "#9E470E"],
         data: [
-          ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
-          ["安顺", 1.6, 2.0, 2.5, 2.0],
-          ["黔西南", 1.9, 1.8, 2.3, 2.1],
-          ["铜仁", 1.3, 2.2, 2.3, 2.1],
-          ["黔南", 1.5, 2.0, 3.2, 3.6],
-          ["毕节", 1.7, 2.2, 2.8, 3.6],
-          ["黔东南", 1.5, 2.0, 3.4, 3.6],
-          ["贵阳", 2.7, 3.6, 4.2, 5.1],
-          ["遵义", 2.5, 3.9, 4.7, 5.3],
-          ["六盘水", 7.5, 7.5, 7.5, 2.8]
+          // ["时间", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
+          // ["安顺", 1.6, 2.0, 2.5, 2.0],
+          // ["黔西南", 1.9, 1.8, 2.3, 2.1],
+          // ["铜仁", 1.3, 2.2, 2.3, 2.1],
+          // ["黔南", 1.5, 2.0, 3.2, 3.6],
+          // ["毕节", 1.7, 2.2, 2.8, 3.6],
+          // ["黔东南", 1.5, 2.0, 3.4, 3.6],
+          // ["贵阳", 2.7, 3.6, 4.2, 5.1],
+          // ["遵义", 2.5, 3.9, 4.7, 5.3],
+          // ["六盘水", 7.5, 7.5, 7.5, 2.8]
         ]
       },
-
+      // 电信侧本月各市州新增在册用户数（千户）
+      telecomNewUserData: {
+        title: "电信侧各市州新增在册用户数（千户）",
+        id: "telecomNewUser",
+        color: ["#6FAC46", "#4471C4", "#FFC000", "#43682B"],
+        data: [
+          // ["时间", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
+          // ["安顺", 1.6, 2.0, 2.5, 2.0],
+          // ["黔西南", 1.9, 1.8, 2.3, 2.1],
+          // ["铜仁", 1.3, 2.2, 2.3, 2.1],
+          // ["黔南", 1.5, 2.0, 3.2, 3.6],
+          // ["毕节", 1.7, 2.2, 2.8, 3.6],
+          // ["黔东南", 1.5, 2.0, 3.4, 3.6],
+          // ["贵阳", 2.7, 3.6, 4.2, 5.1],
+          // ["遵义", 2.5, 3.9, 4.7, 5.3],
+          // ["六盘水", 7.5, 7.5, 7.5, 2.8]
+        ]
+      },
       // 联通表格数据  (暂时未用到)
       unicornTableData: [
         {
@@ -1969,25 +2106,6 @@ export default {
           data9: 7.5
         }
       ],
-
-      // 电信侧7月各市州新增在册用户数（千户）
-      telecomNewUserData: {
-        title: "电信侧7月各市州新增在册用户数（千户）",
-        id: "telecomNewUser",
-        color: ["#6FAC46", "#4471C4", "#FFC000", "#43682B"],
-        data: [
-          ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
-          ["安顺", 1.6, 2.0, 2.5, 2.0],
-          ["黔西南", 1.9, 1.8, 2.3, 2.1],
-          ["铜仁", 1.3, 2.2, 2.3, 2.1],
-          ["黔南", 1.5, 2.0, 3.2, 3.6],
-          ["毕节", 1.7, 2.2, 2.8, 3.6],
-          ["黔东南", 1.5, 2.0, 3.4, 3.6],
-          ["贵阳", 2.7, 3.6, 4.2, 5.1],
-          ["遵义", 2.5, 3.9, 4.7, 5.3],
-          ["六盘水", 7.5, 7.5, 7.5, 2.8]
-        ]
-      },
 
       // G+TV7月每日用户发展数据
       everyDayUserData: {

@@ -12,8 +12,14 @@ import CryptoJS from 'crypto-js' //加密js
 
 // 数据格式转换 xmonth -> x月
 
-commonTools.format_monthToChinese = function(str){
+commonTools.format_monthToChinese = function (str) {
     return str.replace("month", "月");
+}
+
+// 数据格式转换 x week -> x周
+
+commonTools.format_weekToChinese = function (str) {
+    return str.replace("week", "周");
 }
 
 // 返回当前周前n周的week
