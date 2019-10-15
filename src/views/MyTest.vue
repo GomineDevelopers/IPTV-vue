@@ -112,7 +112,7 @@
     <button @click="users_activationRate">users_activationRate</button>
     <button @click="users_retention">users_retention</button>
     <!-- // //////////////////////// 用户 -->
-    
+
     <br />
 
     <button @click="login">login</button>
@@ -1420,8 +1420,295 @@ export default {
         export_json_to_excel(tHeader, data, "商品管理列表");
       });
     },
+    export2Excel_test2() {
+      console.log("~~export2Excel");
+      require.ensure([], () => {
+        const {
+          export_json_to_excel_test2
+        } = require("../vendor/Export2Excel");
+        const tHeader = [
+          "商品名称",
+          "商品货号",
+          "售价",
+          "库存",
+          "销量",
+          "分享"
+        ];
+        const filterVal = [
+          "name",
+          "number",
+          "salePrice",
+          "stocknums",
+          "salesnums",
+          "sharenums"
+        ];
+        export_json_to_excel_test2(tHeader, filterVal, "商品管理列表Test");
+      });
+    },
+    export2Excel_test3() {
+      console.log("~~export2Excel");
+      require.ensure([], () => {
+        const {
+          export_json_to_excel_test2
+        } = require("../vendor/Export2Excel");
+        const tHeader = [
+          "商品名称",
+          "商品货号",
+          "售价",
+          "库存",
+          "销量",
+          "分享"
+        ];
+        const filterVal = [
+          "name",
+          "number",
+          "salePrice",
+          "stocknums",
+          "salesnums",
+          "sharenums"
+        ];
+        // const list = this.goodsItems;
+        const list = this.list;
+        console.log(list);
+        console.log(filterVal);
+        const data = this.formatJson(filterVal, list);
+        console.log(tHeader);
+        console.log(data);
+        // export_json_to_excel_test2(tHeader, data, "商品管理列表TT2");
+
+        // let registeredUsers = {
+        //   title: "各运营商在册用户数（户）",
+        //   id: "registeredUsers_UADR",
+        //   color: ["#4474c4", "#ed7d31", "#a5a5a5"],
+        //   data: [["运营商", "移动", "联通", "电信"], ["占比", 1, 2, 3]]
+        // };
+        let registeredUsers_error = {
+          title: "各运营商在册用户数（户）",
+          id: "registeredUsers_UADR",
+          color: ["#4474c4", "#ed7d31", "#a5a5a5"],
+          data: [["运营商", "移动", "联通", "电信"], ["占比", 1, 2, 3]]
+        };
+        let registeredUsers = {
+          title: "各运营商在册用户数（户）",
+          id: "registeredUsers_UADR",
+          color: ["#4474c4", "#ed7d31", "#a5a5a5"],
+          data: [["运营商", "移动", "联通", "电信"], ["占比", "1", "2", "3"]]
+        };
+        // 主要是第二个参数 （data里面的数组长度不受影响）
+        // 传入data为数组，数组长度为n，长度为n+1(加标题的话)
+        // export_json_to_excel_test2(
+        //   tHeader,
+        //   registeredUsers.data,
+        //   "商品管理列表TT3"
+        // );
+        // 标题出入空值，则第一行全为空
+        // export_json_to_excel_test2(
+        //   "",
+        //   registeredUsers.data,
+        //   "商品管理列表TT3"
+        // );
+        // 下面这种传法会卡浏览器-好像没输出
+        // export_json_to_excel_test2(
+        //   registeredUsers.data[0],
+        //   registeredUsers.data[1],
+        //   "商品管理列表TT4"
+        // );
+        // 看样子 第一个参数传入不影响
+        // 第二参数好像必须为 arr
+        // export_json_to_excel_test2(
+        //   "",
+        //   registeredUsers.data[1],
+        //   "商品管理列表TT4"
+        // );
+        // 标题传入一个空值
+
+        // export_json_to_excel_test2(
+        //   [registeredUsers.title],
+        //   registeredUsers.data,
+        //   "商品管理列表TT5"
+        // );
+
+        let newAddUserNumber = {
+          title: "各运营商新增在册用户数（户）",
+          id: "newAddUserNumber_UADR",
+          color: ["#82b65f", "#70a7d8"],
+          data: [
+            [["运营商", "移动", "联通", "电信"], ["平均", 1, 2, 3]],
+            [["运营商", "移动", "联通", "电信"], ["今日", 1, 2, 3]]
+          ]
+        };
+
+        // export_json_to_excel_test2(
+        //   [newAddUserNumber.title],
+        //   newAddUserNumber.data,
+        //   "商品管理列表TT6"
+        // );
+
+        let liantongLiveBroadcast = {
+          title: "联通侧直播频道单日收视率排行-TOP12",
+          id: "liantongLiveBroadcast_UVDR",
+          color: ["#5b82c8"],
+          data: [
+            [
+              [
+                "运营商",
+                "CCTY-13 新闻",
+                "贵州卫视",
+                "贵州3 影视文艺频道",
+                "CCTV-1 综合",
+                "贵州-2 公共频道",
+                "贵州-4 大众生活频道",
+                "湖南卫视",
+                "CCTY-12 社会与法",
+                "贵州-7 经济频道",
+                "CCTY-15 音乐",
+                "CCTY-4 中文国际",
+                "浙江卫视"
+              ],
+              [
+                "平均",
+                4.4,
+                3.5,
+                2.7,
+                2.0,
+                1.9,
+                1.8,
+                1.7,
+                1.2,
+                1.0,
+                0.9,
+                0.9,
+                0.7
+              ]
+            ]
+          ]
+        };
+        // export_json_to_excel_test2(
+        //   [liantongLiveBroadcast.title],
+        //   liantongLiveBroadcast.data[0],
+        //   "商品管理列表TT6"
+        // );
+
+        let content = [
+          {
+            title: "6月订购用户情况（户）",
+            data: [
+              { value: 535, name: "影视包" },
+              { value: 410, name: "影视包（包季）" },
+              { value: 348, name: "影视包（包年）" },
+              { value: 348, name: "少儿包" },
+              { value: 410, name: "少儿包（包季）" },
+              { value: 348, name: "少儿包（包年）" },
+              { value: 348, name: "欢乐家庭包" },
+              { value: 410, name: "欢乐家庭包（包季）" },
+              { value: 348, name: "欢乐家庭包（包年）" }
+            ]
+          },
+          {
+            title: "5月订购用户情况（户）",
+            data: [
+              { value: 535, name: "影视包" },
+              { value: 410, name: "影视包（包季）" },
+              { value: 348, name: "影视包（包年）" },
+              { value: 348, name: "少儿包" },
+              { value: 410, name: "少儿包（包季）" },
+              { value: 348, name: "少儿包（包年）" },
+              { value: 348, name: "欢乐家庭包" },
+              { value: 410, name: "欢乐家庭包（包季）" },
+              { value: 348, name: "欢乐家庭包（包年）" }
+            ]
+          },
+          {
+            title: "4月订购用户情况（户）",
+            data: [
+              { value: 535, name: "影视包" },
+              { value: 410, name: "影视包（包季）" },
+              { value: 348, name: "影视包（包年）" },
+              { value: 348, name: "少儿包" },
+              { value: 410, name: "少儿包（包季）" },
+              { value: 348, name: "少儿包（包年）" },
+              { value: 348, name: "欢乐家庭包" },
+              { value: 410, name: "欢乐家庭包（包季）" },
+              { value: 348, name: "欢乐家庭包（包年）" }
+            ]
+          },
+          {
+            title: "3月订购用户情况（户）",
+            data: [
+              { value: 535, name: "影视包" },
+              { value: 410, name: "影视包（包季）" },
+              { value: 348, name: "影视包（包年）" },
+              { value: 348, name: "少儿包" },
+              { value: 410, name: "少儿包（包季）" },
+              { value: 348, name: "少儿包（包年）" },
+              { value: 348, name: "欢乐家庭包" },
+              { value: 410, name: "欢乐家庭包（包季）" },
+              { value: 348, name: "欢乐家庭包（包年）" }
+            ]
+          },
+          {
+            title: "2月订购用户情况（户）",
+            data: [
+              { value: 535, name: "影视包" },
+              { value: 410, name: "影视包（包季）" },
+              { value: 348, name: "影视包（包年）" },
+              { value: 348, name: "少儿包" },
+              { value: 410, name: "少儿包（包季）" },
+              { value: 348, name: "少儿包（包年）" },
+              { value: 348, name: "欢乐家庭包" },
+              { value: 410, name: "欢乐家庭包（包季）" },
+              { value: 348, name: "欢乐家庭包（包年）" }
+            ]
+          },
+          {
+            title: "1月订购用户情况（户）",
+            data: [
+              { value: 535, name: "影视包" },
+              { value: 410, name: "影视包（包季）" },
+              { value: 348, name: "影视包（包年）" },
+              { value: 348, name: "少儿包" },
+              { value: 410, name: "少儿包（包季）" },
+              { value: 348, name: "少儿包（包年）" },
+              { value: 348, name: "欢乐家庭包" },
+              { value: 410, name: "欢乐家庭包（包季）" },
+              { value: 348, name: "欢乐家庭包（包年）" }
+            ]
+          }
+        ]
+        let temp_content = [];
+        let temp_content2 = [];
+
+        // for(temp_i=0)
+        content[0].data.forEach((value,index)=>{ // xxx
+          temp_content.push([]);
+          temp_content[index].push(value.name);
+          temp_content[index].push(value.value);
+        })
+        content[1].data.forEach((value,index)=>{ ///xxx2
+          temp_content2.push([]);
+          temp_content2[index].push(value.name);
+          temp_content2[index].push(value.value);
+        })
+
+
+        // export_json_to_excel_test2(
+        //   ["xxxx"],
+        //   temp_content, // 直接content-bug
+        //   "商品管理列表TT6"
+        // );
+        // export_json_to_excel_plural(
+        //   ["xxxx"],
+        //   ["xxxx2"],
+        //   temp_content, 
+        //   temp_content2, 
+        //   "商品管理列表TT6"
+        // );
+      });
+    },
     drawLine() {
-      var myChart = this.$echarts.init(document.getElementById("echartsTESTUA"));
+      var myChart = this.$echarts.init(
+        document.getElementById("echartsTESTUA")
+      );
       let vm = this;
       var option = {
         title: {
@@ -1445,7 +1732,9 @@ export default {
               icon: "image://http://echarts.baidu.com/images/favicon.png",
               onclick: function() {
                 // alert("myToolHandler1");
-                vm.export2Excel();
+                // vm.export2Excel();
+                // vm.export2Excel_test2();
+                vm.export2Excel_test3();
               }
             }
           }

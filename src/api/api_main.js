@@ -40,6 +40,16 @@ export function test_login() {
 // };
 
 
+// //////////////////////// 数据审计
+// post http://{{iptv}}/api/missReport
+export function missReport(postData) {
+    return request({
+        method: 'post',
+        url: '/missReport',
+        data: postData
+    })
+}
+
 // //////////////////////// 权限
 
 // 获取id用户权限

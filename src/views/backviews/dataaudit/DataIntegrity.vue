@@ -137,10 +137,11 @@
   </div>
 </template>
 <script>
-import { epg } from "@/api/api_main";
-import DataIntegrityModel from '@/views/backcoms/dataaudit/DataIntegrityModel' //表格组件
+import { missReport } from "@/api/api_main";
+import DataIntegrityModel from "@/views/backcoms/dataaudit/DataIntegrityModel"; //表格组件
+
 export default {
-  name: 'DataIntegrity', //数据完整性
+  name: "DataIntegrity", //数据完整性
   components: {
     "data-integrity-model": DataIntegrityModel
   },
@@ -149,114 +150,128 @@ export default {
       //开机日志
       tableData: [
         {
-          title: 'uid',
-          introduce: '用户IPTV账号',
-          total: '3967472',
-          missingData: '18503',
-          LackOfProportion: '0.52%'
-        }, {
-          title: 'sid',
-          introduce: '机顶盒型号',
-          total: '721737',
-          missingData: '12337',
-          LackOfProportion: '0.23%'
-        }, {
-          title: 'ac',
-          introduce: '地市代码',
-          total: '632474',
-          missingData: '982',
-          LackOfProportion: '0.04%'
-        }, {
-          title: 'uip',
-          introduce: '用户IP',
-          total: '637467',
-          missingData: '6374',
-          LackOfProportion: '0.98%'
-        }, {
-          title: 'en',
-          introduce: '模块名称',
-          total: '732786',
-          missingData: '5361',
-          LackOfProportion: '0.23%'
-        }, {
-          title: 'gid',
-          introduce: '用户所属分组',
-          total: '276372',
-          missingData: '2367',
-          LackOfProportion: '0.45%'
-        }, {
-          title: 'epf',
-          introduce: '用户所属能力平台',
-          total: '863747',
-          missingData: '3232',
-          LackOfProportion: '0.32%'
-        }, {
-          title: 'operators',
-          introduce: '用户所属运营商',
-          total: '364372',
-          missingData: '1232',
-          LackOfProportion: '0.74%'
+          title: "uid",
+          introduce: "用户IPTV账号",
+          total: "3967472",
+          missingData: "18503",
+          LackOfProportion: "0.52%"
         },
+        {
+          title: "sid",
+          introduce: "机顶盒型号",
+          total: "721737",
+          missingData: "12337",
+          LackOfProportion: "0.23%"
+        },
+        {
+          title: "ac",
+          introduce: "地市代码",
+          total: "632474",
+          missingData: "982",
+          LackOfProportion: "0.04%"
+        },
+        {
+          title: "uip",
+          introduce: "用户IP",
+          total: "637467",
+          missingData: "6374",
+          LackOfProportion: "0.98%"
+        },
+        {
+          title: "en",
+          introduce: "模块名称",
+          total: "732786",
+          missingData: "5361",
+          LackOfProportion: "0.23%"
+        },
+        {
+          title: "gid",
+          introduce: "用户所属分组",
+          total: "276372",
+          missingData: "2367",
+          LackOfProportion: "0.45%"
+        },
+        {
+          title: "epf",
+          introduce: "用户所属能力平台",
+          total: "863747",
+          missingData: "3232",
+          LackOfProportion: "0.32%"
+        },
+        {
+          title: "operators",
+          introduce: "用户所属运营商",
+          total: "364372",
+          missingData: "1232",
+          LackOfProportion: "0.74%"
+        }
       ],
 
       //心跳日志
       heartbeatLog: [
         {
-          title: 'uid',
-          introduce: '用户IPTV账号',
-          total: '3967472',
-          missingData: '18503',
-          LackOfProportion: '0.52%'
-        }, {
-          title: 'sid',
-          introduce: '机顶盒型号',
-          total: '721737',
-          missingData: '12337',
-          LackOfProportion: '0.23%'
-        }, {
-          title: 'ac',
-          introduce: '地市代码',
-          total: '632474',
-          missingData: '982',
-          LackOfProportion: '0.04%'
-        }, {
-          title: 'uip',
-          introduce: '用户IP',
-          total: '637467',
-          missingData: '6374',
-          LackOfProportion: '0.98%'
-        }, {
-          title: 'en',
-          introduce: '模块名称',
-          total: '732786',
-          missingData: '5361',
-          LackOfProportion: '0.23%'
-        }, {
-          title: 'gid',
-          introduce: '用户所属分组',
-          total: '276372',
-          missingData: '2367',
-          LackOfProportion: '0.45%'
-        }, {
-          title: 'epf',
-          introduce: '用户所属能力平台',
-          total: '863747',
-          missingData: '3232',
-          LackOfProportion: '0.32%'
-        }, {
-          title: 'operators',
-          introduce: '用户所属运营商',
-          total: '364372',
-          missingData: '1232',
-          LackOfProportion: '0.74%'
+          title: "uid",
+          introduce: "用户IPTV账号",
+          total: "3967472",
+          missingData: "18503",
+          LackOfProportion: "0.52%"
         },
-      ],
-    }
+        {
+          title: "sid",
+          introduce: "机顶盒型号",
+          total: "721737",
+          missingData: "12337",
+          LackOfProportion: "0.23%"
+        },
+        {
+          title: "ac",
+          introduce: "地市代码",
+          total: "632474",
+          missingData: "982",
+          LackOfProportion: "0.04%"
+        },
+        {
+          title: "uip",
+          introduce: "用户IP",
+          total: "637467",
+          missingData: "6374",
+          LackOfProportion: "0.98%"
+        },
+        {
+          title: "en",
+          introduce: "模块名称",
+          total: "732786",
+          missingData: "5361",
+          LackOfProportion: "0.23%"
+        },
+        {
+          title: "gid",
+          introduce: "用户所属分组",
+          total: "276372",
+          missingData: "2367",
+          LackOfProportion: "0.45%"
+        },
+        {
+          title: "epf",
+          introduce: "用户所属能力平台",
+          total: "863747",
+          missingData: "3232",
+          LackOfProportion: "0.32%"
+        },
+        {
+          title: "operators",
+          introduce: "用户所属运营商",
+          total: "364372",
+          missingData: "1232",
+          LackOfProportion: "0.74%"
+        }
+      ]
+    };
   },
   mounted() {
-    $('#data_integrity_content').scroll(function (event) {
+    $("#data_integrity_content").scroll(function(event) {
       //console.log($('.backHome_body_main').scrollTop())
-      let scrollTopHeight = $('#data_integrity_content').scrollTop()
+      let scrollTopHeight = $("#data_integrity_content").scrollTop();
       // let boot_log = document.querySelector('#boot_log').offsetTop
       // let heartbeat_log = document.querySelector('#heartbeat_log').offsetTop
       // let page_access_log = document.querySelector('#page_access_log').offsetTop
@@ -265,44 +280,114 @@ export default {
       // let look_back_log = document.querySelector('#look_back_log').offsetTop
       // let live_log = document.querySelector('#live_log').offsetTop
       if (0 <= scrollTopHeight) {
-        $(".anchor_link1").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link1")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (400 <= scrollTopHeight) {
-        $(".anchor_link2").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link2")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (800 <= scrollTopHeight) {
-        $(".anchor_link3").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link3")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (1200 <= scrollTopHeight) {
-        $(".anchor_link4").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link4")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (1500 <= scrollTopHeight) {
-        $(".anchor_link5").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link5")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (1800 <= scrollTopHeight) {
-        $(".anchor_link6").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link6")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
       if (2100 < scrollTopHeight) {
-        $(".anchor_link7").addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
+        $(".anchor_link7")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
       }
-    })
+    });
+    // 数据填充 （暂定为“当天”数据）
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.missReport(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
+    missReport(ExpirationDate) {
+      let temp = {
+        start: ExpirationDate,
+        end: ExpirationDate
+      };
+      console.log(temp);
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      missReport(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     //点击锚点实现左侧滚动
     goAnchor(selector) {
-      let data_integrity_content = document.querySelector('#data_integrity_content')  //外层滚动容器元素
+      let data_integrity_content = document.querySelector(
+        "#data_integrity_content"
+      ); //外层滚动容器元素
       //console.log("backHome_body_main", backHome_body_main)
-      var anchor = document.querySelector(selector)   // 参数为要跳转到的元素id
-      data_integrity_content.scrollTop = anchor.offsetTop
-      $('.anchor_hyperlinks a').on('click', function () {
-        $(this).addClass("avtive_link").parent().siblings().children().removeClass("avtive_link")
-      })
+      var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
+      data_integrity_content.scrollTop = anchor.offsetTop;
+      $(".anchor_hyperlinks a").on("click", function() {
+        $(this)
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      });
     },
-    getDatategrity() {
-
-    }
+    getDatategrity() {}
   }
-}
+};
 </script>
 <style scoped>
 /*webkit内核*/

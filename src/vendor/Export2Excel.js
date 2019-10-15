@@ -3,6 +3,11 @@ require('script-loader!file-saver');
 // require('script-loader!vendor/Blob');
 require('script-loader!./Blob');
 
+// 依赖
+// npm install file - saver--save
+// npm install xlsx--save
+// npm install script - loader--save - dev
+
 require('script-loader!xlsx/dist/xlsx.core.min');
 function generateArray(table) {
     var out = [];
@@ -141,3 +146,82 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
     var title = defaultTitle || '列表'
     saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), title + ".xlsx")
 }
+
+
+// 参数作用
+// th为标题
+// jsonData为数据 （处理后可以看作一个数组，分别push表格中）
+// push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+// unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
+export function export_json_to_excel_test2(th, jsonData, defaultTitle) {
+
+    /* original data */
+
+    var data = jsonData;
+    console.log(typeof data);
+    console.log(data);
+    data.unshift(th);
+    console.log(typeof data);
+    console.log(data);
+
+    var ws_name = "SheetJS";
+
+    var wb = new Workbook();
+    console.log(typeof wb);
+    console.log(wb);
+
+    var ws = sheet_from_array_of_arrays(data);
+    console.log(typeof ws);
+    console.log(ws);
+
+
+    /* add worksheet to workbook */
+    wb.SheetNames.push(ws_name);
+    console.log(typeof wb);
+    console.log(wb);
+
+    wb.Sheets[ws_name] = ws;
+    console.log(typeof wb);
+    console.log(wb);
+
+
+    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+    // console.log(typeof wbout);
+    // console.log(wbout);
+
+    var title = defaultTitle || '列表'
+
+    // 输出 + 命名 
+    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+}
+
+// export2Excel()中require的路径因个人项目结构不同可能需要单独调整，如果报module not found '../../Export2Excel.js'之类请自行修改路径。
+// tHeader是每一栏的名称，需手动输入。
+// filterVal是data中list的key值，也是要自己写的。
+// 这里记得要与data里面的list名称对应
+// "商品管理列表"是表格名称
+// SheetJS 是表格下面的表格分栏名称
+
+
+// plural复数处理形式
+// export function export_json_to_excel_plural(th, th2, jsonData, jsonData2, defaultTitle) {
+
+//     /* original data */
+//     var data = jsonData;
+//     data.unshift(th);
+//     var ws_name = "SheetJS";
+//     var wb = new Workbook();
+//     var wb2 = new Workbook();
+
+//     var ws = sheet_from_array_of_arrays(data);
+//     var ws2 = sheet_from_array_of_arrays(data);
+
+//     /* add worksheet to workbook */
+//     wb.SheetNames.push(ws_name);
+//     wb.Sheets[ws_name] = ws;
+
+//     var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+//     var title = defaultTitle || '列表'
+//     // 输出 + 命名 
+//     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+// }
