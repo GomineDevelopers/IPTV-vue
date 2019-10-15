@@ -130,7 +130,7 @@ export default {
           containLabel: true,
           top: "30%",
           left: "25",
-          right: "10",
+          right: "20",
           bottom: "10"
         },
         tooltip: {

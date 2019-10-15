@@ -489,7 +489,8 @@ export default {
         vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
         vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）  
 
-        vm.api_data_set("single", "month_range"); // mixture - 混合数据类型（单月分周）
+        vm.api_data_set("single", "month_range"); // single - 单运营商数据类型（多月）
+        vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
       }, 100);
     }
   },
@@ -568,7 +569,7 @@ export default {
     this.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
 
     this.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
-    // this.api_data_set("single", "week"); // single - 单独数据类型（by 运营商）
+    this.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
   },
   methods: {
     returnFloat(value) {
@@ -726,6 +727,7 @@ export default {
           //   console.log("混合单月数据", response.data.responses)
           //   let mixture_month_data = response.data.responses
           // }
+
           //混合多月数据
           if (datatype == "mixture" && timetype == "month_range") {
             console.log("混合多月数据", response.data.responses)
@@ -742,8 +744,8 @@ export default {
             ]
             registe_and_new_num.forEach((value, index) => {
               // console.log("G+TV用户发展情况", value)
-              let data_month = (value.key).slice(0, 1)
-              registe_and_new_num_temp[0].push(data_month + '月')
+              let data_month = commonTools.format_monthToChinese(value.key)
+              registe_and_new_num_temp[0].push(data_month)
               registe_and_new_num_temp[1].push((value.register_num.value / 10000).toFixed(1))
               registe_and_new_num_temp[2].push((value.new_num.value / 10000).toFixed(1))
             })
@@ -760,14 +762,16 @@ export default {
               if (value.key != 'other') {
                 // console.log(commonTools.acConvert_Single(value.key))
                 new_num_user_temp[9 - index].push(commonTools.acConvert_Single(value.key))
+                // Vue.set(vm.NewUserComparisonData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                 value.statistical_granularity.buckets.forEach((value2, index2) => {
                   // console.log(value2.key, value2.open_num.value)
                   //设置月份（只执行一次）
                   if (index == 0) {
-                    let data_month = (value2.key).slice(0, 1)
-                    new_num_user_temp[0].push(data_month + '月')
+                    let data_month = commonTools.format_monthToChinese(value2.key)
+                    new_num_user_temp[0].push(data_month)
                   }
                   new_num_user_temp[9 - index].push((value2.open_num.value / 10000).toFixed(1))
+                  // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.open_num.value / 10000).toFixed(1)))
                 })
               }
             })
@@ -783,61 +787,71 @@ export default {
             // console.log("混合单月多天数据", response.data.responses)
           }
 
+          //运营商 - 多月
           if (datatype == "single" && timetype == "month_range") {
             // console.log("单个运营商多月数据", response.data.responses)
             if (type == 'yd') {
-              console.log("tempOperatorArr", tempOperatorArr)
+              console.log("单个运营商多月数据", tempOperatorArr)
               console.log(response.data.responses)
 
               let vm = this
               let totle_data = response.data.responses
               //G+TV各运营商侧用户发展数据概览   
               let user_develop_data = totle_data[0].aggregations.statistical_granularity.buckets   //register_num
+              //数据初始化 (注意：必须初始化)
+              vm.registeredUsersData.data = [
+                ["product",], ["移动",], ["联通",], ["电信",]
+              ];
+              vm.monthNewRegUserData.data = [
+                ["product",], ["移动",], ["联通",], ["电信",]
+              ];
+              vm.monthCancellationUserData.data = [
+                ["product",], ["移动",], ["联通",], ["电信",]
+              ];
               user_develop_data.forEach((value, index) => {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
-                let data_month = (value.key).slice(0, 1)
-                Vue.set(vm.registeredUsersData.data[0], index + 1, data_month + '月')
+                let data_month = commonTools.format_monthToChinese(value.key)
+                Vue.set(vm.registeredUsersData.data[0], index + 1, data_month)
                 Vue.set(vm.registeredUsersData.data[1], index + 1, (value.register_num.value / 1000000).toFixed(1))
 
                 //月新增在册用户对比  monthNewRegUserData
-                Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month + '月')
+                Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month)
                 Vue.set(vm.monthNewRegUserData.data[1], index + 1, (value.new_num.value / 10000).toFixed(1))
 
                 //月销户用户对比  monthCancellationUserData
-                Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month + '月')
+                Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month)
                 Vue.set(vm.monthCancellationUserData.data[1], index + 1, (value.unsub_user_num.value / 10000).toFixed(1))
               })
+              // console.log("vm.monthCancellationUserData.data移动", vm.monthCancellationUserData.data)
+
+              // let temp_data = [];
+              // temp_data.push(["product"]);
+              // temp_data.push(["移动"]);
+              // for (let i_test = 0; i_test < user_develop_data.length; i_test++) { 
+              //   Vue.set(temp_data[0], i_test + 1, user_develop_data[i_test].key + '月')
+              //   Vue.set(temp_data[1], i_test + 1, (user_develop_data[i_test].unsub_user_num.value / 10000).toFixed(1))
+              // }
+              // console.log(temp_data);
+              // vm.monthCancellationUserData.data = [];
+              // vm.monthCancellationUserData.data.push(temp_data[0]);
+              // vm.monthCancellationUserData.data.push(temp_data[1]);
 
               //G+TV本月分地区用户发展数据概览
               //本月各州市新增在册用户数
-
-              // G_TVRegionUserData: {
-              //   title: "本月各市州新增在册用户数（万户）",
-              //   id: "G_TVRegionUser",
-              //   color: ["#EC7C30", "#FFC000", "#6FAC46"],
-              //   data: [
-              //     ["product", "贵阳", "遵义", "毕节", "黔南", "铜仁", "六盘水", "黔东南", "安顺", "黔西南"],
-              //     ["移动", 1.7, 1.8, 1.1, 0.9, 0.9, 0.8, 1.2, 0.8, 0.9],
-              //     ["联通", 0.4, 0.3, 0.2, 0.1, 0.1, 0.8, 0.1, 0.2, 0.1],
-              //     ["电信", 2.9, 1.9, 1.5, 1.4, 1.2, 0.8, 0.8, 0.7, 0.6]
-              //   ]
-              // },
               let city_new_num_data = totle_data[0].aggregations.ac.buckets
               city_new_num_data.forEach((value, index) => {
                 if (value.key != 'other') {
-                  console.log(commonTools.acConvert_Single(value.key))
                   // console.log(commonTools.acConvert_Single(value.key))
-                  // vm.G_TVRegionUser[0].push(commonTools.acConvert_Single(value.key))
                   Vue.set(vm.G_TVRegionUserData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                   let length = value.statistical_granularity.buckets.length
                   let new_num_arry = value.statistical_granularity.buckets
-                  Vue.set(vm.G_TVRegionUserData.data[1], index + 1, (new_num_arry[length - 1].new_num.value / 10000).toFixed(1))
+                  // console.log(new_num_arry[length - 1].key, new_num_arry[length - 1].new_num.value)
+                  Vue.set(vm.G_TVRegionUserData.data[1], index + 1, (Number(new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                 }
               })
-              // console.log(vm.G_TVRegionUserData.data)
 
             } else if (type == 'lt') {
-              console.log("tempOperatorArr", tempOperatorArr)
+              console.log("单个运营商多月数据", tempOperatorArr)
               console.log(response.data.responses)
 
               let vm = this
@@ -846,33 +860,34 @@ export default {
               let user_develop_data = totle_data[0].aggregations.statistical_granularity.buckets   //register_num
               user_develop_data.forEach((value, index) => {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
-                let data_month = (value.key).slice(0, 1)
-                Vue.set(vm.registeredUsersData.data[0], index + 1, data_month + '月')
+                let data_month = commonTools.format_monthToChinese(value.key)
+                Vue.set(vm.registeredUsersData.data[0], index + 1, data_month)
                 Vue.set(vm.registeredUsersData.data[2], index + 1, (value.register_num.value / 1000000).toFixed(1))
 
                 //月新增在册用户对比  monthNewRegUserData
-                Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month + '月')
+                Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month)
                 Vue.set(vm.monthNewRegUserData.data[2], index + 1, (value.new_num.value / 10000).toFixed(1))
 
                 //月销户用户对比  monthCancellationUserData
-                Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month + '月')
+                Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month)
                 Vue.set(vm.monthCancellationUserData.data[2], index + 1, (value.unsub_user_num.value / 10000).toFixed(1))
               })
+              // console.log("vm.monthCancellationUserData.data联通", vm.monthCancellationUserData.data)
 
               //G+TV本月分地区用户发展数据概览
               //本月各州市新增在册用户数
               let city_new_num_data = totle_data[0].aggregations.ac.buckets
               city_new_num_data.forEach((value, index) => {
                 if (value.key != 'other') {
-                  console.log(commonTools.acConvert_Single(value.key))
                   Vue.set(vm.G_TVRegionUserData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                   let length = value.statistical_granularity.buckets.length
                   let new_num_arry = value.statistical_granularity.buckets
-                  Vue.set(vm.G_TVRegionUserData.data[2], index + 1, (new_num_arry[length - 1].new_num.value / 10000).toFixed(1))
+                  Vue.set(vm.G_TVRegionUserData.data[2], index + 1, (Number(new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                 }
               })
+
             } else if (type == 'dx') {
-              console.log("tempOperatorArr", tempOperatorArr)
+              console.log("单个运营商多月数据", tempOperatorArr)
               console.log(response.data.responses)
 
               let vm = this
@@ -881,33 +896,66 @@ export default {
               let user_develop_data = totle_data[0].aggregations.statistical_granularity.buckets   //register_num
               user_develop_data.forEach((value, index) => {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
-                let data_month = (value.key).slice(0, 1)
-                Vue.set(vm.registeredUsersData.data[0], index + 1, data_month + '月')
                 Vue.set(vm.registeredUsersData.data[3], index + 1, (value.register_num.value / 1000000).toFixed(1))
-
                 //月新增在册用户对比  monthNewRegUserData
-                Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month + '月')
                 Vue.set(vm.monthNewRegUserData.data[3], index + 1, (value.new_num.value / 10000).toFixed(1))
-
                 //月销户用户对比  monthCancellationUserData
-                Vue.set(vm.monthCancellationUserData.data[0], index + 1, data_month + '月')
                 Vue.set(vm.monthCancellationUserData.data[3], index + 1, (value.unsub_user_num.value / 10000).toFixed(1))
               })
+              // console.log("vm.monthCancellationUserData.data电信", vm.monthCancellationUserData.data)
 
               //G+TV本月分地区用户发展数据概览
               //本月各州市新增在册用户数
               let city_new_num_data = totle_data[0].aggregations.ac.buckets
               city_new_num_data.forEach((value, index) => {
                 if (value.key != 'other') {
-                  console.log(commonTools.acConvert_Single(value.key))
+                  // console.log(commonTools.acConvert_Single(value.key))
                   Vue.set(vm.G_TVRegionUserData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                   let length = value.statistical_granularity.buckets.length
                   let new_num_arry = value.statistical_granularity.buckets
-                  console.log(new_num_arry[length - 1].key, new_num_arry[length - 1].new_num.value)
-                  Vue.set(vm.G_TVRegionUserData.data[3], index + 1, (new_num_arry[length - 1].new_num.value / 10000).toFixed(1))
+                  Vue.set(vm.G_TVRegionUserData.data[3], index + 1, (Number(new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                 }
               })
-              console.log(vm.G_TVRegionUserData.data)
+              // console.log("vm.G_TVRegionUserData.data", vm.G_TVRegionUserData.data)
+
+            }
+          }
+
+          //运营商 - 一月分周
+          if (datatype == "single" && timetype == "week") {
+            if (type == 'yd') {
+              console.log("单运营商一月分周", tempOperatorArr)
+              console.log(response.data.responses)
+              let vm = this
+              let single_week_data = response.data.responses  //总数据
+
+              //G+TV本月各周用户发展数据
+              let week_user_develop = single_week_data[0].aggregations.statistical_granularity.buckets
+              //   weekNewUserData: {
+                // title: "本月每周新增在册用户数（万户）",
+                // id: "weekNewUser",
+                // color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
+                // data: [
+                //   ["product", "", "", "", ""],
+                //   ["移动", ],
+                //   ["联通",],
+                //   ["电信",]
+          // ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
+          // ["移动", 1.6, 2.2, 2.7, 3.0],
+          // ["联通", 0.4, 0.4, 0.3, 0.3],
+          // ["电信", 2.1, 2.8, 2.8, 3.2]
+              week_user_develop.forEach((value, index) => {
+                console.log(value.key, value.new_num.value)
+              })
+
+            } else if (type == 'lt') {
+              console.log("单运营商一月分周", tempOperatorArr)
+              console.log(response.data.responses)
+
+            } else if (type == 'dx') {
+              console.log("单运营商一月分周", tempOperatorArr)
+              console.log(response.data.responses)
+
             }
           }
 
@@ -1766,10 +1814,6 @@ export default {
         id: "monthNewRegUser_UVMR",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
-          ["product",],
-          ["移动",],
-          ["联通",],
-          ["电信",]
           // ["product", "4月", "5月", "6月", "7月"],
           // ["移动", 82.2, 83.4, 94.7, 103.6],
           // ["联通", 35.8, 35.9, 36.9, 38.0],
@@ -1783,10 +1827,6 @@ export default {
         id: "monthCancellationUser_UVMR",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
-          ["product",],
-          ["移动",],
-          ["联通",],
-          ["电信",]
           // ["product", "4月", "5月", "6月", "7月"],
           // ["移动", 82.2, 83.4, 94.7, 103.6],
           // ["联通", 35.8, 35.9, 36.9, 38.0],
@@ -1817,10 +1857,14 @@ export default {
         id: "weekNewUser",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4"],
         data: [
-          ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
-          ["移动", 1.6, 2.2, 2.7, 3.0],
-          ["联通", 0.4, 0.4, 0.3, 0.3],
-          ["电信", 2.1, 2.8, 2.8, 3.2]
+          ["product", "", "", "", ""],
+          ["移动",],
+          ["联通",],
+          ["电信",]
+          // ["product", "7月第一周", "7月第二周", "7月第三周", "7月第四周"],
+          // ["移动", 1.6, 2.2, 2.7, 3.0],
+          // ["联通", 0.4, 0.4, 0.3, 0.3],
+          // ["电信", 2.1, 2.8, 2.8, 3.2]
         ]
       },
 
