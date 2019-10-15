@@ -580,102 +580,167 @@ export default {
             } // function （尾巴）
 
             // 第三、四个
+            function dataManage_1_1b(index_month, index_month_child, index) {
+              temp_data_1_3[index_month].data[index].value =
+                buckets_1[index_month].value_added_service_package.buckets[
+                  index_month_child
+                ].new_paid_num.value;
+              temp_data_1_4[index_month].data[index].value =
+                buckets_1[index_month].value_added_service_package.buckets[
+                  index_month_child
+                ].new_income.value;
+            }
             function Retrun_KeyValue_1_1b(key, index_month, index_month_child) {
               if (key == "影视VIP") {
-                // temp_data_1_3  --待处理
-                // temp_data_1_4  --待处理
+                dataManage_1_1b(index_month, index_month_child, 0);
               }
               if (key == "影视VIP包季") {
+                dataManage_1_1b(index_month, index_month_child, 1);
               }
               if (key == "影视VIP包年") {
+                dataManage_1_1b(index_month, index_month_child, 2);
               }
               if (key == "少儿VIP") {
+                dataManage_1_1b(index_month, index_month_child, 3);
               }
               if (key == "少儿VIP包季") {
+                dataManage_1_1b(index_month, index_month_child, 4);
               }
               if (key == "少儿VIP包年") {
+                dataManage_1_1b(index_month, index_month_child, 5);
               }
               if (key == "欢乐家庭VIP") {
+                dataManage_1_1b(index_month, index_month_child, 6);
               }
               if (key == "欢乐家庭VIP包季") {
+                dataManage_1_1b(index_month, index_month_child, 7);
               }
               if (key == "欢乐家庭VIP包年") {
+                dataManage_1_1b(index_month, index_month_child, 8);
               }
             } // function （尾巴）
             let temp_object = {
-              title: "", // X月订购用户情况（户）
-              data: [
-                { value: 0, name: "影视包" },
-                { value: 0, name: "影视包（包季）" },
-                { value: 0, name: "影视包（包年）" },
-                { value: 0, name: "少儿包" },
-                { value: 0, name: "少儿包（包季）" },
-                { value: 0, name: "少儿包（包年）" },
-                { value: 0, name: "欢乐家庭包" },
-                { value: 0, name: "欢乐家庭包（包季）" },
-                { value: 0, name: "欢乐家庭包（包年）" }
-              ]
+              title: "" // X月订购用户情况（户）
+              // data: [
+              //   { value: 0, name: "影视包" },
+              //   { value: 0, name: "影视包（包季）" },
+              //   { value: 0, name: "影视包（包年）" },
+              //   { value: 0, name: "少儿包" },
+              //   { value: 0, name: "少儿包（包季）" },
+              //   { value: 0, name: "少儿包（包年）" },
+              //   { value: 0, name: "欢乐家庭包" },
+              //   { value: 0, name: "欢乐家庭包（包季）" },
+              //   { value: 0, name: "欢乐家庭包（包年）" }
+              // ]
             };
+            let temp_temp_object;
 
             // 总数据处理
-            for (i_1 = 0; i_1 < length_1; i_1++) {
-              // 第一个
-              temp_data_1_1.push([]);
-              temp_data_1_1[i_1 + 1].push(
-                commonTools.format_monthToChinese(buckets_1[i_1].key)
-              );
-              // 第二个
-              temp_data_1_2.push([]);
-              temp_data_1_2[i_1 + 1].push(
-                commonTools.format_monthToChinese(buckets_1[i_1].key)
-              );
-              // 第三个
-              temp_data_1_3.push(temp_object);
-              // 第四个
-              temp_data_1_4.push(temp_object);
+            let i_1_1;
+            for (i_1_1 = 0; i_1_1 < length_1; i_1_1++) {
+              // function temp_object_Manage(index, name) {
+              //   if (name == "订购用户情况（户）") {
+              //     temp_temp_object = temp_object;
+              //     temp_temp_object.title =
+              //       commonTools.format_monthToChinese(buckets_1[index].key) +
+              //       name;
+              //     console.log(temp_temp_object);
+              //     return temp_temp_object;
+              //     // return "1";
+              //   }
+              //   if (name == "收入分布对比（元）") {
+              //     temp_temp_object = temp_object;
+              //     temp_temp_object.title =
+              //       commonTools.format_monthToChinese(buckets_1[index].key) +
+              //       name;
+              //     console.log(temp_temp_object);
+              //     return temp_temp_object;
+              //     // return "2";
+              //   }
+              // }
+              console.log("i_1_1:" + i_1_1);
+              console.log("length_1:" + length_1);
 
-              // 统一点：第一、二、三、四个的for
-              for (
-                i_1_child_1 = 0;
-                i_1_child_1 < length_1_child_1;
-                i_1_child_1++
-              ) {
-                // 第一、二
-                try {
-                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
-                  Retrun_KeyValue_1_1a(
-                    buckets_1[i_1].value_added_service_package.buckets[
-                      i_1_child_1
-                    ].key,
-                    i_1, // ?month 同级
-                    i_1_child_1 // ??VIP  同级
-                  );
-                } catch (err) {
-                  console.log(err);
-                  break;
-                }
-                // 第三、四
-                try {
-                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
-                  Retrun_KeyValue_1_1b(
-                    buckets_1[i_1].value_added_service_package.buckets[
-                      i_1_child_1
-                    ].key,
-                    i_1, // ?month 同级
-                    i_1_child_1 // ??VIP  同级
-                  );
-                } catch (err) {
-                  console.log(err);
-                  break;
-                }
-              }
+              // 第三个
+              // temp_data_1_3.push(temp_object_Manage(i_1, "订购用户情况（户）"));
+              temp_data_1_3.push(temp_object);
+              temp_data_1_3[i_1_1].title = "1";
+
+              console.log(temp_data_1_3);
+              // 第四个
+              // temp_data_1_4.push(temp_object_Manage(i_1, "收入分布对比（元）"));
+              // temp_data_1_4.push(temp_object);
+              // temp_data_1_4[i_1].title = "2";
+
+              // console.log(temp_data_1_4);
             }
+            let i_1_2;
+            for (i_1_2 = 0; i_1_2 < length_1; i_1_2++) {
+              temp_data_1_4.push(temp_object);
+              temp_data_1_4[i_1_2].title = "2";
+              console.log(temp_data_1_4);
+            }
+
+            // for (i_1 = 0; i_1 < length_1; i_1++) {
+            //   // 第一个
+            //   temp_data_1_1.push([]);
+            //   temp_data_1_1[i_1 + 1].push(
+            //     commonTools.format_monthToChinese(buckets_1[i_1].key)
+            //   );
+            //   // 第二个
+            //   temp_data_1_2.push([]);
+            //   temp_data_1_2[i_1 + 1].push(
+            //     commonTools.format_monthToChinese(buckets_1[i_1].key)
+            //   );
+
+            //   // // 统一点：第一、二、三、四个的for
+            //   // for (
+            //   //   i_1_child_1 = 0;
+            //   //   i_1_child_1 < length_1_child_1;
+            //   //   i_1_child_1++
+            //   // ) {
+            //   //   // 第一、二
+            //   //   try {
+            //   //     // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+            //   //     Retrun_KeyValue_1_1a(
+            //   //       buckets_1[i_1].value_added_service_package.buckets[
+            //   //         i_1_child_1
+            //   //       ].key,
+            //   //       i_1, // ?month 同级
+            //   //       i_1_child_1 // ??VIP  同级
+            //   //     );
+            //   //   } catch (err) {
+            //   //     console.log(err);
+            //   //   }
+            //   // }
+            //   // for (
+            //   //   i_1_child_1 = 0;
+            //   //   i_1_child_1 < length_1_child_1;
+            //   //   i_1_child_1++
+            //   // ) {
+            //   //   // 第三、四
+            //   //   try {
+            //   //     // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+            //   //     Retrun_KeyValue_1_1b(
+            //   //       buckets_1[i_1].value_added_service_package.buckets[
+            //   //         i_1_child_1
+            //   //       ].key,
+            //   //       i_1, // ?month 同级
+            //   //       i_1_child_1 // ??VIP  同级
+            //   //     );
+            //   //   } catch (err) {
+            //   //     console.log(err);
+            //   //   }
+            //   // }
+            // }
 
             console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
             console.log(temp_data_1_1);
             console.log(temp_data_1_2);
             console.log(temp_data_1_3);
+            console.log("~~~~~~~~!");
             console.log(temp_data_1_4);
+
             // vm.monthVIPOrderData.data = temp_data_1_1;
             // vm.monthVIPOrderIncomeData.data = temp_data_1_2;
             // vm.orderUserContrastData.content = temp_data_1_3;
