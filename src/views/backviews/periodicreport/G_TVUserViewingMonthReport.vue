@@ -47,7 +47,7 @@
           <!-- G+TV7月分地区用户发展数据概览开始 -->
           <el-row>
             <el-row class="model_title">
-              <span class="title_border_left"></span>G+TV本月分地区用户发展数据概览
+              <span class="title_border_left"></span>G+TV分地区用户发展数据概览
             </el-row>
             <el-row class="G_TV_user_dev_data back_white">
               <el-col class="height_auto" :span="24">
@@ -60,7 +60,7 @@
           <!-- G+TV7月各周用户发展数据开始 -->
           <el-row>
             <el-row class="model_title">
-              <span class="title_border_left"></span>G+TV本月各周用户发展数据
+              <span class="title_border_left"></span>G+TV各周用户发展数据
               <!-- <span class="title_border_left"></span>G+TV7月各周用户发展数据 -->
             </el-row>
             <el-row class="G_TV_user_dev_data back_white">
@@ -586,7 +586,7 @@ export default {
 
     this.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
     this.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
-    vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+    this.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
   },
   methods: {
     returnFloat(value) {
@@ -855,6 +855,7 @@ export default {
                   let new_num_arry = value.statistical_granularity.buckets
                   // console.log(new_num_arry[length - 1].key, new_num_arry[length - 1].new_num.value)
                   Vue.set(vm.G_TVRegionUserData.data[1], index + 1, Number((new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
+                  vm.G_TVRegionUserData.title = commonTools.format_monthToChinese(new_num_arry[length - 1].key) + '各市州新增在册用户数（万户）'
                 }
               })
 
@@ -1059,6 +1060,14 @@ export default {
             if (type == 'yd') {
               console.log("单运营商一月分天", tempOperatorArr)
               console.log(response.data.responses)
+              let vm = this
+              let single_day_data = response.data.responses
+
+              //G+TV本月每日用户发展数据  //每月日新增在册用户数
+              let day_new_num_data = single_day_data[0].aggregations.statistical_granularity.buckets
+              day_new_num_data.forEach((value, index) => {
+                console.log(value.key, value.new_num.value)
+              })
             }
             if (type == 'lt') {
               console.log("单运营商一月分天", tempOperatorArr)
@@ -1955,7 +1964,7 @@ export default {
 
       // G+TV7月分地区用户发展数据概览
       G_TVRegionUserData: {
-        title: "本月各市州新增在册用户数（万户）",
+        // title: "本月各市州新增在册用户数（万户）",
         id: "G_TVRegionUser",
         color: ["#EC7C30", "#FFC000", "#6FAC46"],
         data: [
