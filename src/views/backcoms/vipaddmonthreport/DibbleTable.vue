@@ -17,19 +17,16 @@
 </template>
 <script>
 export default {
-  name: 'DataIntegrityModel',
+  name: "DataIntegrityModel",
   props: {
     tableData: {
-      type: Array,
+      type: Array
     }
   },
   data() {
-    return {
-
-    }
+    return {};
   }
-
-}
+};
 </script>
 <style>
 .data_integrity_model .el-table td {
@@ -41,10 +38,14 @@ export default {
   font-size: 12px;
   color: #333333;
 }
-.height_auto_set{
-  height:800px;
-}
+
 /* .data_integrity_model .el-table tr {
   cursor: pointer;
 } */
+</style>
+
+<style scoped>
+.height_auto_set {
+  height: 680px;
+}
 </style>

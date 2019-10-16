@@ -41,6 +41,7 @@ export function test_login() {
 
 
 // //////////////////////// 数据审计
+// 完整性
 // post http://{{iptv}}/api/missReport
 export function missReport(postData) {
     return request({
@@ -49,7 +50,15 @@ export function missReport(postData) {
         data: postData
     })
 }
-
+// 趋势 + 异常值
+// post http://{{iptv}}/api/errorReport
+export function errorReport(postData) {
+    return request({
+        method: 'post',
+        url: '/errorReport',
+        data: postData
+    })
+}
 // //////////////////////// 权限
 
 // 获取id用户权限

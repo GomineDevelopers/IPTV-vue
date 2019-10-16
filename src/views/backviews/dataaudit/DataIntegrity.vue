@@ -8,7 +8,7 @@
             <span class="title_border_left"></span>开机日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="tableData"></data-integrity-model>
+            <data-integrity-model :tableData="usercount"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 开机日志结束 -->
@@ -19,7 +19,7 @@
             <span class="title_border_left"></span>心跳日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="heartbeatLog"></data-integrity-model>
+            <data-integrity-model :tableData="heartbeat"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 心跳日志结束 -->
@@ -30,7 +30,7 @@
             <span class="title_border_left"></span>页面访问日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="heartbeatLog"></data-integrity-model>
+            <data-integrity-model :tableData="basedata"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 页面访问日志结束 -->
@@ -41,7 +41,7 @@
             <span class="title_border_left"></span>热力图日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="heartbeatLog"></data-integrity-model>
+            <data-integrity-model :tableData="epghot"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 热力图日志结束 -->
@@ -52,7 +52,7 @@
             <span class="title_border_left"></span>点播播放日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="heartbeatLog"></data-integrity-model>
+            <data-integrity-model :tableData="demand"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 点播播放日志结束 -->
@@ -63,7 +63,7 @@
             <span class="title_border_left"></span>回看播放日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="heartbeatLog"></data-integrity-model>
+            <data-integrity-model :tableData="review"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 回看播放日志结束 -->
@@ -74,7 +74,7 @@
             <span class="title_border_left"></span>直播播放日志
           </el-row>
           <el-row class="chart_body back_white">
-            <data-integrity-model :tableData="heartbeatLog"></data-integrity-model>
+            <data-integrity-model :tableData="onlive"></data-integrity-model>
           </el-row>
         </el-row>
         <!-- 直播播放日志结束 -->
@@ -148,124 +148,143 @@ export default {
   data() {
     return {
       //开机日志
-      tableData: [
-        {
-          title: "uid",
-          introduce: "用户IPTV账号",
-          total: "3967472",
-          missingData: "18503",
-          LackOfProportion: "0.52%"
-        },
-        {
-          title: "sid",
-          introduce: "机顶盒型号",
-          total: "721737",
-          missingData: "12337",
-          LackOfProportion: "0.23%"
-        },
-        {
-          title: "ac",
-          introduce: "地市代码",
-          total: "632474",
-          missingData: "982",
-          LackOfProportion: "0.04%"
-        },
-        {
-          title: "uip",
-          introduce: "用户IP",
-          total: "637467",
-          missingData: "6374",
-          LackOfProportion: "0.98%"
-        },
-        {
-          title: "en",
-          introduce: "模块名称",
-          total: "732786",
-          missingData: "5361",
-          LackOfProportion: "0.23%"
-        },
-        {
-          title: "gid",
-          introduce: "用户所属分组",
-          total: "276372",
-          missingData: "2367",
-          LackOfProportion: "0.45%"
-        },
-        {
-          title: "epf",
-          introduce: "用户所属能力平台",
-          total: "863747",
-          missingData: "3232",
-          LackOfProportion: "0.32%"
-        },
-        {
-          title: "operators",
-          introduce: "用户所属运营商",
-          total: "364372",
-          missingData: "1232",
-          LackOfProportion: "0.74%"
-        }
+      usercount: [
+        // {
+        //   title: "uid",
+        //   introduce: "用户IPTV账号",
+        //   total: "3967472",
+        //   missingData: "18503",
+        //   LackOfProportion: "0.52%"
+        // },
+        // {
+        //   title: "sid",
+        //   introduce: "机顶盒型号",
+        //   total: "721737",
+        //   missingData: "12337",
+        //   LackOfProportion: "0.23%"
+        // },
+        // {
+        //   title: "ac",
+        //   introduce: "地市代码",
+        //   total: "632474",
+        //   missingData: "982",
+        //   LackOfProportion: "0.04%"
+        // },
+        // {
+        //   title: "uip",
+        //   introduce: "用户IP",
+        //   total: "637467",
+        //   missingData: "6374",
+        //   LackOfProportion: "0.98%"
+        // },
+        // {
+        //   title: "en",
+        //   introduce: "模块名称",
+        //   total: "732786",
+        //   missingData: "5361",
+        //   LackOfProportion: "0.23%"
+        // },
+        // {
+        //   title: "gid",
+        //   introduce: "用户所属分组",
+        //   total: "276372",
+        //   missingData: "2367",
+        //   LackOfProportion: "0.45%"
+        // },
+        // {
+        //   title: "epf",
+        //   introduce: "用户所属能力平台",
+        //   total: "863747",
+        //   missingData: "3232",
+        //   LackOfProportion: "0.32%"
+        // },
+        // {
+        //   title: "operators",
+        //   introduce: "用户所属运营商",
+        //   total: "364372",
+        //   missingData: "1232",
+        //   LackOfProportion: "0.74%"
+        // }
       ],
 
       //心跳日志
-      heartbeatLog: [
-        {
-          title: "uid",
-          introduce: "用户IPTV账号",
-          total: "3967472",
-          missingData: "18503",
-          LackOfProportion: "0.52%"
-        },
-        {
-          title: "sid",
-          introduce: "机顶盒型号",
-          total: "721737",
-          missingData: "12337",
-          LackOfProportion: "0.23%"
-        },
-        {
-          title: "ac",
-          introduce: "地市代码",
-          total: "632474",
-          missingData: "982",
-          LackOfProportion: "0.04%"
-        },
-        {
-          title: "uip",
-          introduce: "用户IP",
-          total: "637467",
-          missingData: "6374",
-          LackOfProportion: "0.98%"
-        },
-        {
-          title: "en",
-          introduce: "模块名称",
-          total: "732786",
-          missingData: "5361",
-          LackOfProportion: "0.23%"
-        },
-        {
-          title: "gid",
-          introduce: "用户所属分组",
-          total: "276372",
-          missingData: "2367",
-          LackOfProportion: "0.45%"
-        },
-        {
-          title: "epf",
-          introduce: "用户所属能力平台",
-          total: "863747",
-          missingData: "3232",
-          LackOfProportion: "0.32%"
-        },
-        {
-          title: "operators",
-          introduce: "用户所属运营商",
-          total: "364372",
-          missingData: "1232",
-          LackOfProportion: "0.74%"
-        }
-      ]
+      heartbeat: [
+        // 暂时没有
+        // {
+        //   title: "uid",
+        //   introduce: "xxx",
+        //   total: "0",
+        //   missingData: "0",
+        //   LackOfProportion: "0%"
+        // }
+        // {
+        //   title: "uid",
+        //   introduce: "用户IPTV账号",
+        //   total: "3967472",
+        //   missingData: "18503",
+        //   LackOfProportion: "0.52%"
+        // },
+        // {
+        //   title: "sid",
+        //   introduce: "机顶盒型号",
+        //   total: "721737",
+        //   missingData: "12337",
+        //   LackOfProportion: "0.23%"
+        // },
+        // {
+        //   title: "ac",
+        //   introduce: "地市代码",
+        //   total: "632474",
+        //   missingData: "982",
+        //   LackOfProportion: "0.04%"
+        // },
+        // {
+        //   title: "uip",
+        //   introduce: "用户IP",
+        //   total: "637467",
+        //   missingData: "6374",
+        //   LackOfProportion: "0.98%"
+        // },
+        // {
+        //   title: "en",
+        //   introduce: "模块名称",
+        //   total: "732786",
+        //   missingData: "5361",
+        //   LackOfProportion: "0.23%"
+        // },
+        // {
+        //   title: "gid",
+        //   introduce: "用户所属分组",
+        //   total: "276372",
+        //   missingData: "2367",
+        //   LackOfProportion: "0.45%"
+        // },
+        // {
+        //   title: "epf",
+        //   introduce: "用户所属能力平台",
+        //   total: "863747",
+        //   missingData: "3232",
+        //   LackOfProportion: "0.32%"
+        // },
+        // {
+        //   title: "operators",
+        //   introduce: "用户所属运营商",
+        //   total: "364372",
+        //   missingData: "1232",
+        //   LackOfProportion: "0.74%"
+        // }
+      ],
+
+      //页面访问日志
+      basedata: [],
+      //热力图日志
+      epghot: [],
+      //点播播放日志
+      demand: [],
+      //回看播放日志
+      review: [],
+      //直播播放日志
+      onlive: []
     };
   },
   mounted() {
@@ -351,6 +370,7 @@ export default {
   },
   methods: {
     missReport(ExpirationDate) {
+      let vm = this;
       let temp = {
         start: ExpirationDate,
         end: ExpirationDate
@@ -363,6 +383,213 @@ export default {
       missReport(formData)
         .then(function(response) {
           console.log(response);
+          // 暂时为某日的
+          let buckets =
+            response.data.responses[0].aggregations.statistical_granularity
+              .buckets;
+          let buckets_0 = buckets[0];
+          let buckets_0_child = buckets_0.logname.buckets;
+          let length_0_child = buckets_0_child.length;
+          let i_0_child;
+          function dataManage_title(currentPerTitleData) {
+            let temp_pertitle_data = {
+              title: "",
+              introduce: "",
+              total: "",
+              missingData: "",
+              LackOfProportion: ""
+            };
+
+            temp_pertitle_data.title = currentPerTitleData.key;
+            temp_pertitle_data.introduce =
+              currentPerTitleData.fieldname_cn.buckets[0].key;
+            temp_pertitle_data.total = currentPerTitleData.n_total.value;
+            temp_pertitle_data.missingData =
+              currentPerTitleData.n_missing.value;
+            temp_pertitle_data.LackOfProportion =
+              currentPerTitleData.missign_rate.value;
+            return temp_pertitle_data;
+          }
+          function dataManage(index_0_child) {
+            let buckets_0_cc = buckets_0_child[index_0_child].fieldname.buckets;
+            let length_0_cc = buckets_0_cc.length;
+            let i_0_cc;
+            // 8个字段固定： uid sid ac uip en gid epf operators
+            let temp_type_data = [];
+            let i_temp8;
+            for (i_temp8 = 0; i_temp8 < 8; i_temp8++) {
+              temp_type_data.push({});
+            }
+            for (i_0_cc = 0; i_0_cc < length_0_cc; i_0_cc++) {
+              if (buckets_0_cc[i_0_cc].key == "uid") {
+                temp_type_data[0] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "sid") {
+                temp_type_data[1] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "ac") {
+                temp_type_data[2] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "uip") {
+                temp_type_data[3] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "en") {
+                temp_type_data[4] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "gid") {
+                temp_type_data[5] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "epf") {
+                temp_type_data[6] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+              if (buckets_0_cc[i_0_cc].key == "operators") {
+                temp_type_data[7] = dataManage_title(buckets_0_cc[i_0_cc]);
+              }
+            }
+
+            return temp_type_data;
+          }
+          let temp_all = [];
+
+          let temp_usercount_all = [];
+          let temp_heartbeat_all = [];
+          let temp_basedata_all = [];
+          let temp_epghot_all = [];
+          let temp_demand_all = [];
+          let temp_review_all = [];
+          let temp_onlive_all = [];
+          for (i_0_child = 0; i_0_child < length_0_child; i_0_child++) {
+            try {
+              if (buckets_0_child[i_0_child].key == "usercount") {
+                temp_usercount_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_usercount_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+            try {
+              if (buckets_0_child[i_0_child].key == "heartbeat") {
+                // 暂时没有
+                // temp_heartbeat_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_heartbeat_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+            try {
+              if (buckets_0_child[i_0_child].key == "basedata") {
+                temp_basedata_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_basedata_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+            try {
+              if (buckets_0_child[i_0_child].key == "epghot") {
+                temp_epghot_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_epghot_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+            try {
+              if (buckets_0_child[i_0_child].key == "demand") {
+                temp_demand_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_demand_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+            try {
+              if (buckets_0_child[i_0_child].key == "review") {
+                temp_review_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_review_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+            try {
+              if (buckets_0_child[i_0_child].key == "onlive") {
+                temp_onlive_all = dataManage(i_0_child);
+              }
+            } catch (error) {
+              console.log(error);
+              temp_onlive_all = [
+                {
+                  title: "uid",
+                  introduce: "xxx",
+                  total: "0",
+                  missingData: "0",
+                  LackOfProportion: "0%"
+                }
+              ];
+            }
+          }
+          temp_all.push(temp_usercount_all);
+          temp_all.push(temp_heartbeat_all);
+          temp_all.push(temp_basedata_all);
+          temp_all.push(temp_epghot_all);
+          temp_all.push(temp_demand_all);
+          temp_all.push(temp_review_all);
+          temp_all.push(temp_onlive_all);
+
+          console.log("~~~~~~!!!!!");
+          console.log(temp_all);
+          vm.usercount = temp_all[0];
+          vm.heartbeat = temp_all[1];
+          vm.basedata = temp_all[2];
+          vm.epghot = temp_all[3];
+          vm.demand = temp_all[4];
+          vm.review = temp_all[5];
+          vm.onlive = temp_all[6];
         })
         .catch(function(error) {
           console.info(error);
