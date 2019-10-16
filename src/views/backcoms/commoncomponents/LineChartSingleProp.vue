@@ -36,7 +36,7 @@ export default {
       "ULC_month"
     ]),
     lineData_Change: {
-      get: function() {
+      get: function () {
         var vm = this;
         if (vm.lineData.id == "newPayingUsers") {
           if (
@@ -100,7 +100,7 @@ export default {
             data.push(d3);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("newPayingUsers 视图更新");
             vm.setLineChart();
           }, 1000);
@@ -139,7 +139,7 @@ export default {
             // console.log(data);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 1000);
           return {
@@ -155,12 +155,12 @@ export default {
           }
         }
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           vm.setLineChart();
         }, 2000);
         return vm.lineData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -168,7 +168,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -221,19 +221,19 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function(params) {
+          formatter: function (params) {
             // console.log(params);
-            let title = params[0].data[0];
 
             let length = params.length;
 
+            let title = params[0].data[0];
             let t1 = params[0].seriesName;
             let marker1 = params[0].marker;
             let value1 = params[0].data[1];
-
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
+
               return (
                 date_year +
                 date_month +
@@ -245,6 +245,69 @@ export default {
                 value1 +
                 "%"
               );
+            }
+            let title2 = params[1].data[0];
+            let t2 = params[1].seriesName;
+            let marker2 = params[1].marker;
+            let value2 = params[1].data[2];
+            let str_return = "";
+            str_return = (
+              title +
+              "<br/>" +
+              marker1 +
+              t1 +
+              ":  " +
+              value1 +
+              "%" +
+              "<br/>" +
+              marker2 +
+              t2 +
+              ":  " +
+              value2 +
+              "%"
+            )
+            if (length == 2) {
+              return str_return;
+            }
+            let title3 = params[2].data[0];
+            let t3 = params[2].seriesName;
+            let marker3 = params[2].marker;
+            let value3 = params[2].data[3];
+            str_return += ("<br/>" +
+              marker3 +
+              t3 +
+              ":  " +
+              value3 +
+              "%")
+
+            if (length == 3) {
+              return str_return;
+            }
+            let title4 = params[3].data[0];
+            let t4 = params[3].seriesName;
+            let marker4 = params[3].marker;
+            let value4 = params[3].data[4];
+            str_return += ("<br/>" +
+              marker4 +
+              t4 +
+              ":  " +
+              value4 +
+              "%")
+            if (length == 4) {
+              return str_return;
+            }
+            let title5 = params[4].data[0];
+            let t5 = params[4].seriesName;
+            let marker5 = params[4].marker;
+            let value5 = params[4].data[5];
+            str_return += ("<br/>" +
+              marker5 +
+              t5 +
+              ":  " +
+              value5 +
+              "%")
+            if (length == 5) {
+              return str_return;
             }
           }
         },
