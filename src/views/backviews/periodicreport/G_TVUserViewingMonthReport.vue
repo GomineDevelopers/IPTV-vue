@@ -485,7 +485,7 @@ export default {
       let vm = this;
       console.log("PR_month: " + newValue);
 
-      //数据初始化
+      //数据初始化(很重要)
       vm.weekNewUserData.data = [
         ["运营商",], ["移动",], ["联通",], ["电信",]
       ];
@@ -498,6 +498,15 @@ export default {
       vm.monthCancellationUserData.data = [
         ["运营商",], ["移动",], ["联通",], ["电信",]
       ];
+      vm.everyDayUserData.data = [
+        ["运营商",], ["移动",], ["联通",], ["电信",]
+      ]
+      vm.monthPowerActivityData.data = [
+        ["name",], ["移动",], ["联通",], ["电信",], ["总开机率",]
+      ]
+      vm.areaPowerActivityData.data = [
+        ["product",], ["移动",], ["联通",], ["电信",], ["总开机活跃率",]
+      ]
 
       setTimeout(function () {
         // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
@@ -794,6 +803,28 @@ export default {
             })
             vm.NewUserComparisonData.data = new_num_user_temp
 
+            //总开机活跃数据
+            let open_num_data = mixture_month_range_data[0].aggregations.statistical_granularity.buckets
+            open_num_data.forEach((value, index) => {
+              // console.log(value.key, value.open_num.value, value.register_num.value)
+              let open_rate = ((value.open_num.value / value.register_num.value) * 100).toFixed(2)
+              Vue.set(vm.monthPowerActivityData.data[0], index + 1, commonTools.format_monthToChinese(value.key))
+              Vue.set(vm.monthPowerActivityData.data[4], index + 1, Number(open_rate))
+            })
+
+            //各州市一个月开机活跃数据
+            let ac_open_num_data = mixture_month_range_data[0].aggregations.ac.buckets
+            ac_open_num_data.forEach((value, index) => {
+              if (value.key != 'other') {  //commonTools.acConvert_Single(value.key)
+                Vue.set(vm.areaPowerActivityData.data[0], index + 1, commonTools.acConvert_Single(value.key))
+                let ac_month_open_num = value.statistical_granularity.buckets
+                let open_num_length = value.statistical_granularity.buckets.length
+                vm.areaPowerActivityData.title = "各市州" + commonTools.format_monthToChinese(ac_month_open_num[open_num_length - 1].key) + "开机活跃率"
+                let open_rate = ((ac_month_open_num[open_num_length - 1].open_num.value / ac_month_open_num[open_num_length - 1].register_num.value) * 100).toFixed(2)
+                Vue.set(vm.areaPowerActivityData.data[4], index + 1, Number(open_rate))
+              }
+            })
+
           }
           //混合单月分周数据
           if (datatype == "mixture" && timetype == "week") {
@@ -808,6 +839,7 @@ export default {
           if (datatype == "single" && timetype == "month_range") {
             // console.log("单个运营商多月数据", response.data.responses)
             if (type == 'yd') {
+              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
               console.log("单个运营商多月数据", tempOperatorArr)
               console.log(response.data.responses)
 
@@ -832,18 +864,6 @@ export default {
               })
               // console.log("vm.monthCancellationUserData.data移动", vm.monthCancellationUserData.data)
 
-              // let temp_data = [];
-              // temp_data.push(["product"]);
-              // temp_data.push(["移动"]);
-              // for (let i_test = 0; i_test < user_develop_data.length; i_test++) { 
-              //   Vue.set(temp_data[0], i_test + 1, user_develop_data[i_test].key + '月')
-              //   Vue.set(temp_data[1], i_test + 1, (user_develop_data[i_test].unsub_user_num.value / 10000).toFixed(1))
-              // }
-              // console.log(temp_data);
-              // vm.monthCancellationUserData.data = [];
-              // vm.monthCancellationUserData.data.push(temp_data[0]);
-              // vm.monthCancellationUserData.data.push(temp_data[1]);
-
               //G+TV本月分地区用户发展数据概览
               //本月各州市新增在册用户数
               let city_new_num_data = totle_data[0].aggregations.ac.buckets
@@ -856,6 +876,25 @@ export default {
                   // console.log(new_num_arry[length - 1].key, new_num_arry[length - 1].new_num.value)
                   Vue.set(vm.G_TVRegionUserData.data[1], index + 1, Number((new_num_arry[length - 1].new_num.value / 10000).toFixed(1)))
                   vm.G_TVRegionUserData.title = commonTools.format_monthToChinese(new_num_arry[length - 1].key) + '各市州新增在册用户数（万户）'
+                }
+              })
+
+              //开机活跃数据
+              let open_num_data = totle_data[0].aggregations.statistical_granularity.buckets
+              open_num_data.forEach((value, index) => {
+                let open_rate = ((value.open_num.value / value.register_num.value) * 100).toFixed(2)
+                // Vue.set(vm.monthPowerActivityData.data[0], index + 1, commonTools.format_monthToChinese(value.key))
+                Vue.set(vm.monthPowerActivityData.data[1], index + 1, Number(open_rate))
+              })
+
+              //各州市一个月开机活跃数据
+              let ac_open_num_data = totle_data[0].aggregations.ac.buckets
+              ac_open_num_data.forEach((value, index) => {
+                if (value.key != 'other') {
+                  let ac_month_open_num = value.statistical_granularity.buckets
+                  let open_num_length = value.statistical_granularity.buckets.length
+                  let open_rate = ((ac_month_open_num[open_num_length - 1].open_num.value / ac_month_open_num[open_num_length - 1].register_num.value) * 100).toFixed(2)
+                  Vue.set(vm.areaPowerActivityData.data[1], index + 1, Number(open_rate))
                 }
               })
 
@@ -895,6 +934,24 @@ export default {
                 }
               })
 
+              //开机活跃数据
+              let open_num_data = totle_data[0].aggregations.statistical_granularity.buckets
+              open_num_data.forEach((value, index) => {
+                let open_rate = ((value.open_num.value / value.register_num.value) * 100).toFixed(2)
+                Vue.set(vm.monthPowerActivityData.data[2], index + 1, Number(open_rate))
+              })
+
+              //各州市一个月开机活跃数据
+              let ac_open_num_data = totle_data[0].aggregations.ac.buckets
+              ac_open_num_data.forEach((value, index) => {
+                if (value.key != 'other') {
+                  let ac_month_open_num = value.statistical_granularity.buckets
+                  let open_num_length = value.statistical_granularity.buckets.length
+                  let open_rate = ((ac_month_open_num[open_num_length - 1].open_num.value / ac_month_open_num[open_num_length - 1].register_num.value) * 100).toFixed(2)
+                  Vue.set(vm.areaPowerActivityData.data[2], index + 1, Number(open_rate))
+                }
+              })
+
             } else if (type == 'dx') {
               console.log("单个运营商多月数据", tempOperatorArr)
               console.log(response.data.responses)
@@ -927,12 +984,32 @@ export default {
               })
               // console.log("vm.G_TVRegionUserData.data", vm.G_TVRegionUserData.data)
 
+              //开机活跃数据
+              let open_num_data = totle_data[0].aggregations.statistical_granularity.buckets
+              open_num_data.forEach((value, index) => {
+                let open_rate = ((value.open_num.value / value.register_num.value) * 100).toFixed(2)
+                Vue.set(vm.monthPowerActivityData.data[3], index + 1, Number(open_rate))
+              })
+              // console.log("vm.monthPowerActivityData.data", vm.monthPowerActivityData.data)
+
+              //各州市一个月开机活跃数据
+              let ac_open_num_data = totle_data[0].aggregations.ac.buckets
+              ac_open_num_data.forEach((value, index) => {
+                if (value.key != 'other') {
+                  let ac_month_open_num = value.statistical_granularity.buckets
+                  let open_num_length = value.statistical_granularity.buckets.length
+                  let open_rate = ((ac_month_open_num[open_num_length - 1].open_num.value / ac_month_open_num[open_num_length - 1].register_num.value) * 100).toFixed(2)
+                  Vue.set(vm.areaPowerActivityData.data[3], index + 1, Number(open_rate))
+                }
+              })
+
             }
           }
 
           //运营商 - 一月分周
           if (datatype == "single" && timetype == "week") {
             if (type == 'yd') {
+              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
               console.log("单运营商一月分周", tempOperatorArr)
               console.log(response.data.responses)
               let vm = this
@@ -1058,6 +1135,7 @@ export default {
           ////运营商 - 一月分天
           if (datatype == "single" && timetype == "day") {
             if (type == 'yd') {
+              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
               console.log("单运营商一月分天", tempOperatorArr)
               console.log(response.data.responses)
               let vm = this
@@ -1066,16 +1144,42 @@ export default {
               //G+TV本月每日用户发展数据  //每月日新增在册用户数
               let day_new_num_data = single_day_data[0].aggregations.statistical_granularity.buckets
               day_new_num_data.forEach((value, index) => {
-                console.log(value.key, value.new_num.value)
+                // console.log(value.key, value.new_num.value)
+                let setDate = new Date(value.key)
+                let setdateYear = (setDate.getFullYear()) + "年"
+                let setDateMonth = (setDate.getMonth() + 1) + "月"
+                let setDateDay = (setDate.getDate()) + '日'
+                let dayDate = setDateMonth + setDateDay
+                // console.log(dayDate)
+                vm.everyDayUserData.title = setDateMonth + "日新增在册用户数（千户）"
+                Vue.set(vm.everyDayUserData.data[0], index + 1, dayDate)
+                Vue.set(vm.everyDayUserData.data[1], index + 1, Number((value.new_num.value / 1000).toFixed(1)))
               })
             }
             if (type == 'lt') {
               console.log("单运营商一月分天", tempOperatorArr)
               console.log(response.data.responses)
+              let vm = this
+              let single_day_data = response.data.responses
+
+              //G+TV本月每日用户发展数据  //每月日新增在册用户数
+              let day_new_num_data = single_day_data[0].aggregations.statistical_granularity.buckets
+              day_new_num_data.forEach((value, index) => {
+                Vue.set(vm.everyDayUserData.data[2], index + 1, Number((value.new_num.value / 1000).toFixed(1)))
+              })
             }
             if (type == 'dx') {
               console.log("单运营商一月分天", tempOperatorArr)
               console.log(response.data.responses)
+
+              let vm = this
+              let single_day_data = response.data.responses
+
+              //G+TV本月每日用户发展数据  //每月日新增在册用户数
+              let day_new_num_data = single_day_data[0].aggregations.statistical_granularity.buckets
+              day_new_num_data.forEach((value, index) => {
+                Vue.set(vm.everyDayUserData.data[3], index + 1, Number((value.new_num.value / 1000).toFixed(1)))
+              })
             }
           }
 
@@ -2118,170 +2222,44 @@ export default {
 
       // G+TV7月每日用户发展数据
       everyDayUserData: {
-        title: "7月日新增在册用户数（千户）",
+        // title: "7月日新增在册用户数（千户）",
+        title: "",
         id: "everyDayUser",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4", "#FFC000"],
         data: [
-          [
-            "product",
-            "7月1日",
-            "7月2日",
-            "7月3日",
-            "7月4日",
-            "7月5日",
-            "7月6日",
-            "7月7日",
-            "7月8日",
-            "7月9日",
-            "7月10日",
-            "7月11日",
-            "7月12日",
-            "7月13日",
-            "7月14日",
-            "7月15日",
-            "7月16日",
-            "7月17日",
-            "7月18日",
-            "7月19日",
-            "7月20日",
-            "7月21日",
-            "7月22日",
-            "7月23日",
-            "7月24日",
-            "7月25日",
-            "7月26日",
-            "7月27日",
-            "7月28日",
-            "7月29日",
-            "7月30日"
-          ],
-          [
-            "移动",
-            1.7,
-            1.8,
-            1.1,
-            0.9,
-            0.8,
-            1.2,
-            0.8,
-            0.9,
-            1.2,
-            1.7,
-            1.8,
-            1.1,
-            0.9,
-            0.9,
-            0.8,
-            1.2,
-            0.8,
-            0.9,
-            1.2,
-            1.7,
-            1.8,
-            1.1,
-            0.9,
-            0.9,
-            0.8,
-            1.2,
-            0.8,
-            0.9,
-            5.6
-          ],
-          [
-            "联通",
-            0.4,
-            0.3,
-            0.2,
-            0.1,
-            0.8,
-            0.1,
-            0.2,
-            0.1,
-            0.8,
-            0.4,
-            0.3,
-            0.2,
-            0.1,
-            0.1,
-            0.8,
-            0.1,
-            0.2,
-            0.1,
-            0.8,
-            0.4,
-            0.3,
-            0.2,
-            0.1,
-            0.1,
-            0.8,
-            0.1,
-            0.2,
-            0.1,
-            0.7
-          ],
-          [
-            "电信",
-            2.9,
-            1.9,
-            1.5,
-            1.4,
-            1.2,
-            0.8,
-            0.7,
-            0.6,
-            0.9,
-            2.9,
-            1.9,
-            1.5,
-            1.4,
-            1.2,
-            0.8,
-            0.8,
-            0.7,
-            0.6,
-            0.9,
-            2.9,
-            1.9,
-            1.5,
-            1.4,
-            1.2,
-            0.8,
-            0.8,
-            0.7,
-            0.6,
-            5.4
-          ]
+          ["运营商",],
+          ["移动",],
+          ["联通",],
+          ["电信",]
+          // [
+          //   "product",
+          //   "7月1日", "7月2日", "7月3日", "7月4日", "7月5日", "7月6日", "7月7日", "7月8日", "7月9日", "7月10日",
+          //   "7月11日", "7月12日", "7月13日", "7月14日", "7月15日", "7月16日", "7月17日", "7月18日", "7月19日", "7月20日",
+          //   "7月21日", "7月22日", "7月23日", "7月24日", "7月25日", "7月26日", "7月27日", "7月28日", "7月29日", "7月30日"
+          // ],
+          // [
+          //   "移动",
+          //   1.7, 1.8, 1.1, 0.9, 0.8, 1.2, 0.8, 0.9, 1.2, 1.7,
+          //   1.8, 1.1, 0.9, 0.9, 0.8, 1.2, 0.8, 0.9, 1.2, 1.7,
+          //   1.8, 1.1, 0.9, 0.9, 0.8, 1.2, 0.8, 0.9, 5.6
+          // ],
+          // [
+          //   "联通",
+          //   0.4, 0.3, 0.2, 0.1, 0.8, 0.1, 0.2, 0.1, 0.8, 0.4,
+          //   0.3, 0.2, 0.1, 0.1, .8, 0.1, 0.2, 0.1, 0.8, 0.4,
+          //   0.3, 0.2, 0.1, 0.1, 0.8, 0.1, 0.2, 0.1, 0.7
+          // ],
+          // [
+          //   "电信",
+          //   2.9, 1.9, 1.5, 1.4, 1.2, 0.8, 0.7, 0.6, 0.9, 2.9,
+          //   1.9, 1.5, 1.4, 1.2, 0.8, 0.8, 0.7, 0.6, 0.9, 2.9,
+          //   1.9, 1.5, 1.4, 1.2, 0.8, 0.8, .7, 0.6, 5.4
+          // ],
           // [
           //   "线性（移动）",
-          //   2.0,
-          //   2.2,
-          //   2.4,
-          //   2.6,
-          //   3.0,
-          //   3.2,
-          //   3.4,
-          //   3.6,
-          //   3.8,
-          //   4.0,
-          //   4.2,
-          //   4.4,
-          //   4.6,
-          //   4.8,
-          //   5.0,
-          //   5.2,
-          //   5.4,
-          //   5.5,
-          //   5.7,
-          //   5.8,
-          //   5.9,
-          //   6.0,
-          //   6.2,
-          //   6.4,
-          //   6.6,
-          //   6.8,
-          //   7.0,
-          //   7.2,
-          //   7.4
+          //   2.0, 2.2, 2.4, 2.6, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0,
+          //   4.2, 4.4, 4.6, 4.8, 5.0, 5.2, 5.4, 5.5, 5.7, 5.8,
+          //   5.9, 6.0, 6.2, 6.4, 6.6, 6.8, 7.0, 7.2, 7.4
           // ]
         ]
       },
@@ -2291,37 +2269,37 @@ export default {
       monthPowerActivityData: {
         title: "移动、电信、联通侧月开机活跃率",
         id: "monthPowerActivity",
-        color: ["#5B9BD4", "#EC7C30", "#A4A4A4", "#FFC000"],
+        color: ["#5B9BD4", "#FFC000", "#A4A4A4", "#D48265"],
         data: [
-          ["product", "4月", "5月", "6月", "7月"],
-          ["移动", 82.2, 83.4, 94.7, 89.6],
-          ["联通", 35.8, 35.9, 36.9, 38.0],
-          ["电信", 26.1, 27.0, 36.9, 49.7],
-          ["总开机率", 58.8, 61.9, 59.7, 56.1]
+          ["name",],
+          ["移动",],
+          ["联通",],
+          ["电信",],
+          ["总开机率",]
+          // ["product", "4月", "5月", "6月", "7月"],
+          // ["移动", 82.2, 83.4, 94.7, 89.6],
+          // ["联通", 35.8, 35.9, 36.9, 38.0],
+          // ["电信", 26.1, 27.0, 36.9, 49.7],
+          // ["总开机率", 58.8, 61.9, 59.7, 56.1]
         ]
       },
       //各市州7月开机活跃率
       areaPowerActivityData: {
-        title: "各市州7月开机活跃率",
+        // title: "各市州7月开机活跃率",
+        title: "",
         id: "areaPowerActivity",
-        color: ["#5B9BD4", "#EC7C30", "#A4A4A4", "#FFC000"],
+        color: ["#5B9BD4", "#FFC000", "#A4A4A4", "#D48265"],
         data: [
-          [
-            "product",
-            "贵阳",
-            "遵义",
-            "六盘水",
-            "铜仁",
-            "黔南",
-            "安顺",
-            "毕节",
-            "黔东南",
-            "黔西南"
-          ],
-          ["移动", 82.2, 83.4, 94.7, 89.6, 82.2, 83.4, 94.7, 89.6, 83.4],
-          ["联通", 35.8, 35.9, 36.9, 38.0, 35.8, 35.9, 36.9, 38.0, 35.8],
-          ["电信", 26.1, 27.0, 36.9, 49.7, 26.1, 27.0, 36.9, 49.7, 27.0],
-          ["总开机活跃率", 58.8, 61.9, 59.7, 56.1, 58.8, 61.9, 59.7, 56.1, 61.9]
+          ["name",],
+          ["移动",],
+          ["联通",],
+          ["电信",],
+          ["总开机活跃率",]
+          // ["product","贵阳","遵义","六盘水","铜仁","黔南","安顺","毕节","黔东南","黔西南"],
+          // ["移动", 82.2, 83.4, 94.7, 89.6, 82.2, 83.4, 94.7, 89.6, 83.4],
+          // ["联通", 35.8, 35.9, 36.9, 38.0, 35.8, 35.9, 36.9, 38.0, 35.8],
+          // ["电信", 26.1, 27.0, 36.9, 49.7, 26.1, 27.0, 36.9, 49.7, 27.0],
+          // ["总开机活跃率", 58.8, 61.9, 59.7, 56.1, 58.8, 61.9, 59.7, 56.1, 61.9]
         ]
       },
 

@@ -18,14 +18,14 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "month_range"]),
     lineData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let color = [];
@@ -49,7 +49,7 @@ export default {
             }
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 1000);
           return {
@@ -61,10 +61,17 @@ export default {
         }
         return vm.lineData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
-
+  watch: {
+    month_range(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
+    },
+  },
   methods: {
     setLineChart() {
       var lineChart = this.$echarts.init(
@@ -97,10 +104,11 @@ export default {
           }
         },
         grid: {
+          containLabel: true,
           top: "30%",
-          left: "5%",
-          right: "5%",
-          bottom: "15%"
+          left: "20",
+          right: "20",
+          bottom: "15"
         },
         tooltip: {
           trigger: "axis",
@@ -164,19 +172,19 @@ export default {
           { type: "line", seriesLayoutBy: "row", symbol: "none" },
           { type: "line", seriesLayoutBy: "row", symbol: "none" },
           { type: "line", seriesLayoutBy: "row", symbol: "none" },
-          {
-            type: "line",
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  width: 2,
-                  type: "dotted" //'dotted'虚线 'solid'实线
-                }
-              }
-            },
-            seriesLayoutBy: "row",
-            symbol: "none"
-          }
+          // {
+          //   type: "line",
+          //   itemStyle: {
+          //     normal: {
+          //       lineStyle: {
+          //         width: 2,
+          //         type: "dotted" //'dotted'虚线 'solid'实线
+          //       }
+          //     }
+          //   },
+          //   seriesLayoutBy: "row",
+          //   symbol: "none"
+          // }
         ]
       };
       lineChart.clear();

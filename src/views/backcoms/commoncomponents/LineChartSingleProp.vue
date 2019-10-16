@@ -14,13 +14,13 @@ export default {
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     lineData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     }
@@ -367,10 +367,11 @@ export default {
           }
         },
         grid: {
+          containLabel: true,
           top: "30%",
-          left: "10%",
-          right: "5%",
-          bottom: "10%"
+          left: "15",
+          right: "25",
+          bottom: "10"
         },
         series: seriesData
       };
