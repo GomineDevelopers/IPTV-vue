@@ -19,7 +19,21 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
+  },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    lineData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    }
   },
   computed: {
     ...mapGetters(["PR_month"]),
@@ -34,7 +48,7 @@ export default {
         // 视图更新
         setTimeout(function() {
           vm.setLineChart();
-        }, 1000);
+        }, 2000);
         return vm.lineData;
       },
       set: function(newValue) {}

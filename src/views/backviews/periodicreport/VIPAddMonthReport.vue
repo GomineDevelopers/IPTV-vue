@@ -359,9 +359,9 @@ export default {
               temp_data3[2].push(buckets_0[i_0].new_paid_num.value / 10000);
             }
 
-            // vm.newRegisteredUsersData.data = temp_data1;
-            // vm.powerAddNewUsersData.data = temp_data2;
-            // vm.powerAddNewPayingUsersData.data = temp_data3;
+            vm.newRegisteredUsersData.data = temp_data1;
+            vm.powerAddNewUsersData.data = temp_data2;
+            vm.powerAddNewPayingUsersData.data = temp_data3;
             // console.log("~~~~~~~~~~~~~~~~~~~~temp_data1~3");
             // console.log(temp_data1);
             // console.log(temp_data2);
@@ -457,9 +457,9 @@ export default {
               temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_paid_num.value);
               temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_income.value);
             }
-            // vm.newAddUserPercentData.data = temp_data_0_1;
-            // vm.newAddPayingUserData.data = temp_data_0_2;
-            // vm.monthOrderData.data = temp_data_0_3;
+            vm.newAddUserPercentData.data = temp_data_0_1;
+            vm.newAddPayingUserData.data = temp_data_0_2;
+            vm.monthOrderData.data = temp_data_0_3;
             // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_0_1~3");
             // console.log(temp_data_0_1);
             // console.log(temp_data_0_2);
@@ -619,143 +619,337 @@ export default {
                 dataManage_1_1b(index_month, index_month_child, 8);
               }
             } // function （尾巴）
-            let temp_object = {
-              title: "" // X月订购用户情况（户）
-              // data: [
-              //   { value: 0, name: "影视包" },
-              //   { value: 0, name: "影视包（包季）" },
-              //   { value: 0, name: "影视包（包年）" },
-              //   { value: 0, name: "少儿包" },
-              //   { value: 0, name: "少儿包（包季）" },
-              //   { value: 0, name: "少儿包（包年）" },
-              //   { value: 0, name: "欢乐家庭包" },
-              //   { value: 0, name: "欢乐家庭包（包季）" },
-              //   { value: 0, name: "欢乐家庭包（包年）" }
-              // ]
-            };
-            let temp_temp_object;
 
             // 总数据处理
-            let i_1_1;
-            for (i_1_1 = 0; i_1_1 < length_1; i_1_1++) {
-              // function temp_object_Manage(index, name) {
-              //   if (name == "订购用户情况（户）") {
-              //     temp_temp_object = temp_object;
-              //     temp_temp_object.title =
-              //       commonTools.format_monthToChinese(buckets_1[index].key) +
-              //       name;
-              //     console.log(temp_temp_object);
-              //     return temp_temp_object;
-              //     // return "1";
-              //   }
-              //   if (name == "收入分布对比（元）") {
-              //     temp_temp_object = temp_object;
-              //     temp_temp_object.title =
-              //       commonTools.format_monthToChinese(buckets_1[index].key) +
-              //       name;
-              //     console.log(temp_temp_object);
-              //     return temp_temp_object;
-              //     // return "2";
-              //   }
-              // }
-              console.log("i_1_1:" + i_1_1);
-              console.log("length_1:" + length_1);
-
+            for (i_1 = 0; i_1 < length_1; i_1++) {
+              // 第一个
+              temp_data_1_1.push([]);
+              temp_data_1_1[i_1 + 1].push(
+                commonTools.format_monthToChinese(buckets_1[i_1].key)
+              );
+              // 第二个
+              temp_data_1_2.push([]);
+              temp_data_1_2[i_1 + 1].push(
+                commonTools.format_monthToChinese(buckets_1[i_1].key)
+              );
               // 第三个
-              // temp_data_1_3.push(temp_object_Manage(i_1, "订购用户情况（户）"));
-              temp_data_1_3.push(temp_object);
-              temp_data_1_3[i_1_1].title = "1";
-
-              console.log(temp_data_1_3);
+              temp_data_1_3.push({
+                title: "", // X月订购用户情况（户）
+                data: [
+                  { value: 0, name: "影视包" },
+                  { value: 0, name: "影视包（包季）" },
+                  { value: 0, name: "影视包（包年）" },
+                  { value: 0, name: "少儿包" },
+                  { value: 0, name: "少儿包（包季）" },
+                  { value: 0, name: "少儿包（包年）" },
+                  { value: 0, name: "欢乐家庭包" },
+                  { value: 0, name: "欢乐家庭包（包季）" },
+                  { value: 0, name: "欢乐家庭包（包年）" }
+                ]
+              });
+              temp_data_1_3[i_1].title =
+                commonTools.format_monthToChinese(buckets_1[i_1].key) +
+                "订购用户情况（户）";
               // 第四个
-              // temp_data_1_4.push(temp_object_Manage(i_1, "收入分布对比（元）"));
-              // temp_data_1_4.push(temp_object);
-              // temp_data_1_4[i_1].title = "2";
+              temp_data_1_4.push({
+                title: "", // X月订购用户情况（户）
+                data: [
+                  { value: 0, name: "影视包" },
+                  { value: 0, name: "影视包（包季）" },
+                  { value: 0, name: "影视包（包年）" },
+                  { value: 0, name: "少儿包" },
+                  { value: 0, name: "少儿包（包季）" },
+                  { value: 0, name: "少儿包（包年）" },
+                  { value: 0, name: "欢乐家庭包" },
+                  { value: 0, name: "欢乐家庭包（包季）" },
+                  { value: 0, name: "欢乐家庭包（包年）" }
+                ]
+              });
+              temp_data_1_4[i_1].title =
+                commonTools.format_monthToChinese(buckets_1[i_1].key) +
+                "收入分布对比（元）";
 
-              // console.log(temp_data_1_4);
+              // 统一点：第一、二、三、四个的for
+              for (
+                i_1_child_1 = 0;
+                i_1_child_1 < length_1_child_1;
+                i_1_child_1++
+              ) {
+                // 第一、二
+                try {
+                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+                  Retrun_KeyValue_1_1a(
+                    buckets_1[i_1].value_added_service_package.buckets[
+                      i_1_child_1
+                    ].key,
+                    i_1, // ?month 同级
+                    i_1_child_1 // ??VIP  同级
+                  );
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+              for (
+                i_1_child_1 = 0;
+                i_1_child_1 < length_1_child_1;
+                i_1_child_1++
+              ) {
+                // 第三、四
+                try {
+                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+                  Retrun_KeyValue_1_1b(
+                    buckets_1[i_1].value_added_service_package.buckets[
+                      i_1_child_1
+                    ].key,
+                    i_1, // ?month 同级
+                    i_1_child_1 // ??VIP  同级
+                  );
+                } catch (err) {
+                  console.log(err);
+                }
+              }
             }
-            let i_1_2;
-            for (i_1_2 = 0; i_1_2 < length_1; i_1_2++) {
-              temp_data_1_4.push(temp_object);
-              temp_data_1_4[i_1_2].title = "2";
-              console.log(temp_data_1_4);
-            }
 
-            // for (i_1 = 0; i_1 < length_1; i_1++) {
-            //   // 第一个
-            //   temp_data_1_1.push([]);
-            //   temp_data_1_1[i_1 + 1].push(
-            //     commonTools.format_monthToChinese(buckets_1[i_1].key)
-            //   );
-            //   // 第二个
-            //   temp_data_1_2.push([]);
-            //   temp_data_1_2[i_1 + 1].push(
-            //     commonTools.format_monthToChinese(buckets_1[i_1].key)
-            //   );
+            // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
+            // console.log(temp_data_1_1);
+            // console.log(temp_data_1_2);
+            // console.log(temp_data_1_3);
+            // console.log(temp_data_1_4);
 
-            //   // // 统一点：第一、二、三、四个的for
-            //   // for (
-            //   //   i_1_child_1 = 0;
-            //   //   i_1_child_1 < length_1_child_1;
-            //   //   i_1_child_1++
-            //   // ) {
-            //   //   // 第一、二
-            //   //   try {
-            //   //     // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
-            //   //     Retrun_KeyValue_1_1a(
-            //   //       buckets_1[i_1].value_added_service_package.buckets[
-            //   //         i_1_child_1
-            //   //       ].key,
-            //   //       i_1, // ?month 同级
-            //   //       i_1_child_1 // ??VIP  同级
-            //   //     );
-            //   //   } catch (err) {
-            //   //     console.log(err);
-            //   //   }
-            //   // }
-            //   // for (
-            //   //   i_1_child_1 = 0;
-            //   //   i_1_child_1 < length_1_child_1;
-            //   //   i_1_child_1++
-            //   // ) {
-            //   //   // 第三、四
-            //   //   try {
-            //   //     // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
-            //   //     Retrun_KeyValue_1_1b(
-            //   //       buckets_1[i_1].value_added_service_package.buckets[
-            //   //         i_1_child_1
-            //   //       ].key,
-            //   //       i_1, // ?month 同级
-            //   //       i_1_child_1 // ??VIP  同级
-            //   //     );
-            //   //   } catch (err) {
-            //   //     console.log(err);
-            //   //   }
-            //   // }
-            // }
-
-            console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
-            console.log(temp_data_1_1);
-            console.log(temp_data_1_2);
-            console.log(temp_data_1_3);
-            console.log("~~~~~~~~!");
-            console.log(temp_data_1_4);
-
-            // vm.monthVIPOrderData.data = temp_data_1_1;
-            // vm.monthVIPOrderIncomeData.data = temp_data_1_2;
-            // vm.orderUserContrastData.content = temp_data_1_3;
-            // vm.incomeContrastData.content = temp_data_1_4;
+            vm.monthVIPOrderData.data = temp_data_1_1;
+            vm.monthVIPOrderIncomeData.data = temp_data_1_2;
+            vm.orderUserContrastData.content = temp_data_1_3;
+            vm.incomeContrastData.content = temp_data_1_4;
 
             // //////////////// 订购内容来源 row5 left right   responses2    （有）
             // 点击次数 （▲▲▲ 没这东西-视图错了）
             // 新增订购用户数 new_paid_num
 
+            let buckets_2 =
+              responses2.aggregations.statistical_granularity.buckets;
+            let length_2 = buckets_2.length;
+            let i_2;
+            // 本月 （index = length -1）
+            let temp_data_2_current = [];
+            if (length_2 == 0) {
+              temp_data_2_current = [];
+            } else {
+              let buckets_2_current = buckets_2[length_2 - 1];
+              let buckets_2_child = buckets_2_current.programname.buckets;
+              let length_2_child = 20;
+              if (buckets_2_child.length < 20) {
+                length_2_child = buckets_2_child.length;
+              }
+              let i_2_child;
+              temp_data_2_current.push([
+                "product",
+                "引导用户付费内容排名（户）"
+              ]);
+              for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
+                temp_data_2_current.push([
+                  buckets_2_child[length_2_child - i_2_child - 1].key,
+                  buckets_2_child[length_2_child - i_2_child - 1].new_paid_num
+                    .value
+                ]);
+              }
+            }
+
+            // 上月  index = length -2   （如果 index<0 则只有1个月数据）
+            let temp_data_2_last = [];
+            if (length_2 - 2 < 0) {
+              temp_data_2_last = [];
+            } else {
+              let buckets_2_last = buckets_2[length_2 - 2];
+              let buckets_2_child = buckets_2_last.programname.buckets;
+              let length_2_child = 20;
+              if (buckets_2_child.length < 20) {
+                length_2_child = buckets_2_child.length;
+              }
+              let i_2_child;
+              temp_data_2_last.push(["product", "引导用户付费内容排名（户）"]);
+              for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
+                temp_data_2_last.push([
+                  buckets_2_child[length_2_child - i_2_child - 1].key,
+                  buckets_2_child[length_2_child - i_2_child - 1].new_paid_num
+                    .value
+                ]);
+              }
+            }
+            // console.log("temp_data_2_current ~ last");
+            // console.log(temp_data_2_current);
+            // console.log(temp_data_2_last);
+            vm.guideUserPayingContentData1.data = temp_data_2_last; // 上月 - guideUserPayingContentData1
+            vm.guideUserPayingContentData2.data = temp_data_2_current; // 本月 - guideUserPayingContentData2
+
             // //////////////// 订购用户所属地区数据  row6 left responses3   （没有）
             // （新增）订购用户数（ 按地区分） new_paid_num
 
-            // //////////////// 订购用户所属地区数据  row6 right （实际为：分地区订购用户引导付费内容订购排名） responses0  （有）
+            // //////////////// 订购用户所属地区数据  row6 right （实际为：分地区订购用户引导付费内容订购排名） responses2  （有）
             // //////////////// 分地区订购用户引导付费内容订购排名 row7 全部
             // （新增）订购用户数（ 先按单地区分，再分别列出Top5的电视节目） new_paid_num
+            let buckets_6 =
+              responses2.aggregations.statistical_granularity.buckets; //  responses2
+            let length_6 = buckets_6.length;
+            let i_6;
+
+            let temp_data_6_1 = [];
+            let temp_data_6_2 = [];
+            let temp_data_6_3 = [];
+            let temp_data_6_4 = [];
+            let temp_data_6_5 = [];
+            let temp_data_6_6 = [];
+            let temp_data_6_7 = [];
+            let temp_data_6_8 = [];
+            let temp_data_6_9 = [];
+            let title_6_arr = [
+              "贵阳",
+              "遵义",
+              "安顺",
+              "黔南",
+              "黔东南",
+              "铜仁",
+              "毕节",
+              "六盘水",
+              "黔西南"
+            ];
+
+            temp_data_6_1.push(["product", "本月订购用户数"]);
+            temp_data_6_2.push(["product", "本月订购用户数"]);
+            temp_data_6_3.push(["product", "本月订购用户数"]);
+            temp_data_6_4.push(["product", "本月订购用户数"]);
+            temp_data_6_5.push(["product", "本月订购用户数"]);
+            temp_data_6_6.push(["product", "本月订购用户数"]);
+            temp_data_6_7.push(["product", "本月订购用户数"]);
+            temp_data_6_8.push(["product", "本月订购用户数"]);
+            temp_data_6_9.push(["product", "本月订购用户数"]);
+
+            if (length_6 != 0) {
+              // 有month数据情况
+              let buckets_6_child = buckets_2[length_2 - 1].ac.buckets;
+              let length_6_child = buckets_6_child.length;
+              let i_6_child;
+
+              for (i_6_child = 0; i_6_child < length_6_child; i_6_child++) {
+                let i_6_cc;
+                let length_6_cc = 5; // 只要Top5
+                let buckets_6_cc =
+                  buckets_6_child[i_6_child].programname.buckets;
+                // console.log(buckets_6_child[i_6_child].key);
+
+                if (buckets_6_child[i_6_child].key == "851") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_1.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "852") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_2.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "853") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_3.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "854") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_4.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "855") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_5.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "856") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_6.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "857") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_7.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "858") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_8.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+                if (buckets_6_child[i_6_child].key == "859") {
+                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                    temp_data_6_9.push([
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
+                    ]);
+                  }
+                }
+              }
+            }
+
+            // console.log(temp_data_6_1);
+            // console.log(temp_data_6_2);
+            // console.log(temp_data_6_3);
+            // console.log(temp_data_6_4);
+            // console.log(temp_data_6_5);
+            // console.log(temp_data_6_6);
+            // console.log(temp_data_6_7);
+            // console.log(temp_data_6_8);
+            // console.log(temp_data_6_9);
+
+            // 数据不按原视图的来，按照 851~859的顺序来，变量名称不管
+
+            vm.GuiyangPayingUserData.data = temp_data_6_1;
+            vm.GuiyangPayingUserData.title =
+              title_6_arr[0] + "引导付费内容排名（户）";
+            vm.ZunyiPayingUserData.data = temp_data_6_2;
+            vm.ZunyiPayingUserData.title =
+              title_6_arr[1] + "引导付费内容排名（户）";
+            vm.QiannanPayingUserData.data = temp_data_6_3;
+            vm.QiannanPayingUserData.title =
+              title_6_arr[2] + "引导付费内容排名（户）";
+            vm.QiandongnanPayingUserData.data = temp_data_6_4;
+            vm.QiandongnanPayingUserData.title =
+              title_6_arr[3] + "引导付费内容排名（户）";
+            vm.TongrenPayingUserData.data = temp_data_6_5;
+            vm.TongrenPayingUserData.title =
+              title_6_arr[4] + "引导付费内容排名（户）";
+            vm.BijiePayingUserData.data = temp_data_6_6;
+            vm.BijiePayingUserData.title =
+              title_6_arr[5] + "引导付费内容排名（户）";
+            vm.QianxinanPayingUserData.data = temp_data_6_7;
+            vm.QianxinanPayingUserData.title =
+              title_6_arr[6] + "引导付费内容排名（户）";
+            vm.LiupanshuiPayingUserData.data = temp_data_6_8;
+            vm.LiupanshuiPayingUserData.title =
+              title_6_arr[7] + "引导付费内容排名（户）";
+            vm.AnshunPayingUserData.data = temp_data_6_9;
+            vm.AnshunPayingUserData.title =
+              title_6_arr[8] + "引导付费内容排名（户）";
 
             // //////////////// row8 原位置
 
@@ -765,6 +959,84 @@ export default {
             // 点播用户数 demand_user_num
             // 点播次数 demand_freq
             // 点播时长 demand_dur
+
+            // 数据格式：先分月份 - 再分节目名称（节目名称里面包括节目类型 ） --后台数据 名称和类型字段反了
+
+            let buckets_8 =
+              responses4.aggregations.statistical_granularity.buckets;
+            let length_8 = buckets_8.length;
+            let i_8;
+            // 本月 （index = length -1）
+            let temp_data_8_current = [];
+            if (length_8 == 0) {
+              temp_data_8_current = [];
+            } else {
+              let buckets_8_current = buckets_8[length_8 - 1];
+              let buckets_8_child = buckets_8_current.programname.buckets;
+              let length_8_child = 15;
+              if (buckets_8_child.length < 15) {
+                length_8_child = buckets_8_child.length;
+              }
+              let i_8_child;
+           
+              for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
+                temp_data_8_current.push({
+                  programName: "",
+                  programType: "",
+                  userNum: 0,
+                  times: 0,
+                  duration: 0
+                });
+                temp_data_8_current[i_8_child].programName =
+                  buckets_8_child[i_8_child].key;
+                temp_data_8_current[i_8_child].programType =
+                  buckets_8_child[i_8_child].program_type.buckets[0].key;
+                temp_data_8_current[i_8_child].userNum =
+                  buckets_8_child[i_8_child].demand_user_num.value;
+                temp_data_8_current[i_8_child].times =
+                  buckets_8_child[i_8_child].demand_freq.value;
+                temp_data_8_current[i_8_child].duration =
+                  buckets_8_child[i_8_child].demand_dur.value;
+              }
+            }
+
+            // 上月  index = length -2   （如果 index<0 则只有1个月数据）
+            let temp_data_8_last = [];
+            if (length_8 - 2 < 0) {
+              temp_data_8_last = [];
+            } else {
+              let buckets_8_last = buckets_8[length_8 - 2];
+              let buckets_8_child = buckets_8_last.programname.buckets;
+              let length_8_child = 15;
+              if (buckets_8_child.length < 15) {
+                length_8_child = buckets_8_child.length;
+              }
+              let i_8_child;
+              for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
+                temp_data_8_last.push({
+                  programName: "",
+                  programType: "",
+                  userNum: 0,
+                  times: 0,
+                  duration: 0
+                });
+                temp_data_8_last[i_8_child].programName =
+                  buckets_8_child[i_8_child].key;
+                temp_data_8_last[i_8_child].programType =
+                  buckets_8_child[i_8_child].program_type.buckets[0].key;
+                temp_data_8_last[i_8_child].userNum =
+                  buckets_8_child[i_8_child].demand_user_num.value;
+                temp_data_8_last[i_8_child].times =
+                  buckets_8_child[i_8_child].demand_freq.value;
+                temp_data_8_last[i_8_child].duration =
+                  buckets_8_child[i_8_child].demand_dur.value;
+              }
+            }
+            console.log("temp_data_8_current ~ last");
+            console.log(temp_data_8_current);
+            console.log(temp_data_8_last);
+            vm.tableData = temp_data_8_last; // 上月 tableData
+            vm.tableData2 = temp_data_8_current ; // 当月  tableData2
           }
         })
         .catch(function(error) {
@@ -1168,27 +1440,27 @@ export default {
         id: "guideUserPayingContent1",
         color: ["#ED7D31"],
         data: [
-          ["product", "点击次数（万次）"],
-          ["（电视剧）封神演义", 78],
-          ["（电视剧）新白娘子传奇2019", 91],
-          ["（电影）飞驰人生", 98],
-          ["（电视剧）青春斗", 101],
-          ["（少儿）猪猪侠之竞球小英雄第二部", 150],
-          ["（少儿）熊出没之探险日记 第二季", 179],
-          ["（电视剧）招摇", 188],
-          ["（电视剧）黄河英雄", 191],
-          ["（电视剧）夜空中最闪亮的星", 285],
-          ["（综艺）王牌对王牌 第四季", 302],
-          ["（少儿）汪汪队立大功 第四季", 340],
-          ["（电影）狂暴凶狮", 396],
-          ["（通灵妃）通灵妃", 400],
-          ["湖南卫视（高清）", 452],
-          ["（电影）绿毛怪格林奇（原声版）", 465],
-          ["（电影）钢铁飞龙之奥特曼崛起", 480],
-          ["（少儿）宝宝巴士启蒙音乐剧之汽车家族", 506],
-          ["（电视剧）推手", 527],
-          ["（动漫）猫妖的诱惑", 538],
-          ["（少儿）假面骑士时王", 560]
+          // ["product", "点击次数（万次）"],
+          // ["（电视剧）封神演义", 78],
+          // ["（电视剧）新白娘子传奇2019", 91],
+          // ["（电影）飞驰人生", 98],
+          // ["（电视剧）青春斗", 101],
+          // ["（少儿）猪猪侠之竞球小英雄第二部", 150],
+          // ["（少儿）熊出没之探险日记 第二季", 179],
+          // ["（电视剧）招摇", 188],
+          // ["（电视剧）黄河英雄", 191],
+          // ["（电视剧）夜空中最闪亮的星", 285],
+          // ["（综艺）王牌对王牌 第四季", 302],
+          // ["（少儿）汪汪队立大功 第四季", 340],
+          // ["（电影）狂暴凶狮", 396],
+          // ["（通灵妃）通灵妃", 400],
+          // ["湖南卫视（高清）", 452],
+          // ["（电影）绿毛怪格林奇（原声版）", 465],
+          // ["（电影）钢铁飞龙之奥特曼崛起", 480],
+          // ["（少儿）宝宝巴士启蒙音乐剧之汽车家族", 506],
+          // ["（电视剧）推手", 527],
+          // ["（动漫）猫妖的诱惑", 538],
+          // ["（少儿）假面骑士时王", 560]
         ]
       },
       //本月引导用户付费内容排名（户）
@@ -1197,27 +1469,27 @@ export default {
         id: "guideUserPayingContent2",
         color: ["#5B9BD4"],
         data: [
-          ["product", "点击次数（万次）"],
-          ["（电视剧）封神演义", 78],
-          ["（电视剧）新白娘子传奇2019", 91],
-          ["（电影）飞驰人生", 98],
-          ["（电视剧）青春斗", 101],
-          ["（少儿）猪猪侠之竞球小英雄第二部", 150],
-          ["（少儿）熊出没之探险日记 第二季", 179],
-          ["（电视剧）招摇", 188],
-          ["（电视剧）黄河英雄", 191],
-          ["（电视剧）夜空中最闪亮的星", 285],
-          ["（综艺）王牌对王牌 第四季", 302],
-          ["（少儿）汪汪队立大功 第四季", 340],
-          ["（电影）狂暴凶狮", 396],
-          ["（通灵妃）通灵妃", 400],
-          ["湖南卫视（高清）", 452],
-          ["（电影）绿毛怪格林奇（原声版）", 465],
-          ["（电影）钢铁飞龙之奥特曼崛起", 480],
-          ["（少儿）宝宝巴士启蒙音乐剧之汽车家族", 506],
-          ["（电视剧）推手", 527],
-          ["（动漫）猫妖的诱惑", 538],
-          ["（少儿）假面骑士时王", 560]
+          // ["product", "点击次数（万次）"],
+          // ["（电视剧）封神演义", 78],
+          // ["（电视剧）新白娘子传奇2019", 91],
+          // ["（电影）飞驰人生", 98],
+          // ["（电视剧）青春斗", 101],
+          // ["（少儿）猪猪侠之竞球小英雄第二部", 150],
+          // ["（少儿）熊出没之探险日记 第二季", 179],
+          // ["（电视剧）招摇", 188],
+          // ["（电视剧）黄河英雄", 191],
+          // ["（电视剧）夜空中最闪亮的星", 285],
+          // ["（综艺）王牌对王牌 第四季", 302],
+          // ["（少儿）汪汪队立大功 第四季", 340],
+          // ["（电影）狂暴凶狮", 396],
+          // ["（通灵妃）通灵妃", 400],
+          // ["湖南卫视（高清）", 452],
+          // ["（电影）绿毛怪格林奇（原声版）", 465],
+          // ["（电影）钢铁飞龙之奥特曼崛起", 480],
+          // ["（少儿）宝宝巴士启蒙音乐剧之汽车家族", 506],
+          // ["（电视剧）推手", 527],
+          // ["（动漫）猫妖的诱惑", 538],
+          // ["（少儿）假面骑士时王", 560]
         ]
       },
 
@@ -1246,12 +1518,12 @@ export default {
         id: "GuiyangPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "本月订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "本月订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
 
@@ -1261,12 +1533,12 @@ export default {
         id: "ZunyiPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //黔南市引导付费内容排名
@@ -1275,12 +1547,12 @@ export default {
         id: "QiannanPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //黔东南苗族侗族自治州引导付费内容排名
@@ -1289,12 +1561,12 @@ export default {
         id: "QiandongnanPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //铜仁市引导付费内容排名
@@ -1303,12 +1575,12 @@ export default {
         id: "TongrenPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //毕节市引导付费内容排名
@@ -1317,12 +1589,12 @@ export default {
         id: "BijiePayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //黔西南布依族苗族自治州引导付费内容排名
@@ -1331,12 +1603,12 @@ export default {
         id: "QianxinanPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //黔西南布依族苗族自治州引导付费内容排名
@@ -1345,12 +1617,12 @@ export default {
         id: "LiupanshuiPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
       //安顺市引导付费内容排名
@@ -1359,12 +1631,12 @@ export default {
         id: "AnshunPayingUser",
         color: ["#5B9BD5"],
         data: [
-          ["product", "订购用户数"],
-          ["疯狂的外星人", 946],
-          ["雪暴", 880],
-          ["反贪风暴4（国语版）", 941],
-          ["三重威胁之跨国大营救", 1314],
-          ["白发", 2204]
+          // ["product", "订购用户数"],
+          // ["疯狂的外星人", 946],
+          // ["雪暴", 880],
+          // ["反贪风暴4（国语版）", 941],
+          // ["三重威胁之跨国大营救", 1314],
+          // ["白发", 2204]
         ]
       },
 
@@ -1576,218 +1848,218 @@ export default {
 
       //点播TOP榜单数据
       tableData: [
-        {
-          programName: "熊出没",
-          programType: "少儿",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "疯狂的外星人",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "白发",
-          programType: "电视剧",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "人间喜剧",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "流浪地球",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "新百娘子传奇",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "熊出没",
-          programType: "少儿",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "疯狂的外星人",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "白发",
-          programType: "电视剧",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "人间喜剧",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "流浪地球",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "新百娘子传奇",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "人间喜剧",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "流浪地球",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "新百娘子传奇",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        }
+        // {
+        //   programName: "熊出没",
+        //   programType: "少儿",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "疯狂的外星人",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "白发",
+        //   programType: "电视剧",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "人间喜剧",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "流浪地球",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "新百娘子传奇",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "熊出没",
+        //   programType: "少儿",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "疯狂的外星人",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "白发",
+        //   programType: "电视剧",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "人间喜剧",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "流浪地球",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "新百娘子传奇",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "人间喜剧",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "流浪地球",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "新百娘子传奇",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // }
       ],
       tableData2: [
-        {
-          programName: "熊出没",
-          programType: "少儿",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "疯狂的外星人",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "白发",
-          programType: "电视剧",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "人间喜剧",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "流浪地球",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "新百娘子传奇",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "熊出没",
-          programType: "少儿",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "疯狂的外星人",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "白发",
-          programType: "电视剧",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "人间喜剧",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "流浪地球",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "新百娘子传奇",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "人间喜剧",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "流浪地球",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        },
-        {
-          programName: "新百娘子传奇",
-          programType: "电影",
-          userNum: "7472",
-          times: "118503",
-          duration: "30660"
-        }
+        // {
+        //   programName: "熊出没",
+        //   programType: "少儿",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "疯狂的外星人",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "白发",
+        //   programType: "电视剧",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "人间喜剧",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "流浪地球",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "新百娘子传奇",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "熊出没",
+        //   programType: "少儿",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "疯狂的外星人",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "白发",
+        //   programType: "电视剧",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "人间喜剧",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "流浪地球",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "新百娘子传奇",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "人间喜剧",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "流浪地球",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // },
+        // {
+        //   programName: "新百娘子传奇",
+        //   programType: "电影",
+        //   userNum: "7472",
+        //   times: "118503",
+        //   duration: "30660"
+        // }
       ]
     };
   },
@@ -1803,7 +2075,7 @@ export default {
   height: 400px;
 }
 .new_registered_users_body {
-  height: 400px;
+  height: 450px;
 }
 .order_content_body {
   height: 700px;

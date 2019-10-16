@@ -11,6 +11,20 @@ export default {
   props: {
     lineData: Object
   },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    lineData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    }
+  },
   computed: {
     ...mapGetters([
       "ULC_region",
@@ -143,7 +157,7 @@ export default {
         // 视图更新
         setTimeout(function() {
           vm.setLineChart();
-        }, 1000);
+        }, 2000);
         return vm.lineData;
       },
       set: function(newValue) {}
@@ -160,8 +174,8 @@ export default {
   },
   methods: {
     setLineChart() {
-      console.log("~~~~~~~~xxxx");
-      console.log(this.lineData_Change.id);
+      // console.log("~~~~~~~~xxxx");
+      // console.log(this.lineData_Change.id);
       var lineChart = this.$echarts.init(
         document.getElementById(this.lineData_Change.id)
       );

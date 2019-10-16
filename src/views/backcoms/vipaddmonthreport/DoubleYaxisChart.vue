@@ -22,14 +22,20 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
+    },
+    lineData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
     }
   },
   mounted() {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     setLineChart() {
@@ -147,7 +153,7 @@ export default {
           }
         ]
       };
-      lineChart.clear(option);
+      lineChart.clear();
       lineChart.setOption(option);
       window.addEventListener("resize", () => {
         lineChart.resize();

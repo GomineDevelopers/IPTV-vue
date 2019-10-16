@@ -19,6 +19,20 @@ export default {
     //   data: []
     // }
   },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    chartData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    }
+  },
   computed: {
     ...mapGetters([
       "PR_operator",
@@ -210,7 +224,7 @@ export default {
           vm.chartData.id == "monthVIPOrder" ||
           vm.chartData.id == "monthVIPOrderIncome"
         ) {
-          if (vm.PR_week) {
+          if (vm.PR_month && vm.PR_week) {
             // do nothing. --监听
           }
         }

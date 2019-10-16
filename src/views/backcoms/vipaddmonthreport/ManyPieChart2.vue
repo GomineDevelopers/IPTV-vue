@@ -24,14 +24,20 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
+    },
+    pieData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
     }
   },
   mounted() {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     setLineChart() {

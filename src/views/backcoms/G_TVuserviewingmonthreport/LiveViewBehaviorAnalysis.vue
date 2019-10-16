@@ -17,31 +17,46 @@ export default {
   data() {
     return {};
   },
-  mounted() {
-    let vm = this;
-    setTimeout(function() {
-      vm.setLineChart();
-    }, 1000);
-  },
-  computed: {
-    ...mapGetters(["PR_week"]),
-    barListData_Change: {
-      get: function() {
-        let vm = this;
-        setTimeout(function() {
-          vm.setLineChart();
-        }, 1000);
-        return vm.barListData;
-      },
-      set: function(newValue) {}
-    }
-  },
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
+    },
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    barListData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    }
+  },
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 2000);
+  },
+  computed: {
+    ...mapGetters(["PR_week", "PR_month"]),
+    barListData_Change: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_week && vm.PR_month) {
+          //  do nonthing. --监听
+        }
+        setTimeout(function() {
+          vm.setLineChart();
+        }, 2000);
+        return vm.barListData;
+      },
+      set: function(newValue) {}
     }
   },
   methods: {
