@@ -9,6 +9,12 @@ import CryptoJS from 'crypto-js' //加密js
 
 
 
+// 传入日期2019-10-18 获得当月01号 2019-10-01
+commonTools.get_ExpirationDate_01 = function (str) {
+    let spilit_str = str.split("-");
+    return spilit_str[0] + "-" + spilit_str[1] + "-01";
+}
+
 
 // 数据格式转换 2019-08-06 =》8月6日
 commonTools.format_dateToChineseMD = function (date) {

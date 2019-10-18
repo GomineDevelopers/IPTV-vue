@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>订购数据
+      <span class="title_border_left"></span>订购数据（月）
     </el-row>
     <el-row v-show="ifgetdata" class="order_data_body">
       <el-row class="order_data_row1" id="order_data_circular"></el-row>
@@ -64,13 +64,13 @@ export default {
       let data = {
         // operator: String(["移动", "联通", "电信"]),
         operator: m_operator,
-        start: ExpirationDate,
+        start: commonTools.get_ExpirationDate_01(ExpirationDate),
         end: ExpirationDate // 先 7-1 ，之后改成 7-31
       };
-      // console.log("~~~~~~~users_subscribe");
+      console.log("~~~~~~~users_subscribe");
       users_subscribe(data)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
           // console.log(
           //   response.data.responses[0].aggregations.value_added_service_package
           //     .buckets.length

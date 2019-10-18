@@ -1812,10 +1812,13 @@ export default {
         i_8_2_package < length_8_2_package;
         i_8_2_package++
       ) {
-        m8_0.title1.push(buckets_8_2_package[i_8_2_package].key);
+        // m8_0.title1.push(buckets_8_2_package[i_8_2_package].key);
         m8_0.title2.push("订购数");
         m8_0.title2.push("收入");
       }
+      // title1 固定传入 （后台“包”有不全情况） //以包传 包x9 //以日传 包x7
+      m8_0.title1.push("欢乐家庭VIP包年",);
+
       m8_0.title1.push("合计");
       m8_0.title2.push("订购数");
       m8_0.title2.push("收入");
