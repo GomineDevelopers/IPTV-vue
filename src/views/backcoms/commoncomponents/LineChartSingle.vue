@@ -79,6 +79,9 @@ export default {
           if (vm.PR_month) {
             //do nothing  监听视图变化作用
           }
+          if (vm.PR_operator) {
+            //do nothing  监听视图变化作用
+          }
         }
         return vm.lineData;
       },

@@ -152,7 +152,38 @@ export default {
           textStyle: {
             align: "left"
           },
-          // formatter: '{b}<br />{a}:{c}%'
+          formatter: function (params) {
+            // console.log(params)
+            let length = params.length;
+
+            let itemName = params[0].axisValue  //运营商名称
+            let title = params[0].seriesName;  //日期
+            let title2 = params[1].seriesName;  //日期
+            let value1 = params[0].data[1];
+            let value2 = params[1].data[2];
+            if (length == 1) {
+              return (
+                itemName +
+                "<br/>" +
+                title + ': ' +
+                value1 +
+                "%"
+              );
+            }
+            if (length == 2) {
+              return (
+                itemName +
+                "<br/>" +
+                title + ': ' +
+                value1 +
+                "%" +
+                "<br/>" +
+                title2 + ': ' +
+                value2 +
+                "%"
+              )
+            }
+          }
         },
           Ybool = {
             // 刻度线的设置

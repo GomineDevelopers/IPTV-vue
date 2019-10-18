@@ -557,6 +557,24 @@ commonTools.split_yearAtime = function (str) {
         time: t_time
     };
 }
+
+////////////////////// 
+// 分割自定义时间格式
+// 处理 2019-07-01 格式，返回 year 和 time(day和year)
+// 处理 =》 day
+commonTools.split_yearAtime2 = function (str) {
+    let t_year;
+    let t_time;
+    let strs = str.split('-');
+    t_year = strs[0];
+    t_month = strs[1];
+    t_day = strs[3];
+    return {
+        year: t_year,
+        month: t_month,
+        day: t_day
+    };
+}
 // commonTools.split_yearAtime = function (str) {
 //     let t_year;
 //     let t_time;

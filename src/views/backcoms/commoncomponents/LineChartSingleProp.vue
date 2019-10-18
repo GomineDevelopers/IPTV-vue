@@ -233,7 +233,6 @@ export default {
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
-
               return (
                 date_year +
                 date_month +

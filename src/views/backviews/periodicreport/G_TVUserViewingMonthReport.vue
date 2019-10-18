@@ -474,7 +474,7 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         // // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
         // vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
         // vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（每月分周）
@@ -518,7 +518,7 @@ export default {
         ["总开机活跃率"]
       ];
 
-      setTimeout(function() {
+      setTimeout(function () {
         // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
         vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
         vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
@@ -533,7 +533,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_month"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -544,10 +544,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -558,10 +558,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -572,12 +572,12 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   mounted() {
     //监听滚动事件
-    $(".monthly_report_body").scroll(function(event) {
+    $(".monthly_report_body").scroll(function (event) {
       let scrollTopHeight = $(".monthly_report_body").scrollTop();
       // let user_development_data = document.querySelector('#user_development_data').offsetTop
       // let operational_data = document.querySelector('#operational_data').offsetTop
@@ -601,7 +601,7 @@ export default {
 
     let vm = this;
     // api 数据处理 - by 运营商
-    setTimeout(function() {
+    setTimeout(function () {
       // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型（单月）
       vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（单月）
       vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
@@ -651,7 +651,7 @@ export default {
           // );
         } else {
           let count = vm.PR_operator.length;
-          if (count == 3) {
+          if (count == 3 || count == 2) {
             vm.users_monthActiveReport_new(
               "all",
               vm.PR_operator,
@@ -1071,23 +1071,23 @@ export default {
                 (parseFloat(q1_f[i_9]) +
                   parseFloat(q2_f[i_9]) +
                   parseFloat(q3_f[i_9])) /
-                  100 /
-                  10000
+                100 /
+                10000
               );
               let dur2 = vm.returnFloat(
                 (parseFloat(q1_d[i_9]) +
                   parseFloat(q2_d[i_9]) +
                   parseFloat(q3_d[i_9])) /
-                  100 /
-                  10000 /
-                  3600
+                100 /
+                10000 /
+                3600
               ); // 观看时长计时 - 秒 =》百万小时
               let user_num2 = vm.returnFloat(
                 (parseFloat(q1_u[i_9]) +
                   parseFloat(q2_u[i_9]) +
                   parseFloat(q3_u[i_9])) /
-                  100 /
-                  10000
+                100 /
+                10000
               );
 
               temp_monthlyTotalViewingData[0].push(
@@ -1176,8 +1176,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12[month_index_current].channel.buckets[i_12]
                       .onlive_user_num.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 二   // 3 7 freq
@@ -1192,8 +1192,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12_3[month_index_current].channel.buckets[i_12]
                       .onlive_freq.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 三  // 2 6 dur
@@ -1208,9 +1208,9 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12_2[month_index_current].channel.buckets[i_12]
                       .onlive_dur.value /
-                      100 /
-                      10000 /
-                      3600
+                    100 /
+                    10000 /
+                    3600
                   )
                 );
               }
@@ -1240,8 +1240,8 @@ export default {
                     if (buckets_child_12_2[i_12_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2[i_12_2].onlive_user_num.value /
-                          100 /
-                          10000
+                        100 /
+                        10000
                       );
                       break;
                     }
@@ -1259,8 +1259,8 @@ export default {
                     if (buckets_child_12_2_3[i_12_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2_3[i_12_2].onlive_freq.value /
-                          100 /
-                          10000
+                        100 /
+                        10000
                       );
                       break;
                     }
@@ -1279,9 +1279,9 @@ export default {
                       //
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2_2[i_12_2].onlive_dur.value /
-                          100 /
-                          10000 /
-                          3600
+                        100 /
+                        10000 /
+                        3600
                       );
                       break;
                     }
@@ -1507,21 +1507,21 @@ export default {
                     temp_data_15[i_15 + 1],
                     3,
                     (temp_data_15[i_15 + 1][2] - temp_data_15[i_15 + 1][1]) /
-                      temp_data_15[i_15 + 1][1]
+                    temp_data_15[i_15 + 1][1]
                   ); // ▲ 3
                   Vue.set(
                     temp_data_15_dur[i_15 + 1],
                     3,
                     (temp_data_15_dur[i_15 + 1][2] -
                       temp_data_15_dur[i_15 + 1][1]) /
-                      temp_data_15_dur[i_15 + 1][1]
+                    temp_data_15_dur[i_15 + 1][1]
                   ); // ▲ 3
                   Vue.set(
                     temp_data_15_fr[i_15 + 1],
                     3,
                     (temp_data_15_fr[i_15 + 1][2] -
                       temp_data_15_fr[i_15 + 1][1]) /
-                      temp_data_15_fr[i_15 + 1][1]
+                    temp_data_15_fr[i_15 + 1][1]
                   ); // ▲ 3
                 }
               }
@@ -1644,14 +1644,14 @@ export default {
                     temp_data_16[i_16 + 1],
                     3,
                     (temp_data_16[i_16 + 1][2] - temp_data_16[i_16 + 1][1]) /
-                      temp_data_16[i_16 + 1][1]
+                    temp_data_16[i_16 + 1][1]
                   ); // ▲ 3
                   Vue.set(
                     temp_data_16_cun[i_16 + 1],
                     3,
                     (temp_data_16_cun[i_16 + 1][2] -
                       temp_data_16_cun[i_16 + 1][1]) /
-                      temp_data_16_cun[i_16 + 1][1]
+                    temp_data_16_cun[i_16 + 1][1]
                   ); // ▲ 3
                 }
               }
@@ -1713,8 +1713,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17[month_index_current].program_type.buckets[i_17]
                       .demand_user_num.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 二   // 2 6 dur
@@ -1730,8 +1730,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17_2[month_index_current].program_type.buckets[i_17]
                       .demand_freq.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 三  // 3 7 freq
@@ -1747,9 +1747,9 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17_3[month_index_current].program_type.buckets[i_17]
                       .demand_dur.value /
-                      100 /
-                      10000 /
-                      3600
+                    100 /
+                    10000 /
+                    3600
                   )
                 );
               }
@@ -1779,8 +1779,8 @@ export default {
                     if (buckets_child_17_2[i_17_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2[i_17_2].demand_user_num.value /
-                          10 /
-                          10000
+                        10 /
+                        10000
                       );
                       break;
                     }
@@ -1799,8 +1799,8 @@ export default {
                       // 2
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2_2[i_17_2].demand_freq.value / // 2
-                          10 /
-                          10000
+                        10 /
+                        10000
                       );
                       break;
                     }
@@ -1820,9 +1820,9 @@ export default {
                       //
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2_3[i_17_2].demand_dur.value / // 3
-                          10 /
-                          10000 /
-                          3600
+                        10 /
+                        10000 /
+                        3600
                       );
                       break;
                     }
@@ -1895,7 +1895,7 @@ export default {
                 temp_data_18[i_18 + 1].push(buckets_18[i_18].new_num.value);
                 temp_data_18[i_18 + 1].push(
                   buckets_18[i_18].new_paid_num.value /
-                    buckets_18[i_18].new_num.value
+                  buckets_18[i_18].new_num.value
                 );
               }
 
@@ -1934,11 +1934,11 @@ export default {
                   temp_data_18b_npn[top20_length_18b - i_18b],
                   0,
                   "(" +
-                    buckets_18b[month_index_current].programname.buckets[i_18b]
-                      .program_type.buckets[0].key +
-                    ")" +
-                    buckets_18b[month_index_current].programname.buckets[i_18b]
-                      .key
+                  buckets_18b[month_index_current].programname.buckets[i_18b]
+                    .program_type.buckets[0].key +
+                  ")" +
+                  buckets_18b[month_index_current].programname.buckets[i_18b]
+                    .key
                 );
                 Vue.set(
                   temp_data_18b_npn[top20_length_18b - i_18b],
@@ -2259,7 +2259,7 @@ export default {
                   data: []
                 });
               }
-              setTimeout(function() {
+              setTimeout(function () {
                 vm.liveViewingDurationData.content = temp_liveViewingDurationData_content;
                 vm.liveViewingUserData.content = temp_liveViewingUserData_content;
                 vm.liveViewingTimesData.content = temp_liveViewingTimesData_content;
@@ -2337,13 +2337,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                      ManageSpecialKey(
-                        buckets_20zt[month_index_current]
-                          .special_or_activity_name.buckets[i_20zt].ti.buckets
-                      ) +
-                      ")" +
-                      buckets_20zt[month_index_current].special_or_activity_name
-                        .buckets[i_20zt].key
+                    ManageSpecialKey(
+                      buckets_20zt[month_index_current]
+                        .special_or_activity_name.buckets[i_20zt].ti.buckets
+                    ) +
+                    ")" +
+                    buckets_20zt[month_index_current].special_or_activity_name
+                      .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -2472,7 +2472,7 @@ export default {
               let temp_liveViewingUserData_content = [];
               let temp_liveViewingTimesData_content = [];
 
-              setTimeout(function() {
+              setTimeout(function () {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -2536,13 +2536,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                      ManageSpecialKey(
-                        buckets_20zt[month_index_current]
-                          .special_or_activity_name.buckets[i_20zt].ti.buckets
-                      ) +
-                      ")" +
-                      buckets_20zt[month_index_current].special_or_activity_name
-                        .buckets[i_20zt].key
+                    ManageSpecialKey(
+                      buckets_20zt[month_index_current]
+                        .special_or_activity_name.buckets[i_20zt].ti.buckets
+                    ) +
+                    ")" +
+                    buckets_20zt[month_index_current].special_or_activity_name
+                      .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -2692,13 +2692,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                      ManageSpecialKey(
-                        buckets_20zt[month_index_current]
-                          .special_or_activity_name.buckets[i_20zt].ti.buckets
-                      ) +
-                      ")" +
-                      buckets_20zt[month_index_current].special_or_activity_name
-                        .buckets[i_20zt].key
+                    ManageSpecialKey(
+                      buckets_20zt[month_index_current]
+                        .special_or_activity_name.buckets[i_20zt].ti.buckets
+                    ) +
+                    ")" +
+                    buckets_20zt[month_index_current].special_or_activity_name
+                      .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -2728,7 +2728,7 @@ export default {
             let temp_liveViewingUserData_content = [];
             let temp_liveViewingTimesData_content = [];
 
-            setTimeout(function() {
+            setTimeout(function () {
               for (i_10 = 0; i_10 < length_10; i_10++) {
                 onlive_usernum_yd.push(buckets_10[i_10].onlive_user_num.value);
                 onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
@@ -2855,7 +2855,7 @@ export default {
                   data: []
                 });
               }
-              setTimeout(function() {
+              setTimeout(function () {
                 vm.weekLiveViewUserData.content = temp_weekLiveViewUserData_content;
                 vm.weekLiveViewTimesData.content = temp_weekLiveViewTimesData_content;
                 vm.weekliveViewDurationData.content = temp_weekliveViewDurationData_content;
@@ -3219,7 +3219,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                            10000
+                          10000
                         );
                         break;
                       }
@@ -3291,7 +3291,7 @@ export default {
               let onlive_usernum_yd = [];
               let onlive_freq_yd = [];
 
-              setTimeout(function() {
+              setTimeout(function () {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -3371,7 +3371,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                            10000
+                          10000
                         );
                         break;
                       }
@@ -3426,7 +3426,7 @@ export default {
               let onlive_usernum_yd = [];
               let onlive_freq_yd = [];
 
-              setTimeout(function() {
+              setTimeout(function () {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -3506,7 +3506,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                            10000
+                          10000
                         );
                         break;
                       }
@@ -3605,7 +3605,7 @@ export default {
       formData.append("end", temp.end);
 
       users_monthActiveReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           if (datatype == "mixture" && timetype == "month") {
             // //////////////////
 
@@ -3742,7 +3742,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -3773,7 +3773,7 @@ export default {
       formData.append("end", temp.end);
 
       users_monthActiveReport_range(formData)
-        .then(function(response) {
+        .then(function (response) {
           if (datatype == "mixture" && timetype == "month") {
             // usingTheUser;
             // usingTheTimes;
@@ -3851,19 +3851,19 @@ export default {
             let td2 = [];
             let freq2 = vm.returnFloat(
               (parseFloat(q1_f) + parseFloat(q2_f) + parseFloat(q3_f)) /
-                100 /
-                10000
+              100 /
+              10000
             );
             let dur2 = vm.returnFloat(
               (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
-                100 /
-                10000 /
-                3600
+              100 /
+              10000 /
+              3600
             ); // 观看时长计时 - 秒 =》百万小时
             let user_num2 = vm.returnFloat(
               (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /
-                100 /
-                10000
+              100 /
+              10000
             );
             td2.push(["product", "7月"]);
             td2.push(["观看次数（百万次）", freq2]);
@@ -4326,7 +4326,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -4336,7 +4336,7 @@ export default {
       let scrollDiv = document.querySelector(".monthly_report_body"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".monthly_nav a").on("click", function() {
+      $(".monthly_nav a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()

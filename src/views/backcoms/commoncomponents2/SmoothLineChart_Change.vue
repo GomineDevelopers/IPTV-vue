@@ -122,9 +122,9 @@ export default {
         legend: {
           icon: "re",
           top: "2%",
-          itemWidth: 12, // 设置宽度
-          itemHeight: 7, // 设置高度
-          itemGap: 20, // 设置间距
+          itemWidth: 8, // 设置宽度
+          itemHeight: 5, // 设置高度
+          itemGap: 15, // 设置间距
           textStyle: {
             fontSize: 12,
             color: "rgba(0, 0, 0, 0.65)"
@@ -133,8 +133,8 @@ export default {
         grid: {
           containLabel: true,
           top: "25%",
-          left: "35",
-          right: "5",
+          left: "10",
+          right: "2",
           bottom: "5"
         },
         tooltip: {
@@ -147,7 +147,7 @@ export default {
         toolbox: {
           show: true,
           top: "0%",
-          right: "1%",
+          right: "0",
           feature: {
             saveAsImage: {}
           }
