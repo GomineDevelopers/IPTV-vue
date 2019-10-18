@@ -23,8 +23,28 @@ export default {
       vm.setLineChart();
     }, 1000);
   },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    pieData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+  },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_month"]),
     pieData_Change: {
       get: function () {
         let vm = this;
@@ -308,6 +328,40 @@ export default {
           }
         };
         series.push(t4);
+      }
+      if (this.pieData_Change.content.length >= 5) {
+        let t5 = {
+          name: this.pieData_Change.content[4].title,
+          type: "pie",
+          radius: ["2%", "15%"],
+          center: ["50%", "56%"],
+          data: this.pieData_Change.content[4].data,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            show: true,
+            position: "inside",
+            formatter: "{d}%",
+            color: "#333"
+          },
+          itemStyle: {
+            normal: {
+              borderWidth: 3, //设置border的宽度有多大
+              borderColor: "#fff"
+            },
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+              borderWidth: 1, //设置border的宽度有多大
+              borderColor: "#fff"
+            }
+          }
+        };
+        series.push(t5);
       }
 
       var option = {

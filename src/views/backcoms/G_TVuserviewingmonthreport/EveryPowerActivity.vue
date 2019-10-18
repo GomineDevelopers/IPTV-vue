@@ -16,19 +16,45 @@ export default {
     return {};
   },
   mounted() {
+    // console.log("▲▲▲▲▲▲▲▲!!!lineData");
+    // console.log(this.lineData);
+
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
+  },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    lineData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    }
   },
   computed: {
-    ...mapGetters(["PR_operator"]),
+    ...mapGetters(["PR_operator", "PR_month"]),
     lineData_Change: {
       get: function() {
         let vm = this;
         let data = [];
         let color = [];
         if (vm.lineData.id == "everyPowerActivity") {
+          if (vm.PR_month) {
+            // do nothing. --监听
+          }
           if (this.PR_operator == null || this.PR_operator.length == 0) {
             data = vm.lineData.data;
             color = vm.lineData.color;
@@ -51,7 +77,7 @@ export default {
           // 视图更新
           setTimeout(function() {
             vm.setLineChart();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.lineData.title,
             id: vm.lineData.id,
@@ -59,6 +85,9 @@ export default {
             data: data
           };
         }
+        setTimeout(function() {
+          vm.setLineChart();
+        }, 2000);
         return vm.lineData;
       },
       set: function(newValue) {}

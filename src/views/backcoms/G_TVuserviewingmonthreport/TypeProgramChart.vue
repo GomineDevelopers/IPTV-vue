@@ -13,7 +13,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_week"])
+    ...mapGetters(["PR_week","PR_month"])
   },
   watch: {
     PR_week(newValue, oldValue) {
@@ -22,6 +22,18 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 1000);
+    },
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    chartData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   data() {

@@ -10,6 +10,17 @@ import CryptoJS from 'crypto-js' //加密js
 
 
 
+// 数据格式转换 2019-08-06 =》8月6日
+commonTools.format_dateToChineseMD = function (date) {
+    let setDate = new Date(date);
+    // let setdateYear = setDate.getFullYear() + "年";
+    let setDateMonth = setDate.getMonth() + 1 + "月";
+    let setDateDay = setDate.getDate() + "日";
+    let dayDate = setDateMonth + setDateDay;
+    return dayDate;
+}
+
+
 // 数据格式转换 xmonth -> x月
 
 commonTools.format_monthToChinese = function (str) {
