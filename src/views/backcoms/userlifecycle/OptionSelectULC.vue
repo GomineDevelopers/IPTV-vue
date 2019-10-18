@@ -2,10 +2,7 @@
   <div class="OptionSelectULC">
     <div class="region">
       <span class="font_title">地区：</span>
-      <el-checkbox
-        v-model="region_checkAll"
-        @change="regionChoose_all"
-      >全省</el-checkbox>
+      <el-checkbox v-model="region_checkAll" @change="regionChoose_all">全省</el-checkbox>
       <el-checkbox-group
         @change="regionChoose_change"
         v-model=" regionChoose"
@@ -35,10 +32,7 @@
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>-->
-      <el-checkbox
-        v-model="operator_checkAll"
-        @change="operatorChoose_all"
-      >全部</el-checkbox>
+      <el-checkbox v-model="operator_checkAll" @change="operatorChoose_all">全部</el-checkbox>
 
       <el-checkbox-group
         @change="operatorChoose_change"
@@ -161,10 +155,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_ULC_region", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -172,10 +166,10 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_ULC_operator", newValue)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -291,7 +285,7 @@ export default {
     // 初始化周
     let arr_temp = [];
     arr_temp = commonTools.weekDate(2018);
-    setTimeout(function() {
+    setTimeout(function () {
       arr_temp = commonTools.weekDate_add(2019, arr_temp);
       vm.time.week = arr_temp;
       // console.log("~~~~~test vm.time.week");
@@ -300,7 +294,7 @@ export default {
 
     // 初始化月
     let arr_temp2 = commonTools.format_MonthDays(2018);
-    setTimeout(function() {
+    setTimeout(function () {
       arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
       vm.time.month = arr_temp2;
       // console.log("~~~~~test vm.time.month");
@@ -308,31 +302,31 @@ export default {
     }, 100);
 
     // ▲历史条件获取
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_ULC_region")
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
           vm.regionChoose = response;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_ULC_operator")
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
           vm.operatorChoose = response;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_ULC_day")
-        .then(function(res) {
+        .then(function (res) {
           vm.$store
             .dispatch("get_ULC_time_type")
-            .then(function(response) {
+            .then(function (response) {
               // console.log("~~~get_ULC_time_type:");
               // console.log(response);
               if (response == 1) {
@@ -340,19 +334,19 @@ export default {
                 vm.time.dayValue = res;
               }
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_ULC_week")
-        .then(function(res) {
+        .then(function (res) {
           vm.$store
             .dispatch("get_ULC_time_type")
-            .then(function(response) {
+            .then(function (response) {
               // console.log("~~~get_ULC_time_type:");
               // console.log(response);
               if (response == 2) {
@@ -369,19 +363,19 @@ export default {
                 vm.time.weekValue = temp_label;
               }
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_ULC_month")
-        .then(function(res) {
+        .then(function (res) {
           vm.$store
             .dispatch("get_ULC_time_type")
-            .then(function(response) {
+            .then(function (response) {
               // console.log("~~~get_ULC_time_type:");
               // console.log(response);
               if (response == 3) {
@@ -398,11 +392,11 @@ export default {
                 vm.time.monthValue = temp_label;
               }
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
@@ -421,21 +415,22 @@ export default {
       console.log("~~~~set_ULC_day:" + newValue);
       vm.$store
         .dispatch("set_ULC_day", newValue)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_ULC_time_type", 1)
-            .then(function(response) {})
-            .catch(function(error) {
+            .then(function (response) { })
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
     weekValue_change(event) {
+      // console.log("event", event)
       let vm = this;
       this.time.dayValue = "";
       this.time.weekValue = String(event);
@@ -443,16 +438,16 @@ export default {
       let newValue = String(event);
       vm.$store
         .dispatch("set_ULC_week", newValue)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           vm.$store
             .dispatch("set_ULC_time_type", 2)
-            .then(function(response) {})
-            .catch(function(error) {
+            .then(function (response) { })
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -464,16 +459,16 @@ export default {
       let newValue = String(event);
       vm.$store
         .dispatch("set_ULC_month", newValue)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           vm.$store
             .dispatch("set_ULC_time_type", 3)
-            .then(function(response) {})
-            .catch(function(error) {
+            .then(function (response) { })
+            .catch(function (error) {
               console.info(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -489,7 +484,7 @@ export default {
         this.region_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         regionChoose_new = vm.regionChoose;
         vm.regionChoose = commonTools.delete_repet(
           regionChoose_new,
@@ -512,7 +507,7 @@ export default {
         this.operator_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         operatorChoose_new = vm.operatorChoose;
         vm.operatorChoose = commonTools.delete_repet(
           operatorChoose_new,
