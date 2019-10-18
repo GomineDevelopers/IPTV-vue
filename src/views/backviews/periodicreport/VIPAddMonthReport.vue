@@ -347,16 +347,16 @@ export default {
             let i_0;
             for (i_0 = 0; i_0 < length_0; i_0++) {
               temp_data1[0].push(buckets_0[i_0].key);
-              temp_data1[1].push(buckets_0[i_0].new_num.value / 10000);
-              temp_data1[2].push(buckets_0[i_0].new_paid_num.value / 10000);
+              temp_data1[1].push(buckets_0[i_0].new_num.value );
+              temp_data1[2].push(buckets_0[i_0].new_paid_num.value );
 
               temp_data2[0].push(buckets_0[i_0].key);
-              temp_data2[1].push(buckets_0[i_0].open_num.value / 10000);
-              temp_data2[2].push(buckets_0[i_0].new_num.value / 10000);
+              temp_data2[1].push(buckets_0[i_0].open_num.value );
+              temp_data2[2].push(buckets_0[i_0].new_num.value );
 
               temp_data3[0].push(buckets_0[i_0].key);
-              temp_data3[1].push(buckets_0[i_0].open_num.value / 10000);
-              temp_data3[2].push(buckets_0[i_0].new_paid_num.value / 10000);
+              temp_data3[1].push(buckets_0[i_0].open_num.value );
+              temp_data3[2].push(buckets_0[i_0].new_paid_num.value );
             }
 
             vm.newRegisteredUsersData.data = temp_data1;

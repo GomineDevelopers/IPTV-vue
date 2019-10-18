@@ -6,7 +6,7 @@
     <el-row v-show="ifgetdata" class="paid_users_row proportion">
       <el-col :span="12" class="height_auto">
         <el-row id="proportion_of_subscribers"></el-row>
-        <el-row class="order_user_title">订购用户占比</el-row>
+        <el-row class="order_user_title">订购用户占比（日）</el-row>
       </el-col>
       <el-col :span="12">
         <el-row class="height_auto">
@@ -30,7 +30,7 @@
     <el-row v-show="ifgetdata" class="paid_users_row add_order">
       <el-col :span="12" class="height_auto">
         <el-row id="add_order_conversion_rate"></el-row>
-        <el-row class="order_user_title">新增订购转换率</el-row>
+        <el-row class="order_user_title">新增订购转换率（周）</el-row>
       </el-col>
       <el-col :span="12">
         <el-row>
