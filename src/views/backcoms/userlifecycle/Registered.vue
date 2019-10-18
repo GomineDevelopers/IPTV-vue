@@ -17,7 +17,8 @@ export default {
       let vm = this;
       console.log("ULC - api_data1:");
       console.log(newValue);
-      // vm.data1.data2 = ["299.5", "213.4"]; // 测试
+      vm.data2 = vm.api_data1
+      //vm.data1.data2 = ["299.5", "213.4"]; // 测试
 
       // 此处组件-刷新-drawline()
     }
@@ -31,7 +32,7 @@ export default {
       "ULC_month"
     ]),
     data1_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (
           vm.ULC_region &&
@@ -43,17 +44,17 @@ export default {
           // do nothing. -- 监听
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
           vm.drawLine();
         }, 300);
         return vm.data1;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     data2_Change: {
-      get: function() {
+      get: function () {
         var vm = this;
-      if (
+        if (
           vm.ULC_region &&
           vm.ULC_operator &&
           vm.ULC_day &&
@@ -148,7 +149,7 @@ export default {
         }
 
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           // console.log("Registered echartsB 视图更新");
           vm.drawLine2();
         }, 300);
@@ -160,16 +161,16 @@ export default {
           showData: showData
         };
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
     return {
       data1: {
-        id: "ULC_echartsA",
-        title: "在网用户数",
-        data1: ["7.08-7.14", "7.15-7.21"],
-        data2: ["219.4", "213.4"]
+        // id: "ULC_echartsA",
+        // title: "在网用户数",
+        // data1: ["7.08-7.14", "7.15-7.21"],
+        // data2: ["219.4", "213.4"]
       },
       data2: {
         id: "ULC_echartsB",
@@ -195,6 +196,7 @@ export default {
     };
   },
   mounted() {
+    console.log("api_data1", this.api_data1)
     // this.drawLine();
     // this.drawLine2();
   },
@@ -256,7 +258,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              formatter: function() {
+              formatter: function () {
                 return ""; // 隐藏Y左边数据
               }
             },
@@ -289,7 +291,7 @@ export default {
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function(params) {
+                color: function (params) {
                   var colorList = ["#FFAA89", "#FF6123"];
                   return colorList[params.dataIndex];
                 },

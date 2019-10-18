@@ -13,7 +13,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_month"]),
+    ...mapGetters(["PR_month", "PR_operator"]),
   },
   watch: {
     PR_month(newValue, oldValue) {
@@ -22,6 +22,12 @@ export default {
         vm.setLineChart();
       }, 1000);
     },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.setLineChart();
+      }, 1000);
+    }
   },
   data() {
     return {};

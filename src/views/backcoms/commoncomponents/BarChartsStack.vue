@@ -22,7 +22,7 @@ export default {
       "ADD_VIP_operator"
     ]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         var vm = this;
         let data = [];
         let color = [];
@@ -144,7 +144,7 @@ export default {
             }
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("operatorChart_vip 视图更新");
             vm.drawLine();
           }, 1000);
@@ -253,7 +253,7 @@ export default {
             }
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("operatorChart_vip 视图更新");
             vm.drawLine();
           }, 1000);
@@ -264,12 +264,12 @@ export default {
             data: data
           };
         }
-        setTimeout(function() {
+        setTimeout(function () {
           vm.drawLine();
         }, 1000);
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -277,7 +277,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },

@@ -80,6 +80,14 @@ import { userLives } from "@/api/api_main";
 
 export default {
   name: "UserLifecycle", //用户生命周期
+  components: {
+    "com-optionselectULC": OptionSelectULC,
+    "com-registered": Registered,
+    "com-activate": Activate,
+    "com-inthenetwork": InTheNetwork,
+    "com-userstructure": UserStructure,
+    "com-customersegmentation": CustomerSegmentation
+  },
   computed: {
     ...mapGetters([
       "ULC_region",
@@ -94,35 +102,35 @@ export default {
     ULC_region(newValue, oldValue) {
       let vm = this;
       console.log("ULC_region: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ULC_operator(newValue, oldValue) {
       let vm = this;
       console.log("ULC_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ULC_day(newValue, oldValue) {
       let vm = this;
       console.log("~~~-watch - ULC_day: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
       console.log("ULC_week: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
       console.log("ULC_month: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
@@ -139,7 +147,12 @@ export default {
       // 在网（2）
       // 在网用户结构
       // 用户细分
-      api_data1: [],
+      api_data1: {
+        id: "ULC_echartsA",
+        title: "在网用户数",
+        data1: ["7.08-7.14", "7.15-7.21"],
+        data2: ["219.4", "213.4"]
+      },
       api_data2: [],
       api_data3: [],
       api_data4: [],
@@ -152,7 +165,7 @@ export default {
     },
     userLives(time_type) {
       let vm = this;
-      console.log("userLives");
+      // console.log("userLives");
 
       // console.log("~~~~~ ULC_region:" + vm.ULC_region);
       let temp_region = commonTools.acConvert(vm.ULC_region);
@@ -170,11 +183,13 @@ export default {
       if (time_type == 1) {
         // 时间类型-1-天
         // console.log("~~~~~day:" + vm.ULC_day);
+        let temp_time = commonTools.split_yearAtime2(vm.ULC_day);
         temp = {
           area: String(temp_region),
           operator: String(temp_operator),
           start: vm.ULC_day,
-          end: vm.ULC_day
+          end: vm.ULC_day,
+          year: temp_time.year
         };
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~1:");
@@ -215,43 +230,33 @@ export default {
       }
 
       // 测试开启
-      vm.api_data1 = [1];
-      vm.api_data2 = [1];
-      vm.api_data3 = [1];
-      vm.api_data4 = [1];
-      vm.api_data5 = [1];
-      return; // 测试开启
+      // vm.api_data1 = [1];
+      // vm.api_data2 = [1];
+      // vm.api_data3 = [1];
+      // vm.api_data4 = [1];
+      // vm.api_data5 = [1];
+      //return; // 测试开启
+
+      console.log("用户选择", temp)
 
       var formData = new FormData();
       var formData = new window.FormData();
-      formData.append("area", temp.area);
+      formData.append("ac", temp.area);
       formData.append("operator", temp.operator);
       formData.append("start", temp.start);
       formData.append("end", temp.end);
+      formData.append("year", temp.year);
 
       userLives(formData)
-        .then(function(response) {
-          console.log(response);
+        .then(function (response) {
+          console.log("用户生命周期", response);
 
-          // 在网
-          // 激活
-          // 在网（2）
-          // 在网用户结构
-          // 用户细分
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
   },
-  components: {
-    "com-optionselectULC": OptionSelectULC,
-    "com-registered": Registered,
-    "com-activate": Activate,
-    "com-inthenetwork": InTheNetwork,
-    "com-userstructure": UserStructure,
-    "com-customersegmentation": CustomerSegmentation
-  }
 };
 </script>
 <style>
