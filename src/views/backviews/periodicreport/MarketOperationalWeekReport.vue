@@ -1817,7 +1817,7 @@ export default {
         m8_0.title2.push("收入");
       }
       // title1 固定传入 （后台“包”有不全情况） //以包传 包x9 //以日传 包x7
-      m8_0.title1.push("欢乐家庭VIP包年",);
+      m8_0.title1.push("欢乐家庭VIP包年","欢乐家庭VIP包季","欢乐家庭VIP","影视VIP包年","影视VIP包季","影视VIP");
 
       m8_0.title1.push("合计");
       m8_0.title2.push("订购数");

@@ -47,13 +47,13 @@ export default {
       let temp = {
         // operator: String(["移动", "联通", "电信"]),
         operator: m_operator,
-        start: ExpirationDate,
+        start: commonTools.get_ExpirationDate_01(ExpirationDate),
         end: ExpirationDate
       };
       users_basic(temp)
         .then(function(response) {
-          // console.log(response);
-          let buckets = response.data.responses[0].aggregations.ac.buckets;
+          console.log(response);
+          let buckets = response.data.responses[1].aggregations.ac.buckets;
           // let length = buckets.length;
           let length = 9; // 原长度为10-10位其他 这里只能用9
           let i;
@@ -69,7 +69,7 @@ export default {
           // console.log(temp1);
           vm.echarts_data.name = commonTools.acConvert_R_reverse(temp1); // 反序（后台返回是851-859，这里反序成859-851）
           // vm.echarts_data.name = temp1;
-          vm.echarts_data.value = temp2.reverse();  // 反序
+          vm.echarts_data.value = temp2.reverse(); // 反序
           // console.log(vm.echarts_data);
           vm.setNewUserChart();
           vm.ifgetdata = true;

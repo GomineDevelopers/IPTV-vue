@@ -19,7 +19,7 @@
                 <i class="special_data">22.1</i>万次
               </div>
             </el-col>
-            <el-col :span="8" class="height_auto">
+            <!-- <el-col :span="8" class="height_auto">
               <div class="ringlike_div flex">3.6万</div>
               <div class="chart_explain">
                 专区内节目累计点播量
@@ -32,7 +32,7 @@
                 专区内节目累计点播时长
                 <i class="special_data">4505小时</i>
               </div>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-row>
       </el-row>
@@ -72,12 +72,12 @@
       </el-row>
 
       <!-- 节目点播情况开始 -->
-      <el-row class="programs_demand back_white">
+      <!-- <el-row class="programs_demand back_white">
         <el-row class="model_title">
           <span class="title_border_left"></span>节目点播情况
-        </el-row>
+        </el-row> -->
         <!-- 节目点播情况模块1开始 -->
-        <el-row class="programs_demand_content1">
+        <!-- <el-row class="programs_demand_content1">
           <el-col :span="8">
             <bar-list-chart :barListData="playUserNumData"></bar-list-chart>
           </el-col>
@@ -87,23 +87,21 @@
           <el-col :span="8">
             <bar-list-chart :barListData="playDemandLengthData"></bar-list-chart>
           </el-col>
-        </el-row>
+        </el-row> -->
         <!-- 节目点播情况模块1结束 -->
 
         <!-- 上下层图表块分割线开始 -->
-        <div class="cut_off_rule"></div>
+        <!-- <div class="cut_off_rule"></div> -->
         <!-- 上下层图表块分割线开始 -->
 
         <!-- 节目点播情况模块2开始 -->
-        <el-row class="programs_demand_content2">
+        <!-- <el-row class="programs_demand_content2">
           <el-col :span="24">
-            <!-- 每日TOP5排名走势开始 -->
             <day-rank-top5 :dayRankTop5Data="dayRankTop5Data"></day-rank-top5>
-            <!-- 每日TOP5排名走势结束 -->
           </el-col>
-        </el-row>
+        </el-row> -->
         <!-- 节目点播情况模块2结束 -->
-      </el-row>
+      <!-- </el-row> -->
       <!-- 节目点播情况结束 -->
     </el-row>
 
@@ -137,6 +135,11 @@ export default {
   },
   mounted() {
     // this.users_subReport();
+    let vm = this;
+    setTimeout(function() {
+      vm.users_subReport();
+    }, 100);
+
   },
   watch: {
     PR_operator(newValue, oldValue) {

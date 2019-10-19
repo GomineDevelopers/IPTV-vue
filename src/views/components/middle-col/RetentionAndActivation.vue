@@ -70,7 +70,9 @@ export default {
           // 0.84,
           // 0.86
         ],
-        d_7: [0.4, 0.42, 0.43, 0.44, 0.45, 0.46, 0.5]
+        d_7: [
+          // 0.4, 0.42, 0.43, 0.44, 0.45, 0.46, 0.5
+        ]
       },
       datum_line: 0.52
     };
@@ -109,7 +111,7 @@ export default {
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: ExpirationDate
         };
-        console.log(temp);
+        // console.log(temp);
       }
       if (time_type == "hours_48") {
         temp = {
@@ -118,7 +120,7 @@ export default {
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 1)
         };
-        console.log(temp);
+        // console.log(temp);
       }
       if (time_type == "days7") {
         temp = {
@@ -127,24 +129,16 @@ export default {
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 8)
         };
-        console.log(temp);
+        // console.log(temp);
       }
 
       users_retention(temp)
         .then(function(response) {
-          if (time_type == "hours_24") {
-            console.log(response);
-          }
-          if (time_type == "hours_48") {
-            console.log(response);
-          }
-          if (time_type == "days7") {
-            console.log(response);
-          }
           users_activationRate(temp)
             .then(function(response2) {
               if (time_type == "hours_24") {
-                console.log(response2);
+                // 2
+                // console.log(response2);
                 let buckets2 =
                   response2.data.responses[0].aggregations.statistical_date
                     .buckets;
@@ -163,14 +157,15 @@ export default {
                       buckets2[i].new_num.value
                   );
                 }
-                console.log("~~~~~~~");
+                // console.log("~~~~~~~");
                 // console.log(temp_h_24);
-                console.log(temp_data_date);
+                // console.log(temp_data_date);
                 vm.echarts_data.data_date = temp_data_date;
                 vm.echarts_data.h_24 = temp_h_24;
               }
               if (time_type == "hours_48") {
-                console.log(response2);
+                // 2
+                // console.log(response2);
                 let buckets2 =
                   response2.data.responses[1].aggregations.statistical_date
                     .buckets;
@@ -188,7 +183,21 @@ export default {
                 vm.echarts_data.h_48 = temp_h_48;
               }
               if (time_type == "days7") {
-                console.log(response2);
+                // 1
+                // console.log(response);
+                let buckets =
+                  response.data.responses[0].aggregations.statistical_date
+                    .buckets;
+                let length = buckets.length;
+                let i;
+                let temp_d_7 = [];
+                for (i = 0; i < length; i++) {
+                  temp_d_7.push(
+                    buckets[i].remain_num.value /
+                      buckets[i].new_activate_num.value
+                  );
+                }
+                vm.echarts_data.d_7 = temp_d_7;
               }
               vm.ifgetdata = true;
               vm.setRntenChart();

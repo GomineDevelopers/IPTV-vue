@@ -37,6 +37,17 @@ export default {
           //   value: 33211
           // }
         ]
+      },
+      paid_data: {
+        data: [
+          ["product", "订购用户数"]
+          // ["02月", 9500],
+          // ["03月", 8300],
+          // ["04月", 5600],
+          // ["05月", 7200],
+          // ["07月", 3500],
+          // ["08月", 6500]
+        ]
       }
     };
   },
@@ -47,7 +58,9 @@ export default {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
         .then(function(response) {
-          vm.users_subscribe(response);
+          vm.users_subscribe(response, "month_days"); // 当前天所在月01号~当前天
+          vm.users_subscribe(response, "months"); // 前5月~当前天所在月（共6个月）
+          vm.drawLine();
           vm.drawLine2();
         })
         .catch(function(error) {
@@ -56,60 +69,102 @@ export default {
     }, 100);
   },
   methods: {
-    users_subscribe(ExpirationDate) {
+    users_subscribe(ExpirationDate, time_type) {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
 
       let m_operator = commonTools.GetBigScreenOperator();
-      let data = {
-        // operator: String(["移动", "联通", "电信"]),
-        operator: m_operator,
-        start: commonTools.get_ExpirationDate_01(ExpirationDate),
-        end: ExpirationDate // 先 7-1 ，之后改成 7-31
-      };
-      console.log("~~~~~~~users_subscribe");
+      let data;
+      if (time_type == "month_days") {
+        data = {
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
+          start: commonTools.get_ExpirationDate_01(ExpirationDate),
+          end: ExpirationDate // 先 7-1 ，之后改成 7-31
+        };
+        // console.log(data);
+      }
+      if (time_type == "months") {
+        let temp_ExpirationDate_n_months = commonTools.get_ExpirationDate_n_months(
+          ExpirationDate,
+          6
+        );
+        data = {
+          operator: m_operator,
+          start: temp_ExpirationDate_n_months.start,
+          end: temp_ExpirationDate_n_months.end
+        };
+        // console.log(data);
+      }
+
+      // console.log("~~~~~~~users_subscribe");
       users_subscribe(data)
         .then(function(response) {
-          console.log(response);
           // console.log(
           //   response.data.responses[0].aggregations.value_added_service_package
           //     .buckets.length
           // );
-          let buckets =
-            response.data.responses[1].aggregations.value_added_service_package
-              .buckets;
-          let length = buckets.length;
-          let i;
-          // 不管 季的 年的 只管月的
-          // 欢乐家庭VIP 少儿VIP 影视VIP
-          for (i = 0; i < length; i++) {
-            if (buckets[i].key == "欢乐家庭VIP") {
-              let temp = {
-                name: "欢乐家庭包",
-                value: buckets[i].new_income.value
-              };
-              vm.order_data_circular.data.push(temp);
+          if (time_type == "month_days") {
+            // console.log(response);
+            let buckets =
+              response.data.responses[1].aggregations
+                .value_added_service_package.buckets;
+            let length = buckets.length;
+            let i;
+            // 不管 季的 年的 只管月的
+            // 欢乐家庭VIP 少儿VIP 影视VIP
+            for (i = 0; i < length; i++) {
+              if (buckets[i].key == "欢乐家庭VIP") {
+                let temp = {
+                  name: "欢乐家庭包",
+                  value: buckets[i].new_income.value
+                };
+                vm.order_data_circular.data.push(temp);
+              }
+              if (buckets[i].key == "少儿VIP") {
+                let temp = {
+                  name: "少儿包",
+                  value: buckets[i].new_income.value
+                };
+                vm.order_data_circular.data.push(temp);
+              }
+              if (buckets[i].key == "影视VIP") {
+                let temp = {
+                  name: "影视包",
+                  value: buckets[i].new_income.value
+                };
+                vm.order_data_circular.data.push(temp);
+              }
             }
-            if (buckets[i].key == "少儿VIP") {
-              let temp = {
-                name: "少儿包",
-                value: buckets[i].new_income.value
-              };
-              vm.order_data_circular.data.push(temp);
-            }
-            if (buckets[i].key == "影视VIP") {
-              let temp = {
-                name: "影视包",
-                value: buckets[i].new_income.value
-              };
-              vm.order_data_circular.data.push(temp);
-            }
-          }
-          vm.ifgetdata = true;
+            vm.ifgetdata = true;
 
-          setTimeout(function() {
-            vm.drawLine();
-          }, 300);
+            setTimeout(function() {
+              vm.drawLine();
+            }, 300);
+          }
+          if (time_type == "months") {
+            // console.log(response);
+            let buckets =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
+            let length = buckets.length;
+            let i;
+            let temp_data = [];
+            temp_data.push[["product", "订购用户数"]];
+            for (i = 0; i < length; i++) {
+              temp_data.push([
+                commonTools.format_monthToChinese(buckets[i].key),
+                buckets[i].new_paid_num.value
+              ]);
+            }
+            vm.paid_data.data = temp_data;
+
+            setTimeout(function() {
+              vm.drawLine2();
+            }, 300);
+
+            vm.ifgetdata = true;
+          }
         })
         .catch(function(error) {
           console.info(error);
@@ -313,6 +368,7 @@ export default {
 
     drawLine2() {
       // 基于准备好的dom，初始化echarts实例
+      let vm = this;
       var myChart2 = this.$echarts.init(document.getElementById("paid_data"));
 
       var option2 = {
@@ -357,15 +413,7 @@ export default {
           containLabel: true
         },
         dataset: {
-          source: [
-            ["product", "订购用户数"],
-            ["02月", 9500],
-            ["03月", 8300],
-            ["04月", 5600],
-            ["05月", 7200],
-            ["07月", 3500],
-            ["08月", 6500]
-          ]
+          source: vm.paid_data.data
         },
         xAxis: {
           type: "category",

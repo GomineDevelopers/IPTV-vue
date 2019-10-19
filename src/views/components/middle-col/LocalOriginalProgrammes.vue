@@ -15,6 +15,7 @@
 <script>
 import { demands_location } from "@/api/api_main";
 import { commonTools } from "@/utils/test";
+import Vue from "vue";
 
 export default {
   name: "LocalOriginalProgrammes",
@@ -26,6 +27,18 @@ export default {
         id: "local_programmes",
         value: [],
         name: []
+      },
+      echarts2: {
+        data: [
+          // ["product", "本周", "上周"],
+          // ["点播用户数", 30000, 20000],
+          // ["点播次数", 13000, 10000],
+          // ["回看收视", 10000, 5000]
+          ["product", "本周", "上周"],
+          ["点播用户数", 0, 0],
+          ["点播次数", 0, 0],
+          ["点播时长", 0, 0]
+        ]
       }
     };
   },
@@ -37,7 +50,8 @@ export default {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
         .then(function(response) {
-          vm.demands_location(response);
+          vm.demands_location(response, "week_days"); // 本周-前6+加当天
+          vm.demands_location(response, "weeks"); // 当天所在周的范围 + 当天的上周范围
         })
         .catch(function(error) {
           console.info(error);
@@ -45,49 +59,128 @@ export default {
     }, 100);
   },
   methods: {
-    demands_location(ExpirationDate) {
+    demands_location(ExpirationDate, date_type) {
       // console.log("demands_location");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
+      let data;
+      let data2; // 用于本周的上一周请求
+      if (date_type == "week_days") {
+        data = {
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
+          end: ExpirationDate,
+          // operator: String(["移动", "联通", "电信"])
+          operator: m_operator,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        };
+        // console.log(data);
+      }
+      if (date_type == "weeks") {
+        // getweekDays_y: [2019, 32, "2019-08-09", "2019-08-15"]
+        data = {
+          start: commonTools.getweekDays_y(ExpirationDate, 0)[2],
+          end: commonTools.getweekDays_y(ExpirationDate, 0)[3],
+          // operator: String(["移动", "联通", "电信"])
+          operator: m_operator,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        };
+        data2 = {
+          start: commonTools.getweekDays_y(ExpirationDate, 1)[2],
+          end: commonTools.getweekDays_y(ExpirationDate, 1)[3],
+          // operator: String(["移动", "联通", "电信"])
+          operator: m_operator,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        };
+        // console.log(data);
+        // console.log(data2);
+      }
 
-      let data = {
-        start: ExpirationDate,
-        end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
-        operator: m_operator
-      };
       demands_location(data)
         .then(function(response) {
-          // console.log(response);
-          //           data:
-          // responses: Array(1)
-          // 0:
-          // aggregations:
-          // program_type:
-          // buckets: Array(1)
-          // 0:
-          // demand_dur: {value: 3922}
-          // demand_freq: {value: 6}
-          // demand_user_num:
-          // value: 4
-          let buckets =
-            response.data.responses[0].aggregations.program_type.buckets;
-          let length = buckets.length;
-          let i;
-          let temp = [];
-          let temp2 = [];
+          if (date_type == "week_days") {
+            // console.log(response);
 
-          for (i = 0; i < length; i++) {
-            temp.push(buckets[i].demand_user_num.value);
-            temp2.push(buckets[i].key);
+            // console.log(response);
+            //           data:
+            // responses: Array(1)
+            // 0:
+            // aggregations:
+            // program_type:
+            // buckets: Array(1)
+            // 0:
+            // demand_dur: {value: 3922}
+            // demand_freq: {value: 6}
+            // demand_user_num:
+            // value: 4
+            let buckets =
+              response.data.responses[0].aggregations.program_type.buckets;
+            let length = buckets.length;
+            let i;
+            let temp = [];
+            let temp2 = [];
+
+            for (i = 0; i < length; i++) {
+              temp.push(buckets[i].demand_user_num.value);
+              temp2.push(buckets[i].key);
+            }
+            vm.pie_data.value = temp;
+            vm.pie_data.name = temp2;
+            // console.log("vm.pie_data");
+            // console.log(vm.pie_data);
+            vm.drawLine();
+            vm.ifgetdata = true;
           }
-          vm.pie_data.value = temp;
-          vm.pie_data.name = temp2;
-          // console.log("vm.pie_data");
-          // console.log(vm.pie_data);
-          vm.drawLine();
-          vm.drawLine2();
-          vm.ifgetdata = true;
+          if (date_type == "weeks") {
+            // console.log(response);
+            let aggregations1_current = response.data.responses[1].aggregations;
+            vm.ifgetdata = true;
+            demands_location(data2)
+              .then(function(response2) {
+                // console.log(response2);
+                let aggregations1_last = response2.data.responses[1].aggregations;
+
+                Vue.set(
+                  vm.echarts2.data[1],
+                  1,
+                  aggregations1_current.demand_user_num.value
+                );
+                Vue.set(
+                  vm.echarts2.data[2],
+                  1,
+                  aggregations1_current.demand_freq.value
+                );
+                Vue.set(
+                  vm.echarts2.data[3],
+                  1,
+                  parseInt(aggregations1_current.demand_dur.value / 3600)
+                );
+                Vue.set(
+                  vm.echarts2.data[1],
+                  2,
+                  aggregations1_last.demand_user_num.value
+                );
+                Vue.set(
+                  vm.echarts2.data[2],
+                  2,
+                  aggregations1_last.demand_freq.value
+                );
+                Vue.set(
+                  vm.echarts2.data[3],
+                  2,
+                  parseInt(aggregations1_last.demand_dur.value / 3600)
+                );
+
+                setTimeout(function() {
+                  vm.drawLine2();
+                }, 100);
+
+
+              })
+              .catch(function(error) {
+                console.info(error);
+                vm.ifgetdata = false;
+              });
+          }
         })
         .catch(function(error) {
           console.info(error);
@@ -191,7 +284,7 @@ export default {
             radius: "80%",
             center: ["30%", "50%"],
             avoidLabelOverlap: false,
-            roseType: "radius",
+            // roseType: "radius",
             label: {
               normal: {
                 show: false
@@ -214,6 +307,7 @@ export default {
       var myChart22 = this.$echarts.init(
         document.getElementById("local_programmes2")
       );
+      let vm = this;
 
       var option22 = {
         textStyle: {
@@ -271,12 +365,7 @@ export default {
         },
         tooltip: {},
         dataset: {
-          source: [
-            ["product", "本周", "上周"],
-            ["总体收视", 30000, 20000],
-            ["点播收视", 13000, 10000],
-            ["回看收视", 10000, 5000]
-          ]
+          source: vm.echarts2.data
         },
         xAxis: {
           type: "category",

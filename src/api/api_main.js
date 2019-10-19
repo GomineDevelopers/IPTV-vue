@@ -708,7 +708,8 @@ export function demands_location(data) {
         params: {
             start: data.start,
             end: data.end,
-            operator: data.operator
+            operator: data.operator,
+            year: data.year
         }
     })
 }
