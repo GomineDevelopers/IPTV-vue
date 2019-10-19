@@ -14,6 +14,32 @@ export default {
       type: Object
     }
   },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    PR_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    PR_value_specialName(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    chartData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    }
+  },
   computed: {
     ...mapGetters([
       "PR_operator",
@@ -23,7 +49,9 @@ export default {
       "ADD_VIP_playmode",
       "UVB_day",
       "UVB_week",
-      "UVB_picker"
+      "UVB_picker",
+      "PR_picker",
+      "PR_value_specialName"
     ]),
     chartData_Change: {
       get: function() {

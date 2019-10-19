@@ -16,8 +16,33 @@ export default {
   data() {
     return {};
   },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    PR_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    PR_value_specialName(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    }
+  },
   computed: {
-    ...mapGetters(["PR_operator", "PR_week"]),
+    ...mapGetters([
+      "PR_operator",
+      "PR_week",
+      "PR_picker",
+      "PR_value_specialName"
+    ]),
 
     smoothLineData_Change: {
       get: function() {

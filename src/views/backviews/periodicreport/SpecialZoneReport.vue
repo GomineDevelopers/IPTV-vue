@@ -59,7 +59,7 @@
 
         <!-- 入口点击情况第二模块开始 -->
         <el-row class="special_click_data2">
-          <el-col class="height_auto" :span="8">
+          <!-- <el-col class="height_auto" :span="8">
             <smooth-line-chart :smoothLineData="recommendPageData"></smooth-line-chart>
           </el-col>
           <el-col class="height_auto" :span="8">
@@ -67,6 +67,9 @@
           </el-col>
           <el-col class="height_auto" :span="8">
             <smooth-line-chart :smoothLineData="classifyPageData"></smooth-line-chart>
+          </el-col>-->
+          <el-col class="height_auto" :span="24">
+            <smooth-line-chart :smoothLineData="recommendPageData"></smooth-line-chart>
           </el-col>
         </el-row>
         <!-- 入口点击情况第二模块结束 -->
@@ -120,6 +123,7 @@ import DayRankTop5 from "@/views/backcoms/commoncomponents/DayRankTop5"; //每�
 import { users_subReport } from "@/api/api_main";
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
+import Vue from "vue";
 
 export default {
   name: "SpecialZoneReport", //专题专区数据报告
@@ -139,39 +143,41 @@ export default {
   mounted() {
     // this.users_subReport();
     let vm = this;
-    setTimeout(function () {
-      vm.users_subReport();
+    setTimeout(function() {
+      vm.refresh_api_data();
     }, 100);
-
   },
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
       console.log("PR_operator: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     PR_picker(newValue, oldValue) {
       let vm = this;
       console.log("PR_picker: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     PR_value_specialName(newValue, oldValue) {
       let vm = this;
       console.log("PR_value_specialName: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     }
   },
   methods: {
     refresh_api_data() {
-      this.users_subReport();
+      this.users_subReport("mixture");
+      this.users_subReport("yd");
+      this.users_subReport("lt");
+      this.users_subReport("dx");
     },
-    users_subReport() {
+    users_subReport(operator_type) {
       console.log("~~~~~users_subReport");
       let vm = this;
 
@@ -192,55 +198,342 @@ export default {
       console.log("PR_value_specialName: ");
       console.log(this.PR_value_specialName);
       console.log(typeof this.PR_value_specialName);
+      let temp;
+      if (operator_type == "mixture") {
+        temp = {
+          // operator: String(["联通", "移动"]),
+          operator: String(temp_operator),
+          start: temp_time.start,
+          end: temp_time.end,
+          name: temp_specialName
+        };
+        console.log(temp);
+      }
+      if (operator_type == "yd") {
+        temp = {
+          operator: String(["移动"]),
+          start: temp_time.start,
+          end: temp_time.end,
+          name: temp_specialName
+        };
+        console.log(temp);
+      }
+      if (operator_type == "lt") {
+        temp = {
+          operator: String(["联通"]),
+          start: temp_time.start,
+          end: temp_time.end,
+          name: temp_specialName
+        };
+        console.log(temp);
+      }
+      if (operator_type == "dx") {
+        temp = {
+          operator: String(["电信"]),
+          start: temp_time.start,
+          end: temp_time.end,
+          name: temp_specialName
+        };
+        console.log(temp);
+      }
 
-      let temp = {
-        // operator: String(["联通", "移动"]),
-        operator: String(temp_operator),
-        start: temp_time.start,
-        end: temp_time.end,
-        name: temp_specialName
-      };
-      console.log(temp);
+      var formData = new FormData();
+      var formData = new window.FormData();
+      formData.append("operator", temp.operator);
+      formData.append("start", temp.start);
+      formData.append("end", temp.end);
+      formData.append("name", temp.name);
+      users_subReport(formData)
+        .then(function(response) {
+          // 小小福星 暂无数据
+          // 70周年有 有数据
 
-      // var formData = new FormData();
-      // var formData = new window.FormData();
-      // formData.append("operator", temp.operator);
-      // formData.append("start", temp.start);
-      // formData.append("end", temp.end);
+          if (operator_type == "mixture") {
+            console.log(response);
 
-      // users_subReport(formData)
-      //   .then(function(response) {
-      //     // console.log(response);
-      //     // console.log(response.data.responses[0].aggregations.ti.buckets);
-      //     let data = response.data.responses[0].aggregations.ti.buckets;
-      //     let length = data.length;
-      //     let i;
-      //     let d1 = null,
-      //       d2 = null,
-      //       d3 = null;
-      //     for (i = 0; i < length; i++) {
-      //       // console.log(data[i].key);
-      //       if (data[i].key == "推荐") {
-      //         d1 = data[i];
-      //         // console.log("~~~~i: " + i);
-      //       }
-      //       if (data[i].key == "少儿") {
-      //         d2 = data[i];
-      //         // console.log("~~~~i: " + i);
-      //       }
-      //       if (data[i].key == "分类") {
-      //         d3 = data[i];
-      //         // console.log("~~~~i: " + i);
-      //       }
-      //       if (d1 != null && d2 != null && d3 != null) {
-      //         break;
-      //       }
-      //       // console.log("~~~~i: " + i);
-      //     }
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
+            ///////////
+            let aggregations = response.data.responses[0].aggregations;
+            vm.totalData.text = aggregations.click_freq.value;
+            vm.totalData.data.push({
+              value: aggregations.click_freq.value,
+              name: "用户点击"
+            });
+
+            ///////////
+            let buckets =
+              response.data.responses[1].aggregations.special_or_activity_name
+                .buckets;
+            let length = buckets.length;
+            let i;
+            vm.pageProportionData.data = []; // 初始化
+            for (i = 0; i < length; i++) {
+              vm.pageProportionData.data.push({
+                value: buckets[i].click_freq.value,
+                name: buckets[i].key
+              });
+            }
+          }
+          if (operator_type == "yd") {
+            console.log(response);
+            let buckets =
+              response.data.responses[1].aggregations.special_or_activity_name
+                .buckets;
+            let length = buckets.length;
+            let i;
+            Vue.set(vm.clickNumData.data, 0, ["product"]); // 初始化
+            Vue.set(vm.clickNumData.data, 1, ["移动"]); // 初始化
+            Vue.set(vm.operatorProportionData.data, 0, {
+              value: 0,
+              name: "移动"
+            });
+            setTimeout(function() {
+              for (i = 0; i < length; i++) {
+                vm.clickNumData.data[0].push(buckets[i].key);
+                console.log(buckets[i].key);
+                vm.clickNumData.data[1].push(buckets[i].click_freq.value);
+                Vue.set(vm.operatorProportionData.data, 0, {
+                  value: buckets[i].click_freq.value,
+                  name: "移动"
+                });
+              }
+            }, 500);
+
+            // ///////
+            let buckets_days =
+              response.data.responses[1].aggregations.statistical_granularity
+                .buckets;
+            let length_days = buckets_days.length;
+            let i_days;
+            Vue.set(vm.recommendPageData.data, 0, ["product"]); // 推荐 --70周年专区  --小小福星专区
+            // Vue.set(vm.childrenPageData.data, 0, ["product"]); // 少儿  --小小福星专区
+            // Vue.set(vm.classifyPageData.data, 0, ["product"]); // 分类
+
+            Vue.set(vm.recommendPageData.data, 1, ["移动"]); // 推荐  --70周年专区  --小小福星专区
+            // Vue.set(vm.childrenPageData.data, 1, ["移动"]); // 少儿
+            // Vue.set(vm.classifyPageData.data, 1, ["移动"]); // 分类
+
+            for (i_days = 0; i_days < length_days; i_days++) {
+              Vue.set(
+                vm.recommendPageData.data[0],
+                i_days + 1,
+                buckets_days[i_days].key
+              );
+              // vm.childrenPageData.data[0].push(buckets_days[i_days].key);
+              // vm.classifyPageData.data[0].push(buckets_days[i_days].key);
+              if (
+                buckets_days[i_days].special_or_activity_name.buckets.length !=
+                0
+              ) {
+                if (
+                  buckets_days[i_days].special_or_activity_name.buckets[0]
+                    .key == "70周年专区"
+                ) {
+                  // console.log(buckets_days[i_days].key);
+                  // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
+                  try {
+                    Vue.set(
+                      vm.recommendPageData.data[1],
+                      i_days + 1,
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .click_freq.value
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+                if (
+                  buckets_days[i_days].special_or_activity_name.buckets[0]
+                    .key == "小小福星专区"
+                ) {
+                  // console.log(buckets_days[i_days].key);
+                  // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
+                  try {
+                    Vue.set(
+                      vm.recommendPageData.data[1],
+                      i_days + 1,
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .click_freq.value
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+              }
+            }
+          }
+          if (operator_type == "lt") {
+            console.log(response);
+            let buckets =
+              response.data.responses[1].aggregations.special_or_activity_name
+                .buckets;
+            let length = buckets.length;
+            let i;
+            Vue.set(vm.clickNumData.data, 2, ["联通"]); // 初始化
+            Vue.set(vm.operatorProportionData.data, 1, {
+              value: 0,
+              name: "联通"
+            });
+            setTimeout(function() {
+              for (i = 0; i < length; i++) {
+                vm.clickNumData.data[2].push(buckets[i].click_freq.value);
+
+                Vue.set(vm.operatorProportionData.data, 1, {
+                  value: buckets[i].click_freq.value,
+                  name: "联通"
+                });
+              }
+            }, 1000);
+
+            // ///////
+            let buckets_days =
+              response.data.responses[1].aggregations.statistical_granularity
+                .buckets;
+            let length_days = buckets_days.length;
+            let i_days;
+
+            Vue.set(vm.recommendPageData.data, 2, ["联通"]); // 推荐  --70周年专区  --小小福星专区
+
+            for (i_days = 0; i_days < length_days; i_days++) {
+              if (
+                buckets_days[i_days].special_or_activity_name.buckets.length !=
+                0
+              ) {
+                if (
+                  buckets_days[i_days].special_or_activity_name.buckets[0]
+                    .key == "70周年专区"
+                ) {
+                  try {
+                    Vue.set(
+                      vm.recommendPageData.data[2],
+                      i_days + 1,
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .click_freq.value
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+                if (
+                  buckets_days[i_days].special_or_activity_name.buckets[0]
+                    .key == "小小福星专区"
+                ) {
+                  try {
+                    Vue.set(
+                      vm.recommendPageData.data[2],
+                      i_days + 1,
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .click_freq.value
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+              }
+            }
+          }
+          if (operator_type == "dx") {
+            console.log(response);
+            let buckets =
+              response.data.responses[1].aggregations.special_or_activity_name
+                .buckets;
+            let length = buckets.length;
+            let i;
+            Vue.set(vm.clickNumData.data, 3, ["电信"]); // 初始化
+            Vue.set(vm.operatorProportionData.data, 2, {
+              value: 0,
+              name: "电信"
+            });
+            setTimeout(function() {
+              for (i = 0; i < length; i++) {
+                vm.clickNumData.data[3].push(buckets[i].click_freq.value);
+                console.log(buckets[i].key);
+
+                Vue.set(vm.operatorProportionData.data, 2, {
+                  value: buckets[i].click_freq.value,
+                  name: "电信"
+                });
+              }
+            }, 1000);
+
+            // ///////
+            let buckets_days =
+              response.data.responses[1].aggregations.statistical_granularity
+                .buckets;
+            let length_days = buckets_days.length;
+            let i_days;
+
+            Vue.set(vm.recommendPageData.data, 3, ["电信"]); // 推荐  --70周年专区  --小小福星专区
+
+            for (i_days = 0; i_days < length_days; i_days++) {
+              if (
+                buckets_days[i_days].special_or_activity_name.buckets.length !=
+                0
+              ) {
+                if (
+                  buckets_days[i_days].special_or_activity_name.buckets[0]
+                    .key == "70周年专区"
+                ) {
+                  try {
+                    Vue.set(
+                      vm.recommendPageData.data[3],
+                      i_days + 1,
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .click_freq.value
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+                if (
+                  buckets_days[i_days].special_or_activity_name.buckets[0]
+                    .key == "小小福星专区"
+                ) {
+                  try {
+                    Vue.set(
+                      vm.recommendPageData.data[3],
+                      i_days + 1,
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .click_freq.value
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+              }
+            }
+          }
+
+          // console.log(response);
+          // console.log(response.data.responses[0].aggregations.ti.buckets);
+          // let data = response.data.responses[0].aggregations.ti.buckets;
+          // let length = data.length;
+          // let i;
+          // let d1 = null,
+          //   d2 = null,
+          //   d3 = null;
+          // for (i = 0; i < length; i++) {
+          //   // console.log(data[i].key);
+          //   if (data[i].key == "推荐") {
+          //     d1 = data[i];
+          //     // console.log("~~~~i: " + i);
+          //   }
+          //   if (data[i].key == "少儿") {
+          //     d2 = data[i];
+          //     // console.log("~~~~i: " + i);
+          //   }
+          //   if (data[i].key == "分类") {
+          //     d3 = data[i];
+          //     // console.log("~~~~i: " + i);
+          //   }
+          //   if (d1 != null && d2 != null && d3 != null) {
+          //     break;
+          //   }
+          //   // console.log("~~~~i: " + i);
+          // }
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
     }
   },
   data() {
@@ -248,7 +541,10 @@ export default {
       //数据总览
       totalData: {
         id: "totalData",
-        data: [{ value: 335, name: '用户点击' }]
+        text: "",
+        data: [
+          // { value: 335, name: "用户点击" }
+        ]
       },
       //各页面专区入口点击次= 》  专区各页面入口点击次数
       clickNumData: {
@@ -257,10 +553,14 @@ export default {
         id: "specialClickNum",
         color: ["#5B9BD4", "#FFC000", "#EC7C30"],
         data: [
-          ["product", "推荐", "少儿", "分类"],
-          ["移动1.0", 4330, 13563, 3337],
-          ["联通", 8600, 17896, 1457],
-          ["电信", 8300, 16457, 2330]
+          // ["product", "推荐", "少儿", "分类"],
+          // ["移动1.0", 4330, 13563, 3337],
+          // ["联通", 8600, 17896, 1457],
+          // ["电信", 8300, 16457, 2330]
+          ["product"],
+          ["移动"],
+          ["联通"],
+          ["电信"]
         ]
       },
 
@@ -270,9 +570,9 @@ export default {
         id: "pageProportionChart",
         color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
         data: [
-          { value: 535, name: "推荐" },
-          { value: 410, name: "分类" },
-          { value: 1348, name: "少儿" }
+          // { value: 535, name: "推荐" },
+          // { value: 410, name: "分类" },
+          // { value: 1348, name: "少儿" }
         ]
       },
       //所属运营商占比
@@ -281,74 +581,79 @@ export default {
         id: "operatorProportionChart",
         color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
         data: [
-          { value: 535, name: "移动1.0" },
-          { value: 410, name: "联通" },
-          { value: 648, name: "电信" }
+          // { value: 535, name: "移动1.0" },
+          // { value: 410, name: "联通" },
+          // { value: 648, name: "电信" }
         ]
       },
 
       //推荐页入口每日走势
       recommendPageData: {
-        title: "推荐页入口每日走势(次)",
+        // title: "推荐页入口每日走势(次)",
+        title: "页入口每日走势(次)",
         id: "recommendPage",
         color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
         data: [
-          [
-            "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30",
-            "2019/7/1",
-            "2019/7/2",
-            "2019/7/3",
-            "2019/7/4"
-          ],
-          [
-            "移动推荐",
-            2140,
-            2370,
-            2800,
-            2200,
-            2234,
-            2640,
-            2859,
-            2140,
-            2670,
-            2580,
-            3800
-          ],
-          [
-            "联通推荐",
-            2140,
-            2170,
-            2580,
-            2400,
-            2534,
-            2640,
-            2759,
-            2640,
-            2270,
-            9880,
-            4200
-          ],
-          [
-            "电信推荐",
-            1400,
-            1700,
-            1800,
-            2000,
-            2340,
-            2400,
-            2590,
-            3040,
-            3070,
-            3800,
-            3200
-          ]
+          ["product"],
+          ["移动"],
+          ["联通"],
+          ["电信"]
+          // [
+          //   "product",
+          //   "2019/6/24",
+          //   "2019/6/25",
+          //   "2019/6/26",
+          //   "2019/6/27",
+          //   "2019/6/28",
+          //   "2019/6/29",
+          //   "2019/6/30",
+          //   "2019/7/1",
+          //   "2019/7/2",
+          //   "2019/7/3",
+          //   "2019/7/4"
+          // ],
+          // [
+          //   "移动推荐",
+          //   2140,
+          //   2370,
+          //   2800,
+          //   2200,
+          //   2234,
+          //   2640,
+          //   2859,
+          //   2140,
+          //   2670,
+          //   2580,
+          //   3800
+          // ],
+          // [
+          //   "联通推荐",
+          //   2140,
+          //   2170,
+          //   2580,
+          //   2400,
+          //   2534,
+          //   2640,
+          //   2759,
+          //   2640,
+          //   2270,
+          //   9880,
+          //   4200
+          // ],
+          // [
+          //   "电信推荐",
+          //   1400,
+          //   1700,
+          //   1800,
+          //   2000,
+          //   2340,
+          //   2400,
+          //   2590,
+          //   3040,
+          //   3070,
+          //   3800,
+          //   3200
+          // ]
         ]
       },
 
@@ -358,62 +663,66 @@ export default {
         id: "childrenPage",
         color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
         data: [
-          [
-            "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30",
-            "2019/7/1",
-            "2019/7/2",
-            "2019/7/3",
-            "2019/7/4"
-          ],
-          [
-            "移动少儿",
-            2140,
-            2370,
-            2800,
-            2200,
-            2234,
-            2640,
-            2859,
-            2140,
-            2670,
-            2580,
-            3800
-          ],
-          [
-            "联通少儿",
-            2140,
-            2170,
-            2580,
-            2400,
-            2534,
-            2640,
-            2759,
-            2640,
-            2270,
-            9880,
-            4200
-          ],
-          [
-            "电信少儿",
-            1400,
-            1700,
-            1800,
-            2000,
-            2340,
-            2400,
-            2590,
-            3040,
-            3070,
-            3800,
-            3200
-          ]
+          ["product"],
+          ["移动"],
+          ["联通"],
+          ["电信"]
+          // [
+          //   "product",
+          //   "2019/6/24",
+          //   "2019/6/25",
+          //   "2019/6/26",
+          //   "2019/6/27",
+          //   "2019/6/28",
+          //   "2019/6/29",
+          //   "2019/6/30",
+          //   "2019/7/1",
+          //   "2019/7/2",
+          //   "2019/7/3",
+          //   "2019/7/4"
+          // ],
+          // [
+          //   "移动少儿",
+          //   2140,
+          //   2370,
+          //   2800,
+          //   2200,
+          //   2234,
+          //   2640,
+          //   2859,
+          //   2140,
+          //   2670,
+          //   2580,
+          //   3800
+          // ],
+          // [
+          //   "联通少儿",
+          //   2140,
+          //   2170,
+          //   2580,
+          //   2400,
+          //   2534,
+          //   2640,
+          //   2759,
+          //   2640,
+          //   2270,
+          //   9880,
+          //   4200
+          // ],
+          // [
+          //   "电信少儿",
+          //   1400,
+          //   1700,
+          //   1800,
+          //   2000,
+          //   2340,
+          //   2400,
+          //   2590,
+          //   3040,
+          //   3070,
+          //   3800,
+          //   3200
+          // ]
         ]
       },
 
@@ -423,62 +732,66 @@ export default {
         id: "classifyPage",
         color: ["#5B9BD4", "#EC7C30 ", "#FFC000"],
         data: [
-          [
-            "product",
-            "2019/6/24",
-            "2019/6/25",
-            "2019/6/26",
-            "2019/6/27",
-            "2019/6/28",
-            "2019/6/29",
-            "2019/6/30",
-            "2019/7/1",
-            "2019/7/2",
-            "2019/7/3",
-            "2019/7/4"
-          ],
-          [
-            "移动分类",
-            2140,
-            2370,
-            2800,
-            2200,
-            2234,
-            2640,
-            2859,
-            2140,
-            2670,
-            2580,
-            3800
-          ],
-          [
-            "联通分类",
-            2140,
-            2170,
-            2580,
-            2400,
-            2534,
-            2640,
-            2759,
-            2640,
-            2270,
-            9880,
-            4200
-          ],
-          [
-            "电信分类",
-            1400,
-            1700,
-            1800,
-            2000,
-            2340,
-            2400,
-            2590,
-            3040,
-            3070,
-            3800,
-            3200
-          ]
+          ["product"],
+          ["移动"],
+          ["联通"],
+          ["电信"]
+          // [
+          //   "product",
+          //   "2019/6/24",
+          //   "2019/6/25",
+          //   "2019/6/26",
+          //   "2019/6/27",
+          //   "2019/6/28",
+          //   "2019/6/29",
+          //   "2019/6/30",
+          //   "2019/7/1",
+          //   "2019/7/2",
+          //   "2019/7/3",
+          //   "2019/7/4"
+          // ],
+          // [
+          //   "移动分类",
+          //   2140,
+          //   2370,
+          //   2800,
+          //   2200,
+          //   2234,
+          //   2640,
+          //   2859,
+          //   2140,
+          //   2670,
+          //   2580,
+          //   3800
+          // ],
+          // [
+          //   "联通分类",
+          //   2140,
+          //   2170,
+          //   2580,
+          //   2400,
+          //   2534,
+          //   2640,
+          //   2759,
+          //   2640,
+          //   2270,
+          //   9880,
+          //   4200
+          // ],
+          // [
+          //   "电信分类",
+          //   1400,
+          //   1700,
+          //   1800,
+          //   2000,
+          //   2340,
+          //   2400,
+          //   2590,
+          //   3040,
+          //   3070,
+          //   3800,
+          //   3200
+          // ]
         ]
       },
 

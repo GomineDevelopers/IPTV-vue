@@ -1,7 +1,8 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>忠诚用户
+      <!-- 注意是上月的数据 -->
+      <span class="title_border_left"></span>忠诚用户（月）
     </el-row>
     <el-row class="loyal_body">
       <el-col :span="16" class="height_auto" id="loyal_user"></el-col>
@@ -10,17 +11,17 @@
           <el-row>
             平均点击次数：
             </br>
-            <span class="click_num">5</span>次
+            <span class="click_num">{{avg_freq}}</span>次
           </el-row>
           <el-row>
             平均停留时长：
             </br>
-            <span class="keep_time">1.4</span>小时
+            <span class="keep_time">{{avg_dur}}</span>小时
           </el-row>
           <el-row>
             忠诚用户数：
             </br>
-            <span class="loyal_index">8</span>分
+            <span class="loyal_index">{{loyal_num}}</span>户
           </el-row>
         </div>
       </el-col>
@@ -28,18 +29,87 @@
   </div>
 </template>
 <script>
+import { users_basic } from "@/api/api_main";
+import { commonTools } from "@/utils/test";
+import Vue from 'vue'
+
 export default {
   name: "LoyalUser",  //忠诚用户组件
   data() {
     return {
-
+      avg_freq:0,
+      avg_dur:0,
+      loyal_num:0,
+      echart_data:{
+        data: [
+            // ["最近访\n问时长", 7.3],
+            // ["平均点\n击次数", 5.2],
+            // ["平均停\n留时长", 2.3],
+            ["平均点\n击次数", 0],
+            ["平均停\n留时长", 0],
+            ["忠诚\n用户数", 0],
+          ]
+      }
     }
   },
   mounted() {
-    this.setLoyalUserChart()
+    // this.setLoyalUserChart()
+    let vm = this;
+    setTimeout(function() {
+      vm.$store
+        .dispatch("get_BigScreenExpirationDate")
+        .then(function(response) {
+          vm.users_basic(response);
+          setTimeout(function() {
+            vm.setLoyalUserChart()
+          }, 100);
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    }, 100);
   },
   methods: {
+    users_basic(ExpirationDate) {
+      // console.log("~~~~~~users_basic");
+      let vm = this;
+      let m_operator = commonTools.GetBigScreenOperator();
+
+      let temp = {
+        // operator: String(["移动", "联通", "电信"]),
+        operator: m_operator,
+        start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
+        end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
+        year:commonTools.get_ExpirationDate_year(ExpirationDate)
+      };
+      // console.log("~~~~~~!!!!");
+      // console.log(temp);
+
+      users_basic(temp)
+        .then(function(response) {
+          // console.log(response);
+          let aggregations = response.data.responses[2].aggregations;
+          // loyal_user_num  -- 忠诚用户数
+          // 忠诚用户户均停留时长 = 忠诚用户停留时长/访问忠诚用户
+          // access_dur_loyal / access_loyal_user_num
+          // 忠诚用户户均点击次数 = 忠诚用户点击次数/忠诚用户用户数
+          // click_freq_loyal / loyal_user_num
+          vm.avg_freq = parseInt(aggregations.click_freq_loyal.value / aggregations.loyal_user_num.value)
+          vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value /3600)
+          vm.loyal_num = aggregations.loyal_user_num.value;
+          Vue.set(vm.echart_data.data[0],1,vm.avg_freq);
+          Vue.set(vm.echart_data.data[1],1,vm.avg_dur);
+          Vue.set(vm.echart_data.data[2],1,vm.loyal_num);
+          
+          vm.ifgetdata = true;
+        })
+        .catch(function(error) {
+          console.info(error);
+          vm.ifgetdata = false;
+        });
+    },
     setLoyalUserChart() {
+      let vm = this;
       // 基于准备好的dom，初始化echarts实例
       var myChart = this.$echarts.init(document.getElementById('loyal_user'))
       var option = {
@@ -58,11 +128,7 @@ export default {
           position: 'top'
         },
         dataset: {
-          source: [
-            ["最近访\n问时长", 7.3],
-            ["平均点\n击次数", 5.2],
-            ["平均停\n留时长", 2.3],
-          ]
+          source:vm.echart_data.data
         },
         xAxis: {
           type: 'category',

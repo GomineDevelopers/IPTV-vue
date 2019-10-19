@@ -5,6 +5,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "SpecialZoneChart", //饼图组件
   props: {
@@ -13,23 +15,47 @@ export default {
     }
   },
   data() {
-    return {}
+    return {};
+  },
+  computed: {
+    ...mapGetters(["PR_operator", "PR_picker", "PR_value_specialName"])
+  },
+  watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    PR_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    PR_value_specialName(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    }
   },
   mounted() {
     // 基于准备好的dom，初始化echarts实例
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.drawLine();
     }, 1000);
   },
   methods: {
     drawLine() {
+      let vm = this;
       var pieChart = this.$echarts.init(
         document.getElementById(this.chartData.id)
       );
       var option = {
         tooltip: {
-          trigger: 'item',
+          trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         // legend: {
@@ -38,7 +64,7 @@ export default {
         //   data: ['用户点击']
         // },
         title: {
-          text: "21万",
+          text: vm.chartData.text,
           // text: String(vm.subscriber_proportion) + "%",
           x: "center",
           y: "center",
@@ -60,14 +86,14 @@ export default {
         series: [
           {
             // name: '用户点击',
-            type: 'pie',
-            radius: ['50%', '70%'],
+            type: "pie",
+            radius: ["50%", "70%"],
             avoidLabelOverlap: false,
             label: {
               normal: {
                 show: false,
-                position: 'center'
-              },
+                position: "center"
+              }
             },
             itemStyle: {
               color: "#EC7C30"
@@ -89,7 +115,6 @@ export default {
         pieChart.resize();
       });
     }
-  },
-
-}
+  }
+};
 </script>

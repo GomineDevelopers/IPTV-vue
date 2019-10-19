@@ -57,13 +57,15 @@ export default {
       let temp = {
         operator: m_operator,
         start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
-        end: ExpirationDate
+        end: ExpirationDate,
+        year:commonTools.get_ExpirationDate_year(ExpirationDate)
+
       };
-      console.log(temp);
+      // console.log(temp);
       users_basic(temp)
         .then(function(response) {
-          console.log("~~~~~~users_basic");
-          console.log(response);
+          // console.log("~~~~~~users_basic");
+          // console.log(response);
           let buckets =
             response.data.responses[1].aggregations.statistical_granularity
               .buckets;

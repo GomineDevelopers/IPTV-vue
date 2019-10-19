@@ -173,6 +173,7 @@
 <script>
 import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
+import { subReport_list } from "@/api/api_main";
 
 var operatorChoose_new = [];
 var operatorChoose_old = [];
@@ -335,14 +336,14 @@ export default {
       operator_isIndeterminate: true,
       options_specialName: [
         // 专区专题名称 -- 先从后台获取
-        {
-          value: "小小福星",
-          label: "小小福星"
-        },
-        {
-          value: "70周年",
-          label: "70周年"
-        }
+        // {
+        //   value: "小小福星",
+        //   label: "小小福星"
+        // },
+        // {
+        //   value: "70周年",
+        //   label: "70周年"
+        // }
       ],
       value_specialName: [],
       time: {
@@ -456,6 +457,8 @@ export default {
 
     let vm = this;
 
+    this.specialName_init();
+
     // 初始化周
     // let arr_temp = [];
     // arr_temp = commonTools.weekDate(2018);
@@ -557,6 +560,41 @@ export default {
     }, 200);
   },
   methods: {
+    specialName_init() {
+      let vm = this;
+      subReport_list()
+        .then(function(response) {
+          // console.log("~~~~~~~~specialName_init");
+          // console.log(response);
+          // options_specialName: [
+          // 专区专题名称 -- 先从后台获取
+          // {
+          //   value: "小小福星",
+          //   label: "小小福星"
+          // },
+          // {
+          //   value: "70周年",
+          //   label: "70周年"
+          // }
+          // ]
+          let temp_specialName = [];
+          let buckets =
+            response.data.responses[0].aggregations.special_or_activity_name.buckets;
+          let length = buckets.length;
+          let i;
+          for (i = 0; i < length; i++) {
+            temp_specialName.push({
+              value: buckets[i].key,
+              label: buckets[i].key
+            });
+          }
+
+          vm.options_specialName = temp_specialName;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     dayChange(event) {
       // console.log("dayChange");
       let vm = this;
