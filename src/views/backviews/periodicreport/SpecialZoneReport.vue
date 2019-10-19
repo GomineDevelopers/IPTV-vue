@@ -9,7 +9,7 @@
         </el-row>
         <el-row class="back_white">
           <el-row class="special_data_total">
-            <el-col :span="8" class="height_auto">
+            <el-col :span="24" class="height_auto">
               <div class="ringlike_div flex">22.1万</div>
               <div class="chart_explain">
                 小小福星”专区入口上线以来，
