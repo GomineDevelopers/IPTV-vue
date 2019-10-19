@@ -597,7 +597,8 @@ commonTools.split_yearAtime = function (str) {
 // 处理 =》 day
 commonTools.split_yearAtime2 = function (str) {
     let t_year;
-    let t_time;
+    let t_month;
+    let t_day;
     let strs = str.split('-');
     t_year = strs[0];
     t_month = strs[1];

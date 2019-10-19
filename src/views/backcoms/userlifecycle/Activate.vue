@@ -3,10 +3,10 @@
     <!-- <div id="echartsAA" class="echarts1 Aleft"></div> -->
     <div :id="activationNum_Change.id" class="echarts1 Aleft"></div>
     <div class="Aright">
-      <div :style="{width: '100%',height: '70%'}" class="echarts2 Rtop">
+      <div :style="{width: '100%',height: '100%'}" class="echarts2 Rtop">
         <line-chart-single-prop :lineData="activationRate"></line-chart-single-prop>
       </div>
-      <div id="echartsCC" class="Rbottom">
+      <!-- <div id="echartsCC" class="Rbottom">
         <p class="title">激活率预警</p>
         <p class="content">
           <span class="sTitle">遵义：</span>
@@ -22,7 +22,7 @@
           <span class="sTitle">环比下降：</span>
           <span class="percentage2">5.7%</span>
         </p>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -34,16 +34,17 @@ import Vue from "vue";
 
 export default {
   name: "Activate",
-  props: ["api_data2"],
+  props: ["activate_user_num"],
   components: {
     "line-chart-single-prop": LineChartSingleProp
   },
   watch: {
-    api_data2(newValue, oldValue) {
+    activate_user_num(newValue, oldValue) {
       let vm = this;
 
-      console.log("ULC - api_data2:");
+      console.log("ULC - activate_user_num:");
       console.log(newValue);
+      vm.activationNum = vm.activate_user_num
       // vm.activationNum.title = "激活用户数-测试";
       // vm.activationRate.title = "激活率-测试";
 
@@ -51,7 +52,7 @@ export default {
     },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         let str;
         if (newValue == 1) {
           str = "当日";
@@ -76,7 +77,7 @@ export default {
       "ULC_month"
     ]),
     activationNum_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (
           vm.ULC_region &&
@@ -98,45 +99,103 @@ export default {
           data_region = vm.activationNum.data_region;
           series_data = vm.activationNum.series_data;
         } else {
-          if (vm.ULC_region.indexOf("贵阳") > -1) {
-            data_region.push(vm.activationNum.data_region[0]);
-            series_data.push(vm.activationNum.series_data[0]);
+          for (let i_x = 0; i_x < vm.ULC_region.length; i_x++) {
+            if (vm.ULC_region.indexOf("贵阳") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("遵义") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("安顺") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("黔南") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("黔东南") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("铜仁") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("毕节") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("六盘水") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
+            if (vm.ULC_region.indexOf("黔西南") > -1) {
+              data_region.push(vm.activationNum.data_region[i_x]);
+              series_data.push(vm.activationNum.series_data[i_x]);
+              continue;
+
+            }
           }
-          if (vm.ULC_region.indexOf("遵义") > -1) {
-            data_region.push(vm.activationNum.data_region[1]);
-            series_data.push(vm.activationNum.series_data[1]);
-          }
-          if (vm.ULC_region.indexOf("安顺") > -1) {
-            data_region.push(vm.activationNum.data_region[2]);
-            series_data.push(vm.activationNum.series_data[2]);
-          }
-          if (vm.ULC_region.indexOf("黔南") > -1) {
-            data_region.push(vm.activationNum.data_region[3]);
-            series_data.push(vm.activationNum.series_data[3]);
-          }
-          if (vm.ULC_region.indexOf("黔东南") > -1) {
-            data_region.push(vm.activationNum.data_region[4]);
-            series_data.push(vm.activationNum.series_data[4]);
-          }
-          if (vm.ULC_region.indexOf("铜仁") > -1) {
-            data_region.push(vm.activationNum.data_region[5]);
-            series_data.push(vm.activationNum.series_data[5]);
-          }
-          if (vm.ULC_region.indexOf("毕节") > -1) {
-            data_region.push(vm.activationNum.data_region[6]);
-            series_data.push(vm.activationNum.series_data[6]);
-          }
-          if (vm.ULC_region.indexOf("六盘水") > -1) {
-            data_region.push(vm.activationNum.data_region[7]);
-            series_data.push(vm.activationNum.series_data[7]);
-          }
-          if (vm.ULC_region.indexOf("黔西南") > -1) {
-            data_region.push(vm.activationNum.data_region[8]);
-            series_data.push(vm.activationNum.series_data[8]);
-          }
+
+          // if (vm.ULC_region.indexOf("贵阳") > -1) {
+          //   data_region.push(vm.activationNum.data_region[0]);
+          //   series_data.push(vm.activationNum.series_data[0]);
+          // }
+          // if (vm.ULC_region.indexOf("遵义") > -1) {
+          //   data_region.push(vm.activationNum.data_region[1]);
+          //   series_data.push(vm.activationNum.series_data[1]);
+          // }
+          // if (vm.ULC_region.indexOf("安顺") > -1) {
+          //   data_region.push(vm.activationNum.data_region[2]);
+          //   series_data.push(vm.activationNum.series_data[2]);
+          // }
+          // if (vm.ULC_region.indexOf("黔南") > -1) {
+          //   data_region.push(vm.activationNum.data_region[3]);
+          //   series_data.push(vm.activationNum.series_data[3]);
+          // }
+          // if (vm.ULC_region.indexOf("黔东南") > -1) {
+          //   data_region.push(vm.activationNum.data_region[4]);
+          //   series_data.push(vm.activationNum.series_data[4]);
+          // }
+          // if (vm.ULC_region.indexOf("铜仁") > -1) {
+          //   data_region.push(vm.activationNum.data_region[5]);
+          //   series_data.push(vm.activationNum.series_data[5]);
+          // }
+          // if (vm.ULC_region.indexOf("毕节") > -1) {
+          //   data_region.push(vm.activationNum.data_region[6]);
+          //   series_data.push(vm.activationNum.series_data[6]);
+          // }
+          // if (vm.ULC_region.indexOf("六盘水") > -1) {
+          //   data_region.push(vm.activationNum.data_region[7]);
+          //   series_data.push(vm.activationNum.series_data[7]);
+          // }
+          // if (vm.ULC_region.indexOf("黔西南") > -1) {
+          //   data_region.push(vm.activationNum.data_region[8]);
+          //   series_data.push(vm.activationNum.series_data[8]);
+          // }
+
         }
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           // console.log("Activate echartsAA 视图更新");
           vm.drawLine();
         }, 300);
@@ -149,29 +208,29 @@ export default {
           series_data: series_data
         };
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
 
   data() {
     return {
       activationNum: {
-        id: "echartsAA",
-        title: "激活用户数",
-        dataName: ["激活数"],
-        color: ["#FF6123"],
-        data_region: [
-          "贵阳",
-          "遵义",
-          "安顺",
-          "黔南",
-          "黔东南",
-          "铜仁",
-          "毕节",
-          "六盘水",
-          "黔西南"
-        ],
-        series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+        // id: "echartsAA",
+        // title: "激活用户数",
+        // dataName: ["激活数"],
+        // color: ["#FF6123"],
+        // data_region: [
+        //   "贵阳",
+        //   "遵义",
+        //   "安顺",
+        //   "黔南",
+        //   "黔东南",
+        //   "铜仁",
+        //   "毕节",
+        //   "六盘水",
+        //   "黔西南"
+        // ],
+        // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
       },
       activationRate: {
         title: "激活率",
@@ -197,12 +256,13 @@ export default {
     };
   },
   mounted() {
-    this.drawLine();
+    this.activationNum = this.activate_user_num
+    console.log("this.activate_user_num~~~~~~~~~~~", this.activate_user_num)
+    // this.drawLine();
   },
   methods: {
     drawLine() {
       var vm = this;
-
       var color = vm.activationNum_Change.color;
       var dataName = vm.activationNum_Change.dataName;
       var title = vm.activationNum_Change.title;
@@ -282,8 +342,8 @@ export default {
         },
         yAxis: {
           type: "value",
-          max: 16000,
-          min: 0,
+          // max: 16000,
+          // min: 0,
           // 刻度线的设置
           splitLine: {
             show: true,

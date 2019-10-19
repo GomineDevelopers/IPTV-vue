@@ -128,10 +128,10 @@ commonTools.checkToken = function () {
 }
 
 //日期时间计算（获取到日期的前 n 天日期）
-commonTools.getBeforeDate = function (n) {
+commonTools.getBeforeDate = function (strTime, n) {
     var n = n;
     var s;
-    var strTime = "2019-06-08"  //+++  此处为测试日期（去除测试后删）
+    // var strTime = "2019-06-08"  //+++  此处为测试日期（去除测试后删）
     // var d = new Date();   //当前日期（去除测试后恢复）
     var d = new Date(strTime);  //+++  此处为配合测试日期的处理（去除测试后删）
     var year = d.getFullYear();

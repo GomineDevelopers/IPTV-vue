@@ -19,7 +19,7 @@
           <span class="title_border_left"></span>在网
         </el-row>
         <el-row class="chart_body back_white">
-          <com-registered v-bind:api_data1="api_data1"></com-registered>
+          <com-registered v-bind:api_data1="api_data1" v-bind:api_data2="api_data2"></com-registered>
         </el-row>
       </el-col>
       <el-col class="user_register_right height_auto" :span="12">
@@ -27,7 +27,7 @@
           <span class="title_border_left"></span>激活
         </el-row>
         <el-row class="chart_body back_white">
-          <com-activate v-bind:api_data2="api_data2"></com-activate>
+          <com-activate v-bind:activate_user_num="activate_user_num"></com-activate>
         </el-row>
       </el-col>
     </el-row>
@@ -74,6 +74,7 @@ import InTheNetwork from "@/views/backcoms/userlifecycle/InTheNetwork"; // 在�
 import UserStructure from "@/views/backcoms/userlifecycle/UserStructure"; // 用户结构
 import CustomerSegmentation from "@/views/backcoms/userlifecycle/CustomerSegmentation"; // 用户细分
 
+import Vue from "vue";
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
 import { userLives } from "@/api/api_main";
@@ -141,19 +142,47 @@ export default {
   },
   data() {
     return {
-      form: {},
       // 在网
       // 激活
       // 在网（2）
       // 在网用户结构
       // 用户细分
+      // api_data1: {
+      //   id: "ULC_echartsA",
+      //   title: "在网用户数",
+      //   data1: ["7.08-7.14", "7.15-7.21"],
+      //   data2: ["219.4", "213.4"]
+      // },
       api_data1: {
         id: "ULC_echartsA",
-        title: "在网用户数",
-        data1: ["7.08-7.14", "7.15-7.21"],
-        data2: ["219.4", "213.4"]
+        title: "在网用户数（百万户）",
+        data1: [,],
+        data2: [,]
       },
-      api_data2: [],
+      api_data2: {
+        id: "ULC_echartsB",
+        color: ["#FF6123", "#FF8859", "#FFAA89"],
+        region: [],
+        operator: ["移动", "联通", "电信"],
+        showData: [[], [], []]
+        // region: ["贵阳","遵义", "安顺","黔南","黔东南","铜仁","毕节","六盘水","黔西南"],
+        // operator: ["移动", "联通", "电信"],
+        // showData: [
+        //   [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
+        //   [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
+        //   [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
+        // ]
+      },
+      activate_user_num: {
+        id: "echartsAA",
+        title: "激活用户数（百万户）",
+        dataName: ["激活数"],
+        color: ["#FF6123"],
+        data_region: [],
+        series_data: [],
+        // data_region: ["贵阳", "遵义", "安顺", "黔南", "黔东南", "铜仁", "毕节", "六盘水", "黔西南"],
+        // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+      },
       api_data3: [],
       api_data4: [],
       api_data5: []
@@ -161,25 +190,90 @@ export default {
   },
   methods: {
     refresh_api_data() {
-      this.userLives(this.ULC_time_type);
+      this.api_data_set("mixture");
+      this.api_data_set("single");
     },
-    userLives(time_type) {
+    api_data_set(datatype) {
       let vm = this;
+      if (datatype == "mixture") {
+        // 混合数据类型 -- 只执行一次
+        if (vm.ULC_operator == null || vm.ULC_operator.length == 0) {
+          let temp_operator = ["移动", "联通", "电信"];
+          vm.userLives(
+            "all",
+            temp_operator,
+            datatype
+          );
+        } else {
+          let count = vm.ULC_operator.length;
+          if (count == 3 || count == 2) {
+            vm.userLives(
+              "all",
+              vm.ULC_operator,
+              datatype
+            );
+          }
+          if (count == 1) {
+            if (vm.ULC_operator.indexOf("移动") > -1) {
+              vm.userLives(
+                "yd",
+                ["移动"],
+                datatype
+              );
+            }
+            if (vm.ULC_operator.indexOf("联通") > -1) {
+              vm.userLives(
+                "lt",
+                ["联通"],
+                datatype
+              );
+            }
+            if (vm.ULC_operator.indexOf("电信") > -1) {
+              vm.userLives(
+                "dx",
+                ["电信"],
+                datatype,
+              );
+            }
+          }
+        }
+      } else if (datatype == "single") {
+        // 单独数据类型 -- 执行三次
+        vm.userLives("yd", ["移动"], datatype);
+        vm.userLives("lt", ["联通"], datatype);
+        vm.userLives("dx", ["电信"], datatype);
+      }
+    },
+    userLives(type, ULC_operator, dataType) {
+      console.log("type", type)
+      console.log("ULC_operator", ULC_operator)
+      console.log("dataType", dataType)
+      let vm = this;
+      let dataTypeName = dataType
       // console.log("userLives");
 
       // console.log("~~~~~ ULC_region:" + vm.ULC_region);
       let temp_region = commonTools.acConvert(vm.ULC_region);
+      let time_type = vm.ULC_time_type
       // console.log("~~~~~ temp_region:" + temp_region);
       // console.log("~~~~~time_type: " + time_type);
       // console.log(typeof time_type);
-      let temp_operator = commonTools.operatorConvert(vm.ULC_operator);
+      let temp_operator = commonTools.operatorConvert(ULC_operator);
 
+      //本期
       let temp = {
         area: null,
         operator: null,
         start: null,
         end: null
       };
+      //上期
+      let prev_temp = {
+        area: null,
+        operator: null,
+        start: null,
+        end: null
+      }
       if (time_type == 1) {
         // 时间类型-1-天
         // console.log("~~~~~day:" + vm.ULC_day);
@@ -192,8 +286,20 @@ export default {
           year: temp_time.year
         };
         // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~1:");
-        console.log(temp);
+        // console.log("~~~~~1:");
+        // console.log(temp);
+
+        let prevDay = vm.$commonTools.getBeforeDate(vm.ULC_day, 1)  //获取当前的前一天
+        // console.log("prevDay", prevDay)
+        prev_temp = {
+          area: String(temp_region),
+          operator: String(temp_operator),
+          start: prevDay,
+          end: prevDay,
+          year: temp_time.year
+        }
+        // console.log("前一天", prevDay)
+
       } else if (time_type == 2) {
         // 时间类型-2-周
         // console.log("~~~~~week:" + vm.ULC_week);
@@ -205,9 +311,25 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        // console.log("~~~~time_type:" + time_type);
+        console.log("~~~~time_type:" + time_type);
         console.log("~~~~~2:");
         console.log(temp);
+
+        let prev_week_str = temp_time.time.replace(/[^0-9]/ig, "")  //获取本周的数字
+        let prev_week_time = prev_week_str - 1
+        if (prev_week_time != 0) {
+          // console.log("本周时间", prev_week_time + 'week')
+          prev_temp = {
+            area: String(temp_region),
+            operator: String(temp_operator),
+            start: prev_week_time + 'week',
+            end: prev_week_time + 'week',
+            year: temp_time.year
+          }
+        } else {
+          console.log("无上周数据")
+        }
+
       } else if (time_type == 3) {
         // 时间类型-3-月
         // console.log("~~~~~month:" + vm.ULC_month);
@@ -224,6 +346,22 @@ export default {
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~3:");
         console.log(temp);
+
+        let prev_month_str = temp_time.time.replace(/[^0-9]/ig, "")  //获取本周的数字
+        let prev_month_time = prev_month_str - 1
+        if (prev_month_time != 0) {
+          // console.log("本周时间", prev_week_time + 'week')
+          prev_temp = {
+            area: String(temp_region),
+            operator: String(temp_operator),
+            start: prev_month_time + 'month',
+            end: prev_month_time + 'month',
+            year: temp_time.year
+          }
+          // console.log("上月", prev_temp)
+        } else {
+          console.log("无上月数据")
+        }
       } else {
         // 未选择时间情况
         return;
@@ -247,9 +385,114 @@ export default {
       formData.append("end", temp.end);
       formData.append("year", temp.year);
 
+      var formDataPrev = new FormData();
+      var formDataPrev = new window.FormData();
+      formDataPrev.append("ac", prev_temp.area);
+      formDataPrev.append("operator", prev_temp.operator);
+      formDataPrev.append("start", prev_temp.start);
+      formDataPrev.append("end", prev_temp.end);
+      formDataPrev.append("year", prev_temp.year);
+
       userLives(formData)
         .then(function (response) {
-          console.log("用户生命周期", response);
+
+          if (dataTypeName == "mixture") {
+            console.log("----------------------------------------");
+            console.log("混合数据", ULC_operator);
+            console.log(response.data.responses);
+
+            let total_data = response.data.responses
+
+            //在网
+            let onTheNetData = total_data[0].aggregations
+            let register_num = onTheNetData.register_num.value
+            if (time_type == 1) {
+              Vue.set(vm.api_data1.data1, 0, temp.start)
+            } else if (time_type == 2) {
+              Vue.set(vm.api_data1.data1, 0, commonTools.format_weekToChinese(temp.start))
+            } else if (time_type == 3) {
+              Vue.set(vm.api_data1.data1, 0, commonTools.format_monthToChinese(temp.start))
+            }
+            Vue.set(vm.api_data1.data2, 0, (register_num / 1000000).toFixed(2))
+
+            //激活用户数
+
+            //activate_user_num: {
+            // data_region: ["贵阳","遵义","安顺","黔南","黔东南","铜仁","毕节","六盘水","黔西南"],
+            // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+            let activate_user_num_arr = total_data[0].aggregations.ac.buckets
+            let activate_user_num_temp1 = []
+            let activate_user_num_temp2 = []
+            activate_user_num_arr.forEach((value, index) => {
+              activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
+              activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
+            })
+            vm.activate_user_num.data_region = activate_user_num_temp1
+            vm.activate_user_num.series_data = activate_user_num_temp2
+            console.log(vm.activate_user_num.data_region)
+            console.log(vm.activate_user_num.series_data)
+
+          }
+
+          if (dataTypeName == "single") {
+            if (type == "yd") {
+              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+              console.log("运营商", ULC_operator);
+              console.log(response.data.responses);
+              let total_data = response.data.responses
+
+              //新增在网用户
+              let new_num_arr = total_data[0].aggregations.ac.buckets
+              let new_num_region = []
+              let new_num_data = []
+              new_num_arr.forEach((value, index) => {
+                new_num_region.push(commonTools.acConvert_Single(value.key))
+                new_num_data.push(value.new_num.value)
+              })
+              vm.api_data2.region = new_num_region
+              vm.api_data2.showData[0] = new_num_data
+
+              // console.log("vm.api_data2", vm.api_data2)
+
+            } else if (type == "lt") {
+              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+              console.log("运营商", ULC_operator);
+              console.log(response.data.responses);
+              let total_data = response.data.responses
+
+              //新增在网用户
+              let new_num_arr = total_data[0].aggregations.ac.buckets
+              let new_num_region = []
+              let new_num_data = []
+              new_num_arr.forEach((value, index) => {
+                new_num_region.push(commonTools.acConvert_Single(value.key))
+                new_num_data.push(value.new_num.value)
+              })
+              vm.api_data2.region = new_num_region
+              vm.api_data2.showData[1] = new_num_data
+
+            } else if (type == "dx") {
+              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+              console.log("运营商", ULC_operator);
+              console.log(response.data.responses);
+              let total_data = response.data.responses
+
+              //新增在网用户
+              let new_num_arr = total_data[0].aggregations.ac.buckets
+              let new_num_region = []
+              let new_num_data = []
+              new_num_arr.forEach((value, index) => {
+                new_num_region.push(commonTools.acConvert_Single(value.key))
+                new_num_data.push(value.new_num.value)
+              })
+              vm.api_data2.region = new_num_region
+              vm.api_data2.showData[2] = new_num_data
+
+              console.log(vm.api_data2)
+
+            }
+          }
+
 
         })
         .catch(function (error) {
@@ -257,6 +500,7 @@ export default {
         });
     }
   },
+
 };
 </script>
 <style>

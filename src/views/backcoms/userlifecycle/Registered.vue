@@ -11,17 +11,31 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Registered",
-  props: ["api_data1"],
+  props: ["api_data1", "api_data2"],
   watch: {
     api_data1(newValue, oldValue) {
       let vm = this;
       console.log("ULC - api_data1:");
       console.log(newValue);
-      vm.data2 = vm.api_data1
+      vm.data1 = vm.api_data1
       //vm.data1.data2 = ["299.5", "213.4"]; // 测试
-
       // 此处组件-刷新-drawline()
-    }
+    },
+    api_data2(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC - api_data2:");
+      console.log(newValue);
+      vm.data2 = vm.api_data2
+      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+        // do nothing. --监听
+      }
+      setTimeout(function () {
+        vm.drawLine2();
+      }, 2000);
+      //vm.data1.data2 = ["299.5", "213.4"]; // 测试
+      // 此处组件-刷新-drawline()
+
+    },
   },
   computed: {
     ...mapGetters([
@@ -71,6 +85,9 @@ export default {
         var d1 = [];
         var d2 = [];
         if (vm.ULC_region == null || vm.ULC_region.length == 0) {
+          if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+            // do nothing. --监听
+          }
           region = vm.data2.region;
           d0 = vm.data2.showData[0];
           d1 = vm.data2.showData[1];
@@ -85,33 +102,72 @@ export default {
             d1.push(vm.data2.showData[1][showDataN1]);
             d2.push(vm.data2.showData[2][showDataN1]);
           }
-          if (vm.ULC_region.indexOf("贵阳") > -1) {
-            regionChange(0, 0);
+          for (let i_x = 0; i_x < vm.ULC_region.length; i_x++) {
+            if (vm.ULC_region.indexOf("贵阳") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("遵义") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("安顺") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("黔南") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("黔东南") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("铜仁") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("毕节") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("六盘水") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+            if (vm.ULC_region.indexOf("黔西南") > -1) {
+              regionChange(i_x, i_x);
+              continue;
+            }
+
           }
-          if (vm.ULC_region.indexOf("遵义") > -1) {
-            regionChange(1, 1);
-          }
-          if (vm.ULC_region.indexOf("安顺") > -1) {
-            regionChange(2, 2);
-          }
-          if (vm.ULC_region.indexOf("黔南") > -1) {
-            regionChange(3, 3);
-          }
-          if (vm.ULC_region.indexOf("黔东南") > -1) {
-            regionChange(4, 4);
-          }
-          if (vm.ULC_region.indexOf("铜仁") > -1) {
-            regionChange(5, 5);
-          }
-          if (vm.ULC_region.indexOf("毕节") > -1) {
-            regionChange(6, 6);
-          }
-          if (vm.ULC_region.indexOf("六盘水") > -1) {
-            regionChange(7, 7);
-          }
-          if (vm.ULC_region.indexOf("黔西南") > -1) {
-            regionChange(8, 8);
-          }
+          // if (vm.ULC_region.indexOf("贵阳") > -1) {
+          //   regionChange(0, 0);
+          // }
+          // if (vm.ULC_region.indexOf("遵义") > -1) {
+          //   regionChange(1, 1);
+          // }
+          // if (vm.ULC_region.indexOf("安顺") > -1) {
+          //   regionChange(2, 2);
+          // }
+          // if (vm.ULC_region.indexOf("黔南") > -1) {
+          //   regionChange(3, 3);
+          // }
+          // if (vm.ULC_region.indexOf("黔东南") > -1) {
+          //   regionChange(4, 4);
+          // }
+          // if (vm.ULC_region.indexOf("铜仁") > -1) {
+          //   regionChange(5, 5);
+          // }
+          // if (vm.ULC_region.indexOf("毕节") > -1) {
+          //   regionChange(6, 6);
+          // }
+          // if (vm.ULC_region.indexOf("六盘水") > -1) {
+          //   regionChange(7, 7);
+          // }
+          // if (vm.ULC_region.indexOf("黔西南") > -1) {
+          //   regionChange(8, 8);
+          // }
           // showData.push(d0);
           // showData.push(d1);
           // showData.push(d2);
@@ -152,7 +208,7 @@ export default {
         setTimeout(function () {
           // console.log("Registered echartsB 视图更新");
           vm.drawLine2();
-        }, 300);
+        }, 2000);
         return {
           id: vm.data2.id,
           region: region,
@@ -173,32 +229,35 @@ export default {
         // data2: ["219.4", "213.4"]
       },
       data2: {
-        id: "ULC_echartsB",
-        color: ["#FF6123", "#FF8859", "#FFAA89"],
-        region: [
-          "贵阳",
-          "遵义",
-          "安顺",
-          "黔南",
-          "黔东南",
-          "铜仁",
-          "毕节",
-          "六盘水",
-          "黔西南"
-        ],
-        operator: ["移动", "联通", "电信"],
-        showData: [
-          [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
-          [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
-          [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
-        ]
+        // id: "ULC_echartsB",
+        // color: ["#FF6123", "#FF8859", "#FFAA89"],
+        // region: [
+        //   "贵阳",
+        //   "遵义",
+        //   "安顺",
+        //   "黔南",
+        //   "黔东南",
+        //   "铜仁",
+        //   "毕节",
+        //   "六盘水",
+        //   "黔西南"
+        // ],
+        // operator: ["移动", "联通", "电信"],
+        // showData: [
+        //   [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
+        //   [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
+        //   [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
+        // ]
       }
     };
   },
   mounted() {
-    console.log("api_data1", this.api_data1)
+    // console.log("api_data1", this.api_data1)
+    // console.log("api_data2", this.api_data2)
     // this.drawLine();
     // this.drawLine2();
+    this.data1 = this.api_data1
+    this.data2 = this.api_data2
   },
   methods: {
     drawLine() {
@@ -356,7 +415,7 @@ export default {
       var option2 = {
         title: {
           // text: "新增在册用户",
-          text: "新增在网用户",
+          text: "新增在网用户（户）",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色
