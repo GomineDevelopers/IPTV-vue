@@ -10,14 +10,15 @@
         <el-row class="back_white">
           <el-row class="special_data_total">
             <el-col :span="24" class="height_auto">
-              <div class="ringlike_div flex">22.1万</div>
+              <special-zone-chart :chartData="totalData"></special-zone-chart>
+              <!-- <div class="ringlike_div flex">22.1万</div>
               <div class="chart_explain">
                 小小福星”专区入口上线以来，
                 <br />不去重累计获得
                 <i class="special_data">17.5万用户</i>
                 点击
                 <i class="special_data">22.1</i>万次
-              </div>
+              </div>-->
             </el-col>
             <!-- <el-col :span="8" class="height_auto">
               <div class="ringlike_div flex">3.6万</div>
@@ -32,7 +33,7 @@
                 专区内节目累计点播时长
                 <i class="special_data">4505小时</i>
               </div>
-            </el-col> -->
+            </el-col>-->
           </el-row>
         </el-row>
       </el-row>
@@ -75,9 +76,9 @@
       <!-- <el-row class="programs_demand back_white">
         <el-row class="model_title">
           <span class="title_border_left"></span>节目点播情况
-        </el-row> -->
-        <!-- 节目点播情况模块1开始 -->
-        <!-- <el-row class="programs_demand_content1">
+      </el-row>-->
+      <!-- 节目点播情况模块1开始 -->
+      <!-- <el-row class="programs_demand_content1">
           <el-col :span="8">
             <bar-list-chart :barListData="playUserNumData"></bar-list-chart>
           </el-col>
@@ -87,20 +88,20 @@
           <el-col :span="8">
             <bar-list-chart :barListData="playDemandLengthData"></bar-list-chart>
           </el-col>
-        </el-row> -->
-        <!-- 节目点播情况模块1结束 -->
+      </el-row>-->
+      <!-- 节目点播情况模块1结束 -->
 
-        <!-- 上下层图表块分割线开始 -->
-        <!-- <div class="cut_off_rule"></div> -->
-        <!-- 上下层图表块分割线开始 -->
+      <!-- 上下层图表块分割线开始 -->
+      <!-- <div class="cut_off_rule"></div> -->
+      <!-- 上下层图表块分割线开始 -->
 
-        <!-- 节目点播情况模块2开始 -->
-        <!-- <el-row class="programs_demand_content2">
+      <!-- 节目点播情况模块2开始 -->
+      <!-- <el-row class="programs_demand_content2">
           <el-col :span="24">
             <day-rank-top5 :dayRankTop5Data="dayRankTop5Data"></day-rank-top5>
           </el-col>
-        </el-row> -->
-        <!-- 节目点播情况模块2结束 -->
+      </el-row>-->
+      <!-- 节目点播情况模块2结束 -->
       <!-- </el-row> -->
       <!-- 节目点播情况结束 -->
     </el-row>
@@ -111,6 +112,7 @@
 <script>
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //单坐标柱状图组件
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
+import SpecialZoneChart from "@/views/backcoms/commoncomponents/SpecialZoneChart"; //专区数据总览圆形图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"; //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"; //排名柱状图
 import DayRankTop5 from "@/views/backcoms/commoncomponents/DayRankTop5"; //每日排名走势TOP5组件
@@ -123,6 +125,7 @@ export default {
   name: "SpecialZoneReport", //专题专区数据报告
 
   components: {
+    "special-zone-chart": SpecialZoneChart,
     "bar-chart-single": BarChartSingle,
     "pie-charts": PieCharts,
     "smooth-line-chart": SmoothLineChart,
@@ -136,7 +139,7 @@ export default {
   mounted() {
     // this.users_subReport();
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.users_subReport();
     }, 100);
 
@@ -145,21 +148,21 @@ export default {
     PR_operator(newValue, oldValue) {
       let vm = this;
       console.log("PR_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     PR_picker(newValue, oldValue) {
       let vm = this;
       console.log("PR_picker: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     PR_value_specialName(newValue, oldValue) {
       let vm = this;
       console.log("PR_value_specialName: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     }
@@ -242,6 +245,11 @@ export default {
   },
   data() {
     return {
+      //数据总览
+      totalData: {
+        id: "totalData",
+        data: [{ value: 335, name: '用户点击' }]
+      },
       //各页面专区入口点击次= 》  专区各页面入口点击次数
       clickNumData: {
         // title: "各页面专区入口点击次数",
