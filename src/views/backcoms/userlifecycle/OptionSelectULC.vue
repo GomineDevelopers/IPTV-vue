@@ -167,7 +167,8 @@ export default {
       this.$store
         .dispatch("set_ULC_operator", newValue)
         .then(function (response) {
-          // console.log(response);
+          console.log("~~~~~~~~~~operatorChoose");
+          console.log(response);
         })
         .catch(function (error) {
           console.info(error);
