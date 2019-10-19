@@ -48,7 +48,9 @@ export default {
         // operator: String(["移动", "联通", "电信"]),
         operator: m_operator,
         start: commonTools.get_ExpirationDate_01(ExpirationDate),
-        end: ExpirationDate
+        end: ExpirationDate,
+        year:commonTools.get_ExpirationDate_year(ExpirationDate)
+
       };
       users_basic(temp)
         .then(function(response) {

@@ -94,6 +94,7 @@ export default {
       let vm = this;
       // console.log("~~~~~~users_subscribe");
       let data;
+      let data_ub;
       let m_operator = commonTools.GetBigScreenOperator();
 
       if (date_time == "day") {
@@ -103,6 +104,13 @@ export default {
           start: ExpirationDate,
           end: ExpirationDate
         };
+        data_ub = {
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
+          start: ExpirationDate,
+          end: ExpirationDate,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        };
       }
       if (date_time == "7days") {
         data = {
@@ -110,6 +118,13 @@ export default {
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
           end: ExpirationDate
+        };
+        data_ub = {
+          // operator: String(["移动", "联通", "电信"]),
+          operator: m_operator,
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
+          end: ExpirationDate,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
       }
       // console.log("~~~~~~~time data");
@@ -123,7 +138,7 @@ export default {
             // console.log(response);
           }
 
-          users_basic(data)
+          users_basic(data_ub)
             .then(function(response2) {
               // console.log("~~~~users_basic");
               if (date_time == "day") {

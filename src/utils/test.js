@@ -7,7 +7,16 @@ const commonTools = {}
 // import { commonTools } from "@/utils/common";
 import CryptoJS from 'crypto-js' //加密js
 
-
+// 传入日期 month 1
+// 2019-08-10 , 1  => 7month
+commonTools.get_ExpirationDate_lastNMonth = function (date, n) {
+    let arr = date.split("-");
+    let month_str = parseInt(arr[1]) - n;
+    if (month_str < 1) {
+        month_str = 1;
+    }
+    return String(month_str) + "month";
+}
 
 // 传入日期获得当前年year
 commonTools.get_ExpirationDate_year = function (date) {
@@ -369,6 +378,9 @@ commonTools.acConvert_Single = function (ac) {
             break;
         case "859":
             city = "黔西南";
+            break;
+        case "other":
+            city = "其他";
             break;
         default:
             console.log("none!");
@@ -864,7 +876,7 @@ commonTools.getWeek_y = function (date) {
 // 传入 0 是本周 ，传入1是上周  
 // date格式： 2019-10-18
 // getweekDays_y: [2019, 32, "2019-08-09", "2019-08-15"]
-commonTools.getweekDays_y = function (date,n) {
+commonTools.getweekDays_y = function (date, n) {
     let weekNum = commonTools.getWeek_y(date);
     let year = parseInt(commonTools.get_ExpirationDate_year(date)); // 获取当前日期的年份=》int 
     weekNum = weekNum - n;

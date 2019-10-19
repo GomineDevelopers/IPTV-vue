@@ -347,16 +347,16 @@ export default {
             let i_0;
             for (i_0 = 0; i_0 < length_0; i_0++) {
               temp_data1[0].push(buckets_0[i_0].key);
-              temp_data1[1].push(buckets_0[i_0].new_num.value );
-              temp_data1[2].push(buckets_0[i_0].new_paid_num.value );
+              temp_data1[1].push(buckets_0[i_0].new_num.value);
+              temp_data1[2].push(buckets_0[i_0].new_paid_num.value);
 
               temp_data2[0].push(buckets_0[i_0].key);
-              temp_data2[1].push(buckets_0[i_0].open_num.value );
-              temp_data2[2].push(buckets_0[i_0].new_num.value );
+              temp_data2[1].push(buckets_0[i_0].open_num.value);
+              temp_data2[2].push(buckets_0[i_0].new_num.value);
 
               temp_data3[0].push(buckets_0[i_0].key);
-              temp_data3[1].push(buckets_0[i_0].open_num.value );
-              temp_data3[2].push(buckets_0[i_0].new_paid_num.value );
+              temp_data3[1].push(buckets_0[i_0].open_num.value);
+              temp_data3[2].push(buckets_0[i_0].new_paid_num.value);
             }
 
             vm.newRegisteredUsersData.data = temp_data1;
@@ -783,6 +783,98 @@ export default {
 
             // //////////////// 订购用户所属地区数据  row6 left responses3   （没有）
             // （新增）订购用户数（ 按地区分） new_paid_num
+            // （结构类似：月度收视行为报告-row12）
+            try {
+              let buckets_6_3 =
+                responses3.aggregations.statistical_granularity.buckets; //  responses2
+              let length_6_3 = buckets_6_3.length;
+              let i_6_3;
+              // 本月（先） 上月（后）
+              let temp_data_6_3 = [];
+              temp_data_6_3.push([
+                "product",
+                "本月订购用户数",
+                "上月订购用户数"
+              ]);
+              let top10_length_6_3 = 10;
+              if (buckets_6_3[0].ac.buckets.length < 10) {
+                top10_length_6_3 = buckets_6_3[0].ac.buckets.length;
+              }
+              for (i_6_3 = 0; i_6_3 < top10_length_6_3; i_6_3++) {
+                temp_data_6_3.push([]);
+              }
+              let month_index_current = length_6_3 - 1; // 倒数第一个
+              // if (length_6_3 == 1) {
+              // month_index_current = 0;
+              // }
+              // 本月
+              for (i_6_3 = 0; i_6_3 < top10_length_6_3; i_6_3++) {
+                // 一
+                Vue.set(
+                  temp_data_6_3[top10_length_6_3 - i_6_3],
+                  0,
+                  // commonTools.acConvert_Single(
+                  buckets_6_3[month_index_current].ac.buckets[i_6_3].key
+                  // )
+                );
+                Vue.set(
+                  temp_data_6_3[top10_length_6_3 - i_6_3],
+                  1,
+
+                  buckets_6_3[month_index_current].ac.buckets[i_6_3]
+                    .new_paid_num.value
+                );
+              }
+              if (length_6_3 > 1) {
+                // ////// 上月
+                let buckets_child_6_3_2 =
+                  responses3.aggregations.statistical_granularity.buckets[
+                    length_6_3 - 2
+                  ].ac.buckets;
+
+                let top10_length_6_3_week2_all = buckets_child_6_3_2.length; // n个
+                let i_6_3_2;
+                function Return_KeyValue_6_3(key) {
+                  let value;
+                  for (
+                    i_6_3_2 = 0;
+                    i_6_3_2 < top10_length_6_3_week2_all;
+                    i_6_3_2++
+                  ) {
+                    if (buckets_child_6_3_2[i_6_3_2].key == key) {
+                      value = buckets_child_6_3_2[i_6_3_2].new_paid_num.value;
+                      break;
+                    }
+                  }
+                  return value;
+                }
+
+                // 遍历 本月（先）top 15的key
+                for (i_6_3 = 0; i_6_3 < top10_length_6_3; i_6_3++) {
+                  Vue.set(
+                    temp_data_6_3[top10_length_6_3 - i_6_3],
+                    2,
+                    Return_KeyValue_6_3(
+                      temp_data_6_3[top10_length_6_3 - i_6_3][0]
+                    )
+                  );
+                }
+
+                // 上面不进行 ac码的转换，对比完后再单独转换
+                for (i_6_3 = 0; i_6_3 < top10_length_6_3; i_6_3++) {
+                  Vue.set(
+                    temp_data_6_3[top10_length_6_3 - i_6_3],
+                    0,
+                    commonTools.acConvert_Single(
+                      buckets_6_3[month_index_current].ac.buckets[i_6_3].key
+                    )
+                  );
+                }
+              }
+              vm.orderUserRegionData.data = temp_data_6_3;
+            } catch (error) {
+              console.log(error);
+            }
 
             // //////////////// 订购用户所属地区数据  row6 right （实际为：分地区订购用户引导付费内容订购排名） responses2  （有）
             // //////////////// 分地区订购用户引导付费内容订购排名 row7 全部
@@ -978,7 +1070,7 @@ export default {
                 length_8_child = buckets_8_child.length;
               }
               let i_8_child;
-           
+
               for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
                 temp_data_8_current.push({
                   programName: "",
@@ -1036,7 +1128,7 @@ export default {
             console.log(temp_data_8_current);
             console.log(temp_data_8_last);
             vm.tableData = temp_data_8_last; // 上月 tableData
-            vm.tableData2 = temp_data_8_current ; // 当月  tableData2
+            vm.tableData2 = temp_data_8_current; // 当月  tableData2
           }
         })
         .catch(function(error) {
@@ -1499,17 +1591,17 @@ export default {
         id: "orderUserRegion",
         color: ["#ED7D31", "#FFC000"],
         data: [
-          ["product", "本月订购用户数", "上月订购用户数"],
-          ["空白", 55, 58],
-          ["安顺市", 540, 532],
-          ["六盘水市", 555, 514],
-          ["黔西布依族苗族自治州", 688, 631],
-          ["毕节市", 869, 908],
-          ["黔东南苗族侗族自治州", 946, 908],
-          ["铜仁市", 880, 854],
-          ["黔南布依族苗族自治州", 941, 881],
-          ["遵义市", 1314, 1262],
-          ["贵阳市", 2204, 2416]
+          // ["product", "本月订购用户数", "上月订购用户数"],
+          // ["空白", 55, 58],
+          // ["安顺市", 540, 532],
+          // ["六盘水市", 555, 514],
+          // ["黔西布依族苗族自治州", 688, 631],
+          // ["毕节市", 869, 908],
+          // ["黔东南苗族侗族自治州", 946, 908],
+          // ["铜仁市", 880, 854],
+          // ["黔南布依族苗族自治州", 941, 881],
+          // ["遵义市", 1314, 1262],
+          // ["贵阳市", 2204, 2416]
         ]
       },
       //贵阳市引导付费内容排名

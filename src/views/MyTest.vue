@@ -1451,6 +1451,12 @@ export default {
         const {
           export_json_to_excel_test2
         } = require("../vendor/Export2Excel");
+        const {
+          export_json_to_excel_plural
+        } = require("../vendor/Export2Excel");
+        const {
+          export_json_to_excel_plural2
+        } = require("../vendor/Export2Excel");
         const tHeader = [
           "商品名称",
           "商品货号",
@@ -1607,15 +1613,15 @@ export default {
           {
             title: "5月订购用户情况（户）",
             data: [
-              { value: 535, name: "影视包" },
-              { value: 410, name: "影视包（包季）" },
-              { value: 348, name: "影视包（包年）" },
-              { value: 348, name: "少儿包" },
-              { value: 410, name: "少儿包（包季）" },
-              { value: 348, name: "少儿包（包年）" },
-              { value: 348, name: "欢乐家庭包" },
-              { value: 410, name: "欢乐家庭包（包季）" },
-              { value: 348, name: "欢乐家庭包（包年）" }
+              { value: 53511, name: "影视包" },
+              { value: 41011, name: "影视包（包季）" },
+              { value: 34811, name: "影视包（包年）" },
+              { value: 34811, name: "少儿包" },
+              { value: 41011, name: "少儿包（包季）" },
+              { value: 34811, name: "少儿包（包年）" },
+              { value: 34811, name: "欢乐家庭包" },
+              { value: 41011, name: "欢乐家庭包（包季）" },
+              { value: 34811, name: "欢乐家庭包（包年）" }
             ]
           },
           {
@@ -1674,23 +1680,29 @@ export default {
               { value: 348, name: "欢乐家庭包（包年）" }
             ]
           }
-        ]
+        ];
         let temp_content = [];
         let temp_content2 = [];
 
         // for(temp_i=0)
-        content[0].data.forEach((value,index)=>{ // xxx
+        content[0].data.forEach((value, index) => {
+          // xxx
           temp_content.push([]);
           temp_content[index].push(value.name);
           temp_content[index].push(value.value);
-        })
-        content[1].data.forEach((value,index)=>{ ///xxx2
+        });
+        content[1].data.forEach((value, index) => {
+          ///xxx2
           temp_content2.push([]);
           temp_content2[index].push(value.name);
           temp_content2[index].push(value.value);
-        })
+        });
 
-
+        // export_json_to_excel_test2(  //  OK
+        //   ["xxxx"],
+        //   temp_content,
+        //   "商品管理列表TT7"
+        // );
         // export_json_to_excel_test2(
         //   ["xxxx"],
         //   temp_content, // 直接content-bug
@@ -1699,10 +1711,17 @@ export default {
         // export_json_to_excel_plural(
         //   ["xxxx"],
         //   ["xxxx2"],
-        //   temp_content, 
-        //   temp_content2, 
-        //   "商品管理列表TT6"
+        //   temp_content,
+        //   temp_content2,
+        //   "商品管理列表TT8"
         // );
+        export_json_to_excel_plural2(
+          ["xxxx"],
+          ["xxxx2"],
+          temp_content,
+          temp_content2,
+          "商品管理列表TT8"
+        );
       });
     },
     drawLine() {

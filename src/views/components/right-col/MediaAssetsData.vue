@@ -13,7 +13,8 @@
         </div>
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="content_percent">
-          环比3.2%
+          <!-- 环比3.2% -->
+          环比{{program_num_Ratio}}
           <img src="@/assets/up.gif" />
         </span>
       </div>
@@ -23,7 +24,7 @@
           <!-- <span class="content_num">4325.7万</span> -->
           <span class="content_num">{{data_new}}</span>
         </div>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <!-- <span class="content_percent">
           环比1.2%
           <img src="@/assets/up.gif" />
@@ -34,57 +35,101 @@
         </span>
       </div>
     </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
+    </el-row>
   </div>
 </template>
 <script>
 import { media_watch_total, media_content } from "@/api/api_main";
 import { commonTools } from "@/utils/test";
+import Vue from "vue";
 
 export default {
   name: "MediaAssetsData",
   data() {
     return {
+      ifgetdata: true,
+
       programNum: "",
       data_old_o: "",
       data_new: "",
-      returnLinkRelativeRatio: ""
+      program_num_Ratio: "",
+      returnLinkRelativeRatio: "",
+      echarts_data: {
+        data: [
+          { value: 1, name: "少儿" },
+          { value: 1, name: "电影" },
+          // { value: 848, name: "热剧" }, // pass 热剧
+          { value: 1, name: "游戏" },
+          { value: 1, name: "纪实" },
+          { value: 1, name: "体育" },
+          { value: 1, name: "电视剧" },
+          { value: 1, name: "动漫" },
+          { value: 1, name: "综艺" }
+          // { value: 148, name: "推荐" } // pass  推荐
+        ]
+      }
     };
   },
   mounted() {
     let vm = this;
     setTimeout(function() {
       vm.$store
-        .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
-          vm.media_content(response);
-          vm.media_watch_total(response);
-          vm.drawLine();
+        .dispatch("get_BigScreenStartDate")
+        .then(function(res1) {
+          setTimeout(function() {
+            vm.$store
+              .dispatch("get_BigScreenExpirationDate")
+              .then(function(res2) {
+                // 总时长 -- 用开始日期 + 截止日期
+                // vm.media_watch_total(res1, res2, "days_all");
+                vm.media_watch_total(res1, res2, "month"); // 单个月，上月
+                vm.media_watch_total(res1, res2, "months"); //总数据为上月-上月为累积的，不是新增的 //环比： 上月 比 上上月
+              })
+              .catch(function(error) {
+                console.info(error);
+              });
+          }, 100);
         })
         .catch(function(error) {
           console.info(error);
         });
     }, 100);
+    // setTimeout(function() {
+    //   vm.$store
+    //     .dispatch("get_BigScreenExpirationDate")
+    //     .then(function(response) {
+    //       // vm.media_content(response);
+    //       vm.media_watch_total(response);
+    //       vm.drawLine();
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // }, 100);
   },
   methods: {
-    media_content(ExpirationDate) {
-      let vm = this;
-      let m_operator = commonTools.GetBigScreenOperator();
-      let data = {
-        start: ExpirationDate,
-        end: ExpirationDate
-        // operator: String(["移动", "联通", "电信"])
-      };
-      // console.log("media_content");
-      media_content(data)
-        .then(function(response) {
-          // console.log(response);
-          vm.programNum =
-            response.data.responses[0].aggregations.program_content_num.value;
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
+    // media_content(ExpirationDate) {
+    //   let vm = this;
+    //   let m_operator = commonTools.GetBigScreenOperator();
+    //   let data = {
+    //     start: ExpirationDate,
+    //     end: ExpirationDate
+    //     // operator: String(["移动", "联通", "电信"])
+    //   };
+    //   console.log("media_content");
+    //   console.log(data);
+    //   media_content(data)
+    //     .then(function(response) {
+    //       console.log(response);
+    //       vm.programNum =
+    //         response.data.responses[0].aggregations.program_content_num.value;
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
     // 环比
     returnLinkRelativeRatio_f(d_new, d_old) {
       this.returnLinkRelativeRatio =
@@ -106,64 +151,176 @@ export default {
         return value;
       }
     },
-    media_watch_total(ExpirationDate) {
+    media_watch_total(StartDate, ExpirationDate, time_type) {
+      // 用 media_content api
       let vm = this;
-      // console.log("media_watch_total");
       let m_operator = commonTools.GetBigScreenOperator();
+      let data;
+      // if (time_type == "days_all") {
+      //   data = {
+      //     start: StartDate,
+      //     end: ExpirationDate,
+      //     // operator: String(["移动", "联通", "电信"])
+      //     operator: m_operator,
+      //     year: commonTools.get_ExpirationDate_year(ExpirationDate)
+      //   };
+      // }
+      if (time_type == "month") {
+        data = {
+          start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1), // 上月
+          end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1), // 上月
+          operator: m_operator,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        };
+      }
+      if (time_type == "months") {
+        data = {
+          start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 2), // 上上月
+          end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1), // 上月
+          operator: m_operator,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        };
+      }
 
-      let data = {
-        start: ExpirationDate,
-        end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
-        operator: m_operator
-      };
       // let vm = this;
-      media_watch_total(data)
+      // media_watch_total(data)
+      console.log("media_watch_total");
+      console.log(data);
+      media_content(data)
         .then(function(response) {
-          // console.log(response);
-          // console.log(
-          //   response.data.responses[0].aggregations.watch_user_num.value
-          // );
-          // console.log(response.data.responses[0].aggregations.watch_freq.value);
-          // console.log(
-          //   response.data.responses[0].aggregations.watch_freq_family.value
-          // );
-          // console.log(response.data.responses[0].aggregations.watch_dur.value);
-          // console.log("~~~~~~1");
-          vm.data_old_o =
-            response.data.responses[0].aggregations.watch_dur.value;
-          // console.log("~~~~~~2");
+          // if (time_type == "days_all") {
 
-          /////第二天
-          let data2 = {
-            start: ExpirationDate,
-            end: ExpirationDate,
-            // operator: String(["移动", "联通", "电信"])
-            operator: m_operator
-          };
-          setTimeout(function() {
-            media_watch_total(data2)
-              .then(function(response2) {
-                // console.log(response2);
-                // console.log(
-                //   response2.data.responses[0].aggregations.watch_dur.value
-                // );
-                vm.data_new = String(
-                  vm.returnFloat(
-                    parseFloat(
-                      response2.data.responses[0].aggregations.watch_dur.value
-                    )
-                  ) // 保留两位小数
-                );
-                vm.returnLinkRelativeRatio_f(vm.data_new, vm.data_old_o);
-              })
-              .catch(function(error) {
-                console.info(error);
+          // }
+          if (time_type == "month") {
+            console.log(response);
+            vm.programNum =
+              response.data.responses[0].aggregations.program_content_num.value;
+            vm.data_new = String(
+              // vm.returnFloat(
+              parseInt(
+                response.data.responses[1].aggregations.watch_dur.value / 3600
+              )
+              // ) // 保留两位小数
+            );
+
+            // echarts视图
+            let buckets =
+              response.data.responses[2].aggregations.program_type.buckets;
+            let length = buckets.length;
+            let i;
+            function Set_KeyValue(key, index, index_buckets) {
+              Vue.set(vm.echarts_data.data, index, {
+                value: buckets[index_buckets].program_content_num.value,
+                name: key
               });
-          }, 300);
+            }
+            for (i = 0; i < length; i++) {
+              if (buckets[i].key == "少儿") {
+                Set_KeyValue("少儿", 0, i);
+              }
+              if (buckets[i].key == "电影") {
+                Set_KeyValue("电影", 1, i);
+              }
+              if (buckets[i].key == "游戏") {
+                Set_KeyValue("游戏", 2, i);
+              }
+              if (buckets[i].key == "纪实") {
+                Set_KeyValue("纪实", 3, i);
+              }
+              if (buckets[i].key == "体育") {
+                Set_KeyValue("体育", 4, i);
+              }
+              if (buckets[i].key == "电视剧") {
+                Set_KeyValue("电视剧", 5, i);
+              }
+              if (buckets[i].key == "动漫") {
+                Set_KeyValue("动漫", 6, i);
+              }
+              if (buckets[i].key == "综艺") {
+                Set_KeyValue("综艺", 7, i);
+              }
+            }
+            console.log(vm.echarts_data);
+
+            setTimeout(function() {
+              vm.drawLine();
+            }, 100);
+          }
+          if (time_type == "months") {
+            console.log(response);
+            // 环比算法  （本期数值-上期数值）/上期数值
+            // 总节目数量暂时没数据
+            let buckets0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
+            // 总收视时长
+            let buckets1 =
+              response.data.responses[1].aggregations.statistical_granularity
+                .buckets;
+            let length = buckets0.length;
+            let i;
+            if (length == 0 || length == 1) {
+              vm.program_num_Ratio = "-%";
+              vm.returnLinkRelativeRatio = "-%";
+              return;
+            }
+            if (length == 2) {
+              vm.program_num_Ratio =
+                String(
+                  commonTools.returnFloat_2(
+                    ((buckets0[1].program_content_num.value -
+                      buckets0[0].program_content_num.value) /
+                      buckets0[0].program_content_num.value) *
+                      100
+                  )
+                ) + "%";
+              vm.returnLinkRelativeRatio =
+                String(
+                  commonTools.returnFloat_2(
+                    ((buckets1[1].watch_dur.value -
+                      buckets1[0].watch_dur.value) /
+                      buckets1[0].watch_dur.value) *
+                      100
+                  )
+                ) + "%";
+            }
+          }
+          vm.ifgetdata = true;
+
+          // vm.data_old_o =
+          //   response.data.responses[1].aggregations.watch_dur.value;
+
+          // /////第二天
+          // let data2 = {
+          //   start: ExpirationDate,
+          //   end: ExpirationDate,
+          //   // operator: String(["移动", "联通", "电信"])
+          //   operator: m_operator
+          // };
+          // setTimeout(function() {
+          //   media_watch_total(data2)
+          //     .then(function(response2) {
+          //       // console.log(response2);
+          //       // console.log(
+          //       //   response2.data.responses[0].aggregations.watch_dur.value
+          //       // );
+          //       vm.data_new = String(
+          //         vm.returnFloat(
+          //           parseFloat(
+          //             response2.data.responses[0].aggregations.watch_dur.value
+          //           )
+          //         ) // 保留两位小数
+          //       );
+          //       vm.returnLinkRelativeRatio_f(vm.data_new, vm.data_old_o);
+          //     })
+          //     .catch(function(error) {
+          //       console.info(error);
+          //     });
+          // }, 300);
         })
         .catch(function(error) {
           console.info(error);
+          vm.ifgetdata = false;
         });
       // 需要计算环比率
       // （观看时长 - 上期观看时长） / 上期观看时长
@@ -173,6 +330,7 @@ export default {
       var myChart = this.$echarts.init(
         document.getElementById("media_assets_data")
       );
+      let vm = this;
 
       var option = {
         //backgroundColor: '#424956', //背景
@@ -185,7 +343,8 @@ export default {
             show: true,
             top: "10%",
             left: "70%",
-            data: ["少儿", "电影", "热剧", "游戏", "纪实", "体育"],
+            // data: ["少儿", "电影", "热剧", "游戏", "纪实", "体育"],
+            data: ["少儿", "电影", "游戏", "纪实"],
             itemWidth: 5,
             itemHeight: 5,
             width: 40,
@@ -199,7 +358,8 @@ export default {
             show: true,
             top: "10%",
             left: "85%",
-            data: ["电视剧", "动漫", "综艺", "推荐"],
+            // data: ["电视剧", "动漫", "综艺", "推荐"],
+            data: ["体育", "电视剧", "动漫", "综艺"],
             itemWidth: 5,
             itemHeight: 5,
             width: 40,
@@ -226,8 +386,8 @@ export default {
               "#417505",
               "#F5A623",
               "#FF7357",
-              "#50C380",
-              "#CDDC39"
+              // "#50C380",
+              // "#CDDC39"
             ],
             label: {
               normal: {
@@ -245,21 +405,11 @@ export default {
                 length2: 5
               }
             },
-            data: [
-              { value: 1035, name: "少儿" },
-              { value: 979, name: "电影" },
-              { value: 848, name: "热剧" },
-              { value: 748, name: "游戏" },
-              { value: 659, name: "纪实" },
-              { value: 548, name: "体育" },
-              { value: 448, name: "电视剧" },
-              { value: 348, name: "动漫" },
-              { value: 248, name: "综艺" },
-              { value: 148, name: "推荐" }
-            ]
+            data: vm.echarts_data.data
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
 
       window.addEventListener("resize", () => {

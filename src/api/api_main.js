@@ -351,6 +351,12 @@ export function users_subReport(postData) {
         data: postData
     })
 }
+export function subReport_list() {
+    return request({
+        method: 'get',
+        url: '/subReport/list',
+    })
+}
 
 // let temp = {
 //     start: start,
@@ -694,7 +700,8 @@ export function media_content(data) {
         params: {
             start: data.start,
             end: data.end,
-            operator: data.operator
+            operator: data.operator,
+            year: data.year
         }
     })
 }
@@ -817,7 +824,8 @@ export function users_basic(data) {
             // date: date
             operator: data.operator,
             start: data.start,
-            end: data.end
+            end: data.end,
+            year: data.year
         }
     })
 }

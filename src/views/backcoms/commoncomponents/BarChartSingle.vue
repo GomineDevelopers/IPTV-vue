@@ -31,6 +31,18 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
+    },
+    PR_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    PR_value_specialName(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   computed: {
@@ -41,7 +53,9 @@ export default {
       "ADD_VIP_region",
       "UVB_programa",
       "ADD_VIP_programa",
-      "PR_week"
+      "PR_week",
+      "PR_picker",
+      "PR_value_specialName"
     ]),
     // ...this.$mapGetters(["PR_operator"]),
 

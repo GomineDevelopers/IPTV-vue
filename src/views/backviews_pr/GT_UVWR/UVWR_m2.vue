@@ -165,7 +165,7 @@ export default {
   watch: {
     //本周数据
     api_data_m2(newValue, oldValue) {
-      // console.log("api_data_m2 - 移动专项数据(本周)", newValue)
+      console.log("api_data_m2 - 移动专项数据(本周)", newValue)
       let vm = this;
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(this.PR_week);
@@ -316,7 +316,7 @@ export default {
       })
       // console.log('vm.GT_UVWR1_I1', vm.GT_UVWR1_I1.data)
 
-      //各类型节目点播数据（移动）
+      //各类型节目点播数据（移动） =》 电视直播本地频道、节目收视数据（移动）
       //点播用户数TOP20
       let demand_top = newValue.data.responses[11].aggregations.channel.buckets
       Vue.set(vm.GT_UVWR1_J1.data[0], 1, currentWeekFormat)
@@ -364,14 +364,31 @@ export default {
         }
       });
 
-      //各类型节目点播数据
-      //点播用户数
-      let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
-      demand_user_data.forEach((value, index) => {
-        if (index < 10) {
-          console.log(value)
-        }
-      })
+      ///////////// 补
+      // //各类型节目点播数据
+      // //点播用户数
+      // let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
+      // demand_user_data.forEach((value, index) => {
+      //   if (index < 10) {
+      //     console.log(value)
+      //   }
+      // })
+      //各类型节目点播数据（移动）
+      //点播用户数TOP20
+      // let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
+      // Vue.set(vm.GT_UVWR1_K1.data[0], 1, currentWeekFormat)
+      // Vue.set(vm.GT_UVWR1_K1.data[0], 2, beforeWeekFormat)
+      
+      // demand_user_data.forEach((value, index) => {
+      //   if (index < 10) {
+      //     // console.log(value.key, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+      //     Vue.set(vm.GT_UVWR1_K1.data[10 - index], 0, value.key)
+      //     Vue.set(vm.GT_UVWR1_K1.data[10 - index], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+      //   }
+      // })
+      ////////////
+
+
 
       //主要栏目点击和播放数据
       //页面点击用户数
@@ -758,17 +775,17 @@ export default {
         height: "height:600px;",
         color: ["#A9D18E", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       },
       GT_UVWR1_K2: {
@@ -777,17 +794,17 @@ export default {
         height: "height:600px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["少儿", 20, 20],
-          ["电影", 18, 18],
-          ["热剧", 15, 15],
-          ["游戏", 17, 17],
-          ["动漫", 16, 16],
-          ["综艺", 14, 14],
-          ["纪实", 13, 13],
-          ["音乐", 12, 12],
-          ["体育", 11.5, 11.5],
-          ["资讯", 10, 10]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["少儿", 20, 20],
+          // ["电影", 18, 18],
+          // ["热剧", 15, 15],
+          // ["游戏", 17, 17],
+          // ["动漫", 16, 16],
+          // ["综艺", 14, 14],
+          // ["纪实", 13, 13],
+          // ["音乐", 12, 12],
+          // ["体育", 11.5, 11.5],
+          // ["资讯", 10, 10]
         ]
       },
       GT_UVWR1_K3: {

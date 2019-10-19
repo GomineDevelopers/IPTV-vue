@@ -35,7 +35,7 @@ function generateArray(table) {
             if (rowspan || colspan) {
                 rowspan = rowspan || 1;
                 colspan = colspan || 1;
-                ranges.push({s: {r: R, c: outRow.length}, e: {r: R + rowspan - 1, c: outRow.length + colspan - 1}});
+                ranges.push({ s: { r: R, c: outRow.length }, e: { r: R + rowspan - 1, c: outRow.length + colspan - 1 } });
             }
             ;
 
@@ -58,16 +58,16 @@ function datenum(v, date1904) {
 
 function sheet_from_array_of_arrays(data, opts) {
     var ws = {};
-    var range = {s: {c: 10000000, r: 10000000}, e: {c: 0, r: 0}};
+    var range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
     for (var R = 0; R != data.length; ++R) {
         for (var C = 0; C != data[R].length; ++C) {
             if (range.s.r > R) range.s.r = R;
             if (range.s.c > C) range.s.c = C;
             if (range.e.r < R) range.e.r = R;
             if (range.e.c < C) range.e.c = C;
-            var cell = {v: data[R][C]};
+            var cell = { v: data[R][C] };
             if (cell.v == null) continue;
-            var cell_ref = XLSX.utils.encode_cell({c: C, r: R});
+            var cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
 
             if (typeof cell.v === 'number') cell.t = 'n';
             else if (typeof cell.v === 'boolean') cell.t = 'b';
@@ -79,9 +79,14 @@ function sheet_from_array_of_arrays(data, opts) {
             else cell.t = 's';
 
             ws[cell_ref] = cell;
+            console.log(cell);
+            console.log(ws[cell_ref]);
+
         }
     }
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
+    console.log(range);
+    console.log(ws['!ref'] );
     return ws;
 }
 
@@ -119,9 +124,9 @@ export function export_table_to_excel(id) {
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
-    var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: false, type: 'binary'});
+    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
 
-    saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), "test.xlsx")
+    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), "test.xlsx")
 }
 
 function formatJson(jsonData) {
@@ -142,9 +147,9 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
-    var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: false, type: 'binary'});
+    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
     var title = defaultTitle || '列表'
-    saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), title + ".xlsx")
+    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
 }
 
 
@@ -203,25 +208,104 @@ export function export_json_to_excel_test2(th, jsonData, defaultTitle) {
 // SheetJS 是表格下面的表格分栏名称
 
 
-// plural复数处理形式
-// export function export_json_to_excel_plural(th, th2, jsonData, jsonData2, defaultTitle) {
+// plural复数处理形式 --- 分栏 下方的SheetJS
+export function export_json_to_excel_plural(th, th2, jsonData, jsonData2, defaultTitle) {
 
-//     /* original data */
-//     var data = jsonData;
-//     data.unshift(th);
-//     var ws_name = "SheetJS";
-//     var wb = new Workbook();
-//     var wb2 = new Workbook();
+    /* original data */
+    var data = jsonData;
+    var data2 = jsonData2;
+    console.log(data);
+    console.log(data2);
 
-//     var ws = sheet_from_array_of_arrays(data);
-//     var ws2 = sheet_from_array_of_arrays(data);
+    data.unshift(th);
+    data2.unshift(th2);
+    console.log(data);
+    console.log(data2);
 
-//     /* add worksheet to workbook */
-//     wb.SheetNames.push(ws_name);
-//     wb.Sheets[ws_name] = ws;
+    var ws_name = "SheetJS";
+    var ws2_name = "SheetJS2";
 
-//     var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
-//     var title = defaultTitle || '列表'
-//     // 输出 + 命名 
-//     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
-// }
+    var wb = new Workbook();
+    // var wb2 = new Workbook();
+    console.log(wb);
+
+    var ws = sheet_from_array_of_arrays(data);
+    var ws2 = sheet_from_array_of_arrays(data);
+    console.log(ws);
+    console.log(ws2);
+
+    /* add worksheet to workbook */
+    wb.SheetNames.push(ws_name);
+    wb.SheetNames.push(ws2_name);
+
+    wb.Sheets[ws_name] = ws;
+    wb.Sheets[ws2_name] = ws2;
+
+
+    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+    var title = defaultTitle || '列表'
+    // 输出 + 命名 
+    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+}
+
+// plural复数处理形式2 
+export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defaultTitle) {
+
+    /* original data */
+    var data = jsonData;
+    var data2 = jsonData2;
+    console.log(data);
+    console.log(data2);
+
+    data.unshift(th);
+    data2.unshift(th2);
+    console.log(data);
+    console.log(data2);
+
+    var ws_name = "SheetJS";
+
+    var wb = new Workbook();
+    // var wb2 = new Workbook();
+    console.log(wb);
+
+    var ws = sheet_from_array_of_arrays(data);
+    var ws2 = sheet_from_array_of_arrays(data);
+    console.log(ws);
+    let temp_ws = {
+        // !ref: "A1:B10",
+        A1: { v: "xxxx", t: "s" },
+        A2: { v: "影视包", t: "s" },
+        A3: { v: "影视包（包季）", t: "s" },
+        A4: { v: "影视包（包年）", t: "s" },
+        A5: { v: "少儿包", t: "s" },
+        A6: { v: "少儿包（包季）", t: "s" },
+        A7: { v: "少儿包（包年）", t: "s" },
+        A8: { v: "欢乐家庭包", t: "s" },
+        A9: { v: "欢乐家庭包（包季）", t: "s" },
+        A10: { v: "欢乐家庭包（包年）", t: "s" },
+        B2: { v: 535, t: "n" },
+        B3: { v: 410, t: "n" },
+        B4: { v: 348, t: "n" },
+        B5: { v: 348, t: "n" },
+        B6: { v: 410, t: "n" },
+        B7: { v: 348, t: "n" },
+        B8: { v: 348, t: "n" },
+        B9: { v: 410, t: "n" },
+        B10: { v: 348, t: "n" },
+    }
+    temp_ws['!ref'] = "A1:B10";
+    /* add worksheet to workbook */
+    wb.SheetNames.push(ws_name);
+
+
+    // wb.Sheets[ws_name] = ws;
+    wb.Sheets[ws_name] = temp_ws;
+
+
+
+
+    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+    var title = defaultTitle || '列表'
+    // 输出 + 命名 
+    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+}

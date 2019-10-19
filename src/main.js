@@ -28,17 +28,18 @@ import { get_user_permissions, refreshToken } from "@/api/api_main";
 
 // 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
 store
-  .dispatch("set_BigScreenStartDate", "2019-08-01")
+  .dispatch("set_BigScreenStartDate", "2019-06-01")
   .then(function (response) {
     // console.log(response);
   })
   .catch(function (error) {
     console.info(error);
+    
   });
 
 // 设置大屏/后台-数据总览 的 截止日期（end）
 store
-  .dispatch("set_BigScreenExpirationDate", "2019-08-10") // 18号 数据审计没东西
+  .dispatch("set_BigScreenExpirationDate", "2019-08-18") // 18号 数据审计没东西
   .then(function (response) {
     // console.log(response);
   })
