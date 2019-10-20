@@ -3,8 +3,8 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>用户发展趋势(万)
     </el-row>
-    <el-row id="user_development_trend"></el-row>
-    <el-row v-show="!ifgetdata" class="exception_p">
+    <el-row  v-show="ifgetdata" id="user_development_trend"></el-row>
+    <el-row v-show="!ifgetdata" class="exception_p2">
       <span class="exception_child">数据请求异常!</span>
     </el-row>
   </div>
@@ -86,6 +86,7 @@ export default {
             temp_data[3].push(parseInt(buckets[i].active_num.value / 10000));
           }
           vm.echarts_data.data = temp_data;
+          vm.ifgetdata = true;
         })
         .catch(function(error) {
           console.info(error);

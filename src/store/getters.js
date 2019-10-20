@@ -29,7 +29,14 @@ const getters = {
     UVB_week: state => state.app.UVB_week,
     UVB_picker: state => state.app.UVB_picker,
     UVB_time_type: state => state.app.UVB_time_type,
-    UVB_programa_list: state => state.app.UVB_programa_list, // 栏目 - 点播专属
+    UVB_programa_list: state => state.app.UVB_programa_list, // 栏目 - 点播专属 - api get
+    UVB_programa_type_list: state => state.app.UVB_programa_type_list, // 栏目 - 点播专属 - api get
+    // 指标类型- 用于判断指标中是否显示户数户均
+    // 播放方式length >1 不显示
+    // 时间类型为范围 不显示
+    // 0-不显示  1-显示
+    UVB_target_type: state => state.app.UVB_target_type,  // 默认都是全选，默认0-不显示
+    
 
 
     // PR  定期报告（运营商）（天、周、月、范围）

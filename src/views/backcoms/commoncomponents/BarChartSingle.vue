@@ -43,6 +43,24 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
+    },
+    ADD_ALL_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 1000);
+    },
+    ADD_ALL_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 1000);
+    },
+    ADD_ALL_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 1000);
     }
   },
   computed: {
@@ -55,7 +73,10 @@ export default {
       "ADD_VIP_programa",
       "PR_week",
       "PR_picker",
-      "PR_value_specialName"
+      "PR_value_specialName",
+      "ADD_ALL_operator",
+      "ADD_ALL_week",
+      "ADD_ALL_month"
     ]),
     // ...this.$mapGetters(["PR_operator"]),
 
@@ -102,8 +123,25 @@ export default {
             data = vm.chartData.data;
           } else {
             data.push(vm.chartData.data[0]);
+            // vm.$store
+            //   .dispatch("get_UVB_programa_list")
+            //   .then(function(response) {
+            //     console.log(response);
+            //     let length = response.length;
+            //     let i;
+            //     for (i = 0; i < length; i++) {
+            //       if (vm.UVB_programa.indexOf(response[i]) > -1) {
+            //         data.push(vm.chartData.data[i + 1]);
+            //       }
+            //     }
+            //     console.log("~~~~~!!data");
+            //     console.log(data);
+            //   })
+            //   .catch(function(error) {
+            //     console.info(error);
+            //   });
             vm.$store
-              .dispatch("get_UVB_programa_list")
+              .dispatch("get_UVB_programa")
               .then(function(response) {
                 console.log(response);
                 let length = response.length;

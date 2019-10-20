@@ -24,6 +24,9 @@ const app = {
         UVB_picker: [],
         UVB_time_type: 0, // 0-未选择 1-天 2-周 3-范围
         UVB_programa: [],
+        UVB_programa_list: [],
+        UVB_programa_type_list: [],
+        UVB_target_type: 0, // 默认-0-不显示  1-显示
         PR_operator: [],
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值
@@ -321,6 +324,44 @@ const app = {
                 resolve(state.UVB_programa_list);
             })
         },
+        set_UVB_programa_type_list({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.UVB_programa_type_list = data;
+                resolve("UVB_programa_type_list - SUCCESS !");
+            })
+        },
+        get_UVB_programa_type_list({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.UVB_programa_type_list);
+            })
+        },
+        // ////////////// 处理方式不同
+
+        set_UVB_target_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                // data传任意值
+                if (state.UVB_contenttype.length == 1 &&
+                    state.UVB_playmode.length == 1 &&
+                    state.UVB_time_type != 3) {
+                    state.UVB_target_type = 1;
+                }
+                else {
+                    state.UVB_target_type = 0;
+                }
+                // UVB_playmode
+                // UVB_picker
+                // state.UVB_target_type = data;
+                resolve("UVB_target_type - SUCCESS !");
+            })
+        },
+        get_UVB_target_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.UVB_target_type);
+            })
+        },
+
+        // //////////////
+
         set_PR_operator({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PR_operator = data;

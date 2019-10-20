@@ -129,8 +129,11 @@ export default {
             vm.$store
               .dispatch("get_BigScreenExpirationDate")
               .then(function(res2) {
-                vm.users_total(res1, res2, "singleday"); // 截止统计日
+                // vm.users_total(res1, res2, "singleday"); // 截止统计日
+                // vm.users_total(res2, res2, "rangeday"); // 日维度
+                vm.users_total(res2, res2, "singleday"); // 截止统计日 -- 因为已经累计计算了，传当天即可
                 vm.users_total(res2, res2, "rangeday"); // 日维度
+
               })
               .catch(function(error) {
                 console.info(error);

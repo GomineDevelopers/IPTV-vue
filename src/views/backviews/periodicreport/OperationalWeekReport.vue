@@ -542,45 +542,48 @@ export default {
             console.log("users_mobileReport  week");
 
             console.log(response);
-
-            // 一周用户活跃情况
-            // ////////// 周末用户总量与一周开机率  (row 1 left)
-            let buckets_0 =
-              response.data.responses[0].aggregations.statistical_granularity
-                .buckets;
-            let length_0 = buckets_0.length;
-            let i_0;
-            // 在册用户数（万户） register_num
-            // 开机用户数（万户） open_num
-            // 开机率   // 开机用户数/在册用户数
-            let temp_data_0 = [];
-            temp_data_0.push([
-              "product",
-              "在册用户数（万户）",
-              "开机用户数（万户）",
-              "开机率"
-            ]);
-            for (i_0 = 0; i_0 < length_0; i_0++) {
-              if (i_0 == 0) {
-                temp_data_0.push([
-                  beforeWeekFormat,
-                  parseInt(buckets_0[i_0].register_num.value) / 10000,
-                  parseInt(buckets_0[i_0].open_num.value) / 10000,
-                  parseInt(buckets_0[i_0].open_num.value) /
-                    parseInt(buckets_0[i_0].register_num.value)
-                ]);
+            try {
+              // 一周用户活跃情况
+              // ////////// 周末用户总量与一周开机率  (row 1 left)
+              let buckets_0 =
+                response.data.responses[0].aggregations.statistical_granularity
+                  .buckets;
+              let length_0 = buckets_0.length;
+              let i_0;
+              // 在册用户数（万户） register_num
+              // 开机用户数（万户） open_num
+              // 开机率   // 开机用户数/在册用户数
+              let temp_data_0 = [];
+              temp_data_0.push([
+                "product",
+                "在册用户数（万户）",
+                "开机用户数（万户）",
+                "开机率"
+              ]);
+              for (i_0 = 0; i_0 < length_0; i_0++) {
+                if (i_0 == 0) {
+                  temp_data_0.push([
+                    beforeWeekFormat,
+                    parseInt(buckets_0[i_0].register_num.value) / 10000,
+                    parseInt(buckets_0[i_0].open_num.value) / 10000,
+                    parseInt(buckets_0[i_0].open_num.value) /
+                      parseInt(buckets_0[i_0].register_num.value)
+                  ]);
+                }
+                if (i_0 == 1) {
+                  temp_data_0.push([
+                    currentWeekFormat,
+                    parseInt(buckets_0[i_0].register_num.value) / 10000,
+                    parseInt(buckets_0[i_0].open_num.value) / 10000,
+                    parseInt(buckets_0[i_0].open_num.value) /
+                      parseInt(buckets_0[i_0].register_num.value)
+                  ]);
+                }
               }
-              if (i_0 == 1) {
-                temp_data_0.push([
-                  currentWeekFormat,
-                  parseInt(buckets_0[i_0].register_num.value) / 10000,
-                  parseInt(buckets_0[i_0].open_num.value) / 10000,
-                  parseInt(buckets_0[i_0].open_num.value) /
-                    parseInt(buckets_0[i_0].register_num.value)
-                ]);
-              }
+              vm.userNumAddPowerData.data = temp_data_0; // 周末用户总量与一周开机率
+            } catch (error) {
+              console.log(error);
             }
-            vm.userNumAddPowerData.data = temp_data_0; // 周末用户总量与一周开机率
             // console.log("~~~~~!!!!!");
             // console.log(vm.userNumAddPowerData);
 
@@ -794,7 +797,7 @@ export default {
             //
             //
 
-            // //////////////// 主要栏目点击次数（万次） (row6 )   responses 14  
+            // //////////////// 主要栏目点击次数（万次） (row6 )   responses 14
             // 上周（显示先） 本周（显示后）
 
             let buckets_14_1 =
@@ -1504,7 +1507,7 @@ export default {
             // console.log(vm.carouselChannelData);
             // //// 轮播频道及节目收视排名 (row13 right) 在  week_days
 
-            // ////////// 推荐栏目一周数据概览 responses 28 29
+            // ////////// 推荐栏目一周数据概览 row 14 responses 28 29
             let buckets_28 =
               response.data.responses[28].aggregations.ti.buckets;
             let length_28 = buckets_28.length;
@@ -1514,7 +1517,6 @@ export default {
               response.data.responses[29].aggregations.ti.buckets;
             let length_29 = buckets_29.length;
             let i_29;
-
 
             // ////// 28 29 分别对应字段
             // 28 access_dur        页面播放时长   5
@@ -1942,37 +1944,43 @@ export default {
             console.log("users_mobileReport  week_days");
             console.log(response);
             // ////////// 每日开机率走势  (row 1)  responses 0
-            let buckets_0 =
-              response.data.responses[0].aggregations.statistical_granularity
-                .buckets;
-            let length_0 = buckets_0.length;
-            let i_0;
-            // 在册用户数（万户） register_num
-            // 开机用户数（万户） open_num
-            // 开机率   // 开机用户数/在册用户数
-            let temp_data_0 = [];
-            temp_data_0.push([
-              "product",
-              "在册用户数（万户）",
-              "开机用户数（万户）",
-              "开机率"
-            ]);
-            for (i_0 = 0; i_0 < length_0; i_0++) {
+            try {
+              let buckets_0 =
+                response.data.responses[0].aggregations.statistical_granularity
+                  .buckets;
+              let length_0 = buckets_0.length;
+              let i_0;
+              // 在册用户数（万户） register_num
+              // 开机用户数（万户） open_num
+              // 开机率   // 开机用户数/在册用户数
+              let temp_data_0 = [];
               temp_data_0.push([
-                buckets_0[i_0].key,
-                parseInt(buckets_0[i_0].register_num.value) / 10000,
-                parseInt(buckets_0[i_0].open_num.value) / 10000,
-                parseInt(buckets_0[i_0].open_num.value) /
-                  parseInt(buckets_0[i_0].register_num.value)
+                "product",
+                "在册用户数（万户）",
+                "开机用户数（万户）",
+                "开机率"
               ]);
+              for (i_0 = 0; i_0 < length_0; i_0++) {
+                temp_data_0.push([
+                  buckets_0[i_0].key,
+                  parseInt(buckets_0[i_0].register_num.value) / 10000,
+                  parseInt(buckets_0[i_0].open_num.value) / 10000,
+                  parseInt(buckets_0[i_0].open_num.value) /
+                    parseInt(buckets_0[i_0].register_num.value)
+                ]);
+              }
+              vm.dailyOperatingRateData.data = temp_data_0;
+            } catch (error) {
+              console.log(error);
             }
-            vm.dailyOperatingRateData.data = temp_data_0;
-
             // 一周用户活跃情况
             // ////////// 一周总体观看数据  (row 2 right)  --- 用  responses 1 2 3
             let aggregations_1 = response.data.responses[1].aggregations;
             let aggregations_2 = response.data.responses[2].aggregations;
             let aggregations_3 = response.data.responses[3].aggregations;
+            let buckets_0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
 
             let temp_data_123 = [];
             temp_data_123.push(["product", "直播", "点播", "回看"]);
