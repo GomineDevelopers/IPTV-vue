@@ -5,6 +5,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Vue from 'vue'
 
 export default {
   name: "LineChartSingleProp", //折线图Y轴显示百分比
@@ -42,6 +43,36 @@ export default {
         vm.setLineChart();
       }, 1000);
     }
+    // ULC_region(newValue, oldValue) {
+    //   let vm = this;
+    //   setTimeout(function () {
+    //     vm.setLineChart();
+    //   }, 2000);
+    // },
+    // ULC_operator(newValue, oldValue) {
+    //   let vm = this;
+    //   setTimeout(function () {
+    //     vm.setLineChart();
+    //   }, 2000);
+    // },
+    // ULC_day(newValue, oldValue) {
+    //   let vm = this;
+    //   setTimeout(function () {
+    //     vm.setLineChart();
+    //   }, 2000);
+    // },
+    // ULC_week(newValue, oldValue) {
+    //   let vm = this;
+    //   setTimeout(function () {
+    //     vm.setLineChart();
+    //   }, 2000);
+    // },
+    // ULC_month(newValue, oldValue) {
+    //   let vm = this;
+    //   setTimeout(function () {
+    //     vm.setLineChart();
+    //   }, 2000);
+    // },
   },
   computed: {
     ...mapGetters([
@@ -58,6 +89,7 @@ export default {
     ]),
     lineData_Change: {
       get: function() {
+
         var vm = this;
         if (vm.lineData.id == "newPayingUsers") {
           if (
@@ -70,6 +102,8 @@ export default {
             // do nothing. -- 监听
           }
           // 用户生命周期-激活(right-折线图)
+          // console.log(vm.lineData);
+
           let id = vm.lineData.id;
           let title = vm.lineData.title;
           let color = vm.lineData.color;
@@ -82,49 +116,97 @@ export default {
             data = vm.lineData.data;
           } else {
             function itemManage(num) {
-              d1.push(vm.lineData.data[0][num]); // 从 1（第二个） 开始
-              d2.push(vm.lineData.data[1][num]);
-              d3.push(vm.lineData.data[2][num]);
+              num += 1;
+              // d1.push(vm.lineData.data[0][num]); // 从 1（第二个） 开始
+              // d2.push(vm.lineData.data[1][num]);
+              // d3.push(vm.lineData.data[2][num]);
+              Vue.set(d1, num, vm.lineData.data[0][num]);
+              Vue.set(d2, num, vm.lineData.data[1][num]);
+              Vue.set(d3, num, vm.lineData.data[2][num]);
             }
             d1.push(vm.lineData.data[0][0]);
             d2.push(vm.lineData.data[1][0]);
             d3.push(vm.lineData.data[2][0]);
-            if (vm.ULC_region.indexOf("贵阳") > -1) {
-              itemManage(1);
+
+            for (let i_x = 0; i_x < vm.ULC_region.length; i_x++) {
+              if (vm.ULC_region.indexOf("贵阳") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+
+              if (vm.ULC_region.indexOf("遵义") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+
+              if (vm.ULC_region.indexOf("安顺") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+
+              if (vm.ULC_region.indexOf("黔南") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+              if (vm.ULC_region.indexOf("黔东南") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+              if (vm.ULC_region.indexOf("铜仁") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+              if (vm.ULC_region.indexOf("毕节") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+              if (vm.ULC_region.indexOf("六盘水") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
+              if (vm.ULC_region.indexOf("黔西南") > -1) {
+                itemManage(i_x);
+                // continue;
+              }
             }
-            if (vm.ULC_region.indexOf("遵义") > -1) {
-              itemManage(2);
-            }
-            if (vm.ULC_region.indexOf("安顺") > -1) {
-              itemManage(3);
-            }
-            if (vm.ULC_region.indexOf("黔南") > -1) {
-              itemManage(4);
-            }
-            if (vm.ULC_region.indexOf("黔东南") > -1) {
-              itemManage(5);
-            }
-            if (vm.ULC_region.indexOf("铜仁") > -1) {
-              itemManage(6);
-            }
-            if (vm.ULC_region.indexOf("毕节") > -1) {
-              itemManage(7);
-            }
-            if (vm.ULC_region.indexOf("六盘水") > -1) {
-              itemManage(8);
-            }
-            if (vm.ULC_region.indexOf("黔西南") > -1) {
-              itemManage(9);
-            }
+            // if (vm.ULC_region.indexOf("贵阳") > -1) {
+            //   itemManage(1);
+            // }
+            // if (vm.ULC_region.indexOf("遵义") > -1) {
+            //   itemManage(2);
+            // }
+            // if (vm.ULC_region.indexOf("安顺") > -1) {
+            //   itemManage(3);
+            // }
+            // if (vm.ULC_region.indexOf("黔南") > -1) {
+            //   itemManage(4);
+            // }
+            // if (vm.ULC_region.indexOf("黔东南") > -1) {
+            //   itemManage(5);
+            // }
+            // if (vm.ULC_region.indexOf("铜仁") > -1) {
+            //   itemManage(6);
+            // }
+            // if (vm.ULC_region.indexOf("毕节") > -1) {
+            //   itemManage(7);
+            // }
+            // if (vm.ULC_region.indexOf("六盘水") > -1) {
+            //   itemManage(8);
+            // }
+            // if (vm.ULC_region.indexOf("黔西南") > -1) {
+            //   itemManage(9);
+            // }
             data.push(d1);
             data.push(d2);
             data.push(d3);
+
           }
           // 视图更新
           setTimeout(function() {
             // console.log("newPayingUsers 视图更新");
+
             vm.setLineChart();
-          }, 1000);
+          }, 2000);
           return {
             id: id,
             title: title,
@@ -162,7 +244,7 @@ export default {
           // 视图更新
           setTimeout(function() {
             vm.setLineChart();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.lineData.title,
             id: vm.lineData.id,
@@ -172,6 +254,17 @@ export default {
         }
         if (vm.lineData.id == "newAddPayingUser") {
           if (vm.PR_month) {
+            // do nothing. -- 监听
+          }
+        }
+        if (vm.lineData.id == "activate_rate_ulc") {
+          if (vm.ULC_day) {
+            // do nothing. -- 监听
+          }
+          if (vm.ULC_week) {
+            // do nothing. -- 监听
+          }
+          if (vm.ULC_month) {
             // do nothing. -- 监听
           }
         }
@@ -191,7 +284,7 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     setLineChart() {

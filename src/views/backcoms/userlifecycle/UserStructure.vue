@@ -23,22 +23,69 @@ export default {
   watch: {
     api_data4(newValue, oldValue) {
       let vm = this;
-      console.log("ULC - api_data4:");
+      console.log("在网用户结构：ULC - api_data4:");
       console.log(newValue);
+      let total_data = newValue.aggregations.flag_identity.buckets
+      let total_firsttime_num = 0   //总的firsttime_num
+      let total_oncetime_num = 0   //总的oncetime_num
+      let total_loyal_user_num = 0   //总的loyal_user_num
+      let total_unord_num = 0   //总的unord_num
+      total_data.forEach((value, index) => {
+        // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
+        total_firsttime_num += value.firsttime_num.value
+        total_oncetime_num += value.oncetime_num.value
+        total_loyal_user_num += value.loyal_user_num.value
+        total_unord_num += value.unord_num.value
+      })
+
+      // console.log("total_firsttime_num", total_firsttime_num)
+      // console.log("total_oncetime_num", total_oncetime_num)
+      // console.log("total_loyal_user_num", total_loyal_user_num)
+      // console.log("total_unord_num", total_unord_num)
+
+      //订购与未订购数据
+      let order_data = []
+      order_data.push({
+        value: total_unord_num,
+        name: "未订购"
+      })
+      order_data.push({
+        value: total_firsttime_num + total_oncetime_num + total_loyal_user_num,
+        name: "订购"
+      })
+      vm.US_data1.data1 = order_data
+
+      //订购用户数据
+      let order_user_detail_data = []
+      order_user_detail_data.push({
+        value: total_firsttime_num,
+        name: "订购-Firsttime"
+      })
+      order_user_detail_data.push({
+        value: total_oncetime_num,
+        name: "订购-Onetime"
+      })
+      order_user_detail_data.push({
+        value: total_loyal_user_num,
+        name: "订购-忠诚用户"
+      })
+      vm.US_data2.data1 = order_user_detail_data
+
+
       // 测试
-      vm.US_data1.data1 = [
-        { value: 123, name: "订购" },
-        { value: 77, name: "未订购" }
-      ];
-      vm.US_data2.data1 = [
-        { value: 111, name: "firsttime" },
-        { value: 13, name: "onetime" },
-        { value: 19, name: "周期性购买" },
-        { value: 317, name: "忠诚用户" },
-        { value: 22, name: "疑似流失" }
-      ];
+      // vm.US_data1.data1 = [
+      //   { value: 123, name: "订购" },
+      //   { value: 77, name: "未订购" }
+      // ];
+      // vm.US_data2.data1 = [
+      //   { value: 111, name: "firsttime" },
+      //   { value: 13, name: "onetime" },
+      //   { value: 19, name: "周期性购买" },
+      //   { value: 317, name: "忠诚用户" },
+      //   { value: 22, name: "疑似流失" }
+      // ];
       // 此处组件-刷新-drawline()
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
         vm.drawLine2();
       }, 100);
@@ -52,16 +99,19 @@ export default {
     return {
       US_data1: {
         id: "echartsUA",
-        data1: [{ value: 23, name: "订购" }, { value: 77, name: "未订购" }]
+        data1: [
+          // { value: 23, name: "订购" }, 
+          // { value: 77, name: "未订购" }
+        ]
       },
       US_data2: {
         id: "echartsUB",
         data1: [
-          { value: 11, name: "firsttime" },
-          { value: 13, name: "onetime" },
-          { value: 19, name: "周期性购买" },
-          { value: 37, name: "忠诚用户" },
-          { value: 22, name: "疑似流失" }
+          // { value: 11, name: "firsttime" },
+          // { value: 13, name: "onetime" },
+          // { value: 19, name: "周期性购买" },
+          // { value: 37, name: "忠诚用户" },
+          // { value: 22, name: "疑似流失" }
         ]
       }
     };
@@ -92,24 +142,26 @@ export default {
         },
         series: [
           {
+            name: "用户",
             type: "pie",
             radius: "60%",
             center: ["45%", "50%"],
             selectedMode: "single",
             color: ["#FCB84F", "#F97E6F"],
-
             label: {
               normal: {
                 formatter: "{b}:\n {d}%" // 只显示百分比
               }
             },
             labelLine: {
+              show: false,
               normal: {
                 smooth: 0.2,
                 length: 1
               }
             },
             data: vm.US_data1.data1,
+            emphasis: false,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -150,6 +202,7 @@ export default {
         },
         series: [
           {
+            name: "用户",
             type: "pie",
             radius: "60%",
             center: ["45%", "50%"],
@@ -164,9 +217,10 @@ export default {
             labelLine: {
               normal: {
                 smooth: 0.2,
-                length: 0
+                length: 5
               }
             },
+            emphasis: false,
             data: vm.US_data2.data1,
             itemStyle: {
               emphasis: {

@@ -3,47 +3,71 @@
     <div class="height_auto m_table">
       <el-row class="mt_title">
         <el-row class="mt_h">
-          <el-col :span="4"></el-col>
+          <el-col :span="3"></el-col>
           <el-col :span="4">在网数（万）</el-col>
-          <el-col :span="5">人均观看时长（小时）</el-col>
+          <el-col :span="4">户均观看时长（小时）</el-col>
           <el-col :span="4">订购用户占比（%）</el-col>
-          <el-col :span="7">用户画像</el-col>
+          <el-col :span="9">用户画像</el-col>
         </el-row>
       </el-row>
       <el-row class="mt_row">
         <el-row class="mt_h">
-          <el-col :span="4">总体数据</el-col>
-          <el-col :span="4" class="data_num">292</el-col>
-          <el-col :span="5" class="data_num">123</el-col>
-          <el-col :span="4" class="data_num">1232</el-col>
-          <el-col :span="7" id="Net_echartsA"></el-col>
+          <el-col :span="3">总体数据</el-col>
+          <el-col
+            :span="4"
+            class="data_num"
+            v-for="(item1,index1) in total_user_data"
+            :key="index1 + 'a'"
+          >{{item1}}</el-col>
+          <!-- <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="4" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>-->
+          <el-col :span="9" id="Net_echartsA"></el-col>
         </el-row>
       </el-row>
       <el-row class="mt_row">
         <el-row class="mt_h">
-          <el-col :span="4">活跃</el-col>
-          <el-col :span="4" class="data_num">292</el-col>
-          <el-col :span="5" class="data_num">123</el-col>
-          <el-col :span="4" class="data_num">1232</el-col>
-          <el-col :span="7" id="Net_echartsB"></el-col>
+          <el-col :span="3">活跃</el-col>
+          <el-col
+            :span="4"
+            class="data_num"
+            v-for="(item2,index2) in active_user"
+            :key="index2 + 'b'"
+          >{{item2}}</el-col>
+          <!-- <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="4" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>-->
+          <el-col :span="9" id="Net_echartsB"></el-col>
         </el-row>
       </el-row>
       <el-row class="mt_row">
         <el-row class="mt_h">
-          <el-col :span="4">沉默</el-col>
-          <el-col :span="4" class="data_num">292</el-col>
-          <el-col :span="5" class="data_num">123</el-col>
-          <el-col :span="4" class="data_num">1232</el-col>
-          <el-col :span="7" id="Net_echartsC"></el-col>
+          <el-col :span="3">沉默</el-col>
+          <el-col
+            :span="4"
+            class="data_num"
+            v-for="(item3,index3) in silence_user"
+            :key="index3 + 'c'"
+          >{{item3}}</el-col>
+          <!-- <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="4" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>-->
+          <el-col :span="9" id="Net_echartsC"></el-col>
         </el-row>
       </el-row>
       <el-row class="mt_row">
         <el-row class="mt_h">
-          <el-col :span="4">停机</el-col>
-          <el-col :span="4" class="data_num">292</el-col>
-          <el-col :span="5" class="data_num">123</el-col>
-          <el-col :span="4" class="data_num">1232</el-col>
-          <el-col :span="7" id="Net_echartsD"></el-col>
+          <el-col :span="3">停机</el-col>
+          <el-col
+            :span="4"
+            class="data_num"
+            v-for="(item4,index4) in downtime_user"
+            :key="index4 + 'd'"
+          >{{item4}}</el-col>
+          <!-- <el-col :span="4" class="data_num">292</el-col>
+          <el-col :span="4" class="data_num">123</el-col>
+          <el-col :span="4" class="data_num">1232</el-col>-->
+          <el-col :span="9" id="Net_echartsD"></el-col>
         </el-row>
       </el-row>
     </div>
@@ -55,41 +79,50 @@ export default {
   name: "InTheNetwork",
   data() {
     return {
+      total_user_data: [],
+      active_user: [],  //活跃
+      silence_user: [],  //沉默
+      downtime_user: [],  //停机
+
+      //总的用户画像
       Net_data1: {
         id: "Net_echartsA",
-        data1: ["A", "B", "C", "D"],
+        // data1: ["订购-Firsttime", "订购-Onetime", "订购-忠诚用户", "未订购用户"],
         data2: [
-          { value: 1035, name: "A" },
-          { value: 979, name: "B" },
-          { value: 848, name: "C" },
-          { value: 748, name: "D" }
+          // { value: 1035, name: "A" },
+          // { value: 979, name: "B" },
+          // { value: 848, name: "C" },
+          // { value: 748, name: "D" }
         ]
       },
+      //活跃用户用户画像
       Net_data2: {
         id: "Net_echartsB",
         data2: [
-          { value: 1035, name: "A" },
-          { value: 979, name: "B" },
-          { value: 848, name: "C" },
-          { value: 748, name: "D" }
+          // { value: 1035, name: "A" },
+          // { value: 979, name: "B" },
+          // { value: 848, name: "C" },
+          // { value: 748, name: "D" }
         ]
       },
+      //沉默用户用户画像
       Net_data3: {
         id: "Net_echartsC",
         data2: [
-          { value: 1035, name: "A" },
-          { value: 979, name: "B" },
-          { value: 848, name: "C" },
-          { value: 748, name: "D" }
+          // { value: 1035, name: "A" },
+          // { value: 979, name: "B" },
+          // { value: 848, name: "C" },
+          // { value: 748, name: "D" }
         ]
       },
+      //停机用户用户画像
       Net_data4: {
         id: "Net_echartsD",
         data2: [
-          { value: 1035, name: "A" },
-          { value: 979, name: "B" },
-          { value: 848, name: "C" },
-          { value: 748, name: "D" }
+          // { value: 1035, name: "A" },
+          // { value: 979, name: "B" },
+          // { value: 848, name: "C" },
+          // { value: 748, name: "D" }
         ]
       }
     };
@@ -98,36 +131,151 @@ export default {
   watch: {
     api_data3(newValue, oldValue) {
       let vm = this;
+      console.log("在网用户数据------------------------")
       console.log("ULC - api_data3:");
       console.log(newValue);
 
-      // 测试
-      vm.Net_data1.data2 = [
-        { value: 1000, name: "A" },
-        { value: 50, name: "B" },
-        { value: 50, name: "C" },
-        { value: 50, name: "D" }
-      ];
-      vm.Net_data2.data2 = [
-        { value: 1000, name: "A" },
-        { value: 50, name: "B" },
-        { value: 50, name: "C" },
-        { value: 50, name: "D" }
-      ];
-      vm.Net_data3.data2 = [
-        { value: 1000, name: "A" },
-        { value: 50, name: "B" },
-        { value: 50, name: "C" },
-        { value: 50, name: "D" }
-      ];
-      vm.Net_data4.data2 = [
-        { value: 1000, name: "A" },
-        { value: 50, name: "B" },
-        { value: 50, name: "C" },
-        { value: 50, name: "D" }
-      ];
+      let inTheNetworkData = newValue.aggregations.flag_identity.buckets
+      let active_user_temp = []  //活跃用户
+      let silence_user_temp = []  //沉默用户
+      let downtime_user_temp = []  //停机用户
+      let total_user_temp = []  //总的用户数据
+      let total_register_num = 0   //总的在册用户
+      let total_watch_dur_family = 0   //总的户均观看时长
+      let total_cum_paid_num = 0   //总的订购用户
+
+      //用户画像
+      let active_user_por_temp = []
+      let silence_user_por_temp = []
+      let downtime_user_por_temp = []
+      let total_user_por_temp = []
+
+      let total_firsttime_num = 0   //总的firsttime_num
+      let total_oncetime_num = 0   //总的oncetime_num
+      let total_loyal_user_num = 0   //总的loyal_user_num
+      let total_unord_num = 0   //总的unord_num
+
+      inTheNetworkData.forEach((value, index) => {
+        console.log("--------------------")
+        // console.log(value.key, value.register_num.value, value.watch_dur_family.value, value.cum_paid_num.value)
+        console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
+        console.log("--------------------")
+        let register_num = Number((value.register_num.value / 10000).toFixed(2))
+        let watch_dur_family = Number((value.watch_dur_family.value / 3600).toFixed(2))
+        let cum_paid_rate = Number(((value.cum_paid_num.value / value.register_num.value) * 100).toFixed(2)) + '%'
+        if (value.key == 'active_user') {
+          active_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
+          active_user_por_temp.push({
+            value: value.firsttime_num.value,
+            name: "订购-Firsttime"
+          })
+          active_user_por_temp.push({
+            value: value.oncetime_num.value,
+            name: "订购-Oncetime"
+          })
+          active_user_por_temp.push({
+            value: value.loyal_user_num.value,
+            name: "订购-忠诚用户"
+          })
+          active_user_por_temp.push({
+            value: value.unord_num.value,
+            name: "未订购用户"
+          })
+        } else if (value.key == 'silence_user') {
+          silence_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
+          silence_user_por_temp.push({
+            value: value.firsttime_num.value,
+            name: "订购-Firsttime"
+          })
+          silence_user_por_temp.push({
+            value: value.oncetime_num.value,
+            name: "订购-Oncetime"
+          })
+          silence_user_por_temp.push({
+            value: value.loyal_user_num.value,
+            name: "订购-忠诚用户"
+          })
+          silence_user_por_temp.push({
+            value: value.unord_num.value,
+            name: "未订购用户"
+          })
+        } else if (value.key == 'downtime_user') {
+          downtime_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
+          downtime_user_por_temp.push({
+            value: value.firsttime_num.value,
+            name: "订购-Firsttime"
+          })
+          downtime_user_por_temp.push({
+            value: value.oncetime_num.value,
+            name: "订购-Oncetime"
+          })
+          downtime_user_por_temp.push({
+            value: value.loyal_user_num.value,
+            name: "订购-忠诚用户"
+          })
+          downtime_user_por_temp.push({
+            value: value.unord_num.value,
+            name: "未订购用户"
+          })
+        }
+        total_register_num += value.register_num.value
+        total_watch_dur_family += value.watch_dur_family.value
+        total_cum_paid_num += value.cum_paid_num.value
+
+        total_firsttime_num += value.firsttime_num.value
+        total_oncetime_num += value.oncetime_num.value
+        total_loyal_user_num += value.loyal_user_num.value
+        total_unord_num += value.unord_num.value
+
+        total_user_por_temp
+      });
+      //总的订购用户占比
+      let total_cum_paid_rate = Number(((total_cum_paid_num / total_register_num) * 100).toFixed(2))
+      //总数据total_user_data
+      total_user_temp.push(Number((total_register_num / 10000).toFixed(2)))
+      total_user_temp.push(Number((total_watch_dur_family / 3600).toFixed(2)))
+      total_user_temp.push(total_cum_paid_rate + '%')
+
+      //得到总的用户画像
+      total_user_por_temp.push({
+        value: total_firsttime_num,
+        name: "订购-Firsttime"
+      })
+      total_user_por_temp.push({
+        value: total_oncetime_num,
+        name: "订购-Oncetime"
+      })
+      total_user_por_temp.push({
+        value: total_loyal_user_num,
+        name: "订购-忠诚用户"
+      })
+      total_user_por_temp.push({
+        value: total_unord_num,
+        name: "未订购用户"
+      })
+
+      vm.total_user_data = total_user_temp
+      vm.active_user = active_user_temp
+      vm.silence_user = silence_user_temp
+      vm.downtime_user = downtime_user_temp
+
+      vm.Net_data1.data2 = total_user_por_temp
+      vm.Net_data2.data2 = active_user_por_temp
+      vm.Net_data3.data2 = silence_user_por_temp
+      vm.Net_data4.data2 = downtime_user_por_temp
+
+      // console.log("active_user_temp", active_user_temp)
+      // console.log("silence_user_temp", silence_user_temp)
+      // console.log("downtime_user_temp", downtime_user_temp)
+      // console.log("total_register_num", total_register_num)
+      // console.log("total_user_temp", total_user_temp)
+
+      // console.log("active_user_por_temp", active_user_por_temp)
+      // console.log("silence_user_por_temp", silence_user_por_temp)
+      // console.log("downtime_user_por_temp", downtime_user_por_temp)
+      // console.log("total_user_por_temp", total_user_por_temp)
       // 此处组件-刷新-drawline()
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine1();
         vm.drawLine2();
         vm.drawLine3();
@@ -150,18 +298,18 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: "width:120px;height:60px",
+          extraCssText: "height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: [
           {
             show: true,
             top: "15%",
-            left: "80%",
+            right: "0",
             data: vm.Net_data1.data1,
-            itemWidth: 12,
+            itemWidth: 6,
             itemHeight: 6,
-            width: 40,
+            width: 20,
             itemGap: 5,
             textStyle: {
               color: "rgba(0,0,0,0.45)"
@@ -173,6 +321,7 @@ export default {
           {
             name: "用户画像",
             type: "pie",
+            center: ['40%', '50%'],
             radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
@@ -213,7 +362,7 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: "width:120px;height:60px",
+          extraCssText: "height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
@@ -221,6 +370,7 @@ export default {
           {
             name: "用户画像",
             type: "pie",
+            center: ['40%', '50%'],
             radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
@@ -261,7 +411,7 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: "width:120px;height:60px",
+          extraCssText: "height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
@@ -269,6 +419,7 @@ export default {
           {
             name: "用户画像",
             type: "pie",
+            center: ['40%', '50%'],
             radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",
@@ -308,7 +459,7 @@ export default {
       var option = {
         tooltip: {
           trigger: "item",
-          extraCssText: "width:120px;height:60px",
+          extraCssText: "height:60px",
           formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         series: [
@@ -316,6 +467,7 @@ export default {
           {
             name: "用户画像",
             type: "pie",
+            center: ['40%', '50%'],
             radius: ["80%", "60%"], // 大小
             color: [
               "#91D4F5",

@@ -12,31 +12,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "Registered",
   props: ["api_data1", "api_data2"],
-  watch: {
-    api_data1(newValue, oldValue) {
-      let vm = this;
-      console.log("ULC - api_data1:");
-      console.log(newValue);
-      vm.data1 = vm.api_data1
-      //vm.data1.data2 = ["299.5", "213.4"]; // 测试
-      // 此处组件-刷新-drawline()
-    },
-    api_data2(newValue, oldValue) {
-      let vm = this;
-      console.log("ULC - api_data2:");
-      console.log(newValue);
-      vm.data2 = vm.api_data2
-      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
-        // do nothing. --监听
-      }
-      setTimeout(function () {
-        vm.drawLine2();
-      }, 2000);
-      //vm.data1.data2 = ["299.5", "213.4"]; // 测试
-      // 此处组件-刷新-drawline()
-
-    },
-  },
   computed: {
     ...mapGetters([
       "ULC_region",
@@ -60,7 +35,7 @@ export default {
 
         setTimeout(function () {
           vm.drawLine();
-        }, 300);
+        }, 2000);
         return vm.data1;
       },
       set: function (newValue) { }
@@ -219,6 +194,55 @@ export default {
       },
       set: function (newValue) { }
     }
+  },
+  watch: {
+    ULC_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 2000);
+    },
+    ULC_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 2000);
+    },
+    ULC_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 2000);
+    },
+    api_data1(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC - api_data1:");
+      console.log(newValue);
+      vm.data1 = vm.api_data1
+      //vm.data1.data2 = ["299.5", "213.4"]; // 测试
+      // 此处组件-刷新-drawline()
+      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+        // do nothing. --监听
+      }
+      setTimeout(function () {
+        vm.drawLine();
+      }, 2000);
+    },
+    api_data2(newValue, oldValue) {
+      let vm = this;
+      console.log("ULC - api_data2:");
+      console.log(newValue);
+      vm.data2 = vm.api_data2
+      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+        // do nothing. --监听
+      }
+      setTimeout(function () {
+        vm.drawLine2();
+      }, 2000);
+      //vm.data1.data2 = ["299.5", "213.4"]; // 测试
+      // 此处组件-刷新-drawline()
+
+    },
   },
   data() {
     return {

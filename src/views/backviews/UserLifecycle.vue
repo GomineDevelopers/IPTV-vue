@@ -27,14 +27,17 @@
           <span class="title_border_left"></span>激活
         </el-row>
         <el-row class="chart_body back_white">
-          <com-activate v-bind:activate_user_num="activate_user_num"></com-activate>
+          <com-activate
+            v-bind:activate_user_num="activate_user_num"
+            v-bind:activate_rate_data="activate_rate_data"
+          ></com-activate>
         </el-row>
       </el-col>
     </el-row>
     <!-- 在册和激活结束-->
 
     <!-- 在网开始 -->
-    <el-row class="user_online">
+    <el-row class="user_online" v-if="ULC_time_type == 3">
       <el-col class="height_auto padding_right" :span="14">
         <el-row class="model_title">
           <span class="title_border_left"></span>在网
@@ -55,7 +58,7 @@
     <!-- 在网结束 -->
 
     <!-- 用户细分开始 -->
-    <el-row class="user_segment back_white" v-show="ULC_time_type == 3">
+    <el-row class="user_segment back_white" v-if="ULC_time_type == 3">
       <el-row class="model_title">
         <span class="title_border_left"></span>用户细分
       </el-row>
@@ -140,54 +143,6 @@ export default {
       console.log("ULC_time_type: " + newValue);
     }
   },
-  data() {
-    return {
-      // 在网
-      // 激活
-      // 在网（2）
-      // 在网用户结构
-      // 用户细分
-      // api_data1: {
-      //   id: "ULC_echartsA",
-      //   title: "在网用户数",
-      //   data1: ["7.08-7.14", "7.15-7.21"],
-      //   data2: ["219.4", "213.4"]
-      // },
-      api_data1: {
-        id: "ULC_echartsA",
-        title: "在网用户数（百万户）",
-        data1: [,],
-        data2: [,]
-      },
-      api_data2: {
-        id: "ULC_echartsB",
-        color: ["#FF6123", "#FF8859", "#FFAA89"],
-        region: [],
-        operator: ["移动", "联通", "电信"],
-        showData: [[], [], []]
-        // region: ["贵阳","遵义", "安顺","黔南","黔东南","铜仁","毕节","六盘水","黔西南"],
-        // operator: ["移动", "联通", "电信"],
-        // showData: [
-        //   [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
-        //   [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
-        //   [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
-        // ]
-      },
-      activate_user_num: {
-        id: "echartsAA",
-        title: "激活用户数（百万户）",
-        dataName: ["激活数"],
-        color: ["#FF6123"],
-        data_region: [],
-        series_data: [],
-        // data_region: ["贵阳", "遵义", "安顺", "黔南", "黔东南", "铜仁", "毕节", "六盘水", "黔西南"],
-        // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
-      },
-      api_data3: [],
-      api_data4: [],
-      api_data5: []
-    };
-  },
   methods: {
     refresh_api_data() {
       this.api_data_set("mixture");
@@ -265,14 +220,16 @@ export default {
         area: null,
         operator: null,
         start: null,
-        end: null
+        end: null,
+        year: null
       };
       //上期
       let prev_temp = {
         area: null,
         operator: null,
         start: null,
-        end: null
+        end: null,
+        year: null
       }
       if (time_type == 1) {
         // 时间类型-1-天
@@ -407,31 +364,66 @@ export default {
             let onTheNetData = total_data[0].aggregations
             let register_num = onTheNetData.register_num.value
             if (time_type == 1) {
-              Vue.set(vm.api_data1.data1, 0, temp.start)
+              Vue.set(vm.api_data1.data1, 1, temp.start)
             } else if (time_type == 2) {
-              Vue.set(vm.api_data1.data1, 0, commonTools.format_weekToChinese(temp.start))
+              Vue.set(vm.api_data1.data1, 1, commonTools.format_weekToChinese(temp.start))
             } else if (time_type == 3) {
-              Vue.set(vm.api_data1.data1, 0, commonTools.format_monthToChinese(temp.start))
+              Vue.set(vm.api_data1.data1, 1, commonTools.format_monthToChinese(temp.start))
             }
-            Vue.set(vm.api_data1.data2, 0, (register_num / 1000000).toFixed(2))
+            Vue.set(vm.api_data1.data2, 1, (register_num / 1000000).toFixed(2))
 
             //激活用户数
-
-            //activate_user_num: {
-            // data_region: ["贵阳","遵义","安顺","黔南","黔东南","铜仁","毕节","六盘水","黔西南"],
-            // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
             let activate_user_num_arr = total_data[0].aggregations.ac.buckets
             let activate_user_num_temp1 = []
             let activate_user_num_temp2 = []
             activate_user_num_arr.forEach((value, index) => {
-              activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
-              activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
+              if (value.key != "other") {
+                activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
+                activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
+              }
             })
             vm.activate_user_num.data_region = activate_user_num_temp1
             vm.activate_user_num.series_data = activate_user_num_temp2
-            console.log(vm.activate_user_num.data_region)
-            console.log(vm.activate_user_num.series_data)
+            // console.log(vm.activate_user_num.data_region)
+            // console.log(vm.activate_user_num.series_data)
 
+            //激活率
+            let activate_array = total_data[0].aggregations.ac.buckets
+            let city_temp = ["city",]
+            let current_temp;
+            if (time_type == 1) {
+              current_temp = ["当日",]
+            } else if (time_type == 2) {
+              current_temp = ["本周",]
+            } else if (time_type == 3) {
+              current_temp = ["本月",]
+            }
+            activate_array.forEach((value, index) => {
+              if (value.key != "other") {
+                // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
+                city_temp.push(commonTools.acConvert_Single(value.key))
+                let activate_rate = ((value.activate_user_num.value / value.register_num.value) * 100).toFixed(2)
+                current_temp.push(activate_rate)
+              }
+
+            })
+            Vue.set(vm.activate_rate_data.data, 0, city_temp);
+            Vue.set(vm.activate_rate_data.data, 2, current_temp);
+            // console.log("this.activate_rate_data.data", vm.activate_rate_data.data)
+
+            //在网数据
+            vm.api_data3 = total_data[1]
+            //在网用户结构
+            vm.api_data4 = total_data[1]
+
+            //用户细分
+            vm.api_data5 = total_data[2]
+
+            // let aa = total_data[1].aggregations.flag_identity.buckets
+            // console.log("total_data[1].aggregations.flag_identity.buckets[1]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", total_data[1].aggregations.flag_identity.buckets)
+            // aa.forEach((value, index) => {
+            //   console.log(value.key, value.register_num.value, value.watch_dur_family.value, value.cum_paid_num.value)
+            // })
           }
 
           if (dataTypeName == "single") {
@@ -446,12 +438,14 @@ export default {
               let new_num_region = []
               let new_num_data = []
               new_num_arr.forEach((value, index) => {
-                new_num_region.push(commonTools.acConvert_Single(value.key))
-                new_num_data.push(value.new_num.value)
+                if (value.key != "other") {
+                  new_num_region.push(commonTools.acConvert_Single(value.key))
+                  new_num_data.push(value.new_num.value)
+                }
               })
               vm.api_data2.region = new_num_region
-              vm.api_data2.showData[0] = new_num_data
-
+              // vm.api_data2.showData[0] = new_num_data
+              Vue.set(vm.api_data2.showData, 0, new_num_data)
               // console.log("vm.api_data2", vm.api_data2)
 
             } else if (type == "lt") {
@@ -465,11 +459,15 @@ export default {
               let new_num_region = []
               let new_num_data = []
               new_num_arr.forEach((value, index) => {
-                new_num_region.push(commonTools.acConvert_Single(value.key))
-                new_num_data.push(value.new_num.value)
+                if (value.key != "other") {
+                  new_num_region.push(commonTools.acConvert_Single(value.key))
+                  new_num_data.push(value.new_num.value)
+                }
               })
               vm.api_data2.region = new_num_region
-              vm.api_data2.showData[1] = new_num_data
+              // vm.api_data2.showData[1] = new_num_data
+              Vue.set(vm.api_data2.showData, 1, new_num_data)
+
 
             } else if (type == "dx") {
               console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -482,25 +480,142 @@ export default {
               let new_num_region = []
               let new_num_data = []
               new_num_arr.forEach((value, index) => {
-                new_num_region.push(commonTools.acConvert_Single(value.key))
-                new_num_data.push(value.new_num.value)
+                if (value.key != "other") {
+                  new_num_region.push(commonTools.acConvert_Single(value.key))
+                  new_num_data.push(value.new_num.value)
+                }
               })
               vm.api_data2.region = new_num_region
-              vm.api_data2.showData[2] = new_num_data
-
-              console.log(vm.api_data2)
+              // vm.api_data2.showData[2] = new_num_data
+              Vue.set(vm.api_data2.showData, 2, new_num_data)
+              // console.log(vm.api_data2)
 
             }
           }
-
-
         })
         .catch(function (error) {
           console.info(error);
         });
+
+      //判断上周或上月的时间不为空（比如当前时间为 1month  || 1week,那么无上期数据）
+      if (prev_temp.start != null) {
+        userLives(formDataPrev)
+          .then(function (response) {
+            if (dataTypeName == "mixture") {
+              console.log("----------------------------------------");
+              console.log("prev_temp", prev_temp)
+              console.log("混合数据(上期)", ULC_operator);
+              console.log(response.data.responses);
+              let total_data = response.data.responses
+
+              //在网
+              let onTheNetData = total_data[0].aggregations
+              let register_num = onTheNetData.register_num.value
+              if (time_type == 1) {
+                Vue.set(vm.api_data1.data1, 0, prev_temp.start)
+              } else if (time_type == 2) {
+                Vue.set(vm.api_data1.data1, 0, commonTools.format_weekToChinese(prev_temp.start))
+              } else if (time_type == 3) {
+                Vue.set(vm.api_data1.data1, 0, commonTools.format_monthToChinese(prev_temp.start))
+              }
+              Vue.set(vm.api_data1.data2, 0, (register_num / 1000000).toFixed(2))
+              // console.log("shangqi!!!", vm.api_data1)
+
+              //激活率
+              let activate_array = total_data[0].aggregations.ac.buckets
+              let city_temp = ["city",]
+              let current_temp = ["同期",]
+              activate_array.forEach((value, index) => {
+                if (value.key != "other") {
+                  // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
+                  city_temp.push(commonTools.acConvert_Single(value.key))
+                  let activate_rate = ((value.activate_user_num.value / value.register_num.value) * 100).toFixed(2)
+                  current_temp.push(activate_rate)
+                }
+
+              })
+              Vue.set(vm.activate_rate_data.data, 0, city_temp);
+              Vue.set(vm.activate_rate_data.data, 1, current_temp);
+              // console.log("上期数据", vm.activate_rate_data.data)
+            }
+
+          })
+          .catch(function (error) {
+            console.info(error);
+          });
+      }
+
     }
   },
-
+  data() {
+    return {
+      // 在网
+      // 激活
+      // 在网（2）
+      // 在网用户结构
+      // 用户细分
+      // api_data1: {
+      //   id: "ULC_echartsA",
+      //   title: "在网用户数",
+      //   data1: ["7.08-7.14", "7.15-7.21"],
+      //   data2: ["219.4", "213.4"]
+      // },
+      api_data1: {
+        id: "ULC_echartsA",
+        title: "在网用户数（百万户）",
+        data1: [,],
+        data2: [,]
+      },
+      api_data2: {
+        id: "ULC_echartsB",
+        color: ["#FF6123", "#FF8859", "#FFAA89"],
+        region: [],
+        operator: ["移动", "联通", "电信"],
+        showData: [[], [], []]
+        // region: ["贵阳","遵义", "安顺","黔南","黔东南","铜仁","毕节","六盘水","黔西南"],
+        // operator: ["移动", "联通", "电信"],
+        // showData: [
+        //   [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
+        //   [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
+        //   [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
+        // ]
+      },
+      activate_user_num: {
+        id: "echartsAA",
+        title: "激活用户数（百万户）",
+        dataName: ["激活数"],
+        color: ["#FF6123"],
+        data_region: [],
+        series_data: [],
+        // data_region: ["贵阳", "遵义", "安顺", "黔南", "黔东南", "铜仁", "毕节", "六盘水", "黔西南"],
+        // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+      },
+      activate_rate_data: {
+        title: "激活率",
+        id: "newPayingUsers",
+        color: ["#FF6123", "#FF8859"],
+        data: [[], [], []
+          // [
+          //   "product",
+          //   "贵阳",
+          //   "遵义",
+          //   "安顺",
+          //   "黔南",
+          //   "黔东南",
+          //   "铜仁",
+          //   "毕节",
+          //   "六盘水",
+          //   "黔西南"
+          // ],
+          // ["本月", 30, 40, 30, 70, 90, 50, 80, 30, 40],
+          // ["同期", 20, 40, 50, 40, 60, 40, 77, 50, 80]
+        ]
+      },
+      api_data3: [],  //在网数据
+      api_data4: [],
+      api_data5: []
+    };
+  },
 };
 </script>
 <style>

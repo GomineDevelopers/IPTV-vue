@@ -35,11 +35,12 @@
               v-for="(customerCategory,index3) in customerSegmentation.categoryData"
               :key="index3+'customerCategory'"
             >
-              <div class="first_userCategory">{{customerCategory.userCategoryName}}</div>
-              <div
+              <div class="first_userCategory">{{title[index3]}}</div>
+              <!-- <div
                 class="flex flex-direction userCategory_data"
                 v-if="customerCategory.userCategoryName !='未订购用户'"
-              >
+              >-->
+              <div class="flex flex-direction userCategory_data">
                 <div
                   v-for="(customerItem,index3) in customerCategory.data"
                   :key="index3+'customerItem'"
@@ -88,7 +89,7 @@
                   </div>
                 </div>
               </div>
-              <div
+              <!-- <div
                 class="flex flex-direction userCategory_data"
                 v-if="customerCategory.userCategoryName =='未订购用户'"
               >
@@ -106,8 +107,12 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>-->
             </div>
+            <div
+              v-for="(aa,index4) in customerSegmentation.categoryData"
+              :key="index4+'sd'"
+            >{{index4}}{{aa}}</div>
           </div>
         </div>
       </el-col>
@@ -144,6 +149,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 export default {
   name: "CustomerSegmentation",
@@ -153,8 +159,110 @@ export default {
   props: ["api_data5"],
   watch: {
     api_data5(newValue, oldValue) {
-      console.log("ULC - api_data5:");
+      console.log("用户细分ULC - api_data5:");
       console.log(newValue);
+      let customerSegmentation = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
+      let vm = this
+      let customer_temp = [
+        // {
+        //   userCategoryName: "订购-Firsttime",
+        //   data: [
+        //     {
+        //       title: "家庭包",
+        //       userNum: "12",
+        //       familyWatchTime: "123",
+        //       theSeedingRate: "59%",
+        //       viewingBehaviorData: ["30", "58", "12"]
+        //     }
+        //   ]
+        // },
+      ]
+      let customerFirsttime_temp = []  //第一次购买
+      let customerOnectime_temp = []  //一次性购买
+      let customerLoyer_temp = []  //忠诚用户
+      let customerNone_temp = []  //未订购用户
+
+      customerSegmentation.forEach((value, index) => {
+        console.log(value.key)
+        value.productname.buckets.forEach((value2, index2) => {
+          console.log(value2.key)
+          console.log(value2)
+          if (value.key == 'firsttime') {
+            // console.log()
+            let play_full_rate
+            if (value2.demand_dur.value > value2.programTime_t.value) {
+              play_full_rate = 100
+            } else {
+              play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+            }
+            customerFirsttime_temp.push({
+              title: value2.key,
+              userNum: value2.demand_user_num.value,
+              familyWatchTime: value2.watch_dur_family.value,
+              theSeedingRate: play_full_rate + '%',
+              viewingBehaviorData: [value2.watch_dur_children.value, value2.watch_dur_film.value, value2.watch_dur_oth.value]
+            })
+          } else if (value.key == 'loyer') {
+            let play_full_rate
+            if (value2.demand_dur.value > value2.programTime_t.value) {
+              play_full_rate = 100
+            } else {
+              play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+            }
+            customerLoyer_temp.push({
+              title: value2.key,
+              userNum: value2.demand_user_num.value,
+              familyWatchTime: value2.watch_dur_family.value,
+              theSeedingRate: play_full_rate + '%',
+              viewingBehaviorData: [value2.watch_dur_children.value, value2.watch_dur_film.value, value2.watch_dur_oth.value]
+            })
+          } else if (value.key == 'onetime') {
+            let play_full_rate
+            if (value2.demand_dur.value > value2.programTime_t.value) {
+              play_full_rate = 100
+            } else {
+              play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+            }
+            customerOnectime_temp.push({
+              title: value2.key,
+              userNum: value2.demand_user_num.value,
+              familyWatchTime: value2.watch_dur_family.value,
+              theSeedingRate: play_full_rate + '%',
+              viewingBehaviorData: [value2.watch_dur_children.value, value2.watch_dur_film.value, value2.watch_dur_oth.value]
+            })
+          }
+          else if (value.key == 'none') {
+            let play_full_rate
+            if (value2.demand_dur.value > value2.programTime_t.value) {
+              play_full_rate = 100
+            } else {
+              play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+            }
+            customerNone_temp.push({
+              title: value2.key,
+              userNum: value2.demand_user_num.value,
+              familyWatchTime: value2.watch_dur_family.value,
+              theSeedingRate: play_full_rate + '%',
+              viewingBehaviorData: [value2.watch_dur_children.value, value2.watch_dur_film.value, value2.watch_dur_oth.value]
+            })
+          }
+        })
+      })
+
+      //此处要处理观看行为的viewingBehaviorData占比
+      vm.customerSegmentation.categoryData[0].data = customerFirsttime_temp
+      vm.customerSegmentation.categoryData[1].data = customerOnectime_temp
+      vm.customerSegmentation.categoryData[2].data = customerLoyer_temp
+      vm.customerSegmentation.categoryData[3].data = customerNone_temp
+      // Vue.set(vm.customerSegmentation.categoryData, 0, customerFirsttime_temp)
+      // Vue.set(vm.customerSegmentation.categoryData, 1, customerOnectime_temp)
+      // Vue.set(vm.customerSegmentation.categoryData, 2, customerLoyer_temp)
+      // Vue.set(vm.customerSegmentation.categoryData, 3, customerNone_temp)
+      console.log("customerFirsttime_temp------", customerFirsttime_temp)
+      console.log("customerLoyer_temp------", customerLoyer_temp)
+      console.log("customerOnectime_temp------", customerOnectime_temp)
+      console.log("customerNone_temp------", customerNone_temp)
+      console.log("vm.customerSegmentation.categoryData", vm.customerSegmentation.categoryData)
     }
   },
   data() {
@@ -384,13 +492,20 @@ export default {
           }
         ]
       },
+
+      //用户细分数据
+      title: ["订购-Firsttime", "订购-Onectime", "订购-忠诚用户", "未订购用户"],
+      // customerFirsttime: [],  //第一次购买
+      // customerOnectime: [],  //一次性购买
+      // customerLoyer: [],  //忠诚用户
+      // customerNone: [],  //未订购用户
       customerSegmentation: {
         // 用户细分数据
         title: ["VIP包", "用户数（万）", "户均观看时长", "完播率", "观看行为"],
         viewingBehaviorCategory: ["少儿", "影视", "非少儿非影视"],
         categoryData: [
           {
-            userCategoryName: "订购-Firsttime",
+            // userCategoryName: "订购-Firsttime",
             data: [
               {
                 title: "家庭包",
@@ -416,7 +531,7 @@ export default {
             ]
           },
           {
-            userCategoryName: "订购-Onetime",
+            // userCategoryName: "订购-Onectime",
             data: [
               {
                 title: "家庭包",
@@ -442,7 +557,7 @@ export default {
             ]
           },
           {
-            userCategoryName: "订购-忠诚用户",
+            // userCategoryName: "订购-忠诚用户",
             data: [
               {
                 title: "家庭包",
@@ -468,7 +583,7 @@ export default {
             ]
           },
           {
-            userCategoryName: "未订购用户",
+            // userCategoryName: "未订购用户",
             data: [
               {
                 title: "",
@@ -483,7 +598,7 @@ export default {
       }
     };
   },
-  created() {},
+  created() { },
   methods: {}
 };
 </script>

@@ -34,7 +34,7 @@ import Vue from "vue";
 
 export default {
   name: "Activate",
-  props: ["activate_user_num"],
+  props: ["activate_user_num", "activate_rate_data"],
   components: {
     "line-chart-single-prop": LineChartSingleProp
   },
@@ -50,21 +50,30 @@ export default {
 
       // 此处组件-刷新-drawline()
     },
+    activate_rate_data(newValue, oldValue) {
+      let vm = this;
+
+      console.log("ULC - activate_user_num:");
+      console.log(newValue);
+      vm.activationRate = vm.activate_rate_data
+
+      // 此处组件-刷新-drawline()
+    },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
-        let str;
-        if (newValue == 1) {
-          str = "当日";
-        }
-        if (newValue == 2) {
-          str = "本周";
-        }
-        if (newValue == 3) {
-          str = "本月";
-        }
-        Vue.set(vm.activationRate.data[1], 0, str);
-      }, 1000);
+      // setTimeout(function () {
+      //   let str;
+      //   if (newValue == 1) {
+      //     str = "当日";
+      //   }
+      //   if (newValue == 2) {
+      //     str = "本周";
+      //   }
+      //   if (newValue == 3) {
+      //     str = "本月";
+      //   }
+      //   Vue.set(vm.activationRate.data[1], 0, str);
+      // }, 1000);
     }
   },
   computed: {
@@ -198,7 +207,7 @@ export default {
         setTimeout(function () {
           // console.log("Activate echartsAA 视图更新");
           vm.drawLine();
-        }, 300);
+        }, 2000);
         return {
           id: id,
           title: title,
@@ -233,30 +242,31 @@ export default {
         // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
       },
       activationRate: {
-        title: "激活率",
-        id: "newPayingUsers",
-        color: ["#FF6123", "#FF8859"],
-        data: [
-          [
-            "product",
-            "贵阳",
-            "遵义",
-            "安顺",
-            "黔南",
-            "黔东南",
-            "铜仁",
-            "毕节",
-            "六盘水",
-            "黔西南"
-          ],
-          ["本月", 30, 40, 30, 70, 90, 50, 80, 30, 40],
-          ["同期", 20, 40, 50, 40, 60, 40, 77, 50, 80]
-        ]
+        // title: "激活率",
+        // id: "newPayingUsers",
+        // color: ["#FF6123", "#FF8859"],
+        // data: [
+        //   [
+        //     "product",
+        //     "贵阳",
+        //     "遵义",
+        //     "安顺",
+        //     "黔南",
+        //     "黔东南",
+        //     "铜仁",
+        //     "毕节",
+        //     "六盘水",
+        //     "黔西南"
+        //   ],
+        //   ["本月", 30, 40, 30, 70, 90, 50, 80, 30, 40],
+        //   ["同期", 20, 40, 50, 40, 60, 40, 77, 50, 80]
+        // ]
       }
     };
   },
   mounted() {
     this.activationNum = this.activate_user_num
+    this.activationRate = this.activate_rate_data
     console.log("this.activate_user_num~~~~~~~~~~~", this.activate_user_num)
     // this.drawLine();
   },
