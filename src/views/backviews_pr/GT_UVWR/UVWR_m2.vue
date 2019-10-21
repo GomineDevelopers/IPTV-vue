@@ -188,13 +188,13 @@ export default {
           //console.log(commonTools.acConvert_Single(value.key), value.register_num.value, value.new_num.value)
           //在册用户数与新增在册用户数（户）
           Vue.set(vm.GT_UVWR1_G1.data[9 - index], 0, commonTools.acConvert_Single(value.key))
-          Vue.set(vm.GT_UVWR1_G1.data[9 - index], 1, value.register_num.value)
+          Vue.set(vm.GT_UVWR1_G1.data[9 - index], 1, value.register_num.buckets[0].register_num.value)
           Vue.set(vm.GT_UVWR1_G1.data[9 - index], 2, value.new_num.value)
 
           //在册用户占比
           register_num_temp.push({
             name: commonTools.acConvert_Single(value.key),
-            value: value.register_num.value
+            value: value.register_num.buckets[0].register_num.value
           })
           //新增用户占比
           new_num_temp.push({
@@ -378,7 +378,7 @@ export default {
       // let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
       // Vue.set(vm.GT_UVWR1_K1.data[0], 1, currentWeekFormat)
       // Vue.set(vm.GT_UVWR1_K1.data[0], 2, beforeWeekFormat)
-      
+
       // demand_user_data.forEach((value, index) => {
       //   if (index < 10) {
       //     // console.log(value.key, Number((value.onlive_user_num.value / 10000).toFixed(1)))

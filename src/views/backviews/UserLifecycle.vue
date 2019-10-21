@@ -63,7 +63,11 @@
         <span class="title_border_left"></span>用户细分
       </el-row>
       <el-row class="chart_body padding_10">
-        <com-customersegmentation v-bind:api_data5="api_data5"></com-customersegmentation>
+        <com-customersegmentation
+          v-bind:api_data5="api_data5"
+          v-bind:api_data6="api_data6"
+          v-bind:api_data7="api_data7"
+        ></com-customersegmentation>
       </el-row>
     </el-row>
     <!-- 用户细分结束 -->
@@ -200,9 +204,9 @@ export default {
       }
     },
     userLives(type, ULC_operator, dataType) {
-      console.log("type", type)
-      console.log("ULC_operator", ULC_operator)
-      console.log("dataType", dataType)
+      // console.log("type", type)
+      // console.log("ULC_operator", ULC_operator)
+      // console.log("dataType", dataType)
       let vm = this;
       let dataTypeName = dataType
       // console.log("userLives");
@@ -268,9 +272,9 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~2:");
-        console.log(temp);
+        // console.log("~~~~time_type:" + time_type);
+        // console.log("~~~~~2:");
+        // console.log(temp);
 
         let prev_week_str = temp_time.time.replace(/[^0-9]/ig, "")  //获取本周的数字
         let prev_week_time = prev_week_str - 1
@@ -291,7 +295,7 @@ export default {
         // 时间类型-3-月
         // console.log("~~~~~month:" + vm.ULC_month);
         let temp_time = commonTools.split_yearAtime(vm.ULC_month);
-        console.log(temp_time);
+        // console.log(temp_time);
 
         temp = {
           area: String(temp_region),
@@ -301,8 +305,8 @@ export default {
           year: temp_time.year
         };
         // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~3:");
-        console.log(temp);
+        // console.log("~~~~~3:");
+        // console.log(temp);
 
         let prev_month_str = temp_time.time.replace(/[^0-9]/ig, "")  //获取本周的数字
         let prev_month_time = prev_month_str - 1
@@ -332,7 +336,7 @@ export default {
       // vm.api_data5 = [1];
       //return; // 测试开启
 
-      console.log("用户选择", temp)
+      // console.log("用户选择", temp)
 
       var formData = new FormData();
       var formData = new window.FormData();
@@ -354,9 +358,9 @@ export default {
         .then(function (response) {
 
           if (dataTypeName == "mixture") {
-            console.log("----------------------------------------");
-            console.log("混合数据", ULC_operator);
-            console.log(response.data.responses);
+            // console.log("----------------------------------------");
+            // console.log("混合数据", ULC_operator);
+            // console.log(response.data.responses);
 
             let total_data = response.data.responses
 
@@ -418,6 +422,8 @@ export default {
 
             //用户细分
             vm.api_data5 = total_data[2]
+            vm.api_data6 = total_data[3]  //收视次数
+            vm.api_data7 = total_data[4]  //收视时长
 
             // let aa = total_data[1].aggregations.flag_identity.buckets
             // console.log("total_data[1].aggregations.flag_identity.buckets[1]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", total_data[1].aggregations.flag_identity.buckets)
@@ -428,9 +434,9 @@ export default {
 
           if (dataTypeName == "single") {
             if (type == "yd") {
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              console.log("运营商", ULC_operator);
-              console.log(response.data.responses);
+              // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+              // console.log("运营商", ULC_operator);
+              // console.log(response.data.responses);
               let total_data = response.data.responses
 
               //新增在网用户
@@ -449,9 +455,9 @@ export default {
               // console.log("vm.api_data2", vm.api_data2)
 
             } else if (type == "lt") {
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              console.log("运营商", ULC_operator);
-              console.log(response.data.responses);
+              // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+              // console.log("运营商", ULC_operator);
+              // console.log(response.data.responses);
               let total_data = response.data.responses
 
               //新增在网用户
@@ -470,9 +476,9 @@ export default {
 
 
             } else if (type == "dx") {
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              console.log("运营商", ULC_operator);
-              console.log(response.data.responses);
+              // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+              // console.log("运营商", ULC_operator);
+              // console.log(response.data.responses);
               let total_data = response.data.responses
 
               //新增在网用户
@@ -612,8 +618,10 @@ export default {
         ]
       },
       api_data3: [],  //在网数据
-      api_data4: [],
-      api_data5: []
+      api_data4: [],  //在网用户结构
+      api_data5: [],  //用户细分
+      api_data6: [],  //收视次数
+      api_data7: [],  //收视时长
     };
   },
 };
@@ -637,7 +645,7 @@ export default {
   margin-bottom: 14px;
 }
 .user_segment {
-  height: 655px;
+  height: 780px;
   margin-bottom: 50px;
 }
 

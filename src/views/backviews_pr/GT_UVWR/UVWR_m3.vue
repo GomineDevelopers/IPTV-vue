@@ -185,13 +185,13 @@ export default {
           // console.log(commonTools.acConvert_Single(value.key), value.register_num.value, value.new_num.value)
           //在册用户数与新增在册用户数（户）
           Vue.set(vm.GT_UVWR1_S1.data[9 - index], 0, commonTools.acConvert_Single(value.key))
-          Vue.set(vm.GT_UVWR1_S1.data[9 - index], 1, value.register_num.value)
+          Vue.set(vm.GT_UVWR1_S1.data[9 - index], 1, value.register_num.buckets[0].register_num.value)
           Vue.set(vm.GT_UVWR1_S1.data[9 - index], 2, value.new_num.value)
 
           //在册用户占比
           register_num_temp.push({
             name: commonTools.acConvert_Single(value.key),
-            value: value.register_num.value
+            value: value.register_num.buckets[0].register_num.value
           })
           //新增用户占比
           new_num_temp.push({

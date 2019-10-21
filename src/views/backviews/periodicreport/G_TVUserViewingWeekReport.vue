@@ -332,7 +332,7 @@ export default {
           // end: "2019-06-16"    //暂定这一周
         };
       }
-      // console.log("temp", temp)
+      console.log("temp!!!!!!!!!!!!!!!!!!!!!!!!!", temp)
       let last_week = commonTools.currentDay_7daysAgoRange(temp_time.week_day_start)  //获取上周的时间
       // console.log("last_week", last_week)
       //上一周的数据
