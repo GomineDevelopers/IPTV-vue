@@ -10,14 +10,16 @@ export default {
   data() {
     return {};
   },
+  props: {
+    lineData: Object
+  },
   mounted() {
     this.drawLine();
   },
   methods: {
     drawLine() {
-      var myChart = this.$echarts.init(
-        document.getElementById("eUserPortrait")
-      );
+      let vm = this;
+      var myChart = this.$echarts.init(document.getElementById(vm.lineData.id));
       var option = {
         tooltip: {
           trigger: "item",
@@ -37,7 +39,7 @@ export default {
             show: true,
             top: "15%",
             left: "70%",
-            data: ["少儿", "电影", "热剧", "游戏", "纪实", "体育"],
+            data: vm.lineData.data1,
             itemWidth: 5,
             itemHeight: 5,
             width: 40,
@@ -61,7 +63,14 @@ export default {
               "#FCC269",
               "#64E0CF",
               "#F99184",
-              "#7584F2"
+              "#7584F2",
+              "#5554F2",
+              "#91D4F5",
+              "#BE8FF5",
+              "#FCC269",
+              "#64E0CF",
+              "#F99184",
+              "#7584F2",
             ],
             label: {
               normal: {
@@ -75,14 +84,7 @@ export default {
                 length2: 5
               }
             },
-            data: [
-              { value: 1035, name: "少儿" },
-              { value: 979, name: "电影" },
-              { value: 848, name: "热剧" },
-              { value: 748, name: "游戏" },
-              { value: 659, name: "纪实" },
-              { value: 548, name: "体育" }
-            ]
+            data: vm.lineData.data2
           }
         ]
       };

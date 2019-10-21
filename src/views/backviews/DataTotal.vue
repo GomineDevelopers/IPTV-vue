@@ -83,7 +83,8 @@
           <span class="title_border_left"></span>用户画像
         </el-row>
         <div class="chart_body back_white">
-          <com-userportrait></com-userportrait>
+          <!-- <com-userportrait :lineData="UserPortraitData"></com-userportrait> -->
+          <ManyPieChart-total :pieData="UserPortraitData"></ManyPieChart-total>
         </div>
       </el-col>
       <el-col class="data_bottom_right" :span="12">
@@ -104,6 +105,8 @@ import DataShow from "@/views/backcoms/datatotal/DataShow"; // 数据展示
 import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画像
 import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件(日活趋势组件)
 
+import ManyPieChart_total from "@/views/backcoms/datatotal/ManyPieChart_total"; // 同心环x4
+
 import { users_total } from "@/api/api_main";
 import { commonTools } from "@/utils/test";
 
@@ -116,7 +119,8 @@ export default {
     "com-dataoverview": DataOverview,
     "com-datashow": DataShow,
     "com-userportrait": UserPortrait,
-    "line-chart-single2": LineChartSingle2
+    "line-chart-single2": LineChartSingle2,
+    "ManyPieChart-total": ManyPieChart_total
   },
   mounted() {
     let vm = this;
@@ -133,7 +137,8 @@ export default {
                 // vm.users_total(res2, res2, "rangeday"); // 日维度
                 vm.users_total(res2, res2, "singleday"); // 截止统计日 -- 因为已经累计计算了，传当天即可
                 vm.users_total(res2, res2, "rangeday"); // 日维度
-
+                vm.users_total(res2, res2, "lastmonth"); // 截止日的上月
+                vm.users_total(res2, res2, "rangedays_n"); // 8Tina：当天+前7天
               })
               .catch(function(error) {
                 console.info(error);
@@ -165,9 +170,205 @@ export default {
       //   "858",
       //   "859"
       // ];
+      if (type == "lastmonth") {
+        // 用户画像 用上个月
+        data = {
+          start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 2),
+          end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 2)
+        };
+      }
+      if (type == "rangedays_n") {
+        // 用户画像 用上个月
+        data = {
+          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 7),
+          end: ExpirationDate
+        };
+      }
+
       users_total(data)
         .then(function(response) {
           console.log(response);
+          if (type == "lastmonth") {
+            // 用户画像 用上个月  -- responses3
+            console.log(data);
+            console.log(response);
+
+            // active_user 活跃用户
+            // silence_user 沉默用户
+            // downtime_user 关机用户
+
+            let buckets_flag =
+              response.data.responses[3].aggregations.flag_identity.buckets;
+            let length_flag = buckets_flag.length;
+            let i_flag;
+            let temp_content = [
+              {
+                title: "第一次购买用户数占比", // firsttime_num_ratio
+                data: [
+                  // { value: 535, name: "直播" },
+                  // { value: 410, name: "回看" },
+                  // { value: 348, name: "点播" }
+                ]
+              },
+              {
+                title: "一次性购买用户数占比", // oncetime_num_ratio
+                data: [
+                  // { value: 535, name: "直播" },
+                  // { value: 410, name: "回看" },
+                  // { value: 348, name: "点播" }
+                ]
+              },
+              {
+                title: "忠诚用户数占比", // loyal_num_ratio
+
+                data: [
+                  // { value: 535, name: "直播" },
+                  // { value: 410, name: "回看" },
+                  // { value: 348, name: "点播" }
+                ]
+              },
+              {
+                title: "未订购用户数占比", // unord_num_ratio
+                data: [
+                  // { value: 535, name: "直播" },
+                  // { value: 410, name: "回看" },
+                  // { value: 348, name: "点播" }
+                ]
+              }
+            ];
+            function returnKeyChinese(key) {
+              let value;
+              if (key == "active_user") {
+                value = "活用用户";
+              }
+              if (key == "silence_user") {
+                value = "沉默用户";
+              }
+              if (key == "downtime_user") {
+                value = "关机用户";
+              }
+              return value;
+            }
+            function set_contentValue_fn(key, index_buckets_flag) {
+              temp_content[0].data.push({
+                value: buckets_flag[index_buckets_flag].firsttime_num.value,
+                name: returnKeyChinese(key)
+              });
+            }
+            function set_contentValue_on(key, index_buckets_flag) {
+              temp_content[1].data.push({
+                value: buckets_flag[index_buckets_flag].oncetime_num.value,
+                name: returnKeyChinese(key)
+              });
+            }
+            function set_contentValue_ln(key, index_buckets_flag) {
+              temp_content[2].data.push({
+                value: buckets_flag[index_buckets_flag].loyal_user_num.value,
+                name: returnKeyChinese(key)
+              });
+            }
+            function set_contentValue_un(key, index_buckets_flag) {
+              temp_content[3].data.push({
+                value: buckets_flag[index_buckets_flag].unord_num.value,
+                name: returnKeyChinese(key)
+              });
+            }
+            for (i_flag = 0; i_flag < length_flag; i_flag++) {
+              if (buckets_flag[i_flag].key == "active_user") {
+                set_contentValue_fn("active_user", i_flag);
+                set_contentValue_on("active_user", i_flag);
+                set_contentValue_ln("active_user", i_flag);
+                set_contentValue_un("active_user", i_flag);
+              }
+              if (buckets_flag[i_flag].key == "silence_user") {
+                set_contentValue_fn("silence_user", i_flag);
+                set_contentValue_on("silence_user", i_flag);
+                set_contentValue_ln("silence_user", i_flag);
+                set_contentValue_un("silence_user", i_flag);
+              }
+              if (buckets_flag[i_flag].key == "downtime_user") {
+                set_contentValue_fn("downtime_user", i_flag);
+                set_contentValue_on("downtime_user", i_flag);
+                set_contentValue_ln("downtime_user", i_flag);
+                set_contentValue_un("downtime_user", i_flag);
+              }
+            }
+            console.log("~~~~~~~~~~~~~~~~~temp_content");
+            console.log(temp_content);
+            vm.UserPortraitData.content = temp_content;
+            return;
+          }
+          if (type == "rangedays_n") {
+            // 用户画像 用上个月  -- responses4
+            // console.log(data);
+            // console.log(response);
+            let temp_dailyLivingTrendData = [["product"]];
+            let buckets_operator =
+              response.data.responses[0].aggregations.operators.buckets;
+            let length_operator = buckets_operator.length;
+            let i_operator;
+            // product yd lt dx
+            for (
+              let i_operator = 0;
+              i_operator < length_operator;
+              i_operator++
+            ) {
+              temp_dailyLivingTrendData.push([
+                buckets_operator[i_operator].key
+              ]);
+            }
+            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            // console.log(temp_dailyLivingTrendData);
+
+            let buckets_time =
+              buckets_operator[0].statistical_granularity.buckets;
+            let length_time = buckets_time.length;
+            let i_time;
+
+            for (i_time = 0; i_time < length_time; i_time++) {
+              temp_dailyLivingTrendData[0].push(
+                commonTools.format_dayToChinese_2(buckets_time[i_time].key)
+              );
+            }
+            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            // console.log(temp_dailyLivingTrendData);
+
+            for (i_operator = 0; i_operator < length_operator; i_operator++) {
+              for (i_time = 0; i_time < length_time; i_time++) {
+                temp_dailyLivingTrendData[i_operator + 1].push(
+                  buckets_operator[i_operator].statistical_granularity.buckets[
+                    i_time
+                  ].active_num.value
+                );
+
+                // temp_dailyLivingTrendData[1].push(
+                //   buckets_time[i_time].active_num.value
+                // );
+                // temp_dailyLivingTrendData[2].push(
+                //   buckets_time[i_time].active_num.value
+                // );
+                // temp_dailyLivingTrendData[3].push(
+                //   buckets_time[i_time].active_num.value
+                // );
+              }
+            }
+
+            vm.dailyLivingTrendData.data = temp_dailyLivingTrendData;
+            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            // console.log(temp_dailyLivingTrendData);
+
+            vm.dailyLivingTrendData.date_year =
+              String(commonTools.get_ExpirationDate_year(ExpirationDate)) +
+              "年";
+            vm.dailyLivingTrendData.date_month = String(
+              commonTools.get_ExpirationDate_lastNMonth_toChinese(
+                ExpirationDate,
+                0
+              )
+            );
+
+            return;
+          }
           // console.log(response.data.responses[0].aggregations.ac.buckets);
           // console.log(
           //   response.data.responses[0].aggregations.ac.buckets[0].key
@@ -307,9 +508,9 @@ export default {
           }
           // 开机用户
           for (i = 0; i < length; i++) {
-            console.log(responses1.aggregations.ac.buckets[i].key);
-            console.log(responses2.aggregations.ac.buckets[i].key);
-            console.log(responses3.aggregations.ac.buckets[i].key);
+            // console.log(responses1.aggregations.ac.buckets[i].key);
+            // console.log(responses2.aggregations.ac.buckets[i].key);
+            // console.log(responses3.aggregations.ac.buckets[i].key);
 
             if (
               responses1.aggregations.ac.buckets[i].key == "851" &&
@@ -728,6 +929,72 @@ export default {
           }
         ]
       },
+      // UserPortraitData: {
+      //   title: "",
+      //   id: "eUserPortrait",
+      //   data1: ["少儿", "电影", "热剧", "游戏", "纪实", "体育"],
+      //   data2: [
+      //     { value: 1035, name: "少儿" },
+      //     { value: 979, name: "电影" },
+      //     { value: 848, name: "热剧" },
+      //     { value: 748, name: "游戏" },
+      //     { value: 659, name: "纪实" },
+      //     { value: 548, name: "体育" }
+      //   ]
+      // },
+      UserPortraitData: {
+        title: "",
+        id: "eUserPortrait",
+        color: [
+          "#91D4F5",
+          "#BE8FF5",
+          "#FCC269",
+          "#64E0CF",
+          "#F99184",
+          "#7584F2",
+          "#5554F2",
+          "#91D4F5",
+          "#BE8FF5",
+          "#FCC269",
+          "#64E0CF",
+          "#F99184",
+          "#7584F2"
+        ],
+        content: [
+          // {
+          //   title: "第一次购买用户数占比", // firsttime_num_ratio
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "回看" },
+          //     { value: 348, name: "点播" }
+          //   ]
+          // },
+          // {
+          //   title: "一次性购买用户数占比", // oncetime_num_ratio
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "回看" },
+          //     { value: 348, name: "点播" }
+          //   ]
+          // },
+          // {
+          //   title: "忠诚用户数占比", // loyal_num_ratio
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "回看" },
+          //     { value: 348, name: "点播" }
+          //   ]
+          // },
+          // {
+          //   title: "未订购用户数占比", // unord_num_ratio
+          //   data: [
+          //     { value: 535, name: "直播" },
+          //     { value: 410, name: "回看" },
+          //     { value: 348, name: "点播" }
+          //   ]
+          // }
+        ]
+      },
       dailyLivingTrendData: {
         title: "",
         id: "dailyLivingTrend",
@@ -735,84 +1002,84 @@ export default {
         date_year: "2019年",
         date_month: "8月",
         data: [
-          [
-            "product",
-            "12日",
-            "13日",
-            "14日",
-            "15日",
-            "16日",
-            "17日",
-            "18日",
-            "19日",
-            "20日",
-            "21日",
-            "22日",
-            "23日",
-            "24日",
-            "25日",
-            "26日",
-            "27日"
-          ],
-          [
-            "中国移动",
-            140,
-            170,
-            180,
-            200,
-            234,
-            240,
-            259,
-            265,
-            270,
-            284,
-            298,
-            300,
-            259,
-            265,
-            270,
-            284
-          ],
-          [
-            "中国联通",
-            100,
-            106,
-            119,
-            123,
-            138,
-            123,
-            118,
-            124,
-            130,
-            136,
-            149,
-            151,
-            118,
-            124,
-            130,
-            136
-          ],
-          [
-            "中国电信",
-            45,
-            52,
-            63,
-            68,
-            79,
-            72,
-            60,
-            65,
-            70,
-            62,
-            68,
-            78,
-            65,
-            65,
-            65,
-            70,
-            62,
-            68
-          ]
+          // [
+          //   "product",
+          //   "12日",
+          //   "13日",
+          //   "14日",
+          //   "15日",
+          //   "16日",
+          //   "17日",
+          //   "18日",
+          //   "19日",
+          //   "20日",
+          //   "21日",
+          //   "22日",
+          //   "23日",
+          //   "24日",
+          //   "25日",
+          //   "26日",
+          //   "27日"
+          // ],
+          // [
+          //   "中国移动",
+          //   140,
+          //   170,
+          //   180,
+          //   200,
+          //   234,
+          //   240,
+          //   259,
+          //   265,
+          //   270,
+          //   284,
+          //   298,
+          //   300,
+          //   259,
+          //   265,
+          //   270,
+          //   284
+          // ],
+          // [
+          //   "中国联通",
+          //   100,
+          //   106,
+          //   119,
+          //   123,
+          //   138,
+          //   123,
+          //   118,
+          //   124,
+          //   130,
+          //   136,
+          //   149,
+          //   151,
+          //   118,
+          //   124,
+          //   130,
+          //   136
+          // ],
+          // [
+          //   "中国电信",
+          //   45,
+          //   52,
+          //   63,
+          //   68,
+          //   79,
+          //   72,
+          //   60,
+          //   65,
+          //   70,
+          //   62,
+          //   68,
+          //   78,
+          //   65,
+          //   65,
+          //   65,
+          //   70,
+          //   62,
+          //   68
+          // ]
         ]
       }
     };

@@ -209,39 +209,56 @@ export default {
             data = vm.chartData.data;
           } else {
             data.push(vm.chartData.data[0]);
-            if (vm.ADD_VIP_programa.indexOf("分类") > -1) {
-              data.push(vm.chartData.data[1]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("电视") > -1) {
-              data.push(vm.chartData.data[2]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("推荐") > -1) {
-              data.push(vm.chartData.data[3]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("电影") > -1) {
-              data.push(vm.chartData.data[4]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("热剧") > -1) {
-              data.push(vm.chartData.data[5]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("少儿") > -1) {
-              data.push(vm.chartData.data[6]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("动漫") > -1) {
-              data.push(vm.chartData.data[7]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("综艺") > -1) {
-              data.push(vm.chartData.data[8]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("体育") > -1) {
-              data.push(vm.chartData.data[9]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("游戏") > -1) {
-              data.push(vm.chartData.data[10]);
-            }
-            if (vm.ADD_VIP_programa.indexOf("纪实") > -1) {
-              data.push(vm.chartData.data[11]);
-            }
+            vm.$store
+              .dispatch("get_ADD_VIP_programa")
+              .then(function(response) {
+                console.log(response);
+                let length = response.length;
+                let i;
+                for (i = 0; i < length; i++) {
+                  if (vm.ADD_VIP_programa.indexOf(response[i]) > -1) {
+                    data.push(vm.chartData.data[i + 1]);
+                  }
+                }
+                console.log("~~~~~!!data");
+                console.log(data);
+              })
+              .catch(function(error) {
+                console.info(error);
+              });
+            // if (vm.ADD_VIP_programa.indexOf("分类") > -1) {
+            //   data.push(vm.chartData.data[1]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("电视") > -1) {
+            //   data.push(vm.chartData.data[2]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("推荐") > -1) {
+            //   data.push(vm.chartData.data[3]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("电影") > -1) {
+            //   data.push(vm.chartData.data[4]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("热剧") > -1) {
+            //   data.push(vm.chartData.data[5]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("少儿") > -1) {
+            //   data.push(vm.chartData.data[6]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("动漫") > -1) {
+            //   data.push(vm.chartData.data[7]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("综艺") > -1) {
+            //   data.push(vm.chartData.data[8]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("体育") > -1) {
+            //   data.push(vm.chartData.data[9]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("游戏") > -1) {
+            //   data.push(vm.chartData.data[10]);
+            // }
+            // if (vm.ADD_VIP_programa.indexOf("纪实") > -1) {
+            //   data.push(vm.chartData.data[11]);
+            // }
           }
           // 视图更新
           setTimeout(function() {

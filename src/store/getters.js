@@ -85,6 +85,13 @@ const getters = {
     ADD_VIP_week: state => state.app.ADD_VIP_week,
     ADD_VIP_picker: state => state.app.ADD_VIP_picker,
     ADD_VIP_time_type: state => state.app.ADD_VIP_time_type,
+    ADD_VIP_programa_list: state => state.app.ADD_VIP_programa_list,
+    ADD_VIP_package_list: state => state.app.ADD_VIP_package_list,
+    ADD_VIP_package_list: state => state.app.ADD_VIP_package_list,
+    // 0-不显示  1-显示
+    ADD_VIP_target_type: state => state.app.ADD_VIP_target_type,  // 默认都是全选，默认0-不显示
+
+    
 
     // 节目搜索（时间段）
     PS_time: state => state.app.PS_time,

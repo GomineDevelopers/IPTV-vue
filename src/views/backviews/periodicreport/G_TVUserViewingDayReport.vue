@@ -151,8 +151,8 @@ export default {
   },
   watch: {
     PR_day(newValue, oldValue) {
-      console.log("~~~~~PR_day");
-      console.log(newValue);
+      // console.log("~~~~~PR_day");
+      // console.log(newValue);
 
       let vm = this;
       setTimeout(function() {
@@ -510,9 +510,9 @@ export default {
             if (operator_type == "yd") {
               vm.yidongLiveBroadcast.data = []; // 初始化
               vm.yidongLiveBroadcast.data.push(temp_1);
-              console.log("~~~~~!!!");
-              console.log(buckets1);
-              console.log(vm.yidongLiveBroadcast.data);
+              // console.log("~~~~~!!!");
+              // console.log(buckets1);
+              // console.log(vm.yidongLiveBroadcast.data);
             }
             if (operator_type == "lt") {
               vm.liantongLiveBroadcast.data = []; // 初始化
@@ -706,6 +706,60 @@ export default {
               vm.dianxingtypedayclicknumber.data.push(temp_3B);
             }
           }
+
+          // ///////////////// yd lt dx 侧首页各推荐位/按钮单日点击次数
+          // yidongAsideClickUser
+          // liantongAsideClickUser
+          // dianxingAsideClickUser
+          if (date_type == "singleday") {
+            console.log("~~~~~~~~~~~~~~~~~~▲▲▲▲▲▲▲▲▲▲▲▲");
+            try {
+              if (operator_type == "yd") {
+                let buckets_4 =
+                  response.data.responses[4].aggregations.ti.buckets;
+                let length_4 = buckets_4.length;
+                let i_4;
+                let temp_data = [[["运营商"], ["今日"]]];
+                for (let i_4 = 0; i_4 < length_4; i_4++) {
+                  temp_data[0][0].push(buckets_4[i_4].key);
+                  temp_data[0][1].push(buckets_4[i_4].click_freq.value);
+                }
+                vm.yidongAsideClickUser.data = temp_data;
+                console.log("~~~~~~~~~~~~~~~~");
+                console.log(temp_data);
+              }
+              if (operator_type == "lt") {
+                let buckets_4 =
+                  response.data.responses[4].aggregations.ti.buckets;
+                let length_4 = buckets_4.length;
+                let i_4;
+                let temp_data = [[["运营商"], ["今日"]]];
+                for (let i_4 = 0; i_4 < length_4; i_4++) {
+                  temp_data[0][0].push(buckets_4[i_4].key);
+                  temp_data[0][1].push(buckets_4[i_4].click_freq.value);
+                }
+                vm.liantongAsideClickUser.data = temp_data;
+                console.log("~~~~~~~~~~~~~~~~");
+                console.log(temp_data);
+              }
+              if (operator_type == "dx") {
+                let buckets_4 =
+                  response.data.responses[4].aggregations.ti.buckets;
+                let length_4 = buckets_4.length;
+                let i_4;
+                let temp_data = [[["运营商"], ["今日"]]];
+                for (let i_4 = 0; i_4 < length_4; i_4++) {
+                  temp_data[0][0].push(buckets_4[i_4].key);
+                  temp_data[0][1].push(buckets_4[i_4].click_freq.value);
+                }
+                vm.dianxingAsideClickUser.data = temp_data;
+                console.log("~~~~~~~~~~~~~~~~");
+                console.log(temp_data);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
         })
         .catch(function(error) {
           console.info(error);
@@ -886,56 +940,56 @@ export default {
         id: "yidongAsideClickUser_UVDR",
         color: ["#5b82c8"],
         data: [
-          [
-            [
-              "运营商",
-              "导视框",
-              "历史记录",
-              "搜索",
-              "看电视",
-              "三屏",
-              "二屏",
-              "竖图三",
-              "点我换一换",
-              "VIP专区",
-              "竖图二",
-              "百姓关注",
-              "竖图一",
-              "横图"
-            ],
-            // [
-            //   "平均",
-            //   116394,
-            //   63192,
-            //   30301,
-            //   22787,
-            //   10611,
-            //   9206,
-            //   6353,
-            //   6115,
-            //   5501,
-            //   4338,
-            //   4114,
-            //   3740,
-            //   2557
-            // ]
-            [
-              " ",
-              116394,
-              63192,
-              30301,
-              22787,
-              10611,
-              9206,
-              6353,
-              6115,
-              5501,
-              4338,
-              4114,
-              3740,
-              2557
-            ]
-          ]
+          // [
+          //   [
+          //     "运营商",
+          //     "导视框",
+          //     "历史记录",
+          //     "搜索",
+          //     "看电视",
+          //     "三屏",
+          //     "二屏",
+          //     "竖图三",
+          //     "点我换一换",
+          //     "VIP专区",
+          //     "竖图二",
+          //     "百姓关注",
+          //     "竖图一",
+          //     "横图"
+          //   ],
+          //   // [
+          //   //   "平均",
+          //   //   116394,
+          //   //   63192,
+          //   //   30301,
+          //   //   22787,
+          //   //   10611,
+          //   //   9206,
+          //   //   6353,
+          //   //   6115,
+          //   //   5501,
+          //   //   4338,
+          //   //   4114,
+          //   //   3740,
+          //   //   2557
+          //   // ]
+          //   [
+          //     " ",
+          //     116394,
+          //     63192,
+          //     30301,
+          //     22787,
+          //     10611,
+          //     9206,
+          //     6353,
+          //     6115,
+          //     5501,
+          //     4338,
+          //     4114,
+          //     3740,
+          //     2557
+          //   ]
+          // ]
         ]
       },
 
@@ -1288,68 +1342,68 @@ export default {
         id: "dianxingAsideClickUser_UVDR",
         color: ["#5b82c8"],
         data: [
-          [
-            [
-              "运营商",
-              "最近观看",
-              "播放小窗口",
-              "文字一",
-              "搜索",
-              "看电视",
-              "三屏",
-              "文字二",
-              "二屏竖图",
-              "文字五",
-              "文字三",
-              "百姓关注",
-              "天翼优品",
-              "VIP限时免费",
-              "文字四",
-              "二屏横图",
-              "天翼",
-              "家庭云"
-            ],
-            // [
-            //   "平均",
-            //   16738,
-            //   13216,
-            //   12203,
-            //   8603,
-            //   7118,
-            //   3142,
-            //   2217,
-            //   1557,
-            //   1221,
-            //   1184,
-            //   966,
-            //   929,
-            //   916,
-            //   886,
-            //   609,
-            //   188,
-            //   160
-            // ]
-            [
-              " ",
-              16738,
-              13216,
-              12203,
-              8603,
-              7118,
-              3142,
-              2217,
-              1557,
-              1221,
-              1184,
-              966,
-              929,
-              916,
-              886,
-              609,
-              188,
-              160
-            ]
-          ]
+          // [
+          //   [
+          //     "运营商",
+          //     "最近观看",
+          //     "播放小窗口",
+          //     "文字一",
+          //     "搜索",
+          //     "看电视",
+          //     "三屏",
+          //     "文字二",
+          //     "二屏竖图",
+          //     "文字五",
+          //     "文字三",
+          //     "百姓关注",
+          //     "天翼优品",
+          //     "VIP限时免费",
+          //     "文字四",
+          //     "二屏横图",
+          //     "天翼",
+          //     "家庭云"
+          //   ],
+          //   // [
+          //   //   "平均",
+          //   //   16738,
+          //   //   13216,
+          //   //   12203,
+          //   //   8603,
+          //   //   7118,
+          //   //   3142,
+          //   //   2217,
+          //   //   1557,
+          //   //   1221,
+          //   //   1184,
+          //   //   966,
+          //   //   929,
+          //   //   916,
+          //   //   886,
+          //   //   609,
+          //   //   188,
+          //   //   160
+          //   // ]
+          //   [
+          //     " ",
+          //     16738,
+          //     13216,
+          //     12203,
+          //     8603,
+          //     7118,
+          //     3142,
+          //     2217,
+          //     1557,
+          //     1221,
+          //     1184,
+          //     966,
+          //     929,
+          //     916,
+          //     886,
+          //     609,
+          //     188,
+          //     160
+          //   ]
+          // ]
         ]
       }
     };

@@ -268,7 +268,7 @@ export default {
       this.$store
         .dispatch("set_UVB_region", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -279,7 +279,7 @@ export default {
       this.$store
         .dispatch("set_UVB_operator", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -301,7 +301,7 @@ export default {
       this.$store
         .dispatch("set_UVB_playmode", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           vm.$store
             .dispatch("set_UVB_target_type", "")
             .then(function(response) {})
@@ -318,7 +318,7 @@ export default {
       this.$store
         .dispatch("set_UVB_programa", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -501,267 +501,6 @@ export default {
       }
     };
   },
-  methods: {
-    userAction_programs() {
-      let vm = this;
-      userAction_programs()
-        .then(function(response) {
-          console.log(response);
-          let buckets = response.data.responses[0].aggregations.ti.buckets;
-          let length = buckets.length;
-          let i;
-          let temp = [];
-          for (i = 0; i < length; i++) {
-            temp.push(buckets[i].key);
-          }
-          vm.programa = temp;
-          vm.$store
-            .dispatch("set_UVB_programa_list", temp)
-            .then(function(response) {
-              // console.log(response);
-            })
-            .catch(function(error) {
-              console.info(error);
-            });
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    userAction_program_type() {
-      let vm = this;
-      userAction_program_type()
-        .then(function(response) {
-          console.log(response);
-          let buckets =
-            response.data.responses[0].aggregations.program_type.buckets;
-          let length = buckets.length;
-          let i;
-          let temp = [];
-          for (i = 0; i < length; i++) {
-            temp.push(buckets[i].key);
-          }
-          vm.contenttype = temp;
-          vm.$store
-            .dispatch("set_UVB_programa_type_list", temp)
-            .then(function(response) {
-              // console.log(response);
-            })
-            .catch(function(error) {
-              console.info(error);
-            });
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    dayValue_change(event) {
-      // console.log(event);
-      // console.log(typeof event);
-      // console.log(typeof String(event));
-      let vm = this;
-      this.time.dayValue = String(event);
-      this.time.weekValue = "";
-      this.time.pickerValue = "";
-      let newValue = String(event);
-      newValue = commonTools.dayChange(newValue); // store 传入 2019-09-20 格式
-      console.log("~~~~set_UVB_day:" + newValue);
-      vm.$store
-        .dispatch("set_UVB_day", newValue)
-        .then(function(response) {
-          console.log(response);
-          vm.$store
-            .dispatch("set_UVB_time_type", 1)
-            .then(function(response) {
-              vm.$store
-                .dispatch("set_UVB_target_type", "")
-                .then(function(response) {})
-                .catch(function(error) {
-                  console.info(error);
-                });
-            })
-            .catch(function(error) {
-              console.info(error);
-            });
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    weekValue_change(event) {
-      let vm = this;
-      this.time.dayValue = "";
-      this.time.weekValue = String(event);
-      this.time.pickerValue = "";
-      let newValue = String(event);
-      vm.$store
-        .dispatch("set_UVB_week", newValue)
-        .then(function(response) {
-          console.log(response);
-          vm.$store
-            .dispatch("set_UVB_time_type", 2)
-            .then(function(response) {
-              vm.$store
-                .dispatch("set_UVB_target_type", "")
-                .then(function(response) {})
-                .catch(function(error) {
-                  console.info(error);
-                });
-            })
-            .catch(function(error) {
-              console.info(error);
-            });
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-    pickerValue_change(event) {
-      console.log(event);
-      let vm = this;
-      this.time.dayValue = "";
-      this.time.weekValue = "";
-      // this.time.pickerValue = String(event);
-      this.time.pickerValue = event; // 显示为object
-      let newValue = String(event); // 传入为string
-      // let newValue = event;
-      vm.$store
-        .dispatch("set_UVB_picker", newValue)
-        .then(function(response) {
-          console.log(response);
-          vm.$store
-            .dispatch("set_UVB_time_type", 3)
-            .then(function(response) {
-              vm.$store
-                .dispatch("set_UVB_target_type", "")
-                .then(function(response) {})
-                .catch(function(error) {
-                  console.info(error);
-                });
-            })
-            .catch(function(error) {
-              console.info(error);
-            });
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
-
-    // //////////////
-    regionChoose_change(event) {
-      regionChoose_old = regionChoose_new;
-      let checkedCount = event.length;
-      this.region_checkAll = checkedCount === this.region.length;
-      this.region_isIndeterminate =
-        checkedCount > 0 && checkedCount < this.region.length;
-      if (this.regionChoose.length == 0) {
-        this.region_isIndeterminate = true;
-      }
-      let vm = this;
-      setTimeout(function() {
-        regionChoose_new = vm.regionChoose;
-        vm.regionChoose = commonTools.delete_repet(
-          regionChoose_new,
-          regionChoose_old
-        );
-      }, 100);
-    },
-    regionChoose_all(val) {
-      // console.log(val);
-      this.regionChoose = val ? this.region : [];
-      this.region_isIndeterminate = !this.region_isIndeterminate;
-    },
-    operatorChoose_change(event) {
-      operatorChoose_old = operatorChoose_new;
-      let checkedCount = event.length;
-      this.operator_checkAll = checkedCount === this.operator.length;
-      this.operator_isIndeterminate =
-        checkedCount > 0 && checkedCount < this.operator.length;
-      if (this.operatorChoose.length == 0) {
-        this.operator_isIndeterminate = true;
-      }
-      let vm = this;
-      setTimeout(function() {
-        operatorChoose_new = vm.operatorChoose;
-        vm.operatorChoose = commonTools.delete_repet(
-          operatorChoose_new,
-          operatorChoose_old
-        );
-      }, 100);
-    },
-    operatorChoose_all(val) {
-      this.operatorChoose = val ? this.operator : [];
-      this.operator_isIndeterminate = !this.operator_isIndeterminate;
-    },
-    playmodeChoose_change(event) {
-      playmodeChoose_old = playmodeChoose_new;
-      let checkedCount = event.length;
-      this.playmode_checkAll = checkedCount === this.playmode.length;
-      this.playmode_isIndeterminate =
-        checkedCount > 0 && checkedCount < this.playmode.length;
-      if (this.playmodeChoose.length == 0) {
-        this.playmode_isIndeterminate = true;
-      }
-      let vm = this;
-      setTimeout(function() {
-        playmodeChoose_new = vm.playmodeChoose;
-        vm.playmodeChoose = commonTools.delete_repet(
-          playmodeChoose_new,
-          playmodeChoose_old
-        );
-      }, 100);
-    },
-    playmodeChoose_all(val) {
-      this.playmodeChoose = val ? this.playmode : [];
-      this.playmode_isIndeterminate = !this.playmode_isIndeterminate;
-    },
-    programaChoose_change(event) {
-      programaChoose_old = programaChoose_new;
-      let checkedCount = event.length;
-      this.programa_checkAll = checkedCount === this.programa.length;
-      this.programa_isIndeterminate =
-        checkedCount > 0 && checkedCount < this.programa.length;
-      if (this.programaChoose.length == 0) {
-        this.programa_isIndeterminate = true;
-      }
-      let vm = this;
-      setTimeout(function() {
-        programaChoose_new = vm.programaChoose;
-        vm.programaChoose = commonTools.delete_repet(
-          programaChoose_new,
-          programaChoose_old
-        );
-      }, 100);
-    },
-    //
-    programaChoose_all(val) {
-      this.programaChoose = val ? this.programa : [];
-      this.programa_isIndeterminate = !this.programa_isIndeterminate;
-    },
-    contenttypeChoose_change(event) {
-      contenttypeChoose_old = contenttypeChoose_new;
-      let checkedCount = event.length;
-      this.contenttype_checkAll = checkedCount === this.contenttype.length;
-      this.contenttype_isIndeterminate =
-        checkedCount > 0 && checkedCount < this.contenttype.length;
-      if (this.contenttypeChoose.length == 0) {
-        this.contenttype_isIndeterminate = true;
-      }
-      let vm = this;
-      setTimeout(function() {
-        contenttypeChoose_new = vm.contenttypeChoose;
-        vm.contenttypeChoose = commonTools.delete_repet(
-          contenttypeChoose_new,
-          contenttypeChoose_old
-        );
-      }, 100);
-    },
-    contenttypeChoose_all(val) {
-      this.contenttypeChoose = val ? this.contenttype : [];
-      this.contenttype_isIndeterminate = !this.contenttype_isIndeterminate;
-    }
-  },
   mounted() {
     // 获取用户收视行为的栏目
     this.userAction_programs();
@@ -904,6 +643,265 @@ export default {
           console.info(error);
         });
     }, 200);
+  },
+  methods: {
+    userAction_programs() {
+      let vm = this;
+      userAction_programs()
+        .then(function(response) {
+          console.log(response);
+          let buckets = response.data.responses[0].aggregations.ti.buckets;
+          let length = buckets.length;
+          let i;
+          let temp = [];
+          for (i = 0; i < length; i++) {
+            temp.push(buckets[i].key);
+          }
+          vm.programa = temp;
+          vm.$store
+            .dispatch("set_UVB_programa_list", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    userAction_program_type() {
+      let vm = this;
+      userAction_program_type()
+        .then(function(response) {
+          console.log(response);
+          let buckets =
+            response.data.responses[0].aggregations.program_type.buckets;
+          let length = buckets.length;
+          let i;
+          let temp = [];
+          for (i = 0; i < length; i++) {
+            temp.push(buckets[i].key);
+          }
+          vm.contenttype = temp;
+          vm.$store
+            .dispatch("set_UVB_programa_type_list", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    dayValue_change(event) {
+      // console.log(event);
+      // console.log(typeof event);
+      // console.log(typeof String(event));
+      let vm = this;
+      this.time.dayValue = String(event);
+      this.time.weekValue = "";
+      this.time.pickerValue = "";
+      let newValue = String(event);
+      newValue = commonTools.dayChange(newValue); // store 传入 2019-09-20 格式
+      console.log("~~~~set_UVB_day:" + newValue);
+      vm.$store
+        .dispatch("set_UVB_day", newValue)
+        .then(function(response) {
+          console.log(response);
+          vm.$store
+            .dispatch("set_UVB_time_type", 1)
+            .then(function(response) {
+              vm.$store
+                .dispatch("set_UVB_target_type", "")
+                .then(function(response) {})
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    weekValue_change(event) {
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = String(event);
+      this.time.pickerValue = "";
+      let newValue = String(event);
+      vm.$store
+        .dispatch("set_UVB_week", newValue)
+        .then(function(response) {
+          console.log(response);
+          vm.$store
+            .dispatch("set_UVB_time_type", 2)
+            .then(function(response) {
+              vm.$store
+                .dispatch("set_UVB_target_type", "")
+                .then(function(response) {})
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    pickerValue_change(event) {
+      console.log(event);
+      let vm = this;
+      this.time.dayValue = "";
+      this.time.weekValue = "";
+      this.time.pickerValue = event; // 显示为object
+      let newValue = String(event); // 传入为string
+      vm.$store
+        .dispatch("set_UVB_picker", newValue)
+        .then(function(response) {
+          console.log(response);
+          vm.$store
+            .dispatch("set_UVB_time_type", 3)
+            .then(function(response) {
+              vm.$store
+                .dispatch("set_UVB_target_type", "")
+                .then(function(response) {})
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+
+    // //////////////
+    regionChoose_change(event) {
+      regionChoose_old = regionChoose_new;
+      let checkedCount = event.length;
+      this.region_checkAll = checkedCount === this.region.length;
+      this.region_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.region.length;
+      if (this.regionChoose.length == 0) {
+        this.region_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        regionChoose_new = vm.regionChoose;
+        vm.regionChoose = commonTools.delete_repet(
+          regionChoose_new,
+          regionChoose_old
+        );
+      }, 100);
+    },
+    regionChoose_all(val) {
+      // console.log(val);
+      this.regionChoose = val ? this.region : [];
+      this.region_isIndeterminate = !this.region_isIndeterminate;
+    },
+    operatorChoose_change(event) {
+      operatorChoose_old = operatorChoose_new;
+      let checkedCount = event.length;
+      this.operator_checkAll = checkedCount === this.operator.length;
+      this.operator_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.operator.length;
+      if (this.operatorChoose.length == 0) {
+        this.operator_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        operatorChoose_new = vm.operatorChoose;
+        vm.operatorChoose = commonTools.delete_repet(
+          operatorChoose_new,
+          operatorChoose_old
+        );
+      }, 100);
+    },
+    operatorChoose_all(val) {
+      this.operatorChoose = val ? this.operator : [];
+      this.operator_isIndeterminate = !this.operator_isIndeterminate;
+    },
+    playmodeChoose_change(event) {
+      playmodeChoose_old = playmodeChoose_new;
+      let checkedCount = event.length;
+      this.playmode_checkAll = checkedCount === this.playmode.length;
+      this.playmode_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.playmode.length;
+      if (this.playmodeChoose.length == 0) {
+        this.playmode_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        playmodeChoose_new = vm.playmodeChoose;
+        vm.playmodeChoose = commonTools.delete_repet(
+          playmodeChoose_new,
+          playmodeChoose_old
+        );
+      }, 100);
+    },
+    playmodeChoose_all(val) {
+      this.playmodeChoose = val ? this.playmode : [];
+      this.playmode_isIndeterminate = !this.playmode_isIndeterminate;
+    },
+    programaChoose_change(event) {
+      programaChoose_old = programaChoose_new;
+      let checkedCount = event.length;
+      this.programa_checkAll = checkedCount === this.programa.length;
+      this.programa_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.programa.length;
+      if (this.programaChoose.length == 0) {
+        this.programa_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        programaChoose_new = vm.programaChoose;
+        vm.programaChoose = commonTools.delete_repet(
+          programaChoose_new,
+          programaChoose_old
+        );
+      }, 100);
+    },
+    //
+    programaChoose_all(val) {
+      this.programaChoose = val ? this.programa : [];
+      this.programa_isIndeterminate = !this.programa_isIndeterminate;
+    },
+    contenttypeChoose_change(event) {
+      contenttypeChoose_old = contenttypeChoose_new;
+      let checkedCount = event.length;
+      this.contenttype_checkAll = checkedCount === this.contenttype.length;
+      this.contenttype_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.contenttype.length;
+      if (this.contenttypeChoose.length == 0) {
+        this.contenttype_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        contenttypeChoose_new = vm.contenttypeChoose;
+        vm.contenttypeChoose = commonTools.delete_repet(
+          contenttypeChoose_new,
+          contenttypeChoose_old
+        );
+      }, 100);
+    },
+    contenttypeChoose_all(val) {
+      this.contenttypeChoose = val ? this.contenttype : [];
+      this.contenttype_isIndeterminate = !this.contenttype_isIndeterminate;
+    }
   }
 };
 </script>

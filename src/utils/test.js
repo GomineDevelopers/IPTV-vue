@@ -17,6 +17,14 @@ commonTools.get_ExpirationDate_lastNMonth = function (date, n) {
     }
     return String(month_str) + "month";
 }
+commonTools.get_ExpirationDate_lastNMonth_toChinese = function (date, n) {
+    let arr = date.split("-");
+    let month_str = parseInt(arr[1]) - n;
+    if (month_str < 1) {
+        month_str = 1;
+    }
+    return String(month_str) + "月";
+}
 
 // 传入日期获得当前年year
 commonTools.get_ExpirationDate_year = function (date) {
@@ -67,6 +75,10 @@ commonTools.format_dateToChineseMD = function (date) {
 commonTools.format_dayToChinese = function (str) {
     let arr = str.split("-");
     return arr[2];
+}
+commonTools.format_dayToChinese_2 = function (str) {
+    let arr = str.split("-");
+    return arr[2] + "日";
 }
 
 // 数据格式转换 xmonth -> x月
