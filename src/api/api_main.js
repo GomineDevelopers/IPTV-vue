@@ -592,6 +592,24 @@ export function vip_increment(postData) {
     })
 }
 
+// vip栏目列表
+// get http://{{iptv}}/api/vip/programs/list
+export function vip_programs_list(postData) {
+    return request({
+        method: 'get',
+        url: '/vip/programs/list',
+    })
+}
+// vip增值包列表
+// get http://{{iptv}}/api/vip/increment
+export function vip_increment_list(postData) {
+    return request({
+        method: 'get',
+        url: '/vip/increment',
+    })
+}
+
+
 // let temp = {
 //     area: area,
 //     operator: operator,
@@ -604,12 +622,12 @@ export function vip_increment(postData) {
 
 // 获取vip栏目
 // get http://{{iptv}}/api/vip/programs/list
-export function vip_programs_list() {
-    return request({
-        method: 'get',
-        url: '/vip/programs/list',
-    })
-}
+// export function vip_programs_list() {
+//     return request({
+//         method: 'get',
+//         url: '/vip/programs/list',
+//     })
+// }
 
 // 获取vip数据地区码
 // get http://{{iptv}}/api/vip/areaCode

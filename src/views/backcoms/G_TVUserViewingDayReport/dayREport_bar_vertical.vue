@@ -13,7 +13,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 1000);
   },
@@ -23,13 +23,19 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 1000);
     },
     PR_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    fillinData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
         vm.setLineChart();
       }, 1000);
     }

@@ -57,6 +57,9 @@ const app = {
         ADD_VIP_week: null,
         ADD_VIP_picker: [],
         ADD_VIP_time_type: 0, // 0-未选择 1-天 2-周 3-范围
+        ADD_VIP_programa_list: [],
+        ADD_VIP_package_list: [],
+        ADD_VIP_target_type: 1, // 0-不显示  默认-1-显示 (与VUB的不同)
 
         PS_time: [],
         PS_name: null,
@@ -345,12 +348,24 @@ const app = {
                     state.UVB_time_type != 3) {
                     state.UVB_target_type = 1;
                 }
+                else if (
+                    state.UVB_playmode.length == 1 &&
+                    state.UVB_time_type != 3
+                ) {
+                    if (state.UVB_playmode.indexOf("直播") > -1) {
+                        state.UVB_target_type = 1;
+                    }
+                    if (state.UVB_playmode.indexOf("点播") > -1) {
+                        state.UVB_target_type = 0;
+                    }
+                    if (state.UVB_playmode.indexOf("回看") > -1) {
+                        state.UVB_target_type = 1;
+                    }
+
+                }
                 else {
                     state.UVB_target_type = 0;
                 }
-                // UVB_playmode
-                // UVB_picker
-                // state.UVB_target_type = data;
                 resolve("UVB_target_type - SUCCESS !");
             })
         },
@@ -672,6 +687,50 @@ const app = {
                 resolve(state.ADD_VIP_time_type);
             })
         },
+
+        set_ADD_VIP_programa_list({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ADD_VIP_programa_list = data;
+                resolve("ADD_VIP_programa_list - SUCCESS !");
+            })
+        },
+        get_ADD_VIP_programa_list({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_VIP_programa_list);
+            })
+        },
+        set_ADD_VIP_package_list({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ADD_VIP_package_list = data;
+                resolve("ADD_VIP_package_list - SUCCESS !");
+            })
+        },
+        get_ADD_VIP_package_list({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_VIP_package_list);
+            })
+        },
+
+        // ////////////// 处理方式不同
+        set_ADD_VIP_target_type({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                // data传任意值
+                if (state.ADD_VIP_time_type != 3) {
+                    state.ADD_VIP_target_type = 1;
+                }
+                else {
+                    state.ADD_VIP_target_type = 0;
+                }
+                resolve("ADD_VIP_target_type - SUCCESS !");
+            })
+        },
+        get_ADD_VIP_target_type({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_VIP_target_type);
+            })
+        },
+        // //////////////
+
         set_PS_time({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PS_time = data;

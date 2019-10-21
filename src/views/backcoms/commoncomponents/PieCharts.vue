@@ -38,20 +38,57 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
+    },
+    UVB_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_playmode(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   computed: {
     ...mapGetters([
       "PR_operator",
-      "UVB_region",
       "ADD_VIP_region",
-      "UVB_playmode",
       "ADD_VIP_playmode",
+      "PR_picker",
+      "PR_value_specialName",
+      "UVB_region",
+      "UVB_operator",
+      "UVB_playmode",
       "UVB_day",
       "UVB_week",
-      "UVB_picker",
-      "PR_picker",
-      "PR_value_specialName"
+      "UVB_picker"
     ]),
     chartData_Change: {
       get: function() {
@@ -117,42 +154,44 @@ export default {
             color = vm.chartData.color;
             data = vm.chartData.data;
           } else {
-            if (vm.UVB_region.indexOf("贵阳") > -1) {
-              color.push(vm.chartData.color[0]);
-              data.push(vm.chartData.data[0]);
-            }
-            if (vm.UVB_region.indexOf("遵义") > -1) {
-              color.push(vm.chartData.color[1]);
-              data.push(vm.chartData.data[1]);
-            }
-            if (vm.UVB_region.indexOf("安顺") > -1) {
-              color.push(vm.chartData.color[2]);
-              data.push(vm.chartData.data[2]);
-            }
-            if (vm.UVB_region.indexOf("黔南") > -1) {
-              color.push(vm.chartData.color[3]);
-              data.push(vm.chartData.data[3]);
-            }
-            if (vm.UVB_region.indexOf("黔东南") > -1) {
-              color.push(vm.chartData.color[4]);
-              data.push(vm.chartData.data[4]);
-            }
-            if (vm.UVB_region.indexOf("铜仁") > -1) {
-              color.push(vm.chartData.color[5]);
-              data.push(vm.chartData.data[5]);
-            }
-            if (vm.UVB_region.indexOf("毕节") > -1) {
-              color.push(vm.chartData.color[6]);
-              data.push(vm.chartData.data[6]);
-            }
-            if (vm.UVB_region.indexOf("六盘水") > -1) {
-              color.push(vm.chartData.color[7]);
-              data.push(vm.chartData.data[7]);
-            }
-            if (vm.UVB_region.indexOf("黔西南") > -1) {
-              color.push(vm.chartData.color[8]);
-              data.push(vm.chartData.data[8]);
-            }
+            color = vm.chartData.color;
+            data = vm.chartData.data;
+            // if (vm.UVB_region.indexOf("贵阳") > -1) {
+            //   color.push(vm.chartData.color[0]);
+            //   data.push(vm.chartData.data[0]);
+            // }
+            // if (vm.UVB_region.indexOf("遵义") > -1) {
+            //   color.push(vm.chartData.color[1]);
+            //   data.push(vm.chartData.data[1]);
+            // }
+            // if (vm.UVB_region.indexOf("安顺") > -1) {
+            //   color.push(vm.chartData.color[2]);
+            //   data.push(vm.chartData.data[2]);
+            // }
+            // if (vm.UVB_region.indexOf("黔南") > -1) {
+            //   color.push(vm.chartData.color[3]);
+            //   data.push(vm.chartData.data[3]);
+            // }
+            // if (vm.UVB_region.indexOf("黔东南") > -1) {
+            //   color.push(vm.chartData.color[4]);
+            //   data.push(vm.chartData.data[4]);
+            // }
+            // if (vm.UVB_region.indexOf("铜仁") > -1) {
+            //   color.push(vm.chartData.color[5]);
+            //   data.push(vm.chartData.data[5]);
+            // }
+            // if (vm.UVB_region.indexOf("毕节") > -1) {
+            //   color.push(vm.chartData.color[6]);
+            //   data.push(vm.chartData.data[6]);
+            // }
+            // if (vm.UVB_region.indexOf("六盘水") > -1) {
+            //   color.push(vm.chartData.color[7]);
+            //   data.push(vm.chartData.data[7]);
+            // }
+            // if (vm.UVB_region.indexOf("黔西南") > -1) {
+            //   color.push(vm.chartData.color[8]);
+            //   data.push(vm.chartData.data[8]);
+            // }
           }
           // 视图更新
           setTimeout(function() {
@@ -172,42 +211,44 @@ export default {
             color = vm.chartData.color;
             data = vm.chartData.data;
           } else {
-            if (vm.ADD_VIP_region.indexOf("贵阳") > -1) {
-              color.push(vm.chartData.color[0]);
-              data.push(vm.chartData.data[0]);
-            }
-            if (vm.ADD_VIP_region.indexOf("遵义") > -1) {
-              color.push(vm.chartData.color[1]);
-              data.push(vm.chartData.data[1]);
-            }
-            if (vm.ADD_VIP_region.indexOf("安顺") > -1) {
-              color.push(vm.chartData.color[2]);
-              data.push(vm.chartData.data[2]);
-            }
-            if (vm.ADD_VIP_region.indexOf("黔南") > -1) {
-              color.push(vm.chartData.color[3]);
-              data.push(vm.chartData.data[3]);
-            }
-            if (vm.ADD_VIP_region.indexOf("黔东南") > -1) {
-              color.push(vm.chartData.color[4]);
-              data.push(vm.chartData.data[4]);
-            }
-            if (vm.ADD_VIP_region.indexOf("铜仁") > -1) {
-              color.push(vm.chartData.color[5]);
-              data.push(vm.chartData.data[5]);
-            }
-            if (vm.ADD_VIP_region.indexOf("毕节") > -1) {
-              color.push(vm.chartData.color[6]);
-              data.push(vm.chartData.data[6]);
-            }
-            if (vm.ADD_VIP_region.indexOf("六盘水") > -1) {
-              color.push(vm.chartData.color[7]);
-              data.push(vm.chartData.data[7]);
-            }
-            if (vm.ADD_VIP_region.indexOf("黔西南") > -1) {
-              color.push(vm.chartData.color[8]);
-              data.push(vm.chartData.data[8]);
-            }
+            color = vm.chartData.color;
+            data = vm.chartData.data;
+            // if (vm.ADD_VIP_region.indexOf("贵阳") > -1) {
+            //   color.push(vm.chartData.color[0]);
+            //   data.push(vm.chartData.data[0]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("遵义") > -1) {
+            //   color.push(vm.chartData.color[1]);
+            //   data.push(vm.chartData.data[1]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("安顺") > -1) {
+            //   color.push(vm.chartData.color[2]);
+            //   data.push(vm.chartData.data[2]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("黔南") > -1) {
+            //   color.push(vm.chartData.color[3]);
+            //   data.push(vm.chartData.data[3]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("黔东南") > -1) {
+            //   color.push(vm.chartData.color[4]);
+            //   data.push(vm.chartData.data[4]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("铜仁") > -1) {
+            //   color.push(vm.chartData.color[5]);
+            //   data.push(vm.chartData.data[5]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("毕节") > -1) {
+            //   color.push(vm.chartData.color[6]);
+            //   data.push(vm.chartData.data[6]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("六盘水") > -1) {
+            //   color.push(vm.chartData.color[7]);
+            //   data.push(vm.chartData.data[7]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("黔西南") > -1) {
+            //   color.push(vm.chartData.color[8]);
+            //   data.push(vm.chartData.data[8]);
+            // }
           }
           // 视图更新
           setTimeout(function() {
@@ -226,18 +267,21 @@ export default {
             color = vm.chartData.color;
             data = vm.chartData.data;
           } else {
-            if (vm.UVB_playmode.indexOf("直播") > -1) {
-              color.push(vm.chartData.color[0]);
-              data.push(vm.chartData.data[0]);
-            }
-            if (vm.UVB_playmode.indexOf("点播") > -1) {
-              color.push(vm.chartData.color[1]);
-              data.push(vm.chartData.data[1]);
-            }
-            if (vm.UVB_playmode.indexOf("回看") > -1) {
-              color.push(vm.chartData.color[2]);
-              data.push(vm.chartData.data[2]);
-            }
+            // if (vm.UVB_playmode.indexOf("直播") > -1) {
+            //   color.push(vm.chartData.color[0]);
+            //   data.push(vm.chartData.data[0]);
+            // }
+            // if (vm.UVB_playmode.indexOf("点播") > -1) {
+            //   color.push(vm.chartData.color[1]);
+            //   data.push(vm.chartData.data[1]);
+            // }
+            // if (vm.UVB_playmode.indexOf("回看") > -1) {
+            //   color.push(vm.chartData.color[2]);
+            //   data.push(vm.chartData.data[2]);
+            // }
+            // 数据处理了-直接pushu即可
+            color = vm.chartData.color;
+            data = vm.chartData.data;
           }
           // 视图更新
           setTimeout(function() {
@@ -256,18 +300,20 @@ export default {
             color = vm.chartData.color;
             data = vm.chartData.data;
           } else {
-            if (vm.ADD_VIP_playmode.indexOf("直播") > -1) {
-              color.push(vm.chartData.color[0]);
-              data.push(vm.chartData.data[0]);
-            }
-            if (vm.ADD_VIP_playmode.indexOf("点播") > -1) {
-              color.push(vm.chartData.color[1]);
-              data.push(vm.chartData.data[1]);
-            }
-            if (vm.ADD_VIP_playmode.indexOf("回看") > -1) {
-              color.push(vm.chartData.color[2]);
-              data.push(vm.chartData.data[2]);
-            }
+            color = vm.chartData.color;
+            data = vm.chartData.data;
+            // if (vm.ADD_VIP_playmode.indexOf("直播") > -1) {
+            //   color.push(vm.chartData.color[0]);
+            //   data.push(vm.chartData.data[0]);
+            // }
+            // if (vm.ADD_VIP_playmode.indexOf("点播") > -1) {
+            //   color.push(vm.chartData.color[1]);
+            //   data.push(vm.chartData.data[1]);
+            // }
+            // if (vm.ADD_VIP_playmode.indexOf("回看") > -1) {
+            //   color.push(vm.chartData.color[2]);
+            //   data.push(vm.chartData.data[2]);
+            // }
           }
           // 视图更新
           setTimeout(function() {

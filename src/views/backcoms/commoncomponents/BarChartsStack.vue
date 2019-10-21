@@ -22,8 +22,8 @@ export default {
       "ADD_VIP_operator"
     ]),
     chartData_Change: {
-      get: function () {
-        var vm = this;
+      get: function() {
+        let vm = this;
         let data = [];
         let color = [];
 
@@ -114,37 +114,48 @@ export default {
             // for (i = 0; i < length; i++) {
             //   data.push([]);
             // }
+            // data = temp_chartData.data; // 实际api
+            // let t_length = vm.UVB_region.length;
+            // data.push(temp_chartData.data[0]);
+            // for (let t_i = 0; t_i < t_length; t_i++) {
+            //   data.push(temp_chartData.data[t_i + 1]);
+            // }
+            let t_length = temp_chartData.data.length -1;
             data.push(temp_chartData.data[0]);
-            if (vm.UVB_region.indexOf("贵阳") > -1) {
-              data.push(temp_chartData.data[1]);
+            for (let t_i = 0; t_i < t_length; t_i++) {
+              data.push(temp_chartData.data[t_i + 1]);
             }
-            if (vm.UVB_region.indexOf("遵义") > -1) {
-              data.push(temp_chartData.data[2]);
-            }
-            if (vm.UVB_region.indexOf("安顺") > -1) {
-              data.push(temp_chartData.data[3]);
-            }
-            if (vm.UVB_region.indexOf("黔南") > -1) {
-              data.push(temp_chartData.data[4]);
-            }
-            if (vm.UVB_region.indexOf("黔东南") > -1) {
-              data.push(temp_chartData.data[5]);
-            }
-            if (vm.UVB_region.indexOf("铜仁") > -1) {
-              data.push(temp_chartData.data[6]);
-            }
-            if (vm.UVB_region.indexOf("毕节") > -1) {
-              data.push(temp_chartData.data[7]);
-            }
-            if (vm.UVB_region.indexOf("六盘水") > -1) {
-              data.push(temp_chartData.data[8]);
-            }
-            if (vm.UVB_region.indexOf("黔西南") > -1) {
-              data.push(temp_chartData.data[9]);
-            }
+            // data.push(temp_chartData.data[0]);
+            // if (vm.UVB_region.indexOf("贵阳") > -1) {
+            //   data.push(temp_chartData.data[1]);
+            // }
+            // if (vm.UVB_region.indexOf("遵义") > -1) {
+            //   data.push(temp_chartData.data[2]);
+            // }
+            // if (vm.UVB_region.indexOf("安顺") > -1) {
+            //   data.push(temp_chartData.data[3]);
+            // }
+            // if (vm.UVB_region.indexOf("黔南") > -1) {
+            //   data.push(temp_chartData.data[4]);
+            // }
+            // if (vm.UVB_region.indexOf("黔东南") > -1) {
+            //   data.push(temp_chartData.data[5]);
+            // }
+            // if (vm.UVB_region.indexOf("铜仁") > -1) {
+            //   data.push(temp_chartData.data[6]);
+            // }
+            // if (vm.UVB_region.indexOf("毕节") > -1) {
+            //   data.push(temp_chartData.data[7]);
+            // }
+            // if (vm.UVB_region.indexOf("六盘水") > -1) {
+            //   data.push(temp_chartData.data[8]);
+            // }
+            // if (vm.UVB_region.indexOf("黔西南") > -1) {
+            //   data.push(temp_chartData.data[9]);
+            // }
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("operatorChart_vip 视图更新");
             vm.drawLine();
           }, 1000);
@@ -223,37 +234,48 @@ export default {
           if (vm.ADD_VIP_region == null || vm.ADD_VIP_region.length == 0) {
             data = temp_chartData.data;
           } else {
+            // data = temp_chartData.data;
+            // let t_length = vm.UVB_region.length;
+            // data.push(temp_chartData.data[0]);
+            // for (let t_i = 0; t_i < t_length; t_i++) {
+            //   data.push(temp_chartData.data[t_i + 1]);
+            // }
+            let t_length = temp_chartData.data.length -1;
             data.push(temp_chartData.data[0]);
-            if (vm.ADD_VIP_region.indexOf("贵阳") > -1) {
-              data.push(temp_chartData.data[1]);
+            for (let t_i = 0; t_i < t_length; t_i++) {
+              data.push(temp_chartData.data[t_i + 1]);
             }
-            if (vm.ADD_VIP_region.indexOf("遵义") > -1) {
-              data.push(temp_chartData.data[2]);
-            }
-            if (vm.ADD_VIP_region.indexOf("安顺") > -1) {
-              data.push(temp_chartData.data[3]);
-            }
-            if (vm.ADD_VIP_region.indexOf("黔南") > -1) {
-              data.push(temp_chartData.data[4]);
-            }
-            if (vm.ADD_VIP_region.indexOf("黔东南") > -1) {
-              data.push(temp_chartData.data[5]);
-            }
-            if (vm.ADD_VIP_region.indexOf("铜仁") > -1) {
-              data.push(temp_chartData.data[6]);
-            }
-            if (vm.ADD_VIP_region.indexOf("毕节") > -1) {
-              data.push(temp_chartData.data[7]);
-            }
-            if (vm.ADD_VIP_region.indexOf("六盘水") > -1) {
-              data.push(temp_chartData.data[8]);
-            }
-            if (vm.ADD_VIP_region.indexOf("黔西南") > -1) {
-              data.push(temp_chartData.data[9]);
-            }
+            // data.push(temp_chartData.data[0]);
+            // if (vm.ADD_VIP_region.indexOf("贵阳") > -1) {
+            //   data.push(temp_chartData.data[1]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("遵义") > -1) {
+            //   data.push(temp_chartData.data[2]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("安顺") > -1) {
+            //   data.push(temp_chartData.data[3]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("黔南") > -1) {
+            //   data.push(temp_chartData.data[4]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("黔东南") > -1) {
+            //   data.push(temp_chartData.data[5]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("铜仁") > -1) {
+            //   data.push(temp_chartData.data[6]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("毕节") > -1) {
+            //   data.push(temp_chartData.data[7]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("六盘水") > -1) {
+            //   data.push(temp_chartData.data[8]);
+            // }
+            // if (vm.ADD_VIP_region.indexOf("黔西南") > -1) {
+            //   data.push(temp_chartData.data[9]);
+            // }
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("operatorChart_vip 视图更新");
             vm.drawLine();
           }, 1000);
@@ -264,12 +286,12 @@ export default {
             data: data
           };
         }
-        setTimeout(function () {
+        setTimeout(function() {
           vm.drawLine();
         }, 1000);
         return vm.chartData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   data() {
@@ -277,7 +299,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.drawLine();
     }, 1000);
   },
