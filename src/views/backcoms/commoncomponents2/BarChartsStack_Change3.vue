@@ -98,11 +98,11 @@ export default {
               label: {
                 show: true,
                 color: "black",
-                formatter: function (value) {
-                  // return "{a|" + value.data + "}";
-                  // console.log(value);
-                  return value.data[i] + "%";
-                }
+                // formatter: function (value) {
+                //   // return "{a|" + value.data + "}";
+                //   console.log(i, value);
+                //   return value.data[i] + "%";
+                // }
               }
             }
           },

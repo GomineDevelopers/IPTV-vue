@@ -153,7 +153,7 @@ export default {
         series: [
           // 外环
           {
-            name: "用户画像",
+            name: "用户",
             type: "pie",
             radius: ["40%", "80%"], // 大小
             color: vm.chartData_Change.m_color,

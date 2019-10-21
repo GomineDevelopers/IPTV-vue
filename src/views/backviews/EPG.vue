@@ -48,7 +48,7 @@ import EpgPageOne from "../backcoms/epg/EpgPageOne";
 import EpgPageTwo from "../backcoms/epg/EpgPageTwo";
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
-import { epg } from "@/api/api_main";
+import { epg, epg_box_content } from "@/api/api_main";
 
 export default {
   name: "EPG", //EPG
@@ -102,6 +102,9 @@ export default {
       // }, 500)
     },
     EPG_programa_type(newValue, oldValue) {
+      console.log("节目类型更新", newValue)
+      //根据节目类型来判断显示一级页面还是二级页面
+      this.changePage()
       // setTimeout(() => {
       //   this.refresh_api_data()
       // }, 500)
@@ -112,7 +115,7 @@ export default {
   },
   data() {
     return {
-      pageOneShow: true,
+      pageOneShow: false,
       pageTwoShow: false,
       //一级页面数据
       programesListOne: [
@@ -183,6 +186,7 @@ export default {
       console.log("programa_type", programa_type)
       // let temp_operator  //运营商选项
       // let temp_programa  //栏目选择
+      let vm = this
       let temp_week = this.EPG_week
       let temp_month = this.EPG_month
       let temp = {
@@ -193,7 +197,11 @@ export default {
       };
       //运营商
       if (this.EPG_operator.length == 1) {
-        temp.operator = this.EPG_operator[0]
+        if (this.EPG_operator[0] == '移动1.0' || this.EPG_operator[0] == '移动2.0') {
+          temp.operator = '移动'
+        } else {
+          temp.operator = this.EPG_operator[0]
+        }
         // if (this.EPG_operator[0] == '移动2.0') {
         //   temp.ver = '2.0'
         // } else {
@@ -246,19 +254,6 @@ export default {
       }
       console.log('temp', temp)
 
-      //设置上周或者上月的时间选项
-      // let last_temp = temp
-      // let last_date
-      // if (time_type == 1) {
-      //   last_date = temp.date.replace(/[^0-9]/ig, "") - 1
-      //   last_temp.date = last_date + 'week'
-      // } else if (time_type == 2) {
-      //   last_date = temp.date.replace(/[^0-9]/ig, "") - 1
-      //   last_temp.date = last_date + 'month'
-      // } else {
-      //   console.log("请选择时间！")
-      // }
-
       // console.log("上周last_temp", last_temp)
 
       var formData = new FormData();
@@ -268,16 +263,92 @@ export default {
       formData.append("date", temp.date);
       formData.append("year", temp.year);
 
-      // var last_formData = new FormData();
-      // var last_formData = new window.FormData();
-      // last_formData.append("operator", last_temp.operator);
-      // last_formData.append("list", last_temp.list);
-      // last_formData.append("date", last_temp.date);
-      // last_formData.append("year", last_temp.year);
 
+      //设置二次请求的temp
+      let last_temp = {
+        operator: temp.operator,
+        list: temp.list,
+        start: null,
+        end: temp.date,
+        areanumber: null,
+        year: temp.year
+      };
+      //设置上周或者上月的时间选项
+      let last_date
+      if (time_type == 1) {
+        last_date = temp.date.replace(/[^0-9]/ig, "") - 1
+        last_temp.start = last_date + 'week'
+      } else if (time_type == 2) {
+        last_date = temp.date.replace(/[^0-9]/ig, "") - 1
+        last_temp.start = last_date + 'month'
+      }
+      //current本周
+      // programesListOne: [
+      //   [
+      //     { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+      //     { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+      //     { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+      //   ],
+      // ]
       epg(formData)
         .then((response) => {
           console.log("EPG页面box信息", response.data)
+          console.log("当前运营商temp.operator------", temp.operator)
+          let current = []
+          if (this.EPG_operator[0] != "移动2.0") {
+            console.log("1.0版本选择0、2")
+            let box_data = response.data.responses[0].hits.hits
+            let box_arr = []
+            box_data.forEach((value, index) => {
+              console.log("~~~~~~~", value._source.areanumber)
+              last_temp.areanumber = value._source.areanumber
+
+              //二次请求box详细信息
+              var last_formData = new FormData();
+              var last_formData = new window.FormData();
+              last_formData.append("operator", String(last_temp.operator));
+              last_formData.append("list", String(last_temp.list));
+              last_formData.append("start", String(last_temp.start));
+              last_formData.append("end", String(last_temp.end));
+              last_formData.append("areanumber", String(last_temp.areanumber));
+              last_formData.append("year", String(last_temp.year));
+              console.log("二次请求last_temp", last_temp.areanumber, last_temp)
+              epg_box_content(last_formData)
+                .then((response) => {
+                  //此处是1.0版本 的box信息
+                  let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
+                  console.log("box详细信息", click_freq_num)
+                  click_freq_num.forEach((value2, index2) => {
+                    console.log(index2, value2.key, value2.click_freq.value)
+                  })
+                  let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
+                  let current_click_freq_num = click_freq_num[1].click_freq.value   //本周点击数
+                  let chain_index
+                  if (last_click_freq_num != 0) {
+                    //若上期数据不为 0，求环比
+                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(2)  //环比
+                  } else {
+                    chain_index = '-'
+                  }
+                  box_arr.push({
+                    classify: '',
+                    title: value._source.areanumber,
+                    lastWeek: last_click_freq_num,
+                    thisWeek: current_click_freq_num,
+                    chainIndex: chain_index + '%'
+                  })
+                  console.log("----------------------------")
+                })
+                .catch((error) => {
+                  console.log("EPG", error)
+                })
+              console.log("---------------------")
+            })
+
+            console.log("所有box信息box_arr", box_arr)
+          } else {
+            console.log("2.0版本选择1、3")
+          }
         })
         .catch((error) => {
           console.log("EPG", error)
@@ -285,11 +356,11 @@ export default {
     },
 
     //一级页面与二级页面切换选项卡
-    changePage(string) {
-      if (string == "one") {
+    changePage() {
+      if (this.EPG_programa_type == 1) {
         this.pageOneShow = true;
         this.pageTwoShow = false;
-      } else if (string == "two") {
+      } else if (this.EPG_programa_type == 2) {
         this.pageOneShow = false;
         this.pageTwoShow = true;
       }

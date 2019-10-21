@@ -85,7 +85,7 @@ export default {
       Vue.set(vm.GT_UVWR1_Y1.data[0], 2, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_Y1.data[1], 2, program_play_data.demand_user_num.value)
       Vue.set(vm.GT_UVWR1_Y1.data[2], 2, program_play_data.demand_freq.value)
-      Vue.set(vm.GT_UVWR1_Y1.data[3], 2, program_play_data.demand_dur.value)
+      Vue.set(vm.GT_UVWR1_Y1.data[3], 2, (program_play_data.demand_dur.value / 3600).toFixed(2))
 
       let content_type_data = newValue.data.responses[18].aggregations.program_type.buckets
       let content_type_temp = []
@@ -113,7 +113,7 @@ export default {
       // console.log("上周数据program_play_data", program_play_data)
       Vue.set(vm.GT_UVWR1_Y1.data[1], 1, program_play_data.demand_user_num.value)
       Vue.set(vm.GT_UVWR1_Y1.data[2], 1, program_play_data.demand_freq.value)
-      Vue.set(vm.GT_UVWR1_Y1.data[3], 1, program_play_data.demand_dur.value)
+      Vue.set(vm.GT_UVWR1_Y1.data[3], 1, (program_play_data.demand_dur.value / 3600).toFixed(2))
       // console.log("vm.GT_UVWR1_Y1.data", vm.GT_UVWR1_Y1.data)
     },
     //移动本周数据
@@ -137,8 +137,8 @@ export default {
       Vue.set(vm.GT_UVWR1_Z1.data[0], 1, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_Z1.data[0], 2, beforeWeekFormat)
       local_program_type_data.forEach((value, index) => {
-        Vue.set(vm.GT_UVWR1_Z1.data[4 - index], 0, value.key)
-        Vue.set(vm.GT_UVWR1_Z1.data[4 - index], 1, value.demand_freq.value)
+        Vue.set(vm.GT_UVWR1_Z1.data[5 - index], 0, value.key)
+        Vue.set(vm.GT_UVWR1_Z1.data[5 - index], 1, value.demand_freq.value)
       })
     },
     //联通本周数据
@@ -162,8 +162,8 @@ export default {
       Vue.set(vm.GT_UVWR1_Z2.data[0], 1, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_Z2.data[0], 2, beforeWeekFormat)
       local_program_type_data.forEach((value, index) => {
-        Vue.set(vm.GT_UVWR1_Z2.data[4 - index], 0, value.key)
-        Vue.set(vm.GT_UVWR1_Z2.data[4 - index], 1, value.demand_freq.value)
+        Vue.set(vm.GT_UVWR1_Z2.data[5 - index], 0, value.key)
+        Vue.set(vm.GT_UVWR1_Z2.data[5 - index], 1, value.demand_freq.value)
       })
     },
     //电信本周数据
@@ -187,8 +187,8 @@ export default {
       Vue.set(vm.GT_UVWR1_Z3.data[0], 1, currentWeekFormat)
       Vue.set(vm.GT_UVWR1_Z3.data[0], 2, beforeWeekFormat)
       local_program_type_data.forEach((value, index) => {
-        Vue.set(vm.GT_UVWR1_Z3.data[4 - index], 0, value.key)
-        Vue.set(vm.GT_UVWR1_Z3.data[4 - index], 1, value.demand_freq.value)
+        Vue.set(vm.GT_UVWR1_Z3.data[5 - index], 0, value.key)
+        Vue.set(vm.GT_UVWR1_Z3.data[5 - index], 1, value.demand_freq.value)
       })
     },
     //移动上周数据
@@ -197,29 +197,71 @@ export default {
       let vm = this
       //本土原创节目点播TOP10
       let local_program_type_data = newValue.data.responses[18].aggregations.program_type.buckets
-      local_program_type_data.forEach((value, index) => {
-        Vue.set(vm.GT_UVWR1_Z1.data[4 - index], 2, value.demand_freq.value)
-      })
+      setTimeout(() => {
+        let live_temp = vm.GT_UVWR1_Z1.data
+        live_temp.forEach((value, index) => {
+          if (index > 0) {
+            Vue.set(vm.GT_UVWR1_Z1.data[index], 2, 0)
+            // console.log("本土原创节目点播本周--", value)
+            local_program_type_data.forEach((value2, index2) => {
+              if (value2.key == value[0]) {
+                // console.log(value2.key, value2.demand_freq.value)
+                Vue.set(vm.GT_UVWR1_Z1.data[index], 2, Number((value2.demand_freq.value).toFixed(1)))
+              }
+            })
+          }
+        })
+      }, 500)
+      // local_program_type_data.forEach((value, index) => {
+      //   Vue.set(vm.GT_UVWR1_Z1.data[4 - index], 2, value.demand_freq.value)
+      // })
     },
     //联通上周数据
     api_data_m3_range(newValue, oldValue) {
-      console.log("移动上周数据", newValue)
+      console.log("联通上周数据", newValue)
       let vm = this
       //本土原创节目点播TOP10
       let local_program_type_data = newValue.data.responses[18].aggregations.program_type.buckets
-      local_program_type_data.forEach((value, index) => {
-        Vue.set(vm.GT_UVWR1_Z2.data[4 - index], 2, value.demand_freq.value)
-      })
+      setTimeout(() => {
+        let live_temp = vm.GT_UVWR1_Z2.data
+        live_temp.forEach((value, index) => {
+          if (index > 0) {
+            Vue.set(vm.GT_UVWR1_Z2.data[index], 2, 0)
+            // console.log("本土原创节目点播本周--", value)
+            local_program_type_data.forEach((value2, index2) => {
+              if (value2.key == value[0]) {
+                // console.log(value2.key, value2.demand_freq.value)
+                Vue.set(vm.GT_UVWR1_Z2.data[index], 2, Number((value2.demand_freq.value).toFixed(1)))
+              }
+            })
+          }
+        })
+      }, 500)
     },
     //电信上周数据
     api_data_m4_range(newValue, oldValue) {
-      console.log("移动上周数据", newValue)
+      console.log("电信上周数据", newValue)
       let vm = this
       //本土原创节目点播TOP10
       let local_program_type_data = newValue.data.responses[18].aggregations.program_type.buckets
-      local_program_type_data.forEach((value, index) => {
-        Vue.set(vm.GT_UVWR1_Z3.data[4 - index], 2, value.demand_freq.value)
-      })
+      setTimeout(() => {
+        let live_temp = vm.GT_UVWR1_Z3.data
+        live_temp.forEach((value, index) => {
+          if (index > 0) {
+            Vue.set(vm.GT_UVWR1_Z3.data[index], 2, 0)
+            // console.log("本土原创节目点播本周--", value)
+            local_program_type_data.forEach((value2, index2) => {
+              if (value2.key == value[0]) {
+                // console.log(value2.key, value2.demand_freq.value)
+                Vue.set(vm.GT_UVWR1_Z3.data[index], 2, Number((value2.demand_freq.value).toFixed(1)))
+              }
+            })
+          }
+        })
+      }, 500)
+      // local_program_type_data.forEach((value, index) => {
+      //   Vue.set(vm.GT_UVWR1_Z3.data[4 - index], 2, value.demand_freq.value)
+      // })
     },
   },
   mounted() {
@@ -323,7 +365,7 @@ export default {
         color: ["#A9D18E", "#EDEDED"],
         data: [
           // ["product",], [], [], [], [], [], [], [], [], [], []
-          ["product",], [], [], [], []
+          ["product",], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["少儿", 20, 20],
           // ["电影", 18, 18],
@@ -343,7 +385,7 @@ export default {
         height: "height:600px;",
         color: ["#5B9BD5", "#EDEDED"],
         data: [
-          ["product",], [], [], [], []
+          ["product",], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["少儿", 20, 20],
           // ["电影", 18, 18],
@@ -363,7 +405,7 @@ export default {
         height: "height:600px;",
         color: ["#FFC000", "#EDEDED"],
         data: [
-          ["product",], [], [], [], []
+          ["product",], [], [], [], [], []
           // ["product", "0527-0602", "0520-0526"],
           // ["少儿", 20, 20],
           // ["电影", 18, 18],

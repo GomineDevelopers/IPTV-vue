@@ -409,6 +409,8 @@ export default {
 
     //获取总的栏目分类数据
     getEpgProgramsTotal() {
+
+      this.value_others = null  //运营商改变时初始化下拉框内容
       let programs_yd_two = ["分类", "电视", "推荐", "vip", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
       // console.log(this.EPG_operator)
       let operator
@@ -500,14 +502,6 @@ export default {
         .catch(function (error) {
           console.info(error);
         });
-
-      // if (this.time.weekValue != '') {
-      //   // console.log("周选择", event)
-      //   this.timeChoose = event
-      //   this.time.monthValue = ''
-      // } else {
-      //   this.timeChoose = ''
-      // }
     },
 
     //时间 月 选项的控制

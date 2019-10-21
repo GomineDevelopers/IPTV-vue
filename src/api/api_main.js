@@ -642,6 +642,15 @@ export function epg(postData) {
     })
 }
 
+//epg box详细信息
+export function epg_box_content(postData) {
+    return request({
+        method: 'post',
+        url: '/epg/content',
+        data: postData
+    })
+}
+
 // let temp = {
 //     operator: operator,
 //     list: list,

@@ -126,7 +126,7 @@
     </el-row>
     <!-- ///////////////////////// E -->
     <el-row class="model_title">
-      <span class="title_border_left"></span>一周直播节目收视TOP15（百万小时）
+      <span class="title_border_left"></span>一周直播节目收视TOP15（万小时）
     </el-row>
     <el-row class="chart_body back_white m_marginbottom_pxA">
       <!-- 列表&条线图x3 -->
@@ -345,15 +345,16 @@ export default {
       let currentWeekFormat = WeekFormat.currentWeekFormat; // 本周时间
 
       //各大运营商在册用户数总览
-      Vue.set(vm.GT_UVWR1_A2.data[1], 1, (userBuckets.register_num.buckets[0].register_num.value / 10000).toFixed())
+      Vue.set(vm.GT_UVWR1_A2.data[1], 1, (userBuckets.register_num.buckets[0].register_num.value / 10000).toFixed(2))
       // console.log("vm.GT_UVWR1_A2移动运营商", vm.GT_UVWR1_A2)
 
       //各大运营商各市州一周新增在册用户数（户）
+      //各州市一周开机率
       let dataMudule_2 = data_yd[0].aggregations.ac.buckets
       dataMudule_2.forEach((value, index) => {
         if (index < 9) {
           // console.log("一周新增在册用户数temp", value, index)
-          let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(4)
+          let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(2)
           switch (value.key) {
             case '851':
               Vue.set(vm.GT_UVWR1_B2.data[1], 1, (value.new_num.value / 10000).toFixed(2))
@@ -445,11 +446,11 @@ export default {
       //移动本周开机率
       let current_open_num = userBuckets.open_num.value
       let current_register_num = userBuckets.register_num.buckets[0].register_num.value
-      let current_open_rate = (current_open_num / current_register_num) * 100
+      let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2)
       Vue.set(vm.GT_UVWR1_D1.data[0], 1, beforeWeekFormat)
       Vue.set(vm.GT_UVWR1_D1.data[0], 2, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate.toFixed(2))
-      // console.log("本周开机率", current_open_rate)
+      Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate)
+      // console.log("移动本周开机率", current_open_rate)
 
       //移动一周直播节目TOP15
       Vue.set(vm.GT_UVWR1_E1.data[0], 1, currentWeekFormat)
@@ -459,7 +460,7 @@ export default {
         let program_name = value.channel.buckets[0].key
         if (index < 15) {
           Vue.set(vm.GT_UVWR1_E1.data[15 - index], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E1.data[15 - index], 1, (value.onlive_dur.value / 1000000).toFixed(1))
+          Vue.set(vm.GT_UVWR1_E1.data[15 - index], 1, (value.onlive_dur.value / 10000 / 3600).toFixed(1))
         }
       })
       // console.log("移动一周直播节目TOP15", vm.GT_UVWR1_E1.data)
@@ -478,7 +479,7 @@ export default {
           Vue.set(vm.GT_UVWR1_F1.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
         }
       })
-      console.log("移动一周点播vm.GT_UVWR1_F1.data-----", vm.GT_UVWR1_F1.data)
+      // console.log("移动一周点播vm.GT_UVWR1_F1.data-----", vm.GT_UVWR1_F1.data)
 
     },
     //联通数据（本周）
@@ -509,7 +510,7 @@ export default {
         // let current_new_add_register_num = value.new_num.value  //本期新增
         if (index < 9) {
           // console.log("一周新增在册用户数temp", value, index)
-          let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(4)
+          let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(2)
           switch (value.key) {
             case '851':
               Vue.set(vm.GT_UVWR1_B2.data[1], 2, (value.new_num.value / 10000).toFixed(2))
@@ -599,8 +600,9 @@ export default {
       //联通本周开机率
       let current_open_num = userBuckets.open_num.value
       let current_register_num = userBuckets.register_num.buckets[0].register_num.value
-      let current_open_rate = (current_open_num / current_register_num) * 100
-      Vue.set(vm.GT_UVWR1_D1.data[2], 2, current_open_rate.toFixed(2))
+      let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2)
+      Vue.set(vm.GT_UVWR1_D1.data[2], 2, current_open_rate)
+      // console.log("联通开机率", current_open_rate)
 
       //联通用户本周直播节目收视TOP15
       Vue.set(vm.GT_UVWR1_E2.data[0], 1, currentWeekFormat)
@@ -611,7 +613,7 @@ export default {
         if (index < 15) {
           // console.log("联通本周收视数据top15", value)
           Vue.set(vm.GT_UVWR1_E2.data[15 - index], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 1, (value.onlive_dur.value / 1000000).toFixed(1))
+          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 1, (value.onlive_dur.value / 10000 / 3600).toFixed(1))
         }
       })
       // console.log(vm.GT_UVWR1_E1.data)
@@ -660,7 +662,7 @@ export default {
         // let current_new_add_register_num = value.new_num.value  //本期新增
         if (index < 9) {
           // console.log("一周新增在册用户数temp", value, index)
-          let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(4)
+          let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(2)
           switch (value.key) {
             case '851':
               Vue.set(vm.GT_UVWR1_B2.data[1], 3, (value.new_num.value / 10000).toFixed(2))
@@ -750,8 +752,9 @@ export default {
       //电信本周开机率
       let current_open_num = userBuckets.open_num.value
       let current_register_num = userBuckets.register_num.buckets[0].register_num.value
-      let current_open_rate = (current_open_num / current_register_num) * 100
-      Vue.set(vm.GT_UVWR1_D1.data[3], 2, current_open_rate.toFixed(2))
+      let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2)
+      Vue.set(vm.GT_UVWR1_D1.data[3], 2, current_open_rate)
+      // console.log("电信开机率", current_open_rate)
 
       //电信用户本周直播节目收视TOP15
       Vue.set(vm.GT_UVWR1_E3.data[0], 1, currentWeekFormat)
@@ -762,7 +765,7 @@ export default {
         if (index < 15) {
           // console.log("移动本周收视数据top15", value)
           Vue.set(vm.GT_UVWR1_E3.data[15 - index], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 1, (value.onlive_dur.value / 10000000).toFixed(1))
+          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 1, (value.onlive_dur.value / 10000 / 3600).toFixed(1))
         }
       })
 
@@ -806,7 +809,7 @@ export default {
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
                 // console.log(program_full, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_E1.data[index], 2, (value2.onlive_dur.value / 1000000).toFixed(1))
+                Vue.set(vm.GT_UVWR1_E1.data[index], 2, (value2.onlive_dur.value / 10000 / 3600).toFixed(1))
               }
             })
           }
@@ -862,7 +865,7 @@ export default {
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
                 // console.log(program_full,index, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_E2.data[index], 2, (value2.onlive_dur.value / 1000000).toFixed(1))
+                Vue.set(vm.GT_UVWR1_E2.data[index], 2, (value2.onlive_dur.value / 10000 / 3600).toFixed(1))
               }
             })
           }
@@ -915,7 +918,7 @@ export default {
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
                 // console.log(program_full, index2, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_E3.data[index], 2, (value2.onlive_dur.value / 1000000).toFixed(1))
+                Vue.set(vm.GT_UVWR1_E3.data[index], 2, (value2.onlive_dur.value / 10000 / 3600).toFixed(1))
               }
             })
           }
@@ -929,27 +932,19 @@ export default {
         demand_temp.forEach((value, index) => {
           if (index > 0) {
             Vue.set(vm.GT_UVWR1_F3.data[index], 2, 0)
-            console.log("本周点播", value)
+            // console.log("本周点播", value)
             order_paly_data.forEach((value2, index2) => {
               let program = value2.programname.buckets[0].key
               let program_name = value2.key
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
-                console.log("上周点播value2", program + '—' + program_name, value2.demand_freq.value)
+                // console.log("上周点播value2", program + '—' + program_name, value2.demand_freq.value)
                 Vue.set(vm.GT_UVWR1_F3.data[index], 2, (value2.demand_freq.value / 10000).toFixed(1))
               }
             })
           }
         })
       })
-      // order_paly_data.forEach((value, index) => {
-      //   if (index < 15) {
-      //     let program = value.programname.buckets[0].key
-      //     let program_name = value.key
-      //     // console.log("value", index, program + '—' + program_name, value.demand_freq.value)
-      //     Vue.set(vm.GT_UVWR1_F3.data[15 - index], 2, (value.demand_freq.value / 10000).toFixed(1))
-      //   }
-      // })
     },
   },
   computed: {
