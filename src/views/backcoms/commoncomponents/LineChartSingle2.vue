@@ -5,6 +5,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "LineChartSingle", //折线图
   props: {
@@ -16,16 +18,41 @@ export default {
   mounted() {
     // console.log(this.lineData)
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 1000);
+  },
+  computed: {
+    ...mapGetters([
+      "ADD_ALL_operator",
+      "ADD_ALL_week",
+      "ADD_ALL_month"
+    ])
   },
   watch: {
     lineData(newValue, oldValue) {
       // console.log("~~~~~~");
       // console.log(newValue);
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    ADD_ALL_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    ADD_ALL_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    ADD_ALL_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
         vm.setLineChart();
       }, 1000);
     }
@@ -90,7 +117,7 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function (params) {
+          formatter: function(params) {
             // console.log(params);
             let title = params[0].data[0];
 
@@ -103,7 +130,8 @@ export default {
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
-              return date_year +
+              return (
+                date_year +
                 date_month +
                 title +
                 "<br/>" +
@@ -111,6 +139,7 @@ export default {
                 t1 +
                 ":  " +
                 value1
+              );
             }
 
             let t2 = params[1].seriesName;

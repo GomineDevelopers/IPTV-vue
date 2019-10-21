@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 import OptionSelectValueAdd from "@/views/backcoms/valueaddedtotal/OptionSelectValueAdd"; //数据总览条件筛选
 import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件（新增用户概览）
 import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
@@ -76,28 +76,28 @@ export default {
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
       // console.log("ADD_ALL_operator: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_ALL_programa(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_programa: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_week: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_month: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 100);
     },
@@ -123,10 +123,15 @@ export default {
         operator: null,
         // list: null,
         start: null,
-        end: null
+        end: null,
+        year: null
       };
 
-      if (vm.ADD_ALL_week == null || vm.ADD_ALL_week == undefined || vm.ADD_ALL_week == "") {
+      if (
+        vm.ADD_ALL_week == null ||
+        vm.ADD_ALL_week == undefined ||
+        vm.ADD_ALL_week == ""
+      ) {
         return;
       }
       if (time_type == 1) {
@@ -175,69 +180,261 @@ export default {
       formData.append("year", temp.year);
 
       increment(formData)
-        .then(function (response) {
-          console.log("增值业务总览", response.data.responses);
-          let newUserdata = response.data.responses[0].aggregations.statistical_granularity.buckets  //新增用户概览
-          // let paidUserData = response.data.responses[0].aggregations.statistical_granularity.buckets  //新增付费用户占比
-          let dateYear;
-          let dateMonth;
-          let temp = {
-            title: "新增用户概览（户）",
-            id: "newUserTotal",
-            color: "#FF6123",
-            date_year: "",
-            date_month: "",
-            data: [
-              ["product"],
-              ["新增用户"],
-            ]
-          }
-          let paidTemp = {
-            title: "新增付费用户占比",
-            id: "newPayingUsers_ADD_ALL",
-            color: "#5E70F1",
-            date_year: "",
-            date_month: "",
-            data: [
-              ["product"],
-              ["新增付费用户占比"],
-              // ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
-              // ["新增用户占比", 3, 4, 3, 7, 9, 5, 8]
-            ]
-          }
-          newUserdata.forEach((value, index) => {
-            // console.log("新增业务item", value)
-            if (time_type == 1) {
-              console.log("周请求")
-              let date = new Date(value.key)
-              dateYear = date.getFullYear() + "年"
-              dateMonth = (date.getMonth() + 1) + "月"
-              temp.data[0].push(date.getDate() + '日')
-              paidTemp.data[0].push(date.getDate() + '日')
-              temp.data[1].push(value.new_num.value)
-              let newPaidRate = ((value.new_paid_num.value / value.new_num.value) * 100).toFixed(2)
-              paidTemp.data[1].push(newPaidRate)
-            }
-            if (time_type == 2) {
-              console.log("月请求")
-            }
-          })
-          //新增用户概览数据渲染开始
-          temp.date_year = dateYear
-          temp.date_month = dateMonth
-          vm.newUserTotal = temp
-          // console.log("新增用户概览数据为：", temp)
-          //新增用户概览数据渲染结束
+        .then(function(response) {
+          console.log(response);
+          try {
+            let buckets_0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets; //新增用户概览
+            let buckets_1 =
+              response.data.responses[1].aggregations.statistical_granularity
+                .buckets;
+            let length_0 = buckets_0.length;
+            let i_0;
+            // 新增在册用户	new_num
+            // 新增在册用户转化率	new2paid_rate
+            // 新增在册用户转化率	new_paid_num/new_num 新增用户中订购用户数/新增用户
+            // 新增收入	new_income
+            // 新增订购用户数	new_paid_num
+            let temp_newUserTotal = [["product"], ["新增用户"]]; // 1
+            let temp_newPayingUsersProportion = [["product"], ["新增用户占比"]]; // 2
+            let temp_subscribersData = [
+              ["product", "订购用户数（数）", "收入（万元）"] // 3
+            ];
 
-          //新增付费用户转化率开始
-          paidTemp.date_year = dateYear
-          paidTemp.date_month = dateMonth
-          vm.newPayingUsersProportion = paidTemp
-          console.log("新增付费用户转化率：", paidTemp)
-          // Vue.set(paidTemp.data, 1, dataList)
+            let temp_subcontractUserData = [
+              ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"]
+            ]; // 4
+            let temp_subcontractIncomeData = [
+              ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"]
+            ]; // 5
 
+            for (i_0 = 0; i_0 < length_0; i_0++) {
+              if (time_type == 1) {
+                // 1
+                try {
+                  temp_newUserTotal[0].push(buckets_0[i_0].key);
+                } catch (error) {
+                  console.log(error);
+                }
+                // 2
+                try {
+                  temp_newPayingUsersProportion[0].push(buckets_0[i_0].key);
+                } catch (error) {
+                  console.log(error);
+                }
+                // 3
+                try {
+                  temp_subscribersData.push([]);
+                  Vue.set(temp_subscribersData[i_0 + 1], 0, buckets_0[i_0].key);
+                } catch (error) {
+                  console.log(error);
+                }
+                // 4
+                try {
+                  temp_subcontractUserData.push([]);
+                  Vue.set(
+                    temp_subcontractUserData[i_0 + 1],
+                    0,
+                    buckets_0[i_0].key
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 5
+                try {
+                  temp_subcontractIncomeData.push([]);
+                  Vue.set(
+                    temp_subcontractIncomeData[i_0 + 1],
+                    0,
+                    buckets_0[i_0].key
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+              } // if
+              if (time_type == 2) {
+                // 1
+                try {
+                  temp_newUserTotal[0].push(
+                    commonTools.format_weekToChinese(buckets_0[i_0].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 2
+                try {
+                  temp_newPayingUsersProportion[0].push(
+                    commonTools.format_weekToChinese(buckets_0[i_0].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 3
+                try {
+                  temp_subscribersData.push([]);
+                  Vue.set(
+                    temp_subscribersData[i_0 + 1],
+                    0,
+                    commonTools.format_weekToChinese(buckets_0[i_0].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 4
+                try {
+                  temp_subcontractUserData.push([]);
+                  Vue.set(
+                    temp_subcontractUserData[i_0 + 1],
+                    0,
+                    commonTools.format_weekToChinese(buckets_0[i_0].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 5
+                try {
+                  temp_subcontractIncomeData.push([]);
+                  Vue.set(
+                    temp_subcontractIncomeData[i_0 + 1],
+                    0,
+                    commonTools.format_weekToChinese(buckets_0[i_0].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+              } // if
+
+              // 1
+              try {
+                temp_newUserTotal[1].push(buckets_0[i_0].new_num.value);
+              } catch (error) {
+                console.log(error);
+              }
+              // 2
+              try {
+                temp_newPayingUsersProportion[1].push(
+                  buckets_0[i_0].new_paid_num.value /
+                    buckets_0[i_0].new_num.value
+                );
+              } catch (error) {
+                console.log(error);
+              }
+              // 3
+              try {
+                Vue.set(
+                  temp_subscribersData[i_0 + 1],
+                  1,
+                  buckets_0[i_0].new_paid_num.value
+                );
+                Vue.set(
+                  temp_subscribersData[i_0 + 1],
+                  2,
+                  buckets_0[i_0].new_income.value / 10000
+                );
+              } catch (error) {
+                console.log(error);
+              }
+
+              function Return_KeyValue_npn(key, index_date) {
+                try {
+                  let buckets_package =
+                    buckets_1[index_date].value_added_service_package.buckets; // 用 buckets_1
+                  let length_package = buckets_package.length;
+                  let i_package;
+                  if (length_package == 0) {
+                    return 0;
+                  }
+                  for (i_package = 0; i_package < length_package; i_package++) {
+                    if (buckets_package[i_package].key == key) {
+                      return buckets_package[i_package].new_paid_num.value;
+                      break;
+                    }
+                  }
+                } catch (error) {
+                  console.log(error);
+                  return 0;
+                }
+                // return 0;
+              }
+              function Return_KeyValue_ni(key, index_date) {
+                try {
+                  let buckets_package =
+                    buckets_1[index_date].value_added_service_package.buckets; // 用 buckets_1
+                  let length_package = buckets_package.length;
+                  let i_package;
+                  if (length_package == 0) {
+                    return 0;
+                  }
+                  for (i_package = 0; i_package < length_package; i_package++) {
+                    if (buckets_package[i_package].key == key) {
+                      return buckets_package[i_package].new_income.value;
+                      break;
+                    }
+                  }
+                } catch (error) {
+                  console.log(error);
+                  return 0;
+                }
+                // return 0;
+              }
+              // 4
+              try {
+                Vue.set(
+                  temp_subcontractUserData[i_0 + 1],
+                  1,
+                  Return_KeyValue_npn("欢乐家庭VIP", i_0)
+                );
+                Vue.set(
+                  temp_subcontractUserData[i_0 + 1],
+                  2,
+                  Return_KeyValue_npn("少儿VIP", i_0)
+                );
+                Vue.set(
+                  temp_subcontractUserData[i_0 + 1],
+                  3,
+                  Return_KeyValue_npn("影视VIP", i_0)
+                );
+              } catch (error) {
+                console.log(error);
+              }
+              // 5
+              try {
+                Vue.set(
+                  temp_subcontractIncomeData[i_0 + 1],
+                  1,
+                  Return_KeyValue_ni("欢乐家庭VIP", i_0)
+                );
+                Vue.set(
+                  temp_subcontractIncomeData[i_0 + 1],
+                  2,
+                  Return_KeyValue_ni("少儿VIP", i_0)
+                );
+                Vue.set(
+                  temp_subcontractIncomeData[i_0 + 1],
+                  3,
+                  Return_KeyValue_ni("影视VIP", i_0)
+                );
+              } catch (error) {
+                console.log(error);
+              }
+            }
+            vm.newUserTotal.data = [];
+            vm.newPayingUsersProportion.data = [];
+            vm.subscribersData.data = [];
+            vm.subcontractUserData.data = [];
+            vm.subcontractIncomeData.data = [];
+
+            vm.newUserTotal.data = temp_newUserTotal;
+            vm.newPayingUsersProportion.data = temp_newPayingUsersProportion;
+            vm.subscribersData.data = temp_subscribersData;
+            vm.subcontractUserData.data = temp_subcontractUserData;
+            vm.subcontractIncomeData.data = temp_subcontractIncomeData;
+          } catch (error) {
+            console.log(error);
+          }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }
@@ -252,23 +449,39 @@ export default {
   data() {
     return {
       //新增用户概览数据
-      newUserTotal: {},
+      newUserTotal: {
+        title: "新增用户概览（户）",
+        id: "newUserTotal",
+        color: "#FF6123",
+        data: [
+          // ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
+          // ["新增用户", 140, 170, 180, 200, 234, 240, 259]
+        ]
+      },
       //新增付费用户占比
-      newPayingUsersProportion: {},
+      newPayingUsersProportion: {
+        title: "新增付费用户占比",
+        id: "newPayingUsers",
+        color: "#5E70F1",
+        data: [
+          // ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
+          // ["新增用户占比", 3, 4, 3, 7, 9, 5, 8]
+        ]
+      },
       //订购用户数据
       subscribersData: {
         title: "订购用户",
         id: "subscribersUser",
         color: ["#FF6123", "#FFAA89"],
         data: [
-          ["product", "订购用户数（数）", "收入（元）"],
-          ["15日", 4330, 1563],
-          ["16日", 8300, 1457],
-          ["17日", 8600, 1896],
-          ["18日", 7242, 1457],
-          ["19日", 4337, 1123],
-          ["20日", 8310, 1245],
-          ["21日", 8665, 1234]
+          // ["product", "订购用户数（数）", "收入（元）"],
+          // ["15日", 4330, 1563],
+          // ["16日", 8300, 1457],
+          // ["17日", 8600, 1896],
+          // ["18日", 7242, 1457],
+          // ["19日", 4337, 1123],
+          // ["20日", 8310, 1245],
+          // ["21日", 8665, 1234]
         ]
       },
       //分包用户数据
@@ -277,14 +490,14 @@ export default {
         id: "subcontractUser",
         color: ["#FF6123", "#f97d4c", "#FFAA89"],
         data: [
-          ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"],
-          ["15日", 4330, 3563, 3337],
-          ["16日", 8300, 6457, 2330],
-          ["17日", 8600, 7896, 1457],
-          ["18日", 7242, 5457, 4310],
-          ["19日", 4337, 1123, 3665],
-          ["20日", 8310, 5245, 4234],
-          ["21日", 8665, 7234, 2234]
+          // ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"],
+          // ["15日", 4330, 3563, 3337],
+          // ["16日", 8300, 6457, 2330],
+          // ["17日", 8600, 7896, 1457],
+          // ["18日", 7242, 5457, 4310],
+          // ["19日", 4337, 1123, 3665],
+          // ["20日", 8310, 5245, 4234],
+          // ["21日", 8665, 7234, 2234]
         ]
       },
       //分包收入数据
@@ -293,14 +506,14 @@ export default {
         id: "subcontractIncome",
         color: ["#FF6123", "#f97d4c", "#FFAA89"],
         data: [
-          ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"],
-          ["15日", 4330, 3563, 2337],
-          ["16日", 8300, 6457, 1330],
-          ["17日", 8600, 7896, 2457],
-          ["18日", 7242, 5457, 3310],
-          ["19日", 4337, 1123, 1665],
-          ["20日", 8310, 5245, 2234],
-          ["21日", 8665, 7234, 1234]
+          // ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"],
+          // ["15日", 4330, 3563, 2337],
+          // ["16日", 8300, 6457, 1330],
+          // ["17日", 8600, 7896, 2457],
+          // ["18日", 7242, 5457, 3310],
+          // ["19日", 4337, 1123, 1665],
+          // ["20日", 8310, 5245, 2234],
+          // ["21日", 8665, 7234, 1234]
         ]
       }
     };

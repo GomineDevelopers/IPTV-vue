@@ -15,16 +15,34 @@ export default {
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
     lineData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
+    ADD_ALL_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    ADD_ALL_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    ADD_ALL_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    }
     // ULC_region(newValue, oldValue) {
     //   let vm = this;
     //   setTimeout(function () {
@@ -64,10 +82,13 @@ export default {
       "ULC_operator",
       "ULC_day",
       "ULC_week",
-      "ULC_month"
+      "ULC_month",
+      "ADD_ALL_operator",
+      "ADD_ALL_week",
+      "ADD_ALL_month"
     ]),
     lineData_Change: {
-      get: function () {
+      get: function() {
 
         var vm = this;
         if (vm.lineData.id == "newPayingUsers") {
@@ -181,7 +202,7 @@ export default {
 
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("newPayingUsers 视图更新");
 
             vm.setLineChart();
@@ -221,7 +242,7 @@ export default {
             // console.log(data);
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             vm.setLineChart();
           }, 2000);
           return {
@@ -248,12 +269,12 @@ export default {
           }
         }
         // 视图更新
-        setTimeout(function () {
+        setTimeout(function() {
           vm.setLineChart();
         }, 2000);
         return vm.lineData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   data() {
@@ -261,7 +282,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 2000);
   },
@@ -314,7 +335,7 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function (params) {
+          formatter: function(params) {
             // console.log(params);
 
             let length = params.length;
@@ -343,7 +364,7 @@ export default {
             let marker2 = params[1].marker;
             let value2 = params[1].data[2];
             let str_return = "";
-            str_return = (
+            str_return =
               title +
               "<br/>" +
               marker1 +
@@ -356,8 +377,7 @@ export default {
               t2 +
               ":  " +
               value2 +
-              "%"
-            )
+              "%";
             if (length == 2) {
               return str_return;
             }
@@ -365,12 +385,7 @@ export default {
             let t3 = params[2].seriesName;
             let marker3 = params[2].marker;
             let value3 = params[2].data[3];
-            str_return += ("<br/>" +
-              marker3 +
-              t3 +
-              ":  " +
-              value3 +
-              "%")
+            str_return += "<br/>" + marker3 + t3 + ":  " + value3 + "%";
 
             if (length == 3) {
               return str_return;
@@ -379,12 +394,7 @@ export default {
             let t4 = params[3].seriesName;
             let marker4 = params[3].marker;
             let value4 = params[3].data[4];
-            str_return += ("<br/>" +
-              marker4 +
-              t4 +
-              ":  " +
-              value4 +
-              "%")
+            str_return += "<br/>" + marker4 + t4 + ":  " + value4 + "%";
             if (length == 4) {
               return str_return;
             }
@@ -392,12 +402,7 @@ export default {
             let t5 = params[4].seriesName;
             let marker5 = params[4].marker;
             let value5 = params[4].data[5];
-            str_return += ("<br/>" +
-              marker5 +
-              t5 +
-              ":  " +
-              value5 +
-              "%")
+            str_return += "<br/>" + marker5 + t5 + ":  " + value5 + "%";
             if (length == 5) {
               return str_return;
             }

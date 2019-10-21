@@ -750,18 +750,59 @@ export default {
       );
 
       Vue.set(m3_0.row10, 0, "其他"); // 没有“贵安”，写其他
-      Vue.set(m3_0.row1, 2, buckets_3_0_yd[0].register_num.value);
-      Vue.set(m3_0.row2, 1, buckets_3_0_yd[1].register_num.value);
-      Vue.set(m3_0.row3, 1, buckets_3_0_yd[2].register_num.value);
-      Vue.set(m3_0.row4, 1, buckets_3_0_yd[3].register_num.value);
-      Vue.set(m3_0.row5, 1, buckets_3_0_yd[4].register_num.value);
-      Vue.set(m3_0.row6, 1, buckets_3_0_yd[5].register_num.value);
-      Vue.set(m3_0.row7, 1, buckets_3_0_yd[6].register_num.value);
-      Vue.set(m3_0.row8, 1, buckets_3_0_yd[7].register_num.value);
-      Vue.set(m3_0.row9, 1, buckets_3_0_yd[8].register_num.value);
-      Vue.set(m3_0.row10, 1, buckets_3_0_yd[9].register_num.value);
+      Vue.set(
+        m3_0.row1,
+        2,
+        buckets_3_0_yd[0].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row2,
+        1,
+        buckets_3_0_yd[1].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row3,
+        1,
+        buckets_3_0_yd[2].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row4,
+        1,
+        buckets_3_0_yd[3].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row5,
+        1,
+        buckets_3_0_yd[4].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row6,
+        1,
+        buckets_3_0_yd[5].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row7,
+        1,
+        buckets_3_0_yd[6].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row8,
+        1,
+        buckets_3_0_yd[7].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row9,
+        1,
+        buckets_3_0_yd[8].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m3_0.row10,
+        1,
+        buckets_3_0_yd[9].register_num.buckets[0].register_num.value
+      );
       for (i_3_1 = 0; i_3_1 < length_3_1; i_3_1++) {
-        sum_3_1_all_rn += buckets_3_0_yd[i_3_1].register_num.value;
+        sum_3_1_all_rn +=
+          buckets_3_0_yd[i_3_1].register_num.buckets[0].register_num.value;
       }
 
       Vue.set(
@@ -983,18 +1024,59 @@ export default {
       );
 
       Vue.set(m4_0.row10, 0, "其他"); // 没有“贵安”，写其他
-      Vue.set(m4_0.row1, 2, buckets_4_0_lt[0].register_num.value);
-      Vue.set(m4_0.row2, 1, buckets_4_0_lt[1].register_num.value);
-      Vue.set(m4_0.row3, 1, buckets_4_0_lt[2].register_num.value);
-      Vue.set(m4_0.row4, 1, buckets_4_0_lt[3].register_num.value);
-      Vue.set(m4_0.row5, 1, buckets_4_0_lt[4].register_num.value);
-      Vue.set(m4_0.row6, 1, buckets_4_0_lt[5].register_num.value);
-      Vue.set(m4_0.row7, 1, buckets_4_0_lt[6].register_num.value);
-      Vue.set(m4_0.row8, 1, buckets_4_0_lt[7].register_num.value);
-      Vue.set(m4_0.row9, 1, buckets_4_0_lt[8].register_num.value);
-      Vue.set(m4_0.row10, 1, buckets_4_0_lt[9].register_num.value);
+      Vue.set(
+        m4_0.row1,
+        2,
+        buckets_4_0_lt[0].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row2,
+        1,
+        buckets_4_0_lt[1].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row3,
+        1,
+        buckets_4_0_lt[2].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row4,
+        1,
+        buckets_4_0_lt[3].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row5,
+        1,
+        buckets_4_0_lt[4].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row6,
+        1,
+        buckets_4_0_lt[5].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row7,
+        1,
+        buckets_4_0_lt[6].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row8,
+        1,
+        buckets_4_0_lt[7].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row9,
+        1,
+        buckets_4_0_lt[8].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m4_0.row10,
+        1,
+        buckets_4_0_lt[9].register_num.buckets[0].register_num.value
+      );
       for (i_4_1 = 0; i_4_1 < length_4_1; i_4_1++) {
-        sum_4_1_all_rn += buckets_4_0_lt[i_4_1].register_num.value;
+        sum_4_1_all_rn +=
+          buckets_4_0_lt[i_4_1].register_num.buckets[0].register_num.value;
       }
 
       Vue.set(
@@ -1217,18 +1299,59 @@ export default {
       );
 
       Vue.set(m5_0.row10, 0, "其他"); // 没有“贵安”，写其他
-      Vue.set(m5_0.row1, 2, buckets_5_0_dx[0].register_num.value);
-      Vue.set(m5_0.row2, 1, buckets_5_0_dx[1].register_num.value);
-      Vue.set(m5_0.row3, 1, buckets_5_0_dx[2].register_num.value);
-      Vue.set(m5_0.row4, 1, buckets_5_0_dx[3].register_num.value);
-      Vue.set(m5_0.row5, 1, buckets_5_0_dx[4].register_num.value);
-      Vue.set(m5_0.row6, 1, buckets_5_0_dx[5].register_num.value);
-      Vue.set(m5_0.row7, 1, buckets_5_0_dx[6].register_num.value);
-      Vue.set(m5_0.row8, 1, buckets_5_0_dx[7].register_num.value);
-      Vue.set(m5_0.row9, 1, buckets_5_0_dx[8].register_num.value);
-      Vue.set(m5_0.row10, 1, buckets_5_0_dx[9].register_num.value);
+      Vue.set(
+        m5_0.row1,
+        2,
+        buckets_5_0_dx[0].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row2,
+        1,
+        buckets_5_0_dx[1].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row3,
+        1,
+        buckets_5_0_dx[2].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row4,
+        1,
+        buckets_5_0_dx[3].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row5,
+        1,
+        buckets_5_0_dx[4].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row6,
+        1,
+        buckets_5_0_dx[5].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row7,
+        1,
+        buckets_5_0_dx[6].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row8,
+        1,
+        buckets_5_0_dx[7].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row9,
+        1,
+        buckets_5_0_dx[8].register_num.buckets[0].register_num.value
+      );
+      Vue.set(
+        m5_0.row10,
+        1,
+        buckets_5_0_dx[9].register_num.buckets[0].register_num.value
+      );
       for (i_5_1 = 0; i_5_1 < length_5_1; i_5_1++) {
-        sum_5_1_all_rn += buckets_5_0_dx[i_5_1].register_num.value;
+        sum_5_1_all_rn +=
+          buckets_5_0_dx[i_5_1].register_num.buckets[0].register_num.value;
       }
 
       Vue.set(
@@ -1809,7 +1932,8 @@ export default {
 
       for (
         i_8_2_package = 0;
-        i_8_2_package < length_8_2_package;
+        // i_8_2_package < length_8_2_package;
+        i_8_2_package < 9; // 固定值 x9
         i_8_2_package++
       ) {
         // m8_0.title1.push(buckets_8_2_package[i_8_2_package].key);
@@ -1817,7 +1941,29 @@ export default {
         m8_0.title2.push("收入");
       }
       // title1 固定传入 （后台“包”有不全情况） //以包传 包x9 //以日传 包x7
-      m8_0.title1.push("欢乐家庭VIP包年","欢乐家庭VIP包季","欢乐家庭VIP","影视VIP包年","影视VIP包季","影视VIP");
+      let title1_arr = [
+        "欢乐家庭VIP包年",
+        "欢乐家庭VIP包季",
+        "欢乐家庭VIP",
+        "影视VIP包年",
+        "影视VIP包季",
+        "影视VIP",
+        "少儿VIP包年",
+        "少儿VIP包季",
+        "少儿VIP"
+      ];
+      let title_length9 = 9;
+      m8_0.title1.push(
+        "欢乐家庭VIP包年",
+        "欢乐家庭VIP包季",
+        "欢乐家庭VIP",
+        "影视VIP包年",
+        "影视VIP包季",
+        "影视VIP",
+        "少儿VIP包年",
+        "少儿VIP包季",
+        "少儿VIP"
+      );
 
       m8_0.title1.push("合计");
       m8_0.title2.push("订购数");
@@ -1828,170 +1974,275 @@ export default {
       // 1~20
       // 0:0~1 1:2~3  9:19~20
       // n:2n+1~2n+2
+      function return_KeyValue(key, index_date) {
+        let npn = 0;
+        let ni = 0;
+        console.log("~~~~~~~~~~~return_KeyValue");
+        console.log("~~~~~~~~~~~" + key);
+        console.log("~~~~~~~~~~~" + String(index_date));
+        console.log("~~~~~~~~~~~");
+
+        try {
+          let i_temp_r = 0;
+          for (
+            i_temp_r = 0;
+            // i_temp_r < length_8_2_package;
+            i_temp_r < title_length9; //需要用最长的9
+            i_temp_r++
+          ) {
+            if (
+              buckets_8_2[index_date].value_added_service_package.buckets
+                .length > 0
+            ) {
+              if (
+                buckets_8_2[index_date].value_added_service_package.buckets[
+                  i_temp_r
+                ].key == key
+              ) {
+                npn =
+                  buckets_8_2[index_date].value_added_service_package.buckets[
+                    i_temp_r
+                  ].new_paid_num.value;
+                ni =
+                  buckets_8_2[index_date].value_added_service_package.buckets[
+                    i_temp_r
+                  ].new_income.value;
+              }
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        return {
+          npn: npn,
+          ni: ni
+        };
+      }
+
+      // 数值： 7天固定  对应 9种包固定
+      let i_8_temp = 0;
       for (
-        i_8_2_package = 0;
-        i_8_2_package < length_8_2_package;
-        i_8_2_package++
+        i_8_temp = 0;
+        // i_8_temp < length_8_2_package;
+        i_8_temp < title_length9; // 固定x9
+        i_8_temp++
       ) {
         Vue.set(
           m8_0.row1,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[0].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
-        ); //
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 0).npn
+        );
         Vue.set(
           m8_0.row1,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[0].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
-        ); //
-        Vue.set(
-          m8_0.row2,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[1].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 0).ni
         );
         Vue.set(
           m8_0.row2,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[1].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 1).npn
+        );
+        Vue.set(
+          m8_0.row2,
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 1).ni
         );
         Vue.set(
           m8_0.row3,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[2].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 2).npn
         );
         Vue.set(
           m8_0.row3,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[2].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 2).ni
         );
         Vue.set(
           m8_0.row4,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[3].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 3).npn
         );
         Vue.set(
           m8_0.row4,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[3].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 3).ni
         );
         Vue.set(
           m8_0.row5,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[4].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 4).npn
         );
         Vue.set(
           m8_0.row5,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[4].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 4).ni
         );
         Vue.set(
           m8_0.row6,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[5].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 5).npn
         );
         Vue.set(
           m8_0.row6,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[5].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 5).ni
         );
         Vue.set(
           m8_0.row7,
-          i_8_2_package * 2 + 1,
-          buckets_8_2[6].value_added_service_package.buckets[i_8_2_package]
-            .new_paid_num.value
+          i_8_temp * 2 + 1,
+          return_KeyValue(title1_arr[i_8_temp], 6).npn
         );
         Vue.set(
           m8_0.row7,
-          i_8_2_package * 2 + 2,
-          buckets_8_2[6].value_added_service_package.buckets[i_8_2_package]
-            .new_income.value
+          i_8_temp * 2 + 2,
+          return_KeyValue(title1_arr[i_8_temp], 6).ni
         );
       }
+
+      // Vue.set(
+      //   m8_0.row1,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包年", 0).npn
+      // );
+      // Vue.set(
+      //   m8_0.row1,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包年", 0).ni
+      // );
+      // Vue.set(
+      //   m8_0.row2,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包季", 1).npn
+      // );
+      // Vue.set(
+      //   m8_0.row2,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包季", 1).ni
+      // );
+      // Vue.set(
+      //   m8_0.row3,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包季", 2).npn
+      // );
+      // Vue.set(
+      //   m8_0.row3,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包季", 2).ni
+      // );
+      // Vue.set(
+      //   m8_0.row4,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包季", 3).npn
+      // );
+      // Vue.set(
+      //   m8_0.row4,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包季", 3).ni
+      // );
+      // Vue.set(
+      //   m8_0.row5,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包季", 4).npn
+      // );
+      // Vue.set(
+      //   m8_0.row5,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包季", 4).ni
+      // );
+      // Vue.set(
+      //   m8_0.row6,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包季", 5).npn
+      // );
+      // Vue.set(
+      //   m8_0.row6,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包季", 5).ni
+      // );
+      // Vue.set(
+      //   m8_0.row7,
+      //   i_8_temp * 2 + 1,
+      //   return_KeyValue("欢乐家庭VIP包季", 6).npn
+      // );
+      // Vue.set(
+      //   m8_0.row7,
+      //   i_8_temp * 2 + 2,
+      //   return_KeyValue("欢乐家庭VIP包季", 6).ni
+      // );
 
       // 横向合计（后台已经解决） - 某天的所有包的和（分为订购数 和 收入）
       Vue.set(
         m8_0.row1,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[0].new_paid_num.value
       ); //
       Vue.set(
         m8_0.row1,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[0].new_income.value
       ); //
       Vue.set(
         m8_0.row2,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[1].new_paid_num.value
       );
       Vue.set(
         m8_0.row2,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[1].new_income.value
       );
       Vue.set(
         m8_0.row3,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[2].new_paid_num.value
       );
       Vue.set(
         m8_0.row3,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[2].new_income.value
       );
       Vue.set(
         m8_0.row4,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[3].new_paid_num.value
       );
       Vue.set(
         m8_0.row4,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[3].new_income.value
       );
       Vue.set(
         m8_0.row5,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[4].new_paid_num.value
       );
       Vue.set(
         m8_0.row5,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[4].new_income.value
       );
       Vue.set(
         m8_0.row6,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[5].new_paid_num.value
       );
       Vue.set(
         m8_0.row6,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[5].new_income.value
       );
       Vue.set(
         m8_0.row7,
-        length_8_2_package * 2 + 1,
+        title_length9 * 2 + 1,
         buckets_8_2[6].new_paid_num.value
       );
       Vue.set(
         m8_0.row7,
-        length_8_2_package * 2 + 2,
+        title_length9 * 2 + 2,
         buckets_8_2[6].new_income.value
       );
 
-      // 竖向合计（后台已经解决） - 某包的7天的和（分为订购数 和 收入）
+      // // 竖向合计（后台已经解决） - 某包的7天的和（分为订购数 和 收入）
       let buckets_8_2_days =
         wd_dx[2].aggregations.value_added_service_package.buckets;
       let length_8_2_days = buckets_8_2_days.length;

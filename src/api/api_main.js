@@ -423,6 +423,13 @@ export function userAction_programs() {
     })
 }
 
+export function userAction_program_type() {
+    return request({
+        method: 'get',
+        url: '/userAction/program_type/list',
+    })
+}
+
 // 获取用户收视行为运营商
 // get http://{{iptv}}/api/userAction/operator
 

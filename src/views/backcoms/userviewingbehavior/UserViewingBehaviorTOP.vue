@@ -31,12 +31,26 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "UserViewingBehaviorTOP", //用户收视行为
   props: {
     viewingTopList: {
       type: Object
     }
+  },
+  computed: {
+    ...mapGetters([
+      "UVB_region",
+      "UVB_operator",
+      "UVB_playmode",
+      "UVB_programa",
+      "UVB_contenttype",
+      "UVB_day",
+      "UVB_week",
+      "UVB_picker"
+    ])
   },
   data() {
     return {
@@ -53,14 +67,63 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 100);
+      }, 1000);
+    },
+
+    UVB_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_playmode(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_contenttype(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
+    },
+    UVB_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 1000);
     }
   },
   mounted() {
     let vm = this;
     setTimeout(function() {
       vm.drawEcharts();
-    }, 100);
+    }, 1000);
   },
   methods: {
     drawEcharts() {
@@ -85,10 +148,9 @@ export default {
           i3: "节目",
           // i4: "次数（万）"
           i4: "次数"
-
         };
       }
-      this.scrollLoopUp(this.viewingTopList.id);
+      // this.scrollLoopUp(this.viewingTopList.id); // 滚动暂时关掉
     },
     scrollLoopUp: function(id) {
       var scrollBox = document.getElementById(id);

@@ -107,7 +107,9 @@ export default {
       "UVB_week",
       "UVB_picker",
       "UVB_time_type",
-      "UVB_programa_list"
+      "UVB_programa_list",
+      "UVB_target_type",
+      "UVB_programa_type_list"
     ]),
     ifPlaymodeShow_zb: {
       get: function() {
@@ -259,9 +261,33 @@ export default {
       setTimeout(function() {
         vm.refreshPerData();
       }, 200);
+    },
+    UVB_target_type(newValue, oldValue) {
+      let vm = this;
+      if (newValue == 1) {
+        vm.target = [
+          "观看次数",
+          "观看时长",
+          "观看户数",
+          "户均收视次数",
+          "次均收视次数"
+        ];
+      }
+      if (newValue == 0) {
+        vm.target = ["观看次数", "观看时长", "次均收视次数"];
+      }
+    },
+    UVB_programa_list(newValue, oldValue) {
+      let vm = this;
+      console.log("UVB_programa_list: " + newValue);
+      setTimeout(function() {
+        vm.refresh_api_data();
+        setTimeout(function() {
+          vm.refreshPerData();
+        }, 200);
+      }, 100);
     }
   },
-
   methods: {
     refreshPerData() {
       let vm = this;
@@ -673,6 +699,8 @@ export default {
           let i_1;
           let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
           let temp_data;
+          vm.liveViewingTopList.data = []; // 初始化
+
           for (i_1 = 0; i_1 < length_1; i_1++) {
             temp_data = {
               // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
@@ -701,6 +729,8 @@ export default {
           let i_2;
           let temp_max_value2 = buckets_2[0].watch_freq.value; // 取第一个为最大值
           let temp_data2;
+          vm.lookBackViewingTopList.data = []; // 初始化
+
           for (i_2 = 0; i_2 < length_2; i_2++) {
             temp_data2 = {
               // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
@@ -740,7 +770,8 @@ export default {
       }
       let temp_contenttype;
       if (vm.UVB_contenttype.length == 0) {
-        temp_contenttype = ["健康", "音乐"];
+        // temp_contenttype = ["健康", "音乐"];
+        temp_contenttype = vm.UVB_programa_type_list;
       } else {
         temp_contenttype = vm.UVB_contenttype;
       }
@@ -848,22 +879,44 @@ export default {
 
           function dataManage(ti_name) {
             for (i_ti = 0; i_ti < length_ti; i_ti++) {
-              if (buckets_ti[i_ti].key == ti_name) {
-                temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
-                temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
-                temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
-                temp4.push([ti_name, buckets_ti[i_ti].watch_freq_family.value]);
-                temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
+              try {
+                if (buckets_ti[i_ti].key == ti_name) {
+                  temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
+                  temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
+                  temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
+                  temp4.push([
+                    ti_name,
+                    buckets_ti[i_ti].watch_freq_family.value
+                  ]);
+                  temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
+                }
+              } catch (error) {
+                console.log(error);
               }
             }
           }
-
-          let length_pl = vm.UVB_programa_list.length;
-          let i_pl;
-          for (i_pl = 0; i_pl < length_pl; i_pl++) {
-            // 按照 UVB_programa_list 的顺序写入数据
-            dataManage(vm.UVB_programa_list[i_pl]);
+          // let length_pl = vm.UVB_programa_list.length;
+          let temp_programa_list;
+          if(vm.UVB_programa.length == 0){
+            temp_programa_list = vm.UVB_programa_list;
           }
+          else{
+            temp_programa_list = vm.UVB_programa;
+          }
+          let length_p = temp_programa_list.length;
+          let i_p;
+          // console.log("★★★★★★★★★★★★★");
+          // console.log(vm.UVB_programa_list)
+          // console.log(vm.UVB_programa);
+          for (i_p = 0; i_p < length_p; i_p++) {
+            // 按照 UVB_programa_list 的顺序写入数据
+            // dataManage(vm.UVB_programa_list[i_p]);
+            // dataManage(vm.UVB_programa[i_p]);
+            dataManage(temp_programa_list[i_p]);
+          }
+          console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+          console.log(temp1);
+          console.log(temp2);
 
           temp_all_C.push(temp1);
           temp_all_C.push(temp2);
@@ -881,6 +934,7 @@ export default {
           let i_top;
           let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
           let temp_data_top;
+          vm.orderViewingTopList.data = []; // 初始化
           for (i_top = 0; i_top < length_top; i_top++) {
             temp_data_top = {
               // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
@@ -961,13 +1015,14 @@ export default {
     return {
       targetOption: "", //存放选择的指标
       //选择指标数据
-      target: [
-        "观看次数",
-        "观看时长",
-        "观看户数",
-        "户均收视次数",
-        "次均收视次数"
-      ],
+      // target: [
+      //   "观看次数",
+      //   "观看时长",
+      //   "观看户数",
+      //   "户均收视次数",
+      //   "次均收视次数"
+      // ],
+      target: ["观看次数", "观看时长", "次均收视次数"],
       //地区数据
       regionData: {
         title: "地区",
@@ -1396,7 +1451,9 @@ export default {
   margin: 14px 0px;
 }
 .viewing_top15 {
-  height: 520px;
+  /* height: 520px; */
+  /* 暂时关掉滚动height切换 */
+  height: 760px;
   margin-bottom: 14px;
 }
 .last_viewing_top15 {

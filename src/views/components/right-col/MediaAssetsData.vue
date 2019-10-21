@@ -3,8 +3,8 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>媒资数据
     </el-row>
-    <el-row id="media_assets_data" :style="{width: '16vw',height: '16vh'}"></el-row>
-    <el-row class="MAD_bottom" :style="{width: '16vw',height: '16vh'}">
+    <el-row v-show="ifgetdata" id="media_assets_data" :style="{width: '16vw',height: '16vh'}"></el-row>
+    <el-row v-show="ifgetdata" class="MAD_bottom" :style="{width: '16vw',height: '16vh'}">
       <p class="content_title">总节目数量</p>
       <div class="content_con">
         <div class="content_numP">

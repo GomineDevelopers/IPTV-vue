@@ -195,7 +195,7 @@
 <script>
 import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
-import { userAction_programs } from "@/api/api_main";
+import { userAction_programs, userAction_program_type } from "@/api/api_main";
 
 var regionChoose_new = [];
 var regionChoose_old = [];
@@ -285,23 +285,29 @@ export default {
           console.info(error);
         });
     },
-    contenttypeChoose(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_UVB_contenttype", newValue)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-    },
+    // contenttypeChoose(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_UVB_contenttype", newValue)
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // },
     playmodeChoose(newValue, oldValue) {
       let vm = this;
       this.$store
         .dispatch("set_UVB_playmode", newValue)
         .then(function(response) {
           console.log(response);
+          vm.$store
+            .dispatch("set_UVB_target_type", "")
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
@@ -324,6 +330,12 @@ export default {
         .dispatch("set_UVB_contenttype", newValue)
         .then(function(response) {
           console.log(response);
+          vm.$store
+            .dispatch("set_UVB_target_type", "")
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
@@ -430,7 +442,9 @@ export default {
       programa_checkAll: false,
       programa_isIndeterminate: true,
 
-      contenttype: ["健康", "音乐"],
+      // contenttype: ["健康", "音乐"],
+      contenttype: [],
+
       contenttypeChoose: [],
       contenttype_checkAll: false,
       contenttype_isIndeterminate: true,
@@ -514,6 +528,33 @@ export default {
           console.info(error);
         });
     },
+    userAction_program_type() {
+      let vm = this;
+      userAction_program_type()
+        .then(function(response) {
+          console.log(response);
+          let buckets =
+            response.data.responses[0].aggregations.program_type.buckets;
+          let length = buckets.length;
+          let i;
+          let temp = [];
+          for (i = 0; i < length; i++) {
+            temp.push(buckets[i].key);
+          }
+          vm.contenttype = temp;
+          vm.$store
+            .dispatch("set_UVB_programa_type_list", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
     dayValue_change(event) {
       // console.log(event);
       // console.log(typeof event);
@@ -531,7 +572,14 @@ export default {
           console.log(response);
           vm.$store
             .dispatch("set_UVB_time_type", 1)
-            .then(function(response) {})
+            .then(function(response) {
+              vm.$store
+                .dispatch("set_UVB_target_type", "")
+                .then(function(response) {})
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
             .catch(function(error) {
               console.info(error);
             });
@@ -552,7 +600,14 @@ export default {
           console.log(response);
           vm.$store
             .dispatch("set_UVB_time_type", 2)
-            .then(function(response) {})
+            .then(function(response) {
+              vm.$store
+                .dispatch("set_UVB_target_type", "")
+                .then(function(response) {})
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
             .catch(function(error) {
               console.info(error);
             });
@@ -576,7 +631,14 @@ export default {
           console.log(response);
           vm.$store
             .dispatch("set_UVB_time_type", 3)
-            .then(function(response) {})
+            .then(function(response) {
+              vm.$store
+                .dispatch("set_UVB_target_type", "")
+                .then(function(response) {})
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
             .catch(function(error) {
               console.info(error);
             });
@@ -703,6 +765,8 @@ export default {
   mounted() {
     // 获取用户收视行为的栏目
     this.userAction_programs();
+    // 获取用户收视行为的内容类型
+    this.userAction_program_type();
 
     let vm = this;
 

@@ -4,7 +4,7 @@
       <!-- 注意是上月的数据 -->
       <span class="title_border_left"></span>忠诚用户（月）
     </el-row>
-    <el-row class="loyal_body">
+    <el-row v-show="ifgetdata" class="loyal_body">
       <el-col :span="16" class="height_auto" id="loyal_user"></el-col>
       <el-col :span="8" class="height_auto show_loyal_data">
         <div>
@@ -25,6 +25,9 @@
           </el-row>
         </div>
       </el-col>
+    </el-row>
+    <el-row v-show="!ifgetdata" class="exception_p">
+      <span class="exception_child">数据请求异常!</span>
     </el-row>
   </div>
 </template>
