@@ -31,12 +31,16 @@
         </div>
         <!-- 一级页面内容 -->
         <div class="pageOneContent" v-show="pageOneShow">
-          <epg-page-one :programesListOne="programesListOne"></epg-page-one>
+          <epg-page-one :programesListOne="programesListOne" v-show="oneShow"></epg-page-one>
+          <epg-page-one2 :programesListOne2="mobileProgramesListOne" v-show="!oneShow"></epg-page-one2>
         </div>
+
         <!-- 二级页面内容 -->
         <div class="pageTwoContent" v-show="pageTwoShow">
-          <epg-page-two :programesListTwo="programesListTwo"></epg-page-two>
+          <epg-page-two :programesListTwo="programesListTwo" v-show="oneShow"></epg-page-two>
+          <epg-page-one2 :programesListOne2="mobileProgramesListTwo" v-show="!oneShow"></epg-page-one2>
         </div>
+        <!-- <div v-for="(item,index) in box_content" :key="index">{{item}}</div> -->
       </el-row>
     </el-row>
     <!-- 栏目点击数据结束 -->
@@ -44,8 +48,9 @@
 </template>
 <script>
 import OptionSelectEPG from "../backcoms/epg/OptionSelectEPG";
-import EpgPageOne from "../backcoms/epg/EpgPageOne";
+import EpgPageOne2 from "../backcoms/epg/EpgPageOne2";
 import EpgPageTwo from "../backcoms/epg/EpgPageTwo";
+import EpgPageOne from "../backcoms/epg/EpgPageOne";
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
 import { epg, epg_box_content } from "@/api/api_main";
@@ -54,8 +59,9 @@ export default {
   name: "EPG", //EPG
   components: {
     "com-optionselectEGB": OptionSelectEPG,
-    "epg-page-one": EpgPageOne,
-    "epg-page-two": EpgPageTwo
+    "epg-page-one": EpgPageOne,  // 1.0版本
+    "epg-page-two": EpgPageTwo,  // 1.0版本
+    "epg-page-one2": EpgPageOne2,  //移动2.0版本的一级页面
   },
   computed: {
     ...mapGetters(["EPG_operator", "EPG_programa", "EPG_value_others", "EPG_week", "EPG_month", "EPG_time_type", "EPG_programa_type"])
@@ -115,65 +121,184 @@ export default {
   },
   data() {
     return {
-      pageOneShow: false,
-      pageTwoShow: false,
+      pageOneShow: false,  //大的一级页面
+      pageTwoShow: false,  //大的二级页面
+
+      oneShow: false,  //1.0 页面
+      // twoShow: false,  //2.0页面
+
       //一级页面数据
       programesListOne: [
-        [
-          { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
+        // [
+        //   { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box4_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box4_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box4_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
       ],
       //二级页面数据
       programesListTwo: [
-        [
-          { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-          { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-        ],
-        [
-          { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-        ],
-      ]
+        // [
+        //   { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box1_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box1_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box2_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box2_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box2_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box3_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_3', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_4', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        //   { title: 'box3_5', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
+        // ],
+        // [
+        //   { title: 'box4_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
+        // ],
+      ],
+
+      //移动2.0版本数据 一级页面
+      mobileProgramesListOne: [
+        // {
+        //   // classify: '搜索', 
+        //   title: 'box0_0',
+        //   // lastWeek: '361018', 
+        //   // thisWeek: '336859',
+        //   // chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '306px', left: '632px', height: '186px', top: '150px'
+        //   }
+        // },
+        // {
+        //   // classify: '个人中心', 
+        //   title: 'box0_1',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '88px', left: '1020px', height: '30px', top: '22px'
+        //   }
+        // },
+        // {
+        //   // classify: '帮助', 
+        //   title: 'box0_2',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '123px', left: '1122px', height: '30px', top: '22px'
+        //   }
+        // },
+        // {
+        //   title: 'box1_1',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '8px', height: '35px', top: '68px'
+        //   }
+        // },
+        // {
+        //   title: 'box1_2',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '114px', height: '35px', top: '68px'
+        //   }
+        // },
+        // {
+        //   title: 'box2_1',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '1075px', height: '35px', top: '68px'
+        //   }
+        // },
+        // {
+        //   title: 'box2_2',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '220px', height: '35px', top: '68px'
+        //   }
+        // },
+      ],
+      //移动2.0版本数据  二级页面
+      mobileProgramesListTwo: [
+        // {
+        //   // classify: '搜索', 
+        //   title: 'box0_0',
+        //   // lastWeek: '361018', 
+        //   // thisWeek: '336859',
+        //   // chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '306px', left: '632px', height: '186px', top: '150px'
+        //   }
+        // },
+        // {
+        //   // classify: '个人中心', 
+        //   title: 'box0_1',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '88px', left: '1020px', height: '30px', top: '22px'
+        //   }
+        // },
+        // {
+        //   // classify: '帮助', 
+        //   title: 'box0_2',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '123px', left: '1122px', height: '30px', top: '22px'
+        //   }
+        // },
+        // {
+        //   title: 'box1_1',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '8px', height: '35px', top: '68px'
+        //   }
+        // },
+        // {
+        //   title: 'box1_2',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '114px', height: '35px', top: '68px'
+        //   }
+        // },
+        // {
+        //   title: 'box2_1',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '1075px', height: '35px', top: '68px'
+        //   }
+        // },
+        // {
+        //   title: 'box2_2',
+        //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
+        //   style: {
+        //     position: 'absolute', width: '90px', left: '220px', height: '35px', top: '68px'
+        //   }
+        // },
+      ],
     };
   },
   methods: {
@@ -238,13 +363,6 @@ export default {
       // console.log("temp_week", temp_week, typeof (temp_week))
       // console.log("temp_month", temp_month, typeof (temp_month))
 
-      // if (temp_operator == undefined) {
-      //   return
-      // }
-      // if (temp_programa == undefined) {
-      //   return
-      // }
-
       if (temp.operator == null || temp.list == null || temp.date == null || temp.year == null) {
         console.log("请输入完整的查询条件")
         return
@@ -253,7 +371,6 @@ export default {
         return
       }
       console.log('temp', temp)
-
       // console.log("上周last_temp", last_temp)
 
       var formData = new FormData();
@@ -282,28 +399,19 @@ export default {
         last_date = temp.date.replace(/[^0-9]/ig, "") - 1
         last_temp.start = last_date + 'month'
       }
-      //current本周
-      // programesListOne: [
-      //   [
-      //     { classify: '搜索', title: 'box0_0', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-      //     { classify: '个人中心', title: 'box0_1', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' },
-      //     { classify: '帮助', title: 'box0_2', lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%' }
-      //   ],
-      // ]
       epg(formData)
         .then((response) => {
-          console.log("EPG页面box信息", response.data)
-          console.log("当前运营商temp.operator------", temp.operator)
-          let current = []
           if (this.EPG_operator[0] != "移动2.0") {
-            console.log("1.0版本选择0、2")
+            vm.oneShow = true,  //1.0 页面显示
+              console.log("1.0版本选择0")
             let box_data = response.data.responses[0].hits.hits
-            let box_arr = []
-            box_data.forEach((value, index) => {
-              console.log("~~~~~~~", value._source.areanumber)
-              last_temp.areanumber = value._source.areanumber
+            /*  */
+            let promise_list = []
 
-              //二次请求box详细信息
+            box_data.forEach((value, index) => {
+              let res_index = index
+              let areanumber = value._source.areanumber
+              last_temp.areanumber = areanumber
               var last_formData = new FormData();
               var last_formData = new window.FormData();
               last_formData.append("operator", String(last_temp.operator));
@@ -312,42 +420,140 @@ export default {
               last_formData.append("end", String(last_temp.end));
               last_formData.append("areanumber", String(last_temp.areanumber));
               last_formData.append("year", String(last_temp.year));
-              console.log("二次请求last_temp", last_temp.areanumber, last_temp)
-              epg_box_content(last_formData)
+              promise_list.push(epg_box_content(last_formData)
                 .then((response) => {
                   //此处是1.0版本 的box信息
                   let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
-                  console.log("box详细信息", click_freq_num)
+                  // console.log("box详细信息", click_freq_num)
+                  console.log("box名称：", areanumber)
                   click_freq_num.forEach((value2, index2) => {
                     console.log(index2, value2.key, value2.click_freq.value)
                   })
+                  //此处需要判断是否有上期数据
                   let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
-                  let current_click_freq_num = click_freq_num[1].click_freq.value   //本周点击数
+                  let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
                   let chain_index
                   if (last_click_freq_num != 0) {
                     //若上期数据不为 0，求环比
-                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(2)  //环比
+                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(2)  //����
                   } else {
                     chain_index = '-'
                   }
-                  box_arr.push({
+                  return {
                     classify: '',
-                    title: value._source.areanumber,
+                    title: areanumber,
                     lastWeek: last_click_freq_num,
                     thisWeek: current_click_freq_num,
                     chainIndex: chain_index + '%'
-                  })
+                  }
                   console.log("----------------------------")
                 })
-                .catch((error) => {
-                  console.log("EPG", error)
-                })
-              console.log("---------------------")
+              )
             })
+            // promise_All处理异步函数顺序
+            // 全部执行完之后再执行……
+            Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
+              // console.log(`执行完所有才OK，${res}`);
+              console.log(res)
+              let result = []
+              res.forEach((item) => {
+                if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
+                  result[Number(item.title.substring(3, item.title.indexOf('_')))] = []
+                }
+                result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
+              })
+              // console.log("result--------", result)
+              if (vm.EPG_programa_type == 2) {
+                vm.programesListTwo = result
+                console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
+              } else if (vm.EPG_programa_type == 1) {
+                vm.programesListOne = result
+                console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
+              }
 
-            console.log("所有box信息box_arr", box_arr)
+            });
+            // 执行完一个后就执行……
+            // Promise.race(list_pro).then(res=>{
+            //     console.log(`执行完第一个就OK，${res}`);     //返回值为第一个执行的数据
+            // });
+
           } else {
-            console.log("2.0版本选择1、3")
+            vm.oneShow = false,  //1.0 页面显示
+              console.log("2.0版本选择1")
+            // console.log("2.0版本box", response.data.responses[0])
+            let box_data = response.data.responses[1].hits.hits
+            /*  */
+            let promise_list = []
+
+            box_data.forEach((value, index) => {
+              console.log("2.0box位置", value)
+              let res_index = index
+              let areanumber = value._source.areanumber
+              last_temp.areanumber = areanumber
+              var last_formData = new FormData();
+              var last_formData = new window.FormData();
+              last_formData.append("operator", String(last_temp.operator));
+              last_formData.append("list", String(last_temp.list));
+              last_formData.append("start", String(last_temp.start));
+              last_formData.append("end", String(last_temp.end));
+              last_formData.append("areanumber", String(last_temp.areanumber));
+              last_formData.append("year", String(last_temp.year));
+              promise_list.push(epg_box_content(last_formData)
+                .then((response) => {
+                  //此处是1.0版本 的box信息
+                  let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
+                  // console.log("box详细信息", click_freq_num)
+                  console.log("box名称：", areanumber)
+                  // click_freq_num.forEach((value2, index2) => {
+                  //   console.log(index2, value2.key, value2.click_freq.value)
+                  // })
+                  //此处需要判断是否有上期数据
+                  let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
+                  let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
+                  let chain_index
+                  if (last_click_freq_num != 0) {
+                    //若上期数据不为 0，求环比
+                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(2)  //����
+                  } else {
+                    chain_index = '-'
+                  }
+                  return {
+                    classify: '',
+                    title: areanumber,
+                    lastWeek: last_click_freq_num,
+                    thisWeek: current_click_freq_num,
+                    chainIndex: chain_index + '%',
+                    style: {
+                      position: 'absolute', width: value._source.w + 'px', left: value._source.x + 'px', height: value._source.h + 'px', top: value._source.y + 'px'
+                    }
+                  }
+                  console.log("----------------------------")
+                })
+              )
+            })
+            // promise_All处理异步函数顺序
+            // 全部执行完之后再执行……
+            Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
+              // console.log(`执行完所有才OK，${res}`);
+              console.log(res)
+              // let result = []
+              // res.forEach((item) => {
+              //   if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
+              //     result[Number(item.title.substring(3, item.title.indexOf('_')))] = []
+              //   }
+              //   result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
+              // })
+              // console.log("result--------", result)
+
+              if (vm.EPG_programa_type == 2) {
+                vm.programesListTwo = res
+                console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
+              } else if (vm.EPG_programa_type == 1) {
+                vm.mobileProgramesListOne = res
+                console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
+              }
+            });
+
           }
         })
         .catch((error) => {

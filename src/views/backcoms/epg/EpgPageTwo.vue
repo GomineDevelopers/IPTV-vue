@@ -1,6 +1,11 @@
 <template>
-  <div class="epg_page_one epg_page_container">
-    <div class="epg_page_row" v-for="(item,index) in programesListTwo" :key="index + 'a'">
+  <div class="epg_page_one epg_page_container" v-show="programesListTwo.length !=0">
+    <div
+      class="epg_page_row"
+      v-for="(item,index) in programesListTwo"
+      :key="index + 'a'"
+      v-show="item"
+    >
       <div class="epg_page_col" v-for="(list,index2) in item" :key="index2 + 'b'">
         <ul>
           <li>
