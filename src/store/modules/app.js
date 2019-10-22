@@ -8,26 +8,57 @@ const app = {
         PR_assignReportNum: 4, // 默认：专区4
         PR_Report_index: 8,    // 默认专区 - 8（第8个）
 
-        ULC_region: [],
-        ULC_operator: [],
+        // ULC_region: [],
+        ULC_region: [
+            "贵阳",
+            "遵义",
+            "安顺",
+            "黔南",
+            "黔东南",
+            "铜仁",
+            "毕节",
+            "六盘水",
+            "黔西南"
+        ],
+
+        // ULC_operator: [],
+        ULC_operator: ["移动", "联通", "电信"],
+
         ULC_day: null,
         ULC_week: null,
         ULC_month: null,
         ULC_time_type: 0, // 0-未选择 1-天 2-周 3-月
-        UVB_region: [],
-        UVB_operator: [],
-        UVB_playmode: [],
+        // UVB_region: [],
+        UVB_region: [
+            "贵阳",
+            "遵义",
+            "安顺",
+            "黔南",
+            "黔东南",
+            "铜仁",
+            "毕节",
+            "六盘水",
+            "黔西南"
+        ],
+        // UVB_operator: [],
+        UVB_operator: ["移动", "联通", "电信"],
+
+        // UVB_playmode: [],
+        UVB_playmode: ["直播", "点播", "回看"],
+
         UVB_programa: [],
-        UVB_contenttype: [],
         UVB_day: null,
         UVB_week: null,
         UVB_picker: [],
         UVB_time_type: 0, // 0-未选择 1-天 2-周 3-范围
-        UVB_programa: [],
-        UVB_programa_list: [],
-        UVB_programa_type_list: [],
+        UVB_programa: [],  //  选中的栏目
+        UVB_programa_list: [], // api获取的栏目
+        UVB_contenttype: [], // 选中的内容类型
+        UVB_programa_type_list: [], // api获取的内容类型列表
         UVB_target_type: 0, // 默认-0-不显示  1-显示
-        PR_operator: [],
+        // PR_operator: [],
+        PR_operator: ["移动", "联通", "电信"],
+
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值
         PR_value_specialName: null,
@@ -43,21 +74,37 @@ const app = {
         EPG_time_type: 0, // 0-未选择 1-周 2-月
         EPG_programa_type: 0, //  0-未选择 1-固定 2-其他
 
-        ADD_ALL_operator: [],
+        // ADD_ALL_operator: [],
+        ADD_ALL_operator: ["移动"],
+
         ADD_ALL_programa: [],
         ADD_ALL_week: null,
         ADD_ALL_month: null,
         ADD_ALL_time_type: 0, // 0-未选择 1-周 2-月
-        ADD_VIP_region: [],
-        ADD_VIP_operator: [],
+        // ADD_VIP_region: [],
+        ADD_VIP_region: [
+            "贵阳",
+            "遵义",
+            "安顺",
+            "黔南",
+            "黔东南",
+            "铜仁",
+            "毕节",
+            "六盘水",
+            "黔西南"
+        ],
+
+        // ADD_VIP_operator: [],
+        ADD_VIP_operator: ["移动", "联通", "电信"],
+
         ADD_VIP_playmode: [],
-        ADD_VIP_programa: [],
         ADD_VIP_valueAddedPackage: null,
         ADD_VIP_day: null,
         ADD_VIP_week: null,
         ADD_VIP_picker: [],
         ADD_VIP_time_type: 0, // 0-未选择 1-天 2-周 3-范围
-        ADD_VIP_programa_list: [],
+        ADD_VIP_programa: [], // 选中
+        ADD_VIP_programa_list: [], // api获取
         ADD_VIP_package_list: [],
         ADD_VIP_target_type: 1, // 0-不显示  默认-1-显示 (与VUB的不同)
 

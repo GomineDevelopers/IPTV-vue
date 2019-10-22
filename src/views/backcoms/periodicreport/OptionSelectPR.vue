@@ -331,8 +331,12 @@ export default {
         "电信"
         // "其他"
       ],
-      operatorChoose: [],
-      operator_checkAll: false,
+      // operatorChoose: [],
+      operatorChoose: ["移动", "联通", "电信"],
+
+      // operator_checkAll: false,
+      operator_checkAll: true,
+
       operator_isIndeterminate: true,
       options_specialName: [
         // 专区专题名称 -- 先从后台获取
@@ -579,7 +583,8 @@ export default {
           // ]
           let temp_specialName = [];
           let buckets =
-            response.data.responses[0].aggregations.special_or_activity_name.buckets;
+            response.data.responses[0].aggregations.special_or_activity_name
+              .buckets;
           let length = buckets.length;
           let i;
           for (i = 0; i < length; i++) {
@@ -745,12 +750,7 @@ export default {
             .then(function(response) {
               vm.reportOption = reportName;
               vm.routerLink = routerLink;
-              if (reportName == "移动运营数据周报") {
-                vm.ifOperatorShow = false;
-              } else {
-                vm.ifOperatorShow = true;
-              }
-              if (reportName == "电信VIP增值业务专项分析") {
+              if (reportName == "移动运营数据周报" || reportName == "电信VIP增值业务专项分析") {
                 vm.ifOperatorShow = false;
               } else {
                 vm.ifOperatorShow = true;

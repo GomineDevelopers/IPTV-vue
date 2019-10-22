@@ -169,7 +169,9 @@ export default {
         "电信"
         // "其他"
       ],
-      operatorChoose: [],
+      // operatorChoose: [],
+      operatorChoose: ["移动"], //不涉及全选，默认第一个：移动
+
       operator_checkAll: false,
       operator_isIndeterminate: true,
 

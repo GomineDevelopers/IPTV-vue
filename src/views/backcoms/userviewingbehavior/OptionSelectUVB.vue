@@ -395,8 +395,22 @@ export default {
         "六盘水",
         "黔西南"
       ],
-      regionChoose: [],
-      region_checkAll: false,
+      // regionChoose: [],
+      regionChoose: [
+        "贵阳",
+        "遵义",
+        "安顺",
+        "黔南",
+        "黔东南",
+        "铜仁",
+        "毕节",
+        "六盘水",
+        "黔西南"
+      ],
+
+      // region_checkAll: false,
+      region_checkAll: true,
+
       region_isIndeterminate: true,
 
       operator: [
@@ -406,8 +420,12 @@ export default {
         "电信"
         // "其他"
       ],
-      operatorChoose: [],
-      operator_checkAll: false,
+      // operatorChoose: [],
+      operatorChoose: ["移动", "联通", "电信"],
+
+      // operator_checkAll: false,
+      operator_checkAll: true,
+
       operator_isIndeterminate: true,
 
       playmode: [
@@ -416,8 +434,12 @@ export default {
         "点播",
         "回看"
       ],
-      playmodeChoose: [],
-      playmode_checkAll: false,
+      // playmodeChoose: [],
+      playmodeChoose: ["直播", "点播", "回看"],
+
+      // playmode_checkAll: false,
+      playmode_checkAll: true,
+
       playmode_isIndeterminate: true,
 
       programa: [
@@ -438,15 +460,24 @@ export default {
         // "音乐",
         // "其他"
       ],
-      programaChoose: [],
-      programa_checkAll: false,
+
+      // programaChoose: [],
+      programaChoose: [], //需要从api获取值
+
+      // programa_checkAll: false,
+      programa_checkAll: true,
+
       programa_isIndeterminate: true,
 
       // contenttype: ["健康", "音乐"],
       contenttype: [],
 
-      contenttypeChoose: [],
-      contenttype_checkAll: false,
+      // contenttypeChoose: [],
+      contenttypeChoose: [],  //需要从api获取值
+
+      // contenttype_checkAll: false,
+      contenttype_checkAll: true,
+
       contenttype_isIndeterminate: true,
 
       time: {
@@ -658,6 +689,17 @@ export default {
             temp.push(buckets[i].key);
           }
           vm.programa = temp;
+          // ////
+          vm.programaChoose = temp;
+          vm.$store
+            .dispatch("set_UVB_programa", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+          // ////
           vm.$store
             .dispatch("set_UVB_programa_list", temp)
             .then(function(response) {
@@ -685,6 +727,17 @@ export default {
             temp.push(buckets[i].key);
           }
           vm.contenttype = temp;
+          // ////
+          vm.contenttypeChoose = temp;
+          vm.$store
+            .dispatch("set_UVB_contenttype", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+          // ////
           vm.$store
             .dispatch("set_UVB_programa_type_list", temp)
             .then(function(response) {

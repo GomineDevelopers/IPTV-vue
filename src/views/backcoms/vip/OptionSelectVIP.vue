@@ -358,8 +358,22 @@ export default {
         "六盘水",
         "黔西南"
       ],
-      regionChoose: [],
-      region_checkAll: false,
+      // regionChoose: [],
+      regionChoose: [
+        "贵阳",
+        "遵义",
+        "安顺",
+        "黔南",
+        "黔东南",
+        "铜仁",
+        "毕节",
+        "六盘水",
+        "黔西南"
+      ],
+
+      // region_checkAll: false,
+      region_checkAll: true,
+
       region_isIndeterminate: true,
       operator: [
         // "全部",
@@ -368,8 +382,12 @@ export default {
         "电信"
         // "其他"
       ],
-      operatorChoose: [],
-      operator_checkAll: false,
+      // operatorChoose: [],
+      operatorChoose: ["移动", "联通", "电信"],
+
+      // operator_checkAll: false,
+      operator_checkAll: true,
+
       operator_isIndeterminate: true,
       playmode: [
         // "总体",
@@ -397,8 +415,12 @@ export default {
         // "音乐",
         // "其他"
       ],
-      programaChoose: [],
-      programa_checkAll: false,
+      // programaChoose: [],
+      programaChoose: [], // 从api获取数据
+
+      // programa_checkAll: false,
+      programa_checkAll: true,
+
       programa_isIndeterminate: true,
       options_valueAddedPackage: [
         // {
@@ -625,6 +647,17 @@ export default {
             temp.push(buckets[i].key);
           }
           vm.programa = temp;
+          // ////
+          vm.programaChoose = temp;
+          vm.$store
+            .dispatch("set_ADD_VIP_programa", temp)
+            .then(function(response) {
+              // console.log(response);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+          // ////
           vm.$store
             .dispatch("set_ADD_VIP_programa_list", temp)
             .then(function(response) {

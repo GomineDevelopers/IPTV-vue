@@ -71,11 +71,12 @@ commonTools.format_dateToChineseMD = function (date) {
 }
 
 // 数据格式转换 2019-10-18 -> 18
-
 commonTools.format_dayToChinese = function (str) {
     let arr = str.split("-");
     return arr[2];
 }
+// 数据格式转换 2019-10-18 -> 18日
+
 commonTools.format_dayToChinese_2 = function (str) {
     let arr = str.split("-");
     return arr[2] + "日";
