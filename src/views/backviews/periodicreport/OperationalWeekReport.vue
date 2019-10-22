@@ -2217,228 +2217,233 @@ export default {
                     // console.log(temp_7days_keyArr);
 
                     // for (i_28 = 0; i_28 < length_28; i_28++) {
-                    i_28 = 0; // callback 初始化
+                    // i_28 = 0; // callback 初始化
+                    let temp_i_28 = 0;
+                    let temp_length_28 = length_28;
                     fun_callback_do(fun_callback_do);
                     function fun_callback_do(callback) {
-                      if (i_28 < length_28) {
-                        console.log("★★★★★★★★★★★★★★★");
-                        console.log(i_28);
-                        i_28++; // 进来即自增
+                      setTimeout(function() {
+                        if (temp_i_28 < temp_length_28) {
+                          // console.log("★★★★★★★★★★★★");
+                          // console.log(temp_i_28);
+                          temp_i_28++; // 进来即自增
 
-                        let buckets_32_managed = temp_7days_keyArr[i_28]; //第n个指定key - 7天
-                        if (buckets_32_managed != "nokey") {
-                          let length_32_m = buckets_32_managed.length;
-                          let i_32_m;
-                          DATA_someButtonDayTrendData = [];
-                          DATA_someButtonDayTrendData.push(["product"]);
-                          // 根据7天推入 n日
-                          // 解决数据第一行：7天
-                          for (i_32_m = 0; i_32_m < length_32_m; i_32_m++) {
-                            // 7天
-                            DATA_someButtonDayTrendData[0].push(
-                              commonTools.format_dayToChinese_2(
-                                buckets_32_managed[i_32_m].key
-                              )
-                            );
-                          }
+                          let buckets_32_managed = temp_7days_keyArr[temp_i_28]; //第n个指定key - 7天
+                          if (buckets_32_managed != "nokey") {
+                            let length_32_m = buckets_32_managed.length;
+                            let i_32_m;
+                            DATA_someButtonDayTrendData = [];
+                            DATA_someButtonDayTrendData.push(["product"]);
+                            // 根据7天推入 n日
+                            // 解决数据第一行：7天
+                            for (i_32_m = 0; i_32_m < length_32_m; i_32_m++) {
+                              // 7天
+                              DATA_someButtonDayTrendData[0].push(
+                                commonTools.format_dayToChinese_2(
+                                  buckets_32_managed[i_32_m].key
+                                )
+                              );
+                            }
 
-                          // 这里按照 指定的box来 - 有就显示数值，没有则数值置零
-                          // responses32指定box 2_0~2_5 3_0~3_5
-                          let sign_31_areanumber_arr = [
-                            "box2_0",
-                            "box2_1",
-                            "box2_2",
-                            "box2_3",
-                            "box2_4",
-                            "box2_5",
-                            "box3_0",
-                            "box3_1",
-                            "box3_2",
-                            "box3_3",
-                            "box3_4",
-                            "box3_5"
-                          ];
+                            // 这里按照 指定的box来 - 有就显示数值，没有则数值置零
+                            // responses32指定box 2_0~2_5 3_0~3_5
+                            let sign_31_areanumber_arr = [
+                              "box2_0",
+                              "box2_1",
+                              "box2_2",
+                              "box2_3",
+                              "box2_4",
+                              "box2_5",
+                              "box3_0",
+                              "box3_1",
+                              "box3_2",
+                              "box3_3",
+                              "box3_4",
+                              "box3_5"
+                            ];
 
-                          let length_sign_32 = sign_31_areanumber_arr.length;
-                          let i_sign_32 = 0;
-                          // 解决：单个data的 "竖"值  box?_?
-                          for (
-                            i_sign_32 = 0;
-                            i_sign_32 < length_sign_32;
-                            i_sign_32++
-                          ) {
-                            DATA_someButtonDayTrendData.push([
-                              sign_31_areanumber_arr[i_sign_32]
-                            ]);
-                          }
-                          console.log("○○○○○○○○○○○○○○");
-                          console.log(DATA_someButtonDayTrendData);
-                          // 传入指定list 指定Box  获取7天
-                          // 标记sign x 10个
-                          for (
+                            let length_sign_32 = sign_31_areanumber_arr.length;
                             let i_sign_32 = 0;
-                            i_sign_32 < length_sign_32;
-                            i_sign_32++
-                          ) {
-                          //    (function(cur) {
-                          //     stepParams.set('category', this.moduleList[cur].category)
-                          //     axios.post('/operationlogitem/list', stepParams).then((res) => {
-                          //       console.log(res.data.items);
-                          //     }).catch((e) => {
-                          //       console.log(e);
-                          //     })
-                          // })
+                            // 解决：单个data的 "竖"值  box?_?
+                            for (
+                              i_sign_32 = 0;
+                              i_sign_32 < length_sign_32;
+                              i_sign_32++
+                            ) {
+                              DATA_someButtonDayTrendData.push([
+                                sign_31_areanumber_arr[i_sign_32]
+                              ]);
+                            }
+                            // console.log("○○○○○○○○○○○○○○");
+                            // console.log(DATA_someButtonDayTrendData);
+                            // 传入指定list 指定Box  获取7天
+                            // 标记sign x 10个
+                            for (
+                              let i_sign_32 = 0;
+                              i_sign_32 < length_sign_32;
+                              i_sign_32++
+                            ) {
+                              //    (function(cur) {
+                              //     stepParams.set('category', this.moduleList[cur].category)
+                              //     axios.post('/operationlogitem/list', stepParams).then((res) => {
+                              //       console.log(res.data.items);
+                              //     }).catch((e) => {
+                              //       console.log(e);
+                              //     })
+                              // })
                               (function(i_sign_32_current) {
-                              // working(callback,currentIndex)
-                              // 二次请求box详细信息
-                              // let i_sign_32_current = i_sign_32;
+                                // working(callback,currentIndex)
+                                // 二次请求box详细信息
+                                // let i_sign_32_current = i_sign_32;
 
+                                let temp_data = {
+                                  operator: String(["移动"]),
+                                  // list:String(temp_paneArr_use),
+                                  // list:String(["体育"]), // ▲ list
+                                  list: String([temp_paneArr_use[temp_i_28]]), // 按指定list栏目 --data 父级arr
+                                  year: temp_time.year,
+                                  start: temp_time.week_day_start, // 传7天的 配置对应的值  -- data 横
+                                  end: temp_time.week_day_end,
+                                  // areanumber:"box2_1",
+                                  areanumber:
+                                    sign_31_areanumber_arr[i_sign_32_current] //  按指定box分  -- data 竖 x10
+                                };
 
+                                var m2_formData = new FormData();
+                                var m2_formData = new window.FormData();
+                                m2_formData.append(
+                                  "operator",
+                                  String(temp_data.operator)
+                                );
+                                m2_formData.append(
+                                  "list",
+                                  String(temp_data.list)
+                                );
+                                m2_formData.append(
+                                  "start",
+                                  String(temp_data.start)
+                                );
+                                m2_formData.append(
+                                  "end",
+                                  String(temp_data.end)
+                                );
+                                m2_formData.append(
+                                  "areanumber",
+                                  String(temp_data.areanumber)
+                                );
+                                m2_formData.append(
+                                  "year",
+                                  String(temp_data.year)
+                                );
+                                epg_box_content(m2_formData)
+                                  .then(response3 => {
+                                    // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 10 = 110个请求
+                                    // console.log("list:" + temp_i_28); // --data 父级arr
+                                    // console.log("areanumber:" + i_sign_32); // -- data 竖
+                                    // console.log(temp_data);
+                                    // console.log(response3);
 
-                              let temp_data = {
-                                operator: String(["移动"]),
-                                // list:String(temp_paneArr_use),
-                                // list:String(["体育"]), // ▲ list
-                                list: String([temp_paneArr_use[i_28]]), // 按指定list栏目 --data 父级arr
-                                year: temp_time.year,
-                                start: temp_time.week_day_start, // 传7天的 配置对应的值  -- data 横
-                                end: temp_time.week_day_end,
-                                // areanumber:"box2_1",
-                                areanumber: sign_31_areanumber_arr[i_sign_32_current] //  按指定box分  -- data 竖 x10
-                              };
+                                    // 移动1.0 移动2.0都是传入移动
+                                    // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
 
-                              var m2_formData = new FormData();
-                              var m2_formData = new window.FormData();
-                              m2_formData.append(
-                                "operator",
-                                String(temp_data.operator)
-                              );
-                              m2_formData.append(
-                                "list",
-                                String(temp_data.list)
-                              );
-                              m2_formData.append(
-                                "start",
-                                String(temp_data.start)
-                              );
-                              m2_formData.append("end", String(temp_data.end));
-                              m2_formData.append(
-                                "areanumber",
-                                String(temp_data.areanumber)
-                              );
-                              m2_formData.append(
-                                "year",
-                                String(temp_data.year)
-                              );
-                              epg_box_content(m2_formData)
-                                .then(response3 => {
-                                  // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 10 = 110个请求
-                                  console.log("list:" + i_28); // --data 父级arr
-                                  console.log("areanumber:" + i_sign_32); // -- data 竖
-                                  // console.log(temp_data);
-                                  console.log(response3);
+                                    let buckets_32_signValue =
+                                      response3.data.responses[0].aggregations
+                                        .statistical_granularity.buckets;
+                                    let length_32_signValue =
+                                      buckets_32_signValue.length; // x7
+                                    let i_32_signValue;
+                                    // 天 -- data 横
 
-                                  // 移动1.0 移动2.0都是传入移动
-                                  // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
+                                    for (
+                                      i_32_signValue = 0;
+                                      i_32_signValue < length_32_signValue;
+                                      i_32_signValue++
+                                    ) {
+                                      // console.log(
+                                      //   String(length_sign_32) +
+                                      //     " " +
+                                      //     String(length_32_signValue)
+                                      // );
+                                      // console.log( "竖: " +
+                                      //   String(i_sign_32_current) +
+                                      //     " 横： " +
+                                      //     String(i_32_signValue) + " --- " +String(
+                                      //       buckets_32_signValue[i_32_signValue]
+                                      //     .click_freq.value
+                                      //     )
+                                      // );
+                                      // 返回的7天
+                                      DATA_someButtonDayTrendData[
+                                        i_sign_32_current + 1
+                                      ].push(
+                                        buckets_32_signValue[i_32_signValue]
+                                          .click_freq.value
+                                      ); // push单个数据-横-天  （by 指定box竖  i_sign_32_current+1）
+                                    } // for 天 x7
 
-                                  let buckets_32_signValue =
-                                    response3.data.responses[0].aggregations
-                                      .statistical_granularity.buckets;
-                                  let length_32_signValue =
-                                    buckets_32_signValue.length; // x7
-                                  let i_32_signValue;
-                                  // 天 -- data 横
-
-                                  for (
-                                    i_32_signValue = 0;
-                                    i_32_signValue < length_32_signValue;
-                                    i_32_signValue++
-                                  ) {
-                                    // console.log(
-                                    //   String(length_sign_32) +
-                                    //     " " +
-                                    //     String(length_32_signValue)
-                                    // );
-                                    console.log( "竖: " + 
-                                      String(i_sign_32_current) +
-                                        " 横： " +
-                                        String(i_32_signValue) + " --- " +String(
-                                          buckets_32_signValue[i_32_signValue]
-                                        .click_freq.value
-                                        )
-                                    );
-                                    // 返回的7天
-                                    DATA_someButtonDayTrendData[
-                                      i_sign_32_current + 1
-                                    ].push(
-                                      buckets_32_signValue[i_32_signValue]
-                                        .click_freq.value
-                                    ); // push单个数据-横-天  （by 指定box竖  i_sign_32_current+1）
-                                  } // for 天 x7
-
-                                    if(i_sign_32 == length_sign_32 -1){
+                                    if (i_sign_32 == length_sign_32 - 1) {
                                       Vue.set(
                                         DATA_someButtonDayTrendData_all,
-                                        i_28,
+                                        temp_i_28,
                                         DATA_someButtonDayTrendData
                                       ); // data --父级
-                                      i_28++; //自增a
-                                      setTimeout(function () {
+                                      temp_i_28++; //自增a
+                                      setTimeout(function() {
                                         callback(fun_callback_do);
-                                      }, 100)
+                                      }, 100);
                                     }
-                                })   // 请求收
-                                .catch(error => {
-                                  console.log(error);
-                                }); // 请求收
+                                  }) // 请求收
+                                  .catch(error => {
+                                    console.log(error);
+                                  }); // 请求收
+                              })(i_sign_32);
+                            } //for i_sign_32
 
-                            })(i_sign_32);
-
-                            
-                          } //for i_sign_32
-
-                          // Vue.set(
-                          //   DATA_someButtonDayTrendData_all,
-                          //   i_28,
-                          //   DATA_someButtonDayTrendData
-                          // ); // data --父级
-                          // i_28++; //自增a
+                            // Vue.set(
+                            //   DATA_someButtonDayTrendData_all,
+                            //   temp_i_28,
+                            //   DATA_someButtonDayTrendData
+                            // ); // data --父级
+                            // temp_i_28++; //自增a
+                            // callback(fun_callback_do);
+                          } else {
+                            // 非 nokey 情况
+                            // DATA_someButtonDayTrendData_all.push([
+                            //   [
+                            //     ["product", "?1日", "?2日", "?3日", "?4日", "?5日", "?6日", "?7日"],
+                            //     ["box?_?", 0, 0, 0, 0, 0, 0, 0],
+                            //   ]
+                            // ]);
+                            Vue.set(
+                              DATA_someButtonDayTrendData_all,
+                              temp_i_28,
+                              [
+                                [
+                                  [
+                                    "product",
+                                    "?1日",
+                                    "?2日",
+                                    "?3日",
+                                    "?4日",
+                                    "?5日",
+                                    "?6日",
+                                    "?7日"
+                                  ],
+                                  ["box?_?", 0, 0, 0, 0, 0, 0, 0]
+                                ]
+                              ]
+                            ); // data --父级
+                            setTimeout(function() {
+                              callback(fun_callback_do);
+                            }, 100);
+                          } // == "nokey"
                           // callback(fun_callback_do);
                         } else {
-                          // 非 nokey 情况
-                          // DATA_someButtonDayTrendData_all.push([
-                          //   [
-                          //     ["product", "?1日", "?2日", "?3日", "?4日", "?5日", "?6日", "?7日"],
-                          //     ["box?_?", 0, 0, 0, 0, 0, 0, 0],
-                          //   ]
-                          // ]);
-                          Vue.set(DATA_someButtonDayTrendData_all, i_28, [
-                            [
-                              [
-                                "product",
-                                "?1日",
-                                "?2日",
-                                "?3日",
-                                "?4日",
-                                "?5日",
-                                "?6日",
-                                "?7日"
-                              ],
-                              ["box?_?", 0, 0, 0, 0, 0, 0, 0]
-                            ]
-                          ]); // data --父级
-                          setTimeout(function () {
-                            callback(fun_callback_do);
-                          }, 100)
-
-                        } // == "nokey"
-                        // callback(fun_callback_do);
-                        
-                      } else {
-                        console.log("结束回调");
-                        console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎");
-                        console.log(DATA_someButtonDayTrendData_all);
-                      }
+                          // console.log("结束回调");
+                          // console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎");
+                          // console.log(DATA_someButtonDayTrendData_all);
+                        }
+                      }, 10);
                     } // function callback
 
                     // }// for i_28;
@@ -2451,12 +2456,380 @@ export default {
                 console.log(error);
               }
 
-              //// 上面是 xx
-              //// xx开始
+              //// 上面是 32
+              //// 33开始
+              // XX页各按钮点击次数
+              // i_33 responses33
 
               let DATA_columnButtonClickNum = [];
               let DATA_columnButtonClickNum_all = [];
+
               try {
+                let buckets_32w =
+                  response.data.responses[32].aggregations.epgName.buckets; // m2_response  epgName
+                let length_32w = buckets_32w.length;
+                let i_32w;
+                //数值转换： box1_1 => 2 2 =》 2000 + 2 => 2002 =>用于对比大小，使排序
+                function boxX_X_StringToInt(str) {
+                  let arr = str.split("_");
+                  let arr2 = arr[0].split("box");
+                  return (
+                    (parseInt(arr2[1]) + 1) * 1000 + (parseInt(arr[1]) + 1)
+                  );
+                }
+                //冒泡排序 -- 从序数index几开始
+                function sortArrZ(arr, index) {
+                  for (var i = 0; i < arr.length - 1; i++) {
+                    //决定每一轮比较多少次
+                    for (var j = index; j < arr.length - i - 1; j++) {
+                      if (arr[j][1] > arr[j + 1][1]) {
+                        // 判断第二位
+                        var tmp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = tmp;
+                      }
+                    }
+                  }
+                  return arr;
+                }
+
+                function boxX_X_sort(buckets_arr) {
+                  let length_br = buckets_arr.length;
+                  let i_br;
+                  let temp_arr = [];
+                  for (i_br = 0; i_br < length_br; i_br++) {
+                    temp_arr.push(boxX_X_StringToInt(buckets_arr[i_br].key)); // 转换成 Int 数组
+                  }
+                  temp_arr = sortArrZ(temp_arr, 0); //进行排序
+                  return temp_arr;
+                }
+
+                // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+                // let temp_test = boxX_X_sort(
+                // temp_twoWeek_32w_keyArr[0][0].areanumber.buckets
+                // );
+                // console.log(temp_test);
+                // temp_test = boxX_X_IntArrToStringArr(temp_test);
+                // console.log(temp_test);
+
+                function boxX_X_IntToString(num) {
+                  let str;
+                  let str1 = String(parseInt(num / 1000) - 1);
+                  let str2 = String(parseInt(num % 1000) - 1);
+                  return "box" + str1 + "_" + str2;
+                }
+                function boxX_X_IntArrToStringArr(arr) {
+                  let length = arr.length;
+                  let i;
+                  let temp_arr = [];
+                  for (i = 0; i < length; i++) {
+                    temp_arr.push(boxX_X_IntToString(arr[i]));
+                  }
+                  return temp_arr;
+                }
+                // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+                function Manage_KeyValue_32w_current(key) {
+                  // 遍历i_32w对应key值 - 找到对应key
+                  let ifOver = false;
+                  for (i_32w = 0; i_32w < length_32w; i_32w++) {
+                    if (ifOver == true) {
+                      break;
+                    }
+                    if (buckets_32w[i_32w].key == key) {
+                      ifOver = true;
+                      return buckets_32w[i_32w].statistical_granularity.buckets; //7天的 数据
+                    }
+                  }
+                  return "nokey"; //无指定 key情况
+                }
+                let temp_twoWeek_32w_keyArr = []; // 处理好的28key的 i_32w数据  // 28栏目 =》 分两周
+                for (i_28 = 0; i_28 < length_28; i_28++) {
+                  temp_twoWeek_32w_keyArr.push(
+                    Manage_KeyValue_32w_current(temp_paneArr[i_28].data)
+                  );
+                }
+
+                console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
+                console.log(temp_twoWeek_32w_keyArr);
+
+                // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+                // ▲▲▲▲ 一个栏目的data完毕后，进行总处理
+                // 前面是有一个box则分一行(丢一个数组)
+                // 这里使boxA_B A相同的在一行(使在一个数组)
+                // data: Array(21)  21 对 1行（21行） 对 1个 =》 21 对 7行 对 3个
+                //   0: Array(1)  
+                //     0:
+                //     chainIndex: "-0.35%"
+                //     classify: "xx"
+                //     lastWeek: 33770
+                //     thisWeek: 33651
+                //     title: "box0_1"
+
+                function Manage_DATA_c(data){
+                  let length = data.length;
+                  let i;
+                  //-0 : 0_1 
+                  //-1 : 0_2 
+                  //-2 : 1_2 
+                  //-3 : 1_3 
+                  // =>
+                  //-0 : 0_1 0_2
+                  //-2 : 1_2 1_3
+                  let arr_count = -1; //默认为 -1，第一次必不同，即计数从0开始 // 记录多少行
+                  let arr_count_arrData = []; // 记录n行各多少个 data
+                  let new_num = 2044;
+                  let old_bum = 3199;
+                  function Single_DATA_mange(key,data_per_singleData){
+                    old_bum = new_num;
+                    new_num = parseInt(boxX_X_StringToInt(key) / 1000);
+                    if(old_bum != new_num){
+                      arr_count++;
+                      arr_count_arrData.push([]);
+                    }
+                    // arr_count_arrData[arr_count].push(data_per_singleData)
+                    arr_count_arrData[arr_count].push(data_per_singleData[0])
+                  }
+
+                  for (let i = 0; i < length; i++) {
+                    Single_DATA_mange(data[i][0].title,data[i]);
+                  }
+                  return arr_count_arrData;
+                }
+
+
+                let temp_twoWeek_32w_keyArr_sort = []; //排序box
+
+                for (i_28 = 0; i_28 < length_28; i_28++) {
+                  if (temp_twoWeek_32w_keyArr[i_28] == "nokey") {
+                    temp_twoWeek_32w_keyArr_sort.push("nokey");
+                  } else {
+                    if (temp_twoWeek_32w_keyArr[i_28].length == 2) {
+                      // 两周处理
+                      temp_twoWeek_32w_keyArr_sort.push(
+                        boxX_X_IntArrToStringArr(
+                          boxX_X_sort(
+                            temp_twoWeek_32w_keyArr[i_28][1].areanumber.buckets
+                          )
+                        )
+                      );
+                    }
+                    if (temp_twoWeek_32w_keyArr[i_28].length == 1) {
+                      // 单周处理
+                      temp_twoWeek_32w_keyArr_sort.push(
+                        boxX_X_IntArrToStringArr(
+                          boxX_X_sort(
+                            temp_twoWeek_32w_keyArr[i_28][0].areanumber.buckets
+                          )
+                        )
+                      );
+                    }
+                    // 0周-不管让其报错不显示
+                  }
+                }
+                console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
+                console.log(temp_twoWeek_32w_keyArr_sort);
+
+                let temp_i_28 = 0;
+                let temp_length_28 = length_28;
+                fun_callback_do(fun_callback_do);
+                function fun_callback_do(callback) {
+                  setTimeout(function() {
+                    if (temp_i_28 < temp_length_28) {
+                      console.log("★★★★★★★★★★★★BBB");
+                      console.log(temp_i_28);
+                      temp_i_28++; // 进来即自增
+                      let buckets_32w_managed =
+                        temp_twoWeek_32w_keyArr[temp_i_28]; //第n个指定key - 7天
+                      let sign_32w_areanumber_arr =
+                        temp_twoWeek_32w_keyArr_sort[temp_i_28]; // 指定的sign box数组
+                      DATA_columnButtonClickNum = []; // 初始化
+
+                      if (buckets_32w_managed != "nokey") {
+                        let length_32_m = buckets_32w_managed.length;
+                        let i_32_m;
+                        let length_sign_32w = sign_32w_areanumber_arr.length;
+                        let i_sign_32w = 0;
+
+                        //////
+                        for (
+                          let i_sign_32w = 0;
+                          i_sign_32w < length_sign_32w;
+                          i_sign_32w++
+                        ) {
+                          (function(i_sign_32w_current) {
+                            // working(callback,currentIndex)
+                            // 二次请求box详细信息
+                            // let i_sign_32w_current = i_sign_32w;
+
+                            let temp_data = {
+                              operator: String(["移动"]),
+                              list: String([temp_paneArr_use[temp_i_28]]), // 按指定list栏目 --data 父级arr
+                              year: temp_time.year,
+                              start: commonTools.ReturnBeforeWeek(
+                                temp_time.week,
+                                1
+                              ), // 传2周的 配置对应的值  -- data 横
+                              end: temp_time.week,
+                              areanumber:
+                                sign_32w_areanumber_arr[i_sign_32w_current] //  按指定box分  -- data 竖 x10
+                            };
+
+                            var m2_formData = new FormData();
+                            var m2_formData = new window.FormData();
+                            m2_formData.append(
+                              "operator",
+                              String(temp_data.operator)
+                            );
+                            m2_formData.append("list", String(temp_data.list));
+                            m2_formData.append(
+                              "start",
+                              String(temp_data.start)
+                            );
+                            m2_formData.append("end", String(temp_data.end));
+                            m2_formData.append(
+                              "areanumber",
+                              String(temp_data.areanumber)
+                            );
+                            m2_formData.append("year", String(temp_data.year));
+                            epg_box_content(m2_formData)
+                              .then(response3 => {
+                                console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 30 = 330+个请求
+                                console.log("list:" + temp_i_28); // --data 父级arr
+                                console.log("areanumber:" + i_sign_32w); // -- data 竖
+                                console.log(temp_data);
+                                console.log(response3);
+
+                                // 移动1.0 移动2.0都是传入移动
+                                // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
+
+                                let buckets_32w_signValue =
+                                  response3.data.responses[0].aggregations
+                                    .statistical_granularity.buckets;
+                                let length_32w_signValue =
+                                  buckets_32w_signValue.length; // x7
+                                let i_32w_signValue;
+                                // 天 -- data 横
+
+
+                                // 返回的2周
+                                if (length_32w_signValue == 2) {
+                                  console.log(
+                                    String(length_sign_32w) +
+                                      " " +
+                                      String(length_32w_signValue)
+                                  );
+                                  console.log(
+                                    "竖: " +
+                                      String(i_sign_32w_current) +
+                                      " 横： " +
+                                      String(1) +
+                                      " --- " +
+                                      String(
+                                        buckets_32w_signValue[1]
+                                          .click_freq.value
+                                      )
+                                  );
+                                  let current_value =
+                                    buckets_32w_signValue[1].click_freq.value;
+                                  let last_value =
+                                    buckets_32w_signValue[0].click_freq.value;
+                                  DATA_columnButtonClickNum.push([
+                                    {
+                                      classify: "xx",
+                                      title:
+                                        sign_32w_areanumber_arr[
+                                          i_sign_32w_current
+                                        ],
+                                      lastWeek: last_value,
+                                      thisWeek: current_value,
+                                      chainIndex:
+                                        (
+                                          ((current_value - last_value) /
+                                            last_value) *
+                                          100
+                                        ).toFixed(2) + "%"
+                                    }
+                                  ]);
+                                }
+                                if (length_32w_signValue == 1) {
+                                  let current_value =
+                                    buckets_32w_signValue[0].click_freq.value;
+                                  DATA_columnButtonClickNum.push([
+                                    {
+                                      classify: "xx",
+                                      title:
+                                        sign_32w_areanumber_arr[
+                                          i_sign_32w_current
+                                        ],
+                                      lastWeek: 0,
+                                      thisWeek: current_value,
+                                      chainIndex: "-%"
+                                    }
+                                  ]);
+                                }
+                                if (length_32w_signValue == 0) {
+                                  DATA_columnButtonClickNum.push([
+                                    {
+                                      classify: "xx",
+                                      title:
+                                        sign_32w_areanumber_arr[
+                                          i_sign_32w_current
+                                        ],
+                                      lastWeek: 0,
+                                      thisWeek: 0,
+                                      chainIndex: "-%"
+                                    }
+                                  ]);
+                                }
+
+                                if (i_sign_32w == length_sign_32w - 1) {
+
+                                  Vue.set(
+                                    DATA_columnButtonClickNum_all,
+                                    temp_i_28,
+                                    Manage_DATA_c(DATA_columnButtonClickNum)
+                                    // DATA_columnButtonClickNum 
+
+                                  ); // data --父级
+                                  temp_i_28++; //自增a
+                                  setTimeout(function() { 
+                                    callback(fun_callback_do);
+                                  }, 100);
+                                }
+                              }) // 请求收
+                              .catch(error => {
+                                console.log(error);
+                              }); // 请求收
+                          })(i_sign_32w);
+                        } //for i_sign_32w
+                        //////
+                        // setTimeout(function() {
+                        //   callback(fun_callback_do);
+                        // }, 100);
+                      } else {
+                        // 非 nokey 情况
+                        Vue.set(DATA_columnButtonClickNum_all, temp_i_28, [
+                          [
+                            {
+                              classify: "xx",
+                              title: "boxx_x",
+                              lastWeek: "0",
+                              thisWeek: "0",
+                              chainIndex: "-%"
+                            }
+                          ]
+                        ]);
+                        setTimeout(function() {
+                          callback(fun_callback_do);
+                        }, 100);
+                      }
+                    } else {
+                      console.log("结束回调BBB");
+                      console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎BBB");
+                      console.log(DATA_columnButtonClickNum_all);
+                    }
+                  }, 10);
+                } // function callback
               } catch (error) {
                 console.log(error);
               }
@@ -2464,8 +2837,7 @@ export default {
               // return; // 测试
 
               // ■■■■ 最终整合数据
-              setTimeout(function () {
-
+              setTimeout(function() {
                 for (i_28 = 0; i_28 < length_28; i_28++) {
                   // 数据初始化+总处理
                   temp_Pane_ColumnData.push({
@@ -2521,123 +2893,124 @@ export default {
                     columnButtonClickNum: {
                       // title: "分类页各按钮点击次数",
                       title: buckets_28[i_28].key + "页各按钮点击次数",
-                      data: [
-                        [
-                          {
-                            classify: "搜索",
-                            title: "box0_0",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            classify: "个人中心",
-                            title: "box0_1",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            classify: "帮助",
-                            title: "box0_2",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          }
-                        ],
-                        [
-                          {
-                            title: "box1_1",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box1_2",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          }
-                        ],
-                        [
-                          {
-                            title: "box2_1",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box2_2",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box2_3",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          }
-                        ],
-                        [
-                          {
-                            title: "box3_1",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box3_2",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box3_3",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box3_4",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box3_5",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          }
-                        ],
-                        [
-                          {
-                            title: "box4_1",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box4_2",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box4_3",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          },
-                          {
-                            title: "box4_4",
-                            lastWeek: "361018",
-                            thisWeek: "336859",
-                            chainIndex: "-6.09%"
-                          }
-                        ]
-                      ]
+                      data: DATA_columnButtonClickNum_all[i_28]
+                      // [
+                      //   [
+                      //     {
+                      //       classify: "搜索",
+                      //       title: "box0_0",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       classify: "个人中心",
+                      //       title: "box0_1",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       classify: "帮助",
+                      //       title: "box0_2",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     }
+                      //   ],
+                      //   [
+                      //     {
+                      //       title: "box1_1",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box1_2",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     }
+                      //   ],
+                      //   [
+                      //     {
+                      //       title: "box2_1",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box2_2",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box2_3",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     }
+                      //   ],
+                      //   [
+                      //     {
+                      //       title: "box3_1",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box3_2",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box3_3",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box3_4",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box3_5",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     }
+                      //   ],
+                      //   [
+                      //     {
+                      //       title: "box4_1",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box4_2",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box4_3",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     },
+                      //     {
+                      //       title: "box4_4",
+                      //       lastWeek: "361018",
+                      //       thisWeek: "336859",
+                      //       chainIndex: "-6.09%"
+                      //     }
+                      //   ]
+                      // ]
                     },
                     //部分按钮每日走势（次）
                     someButtonDayTrendData: {
@@ -2683,13 +3056,11 @@ export default {
                   });
                 }
 
-
                 // 初始化默认显示页
                 vm.paneArr = temp_paneArr;
                 vm.Pane_ColumnData = temp_Pane_ColumnData;
                 vm.activeName = vm.paneArr[0].id;
-              }, 3000)
-
+              }, 12000);
             } catch (error) {
               console.log(error);
             }
