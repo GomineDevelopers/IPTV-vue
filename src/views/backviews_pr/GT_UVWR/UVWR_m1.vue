@@ -321,8 +321,8 @@ export default {
           })
         }
       }, 1000)
+      console.log("vm.GT_UVWR1_B2.data--------------------------------", vm.GT_UVWR1_B2.data)
 
-      //各州市一周开机率
 
     },
     //移动数据(本周)

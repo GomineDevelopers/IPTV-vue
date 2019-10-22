@@ -68,13 +68,14 @@ ul {
 .main_body {
   /* width: 1920px; */
   width: 100%;
-  height: 1000px;
+  height: 800px;
   position: relative;
 }
 .epg_page_col:nth-child(1) {
   margin-left: 0px;
 }
 .epg_page_col ul {
+  padding-left: 3px;
   margin: 0;
   height: 100%;
   display: -webkit-flex;

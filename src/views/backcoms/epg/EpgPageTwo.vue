@@ -68,6 +68,7 @@ export default {
 }
 .epg_page_col ul {
   margin: 0;
+  padding-left: 20px;
   height: 100%;
   display: -webkit-flex;
   display: flex;
@@ -79,6 +80,11 @@ export default {
   line-height: 27px;
   list-style: disc;
   font-size: 14px;
+}
+.epg_page_col ul li:nth-child(1) {
+  display: -webkit-flex;
+  display: flex;
+  /* justify-content: center; */
 }
 .epg_page_col ul li:nth-child(2) {
   color: #5e70f1;
@@ -95,7 +101,8 @@ export default {
 }
 .epg_page_col ul li span.classify {
   display: inline-block;
-  width: 70px;
+  /* width: 70px; */
+  margin-right: 5px;
   text-align: left;
   font-size: 12px;
   color: #333;
@@ -105,5 +112,6 @@ export default {
 }
 .epg_page_col ul li span:nth-child(2) {
   color: #999;
+  font-size: 12px;
 }
 </style>

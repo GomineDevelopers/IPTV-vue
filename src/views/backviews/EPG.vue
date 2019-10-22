@@ -435,7 +435,7 @@ export default {
                   let chain_index
                   if (last_click_freq_num != 0) {
                     //若上期数据不为 0，求环比
-                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(2)  //����
+                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(1)  //����
                   } else {
                     chain_index = '-'
                   }
@@ -513,7 +513,7 @@ export default {
                   let chain_index
                   if (last_click_freq_num != 0) {
                     //若上期数据不为 0，求环比
-                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(2)  //����
+                    chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(1)  //����
                   } else {
                     chain_index = '-'
                   }
