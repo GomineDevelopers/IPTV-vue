@@ -22,7 +22,7 @@ export default {
       "ADD_VIP_operator"
     ]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let color = [];
@@ -120,7 +120,7 @@ export default {
             // for (let t_i = 0; t_i < t_length; t_i++) {
             //   data.push(temp_chartData.data[t_i + 1]);
             // }
-            let t_length = temp_chartData.data.length -1;
+            let t_length = temp_chartData.data.length - 1;
             data.push(temp_chartData.data[0]);
             for (let t_i = 0; t_i < t_length; t_i++) {
               data.push(temp_chartData.data[t_i + 1]);
@@ -155,7 +155,7 @@ export default {
             // }
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("operatorChart_vip 视图更新");
             vm.drawLine();
           }, 1000);
@@ -240,7 +240,7 @@ export default {
             // for (let t_i = 0; t_i < t_length; t_i++) {
             //   data.push(temp_chartData.data[t_i + 1]);
             // }
-            let t_length = temp_chartData.data.length -1;
+            let t_length = temp_chartData.data.length - 1;
             data.push(temp_chartData.data[0]);
             for (let t_i = 0; t_i < t_length; t_i++) {
               data.push(temp_chartData.data[t_i + 1]);
@@ -275,7 +275,7 @@ export default {
             // }
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("operatorChart_vip 视图更新");
             vm.drawLine();
           }, 1000);
@@ -286,12 +286,12 @@ export default {
             data: data
           };
         }
-        setTimeout(function() {
+        setTimeout(function () {
           vm.drawLine();
         }, 1000);
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -299,7 +299,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 1000);
   },
@@ -354,9 +354,10 @@ export default {
         },
         grid: {
           top: "35%",
-          left: "8%",
-          right: "1%",
-          bottom: "10%"
+          left: "10",
+          right: "5",
+          bottom: "10",
+          containLabel: true,
         },
         dataset: {
           source: vm.chartData_Change.data

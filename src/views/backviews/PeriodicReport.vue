@@ -43,7 +43,7 @@ export default {
 </script>
 <style scoped>
 .periodic_report {
-  height: 430px;
+  height: 450px;
 }
 </style>
 

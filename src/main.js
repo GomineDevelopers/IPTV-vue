@@ -34,7 +34,7 @@ store
   })
   .catch(function (error) {
     console.info(error);
-    
+
   });
 
 // 设置大屏/后台-数据总览 的 截止日期（end）

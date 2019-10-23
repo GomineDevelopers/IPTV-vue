@@ -13,7 +13,7 @@
   </div>-->
   <div class="data_integrity" id="data_integrity_content">
     <el-row>
-      <el-col :span="20">
+      <el-col :span="20" class="table_content">
         <!-- 开机日志开始 -->
         <el-row class="data_integrity_body" id="boot_log2">
           <el-row class="model_title">
@@ -32,7 +32,7 @@
           <el-row class="chart_body back_white">
             <data-integrity-model :tableData="heartbeat"></data-integrity-model>
           </el-row>
-        </el-row> -->
+        </el-row>-->
         <!-- 心跳日志结束 -->
 
         <!-- 页面访问日志开始 -->
@@ -100,8 +100,8 @@
           >开机日志</a>
         </el-row>
         <!-- <el-row> -->
-          <!-- <a href="#heartbeat_log">心跳日志</a> -->
-          <!-- <a href="javascript:void(0)" class="anchor_link2" @click="goAnchor('#heartbeat_log2')">心跳日志</a> -->
+        <!-- <a href="#heartbeat_log">心跳日志</a> -->
+        <!-- <a href="javascript:void(0)" class="anchor_link2" @click="goAnchor('#heartbeat_log2')">心跳日志</a> -->
         <!-- </el-row> -->
         <el-row>
           <!-- <a href="#page_access_log">页面访问日志</a> -->
@@ -214,16 +214,16 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.errorReport(response);
           // setTimeout(function() {
           //   vm.echarts_manage();
           // }, 1000);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
@@ -236,7 +236,7 @@ export default {
       //console.log("backHome_body_main", backHome_body_main)
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       data_integrity_content.scrollTop = anchor.offsetTop;
-      $(".anchor_hyperlinks a").on("click", function() {
+      $(".anchor_hyperlinks a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -256,7 +256,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       errorReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
           // 暂时为某日的
           let buckets =
@@ -450,7 +450,7 @@ export default {
           vm.review = temp_all[5];
           vm.onlive = temp_all[6];
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -483,7 +483,7 @@ export default {
         symbolSize: [80, 30],
         label: {
           show: true,
-          formatter: function(param) {
+          formatter: function (param) {
             return "异常值";
           }
         },
@@ -667,5 +667,8 @@ export default {
 }
 #live_log {
   margin-bottom: 50px;
+}
+.table_content {
+  padding-bottom: 30px;
 }
 </style>

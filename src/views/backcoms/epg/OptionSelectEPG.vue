@@ -577,7 +577,7 @@ export default {
   background-color: #ff6123;
 }
 .other_item_select .el-input input {
-  width: 120px;
+  width: 200px;
   height: 35px;
 }
 </style>

@@ -125,14 +125,14 @@ export default {
   mounted() {
     let vm = this;
 
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenStartDate")
-        .then(function(res1) {
-          setTimeout(function() {
+        .then(function (res1) {
+          setTimeout(function () {
             vm.$store
               .dispatch("get_BigScreenExpirationDate")
-              .then(function(res2) {
+              .then(function (res2) {
                 // vm.users_total(res1, res2, "singleday"); // 截止统计日
                 // vm.users_total(res2, res2, "rangeday"); // 日维度
                 vm.users_total(res2, res2, "singleday"); // 截止统计日 -- 因为已经累计计算了，传当天即可
@@ -140,12 +140,12 @@ export default {
                 vm.users_total(res2, res2, "lastmonth"); // 截止日的上月
                 vm.users_total(res2, res2, "rangedays_n"); // 8Tina：当天+前7天
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 console.info(error);
               });
           }, 100);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
@@ -186,7 +186,7 @@ export default {
       }
 
       users_total(data)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           if (type == "lastmonth") {
             // 用户画像 用上个月  -- responses3
@@ -443,7 +443,7 @@ export default {
                 vm.api_data.module3_numC,
                 i,
                 responses1.aggregations.ac.buckets[i].open_num.value /
-                  responses1.aggregations.ac.buckets[i].register_num.value
+                responses1.aggregations.ac.buckets[i].register_num.value
               );
               Vue.set(
                 vm.api_data.module4_numT,
@@ -453,7 +453,8 @@ export default {
               Vue.set(
                 vm.api_data.module4_numC,
                 i,
-                responses2.aggregations.ac.buckets[i].watch_dur_family.value
+                // responses2.aggregations.ac.buckets[i].watch_dur_family.value  10/23 19:01修改
+                responses2.aggregations.ac.buckets[i].watch_freq.value / responses2.aggregations.ac.buckets[i].watch_user_num.value
               );
               Vue.set(
                 vm.api_data.module6_numC,
@@ -481,7 +482,7 @@ export default {
                 vm.api_data.module2_numC,
                 i,
                 responses1.aggregations.ac.buckets[i].activate_user_num.value /
-                  responses1.aggregations.ac.buckets[i].register_num.value
+                responses1.aggregations.ac.buckets[i].register_num.value
               );
               Vue.set(
                 vm.api_data.module5_numT,
@@ -492,7 +493,7 @@ export default {
                 vm.api_data.module5_numC,
                 i,
                 responses3.aggregations.ac.buckets[i].paid_num.value /
-                  responses1.aggregations.ac.buckets[i].active_num.value
+                responses1.aggregations.ac.buckets[i].active_num.value
               );
               Vue.set(
                 vm.api_data.module6_numT,
@@ -590,7 +591,7 @@ export default {
           vm.updateDatashow(8);
           vm.ifRequestSuccess = 1;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
           vm.ifRequestSuccess = 0;
           vm.setDatashow(vm.data.datashow2);

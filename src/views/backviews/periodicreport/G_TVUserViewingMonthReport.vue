@@ -822,7 +822,7 @@ export default {
             let mixture_month_range_data = response.data.responses; //总的混合多月数据
 
             //G+TV用户发展数据概览
-            //G+TV用户发展情况     //
+            //G+TV用户发展情况 
             let registe_and_new_num =
               mixture_month_range_data[0].aggregations.statistical_granularity
                 .buckets;
@@ -863,24 +863,18 @@ export default {
             new_num_user_comparison.forEach((value, index) => {
               if (value.key != "other") {
                 // console.log(commonTools.acConvert_Single(value.key))
-                new_num_user_temp[9 - index].push(
-                  commonTools.acConvert_Single(value.key)
-                );
+                new_num_user_temp[9 - index].push(commonTools.acConvert_Single(value.key));
                 // Vue.set(vm.NewUserComparisonData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                 value.statistical_granularity.buckets.forEach(
                   (value2, index2) => {
                     // console.log(value2.key, value2.open_num.value)
                     //设置月份（只执行一次）
                     if (index == 0) {
-                      let data_month = commonTools.format_monthToChinese(
-                        value2.key
-                      );
+                      let data_month = commonTools.format_monthToChinese(value2.key);
                       new_num_user_temp[0].push(data_month);
                     }
-                    new_num_user_temp[9 - index].push(
-                      Number((value2.open_num.value / 10000).toFixed(1))
-                    );
-                    // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.open_num.value / 10000).toFixed(1)))
+                    new_num_user_temp[9 - index].push(Number((value2.new_num.value / 10000).toFixed(1)));
+                    // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.new_num.value / 10000).toFixed(1)))
                   }
                 );
               }
