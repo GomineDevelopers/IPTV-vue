@@ -15,7 +15,7 @@
     <el-row>
       <el-col :span="20">
         <!-- 开机日志开始 -->
-        <el-row class="data_integrity_body" id="boot_log">
+        <el-row class="data_integrity_body" id="boot_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>开机日志
           </el-row>
@@ -25,18 +25,18 @@
         </el-row>
         <!-- 开机日志结束 -->
         <!-- 心跳日志开始 -->
-        <el-row class="data_integrity_body" id="heartbeat_log">
+        <!-- <el-row class="data_integrity_body" id="heartbeat_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>心跳日志
           </el-row>
           <el-row class="chart_body back_white">
             <data-integrity-model :tableData="heartbeat"></data-integrity-model>
           </el-row>
-        </el-row>
+        </el-row> -->
         <!-- 心跳日志结束 -->
 
         <!-- 页面访问日志开始 -->
-        <el-row class="data_integrity_body" id="page_access_log">
+        <el-row class="data_integrity_body" id="page_access_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>页面访问日志
           </el-row>
@@ -47,7 +47,7 @@
         <!-- 页面访问日志结束 -->
 
         <!-- 热力图日志开始 -->
-        <el-row class="data_integrity_body" id="thermodynamic_log">
+        <el-row class="data_integrity_body" id="thermodynamic_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>热力图日志
           </el-row>
@@ -58,7 +58,7 @@
         <!-- 热力图日志结束 -->
 
         <!-- 点播播放日志开始 -->
-        <el-row class="data_integrity_body" id="bunch_planting_log">
+        <el-row class="data_integrity_body" id="bunch_planting_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>点播播放日志
           </el-row>
@@ -69,7 +69,7 @@
         <!-- 点播播放日志结束 -->
 
         <!-- 回看播放日志开始 -->
-        <el-row class="data_integrity_body" id="look_back_log">
+        <el-row class="data_integrity_body" id="look_back_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>回看播放日志
           </el-row>
@@ -80,7 +80,7 @@
         <!-- 回看播放日志结束 -->
 
         <!-- 直播播放日志开始 -->
-        <el-row class="data_integrity_body" id="live_log">
+        <el-row class="data_integrity_body" id="live_log2">
           <el-row class="model_title">
             <span class="title_border_left"></span>直播播放日志
           </el-row>
@@ -96,19 +96,19 @@
           <a
             href="javascript:void(0)"
             class="anchor_link1 avtive_link"
-            @click="goAnchor('#boot_log')"
+            @click="goAnchor('#boot_log2')"
           >开机日志</a>
         </el-row>
-        <el-row>
+        <!-- <el-row> -->
           <!-- <a href="#heartbeat_log">心跳日志</a> -->
-          <a href="javascript:void(0)" class="anchor_link2" @click="goAnchor('#heartbeat_log')">心跳日志</a>
-        </el-row>
+          <!-- <a href="javascript:void(0)" class="anchor_link2" @click="goAnchor('#heartbeat_log2')">心跳日志</a> -->
+        <!-- </el-row> -->
         <el-row>
           <!-- <a href="#page_access_log">页面访问日志</a> -->
           <a
             href="javascript:void(0)"
             class="anchor_link3"
-            @click="goAnchor('#page_access_log')"
+            @click="goAnchor('#page_access_log2')"
           >页面访问日志</a>
         </el-row>
         <el-row>
@@ -116,7 +116,7 @@
           <a
             href="javascript:void(0)"
             class="anchor_link4"
-            @click="goAnchor('#thermodynamic_log')"
+            @click="goAnchor('#thermodynamic_log2')"
           >热力图日志</a>
         </el-row>
         <el-row>
@@ -124,7 +124,7 @@
           <a
             href="javascript:void(0)"
             class="anchor_link5"
-            @click="goAnchor('#bunch_planting_log')"
+            @click="goAnchor('#bunch_planting_log2')"
           >点播播放日志</a>
         </el-row>
         <el-row>
@@ -132,7 +132,7 @@
           <a
             href="javascript:void(0)"
             class="anchor_link6"
-            @click="goAnchor('#look_back_log')"
+            @click="goAnchor('#look_back_log2')"
           >回看播放日志</a>
         </el-row>
         <el-row>
@@ -140,7 +140,7 @@
           <a
             class="anchor_link7"
             href="javascript:void(0)"
-            @click="goAnchor('#look_back_log')"
+            @click="goAnchor('#look_back_log2')"
           >直播播放日志</a>
         </el-row>
       </el-col>
@@ -229,19 +229,35 @@ export default {
     }, 100);
   },
   methods: {
+    goAnchor(selector) {
+      let data_integrity_content = document.querySelector(
+        "#data_integrity_content"
+      ); //外层滚动容器元素
+      //console.log("backHome_body_main", backHome_body_main)
+      var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
+      data_integrity_content.scrollTop = anchor.offsetTop;
+      $(".anchor_hyperlinks a").on("click", function() {
+        $(this)
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      });
+    },
     errorReport(ExpirationDate) {
       let vm = this;
       let temp = {
         start: ExpirationDate,
         end: ExpirationDate
       };
-      console.log(temp);
+      // console.log(temp);
       var formData = new FormData();
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       errorReport(formData)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           // 暂时为某日的
           let buckets =
             response.data.responses[0].aggregations.statistical_granularity
@@ -320,9 +336,8 @@ export default {
               ];
             }
             try {
-              if (buckets_0_child[i_0_child].key == "heartbeat") {
-                // 暂时没有
-                // temp_heartbeat_all = dataManage(i_0_child);
+              if (buckets_0_child[i_0_child].key == "useronline") {
+                temp_heartbeat_all = dataManage(i_0_child);
               }
             } catch (error) {
               console.log(error);
@@ -425,8 +440,8 @@ export default {
           temp_all.push(temp_review_all);
           temp_all.push(temp_onlive_all);
 
-          console.log("~~~~~~!!!!!");
-          console.log(temp_all);
+          // console.log("~~~~~~!!!!!");
+          // console.log(temp_all);
           vm.usercount = temp_all[0];
           vm.heartbeat = temp_all[1];
           vm.basedata = temp_all[2];
@@ -462,7 +477,7 @@ export default {
         tmpData.name = nameArray[i];
         seriesData[i] = tmpData;
       }
-      console.log("seriesData", seriesData);
+      // console.log("seriesData", seriesData);
       seriesData[5].markPoint = {
         symbol: "Rect",
         symbolSize: [80, 30],

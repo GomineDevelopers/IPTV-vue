@@ -1722,6 +1722,11 @@ export default {
           temp_content2,
           "商品管理列表TT8"
         );
+        // export_json_to_excel_plural2(
+        //   [["xxxx"],["xxxx2"],["xxxx3"]],
+        //   [temp_content,temp_content2], //  temp_content2 =》 二维数组
+        //   "用户收视日报"
+        // );
       });
     },
     drawLine() {

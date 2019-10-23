@@ -21,6 +21,12 @@ export default {
         vm.drawLine();
       }, 2000);
     },
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
     PR_picker(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -81,6 +87,7 @@ export default {
       "PR_operator",
       "ADD_VIP_region",
       "ADD_VIP_playmode",
+      "PR_week",
       "PR_picker",
       "PR_value_specialName",
       "UVB_region",

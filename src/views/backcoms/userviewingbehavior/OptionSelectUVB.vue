@@ -542,10 +542,12 @@ export default {
 
     // 初始化周
     let arr_temp = [];
-    arr_temp = commonTools.weekDate(2018);
     setTimeout(function() {
-      arr_temp = commonTools.weekDate_add(2019, arr_temp);
-      vm.time.week = arr_temp;
+      // arr_temp = commonTools.weekDate(2018);
+      // arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      arr_temp = commonTools.weekDate(2019);
+
+      vm.time.week = arr_temp.reverse();
     }, 100);
 
     // ▲历史条件获取

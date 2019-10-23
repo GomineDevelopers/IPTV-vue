@@ -226,19 +226,21 @@ export default {
 
     // 初始化周
     let arr_temp = [];
-    arr_temp = commonTools.weekDate_byday(2018);
     setTimeout(function() {
-      arr_temp = commonTools.weekDate_add_byday(2019, arr_temp);
-      vm.time.week = arr_temp;
+      // arr_temp = commonTools.weekDate_byday(2018);
+      // arr_temp = commonTools.weekDate_add_byday(2019, arr_temp);
+      arr_temp = commonTools.weekDate_byday(2019);
+      vm.time.week = arr_temp.reverse();
       // console.log("~~~~~test vm.time.week");
       // console.log(vm.time.week);
     }, 100);
 
     // 初始化月
-    let arr_temp2 = commonTools.format_MonthDays_byweek(2018);
     setTimeout(function() {
-      arr_temp2 = commonTools.format_MonthDays_add_byweek(2019, arr_temp2);
-      vm.time.month = arr_temp2;
+      // let arr_temp2 = commonTools.format_MonthDays_byweek(2018);
+      // arr_temp2 = commonTools.format_MonthDays_add_byweek(2019, arr_temp2);
+      let arr_temp2 = commonTools.format_MonthDays_byweek(2019);
+      vm.time.month = arr_temp2.reverse();
       // console.log("~~~~~test vm.time.month");
       // console.log(vm.time.month);
     }, 100);

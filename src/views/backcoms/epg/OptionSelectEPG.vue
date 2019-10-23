@@ -304,17 +304,21 @@ export default {
 
     // 初始化周
     let arr_temp = [];
-    arr_temp = commonTools.weekDate(2018);
     setTimeout(function () {
-      arr_temp = commonTools.weekDate_add(2019, arr_temp);
-      vm.time.week = arr_temp;
+      // arr_temp = commonTools.weekDate(2018);
+      // arr_temp = commonTools.weekDate_add(2019, arr_temp);
+      arr_temp = commonTools.weekDate(2019);
+
+      vm.time.week = arr_temp.reverse();
     }, 100);
 
     // 初始化月
-    let arr_temp2 = commonTools.format_MonthDays(2018);
     setTimeout(function () {
-      arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
-      vm.time.month = arr_temp2;
+      // let arr_temp2 = commonTools.format_MonthDays(2018);
+      // arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
+      let arr_temp2 = commonTools.format_MonthDays(2019);
+
+      vm.time.month = arr_temp2.reverse();
     }, 100);
 
     this.getEpgProgramsTotal()

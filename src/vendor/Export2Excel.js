@@ -271,10 +271,34 @@ export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defau
     var ws = sheet_from_array_of_arrays(data);
     var ws2 = sheet_from_array_of_arrays(data);
     console.log(ws);
+    console.log(ws2);
+
+    function mix_two_obejct(obj1,obj2) {
+        let obj3;
+
+        let obj1_length = Object.getOwnPropertyNames(obj1).length;
+        let obj2_length = Object.getOwnPropertyNames(obj2).length;
+
+
+        return obj3;
+    }
+
+    let ws_m = mix_two_obejct(ws,ws2);
+
+    // 注释
+    // A B C 是excel的横 --- A->Z->AA->AB->ZB->以此类推 
+    // 竖即使 A? 的 ?
+    // 此处默认 ?=1的 只有A，用于标题
+    // t：s 指  string
+    // t：n 指  number
+    // 进行顺序 颠倒 B3B4提到B2前 =》 输出内容不会颠倒 
+    // =》 excel填充是按索引填充，不是按顺序填充 =》可以直接对object进行推入操作
+    // =》 以此实现 多个数组内容相加功能
+    // ///默认的object的length = 21（假设） = 1A(string-title) 10A（string-per_title） + 10B(num-per_value)    
     let temp_ws = {
-        // !ref: "A1:B10",
-        A1: { v: "xxxx", t: "s" },
-        A2: { v: "影视包", t: "s" },
+        // !ref: "A1:B10",          // 0
+        A1: { v: "xxxx", t: "s" },  // 1 title
+        A2: { v: "影视包", t: "s" }, // 2~10 per_title
         A3: { v: "影视包（包季）", t: "s" },
         A4: { v: "影视包（包年）", t: "s" },
         A5: { v: "少儿包", t: "s" },
@@ -283,26 +307,54 @@ export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defau
         A8: { v: "欢乐家庭包", t: "s" },
         A9: { v: "欢乐家庭包（包季）", t: "s" },
         A10: { v: "欢乐家庭包（包年）", t: "s" },
-        B2: { v: 535, t: "n" },
-        B3: { v: 410, t: "n" },
-        B4: { v: 348, t: "n" },
-        B5: { v: 348, t: "n" },
-        B6: { v: 410, t: "n" },
-        B7: { v: 348, t: "n" },
-        B8: { v: 348, t: "n" },
-        B9: { v: 410, t: "n" },
-        B10: { v: 348, t: "n" },
+        B3: { v: 3, t: "n" }, // 11~19 per_title
+        B4: { v: 4, t: "n" },
+        B2: { v: 2, t: "n" },
+        B5: { v: 5, t: "n" },
+        B6: { v: 6, t: "n" },
+        B7: { v: 7, t: "n" },
+        B8: { v: 8, t: "n" },
+        B9: { v: 9, t: "n" },
+        B10: { v: 10, t: "n" },
+        H18: { v: 2333, t: "n" },
     }
-    temp_ws['!ref'] = "A1:B10";
+
+    // var obj = {
+    //     key1: 1,
+    //     key2: 2,
+    //     key3: 3
+    // };
+    // Object.getOwnPropertyNames(obj).length
+    // Object.keys(obj).length
+    // 输出对象的属性个数
+    // console.log(Object.getOwnPropertyNames(temp_ws).length);  // 输出：20
+    // console.log(Object.keys(temp_ws).length);  // 输出：20
+    console.log(Object.getOwnPropertyNames(temp_ws)[0]); // 输出 A1
+    console.log(Object.getOwnPropertyNames(temp_ws)[1]); // 输出 A2
+    console.log(Object.getOwnPropertyNames(temp_ws)[0].v); 
+    // 需要输出obj的 {}
+
+
+    // var obj = {};
+    // // 动态给对象添加属性的常见方式
+    // obj.name = 'aaa';
+    // obj.age = 22;
+    // console.log(obj); // 输出为： {name:"aaa",age:22}
+
+    // // 不常见方式
+    // var key = 'address';
+    // var value = '南京市雨花台区';
+    // obj[key] = value;
+    // console.log(obj);
+
+    // temp_ws['!ref'] = "A1:B10";
+    temp_ws['!ref'] = "A1:H18";
+
     /* add worksheet to workbook */
     wb.SheetNames.push(ws_name);
 
-
     // wb.Sheets[ws_name] = ws;
     wb.Sheets[ws_name] = temp_ws;
-
-
-
 
     var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
     var title = defaultTitle || '列表'
