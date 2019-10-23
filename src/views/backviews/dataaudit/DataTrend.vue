@@ -490,13 +490,97 @@ export default {
           vm.onlineUserNumber.nameArray = temp_2_2;
           vm.onlineUserNumber.stringArray = temp_2_3;
 
-          // //////////// 心跳 - 暂无数据
-          // let temp_3_1 = []; // dataTime // 心跳
-          // let temp_3_3 = []; // stringArray // 心跳
+          // //////////// 心跳 heart_beat_freq
 
-          // vm.heartbeatFrequency.dataTime = temp_3_1;  // 心跳
-          // vm.heartbeatFrequency.nameArray = temp_3_2;  // 心跳
-          // vm.heartbeatFrequency.stringArray = temp_3_3;  // 心跳
+          let buckets_3 = response.data.responses[3].aggregations.ac.buckets;
+          let length_3 = buckets_3.length;
+          let i_3;
+
+          let temp_3_1 = []; // dataTime
+          let temp_3_3 = []; // stringArray
+
+          // 处理地区
+          let temp_3_2 = nameArray; // nameArray
+          // let temp_3_2 = nameArray; // nameArray // 心跳
+
+          // 处理时间  -- ▲临时数据问题记录： 传入范围天，没有最后一天
+          let buckets_3_child = buckets_3[0].statistical_granularity.buckets; // 天
+          let length_3_child = buckets_3_child.length;
+          let i_3_child;
+
+          // 处理无值字符串-没有数据的地区 - 置0 (根据天数处理长短)
+          NoExist_ManageStr = ""; //初始化
+          str1 = "0\t";
+          str2 = "0";
+
+          for (i_3_child = 0; i_3_child < length_3_child; i_3_child++) {
+            temp_3_1.push(dateManage(buckets_3_child[i_3_child].key));
+
+            // 处理值 （地区=》时间） 1
+            temp_3_3.push(""); //  \t字符串 x ac个数 - 去除others
+            // 处理无值字符串
+            if (i_3_child != length_3_child - 1) {
+              NoExist_ManageStr += str1;
+            } else {
+              NoExist_ManageStr += str2;
+            }
+          }
+          // 处理值 （地区=》时间） 2
+          // 参数1：ac固定顺序 参数2：当前ac的位置
+          function DateManage_AcToTime_3(index_ac, index_current) {
+            let buckets_cc =
+              buckets_3[index_current].statistical_granularity.buckets; // 天
+            let length_cc = buckets_cc.length;
+            let i_cc;
+            let temp_ManageStr = "";
+            for (i_cc = 0; i_cc < length_cc; i_cc++) {
+              try {
+                // 异常处理：由于有 853 9天  854 10天的 不同length情况
+                if (i_cc != length_cc - 1) {
+                  temp_ManageStr +=
+                    String(buckets_cc[i_cc].heart_beat_freq.value) + "\t";
+                } else {
+                  temp_ManageStr += String(buckets_cc[i_cc].heart_beat_freq.value);
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            }
+            Vue.set(temp_3_3, index_ac, temp_ManageStr);
+          }
+          for (i_3 = 0; i_3 < length_3; i_3++) {
+            if (buckets_3[i_3].key == "851") {
+              DateManage_AcToTime_3(0, i_3);
+            }
+            if (buckets_3[i_3].key == "852") {
+              DateManage_AcToTime_3(1, i_3);
+            }
+            if (buckets_3[i_3].key == "853") {
+              DateManage_AcToTime_3(2, i_3);
+            }
+            if (buckets_3[i_3].key == "854") {
+              DateManage_AcToTime_3(3, i_3);
+            }
+            if (buckets_3[i_3].key == "855") {
+              DateManage_AcToTime_3(4, i_3);
+            }
+            if (buckets_3[i_3].key == "856") {
+              DateManage_AcToTime_3(5, i_3);
+            }
+            if (buckets_3[i_3].key == "857") {
+              DateManage_AcToTime_3(6, i_3);
+            }
+            if (buckets_3[i_3].key == "858") {
+              DateManage_AcToTime_3(7, i_3);
+            }
+            if (buckets_3[i_3].key == "859") {
+              DateManage_AcToTime_3(8, i_3);
+            }
+          }
+
+          vm.heartbeatFrequency.dataTime = temp_3_1;  // 心跳
+          vm.heartbeatFrequency.nameArray = temp_3_2;  // 心跳
+          vm.heartbeatFrequency.stringArray = temp_3_3;  // 心跳
         })
         .catch(function(error) {
           console.info(error);

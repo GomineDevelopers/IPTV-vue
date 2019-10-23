@@ -173,8 +173,8 @@ export default {
       if (type == "lastmonth") {
         // 用户画像 用上个月
         data = {
-          start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 2),
-          end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 2)
+          start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1),
+          end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1)
         };
       }
       if (type == "rangedays_n") {

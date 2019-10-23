@@ -375,14 +375,14 @@ export default {
         start: ExpirationDate,
         end: ExpirationDate
       };
-      console.log(temp);
+      // console.log(temp);
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       missReport(formData)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           // 暂时为某日的
           let buckets =
             response.data.responses[0].aggregations.statistical_granularity
@@ -476,9 +476,8 @@ export default {
               ];
             }
             try {
-              if (buckets_0_child[i_0_child].key == "heartbeat") {
-                // 暂时没有
-                // temp_heartbeat_all = dataManage(i_0_child);
+              if (buckets_0_child[i_0_child].key == "useronline") {
+                temp_heartbeat_all = dataManage(i_0_child);
               }
             } catch (error) {
               console.log(error);
@@ -581,8 +580,8 @@ export default {
           temp_all.push(temp_review_all);
           temp_all.push(temp_onlive_all);
 
-          console.log("~~~~~~!!!!!");
-          console.log(temp_all);
+          // console.log("~~~~~~!!!!!");
+          // console.log(temp_all);
           vm.usercount = temp_all[0];
           vm.heartbeat = temp_all[1];
           vm.basedata = temp_all[2];

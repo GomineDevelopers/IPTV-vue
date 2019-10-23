@@ -306,11 +306,11 @@
                 <thematic-data-trend-chart :lineData="specialTrendData1"></thematic-data-trend-chart>
               </el-col>
             </el-row>
-            <el-row class="thematic_data_trend_body back_white">
+            <!-- <el-row class="thematic_data_trend_body back_white">
               <el-col class="height_auto" :span="24">
                 <thematic-data-trend-chart :lineData="specialTrendData2"></thematic-data-trend-chart>
               </el-col>
-            </el-row>
+            </el-row> -->
           </el-row>
           <!-- 一周专题数据走势结束 -->
           <!-- 模块五 专题热力数据及运营分析结束-->
@@ -2045,8 +2045,8 @@ export default {
 
                 // for i_28，选择对应key - 上周（for i_28 或者 本周的key都行） --pass
 
-                console.log("~~~~~~~~~~~~~~~~~~temp_twoWeek_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
-                console.log(temp_twoWeek_keyArr);
+                // console.log("~~~~~~~~~~~~~~~~~~temp_twoWeek_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
+                // console.log(temp_twoWeek_keyArr);
 
                 for (i_28 = 0; i_28 < length_28; i_28++) {
                   let buckets_31_managed = temp_twoWeek_keyArr[i_28]; //第n个指定key - 两周
@@ -2145,15 +2145,15 @@ export default {
                     ]);
                   }
                 } // for i_28;
-                console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-                console.log(DATA_buttonClickTOPData_all);
+                // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+                // console.log(DATA_buttonClickTOPData_all);
               } catch (error) {
                 console.log(error);
               }
 
+              // ////////// 推荐栏目一周数据概览-XX页部分按钮每日走势 row14 responses32
               //// 上面是 31
               //// 32开始
-              // XX页部分按钮每日走势
 
               // 需要后置请求： epg_box_content
               // i_32
@@ -2183,8 +2183,8 @@ export default {
                 m2_formData.append("year", temp_weeks.year);
                 users_mobileReport(m2_formData)
                   .then(function(m2_response) {
-                    console.log("●●●●●●●●●●●●●●●●●●●●●●●●●");
-                    console.log(m2_response); // 7天的
+                    // console.log("●●●●●●●●●●●●●●●●●●●●●●●●●");
+                    // console.log(m2_response); // 7天的
 
                     let buckets_32 =
                       m2_response.data.responses[32].aggregations.epgName
@@ -2456,6 +2456,8 @@ export default {
                 console.log(error);
               }
 
+
+              // ////////// 推荐栏目一周数据概览-推荐页各按钮点击次数 row15 responses32
               //// 上面是 32
               //// 33开始
               // XX页各按钮点击次数
@@ -2549,8 +2551,8 @@ export default {
                   );
                 }
 
-                console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
-                console.log(temp_twoWeek_32w_keyArr);
+                // console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
+                // console.log(temp_twoWeek_32w_keyArr);
 
                 // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
                 // ▲▲▲▲ 一个栏目的data完毕后，进行总处理
@@ -2626,8 +2628,8 @@ export default {
                     // 0周-不管让其报错不显示
                   }
                 }
-                console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
-                console.log(temp_twoWeek_32w_keyArr_sort);
+                // console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
+                // console.log(temp_twoWeek_32w_keyArr_sort);
 
                 let temp_i_28 = 0;
                 let temp_length_28 = length_28;
@@ -2635,8 +2637,8 @@ export default {
                 function fun_callback_do(callback) {
                   setTimeout(function() {
                     if (temp_i_28 < temp_length_28) {
-                      console.log("★★★★★★★★★★★★BBB");
-                      console.log(temp_i_28);
+                      // console.log("★★★★★★★★★★★★BBB");
+                      // console.log(temp_i_28);
                       temp_i_28++; // 进来即自增
                       let buckets_32w_managed =
                         temp_twoWeek_32w_keyArr[temp_i_28]; //第n个指定key - 7天
@@ -2693,11 +2695,11 @@ export default {
                             m2_formData.append("year", String(temp_data.year));
                             epg_box_content(m2_formData)
                               .then(response3 => {
-                                console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 30 = 330+个请求
-                                console.log("list:" + temp_i_28); // --data 父级arr
-                                console.log("areanumber:" + i_sign_32w); // -- data 竖
-                                console.log(temp_data);
-                                console.log(response3);
+                                // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 30 = 330+个请求
+                                // console.log("list:" + temp_i_28); // --data 父级arr
+                                // console.log("areanumber:" + i_sign_32w); // -- data 竖
+                                // console.log(temp_data);
+                                // console.log(response3);
 
                                 // 移动1.0 移动2.0都是传入移动
                                 // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
@@ -2713,29 +2715,30 @@ export default {
 
                                 // 返回的2周
                                 if (length_32w_signValue == 2) {
-                                  console.log(
-                                    String(length_sign_32w) +
-                                      " " +
-                                      String(length_32w_signValue)
-                                  );
-                                  console.log(
-                                    "竖: " +
-                                      String(i_sign_32w_current) +
-                                      " 横： " +
-                                      String(1) +
-                                      " --- " +
-                                      String(
-                                        buckets_32w_signValue[1]
-                                          .click_freq.value
-                                      )
-                                  );
+                                  // console.log(
+                                  //   String(length_sign_32w) +
+                                  //     " " +
+                                  //     String(length_32w_signValue)
+                                  // );
+                                  // console.log(
+                                  //   "竖: " +
+                                  //     String(i_sign_32w_current) +
+                                  //     " 横： " +
+                                  //     String(1) +
+                                  //     " --- " +
+                                  //     String(
+                                  //       buckets_32w_signValue[1]
+                                  //         .click_freq.value
+                                  //     )
+                                  // );
                                   let current_value =
                                     buckets_32w_signValue[1].click_freq.value;
                                   let last_value =
                                     buckets_32w_signValue[0].click_freq.value;
                                   DATA_columnButtonClickNum.push([
                                     {
-                                      classify: "xx",
+                                      // classify: "xx",
+                                      classify: "",
                                       title:
                                         sign_32w_areanumber_arr[
                                           i_sign_32w_current
@@ -2756,7 +2759,8 @@ export default {
                                     buckets_32w_signValue[0].click_freq.value;
                                   DATA_columnButtonClickNum.push([
                                     {
-                                      classify: "xx",
+                                      // classify: "xx",
+                                      classify: "",
                                       title:
                                         sign_32w_areanumber_arr[
                                           i_sign_32w_current
@@ -2770,7 +2774,8 @@ export default {
                                 if (length_32w_signValue == 0) {
                                   DATA_columnButtonClickNum.push([
                                     {
-                                      classify: "xx",
+                                      // classify: "xx",
+                                      classify: "",
                                       title:
                                         sign_32w_areanumber_arr[
                                           i_sign_32w_current
@@ -2811,7 +2816,8 @@ export default {
                         Vue.set(DATA_columnButtonClickNum_all, temp_i_28, [
                           [
                             {
-                              classify: "xx",
+                              // classify: "xx",
+                              classify: "",
                               title: "boxx_x",
                               lastWeek: "0",
                               thisWeek: "0",
@@ -3067,6 +3073,65 @@ export default {
             // vm.XX.weeklyThermodynamic = temp_data_28_1;
             // vm.XX.buttonClickTOPData = temp_data_28_2;
             // vm.XX.columnButtonClickNum; // box相关 先放置
+
+
+            // ////////// 一周专题数据概览 row16 responses33
+            // 一周专题数据概览  一周专题策划情况
+            // thematicData monographicPlanData
+            try{
+            let buckets_33 = response.data.responses[33].aggregations.special_or_activity_name.buckets;
+            let length_33 = buckets_33.length;
+            let i_33;
+            let temp_data_33 = [];
+            let temp_data_33B = [];
+
+
+            let length_33_child = buckets_33[0].statistical_granularity.buckets.length;
+            if(length_33_child == 2){
+                temp_data_33.push(["product",currentWeekFormat ,beforeWeekFormat]);
+            }
+            if(length_33_child == 1){
+                temp_data_33.push(["product",currentWeekFormat]);
+            }
+
+            for(i_33=0;i_33<length_33;i_33++){
+              if(length_33_child == 2){
+                  let current_value = buckets_33[i_33].statistical_granularity.buckets[1].click_freq.value;
+                  let last_value = buckets_33[i_33].statistical_granularity.buckets[0].click_freq.value;
+                  let key = buckets_33[i_33].key;
+                  temp_data_33.push([key,
+                  current_value,
+                  last_value]
+                  );
+                  temp_data_33B.push(
+                    { value: current_value, name: key }
+                  );
+              }
+              if(length_33_child == 1){
+                  let current_value = buckets_33[i_33].statistical_granularity.buckets[0].click_freq.value;
+                  let key = buckets_33[i_33].key;
+                  temp_data_33.push([key,
+                    current_value]
+                  );
+                  temp_data_33B.push(
+                    { value: current_value, name: key }
+                  );
+              }
+            }
+            
+            vm.thematicData.data = temp_data_33;
+            vm.monographicPlanData.data = temp_data_33B
+            console.log("●●●●●●●●●●●●●●●●");
+            console.log(temp_data_33);
+            console.log(temp_data_33B);
+
+
+            } catch (error) {
+              console.log(error);
+            }
+
+
+
           } // if (week_type == "week")
 
           //////////////////////////////////////////////////////////////////////////
@@ -3272,6 +3337,56 @@ export default {
             } catch (error) {
               console.log(error);
             }
+
+
+            // ////////// 一周专题数据概览 row17 (上+下 -- 数据不够 下不显示) responses33
+            //一周专题数据走势
+            // specialTrendData1
+            try{
+              let buckets_33C = response.data.responses[33].aggregations.special_or_activity_name.buckets;
+              let length_33C = buckets_33C.length;
+              let i_33C;
+              let temp_data_33C = [];
+              let temp_data_33C_title = "";
+              temp_data_33C.push(["product"]);
+              function tiKey_manage(specialKey,tiKey){
+                if(specialKey == "70周年专区"){
+                  return "推荐";
+                }else{
+                  return tiKey[0].key;
+                }
+              }
+              for(i_33C=0;i_33C<length_33C;i_33C++){
+                if(i_33C == length_33C - 1){
+                  temp_data_33C_title+= tiKey_manage(buckets_33C[i_33C].key,buckets_33C[i_33C].ti.buckets)
+                }
+                else{
+                  temp_data_33C_title+= tiKey_manage(buckets_33C[i_33C].key,buckets_33C[i_33C].ti.buckets) + "/"
+                }
+                temp_data_33C.push([buckets_33C[i_33C].key]);
+
+                let length_33C_child = buckets_33C[0].statistical_granularity.buckets.length;
+                for(let i_33C_child=0;i_33C_child<length_33C_child;i_33C_child++){
+                  if(i_33C == 0){
+                    temp_data_33C[0].push(buckets_33C[i_33C].statistical_granularity.buckets[i_33C_child].key);
+                  }
+                  temp_data_33C[i_33C+1].push(buckets_33C[i_33C].statistical_granularity.buckets[i_33C_child].click_freq.value);
+
+                }
+              }
+              temp_data_33C_title += "专题点击数据走势（次）"
+
+    
+                 
+              vm.specialTrendData1.title = temp_data_33C_title;
+              vm.specialTrendData1.data = temp_data_33C;
+              console.log(temp_data_33C);
+
+
+            } catch (error) {
+              console.log(error);
+            }
+
           } //  if (week_type == "week_days")
         })
         .catch(function(error) {
@@ -4380,22 +4495,22 @@ export default {
         id: "thematic",
         color: ["#5B9BD4", "#CBC9C9"],
         data: [
-          ["product", "0527-0602", "0520-0526"],
-          ["（电视剧）封神演义", 12.8, 12.0],
-          ["（电视剧）新白娘子传奇2019", 13.1, 15.5],
-          ["（电影）飞驰人生", 14.0, 12.6],
-          ["（电视剧）青春斗", 15.0, 14.2],
-          ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
-          ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
-          ["（电视剧）招摇", 18.8, 18.0],
-          ["（电视剧）黄河英雄", 19.1, 17.5],
-          ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
-          ["（综艺）王牌对王牌 第四季", 20.0, 17.2],
-          ["（少儿）汪汪队立大功 第四季", 20.2, 16.7],
-          ["（电影）狂暴凶狮", 20.4, 17.3],
-          ["（通灵妃）通灵妃", 20.8, 17.6],
-          ["湖南卫视（高清）", 20.8, 17.2],
-          ["（电影）绿毛怪格林奇（原声版）", 21.4, 19.0]
+          // ["product", "0527-0602", "0520-0526"],
+          // ["（电视剧）封神演义", 12.8, 12.0],
+          // ["（电视剧）新白娘子传奇2019", 13.1, 15.5],
+          // ["（电影）飞驰人生", 14.0, 12.6],
+          // ["（电视剧）青春斗", 15.0, 14.2],
+          // ["（少儿）猪猪侠之竞球小英雄第二部", 16.2, 16.7],
+          // ["（少儿）熊出没之探险日记 第二季", 17.9, 16.1],
+          // ["（电视剧）招摇", 18.8, 18.0],
+          // ["（电视剧）黄河英雄", 19.1, 17.5],
+          // ["（电视剧）夜空中最闪亮的星", 20.0, 18.6],
+          // ["（综艺）王牌对王牌 第四季", 20.0, 17.2],
+          // ["（少儿）汪汪队立大功 第四季", 20.2, 16.7],
+          // ["（电影）狂暴凶狮", 20.4, 17.3],
+          // ["（通灵妃）通灵妃", 20.8, 17.6],
+          // ["湖南卫视（高清）", 20.8, 17.2],
+          // ["（电影）绿毛怪格林奇（原声版）", 21.4, 19.0]
         ]
       },
       //一周专题策划情况
@@ -4414,21 +4529,22 @@ export default {
           "#626262"
         ],
         data: [
-          { value: 735, name: "电视剧" },
-          { value: 510, name: "推荐" },
-          { value: 448, name: "电影" },
-          { value: 335, name: "动漫" },
-          { value: 210, name: "纪实" },
-          { value: 210, name: "游戏" },
-          { value: 135, name: "少儿" },
-          { value: 100, name: "体育" },
-          { value: 100, name: "综艺" }
+          // { value: 735, name: "电视剧" },
+          // { value: 510, name: "推荐" },
+          // { value: 448, name: "电影" },
+          // { value: 335, name: "动漫" },
+          // { value: 210, name: "纪实" },
+          // { value: 210, name: "游戏" },
+          // { value: 135, name: "少儿" },
+          // { value: 100, name: "体育" },
+          // { value: 100, name: "综艺" }
         ]
       },
 
       // 一周专题数据走势（动漫/热剧/少儿/电影专题点击数据走势）
       specialTrendData1: {
-        title: "动漫/热剧/少儿/电影专题点击数据走势（次）",
+        // title: "动漫/热剧/少儿/电影专题点击数据走势（次）",
+        title: "专题点击数据走势（次）",
         id: "specialTrend1",
         color: [
           "#DB9B9B",
@@ -4442,16 +4558,16 @@ export default {
           "#8B8989"
         ],
         data: [
-          ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-          ["探剧社第六期", "-", "-", "-", "-", 12152, 17568, 19831],
-          ["致敬", 7053, 7001, 6895, 6520, 6752, 7150, 6980],
-          ["此情可待成追忆", 2742, 2602, 2172, 2069, 2148, 2260, 2105],
-          ["白玉兰奖", 7053, 6895, 6520, 6540, 6685, 6520, 6423],
-          ["怪兽世界大对决", "-", "-", "-", 19360, 36541, 36852, 32210],
-          ["神灯许愿专题", 19520, 18953, 9865],
-          ["童心萌动 动漫回忆集", 7850, 7785, 7951, 7241, 7321, 7589, 8000],
-          ["龙珠回味童年专题", "-", "-", "-", "-", 12452, 13254, 15210],
-          ["萌趣星六一活动", 5240, 6542, 7683, 9142, 8652, 7652, 8752]
+          // ["product", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+          // ["探剧社第六期", "-", "-", "-", "-", 12152, 17568, 19831],
+          // ["致敬", 7053, 7001, 6895, 6520, 6752, 7150, 6980],
+          // ["此情可待成追忆", 2742, 2602, 2172, 2069, 2148, 2260, 2105],
+          // ["白玉兰奖", 7053, 6895, 6520, 6540, 6685, 6520, 6423],
+          // ["怪兽世界大对决", "-", "-", "-", 19360, 36541, 36852, 32210],
+          // ["神灯许愿专题", 19520, 18953, 9865],
+          // ["童心萌动 动漫回忆集", 7850, 7785, 7951, 7241, 7321, 7589, 8000],
+          // ["龙珠回味童年专题", "-", "-", "-", "-", 12452, 13254, 15210],
+          // ["萌趣星六一活动", 5240, 6542, 7683, 9142, 8652, 7652, 8752]
         ]
       },
       // 一周专题数据走势（推荐/体育/游戏/综艺/纪实专题点击数据走势）
