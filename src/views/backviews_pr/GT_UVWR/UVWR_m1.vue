@@ -59,7 +59,7 @@
         <p class="m_common_sm_title_font">各大运营商各市州一周新增在册用户数（万户）</p>
         <bar-charts-stack :chartData="GT_UVWR1_B2"></bar-charts-stack>
       </div>
-      <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p>
+      <!-- <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p> -->
       <!-- <p
         class="m_margin_0a m_common_content_font"
       >各市州平均增速2.8%，环比提升0.2个百分点。毕节市增速3.7%最高，环比提升0.7个百分点；安顺市增速2.0%最低，环比提升0.4个百分点。</p>-->

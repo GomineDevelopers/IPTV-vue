@@ -412,6 +412,7 @@ export default {
 
       this.value_others = null  //运营商改变时初始化下拉框内容
       let programs_yd_two = ["分类", "电视", "推荐", "vip", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
+      let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //1.0栏目分类
       // console.log(this.EPG_operator)
       let operator
       if (this.EPG_operator.length == 1) {
@@ -426,7 +427,7 @@ export default {
         formData.append("operator", operator);
         epg_programs(formData)
           .then((response) => {
-            console.log(operator)
+            console.log("运营商", operator)
             console.log("EPG所有栏目分类", response.data.responses)
             let programs_total = null
             let epg_programs_total = []  //后台返回的总的节目类型
@@ -454,7 +455,7 @@ export default {
               })
               var otherProgramsList = []  //其他节目类型数组（下拉框的值）
               epg_programs_total.forEach((value, index) => {
-                if (programs_yd_two.indexOf(value) == -1) {
+                if (programs_yd_one.indexOf(value) == -1) {
                   otherProgramsList.push({
                     value: value,
                     lable: value

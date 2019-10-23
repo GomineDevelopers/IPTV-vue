@@ -13,11 +13,11 @@
             <span class="list_title">{{list.title}}</span>
           </li>
           <li>
-            <span class="classify">上周</span>
+            <span class="classify">上期</span>
             <span>{{list.lastWeek}}</span>
           </li>
           <li>
-            <span class="classify">本周</span>
+            <span class="classify">本期</span>
             <span>{{list.thisWeek}}</span>
           </li>
           <li>
@@ -45,12 +45,14 @@ export default {
 </script>
 <style scoped>
 .epg_page_container .epg_page_row {
-  height: 130px;
-  margin: 14px 0px;
+  /* height: 130px; */
+  /* margin: 14px 0px; */
   font-size: 12px;
   display: -webkit-flex;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
 }
 .epg_page_col {
   text-align: left;
@@ -58,17 +60,18 @@ export default {
   background: #f0f0f0;
   flex: 1;
   -webkit-flex: 1;
-  margin-left: 14px;
+  margin: 0px 0px 14px 14px;
   background: #ffffff;
   box-shadow: 0 1px 9px 0 rgba(0, 0, 0, 0.12);
   border-radius: 4px;
+  min-width: 120px;
 }
 .epg_page_col:nth-child(1) {
   margin-left: 0px;
 }
 .epg_page_col ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 30px;
   height: 100%;
   display: -webkit-flex;
   display: flex;
@@ -101,7 +104,6 @@ export default {
 }
 .epg_page_col ul li span.classify {
   display: inline-block;
-  /* width: 70px; */
   margin-right: 5px;
   text-align: left;
   font-size: 12px;

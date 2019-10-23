@@ -224,22 +224,12 @@ export default {
   data() {
     return {
       activationNum: {
-        // id: "echartsAA",
-        // title: "激活用户数",
-        // dataName: ["激活数"],
-        // color: ["#FF6123"],
-        // data_region: [
-        //   "贵阳",
-        //   "遵义",
-        //   "安顺",
-        //   "黔南",
-        //   "黔东南",
-        //   "铜仁",
-        //   "毕节",
-        //   "六盘水",
-        //   "黔西南"
-        // ],
-        // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+        id: "echartsAA",
+        title: "激活用户数",
+        dataName: ["激活数"],
+        color: ["#FF6123"],
+        data_region: [],
+        series_data: []
       },
       activationRate: {
         // title: "激活率",
