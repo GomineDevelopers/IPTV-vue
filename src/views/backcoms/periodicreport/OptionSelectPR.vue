@@ -471,10 +471,12 @@ export default {
     //   vm.time.week = arr_temp;
     // }, 100);
     let arr_temp = [];
-    arr_temp = commonTools.format_WeeksDays_byDWwr(2018, 4);
     setTimeout(function() {
-      arr_temp = commonTools.format_WeeksDays_byDWwr_add(2019, 4, arr_temp);
-      vm.time.week = arr_temp;
+      // arr_temp = commonTools.format_WeeksDays_byDWwr(2018, 4);
+      // arr_temp = commonTools.format_WeeksDays_byDWwr_add(2019, 4, arr_temp);
+      arr_temp = commonTools.format_WeeksDays_byDWwr(2019, 4);
+
+      vm.time.week = arr_temp.reverse();
     }, 100);
 
     // 初始化月
@@ -483,10 +485,11 @@ export default {
     //   arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
     //   vm.time.month = arr_temp2;
     // }, 100);
-    let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
     setTimeout(function() {
-      arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
-      vm.time.month = arr_temp2;
+      // let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
+      // arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
+      let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2019, 4);
+      vm.time.month = arr_temp2.reverse();
     }, 100);
 
     // ▲历史条件获取
