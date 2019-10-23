@@ -462,6 +462,11 @@ export default {
                 }
                 result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
               })
+              result.forEach((item) => {
+                item.sort(function (a, b) {
+                  return Number(a.title.substring(a.title.indexOf('_') + 1, a.title.length)) - Number(b.title.substring(b.title.indexOf('_') + 1, b.title.length))
+                })
+              })
               // console.log("result--------", result)
               if (vm.EPG_programa_type == 2) {
                 vm.programesListTwo = result
@@ -529,7 +534,11 @@ export default {
                     thisWeek: current_click_freq_num,
                     chainIndex: chain_index + '%',
                     style: {
-                      position: 'absolute', width: value._source.w + 'px', left: value._source.x + 'px', height: value._source.h + 'px', top: value._source.y + 'px'
+                      position: 'absolute',
+                      width: value._source.w + 'px',
+                      left: value._source.x + 'px',
+                      height: value._source.h + 'px',
+                      top: value._source.y + 'px'
                     }
                   }
                   console.log("----------------------------")

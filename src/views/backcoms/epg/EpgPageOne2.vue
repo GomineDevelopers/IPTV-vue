@@ -68,7 +68,8 @@ ul {
 .main_body {
   /* width: 1920px; */
   width: 100%;
-  height: 800px;
+  height: auto;
+  min-height: 700px;
   position: relative;
 }
 .epg_page_col:nth-child(1) {

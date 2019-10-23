@@ -882,7 +882,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .CustomerSegmentation {
   font-family: PingFangSC-Regular;
   font-size: 12px;
@@ -910,7 +910,7 @@ export default {
 .flex {
   display: -webkit-flex;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-start !important;
 }
 .flex-direction {
   flex-direction: column;
