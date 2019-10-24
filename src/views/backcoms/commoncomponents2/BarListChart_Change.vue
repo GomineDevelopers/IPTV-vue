@@ -152,12 +152,14 @@ export default {
             interval: 0,
             show: true,
             formatter: function (val) {
-              var strs = val.split(""); //字符串数组
               var str = "";
-              for (var i = 0, s; (s = strs[i++]);) {
-                //遍历字符串数组
-                str += s;
-                if (!(i % 9)) str += "\n";
+              if (val) {
+                var strs = val.split(""); //字符串数组
+                for (var i = 0, s; (s = strs[i++]);) {
+                  //遍历字符串数组
+                  str += s;
+                  if (!(i % 9)) str += "\n";
+                }
               }
               return str;
             }

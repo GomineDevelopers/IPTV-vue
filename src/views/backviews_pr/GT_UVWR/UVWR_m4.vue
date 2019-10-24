@@ -177,411 +177,472 @@ export default {
       ////////// 三大基础功能收视数据（移动） 一周总体观看数据  GT_UVWR1_H1
       // 内-》外 1-》3 用户数 次数 总时长
 
-      //在册用户数与新增在册用户数（户）
-      let register_and_new_num = newValue.data.responses[0].aggregations.ac.buckets
-      let register_num_temp = []
-      let new_num_temp = []
-      register_and_new_num.forEach((value, index) => {
-        if (index < 9) {
-          //console.log(commonTools.acConvert_Single(value.key), value.register_num.value, value.new_num.value)
-          //在册用户数与新增在册用户数（户）
-          Vue.set(vm.GT_UVWR1_M1.data[9 - index], 0, commonTools.acConvert_Single(value.key))
-          Vue.set(vm.GT_UVWR1_M1.data[9 - index], 1, value.register_num.buckets[0].register_num.value)
-          Vue.set(vm.GT_UVWR1_M1.data[9 - index], 2, value.new_num.value)
+      try {
+        //在册用户数与新增在册用户数（户）
+        let register_and_new_num = newValue.data.responses[0].aggregations.ac.buckets
+        let register_num_temp = []
+        let new_num_temp = []
+        register_and_new_num.forEach((value, index) => {
+          if (index < 9) {
+            //console.log(commonTools.acConvert_Single(value.key), value.register_num.value, value.new_num.value)
+            //在册用户数与新增在册用户数（户）
+            Vue.set(vm.GT_UVWR1_M1.data[9 - index], 0, commonTools.acConvert_Single(value.key))
+            Vue.set(vm.GT_UVWR1_M1.data[9 - index], 1, value.register_num.buckets[0].register_num.value)
+            Vue.set(vm.GT_UVWR1_M1.data[9 - index], 2, value.new_num.value)
 
-          //在册用户占比
-          register_num_temp.push({
-            name: commonTools.acConvert_Single(value.key),
-            value: value.register_num.buckets[0].register_num.value
-          })
-          //新增用户占比
-          new_num_temp.push({
-            name: commonTools.acConvert_Single(value.key),
-            value: value.new_num.value
-          })
-        }
-      })
-      vm.GT_UVWR1_M2.content[0].data = register_num_temp
-      vm.GT_UVWR1_M2.content[1].data = new_num_temp
-      // console.log("GT_UVWR1_M2", vm.GT_UVWR1_M2.content)
+            //在册用户占比
+            register_num_temp.push({
+              name: commonTools.acConvert_Single(value.key),
+              value: value.register_num.buckets[0].register_num.value
+            })
+            //新增用户占比
+            new_num_temp.push({
+              name: commonTools.acConvert_Single(value.key),
+              value: value.new_num.value
+            })
+          }
+        })
+        vm.GT_UVWR1_M2.content[0].data = register_num_temp
+        vm.GT_UVWR1_M2.content[1].data = new_num_temp
+        // console.log("GT_UVWR1_M2", vm.GT_UVWR1_M2.content)
+      } catch (error) {
+        console.log(error);
+      }
 
-      //三大基础功能收视数据（电信）
-      //一周总体观看数据
-      let onlive1 = newValue.data.responses[3].aggregations.onlive_user_num.value;
-      let onlive2 = newValue.data.responses[3].aggregations.onlive_freq.value;
-      let onlive3 = newValue.data.responses[3].aggregations.onlive_dur.value;
-      let demand1 = newValue.data.responses[4].aggregations.demand_user_num.value;
-      let demand2 = newValue.data.responses[4].aggregations.demand_freq.value;
-      let demand3 = newValue.data.responses[4].aggregations.demand_dur.value;
-      let watch1 = newValue.data.responses[5].aggregations.watch_user_num.value;
-      let watch2 = newValue.data.responses[5].aggregations.watch_freq.value;
-      let watch3 = newValue.data.responses[5].aggregations.watch_dur.value;
-      let content = [
-        {
-          title: "观看总时长",
-          data: [
-            { value: (onlive3 / 3600).toFixed(2), name: "直播" },
-            { value: (demand3 / 3600).toFixed(2), name: "点播" },
-            { value: (watch3 / 3600).toFixed(2), name: "回看" }
-          ]
-        },
-        {
-          title: "观看次数",
-          data: [
-            { value: onlive2, name: "直播" },
-            { value: demand2, name: "点播" },
-            { value: watch2, name: "回看" }
-          ]
-        },
-        {
-          title: "观看用户数",
-          data: [
-            { value: onlive1, name: "直播" },
-            { value: demand1, name: "点播" },
-            { value: watch1, name: "回看" }
-          ]
-        }
-      ];
-      vm.GT_UVWR1_N1.content = content;
+      try {
+        //三大基础功能收视数据（电信）
+        //一周总体观看数据
+        let onlive1 = newValue.data.responses[3].aggregations.onlive_user_num.value;
+        let onlive2 = newValue.data.responses[3].aggregations.onlive_freq.value;
+        let onlive3 = newValue.data.responses[3].aggregations.onlive_dur.value;
+        let demand1 = newValue.data.responses[4].aggregations.demand_user_num.value;
+        let demand2 = newValue.data.responses[4].aggregations.demand_freq.value;
+        let demand3 = newValue.data.responses[4].aggregations.demand_dur.value;
+        let watch1 = newValue.data.responses[5].aggregations.watch_user_num.value;
+        let watch2 = newValue.data.responses[5].aggregations.watch_freq.value;
+        let watch3 = newValue.data.responses[5].aggregations.watch_dur.value;
+        let content = [
+          {
+            title: "观看总时长",
+            data: [
+              { value: (onlive3 / 3600).toFixed(2), name: "直播" },
+              { value: (demand3 / 3600).toFixed(2), name: "点播" },
+              { value: (watch3 / 3600).toFixed(2), name: "回看" }
+            ]
+          },
+          {
+            title: "观看次数",
+            data: [
+              { value: onlive2, name: "直播" },
+              { value: demand2, name: "点播" },
+              { value: watch2, name: "回看" }
+            ]
+          },
+          {
+            title: "观看用户数",
+            data: [
+              { value: onlive1, name: "直播" },
+              { value: demand1, name: "点播" },
+              { value: watch1, name: "回看" }
+            ]
+          }
+        ];
+        vm.GT_UVWR1_N1.content = content;
+      } catch (error) {
+        console.log(error);
+      }
 
-      //三大基础功能观看用户数每日走势（万户）
-      let week_user_temp = [
-        ["product",], ["直播",], ["点播",], ["回看",], ["开机用户数",]
-      ]
-      let open_num = newValue.data.responses[6].aggregations.statistical_granularity.buckets  //一周开机用户数
-      let onlive_num = newValue.data.responses[7].aggregations.statistical_granularity.buckets  //一周直播观看用户
-      let demand_num = newValue.data.responses[8].aggregations.statistical_granularity.buckets  //一周点播观看用户
-      let watch_num = newValue.data.responses[9].aggregations.statistical_granularity.buckets  //一周回看观看用户
-      open_num.forEach((value, index) => {
-        // console.log("一周开机用户数", value.key, value.open_num.value)
-        let setDate = new Date(value.key)
-        let setdateYear = (setDate.getFullYear()) + "年"
-        let setDateMonth = (setDate.getMonth() + 1) + "月"
-        let setDateDay = (setDate.getDate()) + '日'
-        let weekDate = setDateMonth + setDateDay
-        week_user_temp[0].push(weekDate)
-        week_user_temp[4].push(value.open_num.value)
-      })
-      onlive_num.forEach((value, index) => {
-        week_user_temp[1].push(value.onlive_user_num.value)
-      })
-      demand_num.forEach((value, index) => {
-        week_user_temp[2].push(value.demand_user_num.value)
-      })
-      watch_num.forEach((value, index) => {
-        week_user_temp[3].push(value.watch_user_num.value)
-      })
-      vm.GT_UVWR1_N2.data = week_user_temp
+      try {
+        //三大基础功能观看用户数每日走势（万户）
+        let week_user_temp = [
+          ["product",], ["直播",], ["点播",], ["回看",], ["开机用户数",]
+        ]
+        let open_num = newValue.data.responses[6].aggregations.statistical_granularity.buckets  //一周开机用户数
+        let onlive_num = newValue.data.responses[7].aggregations.statistical_granularity.buckets  //一周直播观看用户
+        let demand_num = newValue.data.responses[8].aggregations.statistical_granularity.buckets  //一周点播观看用户
+        let watch_num = newValue.data.responses[9].aggregations.statistical_granularity.buckets  //一周回看观看用户
+        open_num.forEach((value, index) => {
+          // console.log("一周开机用户数", value.key, value.open_num.value)
+          let setDate = new Date(value.key)
+          let setdateYear = (setDate.getFullYear()) + "年"
+          let setDateMonth = (setDate.getMonth() + 1) + "月"
+          let setDateDay = (setDate.getDate()) + '日'
+          let weekDate = setDateMonth + setDateDay
+          week_user_temp[0].push(weekDate)
+          week_user_temp[4].push(value.open_num.value)
+        })
+        onlive_num.forEach((value, index) => {
+          week_user_temp[1].push(value.onlive_user_num.value)
+        })
+        demand_num.forEach((value, index) => {
+          week_user_temp[2].push(value.demand_user_num.value)
+        })
+        watch_num.forEach((value, index) => {
+          week_user_temp[3].push(value.watch_user_num.value)
+        })
+        vm.GT_UVWR1_N2.data = week_user_temp
+      } catch (error) {
+        console.log(error);
+      }
 
-      //电视直播频道分组收视数据（移动）
-      let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets
-      // vm.GT_UVWR1_I1.data[0].push(beforeWeekFormat, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_O1.data[0], 1, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_O1.data[0], 2, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_O2.data[0], 1, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_O2.data[0], 2, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_O3.data[0], 1, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_O3.data[0], 2, currentWeekFormat)
-      onlive_data.forEach((value, index) => {
-        switch (value.key) {
-          case '央视':
-            Vue.set(vm.GT_UVWR1_O1.data[1], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[1], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[1], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-          case '卫视':
-            Vue.set(vm.GT_UVWR1_O1.data[2], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[2], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[2], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-          case '本地':
-            Vue.set(vm.GT_UVWR1_O1.data[3], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[3], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[3], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-          case '轮播':
-            Vue.set(vm.GT_UVWR1_O1.data[4], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[4], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[4], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-        }
-      })
+      try {
+        //电视直播频道分组收视数据（移动）
+        let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets
+        // vm.GT_UVWR1_I1.data[0].push(beforeWeekFormat, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_O1.data[0], 1, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_O1.data[0], 2, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_O2.data[0], 1, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_O2.data[0], 2, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_O3.data[0], 1, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_O3.data[0], 2, currentWeekFormat)
+        onlive_data.forEach((value, index) => {
+          switch (value.key) {
+            case '央视':
+              Vue.set(vm.GT_UVWR1_O1.data[1], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[1], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[1], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+            case '卫视':
+              Vue.set(vm.GT_UVWR1_O1.data[2], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[2], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[2], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+            case '本地':
+              Vue.set(vm.GT_UVWR1_O1.data[3], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[3], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[3], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+            case '轮播':
+              Vue.set(vm.GT_UVWR1_O1.data[4], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[4], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[4], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
 
-      //本地频道收视规模排名
-      let demand_top = newValue.data.responses[11].aggregations.channel.buckets
-      Vue.set(vm.GT_UVWR1_P1.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_P1.data[0], 2, beforeWeekFormat)
-      demand_top.forEach((value, index) => {
-        if (index < 15) {
-          // console.log(value.key, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-          Vue.set(vm.GT_UVWR1_P1.data[15 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_P1.data[15 - index], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-        }
-      })
+      try {
+        //本地频道收视规模排名
+        let demand_top = newValue.data.responses[11].aggregations.channel.buckets
+        Vue.set(vm.GT_UVWR1_P1.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_P1.data[0], 2, beforeWeekFormat)
+        demand_top.forEach((value, index) => {
+          if (index < 15) {
+            // console.log(value.key, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_P1.data[15 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_P1.data[15 - index], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
 
-      //轮播频道每日收视走势（户）
-      let lunbo_top = newValue.data.responses[12].aggregations.channel.buckets
-      let week_time_data = lunbo_top[0].statistical_granularity.buckets
-      let week_time_temp = [["product"], [], [], [], [], []]
-      week_time_data.forEach((value, index) => {
-        let setDate = new Date(value.key)
-        let setdateYear = (setDate.getFullYear()) + "年"
-        let setDateMonth = (setDate.getMonth() + 1) + "月"
-        let setDateDay = (setDate.getDate()) + '日'
-        let weekDate = setDateMonth + setDateDay
-        week_time_temp[0].push(weekDate)
-      })
-      lunbo_top.forEach((value, index) => {
-        if (index < 5) {
-          week_time_temp[index + 1].push(value.key)
-          value.statistical_granularity.buckets.forEach((value2, index2) => {
-            week_time_temp[index + 1].push(value2.onlive_user_num.value)
-          })
-        }
-      });
-      vm.GT_UVWR1_P2.data = week_time_temp
+      try {
+        //轮播频道每日收视走势（户）
+        let lunbo_top = newValue.data.responses[12].aggregations.channel.buckets
+        let week_time_data = lunbo_top[0].statistical_granularity.buckets
+        let week_time_temp = [["product"], [], [], [], [], []]
+        week_time_data.forEach((value, index) => {
+          let setDate = new Date(value.key)
+          let setdateYear = (setDate.getFullYear()) + "年"
+          let setDateMonth = (setDate.getMonth() + 1) + "月"
+          let setDateDay = (setDate.getDate()) + '日'
+          let weekDate = setDateMonth + setDateDay
+          week_time_temp[0].push(weekDate)
+        })
+        lunbo_top.forEach((value, index) => {
+          if (index < 5) {
+            week_time_temp[index + 1].push(value.key)
+            value.statistical_granularity.buckets.forEach((value2, index2) => {
+              week_time_temp[index + 1].push(value2.onlive_user_num.value)
+            })
+          }
+        });
+        vm.GT_UVWR1_P2.data = week_time_temp
+      } catch (error) {
+        console.log(error);
+      }
 
-      //本地自办节目top5
-      let local_program = newValue.data.responses[13].aggregations.channel.buckets
-      Vue.set(vm.GT_UVWR1_P3.data[0], 1, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_P3.data[0], 2, currentWeekFormat)
-      local_program.forEach((value, index) => {
-        if (index < 5) {
-          Vue.set(vm.GT_UVWR1_P3.data[index + 1], 0, value.key)
-          Vue.set(vm.GT_UVWR1_P3.data[index + 1], 2, Number((value.onlive_dur.value / 10000 / 3600).toFixed(1)))
-        }
-      });
+      try {
+        //本地自办节目top5
+        let local_program = newValue.data.responses[13].aggregations.channel.buckets
+        Vue.set(vm.GT_UVWR1_P3.data[0], 1, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_P3.data[0], 2, currentWeekFormat)
+        local_program.forEach((value, index) => {
+          if (index < 5) {
+            Vue.set(vm.GT_UVWR1_P3.data[index + 1], 0, value.key)
+            Vue.set(vm.GT_UVWR1_P3.data[index + 1], 2, Number((value.onlive_dur.value / 10000 / 3600).toFixed(1)))
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
-      ///////////// 补
-      //各类型节目点播数据
-      //点播用户数（万户）  点播次数（万次）  点播时长（万小时）
-      //各类型节目点播数据
-      let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
-      Vue.set(vm.GT_UVWR1_Q1.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_Q1.data[0], 2, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_Q2.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_Q2.data[0], 2, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_Q3.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_Q3.data[0], 2, beforeWeekFormat)
+      try {
+        ///////////// 补
+        //各类型节目点播数据
+        //点播用户数（万户）  点播次数（万次）  点播时长（万小时）
+        //各类型节目点播数据
+        let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
+        Vue.set(vm.GT_UVWR1_Q1.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_Q1.data[0], 2, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_Q2.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_Q2.data[0], 2, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_Q3.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_Q3.data[0], 2, beforeWeekFormat)
 
-      demand_user_data.forEach((value, index) => {
-        if (index < 10) {
-          // console.log(value.key, value.demand_user_num.value, value.demand_freq.value, value.demand_dur.value)
-          Vue.set(vm.GT_UVWR1_Q1.data[10 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_Q1.data[10 - index], 1, Number((value.demand_user_num.value / 10000).toFixed(1)))
+        demand_user_data.forEach((value, index) => {
+          if (index < 10) {
+            // console.log(value.key, value.demand_user_num.value, value.demand_freq.value, value.demand_dur.value)
+            Vue.set(vm.GT_UVWR1_Q1.data[10 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_Q1.data[10 - index], 1, Number((value.demand_user_num.value / 10000).toFixed(1)))
 
-          Vue.set(vm.GT_UVWR1_Q2.data[10 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_Q2.data[10 - index], 1, Number((value.demand_freq.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_Q2.data[10 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_Q2.data[10 - index], 1, Number((value.demand_freq.value / 10000).toFixed(1)))
 
-          Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 3600).toFixed(1)))
-        }
-      })
+            Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 3600).toFixed(1)))
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
 
+      try {
+        //主要栏目点击和播放数据
+        //页面点击用户数
+        let program_click_data = newValue.data.responses[15].aggregations.ti.buckets
+        Vue.set(vm.GT_UVWR1_R1.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_R1.data[0], 2, beforeWeekFormat)
+        Vue.set(vm.GT_UVWR1_R2.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_R2.data[0], 2, beforeWeekFormat)
+        program_click_data.forEach((value, index) => {
+          if (index < 10) {
+            // console.log('页面点击和播放时长数据', value.key, value.click_user_num.value)
+            Vue.set(vm.GT_UVWR1_R1.data[10 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_R1.data[10 - index], 1, Number((value.click_user_num.value / 10000).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_R2.data[10 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_R2.data[10 - index], 1, Number((value.click_freq.value / 10000).toFixed(1)))
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
 
-      //主要栏目点击和播放数据
-      //页面点击用户数
-      let program_click_data = newValue.data.responses[15].aggregations.ti.buckets
-      Vue.set(vm.GT_UVWR1_R1.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_R1.data[0], 2, beforeWeekFormat)
-      Vue.set(vm.GT_UVWR1_R2.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_R2.data[0], 2, beforeWeekFormat)
-      program_click_data.forEach((value, index) => {
-        if (index < 10) {
-          // console.log('页面点击和播放时长数据', value.key, value.click_user_num.value)
-          Vue.set(vm.GT_UVWR1_R1.data[10 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_R1.data[10 - index], 1, Number((value.click_user_num.value / 10000).toFixed(1)))
-          Vue.set(vm.GT_UVWR1_R2.data[10 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_R2.data[10 - index], 1, Number((value.click_freq.value / 10000).toFixed(1)))
-        }
-      })
-
-      //页面播放时长（万小时）
-      let program_play_data = newValue.data.responses[16].aggregations.ti.buckets
-      Vue.set(vm.GT_UVWR1_R3.data[0], 1, currentWeekFormat)
-      Vue.set(vm.GT_UVWR1_R3.data[0], 2, beforeWeekFormat)  //
-      program_play_data.forEach((value, index) => {
-        if (index < 10) {
-          // console.log('页面点击和播放时长数据', value.key, value.demand_dur.value)
-          Vue.set(vm.GT_UVWR1_R3.data[10 - index], 0, value.key)
-          Vue.set(vm.GT_UVWR1_R3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 3600).toFixed(1)))
-        }
-      })
-
+      try {
+        //页面播放时长（万小时）
+        let program_play_data = newValue.data.responses[16].aggregations.ti.buckets
+        Vue.set(vm.GT_UVWR1_R3.data[0], 1, currentWeekFormat)
+        Vue.set(vm.GT_UVWR1_R3.data[0], 2, beforeWeekFormat)  //
+        program_play_data.forEach((value, index) => {
+          if (index < 10) {
+            // console.log('页面点击和播放时长数据', value.key, value.demand_dur.value)
+            Vue.set(vm.GT_UVWR1_R3.data[10 - index], 0, value.key)
+            Vue.set(vm.GT_UVWR1_R3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 3600).toFixed(1)))
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
     },
     //电信上周数据
     api_data_m4_range(newValue, oldValue) {
       // console.log("电信上周数据", newValue)
       let vm = this
-      //电视直播频道分组收视数据（移动）
-      let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets  //分组频道直播数据
-      onlive_data.forEach((value, index) => {
-        switch (value.key) {
-          case '央视':
-            Vue.set(vm.GT_UVWR1_O1.data[1], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[1], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[1], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-          case '卫视':
-            Vue.set(vm.GT_UVWR1_O1.data[2], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[2], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[2], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-          case '本地':
-            Vue.set(vm.GT_UVWR1_O1.data[3], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[3], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[3], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-          case '轮播':
-            Vue.set(vm.GT_UVWR1_O1.data[4], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O2.data[4], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-            Vue.set(vm.GT_UVWR1_O3.data[4], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
-            break;
-        }
-      })
 
-      //本地频道收视规模排名（万户）
-      let demand_top = newValue.data.responses[11].aggregations.channel.buckets
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_P1.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_P1.data[index], 2, 0)
-            // console.log("本周收视规模排名--", value)
-            demand_top.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.onlive_user_num.value)
-                Vue.set(vm.GT_UVWR1_P1.data[index], 2, (value2.onlive_user_num.value / 10000).toFixed(1))
-              }
-            })
+      try {
+        //电视直播频道分组收视数据（移动）
+        let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets  //分组频道直播数据
+        onlive_data.forEach((value, index) => {
+          switch (value.key) {
+            case '央视':
+              Vue.set(vm.GT_UVWR1_O1.data[1], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[1], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[1], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+            case '卫视':
+              Vue.set(vm.GT_UVWR1_O1.data[2], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[2], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[2], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+            case '本地':
+              Vue.set(vm.GT_UVWR1_O1.data[3], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[3], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[3], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
+            case '轮播':
+              Vue.set(vm.GT_UVWR1_O1.data[4], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O2.data[4], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[4], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              break;
           }
         })
-      }, 500)
+      } catch (error) {
+        console.log(error);
+      }
 
+      try {
+        //本地频道收视规模排名（万户）
+        let demand_top = newValue.data.responses[11].aggregations.channel.buckets
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_P1.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_P1.data[index], 2, 0)
+              // console.log("本周收视规模排名--", value)
+              demand_top.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.onlive_user_num.value)
+                  Vue.set(vm.GT_UVWR1_P1.data[index], 2, (value2.onlive_user_num.value / 10000).toFixed(1))
+                }
+              })
+            }
+          })
+        }, 500)
+      } catch (error) {
+        console.log(error);
+      }
 
-      //本地自办节目TOP5（万小时）
-      let local_program = newValue.data.responses[13].aggregations.channel.buckets
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_P3.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_P3.data[index], 1, 0)
-            // console.log("电信本地自办节目TOP5本周--", value)
-            local_program.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_P3.data[index], 1, Number((value2.onlive_dur.value / 10000 / 3600).toFixed(1)))
-              }
-            })
-          }
-        })
-      }, 500)
+      try {
+        //本地自办节目TOP5（万小时）
+        let local_program = newValue.data.responses[13].aggregations.channel.buckets
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_P3.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_P3.data[index], 1, 0)
+              // console.log("电信本地自办节目TOP5本周--", value)
+              local_program.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.onlive_dur.value)
+                  Vue.set(vm.GT_UVWR1_P3.data[index], 1, Number((value2.onlive_dur.value / 10000 / 3600).toFixed(1)))
+                }
+              })
+            }
+          })
+        }, 500)
+      } catch (error) {
+        console.log(error);
+      }
 
-      //各类型节目点播数据    点播用户数（万户）    
-      let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_Q1.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_Q1.data[index], 2, 0)
-            // console.log("页面点击用户数本周", value)
-            demand_user_data.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.demand_user_num.value)
-                Vue.set(vm.GT_UVWR1_Q1.data[index], 2, (value2.demand_user_num.value / 10000).toFixed(1))
-              }
-            })
-          }
-        })
-      }, 500)
+      try {
+        //各类型节目点播数据    点播用户数（万户）    
+        let demand_user_data = newValue.data.responses[14].aggregations.program_type.buckets
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_Q1.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_Q1.data[index], 2, 0)
+              // console.log("页面点击用户数本周", value)
+              demand_user_data.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.demand_user_num.value)
+                  Vue.set(vm.GT_UVWR1_Q1.data[index], 2, (value2.demand_user_num.value / 10000).toFixed(1))
+                }
+              })
+            }
+          })
+        }, 500)
 
-      //点播次数（万次）上周
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_Q2.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_Q2.data[index], 2, 0)
-            // console.log("页面点击用户数本周", value)
-            demand_user_data.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.demand_freq.value)
-                Vue.set(vm.GT_UVWR1_Q2.data[index], 2, (value2.demand_freq.value / 10000).toFixed(1))
-              }
-            })
-          }
-        })
-      }, 500)
+        //点播次数（万次）上周
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_Q2.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_Q2.data[index], 2, 0)
+              // console.log("页面点击用户数本周", value)
+              demand_user_data.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.demand_freq.value)
+                  Vue.set(vm.GT_UVWR1_Q2.data[index], 2, (value2.demand_freq.value / 10000).toFixed(1))
+                }
+              })
+            }
+          })
+        }, 500)
 
-      //点播时长（万小时）上周
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_Q3.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_Q3.data[index], 2, 0)
-            // console.log("页面点击用户数本周", value)
-            demand_user_data.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.demand_dur.value)
-                Vue.set(vm.GT_UVWR1_Q3.data[index], 2, (value2.demand_dur.value / 10000 / 3600).toFixed(1))
-              }
-            })
-          }
-        })
-      }, 500)
+        //点播时长（万小时）上周
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_Q3.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_Q3.data[index], 2, 0)
+              // console.log("页面点击用户数本周", value)
+              demand_user_data.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.demand_dur.value)
+                  Vue.set(vm.GT_UVWR1_Q3.data[index], 2, (value2.demand_dur.value / 10000 / 3600).toFixed(1))
+                }
+              })
+            }
+          })
+        }, 500)
+      } catch (error) {
+        console.log(error);
+      }
 
-      //主要栏目点击和播放数据
-      //页面点击用户数
-      let program_click_data = newValue.data.responses[15].aggregations.ti.buckets
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_R1.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_R1.data[index], 2, 0)
-            // console.log("页面点击用户数本周--", value)
-            program_click_data.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.click_user_num.value)
-                Vue.set(vm.GT_UVWR1_R1.data[index], 2, Number((value2.click_user_num.value / 10000).toFixed(1)))
-              }
-            })
-          }
-        })
-      }, 500)
+      try {
+        //主要栏目点击和播放数据
+        //页面点击用户数
+        let program_click_data = newValue.data.responses[15].aggregations.ti.buckets
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_R1.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_R1.data[index], 2, 0)
+              // console.log("页面点击用户数本周--", value)
+              program_click_data.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.click_user_num.value)
+                  Vue.set(vm.GT_UVWR1_R1.data[index], 2, Number((value2.click_user_num.value / 10000).toFixed(1)))
+                }
+              })
+            }
+          })
+        }, 500)
 
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_R2.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_R2.data[index], 2, 0)
-            // console.log("页面点击次数本周--", value)
-            program_click_data.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.click_freq.value)
-                Vue.set(vm.GT_UVWR1_R2.data[index], 2, Number((value2.click_freq.value / 10000).toFixed(1)))
-              }
-            })
-          }
-        })
-      }, 500)
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_R2.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_R2.data[index], 2, 0)
+              // console.log("页面点击次数本周--", value)
+              program_click_data.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.click_freq.value)
+                  Vue.set(vm.GT_UVWR1_R2.data[index], 2, Number((value2.click_freq.value / 10000).toFixed(1)))
+                }
+              })
+            }
+          })
+        }, 500)
+      } catch (error) {
+        console.log(error);
+      }
 
-      //页面播放时长（万小时）
-      let program_play_data = newValue.data.responses[16].aggregations.ti.buckets
-      setTimeout(() => {
-        let live_temp = vm.GT_UVWR1_R3.data
-        live_temp.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(vm.GT_UVWR1_R3.data[index], 2, 0)
-            // console.log("页面播放时长本周--", value)
-            program_play_data.forEach((value2, index2) => {
-              if (value2.key == value[0]) {
-                // console.log(value2.key, value2.demand_dur.value)
-                Vue.set(vm.GT_UVWR1_R3.data[index], 2, Number((value2.demand_dur.value / 10000 / 3600).toFixed(1)))
-              }
-            })
-          }
-        })
-      }, 500)
-
+      try {
+        //页面播放时长（万小时）
+        let program_play_data = newValue.data.responses[16].aggregations.ti.buckets
+        setTimeout(() => {
+          let live_temp = vm.GT_UVWR1_R3.data
+          live_temp.forEach((value, index) => {
+            if (index > 0) {
+              Vue.set(vm.GT_UVWR1_R3.data[index], 2, 0)
+              // console.log("页面播放时长本周--", value)
+              program_play_data.forEach((value2, index2) => {
+                if (value2.key == value[0]) {
+                  // console.log(value2.key, value2.demand_dur.value)
+                  Vue.set(vm.GT_UVWR1_R3.data[index], 2, Number((value2.demand_dur.value / 10000 / 3600).toFixed(1)))
+                }
+              })
+            }
+          })
+        }, 500)
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   methods: {

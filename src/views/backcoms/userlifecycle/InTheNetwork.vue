@@ -156,10 +156,10 @@ export default {
       let total_unord_num = 0   //总的unord_num
 
       inTheNetworkData.forEach((value, index) => {
-        console.log("--------------------")
+        // console.log("--------------------")
         // console.log(value.key, value.register_num.value, value.watch_dur_family.value, value.cum_paid_num.value)
-        console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
-        console.log("--------------------")
+        // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
+        // console.log("--------------------")
         let register_num = Number((value.register_num.value / 10000).toFixed(2))
         let watch_dur_family = Number((value.watch_dur_family.value / 3600).toFixed(2))
         let cum_paid_rate = Number(((value.cum_paid_num.value / value.register_num.value) * 100).toFixed(2)) + '%'
@@ -227,7 +227,6 @@ export default {
         total_loyal_user_num += value.loyal_user_num.value
         total_unord_num += value.unord_num.value
 
-        total_user_por_temp
       });
       //总的订购用户占比
       let total_cum_paid_rate = Number(((total_cum_paid_num / total_register_num) * 100).toFixed(2))
@@ -274,6 +273,7 @@ export default {
       // console.log("silence_user_por_temp", silence_user_por_temp)
       // console.log("downtime_user_por_temp", downtime_user_por_temp)
       // console.log("total_user_por_temp", total_user_por_temp)
+
       // 此处组件-刷新-drawline()
       setTimeout(function () {
         vm.drawLine1();
