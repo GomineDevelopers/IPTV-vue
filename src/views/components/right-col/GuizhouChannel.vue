@@ -3,6 +3,7 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>
       贵州频道收视TOP5({{GuizhouChannel_unit}})
+      <!-- 贵州频道收视TOP5 -->
     </el-row>
     <el-row class="programmes_name"></el-row>
     <el-row class="zone_programmes_body" v-show="ifgetdata">
@@ -92,13 +93,20 @@ export default {
           for (i = length - 1; i > -1; i--) {
             temp = [];
             temp.push(keyManage(buckets[i].key));
-            temp.push(buckets[i].onlive_dur.value);
-            temp.push(buckets[i].onlive_freq.value);
+            temp.push(
+              // (buckets[i].onlive_dur.value  /3600).toFixed(2)
+              (buckets[i].onlive_dur.value ).toFixed(2)
+            );
+            temp.push((buckets[i].onlive_freq.value ).toFixed(2));
+
+            // temp.push(buckets[i].onlive_dur.value / 3600);
+            // temp.push(buckets[i].onlive_freq.value);
+
             data.push(temp);
           }
           vm.GuizhouChannelData.data = data;
-          // console.log("~~~~~~!!!");
-          // console.log(vm.GuizhouChannelData);
+          console.log("~~~~~~!!!");
+          console.log(vm.GuizhouChannelData);
 
           vm.ifgetdata = true;
         })

@@ -453,7 +453,7 @@ export default {
               Vue.set(
                 vm.api_data.module4_numC,
                 i,
-                // responses2.aggregations.ac.buckets[i].watch_dur_family.value  10/23 19:01修改
+                // responses2.aggregations.ac.buckets[i].watch_dur_family.value //  10/23 19:01修改
                 responses2.aggregations.ac.buckets[i].watch_freq.value / responses2.aggregations.ac.buckets[i].watch_user_num.value
               );
               Vue.set(

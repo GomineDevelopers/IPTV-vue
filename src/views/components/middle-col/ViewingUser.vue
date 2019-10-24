@@ -24,6 +24,7 @@ export default {
 
   data() {
     return {
+      current_value: 1,
       ifgetdata: true,
       broadcast_demand_1: null,
       broadcast_demand_2: null,
@@ -69,7 +70,7 @@ export default {
         start: ExpirationDate,
         end: ExpirationDate,
         // operator: String(["移动", "联通", "电信"])
-        operator: m_operator,
+        operator: m_operator
       };
       // console.log("~~~~~~broadcast_demand");
       broadcast_demand(data)
@@ -99,7 +100,7 @@ export default {
         start: ExpirationDate,
         end: ExpirationDate,
         // operator: String(["移动", "联通", "电信"])
-        operator: m_operator,
+        operator: m_operator
       };
       broadcast_review(data)
         .then(function(response) {
@@ -125,7 +126,7 @@ export default {
         start: ExpirationDate,
         end: ExpirationDate,
         // operator: String(["移动", "联通", "电信"])
-        operator: m_operator,
+        operator: m_operator
       };
       media_watch_total(data)
         .then(function(response) {
@@ -152,7 +153,7 @@ export default {
         start: ExpirationDate,
         end: ExpirationDate,
         // operator: String(["移动", "联通", "电信"])
-        operator: m_operator,
+        operator: m_operator
       };
       broadcast_onlive(data)
         .then(function(response) {
@@ -245,7 +246,29 @@ export default {
           bottom: "1%",
           containLabel: true
         },
-        tooltip: {},
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          },
+          textStyle: {
+            align: "left"
+          },
+          formatter: function(params) {
+            let length = params.length;
+            // console.log(params);
+            // console.log(length);
+            return params[0].name +
+              "<br/>" +
+              params[0].seriesName +
+              "：" +
+              (parseInt(params[0].value[1]) / vm.current_value).toFixed(5) +
+              "<br/>" +
+              params[1].seriesName +
+              "：" +
+              (parseInt(params[0].value[2]) / vm.current_value).toFixed(5);
+          }
+        },
         dataset: {
           source: [
             // ["product", "用户数", "收视次数", "户均收视次数"],
@@ -312,6 +335,7 @@ export default {
               if (vm.media_watch_total_2 > 100000000) {
                 vm.m_Unit = "亿";
                 // return String(value / 10000 / 10000) + "亿";
+                vm.current_value = 100000000;
                 return String(value / 10000 / 10000);
               }
               if (
@@ -319,6 +343,7 @@ export default {
                 vm.media_watch_total_2 <= 100000000
               ) {
                 vm.m_Unit = "千万";
+                vm.current_value = 10000000;
                 return String(value / 10000 / 1000);
               }
               if (
@@ -326,6 +351,7 @@ export default {
                 vm.media_watch_total_2 <= 10000000
               ) {
                 vm.m_Unit = "百万";
+                vm.current_value = 1000000;
                 return String(value / 10000 / 100);
               }
               if (
@@ -333,8 +359,10 @@ export default {
                 vm.media_watch_total_2 <= 1000000
               ) {
                 vm.m_Unit = "万";
+                vm.current_value = 10000;
                 return String(value / 10000);
               }
+
               return String(value);
             }
           },

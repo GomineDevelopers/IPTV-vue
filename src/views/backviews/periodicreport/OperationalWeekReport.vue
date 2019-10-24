@@ -310,7 +310,7 @@
               <el-col class="height_auto" :span="24">
                 <thematic-data-trend-chart :lineData="specialTrendData2"></thematic-data-trend-chart>
               </el-col>
-            </el-row> -->
+            </el-row>-->
           </el-row>
           <!-- 一周专题数据走势结束 -->
           <!-- 模块五 专题热力数据及运营分析结束-->
@@ -542,12 +542,13 @@ export default {
             console.log("users_mobileReport  week");
 
             console.log(response);
+            let buckets_0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
             try {
               // 一周用户活跃情况
               // ////////// 周末用户总量与一周开机率  (row 1 left)
-              let buckets_0 =
-                response.data.responses[0].aggregations.statistical_granularity
-                  .buckets;
+
               let length_0 = buckets_0.length;
               let i_0;
               // 在册用户数（万户） register_num
@@ -1001,6 +1002,8 @@ export default {
               let buckets_14_0 =
                 response.data.responses[14].aggregations.statistical_granularity
                   .buckets[0].ti.buckets;
+              let top15_length_week2_all = buckets_14_0.length; //
+              console.log("error change");
               let length_14_0 = buckets_14_0.length; // length_14_0
               let i_14_2;
               function Return_KeyValue_14(key) {
@@ -2216,6 +2219,11 @@ export default {
                     // console.log("◆◆◆◆◆◆temp_7days_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
                     // console.log(temp_7days_keyArr);
 
+                    // 总数据初始化
+                    for (i_28 = 0; i_28 < length_28; i_28++) {
+                      DATA_someButtonDayTrendData_all.push([]);
+                    }
+
                     // for (i_28 = 0; i_28 < length_28; i_28++) {
                     // i_28 = 0; // callback 初始化
                     let temp_i_28 = 0;
@@ -2283,14 +2291,6 @@ export default {
                               i_sign_32 < length_sign_32;
                               i_sign_32++
                             ) {
-                              //    (function(cur) {
-                              //     stepParams.set('category', this.moduleList[cur].category)
-                              //     axios.post('/operationlogitem/list', stepParams).then((res) => {
-                              //       console.log(res.data.items);
-                              //     }).catch((e) => {
-                              //       console.log(e);
-                              //     })
-                              // })
                               (function(i_sign_32_current) {
                                 // working(callback,currentIndex)
                                 // 二次请求box详细信息
@@ -2336,7 +2336,7 @@ export default {
                                   String(temp_data.year)
                                 );
                                 epg_box_content(m2_formData)
-                                  .then(response3 => {
+                                  .then(function(response3) {
                                     // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 10 = 110个请求
                                     // console.log("list:" + temp_i_28); // --data 父级arr
                                     // console.log("areanumber:" + i_sign_32); // -- data 竖
@@ -2387,14 +2387,14 @@ export default {
                                         temp_i_28,
                                         DATA_someButtonDayTrendData
                                       ); // data --父级
-                                      temp_i_28++; //自增a
+                                      // temp_i_28++; //自增a
                                       setTimeout(function() {
                                         callback(fun_callback_do);
                                       }, 100);
                                     }
                                   }) // 请求收
-                                  .catch(error => {
-                                    console.log(error);
+                                  .catch(function(error) {
+                                    console.info(error);
                                   }); // 请求收
                               })(i_sign_32);
                             } //for i_sign_32
@@ -2456,7 +2456,6 @@ export default {
                 console.log(error);
               }
 
-
               // ////////// 推荐栏目一周数据概览-推荐页各按钮点击次数 row15 responses32
               //// 上面是 32
               //// 33开始
@@ -2479,16 +2478,31 @@ export default {
                     (parseInt(arr2[1]) + 1) * 1000 + (parseInt(arr[1]) + 1)
                   );
                 }
-                //冒泡排序 -- 从序数index几开始
-                function sortArrZ(arr, index) {
-                  for (var i = 0; i < arr.length - 1; i++) {
-                    //决定每一轮比较多少次
-                    for (var j = index; j < arr.length - i - 1; j++) {
-                      if (arr[j][1] > arr[j + 1][1]) {
-                        // 判断第二位
-                        var tmp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = tmp;
+                // //冒泡排序 -- 从序数index几开始
+                // function sortArrZ(arr, index) { // 注意这个是处理二维数组的
+                //   for (var i = 0; i < arr.length - 1; i++) {
+                //     //决定每一轮比较多少次
+                //     for (var j = index; j < arr.length - i - 1; j++) {
+                //       if (arr[j][1] > arr[j + 1][1]) {
+                //         // 判断第二位
+                //         var tmp = arr[j];
+                //         arr[j] = arr[j + 1];
+                //         arr[j + 1] = tmp;
+                //       }
+                //     }
+                //   }
+                //   return arr;
+                // }
+                function sortArrZ(arr) {
+                  var len = arr.length;
+                  var temp; // 用于元素交换
+                  for (var i = 0; i < len; i++) {
+                    for (var j = 0; j < len - i - 1; j++) {
+                      if (arr[j] > arr[j + 1]) {
+                        // 相邻元素两对比
+                        temp = arr[j + 1];
+                        arr[j + 1] = arr[j];
+                        arr[j] = temp;
                       }
                     }
                   }
@@ -2499,11 +2513,14 @@ export default {
                   let length_br = buckets_arr.length;
                   let i_br;
                   let temp_arr = [];
+                  console.log("※※※※※※※※※※");
                   for (i_br = 0; i_br < length_br; i_br++) {
                     temp_arr.push(boxX_X_StringToInt(buckets_arr[i_br].key)); // 转换成 Int 数组
                   }
-                  temp_arr = sortArrZ(temp_arr, 0); //进行排序
-                  return temp_arr;
+                  console.log(temp_arr);
+                  let temp_arr2 = sortArrZ(temp_arr, 0); //进行排序
+                  console.log(temp_arr2);
+                  return temp_arr2;
                 }
 
                 // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
@@ -2551,15 +2568,15 @@ export default {
                   );
                 }
 
-                // console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
-                // console.log(temp_twoWeek_32w_keyArr);
+                console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
+                console.log(temp_twoWeek_32w_keyArr);
 
                 // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
                 // ▲▲▲▲ 一个栏目的data完毕后，进行总处理
                 // 前面是有一个box则分一行(丢一个数组)
                 // 这里使boxA_B A相同的在一行(使在一个数组)
                 // data: Array(21)  21 对 1行（21行） 对 1个 =》 21 对 7行 对 3个
-                //   0: Array(1)  
+                //   0: Array(1)
                 //     0:
                 //     chainIndex: "-0.35%"
                 //     classify: "xx"
@@ -2567,13 +2584,13 @@ export default {
                 //     thisWeek: 33651
                 //     title: "box0_1"
 
-                function Manage_DATA_c(data){
+                function Manage_DATA_c(data) {
                   let length = data.length;
                   let i;
-                  //-0 : 0_1 
-                  //-1 : 0_2 
-                  //-2 : 1_2 
-                  //-3 : 1_3 
+                  //-0 : 0_1
+                  //-1 : 0_2
+                  //-2 : 1_2
+                  //-3 : 1_3
                   // =>
                   //-0 : 0_1 0_2
                   //-2 : 1_2 1_3
@@ -2581,23 +2598,22 @@ export default {
                   let arr_count_arrData = []; // 记录n行各多少个 data
                   let new_num = 2044;
                   let old_bum = 3199;
-                  function Single_DATA_mange(key,data_per_singleData){
+                  function Single_DATA_mange(key, data_per_singleData) {
                     old_bum = new_num;
                     new_num = parseInt(boxX_X_StringToInt(key) / 1000);
-                    if(old_bum != new_num){
+                    if (old_bum != new_num) {
                       arr_count++;
                       arr_count_arrData.push([]);
                     }
                     // arr_count_arrData[arr_count].push(data_per_singleData)
-                    arr_count_arrData[arr_count].push(data_per_singleData[0])
+                    arr_count_arrData[arr_count].push(data_per_singleData[0]);
                   }
 
                   for (let i = 0; i < length; i++) {
-                    Single_DATA_mange(data[i][0].title,data[i]);
+                    Single_DATA_mange(data[i][0].title, data[i]);
                   }
                   return arr_count_arrData;
                 }
-
 
                 let temp_twoWeek_32w_keyArr_sort = []; //排序box
 
@@ -2628,114 +2644,145 @@ export default {
                     // 0周-不管让其报错不显示
                   }
                 }
-                // console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
-                // console.log(temp_twoWeek_32w_keyArr_sort);
+                setTimeout(() => {
+                  console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
+                  console.log(temp_twoWeek_32w_keyArr_sort);
+                }, 500);
 
+                // 总数据初始化
+                for (i_28 = 0; i_28 < length_28; i_28++) {
+                  DATA_columnButtonClickNum_all.push([]);
+                }
                 let temp_i_28 = 0;
                 let temp_length_28 = length_28;
                 fun_callback_do(fun_callback_do);
                 function fun_callback_do(callback) {
-                  setTimeout(function() {
-                    if (temp_i_28 < temp_length_28) {
-                      // console.log("★★★★★★★★★★★★BBB");
-                      // console.log(temp_i_28);
-                      temp_i_28++; // 进来即自增
-                      let buckets_32w_managed =
-                        temp_twoWeek_32w_keyArr[temp_i_28]; //第n个指定key - 7天
-                      let sign_32w_areanumber_arr =
-                        temp_twoWeek_32w_keyArr_sort[temp_i_28]; // 指定的sign box数组
-                      DATA_columnButtonClickNum = []; // 初始化
+                  // setTimeout(function() {
+                  if (temp_i_28 < temp_length_28) {
+                    // console.log("★★★★★★★★★★★★BBB");
+                    // console.log(temp_i_28);
+                    temp_i_28++; // 进来即自增
+                    let buckets_32w_managed =
+                      temp_twoWeek_32w_keyArr[temp_i_28]; //第n个指定key - 7天
+                    let sign_32w_areanumber_arr =
+                      temp_twoWeek_32w_keyArr_sort[temp_i_28]; // 指定的sign box数组
+                    DATA_columnButtonClickNum = []; // 初始化
 
-                      if (buckets_32w_managed != "nokey") {
-                        let length_32_m = buckets_32w_managed.length;
-                        let i_32_m;
-                        let length_sign_32w = sign_32w_areanumber_arr.length;
+                    if (buckets_32w_managed != "nokey") {
+                      let length_32_m = buckets_32w_managed.length;
+                      let i_32_m;
+                      let length_sign_32w = sign_32w_areanumber_arr.length;
+                      let i_sign_32w = 0;
+
+                      for (
                         let i_sign_32w = 0;
+                        i_sign_32w < length_sign_32w;
+                        i_sign_32w++
+                      ) {
+                        DATA_columnButtonClickNum.push([]);
+                      }
 
-                        //////
-                        for (
-                          let i_sign_32w = 0;
-                          i_sign_32w < length_sign_32w;
-                          i_sign_32w++
-                        ) {
-                          (function(i_sign_32w_current) {
-                            // working(callback,currentIndex)
-                            // 二次请求box详细信息
-                            // let i_sign_32w_current = i_sign_32w;
+                      //////
+                      for (
+                        let i_sign_32w = 0;
+                        i_sign_32w < length_sign_32w;
+                        i_sign_32w++
+                      ) {
+                        (function(i_sign_32w_current) {
+                          // working(callback,currentIndex)
+                          // 二次请求box详细信息
+                          // let i_sign_32w_current = i_sign_32w;
 
-                            let temp_data = {
-                              operator: String(["移动"]),
-                              list: String([temp_paneArr_use[temp_i_28]]), // 按指定list栏目 --data 父级arr
-                              year: temp_time.year,
-                              start: commonTools.ReturnBeforeWeek(
-                                temp_time.week,
-                                1
-                              ), // 传2周的 配置对应的值  -- data 横
-                              end: temp_time.week,
-                              areanumber:
-                                sign_32w_areanumber_arr[i_sign_32w_current] //  按指定box分  -- data 竖 x10
-                            };
+                          let temp_data = {
+                            operator: String(["移动"]),
+                            list: String([temp_paneArr_use[temp_i_28]]), // 按指定list栏目 --data 父级arr
+                            year: temp_time.year,
+                            start: commonTools.ReturnBeforeWeek(
+                              temp_time.week,
+                              1
+                            ), // 传2周的 配置对应的值  -- data 横
+                            end: temp_time.week,
+                            areanumber:
+                              sign_32w_areanumber_arr[i_sign_32w_current] //  按指定box分  -- data 竖 x10
+                          };
 
-                            var m2_formData = new FormData();
-                            var m2_formData = new window.FormData();
-                            m2_formData.append(
-                              "operator",
-                              String(temp_data.operator)
-                            );
-                            m2_formData.append("list", String(temp_data.list));
-                            m2_formData.append(
-                              "start",
-                              String(temp_data.start)
-                            );
-                            m2_formData.append("end", String(temp_data.end));
-                            m2_formData.append(
-                              "areanumber",
-                              String(temp_data.areanumber)
-                            );
-                            m2_formData.append("year", String(temp_data.year));
-                            epg_box_content(m2_formData)
-                              .then(response3 => {
-                                // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 30 = 330+个请求
-                                // console.log("list:" + temp_i_28); // --data 父级arr
-                                // console.log("areanumber:" + i_sign_32w); // -- data 竖
-                                // console.log(temp_data);
-                                // console.log(response3);
+                          var m2_formData = new FormData();
+                          var m2_formData = new window.FormData();
+                          m2_formData.append(
+                            "operator",
+                            String(temp_data.operator)
+                          );
+                          m2_formData.append("list", String(temp_data.list));
+                          m2_formData.append("start", String(temp_data.start));
+                          m2_formData.append("end", String(temp_data.end));
+                          m2_formData.append(
+                            "areanumber",
+                            String(temp_data.areanumber)
+                          );
+                          m2_formData.append("year", String(temp_data.year));
+                          epg_box_content(m2_formData)
+                            .then(function(response3) {
+                              // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 30 = 330+个请求
+                              // console.log("list:" + temp_i_28); // --data 父级arr
+                              // console.log("areanumber:" + i_sign_32w); // -- data 竖
+                              // console.log(temp_data);
+                              // console.log(response3);
 
-                                // 移动1.0 移动2.0都是传入移动
-                                // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
+                              // 移动1.0 移动2.0都是传入移动
+                              // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
 
-                                let buckets_32w_signValue =
-                                  response3.data.responses[0].aggregations
-                                    .statistical_granularity.buckets;
-                                let length_32w_signValue =
-                                  buckets_32w_signValue.length; // x7
-                                let i_32w_signValue;
-                                // 天 -- data 横
+                              let buckets_32w_signValue =
+                                response3.data.responses[0].aggregations
+                                  .statistical_granularity.buckets;
+                              let length_32w_signValue =
+                                buckets_32w_signValue.length; // x7
+                              let i_32w_signValue;
+                              // 天 -- data 横
 
-
-                                // 返回的2周
-                                if (length_32w_signValue == 2) {
-                                  // console.log(
-                                  //   String(length_sign_32w) +
-                                  //     " " +
-                                  //     String(length_32w_signValue)
-                                  // );
-                                  // console.log(
-                                  //   "竖: " +
-                                  //     String(i_sign_32w_current) +
-                                  //     " 横： " +
-                                  //     String(1) +
-                                  //     " --- " +
-                                  //     String(
-                                  //       buckets_32w_signValue[1]
-                                  //         .click_freq.value
-                                  //     )
-                                  // );
-                                  let current_value =
-                                    buckets_32w_signValue[1].click_freq.value;
-                                  let last_value =
-                                    buckets_32w_signValue[0].click_freq.value;
-                                  DATA_columnButtonClickNum.push([
+                              // 返回的2周
+                              if (length_32w_signValue == 2) {
+                                // console.log(
+                                //   String(length_sign_32w) +
+                                //     " " +
+                                //     String(length_32w_signValue)
+                                // );
+                                // console.log(
+                                //   "竖: " +
+                                //     String(i_sign_32w_current) +
+                                //     " 横： " +
+                                //     String(1) +
+                                //     " --- " +
+                                //     String(
+                                //       buckets_32w_signValue[1]
+                                //         .click_freq.value
+                                //     )
+                                // );
+                                let current_value =
+                                  buckets_32w_signValue[1].click_freq.value;
+                                let last_value =
+                                  buckets_32w_signValue[0].click_freq.value;
+                                // DATA_columnButtonClickNum.push([
+                                //   {
+                                //     // classify: "xx",
+                                //     classify: "",
+                                //     title:
+                                //       sign_32w_areanumber_arr[
+                                //         i_sign_32w_current
+                                //       ],
+                                //     lastWeek: last_value,
+                                //     thisWeek: current_value,
+                                //     chainIndex:
+                                //       (
+                                //         ((current_value - last_value) /
+                                //           last_value) *
+                                //         100
+                                //       ).toFixed(2) + "%"
+                                //   }
+                                // ]);
+                                Vue.set(
+                                  DATA_columnButtonClickNum,
+                                  i_sign_32w_current,
+                                  [
                                     {
                                       // classify: "xx",
                                       classify: "",
@@ -2752,12 +2799,29 @@ export default {
                                           100
                                         ).toFixed(2) + "%"
                                     }
-                                  ]);
-                                }
-                                if (length_32w_signValue == 1) {
-                                  let current_value =
-                                    buckets_32w_signValue[0].click_freq.value;
-                                  DATA_columnButtonClickNum.push([
+                                  ]
+                                );
+                              }
+                              if (length_32w_signValue == 1) {
+                                let current_value =
+                                  buckets_32w_signValue[0].click_freq.value;
+                                // DATA_columnButtonClickNum.push([
+                                //   {
+                                //     // classify: "xx",
+                                //     classify: "",
+                                //     title:
+                                //       sign_32w_areanumber_arr[
+                                //         i_sign_32w_current
+                                //       ],
+                                //     lastWeek: 0,
+                                //     thisWeek: current_value,
+                                //     chainIndex: "-%"
+                                //   }
+                                // ]);
+                                Vue.set(
+                                  DATA_columnButtonClickNum,
+                                  i_sign_32w_current,
+                                  [
                                     {
                                       // classify: "xx",
                                       classify: "",
@@ -2769,10 +2833,27 @@ export default {
                                       thisWeek: current_value,
                                       chainIndex: "-%"
                                     }
-                                  ]);
-                                }
-                                if (length_32w_signValue == 0) {
-                                  DATA_columnButtonClickNum.push([
+                                  ]
+                                );
+                              }
+                              if (length_32w_signValue == 0) {
+                                // DATA_columnButtonClickNum.push([
+                                //   {
+                                //     // classify: "xx",
+                                //     classify: "",
+                                //     title:
+                                //       sign_32w_areanumber_arr[
+                                //         i_sign_32w_current
+                                //       ],
+                                //     lastWeek: 0,
+                                //     thisWeek: 0,
+                                //     chainIndex: "-%"
+                                //   }
+                                // ]);
+                                Vue.set(
+                                  DATA_columnButtonClickNum,
+                                  i_sign_32w_current,
+                                  [
                                     {
                                       // classify: "xx",
                                       classify: "",
@@ -2784,57 +2865,57 @@ export default {
                                       thisWeek: 0,
                                       chainIndex: "-%"
                                     }
-                                  ]);
-                                }
+                                  ]
+                                );
+                              }
 
-                                if (i_sign_32w == length_sign_32w - 1) {
-
+                              // if (i_sign_32w == length_sign_32w - 1) {
+                              if (i_sign_32w_current == length_sign_32w - 1) {
+                                setTimeout(function() {
                                   Vue.set(
                                     DATA_columnButtonClickNum_all,
                                     temp_i_28,
                                     Manage_DATA_c(DATA_columnButtonClickNum)
-                                    // DATA_columnButtonClickNum 
-
+                                    // DATA_columnButtonClickNum
                                   ); // data --父级
-                                  temp_i_28++; //自增a
-                                  setTimeout(function() { 
-                                    callback(fun_callback_do);
-                                  }, 100);
-                                }
-                              }) // 请求收
-                              .catch(error => {
-                                console.log(error);
-                              }); // 请求收
-                          })(i_sign_32w);
-                        } //for i_sign_32w
-                        //////
-                        // setTimeout(function() {
-                        //   callback(fun_callback_do);
-                        // }, 100);
-                      } else {
-                        // 非 nokey 情况
-                        Vue.set(DATA_columnButtonClickNum_all, temp_i_28, [
-                          [
-                            {
-                              // classify: "xx",
-                              classify: "",
-                              title: "boxx_x",
-                              lastWeek: "0",
-                              thisWeek: "0",
-                              chainIndex: "-%"
-                            }
-                          ]
-                        ]);
-                        setTimeout(function() {
-                          callback(fun_callback_do);
-                        }, 100);
-                      }
+                                  // temp_i_28++; //自增a
+                                  callback(fun_callback_do);
+                                }, 100);
+                              }
+                            }) // 请求收
+                            .catch(function(error) {
+                              console.info(error);
+                            }); // 请求收
+                        })(i_sign_32w);
+                      } //for i_sign_32w
+                      //////
+                      // setTimeout(function() {
+                      //   callback(fun_callback_do);
+                      // }, 100);
                     } else {
-                      console.log("结束回调BBB");
-                      console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎BBB");
-                      console.log(DATA_columnButtonClickNum_all);
+                      // 非 nokey 情况
+                      Vue.set(DATA_columnButtonClickNum_all, temp_i_28, [
+                        [
+                          {
+                            // classify: "xx",
+                            classify: "",
+                            title: "boxx_x",
+                            lastWeek: "0",
+                            thisWeek: "0",
+                            chainIndex: "-%"
+                          }
+                        ]
+                      ]);
+                      setTimeout(function() {
+                        callback(fun_callback_do);
+                      }, 100);
                     }
-                  }, 10);
+                  } else {
+                    console.log("结束回调BBB");
+                    console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎BBB");
+                    console.log(DATA_columnButtonClickNum_all);
+                  }
+                  // }, 10);
                 } // function callback
               } catch (error) {
                 console.log(error);
@@ -2844,6 +2925,9 @@ export default {
 
               // ■■■■ 最终整合数据
               setTimeout(function() {
+                console.log(DATA_columnButtonClickNum_all);
+                // console.log(DATA_someButtonDayTrendData_all);
+
                 for (i_28 = 0; i_28 < length_28; i_28++) {
                   // 数据初始化+总处理
                   temp_Pane_ColumnData.push({
@@ -3066,7 +3150,7 @@ export default {
                 vm.paneArr = temp_paneArr;
                 vm.Pane_ColumnData = temp_Pane_ColumnData;
                 vm.activeName = vm.paneArr[0].id;
-              }, 12000);
+              }, 8000);
             } catch (error) {
               console.log(error);
             }
@@ -3074,64 +3158,61 @@ export default {
             // vm.XX.buttonClickTOPData = temp_data_28_2;
             // vm.XX.columnButtonClickNum; // box相关 先放置
 
-
             // ////////// 一周专题数据概览 row16 responses33
             // 一周专题数据概览  一周专题策划情况
             // thematicData monographicPlanData
-            try{
-            let buckets_33 = response.data.responses[33].aggregations.special_or_activity_name.buckets;
-            let length_33 = buckets_33.length;
-            let i_33;
-            let temp_data_33 = [];
-            let temp_data_33B = [];
+            try {
+              let buckets_33 =
+                response.data.responses[33].aggregations
+                  .special_or_activity_name.buckets;
+              let length_33 = buckets_33.length;
+              let i_33;
+              let temp_data_33 = [];
+              let temp_data_33B = [];
 
-
-            let length_33_child = buckets_33[0].statistical_granularity.buckets.length;
-            if(length_33_child == 2){
-                temp_data_33.push(["product",currentWeekFormat ,beforeWeekFormat]);
-            }
-            if(length_33_child == 1){
-                temp_data_33.push(["product",currentWeekFormat]);
-            }
-
-            for(i_33=0;i_33<length_33;i_33++){
-              if(length_33_child == 2){
-                  let current_value = buckets_33[i_33].statistical_granularity.buckets[1].click_freq.value;
-                  let last_value = buckets_33[i_33].statistical_granularity.buckets[0].click_freq.value;
-                  let key = buckets_33[i_33].key;
-                  temp_data_33.push([key,
-                  current_value,
-                  last_value]
-                  );
-                  temp_data_33B.push(
-                    { value: current_value, name: key }
-                  );
+              let length_33_child =
+                buckets_33[0].statistical_granularity.buckets.length;
+              if (length_33_child == 2) {
+                temp_data_33.push([
+                  "product",
+                  currentWeekFormat,
+                  beforeWeekFormat
+                ]);
               }
-              if(length_33_child == 1){
-                  let current_value = buckets_33[i_33].statistical_granularity.buckets[0].click_freq.value;
-                  let key = buckets_33[i_33].key;
-                  temp_data_33.push([key,
-                    current_value]
-                  );
-                  temp_data_33B.push(
-                    { value: current_value, name: key }
-                  );
+              if (length_33_child == 1) {
+                temp_data_33.push(["product", currentWeekFormat]);
               }
-            }
-            
-            vm.thematicData.data = temp_data_33;
-            vm.monographicPlanData.data = temp_data_33B
-            console.log("●●●●●●●●●●●●●●●●");
-            console.log(temp_data_33);
-            console.log(temp_data_33B);
 
+              for (i_33 = 0; i_33 < length_33; i_33++) {
+                if (length_33_child == 2) {
+                  let current_value =
+                    buckets_33[i_33].statistical_granularity.buckets[1]
+                      .click_freq.value;
+                  let last_value =
+                    buckets_33[i_33].statistical_granularity.buckets[0]
+                      .click_freq.value;
+                  let key = buckets_33[i_33].key;
+                  temp_data_33.push([key, current_value, last_value]);
+                  temp_data_33B.push({ value: current_value, name: key });
+                }
+                if (length_33_child == 1) {
+                  let current_value =
+                    buckets_33[i_33].statistical_granularity.buckets[0]
+                      .click_freq.value;
+                  let key = buckets_33[i_33].key;
+                  temp_data_33.push([key, current_value]);
+                  temp_data_33B.push({ value: current_value, name: key });
+                }
+              }
 
+              vm.thematicData.data = temp_data_33;
+              vm.monographicPlanData.data = temp_data_33B;
+              // console.log("●●●●●●●●●●●●●●●●");
+              // console.log(temp_data_33);
+              // console.log(temp_data_33B);
             } catch (error) {
               console.log(error);
             }
-
-
-
           } // if (week_type == "week")
 
           //////////////////////////////////////////////////////////////////////////
@@ -3142,10 +3223,10 @@ export default {
             console.log("users_mobileReport  week_days");
             console.log(response);
             // ////////// 每日开机率走势  (row 1)  responses 0
+            let buckets_0 =
+              response.data.responses[0].aggregations.statistical_granularity
+                .buckets;
             try {
-              let buckets_0 =
-                response.data.responses[0].aggregations.statistical_granularity
-                  .buckets;
               let length_0 = buckets_0.length;
               let i_0;
               // 在册用户数（万户） register_num
@@ -3338,55 +3419,69 @@ export default {
               console.log(error);
             }
 
-
             // ////////// 一周专题数据概览 row17 (上+下 -- 数据不够 下不显示) responses33
             //一周专题数据走势
             // specialTrendData1
-            try{
-              let buckets_33C = response.data.responses[33].aggregations.special_or_activity_name.buckets;
+            try {
+              let buckets_33C =
+                response.data.responses[33].aggregations
+                  .special_or_activity_name.buckets;
               let length_33C = buckets_33C.length;
               let i_33C;
               let temp_data_33C = [];
               let temp_data_33C_title = "";
               temp_data_33C.push(["product"]);
-              function tiKey_manage(specialKey,tiKey){
-                if(specialKey == "70周年专区"){
+              function tiKey_manage(specialKey, tiKey) {
+                if (specialKey == "70周年专区") {
                   return "推荐";
-                }else{
+                } else {
                   return tiKey[0].key;
                 }
               }
-              for(i_33C=0;i_33C<length_33C;i_33C++){
-                if(i_33C == length_33C - 1){
-                  temp_data_33C_title+= tiKey_manage(buckets_33C[i_33C].key,buckets_33C[i_33C].ti.buckets)
-                }
-                else{
-                  temp_data_33C_title+= tiKey_manage(buckets_33C[i_33C].key,buckets_33C[i_33C].ti.buckets) + "/"
+              for (i_33C = 0; i_33C < length_33C; i_33C++) {
+                if (i_33C == length_33C - 1) {
+                  temp_data_33C_title += tiKey_manage(
+                    buckets_33C[i_33C].key,
+                    buckets_33C[i_33C].ti.buckets
+                  );
+                } else {
+                  temp_data_33C_title +=
+                    tiKey_manage(
+                      buckets_33C[i_33C].key,
+                      buckets_33C[i_33C].ti.buckets
+                    ) + "/";
                 }
                 temp_data_33C.push([buckets_33C[i_33C].key]);
 
-                let length_33C_child = buckets_33C[0].statistical_granularity.buckets.length;
-                for(let i_33C_child=0;i_33C_child<length_33C_child;i_33C_child++){
-                  if(i_33C == 0){
-                    temp_data_33C[0].push(buckets_33C[i_33C].statistical_granularity.buckets[i_33C_child].key);
+                let length_33C_child =
+                  buckets_33C[0].statistical_granularity.buckets.length;
+                for (
+                  let i_33C_child = 0;
+                  i_33C_child < length_33C_child;
+                  i_33C_child++
+                ) {
+                  if (i_33C == 0) {
+                    temp_data_33C[0].push(
+                      buckets_33C[i_33C].statistical_granularity.buckets[
+                        i_33C_child
+                      ].key
+                    );
                   }
-                  temp_data_33C[i_33C+1].push(buckets_33C[i_33C].statistical_granularity.buckets[i_33C_child].click_freq.value);
-
+                  temp_data_33C[i_33C + 1].push(
+                    buckets_33C[i_33C].statistical_granularity.buckets[
+                      i_33C_child
+                    ].click_freq.value
+                  );
                 }
               }
-              temp_data_33C_title += "专题点击数据走势（次）"
+              temp_data_33C_title += "专题点击数据走势（次）";
 
-    
-                 
               vm.specialTrendData1.title = temp_data_33C_title;
               vm.specialTrendData1.data = temp_data_33C;
-              console.log(temp_data_33C);
-
-
+              // console.log(temp_data_33C);
             } catch (error) {
               console.log(error);
             }
-
           } //  if (week_type == "week_days")
         })
         .catch(function(error) {

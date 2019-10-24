@@ -74,8 +74,8 @@ const app = {
         EPG_time_type: 0, // 0-未选择 1-周 2-月
         EPG_programa_type: 0, //  0-未选择 1-固定 2-其他
 
-        // ADD_ALL_operator: [],
-        ADD_ALL_operator: ["移动"],
+        ADD_ALL_operator: [],
+        // ADD_ALL_operator: ["移动"],
 
         ADD_ALL_programa: [],
         ADD_ALL_week: null,

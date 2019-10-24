@@ -308,9 +308,8 @@ export default {
     setTimeout(function() {
       // arr_temp = commonTools.weekDate(2018);
       // arr_temp = commonTools.weekDate_add(2019, arr_temp);
-      arr_temp = commonTools.weekDate(2019);
 
-      vm.time.week = arr_temp.reverse();
+      vm.time.week = commonTools.weekDate_ED();
       // console.log("~~~~~test vm.time.week");
       // console.log(vm.time.week);
     }, 100);
@@ -319,9 +318,8 @@ export default {
     setTimeout(function() {
       // let arr_temp2 = commonTools.format_MonthDays(2018);
       // arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
-      let arr_temp2 = commonTools.format_MonthDays(2019);
 
-      vm.time.month = arr_temp2.reverse();
+      vm.time.month = commonTools.format_MonthDays_ED();
       // console.log("~~~~~test vm.time.month");
       // console.log(vm.time.month);
     }, 100);

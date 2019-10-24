@@ -503,8 +503,7 @@ export default {
     setTimeout(function() {
       // arr_temp = commonTools.weekDate(2018);
       // arr_temp = commonTools.weekDate_add(2019, arr_temp);
-      arr_temp = commonTools.weekDate(2019);
-      vm.time.week = arr_temp.reverse();
+      vm.time.week = commonTools.weekDate_ED();
     }, 100);
 
     // ▲历史条件获取

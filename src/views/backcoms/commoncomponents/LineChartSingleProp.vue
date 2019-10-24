@@ -5,7 +5,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import Vue from 'vue'
+import Vue from "vue";
 
 export default {
   name: "LineChartSingleProp", //折线图Y轴显示百分比
@@ -29,19 +29,19 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     }
     // ULC_region(newValue, oldValue) {
     //   let vm = this;
@@ -89,8 +89,17 @@ export default {
     ]),
     lineData_Change: {
       get: function() {
-
         var vm = this;
+        if (vm.lineData.id == "newPayingUsers_ADD_ALL") {
+          if (vm.ADD_ALL_operator && vm.ADD_ALL_week && vm.ADD_ALL_month) {
+            // do nothing. -- 监听
+          }
+          // 视图更新
+          setTimeout(function() {
+            vm.setLineChart();
+          }, 2000);
+          return vm.lineData;
+        }
         if (vm.lineData.id == "newPayingUsers") {
           if (
             vm.ULC_region &&
@@ -199,7 +208,6 @@ export default {
             data.push(d1);
             data.push(d2);
             data.push(d3);
-
           }
           // 视图更新
           setTimeout(function() {
@@ -293,6 +301,7 @@ export default {
       var lineChart = this.$echarts.init(
         document.getElementById(this.lineData_Change.id)
       );
+      let vm = this;
       let seriesData = [];
       let date_year = this.lineData.date_year;
       let date_month = this.lineData.date_month;
@@ -336,9 +345,10 @@ export default {
             align: "left"
           },
           formatter: function(params) {
-            // console.log(params);
-
+            
             let length = params.length;
+            // console.log(params);
+            // console.log(length);
 
             let title = params[0].data[0];
             let t1 = params[0].seriesName;
@@ -347,6 +357,10 @@ export default {
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
+              if (vm.lineData_Change.id == "newPayingUsers_ADD_ALL") {
+                return title + "<br/>" + marker1 + t1 + ":  " + value1 + "%";
+              }
+
               return (
                 date_year +
                 date_month +

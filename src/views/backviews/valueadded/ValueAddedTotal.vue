@@ -314,8 +314,8 @@ export default {
               // 2
               try {
                 temp_newPayingUsersProportion[1].push(
-                  buckets_0[i_0].new_paid_num.value /
-                    buckets_0[i_0].new_num.value
+                  commonTools.returnFloat_2(buckets_0[i_0].new_paid_num.value /
+                    buckets_0[i_0].new_num.value * 100)
                 );
               } catch (error) {
                 console.log(error);
@@ -430,6 +430,8 @@ export default {
             vm.subscribersData.data = temp_subscribersData;
             vm.subcontractUserData.data = temp_subcontractUserData;
             vm.subcontractIncomeData.data = temp_subcontractIncomeData;
+            // console.log("~~~~~~temp_newPayingUsersProportion");
+            // console.log(temp_newPayingUsersProportion);
           } catch (error) {
             console.log(error);
           }
@@ -461,8 +463,9 @@ export default {
       //新增付费用户占比
       newPayingUsersProportion: {
         title: "新增付费用户占比",
-        id: "newPayingUsers",
+        id: "newPayingUsers_ADD_ALL",
         color: "#5E70F1",
+        
         data: [
           // ["product", "15日", "16日", "17日", "18日", "19日", "20日", "21日"],
           // ["新增用户占比", 3, 4, 3, 7, 9, 5, 8]

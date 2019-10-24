@@ -13,7 +13,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      current_value: 1 // 用于除以 千万之类的
+    };
   },
   mounted() {
     let vm = this;
@@ -107,6 +109,22 @@ export default {
           },
           textStyle: {
             align: "left"
+          },
+          formatter: function(params) {
+            let length = params.length;
+            // console.log(params);
+            // console.log(length);
+            return (
+              params[0].name +
+              "<br/>" +
+              params[0].seriesName +
+              "：" +
+              (((parseInt(params[0].value[1])) / vm.current_value).toFixed(2))+
+              "<br/>" +
+              params[1].seriesName +
+              "：" +
+              (((parseInt(params[0].value[2])) / vm.current_value).toFixed(2))
+            );
           }
         },
         dataset: {
@@ -149,12 +167,14 @@ export default {
                 if (value == 0) {
                   return 0;
                 }
+                // Manage_Unit("千万", "");
 
                 if (vm.barListData_Change.data[5][1] > 100000000) {
                   m_Unit = "亿";
                   // m_result = String(value / 10000 / 10000) + "亿";
                   m_result = String(value / 10000 / 10000);
                   Manage_Unit(m_Unit, m_result);
+                  vm.current_value = 100000000;
                   return m_result;
                 }
                 if (
@@ -164,6 +184,7 @@ export default {
                   m_Unit = "千万";
                   m_result = String(value / 10000 / 1000);
                   Manage_Unit(m_Unit, m_result);
+                  vm.current_value = 10000000;
                   return m_result;
                 }
                 if (
@@ -173,6 +194,7 @@ export default {
                   m_Unit = "百万";
                   m_result = String(value / 10000 / 100);
                   Manage_Unit(m_Unit, m_result);
+                  vm.current_value = 1000000;
                   return m_result;
                 }
                 if (
@@ -182,10 +204,11 @@ export default {
                   m_Unit = "万";
                   m_result = String(value / 10000);
                   Manage_Unit(m_Unit, m_result);
+                  vm.current_value = 10000;
                   return m_result;
                 }
               }
-              console.log("~~~~~~~~~~~~~~~~over");
+              // console.log("~~~~~~~~~~~~~~~~over");
               return String(value);
             }
           },

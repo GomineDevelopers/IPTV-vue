@@ -24,9 +24,18 @@ import { commonTools } from '@/utils/common'
 Vue.prototype.$commonTools = commonTools
 
 
-import { get_user_permissions, refreshToken } from "@/api/api_main";
+import { get_user_permissions, refreshToken, get_date } from "@/api/api_main";
 
 // 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
+
+get_date()
+  .then(function (response_date) {
+    console.log(response_date);
+  })
+  .catch(function (error) {
+    console.info(error);
+  });
+
 store
   .dispatch("set_BigScreenStartDate", "2019-06-01")
   .then(function (response) {
@@ -47,7 +56,7 @@ store
     console.info(error);
   });
 
-let ifTest = true;
+let ifTest = false;
 
 
 // var routerform = [

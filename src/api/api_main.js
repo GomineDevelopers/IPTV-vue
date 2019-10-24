@@ -40,6 +40,15 @@ export function test_login() {
 // };
 
 
+// //////////////////////// 时间日期
+// get http://{{iptv}}/api/date
+export function get_date(newToken, user) {
+    return request({
+        method: 'get',
+        url: '/date',
+    })
+}
+
 // //////////////////////// 数据审计
 // 完整性
 // post http://{{iptv}}/api/missReport

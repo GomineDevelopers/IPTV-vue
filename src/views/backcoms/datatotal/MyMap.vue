@@ -58,7 +58,9 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: function loadData(result) {
-            return result.name + "<br />数据:" + result.value;
+            // return result.name + "<br />数据:" + result.value;
+            return result.name;
+
           }
         },
         visualMap: {

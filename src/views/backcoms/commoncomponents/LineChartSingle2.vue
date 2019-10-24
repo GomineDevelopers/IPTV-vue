@@ -62,6 +62,7 @@ export default {
       var lineChart = this.$echarts.init(
         document.getElementById(this.lineData.id)
       );
+      let vm = this;
       let seriesData = [];
       let date_year = this.lineData.date_year;
       let date_month = this.lineData.date_month;
@@ -130,6 +131,10 @@ export default {
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
+              if (vm.lineData.id == "newUserTotal") {
+                return title + "<br/>" + marker1 + t1 + ":  " + value1 + "%";
+              }
+
               return (
                 date_year +
                 date_month +

@@ -474,9 +474,7 @@ export default {
     setTimeout(function() {
       // arr_temp = commonTools.format_WeeksDays_byDWwr(2018, 4);
       // arr_temp = commonTools.format_WeeksDays_byDWwr_add(2019, 4, arr_temp);
-      arr_temp = commonTools.format_WeeksDays_byDWwr(2019, 4);
-
-      vm.time.week = arr_temp.reverse();
+      vm.time.week = commonTools.format_WeeksDays_byDWwr_ED();
     }, 100);
 
     // 初始化月
@@ -488,8 +486,7 @@ export default {
     setTimeout(function() {
       // let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
       // arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
-      let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2019, 4);
-      vm.time.month = arr_temp2.reverse();
+      vm.time.month =commonTools.format_MonthDays_byDWMMr_ED();
     }, 100);
 
     // ▲历史条件获取

@@ -277,11 +277,11 @@ export default {
           "观看时长",
           "观看户数",
           "户均收视次数",
-          "次均收视次数"
+          "次均收视时长"
         ];
       }
       if (newValue == 0) {
-        vm.target = ["观看次数", "观看时长", "次均收视次数"];
+        vm.target = ["观看次数", "观看时长", "次均收视时长"];
       }
     },
     UVB_programa_list(newValue, oldValue) {
@@ -324,7 +324,7 @@ export default {
         vm.columnData.data = vm.columnData_arr[3];
         vm.playData.data = vm.playData_arr[3];
       }
-      if (newValue == "次均收视次数") {
+      if (newValue == "次均收视时长") {
         vm.regionData.data = vm.regionData_data_arr[4];
         vm.operatorData.data = vm.operatorData_arr[4];
         vm.columnData.data = vm.columnData_arr[4];
@@ -500,8 +500,8 @@ export default {
             let temp1 = []; // 观看次数 - watch_freq
             let temp2 = []; // 观看时长 - watch_dur
             let temp3 = []; // 观看户数 - watch_user_num
-            let temp4 = []; // 户均收视次数 - watch_freq_family
-            let temp5 = []; // 次均收视次数 - watch_dur_mean
+            let temp4 = []; // 户均收视次数 - watch_freq_family = watch_freq / watch_user_num
+            let temp5 = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
             let temp_all = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ac
             for (i_0 = 0; i_0 < length_0; i_0++) {
               temp1.push({
@@ -517,11 +517,14 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp4.push({
-                value: buckets_0[i_0].watch_freq_family.value,
+                // value: buckets_0[i_0].watch_freq_family.value,
+                value: buckets_0[i_0].watch_freq.value /  buckets_0[i_0].watch_user_num.value,
+
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
-                value: buckets_0[i_0].watch_dur_mean.value,
+                // value: buckets_0[i_0].watch_dur_mean.value,
+                value: buckets_0[i_0].watch_dur.value / buckets_0[i_0].watch_freq.value,
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
             }
@@ -545,8 +548,8 @@ export default {
             let temp1_B = []; // 观看次数 - watch_freq
             let temp2_B = []; // 观看时长 - watch_dur
             let temp3_B = []; // 观看户数 - watch_user_num
-            let temp4_B = []; // 户均收视次数 - watch_freq_family
-            let temp5_B = []; // 次均收视次数 - watch_dur_mean
+            let temp4_B = []; // 户均收视次数 - watch_freq_family = watch_freq / watch_user_num
+            let temp5_B = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
             let temp_all_B = []; //包含temp1_B~temp5_B // ▲ 5种值-分别对应运营商-分别对应ac
 
             temp1_B.push(["product", "移动", "联通", "电信"]);
@@ -628,14 +631,20 @@ export default {
                   Vue.set(
                     temp4_B[i_0B + 1],
                     1,
+                    // buckets_0B[i_0B].operators.buckets[operator_i]
+                    //   .watch_freq_family.value
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq_family.value
+                      .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_user_num.value
                   );
                   Vue.set(
                     temp5_B[i_0B + 1],
                     1,
+                    // buckets_0B[i_0B].operators.buckets[operator_i]
+                    //   .watch_dur_mean.value
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_dur_mean.value
+                      .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_freq.value
                   );
                 }
                 if (
@@ -662,14 +671,20 @@ export default {
                   Vue.set(
                     temp4_B[i_0B + 1],
                     2,
+                    // buckets_0B[i_0B].operators.buckets[operator_i]
+                    //   .watch_freq_family.value
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq_family.value
+                      .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_user_num.value
                   );
                   Vue.set(
                     temp5_B[i_0B + 1],
                     2,
+                    // buckets_0B[i_0B].operators.buckets[operator_i]
+                    //   .watch_dur_mean.value
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_dur_mean.value
+                      .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_freq.value
                   );
                 }
                 if (
@@ -696,14 +711,20 @@ export default {
                   Vue.set(
                     temp4_B[i_0B + 1],
                     3,
+                    // buckets_0B[i_0B].operators.buckets[operator_i]
+                    //   .watch_freq_family.value
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq_family.value
+                      .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_user_num.value
                   );
                   Vue.set(
                     temp5_B[i_0B + 1],
                     3,
+                    // buckets_0B[i_0B].operators.buckets[operator_i]
+                    //   .watch_dur_mean.value
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_dur_mean.value
+                      .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_freq.value
                   );
                 }
               }
@@ -731,8 +752,8 @@ export default {
             let temp1_BB = []; // 观看次数 - watch_freq
             let temp2_BB = []; // 观看时长 - watch_dur
             let temp3_BB = []; // 观看户数 - watch_user_num
-            let temp4_BB = []; // 户均收视次数 - watch_freq_family
-            let temp5_BB = []; // 次均收视次数 - watch_dur_mean
+            let temp4_BB = []; // 户均收视次数 - watch_freq_family = watch_freq / watch_user_num
+            let temp5_BB = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
             let temp_all_BB = []; //包含temp1_B~temp5_BB // ▲ 5种值-分别对应运营商-分别对应ac
 
             for (i_0BB = 0; i_0BB < length_0BB; i_0BB++) {
@@ -749,11 +770,13 @@ export default {
                 name: buckets_0BB[i_0BB].key
               });
               temp4_BB.push({
-                value: buckets_0BB[i_0BB].watch_freq_family.value,
+                // value: buckets_0BB[i_0BB].watch_freq_family.value,
+                value: buckets_0BB[i_0BB].watch_freq.value /  buckets_0BB[i_0BB].watch_user_num.value,
                 name: buckets_0BB[i_0BB].key
               });
               temp5_BB.push({
-                value: buckets_0BB[i_0BB].watch_dur_mean.value,
+                // value: buckets_0BB[i_0BB].watch_dur_mean.value,
+                value: buckets_0BB[i_0BB].watch_dur.value / buckets_0BB[i_0BB].watch_freq.value,
                 name: buckets_0BB[i_0BB].key
               });
             }
@@ -938,8 +961,8 @@ export default {
           let temp1 = []; // 观看次数 - demand_freq
           let temp2 = []; // 观看时长 - demand_dur
           let temp3 = []; // 观看户数 - demand_user_num
-          let temp4 = []; // 户均收视次数 - watch_freq_family
-          let temp5 = []; // 次均收视次数 - watch_dur_mean
+          let temp4 = []; // 户均收视次数 - watch_freq_family = demand_freq / demand_user_num
+          let temp5 = []; // 次均收视时长 - watch_dur_mean = demand_dur / demand_freq
           let temp_all_C = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ti
 
           // ["product", "观看数"]
@@ -958,7 +981,7 @@ export default {
           temp2.push(["product", "观看时长"]);
           temp3.push(["product", "观看户数"]);
           temp4.push(["product", "户均收视次数"]);
-          temp5.push(["product", "次均收视次数"]);
+          temp5.push(["product", "次均收视时长"]);
 
           function dataManage(ti_name) {
             for (i_ti = 0; i_ti < length_ti; i_ti++) {
@@ -969,9 +992,11 @@ export default {
                   temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
                   temp4.push([
                     ti_name,
-                    buckets_ti[i_ti].watch_freq_family.value
+                    // buckets_ti[i_ti].watch_freq_family.value
+                     buckets_ti[i_ti].demand_freq.value / buckets_ti[i_ti].demand_user_num.value
                   ]);
-                  temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
+                  // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
+                  temp5.push([ti_name, buckets_ti[i_ti].demand_dur.value / ti_name, buckets_ti[i_ti].demand_freq.value]);
                 }
               } catch (error) {
                 console.log(error);
@@ -1096,9 +1121,9 @@ export default {
       //   "观看时长",
       //   "观看户数",
       //   "户均收视次数",
-      //   "次均收视次数"
+      //   "次均收视时长"
       // ],
-      target: ["观看次数", "观看时长", "次均收视次数"],
+      target: ["观看次数", "观看时长", "次均收视时长"],
       //地区数据
       regionData: {
         title: "地区",
