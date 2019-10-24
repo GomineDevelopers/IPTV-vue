@@ -72,18 +72,6 @@ export default {
       vm.US_data2.data1 = order_user_detail_data
 
 
-      // 测试
-      // vm.US_data1.data1 = [
-      //   { value: 123, name: "订购" },
-      //   { value: 77, name: "未订购" }
-      // ];
-      // vm.US_data2.data1 = [
-      //   { value: 111, name: "firsttime" },
-      //   { value: 13, name: "onetime" },
-      //   { value: 19, name: "周期性购买" },
-      //   { value: 317, name: "忠诚用户" },
-      //   { value: 22, name: "疑似流失" }
-      // ];
       // 此处组件-刷新-drawline()
       setTimeout(function () {
         vm.drawLine();
@@ -208,16 +196,20 @@ export default {
             center: ["45%", "50%"],
             selectedMode: "single",
             color: ["#FCB84F", "#B37CF4", "#7ECDF4", "#F97E6F", "#4ADBC7"],
-
             label: {
               normal: {
+                position: 'inner',
+                color: '#666',
+                fontSize: '10',
                 formatter: "{b}:\n {d}%" // 只显示百分比
               }
             },
             labelLine: {
+              // show: false,
               normal: {
                 smooth: 0.2,
-                length: 5
+                length: 4,
+                length2: 5
               }
             },
             emphasis: false,

@@ -15,31 +15,31 @@ export default {
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     lineData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     }
@@ -89,6 +89,7 @@ export default {
     ]),
     lineData_Change: {
       get: function() {
+
         var vm = this;
         if (vm.lineData.id == "newPayingUsers_ADD_ALL") {
           if (vm.ADD_ALL_operator && vm.ADD_ALL_week && vm.ADD_ALL_month) {
@@ -210,7 +211,7 @@ export default {
             data.push(d3);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("newPayingUsers 视图更新");
 
             vm.setLineChart();
@@ -250,7 +251,7 @@ export default {
             // console.log(data);
           }
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             vm.setLineChart();
           }, 2000);
           return {
@@ -277,12 +278,12 @@ export default {
           }
         }
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           vm.setLineChart();
         }, 2000);
         return vm.lineData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -290,7 +291,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 2000);
   },
@@ -346,6 +347,7 @@ export default {
           },
           formatter: function(params) {
             
+
             let length = params.length;
             // console.log(params);
             // console.log(length);

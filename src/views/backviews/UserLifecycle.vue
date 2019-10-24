@@ -361,75 +361,83 @@ export default {
             // console.log("----------------------------------------");
             // console.log("混合数据", ULC_operator);
             // console.log(response.data.responses);
-
             let total_data = response.data.responses
-
-            //在网
-            let onTheNetData = total_data[0].aggregations
-            let register_num = onTheNetData.register_num.value
-            if (time_type == 1) {
-              Vue.set(vm.api_data1.data1, 1, temp.start)
-            } else if (time_type == 2) {
-              Vue.set(vm.api_data1.data1, 1, commonTools.format_weekToChinese(temp.start))
-            } else if (time_type == 3) {
-              Vue.set(vm.api_data1.data1, 1, commonTools.format_monthToChinese(temp.start))
+            try {
+              //在网
+              let onTheNetData = total_data[0].aggregations
+              let register_num = onTheNetData.register_num.value
+              if (time_type == 1) {
+                Vue.set(vm.api_data1.data1, 1, temp.start)
+              } else if (time_type == 2) {
+                Vue.set(vm.api_data1.data1, 1, commonTools.format_weekToChinese(temp.start))
+              } else if (time_type == 3) {
+                Vue.set(vm.api_data1.data1, 1, commonTools.format_monthToChinese(temp.start))
+              }
+              Vue.set(vm.api_data1.data2, 1, (register_num / 1000000).toFixed(2))
+            } catch (error) {
+              console.log(error);
             }
-            Vue.set(vm.api_data1.data2, 1, (register_num / 1000000).toFixed(2))
 
             //激活用户数
-            let activate_user_num_arr = total_data[0].aggregations.ac.buckets
-            let activate_user_num_temp1 = []
-            let activate_user_num_temp2 = []
-            activate_user_num_arr.forEach((value, index) => {
-              if (value.key != "other") {
-                activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
-                activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
-              }
-            })
-            vm.activate_user_num.data_region = activate_user_num_temp1
-            vm.activate_user_num.series_data = activate_user_num_temp2
-            // console.log(vm.activate_user_num.data_region)
-            // console.log(vm.activate_user_num.series_data)
+            try {
+              let activate_user_num_arr = total_data[0].aggregations.ac.buckets
+              let activate_user_num_temp1 = []
+              let activate_user_num_temp2 = []
+              activate_user_num_arr.forEach((value, index) => {
+                if (value.key != "other") {
+                  activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
+                  activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
+                }
+              })
+              vm.activate_user_num.data_region = activate_user_num_temp1
+              vm.activate_user_num.series_data = activate_user_num_temp2
+              // console.log(vm.activate_user_num.data_region)
+              // console.log(vm.activate_user_num.series_data)
+            } catch (error) {
+              console.log(error);
+            }
 
             //激活率
-            let activate_array = total_data[0].aggregations.ac.buckets
-            let city_temp = ["city",]
-            let current_temp;
-            if (time_type == 1) {
-              current_temp = ["当日",]
-            } else if (time_type == 2) {
-              current_temp = ["本周",]
-            } else if (time_type == 3) {
-              current_temp = ["本月",]
-            }
-            activate_array.forEach((value, index) => {
-              if (value.key != "other") {
-                // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
-                city_temp.push(commonTools.acConvert_Single(value.key))
-                let activate_rate = ((value.activate_user_num.value / value.register_num.value) * 100).toFixed(2)
-                current_temp.push(activate_rate)
+            try {
+              let activate_array = total_data[0].aggregations.ac.buckets
+              let city_temp = ["city",]
+              let current_temp;
+              if (time_type == 1) {
+                current_temp = ["当日",]
+              } else if (time_type == 2) {
+                current_temp = ["本周",]
+              } else if (time_type == 3) {
+                current_temp = ["本月",]
               }
+              activate_array.forEach((value, index) => {
+                if (value.key != "other") {
+                  // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
+                  city_temp.push(commonTools.acConvert_Single(value.key))
+                  let activate_rate = ((value.activate_user_num.value / value.register_num.value) * 100).toFixed(2)
+                  current_temp.push(activate_rate)
+                }
 
-            })
-            Vue.set(vm.activate_rate_data.data, 0, city_temp);
-            Vue.set(vm.activate_rate_data.data, 2, current_temp);
-            // console.log("this.activate_rate_data.data", vm.activate_rate_data.data)
+              })
+              Vue.set(vm.activate_rate_data.data, 0, city_temp);
+              Vue.set(vm.activate_rate_data.data, 2, current_temp);
+              // console.log("this.activate_rate_data.data", vm.activate_rate_data.data)
+            } catch (error) {
+              console.log(error);
+            }
 
-            //在网数据
-            vm.api_data3 = total_data[1]
-            //在网用户结构
-            vm.api_data4 = total_data[1]
+            try {
+              //在网数据
+              vm.api_data3 = total_data[1]
+              //在网用户结构
+              vm.api_data4 = total_data[1]
 
-            //用户细分
-            vm.api_data5 = total_data[2]
-            vm.api_data6 = total_data[3]  //收视次数
-            vm.api_data7 = total_data[4]  //收视时长
-
-            // let aa = total_data[1].aggregations.flag_identity.buckets
-            // console.log("total_data[1].aggregations.flag_identity.buckets[1]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", total_data[1].aggregations.flag_identity.buckets)
-            // aa.forEach((value, index) => {
-            //   console.log(value.key, value.register_num.value, value.watch_dur_family.value, value.cum_paid_num.value)
-            // })
+              //用户细分
+              vm.api_data5 = total_data[2]
+              vm.api_data6 = total_data[3]  //收视次数
+              vm.api_data7 = total_data[4]  //收视时长
+            } catch (error) {
+              console.log(error);
+            }
           }
 
           if (dataTypeName == "single") {
@@ -440,19 +448,23 @@ export default {
               let total_data = response.data.responses
 
               //新增在网用户
-              let new_num_arr = total_data[0].aggregations.ac.buckets
-              let new_num_region = []
-              let new_num_data = []
-              new_num_arr.forEach((value, index) => {
-                if (value.key != "other") {
-                  new_num_region.push(commonTools.acConvert_Single(value.key))
-                  new_num_data.push(value.new_num.value)
-                }
-              })
-              vm.api_data2.region = new_num_region
-              // vm.api_data2.showData[0] = new_num_data
-              Vue.set(vm.api_data2.showData, 0, new_num_data)
-              // console.log("vm.api_data2", vm.api_data2)
+              try {
+                let new_num_arr = total_data[0].aggregations.ac.buckets
+                let new_num_region = []
+                let new_num_data = []
+                new_num_arr.forEach((value, index) => {
+                  if (value.key != "other") {
+                    new_num_region.push(commonTools.acConvert_Single(value.key))
+                    new_num_data.push(value.new_num.value)
+                  }
+                })
+                vm.api_data2.region = new_num_region
+                // vm.api_data2.showData[0] = new_num_data
+                Vue.set(vm.api_data2.showData, 0, new_num_data)
+                // console.log("vm.api_data2", vm.api_data2)
+              } catch (error) {
+                console.log(error);
+              }
 
             } else if (type == "lt") {
               // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -461,19 +473,22 @@ export default {
               let total_data = response.data.responses
 
               //新增在网用户
-              let new_num_arr = total_data[0].aggregations.ac.buckets
-              let new_num_region = []
-              let new_num_data = []
-              new_num_arr.forEach((value, index) => {
-                if (value.key != "other") {
-                  new_num_region.push(commonTools.acConvert_Single(value.key))
-                  new_num_data.push(value.new_num.value)
-                }
-              })
-              vm.api_data2.region = new_num_region
-              // vm.api_data2.showData[1] = new_num_data
-              Vue.set(vm.api_data2.showData, 1, new_num_data)
-
+              try {
+                let new_num_arr = total_data[0].aggregations.ac.buckets
+                let new_num_region = []
+                let new_num_data = []
+                new_num_arr.forEach((value, index) => {
+                  if (value.key != "other") {
+                    new_num_region.push(commonTools.acConvert_Single(value.key))
+                    new_num_data.push(value.new_num.value)
+                  }
+                })
+                vm.api_data2.region = new_num_region
+                // vm.api_data2.showData[1] = new_num_data
+                Vue.set(vm.api_data2.showData, 1, new_num_data)
+              } catch (error) {
+                console.log(error);
+              }
 
             } else if (type == "dx") {
               // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -482,19 +497,23 @@ export default {
               let total_data = response.data.responses
 
               //新增在网用户
-              let new_num_arr = total_data[0].aggregations.ac.buckets
-              let new_num_region = []
-              let new_num_data = []
-              new_num_arr.forEach((value, index) => {
-                if (value.key != "other") {
-                  new_num_region.push(commonTools.acConvert_Single(value.key))
-                  new_num_data.push(value.new_num.value)
-                }
-              })
-              vm.api_data2.region = new_num_region
-              // vm.api_data2.showData[2] = new_num_data
-              Vue.set(vm.api_data2.showData, 2, new_num_data)
-              // console.log(vm.api_data2)
+              try {
+                let new_num_arr = total_data[0].aggregations.ac.buckets
+                let new_num_region = []
+                let new_num_data = []
+                new_num_arr.forEach((value, index) => {
+                  if (value.key != "other") {
+                    new_num_region.push(commonTools.acConvert_Single(value.key))
+                    new_num_data.push(value.new_num.value)
+                  }
+                })
+                vm.api_data2.region = new_num_region
+                // vm.api_data2.showData[2] = new_num_data
+                Vue.set(vm.api_data2.showData, 2, new_num_data)
+                // console.log(vm.api_data2)
+              } catch (error) {
+                console.log(error);
+              }
 
             }
           }
@@ -508,41 +527,49 @@ export default {
         userLives(formDataPrev)
           .then(function (response) {
             if (dataTypeName == "mixture") {
-              console.log("----------------------------------------");
-              console.log("prev_temp", prev_temp)
-              console.log("混合数据(上期)", ULC_operator);
-              console.log(response.data.responses);
+              // console.log("----------------------------------------");
+              // console.log("prev_temp", prev_temp)
+              // console.log("混合数据(上期)", ULC_operator);
+              // console.log(response.data.responses);
               let total_data = response.data.responses
 
               //在网
-              let onTheNetData = total_data[0].aggregations
-              let register_num = onTheNetData.register_num.value
-              if (time_type == 1) {
-                Vue.set(vm.api_data1.data1, 0, prev_temp.start)
-              } else if (time_type == 2) {
-                Vue.set(vm.api_data1.data1, 0, commonTools.format_weekToChinese(prev_temp.start))
-              } else if (time_type == 3) {
-                Vue.set(vm.api_data1.data1, 0, commonTools.format_monthToChinese(prev_temp.start))
+              try {
+                let onTheNetData = total_data[0].aggregations
+                let register_num = onTheNetData.register_num.value
+                if (time_type == 1) {
+                  Vue.set(vm.api_data1.data1, 0, prev_temp.start)
+                } else if (time_type == 2) {
+                  Vue.set(vm.api_data1.data1, 0, commonTools.format_weekToChinese(prev_temp.start))
+                } else if (time_type == 3) {
+                  Vue.set(vm.api_data1.data1, 0, commonTools.format_monthToChinese(prev_temp.start))
+                }
+                Vue.set(vm.api_data1.data2, 0, (register_num / 1000000).toFixed(2))
+                // console.log("shangqi!!!", vm.api_data1)
+              } catch (error) {
+                console.log(error);
               }
-              Vue.set(vm.api_data1.data2, 0, (register_num / 1000000).toFixed(2))
-              // console.log("shangqi!!!", vm.api_data1)
 
               //激活率
-              let activate_array = total_data[0].aggregations.ac.buckets
-              let city_temp = ["city",]
-              let current_temp = ["同期",]
-              activate_array.forEach((value, index) => {
-                if (value.key != "other") {
-                  // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
-                  city_temp.push(commonTools.acConvert_Single(value.key))
-                  let activate_rate = ((value.activate_user_num.value / value.register_num.value) * 100).toFixed(2)
-                  current_temp.push(activate_rate)
-                }
+              try {
+                let activate_array = total_data[0].aggregations.ac.buckets
+                let city_temp = ["city",]
+                let current_temp = ["同期",]
+                activate_array.forEach((value, index) => {
+                  if (value.key != "other") {
+                    // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
+                    city_temp.push(commonTools.acConvert_Single(value.key))
+                    let activate_rate = ((value.activate_user_num.value / value.register_num.value) * 100).toFixed(2)
+                    current_temp.push(activate_rate)
+                  }
 
-              })
-              Vue.set(vm.activate_rate_data.data, 0, city_temp);
-              Vue.set(vm.activate_rate_data.data, 1, current_temp);
-              // console.log("上期数据", vm.activate_rate_data.data)
+                })
+                Vue.set(vm.activate_rate_data.data, 0, city_temp);
+                Vue.set(vm.activate_rate_data.data, 1, current_temp);
+                // console.log("上期数据", vm.activate_rate_data.data)
+              } catch (error) {
+                console.log(error);
+              }
             }
 
           })

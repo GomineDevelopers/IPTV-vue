@@ -253,50 +253,59 @@ export default {
       average_data_formData.append("start", average_temp.start);
       average_data_formData.append("end", average_temp.end);
 
+      // console.log("今日temp", temp)
+      // console.log("平均average_temp----", average_temp)
+
       //G+TV用户活跃发展日报表api对接(单个运营商数据)  今日
       liveUsers_daliyReport(formData)
         .then(response => {
           console.log("今日数据~~~~~~~", ttt)
           console.log(response.data)
-          let register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
-          let new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
-          let open_num = response.data.responses[0].aggregations.open_num.value; //开机用户
-          // let open_rate1 = (open_num / register_num) * 100 //开机率
-          let open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
-          let watch_freq_family = this.returnFloat(
-            response.data.responses[2].aggregations.watch_freq_family.value
-          );
-          //户均观看时长
-          // console.log("在册用户数（今日）", ttt, register_num)
-          // console.log("新增在册用户数（今日）", ttt, new_num)
-          // console.log("开机用户数（今日）", ttt, open_num)
-          // console.log("开机率（今日）", ttt, open_rate)
-          // console.log("户均观看时长（今日）", ttt, watch_freq_family)
+          try {
+            let register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
+            let new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
+            let open_num = response.data.responses[0].aggregations.open_num.value; //开机用户
+            // let open_rate1 = (open_num / register_num) * 100 //开机率
+            let open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
+            // let watch_freq_family = this.returnFloat(response.data.responses[2].aggregations.watch_freq_family.value);
+            let watch_dur = response.data.responses[2].aggregations.watch_dur.value
+            let watch_user_num = response.data.responses[2].aggregations.watch_user_num.value;
+            let watch_freq_family = (watch_dur / watch_user_num).toFixed(2)
+            //户均观看时长
+            // console.log("在册用户数（今日）", ttt, register_num)
+            // console.log("新增在册用户数（今日）", ttt, new_num)
+            // console.log("开机用户数（今日）", ttt, open_num)
+            // console.log("开机率（今日）", ttt, open_rate)
+            // console.log("户均观看时长（今日）", ttt, watch_freq_family)
 
-          // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-          //移动
-          if (type == "yd") {
-            Vue.set(vm.registeredUsers.data[1], 1, register_num); //移动在册用户数
-            Vue.set(vm.newAddUserNumber.data[1][1], 1, new_num); //移动新增在册用户数（今日）
-            Vue.set(vm.turnOnRate.data[1][1], 1, open_rate); //移动开机率（今日）
-            Vue.set(vm.outLookTime.data[1][1], 1, watch_freq_family); //移动户均观看时长
-          }
+            //移动
+            if (type == "yd") {
+              Vue.set(vm.registeredUsers.data[1], 1, register_num); //移动在册用户数
+              Vue.set(vm.newAddUserNumber.data[1][1], 1, new_num); //移动新增在册用户数（今日）
+              Vue.set(vm.turnOnRate.data[1][1], 1, open_rate); //移动开机率（今日）
+              Vue.set(vm.outLookTime.data[1][1], 1, watch_freq_family); //移动户均观看时长
+            }
 
-          //联通
-          if (type == "lt") {
-            Vue.set(vm.registeredUsers.data[1], 2, register_num); //联通在册用户数
-            Vue.set(vm.newAddUserNumber.data[1][1], 2, new_num); //联通新增在册用户数（今日）
-            Vue.set(vm.turnOnRate.data[1][1], 2, open_rate); //联通开机率（今日）
-            Vue.set(vm.outLookTime.data[1][1], 2, watch_freq_family); //联通户均观看时长
-          }
+            //联通
+            if (type == "lt") {
+              Vue.set(vm.registeredUsers.data[1], 2, register_num); //联通在册用户数
+              Vue.set(vm.newAddUserNumber.data[1][1], 2, new_num); //联通新增在册用户数（今日）
+              Vue.set(vm.turnOnRate.data[1][1], 2, open_rate); //联通开机率（今日）
+              Vue.set(vm.outLookTime.data[1][1], 2, watch_freq_family); //联通户均观看时长
+            }
 
-          //电信
-          if (type == "dx") {
-            Vue.set(vm.registeredUsers.data[1], 3, register_num); //电信在册用户数
-            Vue.set(vm.newAddUserNumber.data[1][1], 3, new_num); //电信新增在册用户数（今日）
-            Vue.set(vm.turnOnRate.data[1][1], 3, open_rate); //电信开机率（今日）
-            Vue.set(vm.outLookTime.data[1][1], 3, watch_freq_family); //电信户均观看时长
+            //电信
+            if (type == "dx") {
+              Vue.set(vm.registeredUsers.data[1], 3, register_num); //电信在册用户数
+              Vue.set(vm.newAddUserNumber.data[1][1], 3, new_num); //电信新增在册用户数（今日）
+              Vue.set(vm.turnOnRate.data[1][1], 3, open_rate); //电信开机率（今日）
+              Vue.set(vm.outLookTime.data[1][1], 3, watch_freq_family); //电信户均观看时长
+            }
+            // console.log("vm.outLookTime.data-------", vm.outLookTime.data)
+          } catch (error) {
+            console.log(error);
           }
         })
         .catch(error => {
@@ -308,40 +317,47 @@ export default {
       liveUsers_daliyReport(average_data_formData)
         .then(response => {
           console.log("前7天平均数据为", ttt, response.data);
-          // let average_register_num = response.data.responses[1].aggregations.register_num.value; //在册用户数
-          let average_register_num = response.data.responses[1].aggregations.register_num.buckets[0].register_num.value; //在册用户数
-          let average_new_num = Math.floor(response.data.responses[1].aggregations.new_num.value / 7); //新增在册用户数（平均）
-          let average_open_num = response.data.responses[1].aggregations.open_num.value; //开机用户
-          let average_open_rate = this.returnFloat(((average_open_num / average_register_num) * 100) / 7); //开机率
-          let average_watch_freq_family = this.returnFloat(response.data.responses[3].aggregations.watch_freq_family.value / 7); //户均观看时长
+          try {
+            let average_register_num = response.data.responses[1].aggregations.register_num.buckets[0].register_num.value; //在册用户数
+            let average_new_num = Math.floor(response.data.responses[1].aggregations.new_num.value / 7); //新增在册用户数（平均）
+            let average_open_num = response.data.responses[1].aggregations.open_num.value; //开机用户
+            let average_open_rate = this.returnFloat(((average_open_num / average_register_num) * 100) / 7); //开机率
 
-          // console.log("在册用户数average_register_num（平均）", ttt, average_register_num)
-          console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num);
-          // console.log("开机用户数average_open_num（平均）", ttt, average_open_num)
-          // console.log("开机率average_open_rate（平均）", ttt, average_open_rate)
-          // console.log("户均观看时长average_watch_freq_family（平均）", ttt, average_watch_freq_family)
+            //let average_watch_freq_family = this.returnFloat(response.data.responses[3].aggregations.watch_freq_family.value / 7); //户均观看时长
+            let average_watch_dur = response.data.responses[3].aggregations.watch_dur.value
+            let average_watch_user_num = response.data.responses[3].aggregations.watch_user_num.value;
+            let average_watch_freq_family = (average_watch_dur / average_watch_user_num / 7).toFixed(2)  //户均观看时长
 
-          // console.log("-------------------------------")
+            // console.log("在册用户数average_register_num（平均）", ttt, average_register_num)
+            // console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num);
+            // console.log("开机用户数average_open_num（平均）", ttt, average_open_num)
+            // console.log("开机率average_open_rate（平均）", ttt, average_open_rate)
+            // console.log("户均观看时长average_watch_freq_family（平均）", ttt, average_watch_freq_family)
 
-          //移动
-          if (type == "yd") {
-            Vue.set(vm.newAddUserNumber.data[0][1], 1, average_new_num); //移动新增在册用户数（平均）
-            Vue.set(vm.turnOnRate.data[0][1], 1, average_open_rate); //移动开机率（平均）
-            Vue.set(vm.outLookTime.data[0][1], 1, average_watch_freq_family); //移动户均观看时长（平均）
-          }
+            // console.log("-------------------------------")
 
-          //联通
-          if (type == "lt") {
-            Vue.set(vm.newAddUserNumber.data[0][1], 2, average_new_num); //联通新增在册用户数（平均）
-            Vue.set(vm.turnOnRate.data[0][1], 2, average_open_rate); //联通开机率（平均）
-            Vue.set(vm.outLookTime.data[0][1], 2, average_watch_freq_family); //联通户均观看时长（平均）
-          }
+            //移动
+            if (type == "yd") {
+              Vue.set(vm.newAddUserNumber.data[0][1], 1, average_new_num); //移动新增在册用户数（平均）
+              Vue.set(vm.turnOnRate.data[0][1], 1, average_open_rate); //移动开机率（平均）
+              Vue.set(vm.outLookTime.data[0][1], 1, average_watch_freq_family); //移动户均观看时长（平均）
+            }
 
-          //电信
-          if (type == "dx") {
-            Vue.set(vm.newAddUserNumber.data[0][1], 3, average_new_num); //电信新增在册用户数（平均）
-            Vue.set(vm.turnOnRate.data[0][1], 3, average_open_rate); //电信开机率（平均）
-            Vue.set(vm.outLookTime.data[0][1], 3, average_watch_freq_family); //电信户均观看时长（平均）
+            //联通
+            if (type == "lt") {
+              Vue.set(vm.newAddUserNumber.data[0][1], 2, average_new_num); //联通新增在册用户数（平均）
+              Vue.set(vm.turnOnRate.data[0][1], 2, average_open_rate); //联通开机率（平均）
+              Vue.set(vm.outLookTime.data[0][1], 2, average_watch_freq_family); //联通户均观看时长（平均）
+            }
+
+            //电信
+            if (type == "dx") {
+              Vue.set(vm.newAddUserNumber.data[0][1], 3, average_new_num); //电信新增在册用户数（平均）
+              Vue.set(vm.turnOnRate.data[0][1], 3, average_open_rate); //电信开机率（平均）
+              Vue.set(vm.outLookTime.data[0][1], 3, average_watch_freq_family); //电信户均观看时长（平均）
+            }
+          } catch (error) {
+            console.log(error);
           }
         })
         .catch(error => {
@@ -410,115 +426,120 @@ export default {
         .then(response => {
           // console.log("用户选择的条件筛选结果为：******")
           // console.log(response.data)
-          let play_mode_buckets =
-            response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
-          let program_type_dur_order =
-            response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          let play_mode_buckets = response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+          let program_type_dur_order = response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
 
           // console.log("program_type_dur_order", program_type_dur_order)
-
-          //循环遍历播放数据，取出回看，点播，直播数据
-          play_mode_buckets.forEach((value, index) => {
-            console.log(index, value);
-            if (value.key == "回看") {
-              Vue.set(
-                vm.dayLooktime.data[1][1],
-                1,
-                vm.returnFloat(value.watch_dur.value / 10000 / 3600)
-              ); //回看数据
-            } else if (value.key == "点播") {
-              Vue.set(
-                vm.dayLooktime.data[1][1],
-                2,
-                vm.returnFloat(value.watch_dur.value / 10000 / 3600)
-              ); //点播数据
-            } else if (value.key == "直播") {
-              Vue.set(
-                vm.dayLooktime.data[1][1],
-                3,
-                vm.returnFloat(value.watch_dur.value / 10000 / 3600)
-              ); //直播数据
-            }
-          });
-
-          //循环遍历各类型节目点播时长，取出相应数据
-          program_type_dur_order.forEach((value, index) => {
-            // console.log(index, value)
-            switch (value.key) {
-              case "热剧":
+          try {
+            //循环遍历播放数据，取出回看，点播，直播数据
+            play_mode_buckets.forEach((value, index) => {
+              console.log(index, value);
+              if (value.key == "回看") {
                 Vue.set(
-                  vm.typeLooktime.data[1][1],
+                  vm.dayLooktime.data[1][1],
                   1,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "少儿":
+                  vm.returnFloat(value.watch_dur.value / 10000 / 3600)
+                ); //回看数据
+              } else if (value.key == "点播") {
                 Vue.set(
-                  vm.typeLooktime.data[1][1],
+                  vm.dayLooktime.data[1][1],
                   2,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "电影":
+                  vm.returnFloat(value.watch_dur.value / 10000 / 3600)
+                ); //点播数据
+              } else if (value.key == "直播") {
                 Vue.set(
-                  vm.typeLooktime.data[1][1],
+                  vm.dayLooktime.data[1][1],
                   3,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "动漫":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  4,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "综艺":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  5,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "游戏":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  6,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "纪实":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  7,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "体育":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  8,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "音乐":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  9,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              case "资讯":
-                Vue.set(
-                  vm.typeLooktime.data[1][1],
-                  10,
-                  vm.returnFloat(value.demand_dur.value / 1000 / 3600)
-                );
-                break;
-              default:
-                break;
-            }
-          });
+                  vm.returnFloat(value.watch_dur.value / 10000 / 3600)
+                ); //直播数据
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
+
+          try {
+            //循环遍历各类型节目点播时长，取出相应数据
+            program_type_dur_order.forEach((value, index) => {
+              // console.log(index, value)
+              switch (value.key) {
+                case "热剧":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    1,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "少儿":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    2,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "电影":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    3,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "动漫":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    4,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "综艺":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    5,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "游戏":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    6,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "纪实":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    7,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "体育":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    8,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "音乐":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    9,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                case "资讯":
+                  Vue.set(
+                    vm.typeLooktime.data[1][1],
+                    10,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                  );
+                  break;
+                default:
+                  break;
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
         })
         .catch(error => {
           console.log("G+TV用户活跃发展日报表", error);
@@ -535,122 +556,96 @@ export default {
 
           // console.log("program_type_dur_order", program_type_dur_order)
 
-          //循环遍历播放数据，取出回看，点播，直播数据
-          average_play_mode_buckets.forEach((value, index) => {
-            // console.log(index, value)
-            if (value.key == "回看") {
-              Vue.set(
-                vm.dayLooktime.data[0][1],
-                1,
-                vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
-              ); //回看数据
-            } else if (value.key == "点播") {
-              Vue.set(
-                vm.dayLooktime.data[0][1],
-                2,
-                vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
-              ); //点播数据
-            } else if (value.key == "直播") {
-              Vue.set(
-                vm.dayLooktime.data[0][1],
-                3,
-                vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
-              ); //直播数据
-            }
-          });
+          try {
+            //循环遍历播放数据，取出回看，点播，直播数据
+            average_play_mode_buckets.forEach((value, index) => {
+              // console.log(index, value)
+              if (value.key == "回看") {
+                Vue.set(
+                  vm.dayLooktime.data[0][1],
+                  1,
+                  vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
+                ); //回看数据
+              } else if (value.key == "点播") {
+                Vue.set(
+                  vm.dayLooktime.data[0][1],
+                  2,
+                  vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
+                ); //点播数据
+              } else if (value.key == "直播") {
+                Vue.set(
+                  vm.dayLooktime.data[0][1],
+                  3,
+                  vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
+                ); //直播数据
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
 
-          //循环遍历各类型节目点播时长，取出相应数据
-          average_program_type_dur_order.forEach((value, index) => {
-            // console.log(index, value)
-            switch (value.key) {
-              case "热剧":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 1, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "少儿":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 2, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "电影":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 3, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "动漫":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 4, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "综艺":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 5, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "游戏":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 6, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "纪实":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 7, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "体育":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 8, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "音乐":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 9, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              case "资讯":
-                Vue.set(
-                  vm.typeLooktime.data[0][1], 10, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
-                );
-                break;
-              default:
-                break;
-            }
-            // switch (value.key) {
-            //   case '热剧':
-            //     Vue.set(vm.typeLooktime.data[0][1], 1, value.demand_dur.value / 7)
-            //     break;
-            //   case '少儿':
-            //     Vue.set(vm.typeLooktime.data[0][1], 2, value.demand_dur.value / 7)
-            //     break;
-            //   case '电影':
-            //     Vue.set(vm.typeLooktime.data[0][1], 3, value.demand_dur.value / 7)
-            //     break;
-            //   case '动漫':
-            //     Vue.set(vm.typeLooktime.data[0][1], 4, value.demand_dur.value / 7)
-            //     break;
-            //   case '综艺':
-            //     Vue.set(vm.typeLooktime.data[0][1], 5, value.demand_dur.value / 7)
-            //     break;
-            //   case '游戏':
-            //     Vue.set(vm.typeLooktime.data[0][1], 6, value.demand_dur.value / 7)
-            //     break;
-            //   case '纪实':
-            //     Vue.set(vm.typeLooktime.data[0][1], 7, value.demand_dur.value / 7)
-            //     break;
-            //   case '体育':
-            //     Vue.set(vm.typeLooktime.data[0][1], 8, value.demand_dur.value / 7)
-            //     break;
-            //   case '音乐':
-            //     Vue.set(vm.typeLooktime.data[0][1], 9, value.demand_dur.value / 7)
-            //     break;
-            //   case '资讯':
-            //     Vue.set(vm.typeLooktime.data[0][1], 10, value.demand_dur.value / 7)
-            //     break;
-            //   default:
-            //     break;
-            // }
-          });
+          try {
+            //循环遍历各类型节目点播时长，取出相应数据
+            average_program_type_dur_order.forEach((value, index) => {
+              // console.log(index, value)
+              switch (value.key) {
+                case "热剧":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 1, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "少儿":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 2, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "电影":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 3, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "动漫":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 4, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "综艺":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 5, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "游戏":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 6, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "纪实":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 7, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "体育":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 8, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "音乐":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 9, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                case "资讯":
+                  Vue.set(
+                    vm.typeLooktime.data[0][1], 10, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                  );
+                  break;
+                default:
+                  break;
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
         })
         .catch(error => {
           console.log("G+TV用户活跃发展日报表", error);
