@@ -10,14 +10,14 @@ import CryptoJS from 'crypto-js' //加密js
 import { get_date } from "@/api/api_main";
 
 commonTools.date = {
-    start_year : 0,
-    start_month : 0,
-    start_week : 0,
-    start_day : 0,
-    end_year : 0,
-    end_month : 0,
-    end_week : 0,
-    end_day : 0
+    start_year: 0,
+    start_month: 0,
+    start_week: 0,
+    start_day: 0,
+    end_year: 0,
+    end_month: 0,
+    end_week: 0,
+    end_day: 0
 }
 get_date()
     .then(function (response_date) {
@@ -41,7 +41,7 @@ get_date()
     });
 
 
-    
+
 // date 转换成 日周月年num（无单位）
 // 2019-10-01 => 1 x 10 2019
 commonTools.date_format_DWMY = function (date) {
@@ -52,14 +52,14 @@ commonTools.date_format_DWMY = function (date) {
     let month = parseInt(split_arr[1]);
     let year = parseInt(split_arr[0]);;
     return {
-        day:day,
-        week:week,
-        month:month,
-        year:year
+        day: day,
+        week: week,
+        month: month,
+        year: year
     }
 }
 
-// ///////////// 周/月下拉框可选项根据截至时间定
+// /////////// 周/月下拉框可选项根据截至时间定
 // expiration date -- 截止日期 ED
 // 固定-2019
 // commonTools.weekDate_ED = function () {
@@ -80,123 +80,31 @@ commonTools.date_format_DWMY = function (date) {
 // commonTools.format_MonthDays_byweek_ED = function () {
 //     return commonTools.format_MonthDays_byweek(2019).reverse();
 // }
-// 判定-by year范围
-commonTools.weekDate_ED = function () {
-    let temp_year = commonTools.date.start_year
-    let arr = commonTools.weekDate(temp_year);
-    for (temp_year; temp_year < commonTools.date.end_year;){
-        temp_year++;
-        arr = commonTools.weekDate_add(temp_year, arr);
-    }
-    return arr.reverse();
-}
-commonTools.format_MonthDays_ED = function () {
-    let temp_year = commonTools.date.start_year
-    let arr = commonTools.format_MonthDays(temp_year);
-    for (temp_year; temp_year < commonTools.date.end_year;) {
-        temp_year++;
-        arr = commonTools.format_MonthDays_add(temp_year, arr);
-    }
-    return arr.reverse();
-}
-commonTools.format_WeeksDays_byDWwr_ED = function () {
-    let temp_year = commonTools.date.start_year
-    let arr = commonTools.format_WeeksDays_byDWwr(temp_year);
-    for (temp_year; temp_year < commonTools.date.end_year;) {
-        temp_year++;
-        arr = commonTools.format_WeeksDays_byDWwr_add(temp_year, arr);
-    }
-    return arr.reverse();
-}
-commonTools.format_MonthDays_byDWMMr_ED = function () {
-    let temp_year = commonTools.date.start_year
-    let arr = commonTools.format_MonthDays_byDWMMr(temp_year);
-    for (temp_year; temp_year < commonTools.date.end_year;) {
-        temp_year++;
-        arr = commonTools.format_MonthDays_byDWMMr_add(temp_year, arr);
-    }
-    return arr.reverse();
-}
-commonTools.weekDate_byday_ED = function () {
-    let temp_year = commonTools.date.start_year
-    let arr = commonTools.weekDate_byday(temp_year);
-    for (temp_year; temp_year < commonTools.date.end_year;) {
-        temp_year++;
-        arr = commonTools.weekDate_byday_add(temp_year, arr);
-    }
-    return arr.reverse();
-}
-commonTools.format_MonthDays_byweek_ED = function () {
-    let temp_year = commonTools.date.start_year
-    let arr = commonTools.format_MonthDays_byweek(temp_year);
-    for (temp_year; temp_year < commonTools.date.end_year;) {
-        temp_year++;
-        arr = commonTools.format_MonthDays_byweek_add(temp_year, arr);
-    }
-    return arr.reverse();
-}
-
-// //  判定-by year+week范围
+// /////////// 判定-by year范围
 // commonTools.weekDate_ED = function () {
 //     let temp_year = commonTools.date.start_year
 //     let arr = commonTools.weekDate(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
+//     for (temp_year; temp_year < commonTools.date.end_year;){
 //         temp_year++;
 //         arr = commonTools.weekDate_add(temp_year, arr);
 //     }
-//     arr = commonTools.M_weekDate_ED(arr);
 //     return arr.reverse();
 // }
-// commonTools.M_weekDate_ED = function (arr) {
-//     console.log("arr");
-//     console.log(arr);
-//     let temp_arr;
-//     function manage_str(str) { //  2019&52week => 2019 52
-
-//         return {
-//         }
-//     }
-//     for(let i = 0;i<arr.length;i++){
-//         if (manage_str(arr[i].value).year > commonTools.date.start_year && manage_str(arr[i].value).year < commonTools.date.end_year){ // 非start 非end 年 
-//           temp_arr.push(arr[i]);
-//         } else if (manage_str(arr[i].value).year == commonTools.date.start_year) { //  start 年
-//             if(manage_str(arr[i].value).week >= commonTools.date.start_week){ 
-//                 temp_arr.push(arr[i]);
-//             }
-//         } else if (manage_str(arr[i].value).year == commonTools.date.end_year) { //  start 年
-//             if (manage_str(arr[i].value).week <= commonTools.date.end_week) {
-//                 temp_arr.push(arr[i]);
-//             }
-//         }
-//     }
-//     return temp_arr;
-// }
-
-// commonTools.format_WeeksDays_byDWwr_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.format_WeeksDays_byDWwr(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.format_WeeksDays_byDWwr_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-// commonTools.weekDate_byday_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.weekDate_byday(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.weekDate_byday_add(temp_year, arr);
-//     }commonTools.date
-//     return arr.reverse();
-// }
-// //  判定-by year+month范围
 // commonTools.format_MonthDays_ED = function () {
 //     let temp_year = commonTools.date.start_year
 //     let arr = commonTools.format_MonthDays(temp_year);
 //     for (temp_year; temp_year < commonTools.date.end_year;) {
 //         temp_year++;
 //         arr = commonTools.format_MonthDays_add(temp_year, arr);
+//     }
+//     return arr.reverse();
+// }
+// commonTools.format_WeeksDays_byDWwr_ED = function () {
+//     let temp_year = commonTools.date.start_year
+//     let arr = commonTools.format_WeeksDays_byDWwr(temp_year);
+//     for (temp_year; temp_year < commonTools.date.end_year;) {
+//         temp_year++;
+//         arr = commonTools.format_WeeksDays_byDWwr_add(temp_year, arr);
 //     }
 //     return arr.reverse();
 // }
@@ -209,6 +117,15 @@ commonTools.format_MonthDays_byweek_ED = function () {
 //     }
 //     return arr.reverse();
 // }
+// commonTools.weekDate_byday_ED = function () {
+//     let temp_year = commonTools.date.start_year
+//     let arr = commonTools.weekDate_byday(temp_year);
+//     for (temp_year; temp_year < commonTools.date.end_year;) {
+//         temp_year++;
+//         arr = commonTools.weekDate_byday_add(temp_year, arr);
+//     }
+//     return arr.reverse();
+// }
 // commonTools.format_MonthDays_byweek_ED = function () {
 //     let temp_year = commonTools.date.start_year
 //     let arr = commonTools.format_MonthDays_byweek(temp_year);
@@ -218,6 +135,204 @@ commonTools.format_MonthDays_byweek_ED = function () {
 //     }
 //     return arr.reverse();
 // }
+
+
+
+// 处理下拉框实际value_str - 分几种类型
+function manage_date_value(str, str_type) {
+    if (str_type == "week") {//  2019&52week => 2019 52
+        let split_arr = str.split("&");
+        let year = parseInt(split_arr[0]);
+        let split_arr2 = split_arr[1].split("week");
+        let week = parseInt(split_arr2[0]);
+        return {
+            year: year,
+            week: week
+        }
+    }
+    if (str_type == "weekdays") { // (&2019&52week&@2019-12-23@2019-12-31@*49week*52week*) =>  2019 52
+        let split_arr = str.split("&");
+        let year = parseInt(split_arr[1]);
+        let split_arr2 = split_arr[2].split("week");
+        let week = parseInt(split_arr2[0]);
+        return {
+            year: year,
+            week: week
+        }
+    }
+    if (str_type == "weekdays_byday") { // 2019&52week*2019-12-23*2019-12-31 =>  2019 52
+        let split_arr = str.split("&");
+        let year = parseInt(split_arr[0]);
+        let split_arr2 = split_arr[1].split("week");
+        let week = parseInt(split_arr2[0]);
+        return {
+            year: year,
+            week: week
+        }
+    }
+    if (str_type == "month") { // 2019&12month  => 2019 12
+        let split_arr = str.split("&");
+        let year = parseInt(split_arr[0]);
+        let split_arr2 = split_arr[1].split("month");
+        let month = parseInt(split_arr2[0]);
+        return {
+            year: year,
+            month: month
+        }
+    }
+    if (str_type == "monthdays") { // (&2019&1month&@2019-01-01@2019-01-31@*1week*4week*^NaNmonth^1month^) =》 2019 1
+        let split_arr = str.split("&");
+        let year = parseInt(split_arr[1]);
+        let split_arr2 = split_arr[2].split("month");
+        let month = parseInt(split_arr2[0]);
+        return {
+            year: year,
+            month: month
+        }
+    }
+    if (str_type == "monthdays_byweek") { // 2019&12month*48week*52week =>  2019 12
+        let split_arr = str.split("&");
+        let year = parseInt(split_arr[0]);
+        let split_arr2 = split_arr[1].split("month");
+        let month = parseInt(split_arr2[0]);
+        return {
+            year: year,
+            month: month
+        }
+    }
+    
+}
+
+function M_ValueRange(arr, str_type) {
+    let temp_arr = [];
+    if (str_type == "week" ||
+        str_type == "weekdays" ||
+        str_type == "weekdays_byday"
+    ){
+        for (let i = 0; i < arr.length; i++) {
+            // 非start 非end 年 
+            if (manage_date_value(arr[i].value,str_type).year > commonTools.date.start_year && manage_date_value(arr[i].value,str_type).year < commonTools.date.end_year) {
+                temp_arr.push(arr[i]);
+            } 
+            // start年 非end年
+            else if (manage_date_value(arr[i].value, str_type).year == commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year != commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value,str_type).week >= commonTools.date.start_week) {
+                    temp_arr.push(arr[i]);
+                }
+            } 
+            // end年 非start年
+            else if (manage_date_value(arr[i].value, str_type).year != commonTools.date.start_year && manage_date_value(arr[i].value,str_type).year == commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value,str_type).week <= commonTools.date.end_week) {
+                    temp_arr.push(arr[i]);
+                }
+            } // start年 end年
+            else if (manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year && manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value, str_type).week >= commonTools.date.start_week && manage_date_value(arr[i].value, str_type).week <= commonTools.date.end_week ) {
+                    temp_arr.push(arr[i]);
+                }
+            }
+        }
+    }
+    if (str_type == "month" ||
+        str_type == "monthdays" ||
+        str_type == "monthdays_byweek"
+    ) {
+        for (let i = 0; i < arr.length; i++) {
+            // 非start 非end 年 
+            if (manage_date_value(arr[i].value, str_type).year > commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year < commonTools.date.end_year) {
+                temp_arr.push(arr[i]);
+            }
+            // start年 非end年
+            else if (manage_date_value(arr[i].value, str_type).year == commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year != commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value, str_type).month >= commonTools.date.start_month) {
+                    temp_arr.push(arr[i]);
+                }
+            }
+            // end年 非start年
+            else if (manage_date_value(arr[i].value, str_type).year != commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value, str_type).month <= commonTools.date.end_month) {
+                    temp_arr.push(arr[i]);
+                }
+            } // start年 end年
+            else if (manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year && manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value, str_type).month >= commonTools.date.start_month && manage_date_value(arr[i].value, str_type).month <= commonTools.date.end_month) {
+                    temp_arr.push(arr[i]);
+                }
+            }
+        }
+    }
+    return temp_arr;
+}
+
+// /////////// 判定-by year+week范围
+commonTools.weekDate_ED = function () {
+    let temp_year = commonTools.date.start_year
+    let arr = commonTools.weekDate(temp_year);
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        temp_year++;
+        arr = commonTools.weekDate_add(temp_year, arr);
+    }
+    // console.log(arr);
+    arr = M_ValueRange(arr, "week");
+    return arr.reverse();
+}
+
+commonTools.format_WeeksDays_byDWwr_ED = function () {
+    let temp_year = commonTools.date.start_year
+    let arr = commonTools.format_WeeksDays_byDWwr(temp_year,4);
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        temp_year++;
+        arr = commonTools.format_WeeksDays_byDWwr_add(temp_year,4, arr);
+    }
+    // console.log(arr);
+    arr = M_ValueRange(arr, "weekdays");
+    return arr.reverse();
+}
+commonTools.weekDate_byday_ED = function () {
+    let temp_year = commonTools.date.start_year
+    let arr = commonTools.weekDate_byday(temp_year);
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        temp_year++;
+        arr = commonTools.weekDate_byday_add(temp_year, arr);
+    } 
+    // console.log(arr);
+    arr = M_ValueRange(arr, "weekdays_byday");
+    return arr.reverse();
+}
+//  判定-by year+month范围
+commonTools.format_MonthDays_ED = function () {
+    let temp_year = commonTools.date.start_year
+    let arr = commonTools.format_MonthDays(temp_year);
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        temp_year++;
+        arr = commonTools.format_MonthDays_add(temp_year, arr);
+    }
+    // console.log(arr);
+    arr = M_ValueRange(arr, "month");
+    return arr.reverse();
+}
+commonTools.format_MonthDays_byDWMMr_ED = function () {
+    let temp_year = commonTools.date.start_year
+    let arr = commonTools.format_MonthDays_byDWMMr(temp_year);
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        temp_year++;
+        arr = commonTools.format_MonthDays_byDWMMr_add(temp_year, arr);
+    }
+    // console.log(arr);
+    arr = M_ValueRange(arr, "monthdays");
+    return arr.reverse();
+}
+commonTools.format_MonthDays_byweek_ED = function () {
+    let temp_year = commonTools.date.start_year
+    let arr = commonTools.format_MonthDays_byweek(temp_year);
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        temp_year++;
+        arr = commonTools.format_MonthDays_byweek_add(temp_year, arr);
+    }
+    console.log(arr);
+    arr = M_ValueRange(arr, "monthdays_byweek");
+    return arr.reverse();
+}
 
 
 // 传入日期 month 1

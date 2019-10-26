@@ -2,7 +2,7 @@
   <div class="height_auto">
     <el-row class="title_row">
       <span class="title_border_left"></span>
-      贵州频道收视TOP5({{GuizhouChannel_unit}})
+      贵州本土频道收视TOP5({{GuizhouChannel_unit}})
       <!-- 贵州频道收视TOP5 -->
     </el-row>
     <el-row class="programmes_name"></el-row>

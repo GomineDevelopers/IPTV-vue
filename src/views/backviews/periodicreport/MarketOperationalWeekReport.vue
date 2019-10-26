@@ -2006,7 +2006,7 @@ export default {
                 ni =
                   buckets_8_2[index_date].value_added_service_package.buckets[
                     i_temp_r
-                  ].new_income.value;
+                  ].new_income.value / 100;
               }
             }
           }
@@ -2179,7 +2179,7 @@ export default {
       Vue.set(
         m8_0.row1,
         title_length9 * 2 + 2,
-        buckets_8_2[0].new_income.value
+        buckets_8_2[0].new_income.value / 100
       ); //
       Vue.set(
         m8_0.row2,
@@ -2189,7 +2189,7 @@ export default {
       Vue.set(
         m8_0.row2,
         title_length9 * 2 + 2,
-        buckets_8_2[1].new_income.value
+        buckets_8_2[1].new_income.value / 100
       );
       Vue.set(
         m8_0.row3,
@@ -2199,7 +2199,7 @@ export default {
       Vue.set(
         m8_0.row3,
         title_length9 * 2 + 2,
-        buckets_8_2[2].new_income.value
+        buckets_8_2[2].new_income.value / 100
       );
       Vue.set(
         m8_0.row4,
@@ -2209,7 +2209,7 @@ export default {
       Vue.set(
         m8_0.row4,
         title_length9 * 2 + 2,
-        buckets_8_2[3].new_income.value
+        buckets_8_2[3].new_income.value / 100
       );
       Vue.set(
         m8_0.row5,
@@ -2219,7 +2219,7 @@ export default {
       Vue.set(
         m8_0.row5,
         title_length9 * 2 + 2,
-        buckets_8_2[4].new_income.value
+        buckets_8_2[4].new_income.value / 100
       );
       Vue.set(
         m8_0.row6,
@@ -2229,7 +2229,7 @@ export default {
       Vue.set(
         m8_0.row6,
         title_length9 * 2 + 2,
-        buckets_8_2[5].new_income.value
+        buckets_8_2[5].new_income.value / 100
       );
       Vue.set(
         m8_0.row7,
@@ -2239,7 +2239,7 @@ export default {
       Vue.set(
         m8_0.row7,
         title_length9 * 2 + 2,
-        buckets_8_2[6].new_income.value
+        buckets_8_2[6].new_income.value / 100
       );
 
       // // 竖向合计（后台已经解决） - 某包的7天的和（分为订购数 和 收入）
@@ -2252,12 +2252,12 @@ export default {
       m8_0.row_bottom.push("总计");
       for (i_8_2_days = 0; i_8_2_days < length_8_2_days; i_8_2_days++) {
         m8_0.row_bottom.push(buckets_8_2_days[i_8_2_days].new_paid_num.value);
-        m8_0.row_bottom.push(buckets_8_2_days[i_8_2_days].new_income.value);
+        m8_0.row_bottom.push(buckets_8_2_days[i_8_2_days].new_income.value / 100);
       }
 
       // 最右下角的合计
       m8_0.row_bottom.push(wd_dx[2].aggregations.new_paid_num.value);
-      m8_0.row_bottom.push(wd_dx[2].aggregations.new_income.value);
+      m8_0.row_bottom.push(wd_dx[2].aggregations.new_income.value /  100);
 
       let m8 = [];
       m8.push(m8_0);
