@@ -137,7 +137,9 @@ export default {
                 vm.users_daliyReport("dx", "rangeday", res2, res2);
                 vm.users_daliyReport("yd", "singleday", res1, res2);
                 vm.users_daliyReport("lt", "singleday", res1, res2);
-                vm.users_daliyReport("dx", "singleday", res1, res2);
+                vm.users_daliyReport("dx", "singleday", res1, res2);  
+                // excel 处理
+                vm.Excel_data_manage();
               })
               .catch(function(error) {
                 console.info(error);
@@ -165,11 +167,14 @@ export default {
         vm.users_daliyReport("yd", "singleday");
         vm.users_daliyReport("lt", "singleday");
         vm.users_daliyReport("dx", "singleday");
+
+        // excel 处理
+        vm.Excel_data_manage();
       }, 100);
     }
   },
   computed: {
-    ...mapGetters(["PR_operator", "PR_day"]),
+    ...mapGetters(["PR_operator", "PR_day", "PR_Report_index"]),
     ifOperatorShow_yd: {
       get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
@@ -208,6 +213,50 @@ export default {
     }
   },
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 2")
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 2) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 3000);
+    },
     users_daliyReport(operator_type, date_type) {
       console.log("users_daliyReport");
       let vm = this;

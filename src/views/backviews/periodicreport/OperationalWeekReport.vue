@@ -400,7 +400,7 @@ export default {
     "thematic-data-trend-chart": ThematicDataTrendChart
   },
   computed: {
-    ...mapGetters(["PR_week"])
+    ...mapGetters(["PR_week", "PR_Report_index"])
   },
   // ▲注意有三种类型 =》 两种请求结构：  week-对应的 23~24week     week_days对应的是 23week（不用） 01~07（都用这种）
   watch: {
@@ -410,6 +410,8 @@ export default {
       setTimeout(function() {
         vm.refresh_api_data("yd", "week");
         vm.refresh_api_data("yd", "week_days");
+        // excel 处理
+        vm.Excel_data_manage();
       }, 100);
     }
   },
@@ -419,6 +421,8 @@ export default {
     setTimeout(function() {
       vm.refresh_api_data("yd", "week");
       vm.refresh_api_data("yd", "week_days");
+      // excel 处理
+      vm.Excel_data_manage();
     }, 200);
 
     $(".operational_left_content_body").scroll(function(event) {
@@ -476,6 +480,50 @@ export default {
     });
   },
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 4");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 4) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信333333333"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 3000);
+    },
     refresh_api_data(operator_type, week_type) {
       this.users_mobileReport(operator_type, week_type);
     },

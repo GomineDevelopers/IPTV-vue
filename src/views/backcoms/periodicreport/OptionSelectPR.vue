@@ -486,7 +486,7 @@ export default {
     setTimeout(function() {
       // let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
       // arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
-      vm.time.month =commonTools.format_MonthDays_byDWMMr_ED();
+      vm.time.month = commonTools.format_MonthDays_byDWMMr_ED();
     }, 100);
 
     // ▲历史条件获取
@@ -750,7 +750,10 @@ export default {
             .then(function(response) {
               vm.reportOption = reportName;
               vm.routerLink = routerLink;
-              if (reportName == "移动运营数据周报" || reportName == "电信VIP增值业务专项分析") {
+              if (
+                reportName == "移动运营数据周报" ||
+                reportName == "电信VIP增值业务专项分析"
+              ) {
                 vm.ifOperatorShow = false;
               } else {
                 vm.ifOperatorShow = true;
@@ -783,44 +786,98 @@ export default {
     },
     // 下载excel表格
     export2Excel() {
+      let vm = this;
       // 获取当前报告序数index
-
       this.$store
         .dispatch("get_PR_Report_index")
-        .then(function(response) {
+        .then(function(response_index) {
           console.log("~~~~~当前报告序数");
-          console.log(response);
-
+          console.log(response_index);
+          // ///
+          let excelName = "";
+          switch (response_index) {
+            case 1:
+              excelName = "G+TV用户活跃发展日报表";
+              break;
+            case 2:
+              excelName = "G+TV用户收视日报表";
+              break;
+            case 3:
+              excelName = "市场业务运营数据分析周报";
+              break;
+            case 4:
+              excelName = "运营数据周报";
+              break;
+            case 5:
+              excelName = "TV用户收视行为周报";
+              break;
+            case 6:
+              excelName = "VIP增值业务专项分析";
+              break;
+            case 7:
+              excelName = "G+TV月度用户收视行为报告";
+              break;
+            case 8:
+              excelName = "专题专区数据报告";
+              break;
+            default:
+              console.log("none!");
+          }
+          // console.log(excelName);
           require.ensure([], () => {
-            console.log("~~~~export2Excel1");
-            const {
-              export_json_to_excel
-            } = require("../../../vendor/Export2Excel");
-            console.log("~~~~export2Excel2");
-            const tHeader = [
-              "商品名称",
-              "商品货号",
-              "售价",
-              "库存",
-              "销量",
-              "分享"
-            ];
-            const filterVal = [
-              "name",
-              "number",
-              "salePrice",
-              "stocknums",
-              "salesnums",
-              "sharenums"
-            ];
-            // const list = this.goodsItems;
-            const list = this.list;
-            console.log(list);
-            console.log(filterVal);
-            const data = this.formatJson(filterVal, list);
-            console.log(tHeader);
-            console.log(data);
-            export_json_to_excel(tHeader, data, "商品管理列表");
+            const { exportExcel } = require("../../../vendor/Export2Excel");
+            // 获取当前excel data --延时3s
+            setTimeout(function() {
+            vm.$store
+              .dispatch("get_PR_Excel_titleArr")
+              .then(function(response_title) {
+                console.log(response_title);
+                vm.$store
+                  .dispatch("get_PR_Excel_dataArr")
+                  .then(function(response_dataArr) {
+                    console.log(response_dataArr);
+                    let temp_titleArr = [];
+                    let temp_DataArr = [];
+                    temp_titleArr = response_title;
+                    temp_DataArr = response_dataArr;
+                    console.log(temp_titleArr.length);
+                    console.log(temp_DataArr.length);
+                    if(temp_titleArr.length == 0 || temp_DataArr.length == 0){
+                      console.log("请选择时间！");
+                      return;
+                    }
+                    else{
+                      console.log("excel下载中...")
+                    }
+                    // /// 临时
+                    // temp_titleArr.push(["title1"]);
+                    // temp_titleArr.push(["title2"]);
+                    // temp_titleArr.push(["title3"]);
+
+                    // temp_DataArr.push([
+                    //   ["运营商", "移动", "联通", "电信"],
+                    //   ["平均", 1, 2, 3]
+                    // ]);
+                    // temp_DataArr.push([
+                    //   ["运营商", "移动", "联通", "电信", "测试"],
+                    //   ["平均", 1, 2, 3, 4]
+                    // ]);
+                    // temp_DataArr.push([
+                    //   ["运营商", "移动", "联通", "电信", "测试"],
+                    //   ["平均", 1, 2, 3, 4]
+                    // ]);
+                    // ///
+
+                    exportExcel(temp_titleArr, temp_DataArr, excelName);
+                  })
+                  .catch(function(error) {
+                    console.info(error);
+                  });
+              })
+              .catch(function(error) {
+                console.info(error);
+              });
+            }, 3000);
           });
         })
         .catch(function(error) {
