@@ -31,7 +31,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="这是一个时间段，如选择12:00则代表是00:00-12:00小时段"
+              content="这是一个时间段，如选择12:00则代表是12:00-1:00小时段"
               placement="right"
             >
               <i class="iconfont">&#xe605;</i>

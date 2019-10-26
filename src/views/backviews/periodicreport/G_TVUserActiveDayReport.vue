@@ -94,6 +94,9 @@ export default {
   },
   data() {
     return {
+      //excel下载总数据
+      activeDayReportTotalData: [],
+
       //在册用户数
       registeredUsers: {
         title: "各运营商在册用户数（户）",
@@ -646,11 +649,53 @@ export default {
           } catch (error) {
             console.log(error);
           }
+
+          try {
+            setTimeout(() => {
+              // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+              // data_arr = [
+              //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+              //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+              //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+              // ];
+              let title_arr = []
+              let data_arr = []   //activeDayReportTotalData
+              title_arr.push(
+                [vm.registeredUsers.title],
+                [vm.newAddUserNumber.title],
+                [""],
+                [vm.turnOnRate.title],
+                [""],
+                [vm.outLookTime.title],
+                [""],
+                [vm.dayLooktime.title],
+                ["",]
+                [vm.typeLooktime.title],
+                [""]
+              )
+              data_arr.push(
+                vm.registeredUsers.data,  //各运营商在册用户数（户）
+                vm.newAddUserNumber.data[0],  //各运营商新增在册用户数（户）
+                vm.newAddUserNumber.data[1],
+                vm.turnOnRate.data[0],  //开机率（%）
+                vm.turnOnRate.data[1],
+                vm.outLookTime.data[0],  //户均观看时长（小时）
+                vm.outLookTime.data[1],
+                vm.dayLooktime.data[0],  //三大基础功能单日观看时长（万小时）
+                vm.dayLooktime.data[1],
+                vm.typeLooktime.data[0],  //各类型节目单日点播时长（千小时）
+                vm.typeLooktime.data[1]
+              )
+            }, 3000);
+            console.log("日报excel下载数据~~~~~", title_arr, data_arr)
+          } catch (error) {
+            console.log(error);
+          }
+
         })
         .catch(error => {
           console.log("G+TV用户活跃发展日报表", error);
         });
-
 
     },
 
