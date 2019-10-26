@@ -337,7 +337,8 @@ export default {
                 var index = params.value;
                 if (index < vm.datum_line) {
                   // 基准线
-                  return "低于平均值";
+                  // return "低于平均值";
+                  return " ";
                 } else {
                   return " ";
                 }
@@ -355,7 +356,8 @@ export default {
             // },
             markLine: {
               silent: true,
-              lineStyle: { color: "#fff", type: "dotted" },
+              // lineStyle: { color: "#fff", type: "dotted" },
+              lineStyle: { color: "yellow", type: "dotted" }, // 基准线
               data: [
                 {
                   name: "24小时激活基准线",

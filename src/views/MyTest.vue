@@ -1412,11 +1412,11 @@ export default {
         ];
         // const list = this.goodsItems;
         const list = this.list;
-        console.log(list);
-        console.log(filterVal);
+        // console.log(list);
+        // console.log(filterVal);
         const data = this.formatJson(filterVal, list);
-        console.log(tHeader);
-        console.log(data);
+        // console.log(tHeader);
+        // console.log(data);
         export_json_to_excel(tHeader, data, "商品管理列表");
       });
     },
@@ -1457,6 +1457,7 @@ export default {
         const {
           export_json_to_excel_plural2
         } = require("../vendor/Export2Excel");
+        const { exportExcel } = require("../vendor/Export2Excel");
         const tHeader = [
           "商品名称",
           "商品货号",
@@ -1475,11 +1476,11 @@ export default {
         ];
         // const list = this.goodsItems;
         const list = this.list;
-        console.log(list);
-        console.log(filterVal);
+        // console.log(list);
+        // console.log(filterVal);
         const data = this.formatJson(filterVal, list);
-        console.log(tHeader);
-        console.log(data);
+        // console.log(tHeader);
+        // console.log(data);
         // export_json_to_excel_test2(tHeader, data, "商品管理列表TT2");
 
         // let registeredUsers = {
@@ -1715,18 +1716,96 @@ export default {
         //   temp_content2,
         //   "商品管理列表TT8"
         // );
-        export_json_to_excel_plural2(
-          ["xxxx"],
-          ["xxxx2"],
-          temp_content,
-          temp_content2,
-          "商品管理列表TT8"
-        );
+        // export_json_to_excel_plural2(
+        //   ["xxxx"],
+        //   ["xxxx2"],
+        //   temp_content,
+        //   temp_content2,
+        //   "商品管理列表TT8"
+        // );
         // export_json_to_excel_plural2(
         //   [["xxxx"],["xxxx2"],["xxxx3"]],
         //   [temp_content,temp_content2], //  temp_content2 =》 二维数组
         //   "用户收视日报"
         // );
+
+        // eg
+        // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+        // data_arr = [
+        //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+        //   ];
+
+        let titleArr = [];
+        let DataArr = [];
+        titleArr.push(["title1"]);
+        titleArr.push(["title2"]);
+        titleArr.push([""]); // 假设 title2 title3是一个数据结构，则title3置""
+        titleArr.push(["title4"]);
+        titleArr.push(["title5"]);
+        titleArr.push(["title6"]);
+        titleArr.push([""]);
+        titleArr.push(["title8"]);
+        titleArr.push(["title9"]);
+
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商3", "移动3", "联通3", "电信3", "移动33", "testXX"],
+          ["平均3", 122, 233, 444, 888, 999]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商3", "移动3", "联通3", "电信3", "移动33", "testXX"],
+          ["平均3", 122, 233, 444, 888, 999]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        DataArr.push([
+          ["运营商", "移动", "联通", "电信"],
+          ["平均", 1, 2, 3]
+          // ["运营商", "移动"],
+          // ["平均", 1]
+        ]);
+        let temp_titleArr = titleArr;
+        let temp_DataArr = DataArr;
+        exportExcel(temp_titleArr, temp_DataArr, "测试2");
       });
     },
     drawLine() {

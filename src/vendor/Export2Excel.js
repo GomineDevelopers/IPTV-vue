@@ -1,12 +1,11 @@
+
+import Vue from "vue";
+
 /* eslint-disable */
 require('script-loader!file-saver');
-// require('script-loader!vendor/Blob');
 require('script-loader!./Blob');
 
-// 依赖
-// npm install file - saver--save
-// npm install xlsx--save
-// npm install script - loader--save - dev
+
 
 require('script-loader!xlsx/dist/xlsx.core.min');
 function generateArray(table) {
@@ -24,14 +23,12 @@ function generateArray(table) {
             var cellValue = cell.innerText;
             if (cellValue !== "" && cellValue == +cellValue) cellValue = +cellValue;
 
-            //Skip ranges
             ranges.forEach(function (range) {
                 if (R >= range.s.r && R <= range.e.r && outRow.length >= range.s.c && outRow.length <= range.e.c) {
                     for (var i = 0; i <= range.e.c - range.s.c; ++i) outRow.push(null);
                 }
             });
 
-            //Handle Row Span
             if (rowspan || colspan) {
                 rowspan = rowspan || 1;
                 colspan = colspan || 1;
@@ -39,10 +36,8 @@ function generateArray(table) {
             }
             ;
 
-            //Handle Value
             outRow.push(cellValue !== "" ? cellValue : null);
 
-            //Handle Colspan
             if (colspan) for (var k = 0; k < colspan - 1; ++k) outRow.push(null);
         }
         out.push(outRow);
@@ -79,14 +74,10 @@ function sheet_from_array_of_arrays(data, opts) {
             else cell.t = 's';
 
             ws[cell_ref] = cell;
-            console.log(cell);
-            console.log(ws[cell_ref]);
 
         }
     }
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
-    console.log(range);
-    console.log(ws['!ref'] );
     return ws;
 }
 
@@ -105,22 +96,16 @@ function s2ab(s) {
 
 export function export_table_to_excel(id) {
     var theTable = document.getElementById(id);
-    console.log('a')
     var oo = generateArray(theTable);
     var ranges = oo[1];
 
-    /* original data */
     var data = oo[0];
     var ws_name = "SheetJS";
-    console.log(data);
 
     var wb = new Workbook(), ws = sheet_from_array_of_arrays(data);
 
-    /* add ranges to worksheet */
-    // ws['!cols'] = ['apple', 'banan'];
     ws['!merges'] = ranges;
 
-    /* add worksheet to workbook */
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
@@ -134,8 +119,6 @@ function formatJson(jsonData) {
 }
 export function export_json_to_excel(th, jsonData, defaultTitle) {
 
-    /* original data */
-
     var data = jsonData;
     data.unshift(th);
     var ws_name = "SheetJS";
@@ -143,7 +126,6 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
     var wb = new Workbook(), ws = sheet_from_array_of_arrays(data);
 
 
-    /* add worksheet to workbook */
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
@@ -152,212 +134,253 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
 }
 
-
-// 参数作用
-// th为标题
-// jsonData为数据 （处理后可以看作一个数组，分别push表格中）
-// push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
-// unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
 export function export_json_to_excel_test2(th, jsonData, defaultTitle) {
-
-    /* original data */
-
-    var data = jsonData;
-    console.log(typeof data);
-    console.log(data);
-    data.unshift(th);
-    console.log(typeof data);
-    console.log(data);
-
-    var ws_name = "SheetJS";
-
-    var wb = new Workbook();
-    console.log(typeof wb);
-    console.log(wb);
-
-    var ws = sheet_from_array_of_arrays(data);
-    console.log(typeof ws);
-    console.log(ws);
-
-
-    /* add worksheet to workbook */
-    wb.SheetNames.push(ws_name);
-    console.log(typeof wb);
-    console.log(wb);
-
-    wb.Sheets[ws_name] = ws;
-    console.log(typeof wb);
-    console.log(wb);
-
-
-    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
-    // console.log(typeof wbout);
-    // console.log(wbout);
-
-    var title = defaultTitle || '列表'
-
-    // 输出 + 命名 
-    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
 }
-
-// export2Excel()中require的路径因个人项目结构不同可能需要单独调整，如果报module not found '../../Export2Excel.js'之类请自行修改路径。
-// tHeader是每一栏的名称，需手动输入。
-// filterVal是data中list的key值，也是要自己写的。
-// 这里记得要与data里面的list名称对应
-// "商品管理列表"是表格名称
-// SheetJS 是表格下面的表格分栏名称
-
-
-// plural复数处理形式 --- 分栏 下方的SheetJS
 export function export_json_to_excel_plural(th, th2, jsonData, jsonData2, defaultTitle) {
-
-    /* original data */
-    var data = jsonData;
-    var data2 = jsonData2;
-    console.log(data);
-    console.log(data2);
-
-    data.unshift(th);
-    data2.unshift(th2);
-    console.log(data);
-    console.log(data2);
-
-    var ws_name = "SheetJS";
-    var ws2_name = "SheetJS2";
-
-    var wb = new Workbook();
-    // var wb2 = new Workbook();
-    console.log(wb);
-
-    var ws = sheet_from_array_of_arrays(data);
-    var ws2 = sheet_from_array_of_arrays(data);
-    console.log(ws);
-    console.log(ws2);
-
-    /* add worksheet to workbook */
-    wb.SheetNames.push(ws_name);
-    wb.SheetNames.push(ws2_name);
-
-    wb.Sheets[ws_name] = ws;
-    wb.Sheets[ws2_name] = ws2;
-
-
-    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
-    var title = defaultTitle || '列表'
-    // 输出 + 命名 
-    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
 }
-
-// plural复数处理形式2 
 export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defaultTitle) {
+}
+export function exportExcel(titleArr, DataArr, defaultTitle) {
+    var rowString = ["A", "B", "C", "..."];
+    var rowString_length_setting = 32;
+    rowString = rowStringManage(rowString_length_setting);
+    function compute_datumMark(length) {
+        let remainder = length % 26;
+        let quotient = parseInt(length / 26);
+        let datumMark = 0;
+        if (quotient == 0) {
+            datumMark = 1;
+        }
+        if (quotient == 1 && remainder == 0) {
+            datumMark = 1;
+        }
+        if (quotient >= 1 && quotient <= 27) {
+            if (quotient == 1 && remainder != 0) {
+                datumMark = 2;
+            }
+            if (quotient == 27 && remainder == 0) {
+                datumMark = 2;
+            }
+            if (quotient > 1 && quotient < 27) {
+                datumMark = 2;
+            }
+        }
+        return datumMark;
+    }
+    function rowStringManage(length) {
+        let arr = [];
+        let remainder = length % 26;
+        let quotient = parseInt(length / 26);
+        let str_row = "";
+        let datumMark = compute_datumMark(length);
+        let mlength = quotient;
+        if (remainder != 0) {
+            mlength += 1;
+        }
+        for (let i = 0; i < mlength; i++) {
+            for (let j = 0; j < 26; j++) {
+                if (i == 0) {
+                    arr.push(String.fromCharCode(65 + j))
+                }
+                if (i > 0 && i < 27) {
+                    if (datumMark == 2) {
+                        if (remainder != 0 && j < remainder) {
+                            arr.push(arr[i - 1] + String.fromCharCode(65 + j))
+                        }
+                    }
+                }
+            }
+        }
+        return arr;
+    }
+    function compute_Object_range(obj) {
+        let title_arr = [];
+        let num_arr = [];
+        let length = Object.getOwnPropertyNames(obj).length;
+        for (let i = 0; i < length; i++) {
+            let per_title = Object.getOwnPropertyNames(obj)[i];
+            if (per_title != "!ref") {
+                let split_arr = per_title.split("");
+                let split_arr_num = per_title.split(split_arr[0]);
+                if (title_arr.indexOf(split_arr[0]) == -1) {
+                    title_arr.push(split_arr[0]);
+                    num_arr.push(parseInt(split_arr_num[1]));
+                }
+                else {
+                    for (let j = 0; j < title_arr.length; j++) {
+                        if (title_arr[j] == split_arr[0]) {
+                            if (num_arr[j] < parseInt(split_arr_num[1])) {
+                                Vue.set(num_arr, j, parseInt(split_arr_num[1]))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return {
+            title_arr: title_arr,
+            num_arr: num_arr
+        }
+    }
+    function LetterM(letter, num) {
+        return letter + String(num);
+    }
+    function ref_manageS(letter, num) {
+        return "A1:" + letter + String(num);
+    }
+    function mix_two_obejctUp(_obj1, _obj2, _Object_range1, _Object_range2) {
+        let obj1 = {};
+        let obj2 = {};
+        let Object_range1 = {};
+        let Object_range2 = {};
+        obj1 = _obj1;
+        obj2 = _obj2;
+        Object_range1 = _Object_range1;
+        Object_range2 = _Object_range2;
+        let obj3 = new Object();
+        obj3 = Object.assign({}, obj1);
+        let obj1_title_arr_length = Object_range1.title_arr.length;
+        let obj2_title_arr_length = Object_range2.title_arr.length;
+        let obj3_title_arr = [];
+        let min_length;
+        let max_length;
+        if (obj1_title_arr_length >= obj2_title_arr_length) {
+            obj3_title_arr = Object_range1.title_arr;
+            min_length = obj2_title_arr_length;
+            max_length = obj1_title_arr_length;
+        }
+        else {
+            obj3_title_arr = Object_range2.title_arr;
+            min_length = obj1_title_arr_length;
+            max_length = obj2_title_arr_length;
+        }
+        for (let i = 0; i < min_length; i++) {
+            for (let j = 0; j < Object_range2.num_arr[i]; j++) {
+                if (obj3_title_arr[i] == "A") {
+                    if (j == 0) {
+                        let L1 = LetterM("A", Object_range1.num_arr[i] + 1);
+                        let L2 = LetterM("A", 1);
+                        obj3[L1] = obj2[L2];
+                    }
+                    else {
+                        let L1 = LetterM("A", Object_range1.num_arr[i] + j + 1)
+                        let L2 = LetterM("A", j + 1);
+                        obj3[L1] = obj2[L2];
 
-    /* original data */
-    var data = jsonData;
-    var data2 = jsonData2;
-    console.log(data);
-    console.log(data2);
+                    }
+                }
+                else {
+                    let current_letter = obj3_title_arr[i];
+                    let L1 = LetterM(current_letter, Object_range1.num_arr[i] + j + 1);
+                    let L2 = LetterM(current_letter, j + 1);
+                    obj3[L1] = obj2[L2]
+                }
+            }
+        }
+        let obj3_num_arr = Object_range2.num_arr;
+        if (obj1_title_arr_length < obj2_title_arr_length) {
+            for (let k = min_length; k < max_length; k++) {
+                for (let n = 0; n < obj3_num_arr[k]; n++) {
+                    let current_letter = obj3_title_arr[k];
+                    let L1 = LetterM(current_letter, Object_range1.num_arr[0] + n + 1);
+                    let L2 = LetterM(current_letter, n + 1);
+                    obj3[L1] = obj2[L2]
+                }
+            }
+        }
+        let max_letter = "";
+        let max_num = 0;
+        max_letter = obj3_title_arr[obj3_title_arr.length - 1];
+        obj3["!ref"] = ref_manageS(max_letter, max_num);
+        return {
+            obj: obj3,
+            max_letter: max_letter
+        };
+    }
+    let arr_length = titleArr.length;
+    let titleA1 = new Array();
+    let titleA2 = new Array();
+    let data1 = new Array();
+    let data2 = new Array();
+    let ws1 = new Object();
+    let ws2 = new Object();
+    let objResult = new Object();
+    let Object_range1 = {};
+    let Object_range2 = {};
+    let max_letter = "";
+    if (arr_length == 0) {
+        return;
+    }
+    if (arr_length == 1) {
+        titleA1 = titleArr[0];
+        data1 = [];
+        for (let n = 0; n < DataArr[0].length; n++) {
+            data1.push(DataArr[0][n]);
+        }
+        data1.unshift(titleA1);
+        ws1 = Object.assign({}, sheet_from_array_of_arrays(data1));
+        Object_range1 = compute_Object_range(ws1);
+        objResult = ws1;
+    }
+    if (arr_length > 1) {
+        for (let i_arr = 0; i_arr < arr_length; i_arr++) {
+            if (i_arr == 0) {
+                titleA1 = titleArr[i_arr];
+                data1 = [];
+                for (let n = 0; n < DataArr[i_arr].length; n++) {
+                    data1.push(DataArr[i_arr][n]);
+                }
+                if (titleA1[0] != "") {
+                    data1.unshift(titleA1);
+                }
+                else {
+                }
+                ws1 = Object.assign({}, sheet_from_array_of_arrays(data1));
+                Object_range1 = compute_Object_range(ws1);
+            }
+            if (i_arr > 0) {
+                titleA2 = titleArr[i_arr];
+                data2 = [];
+                for (let n = 0; n < DataArr[i_arr].length; n++) {
+                    data2.push(DataArr[i_arr][n]);
+                }
+                if (titleA2[0] != "") {
+                    data2.unshift(titleA2);
+                }
+                else {
+                }
+                ws2 = Object.assign({}, sheet_from_array_of_arrays(data2));
+                Object_range2 = compute_Object_range(ws2);
+                let temp_obj = Object.assign({}, mix_two_obejctUp(ws1, ws2, Object_range1, Object_range2));
+                objResult = temp_obj.obj;
+                max_letter = temp_obj.max_letter;
+                ws1 = Object.assign({}, objResult);
+                Object_range1 = compute_Object_range(ws1);
 
-    data.unshift(th);
-    data2.unshift(th2);
-    console.log(data);
-    console.log(data2);
-
+            }
+        }
+    }
+    let temp_objResult = new Object();
+    temp_objResult = Object.assign({}, objResult);;
+    let Object_rangeX = compute_Object_range(temp_objResult);
+    let max_num = 0;
+    for (let x = 0; x < Object_rangeX.num_arr.length; x++) {
+        if (x == 0) {
+            max_num = Object_rangeX.num_arr[0];
+        }
+        else {
+            if (Object_rangeX.num_arr[x] > max_num) {
+                max_num = Object_rangeX.num_arr[x];
+            }
+        }
+    }
+    temp_objResult["!ref"] = ref_manageS(max_letter, max_num); 
     var ws_name = "SheetJS";
-
     var wb = new Workbook();
-    // var wb2 = new Workbook();
-    console.log(wb);
-
-    var ws = sheet_from_array_of_arrays(data);
-    var ws2 = sheet_from_array_of_arrays(data);
-    console.log(ws);
-    console.log(ws2);
-
-    function mix_two_obejct(obj1,obj2) {
-        let obj3;
-
-        let obj1_length = Object.getOwnPropertyNames(obj1).length;
-        let obj2_length = Object.getOwnPropertyNames(obj2).length;
-
-
-        return obj3;
-    }
-
-    let ws_m = mix_two_obejct(ws,ws2);
-
-    // 注释
-    // A B C 是excel的横 --- A->Z->AA->AB->ZB->以此类推 
-    // 竖即使 A? 的 ?
-    // 此处默认 ?=1的 只有A，用于标题
-    // t：s 指  string
-    // t：n 指  number
-    // 进行顺序 颠倒 B3B4提到B2前 =》 输出内容不会颠倒 
-    // =》 excel填充是按索引填充，不是按顺序填充 =》可以直接对object进行推入操作
-    // =》 以此实现 多个数组内容相加功能
-    // ///默认的object的length = 21（假设） = 1A(string-title) 10A（string-per_title） + 10B(num-per_value)    
-    let temp_ws = {
-        // !ref: "A1:B10",          // 0
-        A1: { v: "xxxx", t: "s" },  // 1 title
-        A2: { v: "影视包", t: "s" }, // 2~10 per_title
-        A3: { v: "影视包（包季）", t: "s" },
-        A4: { v: "影视包（包年）", t: "s" },
-        A5: { v: "少儿包", t: "s" },
-        A6: { v: "少儿包（包季）", t: "s" },
-        A7: { v: "少儿包（包年）", t: "s" },
-        A8: { v: "欢乐家庭包", t: "s" },
-        A9: { v: "欢乐家庭包（包季）", t: "s" },
-        A10: { v: "欢乐家庭包（包年）", t: "s" },
-        B3: { v: 3, t: "n" }, // 11~19 per_title
-        B4: { v: 4, t: "n" },
-        B2: { v: 2, t: "n" },
-        B5: { v: 5, t: "n" },
-        B6: { v: 6, t: "n" },
-        B7: { v: 7, t: "n" },
-        B8: { v: 8, t: "n" },
-        B9: { v: 9, t: "n" },
-        B10: { v: 10, t: "n" },
-        H18: { v: 2333, t: "n" },
-    }
-
-    // var obj = {
-    //     key1: 1,
-    //     key2: 2,
-    //     key3: 3
-    // };
-    // Object.getOwnPropertyNames(obj).length
-    // Object.keys(obj).length
-    // 输出对象的属性个数
-    // console.log(Object.getOwnPropertyNames(temp_ws).length);  // 输出：20
-    // console.log(Object.keys(temp_ws).length);  // 输出：20
-    console.log(Object.getOwnPropertyNames(temp_ws)[0]); // 输出 A1
-    console.log(Object.getOwnPropertyNames(temp_ws)[1]); // 输出 A2
-    console.log(Object.getOwnPropertyNames(temp_ws)[0].v); 
-    // 需要输出obj的 {}
-
-
-    // var obj = {};
-    // // 动态给对象添加属性的常见方式
-    // obj.name = 'aaa';
-    // obj.age = 22;
-    // console.log(obj); // 输出为： {name:"aaa",age:22}
-
-    // // 不常见方式
-    // var key = 'address';
-    // var value = '南京市雨花台区';
-    // obj[key] = value;
-    // console.log(obj);
-
-    // temp_ws['!ref'] = "A1:B10";
-    temp_ws['!ref'] = "A1:H18";
-
-    /* add worksheet to workbook */
     wb.SheetNames.push(ws_name);
-
-    // wb.Sheets[ws_name] = ws;
-    wb.Sheets[ws_name] = temp_ws;
-
+    wb.Sheets[ws_name] = temp_objResult;
     var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
     var title = defaultTitle || '列表'
-    // 输出 + 命名 
     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
 }
+

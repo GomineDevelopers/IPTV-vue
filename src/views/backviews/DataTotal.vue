@@ -195,7 +195,7 @@ export default {
 
             // active_user 活跃用户
             // silence_user 沉默用户
-            // downtime_user 关机用户
+            // downtime_user 停机用户
 
             let buckets_flag =
               response.data.responses[3].aggregations.flag_identity.buckets;
@@ -245,7 +245,7 @@ export default {
                 value = "沉默用户";
               }
               if (key == "downtime_user") {
-                value = "关机用户";
+                value = "停机用户";
               }
               return value;
             }
