@@ -3541,6 +3541,129 @@ export default {
             // console.log(temp_8_3);
             Vue.set(vm.everyPowerActivityData.data, 3, temp_8_3);
           }
+
+          //设置Excel下载数据
+          setTimeout(() => {
+            let title_arr = []
+            let data_arr = []   //activeDayReportTotalData
+            title_arr.push(
+              [vm.G_TVUserData.title],
+              [vm.NewUserComparisonData.title],
+              [vm.registeredUsersData.title],
+              [vm.monthNewRegUserData.title],
+              [vm.monthCancellationUserData.title],
+              [vm.G_TVRegionUserData.title],
+              [vm.weekNewUserData.title],
+              [vm.mobileNewUserData.title],
+              [vm.unicornNewUserData.title],
+              [vm.telecomNewUserData],
+              [vm.everyDayUserData.title],
+              [vm.monthPowerActivityData.title],
+              [vm.areaPowerActivityData.title],
+              [vm.everyPowerActivityData.data],
+
+              [vm.usingTheUser.title],  //此处数据格式待处理
+              [vm.usingTheTime.title],  //此处数据格式待处理
+              [vm.usingTheDuration.title],  //此处数据格式待处理
+
+              [vm.monthlyTotalViewingData.title],
+
+              [vm.liveViewingDurationData.title],  //此处数据格式待处理
+              [vm.liveViewingUserData.title],  //此处数据格式待处理
+              [vm.liveViewingTimesData.title],  //此处数据格式待处理
+
+              [vm.monthlyTotalViewingData2.title],
+
+              [vm.weekLiveViewUserData.title],  //此处数据格式待处理
+              [vm.weekLiveViewTimesData.title],   //此处数据格式待处理
+              [vm.weekliveViewDurationData.title],  //此处数据格式待处理
+
+              [vm.weekliveViewingData.title],
+              [vm.liveViewerData.title],
+              [vm.liveViewTimesData.title],
+              [vm.liveViewTimesData2.title],
+              [vm.mobileLiveViewerData.title],
+              [vm.unicornLiveViewerData.title],
+              [vm.telecomLiveViewerData.title],
+              [vm.monthlyDemandViewingData.title],
+              [vm.weekDemandViewingData.title],
+              [vm.demandUserNumData.title],
+              [vm.demandTimesData.title],
+              [vm.demandDurationData.title],
+              [vm.programPageClickUserData.title],
+              [vm.programPageClickNumData.title],
+              [vm.demandUserNumData2.title],
+              [vm.demandTimesData2.title],
+              [vm.demandDurationData2.title],
+              [vm.newAddUserData.title],
+              [vm.payingUserData.title],
+              [vm.monthDemandData.data],
+              [vm.originalProgramsDemandData.title],
+              [vm.mobileKeyProjectData.data],
+              [vm.unicornKeyProjectData],
+              [vm.telecomKeyProjectData.data]
+            )
+
+            data_arr.push(
+              vm.G_TVUserData.data,
+              vm.NewUserComparisonData.data,
+              vm.registeredUsersData.data,
+              vm.monthNewRegUserData.data,
+              vm.monthCancellationUserData.data,
+              vm.G_TVRegionUserData.data,
+              vm.weekNewUserData.data,
+              vm.mobileNewUserData.data,
+              vm.unicornNewUserData.data,
+              vm.telecomNewUserData.data,
+              vm.everyDayUserData.data,
+              vm.monthPowerActivityData.data,
+              vm.areaPowerActivityData.data,
+              vm.everyPowerActivityData.data,
+
+              vm.usingTheUser.content,  //此处数据格式待处理
+              vm.usingTheTime.content,  //此处数据格式待处理
+              vm.usingTheDuration.content,  //此处数据格式待处理
+
+              vm.monthlyTotalViewingData.data,
+
+              vm.liveViewingDurationData.data,  //此处数据格式待处理
+              vm.liveViewingUserData.data,  //此处数据格式待处理
+              vm.liveViewingTimesData.data, //此处数据格式待处理
+
+              vm.monthlyTotalViewingData2.data,
+
+              vm.weekLiveViewUserData.content,  //此处数据格式待处理
+              vm.weekLiveViewTimesData.oontent,  //此处数据格式待处理
+              vm.weekliveViewDurationData.content,  //此处数据格式待处理
+
+              vm.weekliveViewingData.data,
+              vm.liveViewerData.data,
+              vm.liveViewTimesData.data,
+              vm.liveViewTimesData2.data,
+              vm.mobileLiveViewerData.data,
+              vm.unicornLiveViewerData.data,
+              vm.telecomLiveViewerData.data,
+              vm.monthlyDemandViewingData.data,
+              vm.weekDemandViewingData.data,
+              vm.demandUserNumData.data,
+              vm.demandTimesData.data,
+              vm.demandDurationData.data,
+              vm.programPageClickUserData.data,
+              vm.programPageClickNumData.data,
+              vm.demandUserNumData2.data,
+              vm.demandTimesData2.data,
+              vm.demandDurationData2.data,
+              vm.newAddUserData.data,
+              vm.payingUserData.data,
+              vm.monthDemandData.data,
+              vm.originalProgramsDemandData.data,
+              vm.mobileKeyProjectData.data,
+              vm.unicornKeyProjectData.data,
+              vm.telecomKeyProjectData.data,
+
+            )
+
+          }, 5000);
         })
         .catch(error => {
           console.info(error);
