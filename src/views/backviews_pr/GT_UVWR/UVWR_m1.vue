@@ -199,7 +199,7 @@ export default {
     "smooth-line-chart": SmoothLineChart,
     "bar-list-chart": BarListChart
   },
-  props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4", "api_data_m1_range", "api_data_m2_range", "api_data_m3_range", "api_data_m4_range"],
+  props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4", "api_data_m1_range", "api_data_m2_range", "api_data_m3_range", "api_data_m4_range", "PR_Report_index"],
   mounted() {
     let vm = this;
     setTimeout(function () {
@@ -210,6 +210,8 @@ export default {
   watch: {
     //上周数据
     api_data_m1_range(newValue, oldValue) {
+ ;
+
       // 在这里获取上期week的数据
       console.log("混合数据上周数据")
       let last_week_data = newValue.data.responses  //上周总数据
@@ -247,6 +249,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      vm.Excel_data_manage();// excel 处理
+
     },
     //本周数据
     api_data_m1(newValue, oldValue) {
@@ -330,6 +334,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      vm.Excel_data_manage();// excel 处理
 
     },
     //移动数据(本周)
@@ -503,6 +508,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      vm.Excel_data_manage();// excel 处理
 
     },
     //联通数据（本周）
@@ -655,6 +661,7 @@ export default {
           Vue.set(vm.GT_UVWR1_F2.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
         }
       })
+      vm.Excel_data_manage();// excel 处理
 
     },
     //电信数据（本周）
@@ -806,6 +813,8 @@ export default {
           Vue.set(vm.GT_UVWR1_F3.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
         }
       })
+      vm.Excel_data_manage();// excel 处理
+
     },
     //移动数据（上周）
     api_data_m2_range(newValue, oldValue) {
@@ -861,6 +870,8 @@ export default {
         })
       })
       // console.log("vm.GT_UVWR1_F1.data", vm.GT_UVWR1_F1.data)
+      vm.Excel_data_manage();// excel 处理
+
     },
     //联通数据（上周）
     api_data_m3_range(newValue, oldValue) {
@@ -915,6 +926,8 @@ export default {
           }
         })
       })
+      vm.Excel_data_manage();// excel 处理
+
     },
     //电信数据（上周）
     api_data_m4_range(newValue, oldValue) {
@@ -1033,6 +1046,9 @@ export default {
         )
 
       }, 3000);
+
+      vm.Excel_data_manage();// excel 处理
+
     },
   },
   computed: {
@@ -1426,6 +1442,65 @@ export default {
   },
 
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 5");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 5) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信555555555555555"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+
+          // /// 实际
+
+          // ///
+
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                  // 设置excel按钮下载状态 - 开
+                  vm.$store
+                    .dispatch("set_PR_excel_ifCanDownload", true)
+                    .then(function(response_dataArr) {
+                      console.log("下载开");
+
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 5000);
+    },
     //冒泡排序 -- 从序数index几开始
     sortArr(arr, index) {
       for (var i = 0; i < arr.length - 1; i++) {

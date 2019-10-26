@@ -158,7 +158,7 @@
     </div>
     <div class="download">
       <span class="font_title">下载：</span>
-      <el-button class="btn_download" @click="export2Excel()">
+      <el-button class="btn_download" id="id_btn_download" @click="export2Excel()">
         <div class="download_text">Excel表单</div>
         <div :style="download_style" class="download_icon"></div>
       </el-button>
@@ -180,9 +180,23 @@ var operatorChoose_old = [];
 export default {
   name: "OptionSelectPR",
   computed: {
-    ...mapGetters(["PR_assignReportNum"])
+    ...mapGetters(["PR_assignReportNum", "PR_excel_ifCanDownload"])
   },
   watch: {
+    PR_excel_ifCanDownload(newValue, oldValue) {
+      let vm = this;
+      let status = newValue;
+      if (status == true) {
+        document.getElementById("id_btn_download").style.backgroundColor =
+          "#ff6123";
+        // background-color: #ff6123;
+        // background-color: #c0c4cc;
+      }
+      if (status == false) {
+        document.getElementById("id_btn_download").style.backgroundColor =
+          "#c0c4cc";
+      }
+    },
     operatorChoose(newValue, oldValue) {
       let vm = this;
       this.$store
@@ -742,6 +756,25 @@ export default {
       value2 = index;
       temp_PR_Report_index = value1 + value2;
       // console.log("~~~~~~temp_PR_Report_index:" + temp_PR_Report_index);
+
+      // 设置excel按钮下载状态 - 关
+      vm.$store
+        .dispatch("set_PR_excel_ifCanDownload", false)
+        .then(function(response_dataArr) {
+          console.log("下载关");
+          // 下载 title/data 数据初始化
+          vm.$store
+            .dispatch("init_PR_Excel_dataArr_titleArr", "")
+            .then(function(response_init) {
+              console.log(response_init);
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
       vm.$store
         .dispatch("set_PR_Report_index", temp_PR_Report_index)
         .then(function(response) {
@@ -787,6 +820,10 @@ export default {
     // 下载excel表格
     export2Excel() {
       let vm = this;
+      if (vm.PR_excel_ifCanDownload == false) {
+        console.log("数据处理中，请稍后下载！");
+        return;
+      }
       // 获取当前报告序数index
       this.$store
         .dispatch("get_PR_Report_index")
@@ -828,55 +865,66 @@ export default {
             const { exportExcel } = require("../../../vendor/Export2Excel");
             // 获取当前excel data --延时3s
             setTimeout(function() {
-            vm.$store
-              .dispatch("get_PR_Excel_titleArr")
-              .then(function(response_title) {
-                console.log(response_title);
-                vm.$store
-                  .dispatch("get_PR_Excel_dataArr")
-                  .then(function(response_dataArr) {
-                    console.log(response_dataArr);
-                    let temp_titleArr = [];
-                    let temp_DataArr = [];
-                    temp_titleArr = response_title;
-                    temp_DataArr = response_dataArr;
-                    console.log(temp_titleArr.length);
-                    console.log(temp_DataArr.length);
-                    if(temp_titleArr.length == 0 || temp_DataArr.length == 0){
-                      console.log("请选择时间！");
-                      return;
-                    }
-                    else{
-                      console.log("excel下载中...")
-                    }
-                    // /// 临时
-                    // temp_titleArr.push(["title1"]);
-                    // temp_titleArr.push(["title2"]);
-                    // temp_titleArr.push(["title3"]);
+              vm.$store
+                .dispatch("get_PR_Excel_titleArr")
+                .then(function(response_title) {
+                  console.log(response_title);
+                  vm.$store
+                    .dispatch("get_PR_Excel_dataArr")
+                    .then(function(response_dataArr) {
+                      console.log(response_dataArr);
+                      let temp_titleArr = new Array();
+                      temp_titleArr = [];
+                      let temp_DataArr = new Array();
+                      temp_DataArr = [];
 
-                    // temp_DataArr.push([
-                    //   ["运营商", "移动", "联通", "电信"],
-                    //   ["平均", 1, 2, 3]
-                    // ]);
-                    // temp_DataArr.push([
-                    //   ["运营商", "移动", "联通", "电信", "测试"],
-                    //   ["平均", 1, 2, 3, 4]
-                    // ]);
-                    // temp_DataArr.push([
-                    //   ["运营商", "移动", "联通", "电信", "测试"],
-                    //   ["平均", 1, 2, 3, 4]
-                    // ]);
-                    // ///
+                      // temp_titleArr = response_title;
+                      // temp_DataArr = response_dataArr;
+                      if (
+                        response_title.length == 0 ||
+                        response_dataArr.length == 0
+                      ) {
+                        console.log("请选择时间！");
+                        return;
+                      } else {
+                        console.log("excel下载中...");
+                      }
+                      for (let i = 0; i < response_title.length; i++) {
+                        // 用for处理-避免引用问题
+                        temp_titleArr.push(response_title[i]);
+                        temp_DataArr.push(response_dataArr[i]);
+                      }
+                      // console.log(temp_titleArr.length);
+                      // console.log(temp_DataArr.length);
 
-                    exportExcel(temp_titleArr, temp_DataArr, excelName);
-                  })
-                  .catch(function(error) {
-                    console.info(error);
-                  });
-              })
-              .catch(function(error) {
-                console.info(error);
-              });
+                      // /// 临时
+                      // temp_titleArr.push(["title1"]);
+                      // temp_titleArr.push(["title2"]);
+                      // temp_titleArr.push(["title3"]);
+
+                      // temp_DataArr.push([
+                      //   ["运营商", "移动", "联通", "电信"],
+                      //   ["平均", 1, 2, 3]
+                      // ]);
+                      // temp_DataArr.push([
+                      //   ["运营商", "移动", "联通", "电信", "测试"],
+                      //   ["平均", 1, 2, 3, 4]
+                      // ]);
+                      // temp_DataArr.push([
+                      //   ["运营商", "移动", "联通", "电信", "测试"],
+                      //   ["平均", 1, 2, 3, 4]
+                      // ]);
+                      // ///
+
+                      exportExcel(temp_titleArr, temp_DataArr, excelName);
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
             }, 3000);
           });
         })
@@ -1005,7 +1053,9 @@ export default {
 }
 
 .OptionSelectPR .btn_download {
-  background-color: #ff6123;
+  /* background-color: #ff6123; */
+  background-color: #c0c4cc;
+
   color: #ffffff;
   /* line-height: 32px; */
   height: 40px;

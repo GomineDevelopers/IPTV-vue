@@ -220,7 +220,7 @@ export default {
   },
   computed: {
     // ...this.$mapGetters(["PR_operator"])
-    ...mapGetters(["PR_operator", "PR_month"])
+    ...mapGetters(["PR_operator", "PR_month", "PR_Report_index"])
   },
   watch: {
     PR_operator(newValue, oldValue) {
@@ -240,6 +240,50 @@ export default {
   },
 
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 6");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 6) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信6666666"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 3000);
+    },
     set_api_data() {
       let vm = this;
       vm.refresh_api_data("month_day");
@@ -455,7 +499,9 @@ export default {
                 commonTools.format_monthToChinese(buckets_0[i_0].key)
               );
               temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_paid_num.value);
-              temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_income.value  / 100);
+              temp_data_0_3[i_0 + 1].push(
+                buckets_0[i_0].new_income.value / 100
+              );
             }
             vm.newAddUserPercentData.data = temp_data_0_1;
             vm.newAddPayingUserData.data = temp_data_0_2;
@@ -536,7 +582,9 @@ export default {
 
                   buckets_1[index_month].value_added_service_package.buckets[
                     index_month_child
-                  ].new_income.value / 10000 / 100
+                  ].new_income.value /
+                    10000 /
+                    100
                 );
               }
               if (key == "少儿VIP") {
@@ -556,7 +604,9 @@ export default {
 
                   buckets_1[index_month].value_added_service_package.buckets[
                     index_month_child
-                  ].new_income.value / 10000 / 100
+                  ].new_income.value /
+                    10000 /
+                    100
                 );
               }
               if (key == "欢乐家庭VIP") {
@@ -574,7 +624,9 @@ export default {
                   3,
                   buckets_1[index_month].value_added_service_package.buckets[
                     index_month_child
-                  ].new_income.value / 10000 / 100
+                  ].new_income.value /
+                    10000 /
+                    100
                 );
               }
             } // function （尾巴）
@@ -588,7 +640,7 @@ export default {
               temp_data_1_4[index_month].data[index].value =
                 buckets_1[index_month].value_added_service_package.buckets[
                   index_month_child
-                ].new_income.value / 100; 
+                ].new_income.value / 100;
             }
             function Retrun_KeyValue_1_1b(key, index_month, index_month_child) {
               if (key == "影视VIP") {

@@ -164,6 +164,16 @@ export default {
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
+                  // 设置excel按钮下载状态 - 开
+                  vm.$store
+                    .dispatch("set_PR_excel_ifCanDownload", true)
+                    .then(function(response_dataArr) {
+                      console.log("下载开");
+
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
                 })
                 .catch(function(error) {
                   console.info(error);

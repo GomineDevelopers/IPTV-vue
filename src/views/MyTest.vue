@@ -248,14 +248,19 @@ export default {
   methods: {
     // //////////////////////// G+TV用户收视日报表
     test_login() {
-      console.log("test_login");
-      test_login()
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      let arr = ["1","2"];
+      console.log(arr);
+      let arr2 = ["1","2"];
+      console.log(...(arr)); // 对象展开符
+
+      // console.log("test_login");
+      // test_login()
+      //   .then(function(response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
     },
     users_daliyReport() {
       console.log("users_daliyReport");
