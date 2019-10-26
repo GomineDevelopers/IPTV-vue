@@ -290,6 +290,29 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
+      setTimeout(() => {
+        let title_arr = []
+        let data_arr = []
+
+        title_arr.push(
+          ["本土原创节目一周点播数据"],
+          ["内容类型点播次数占比"],
+          ["不同平台点播次数占比"],
+          ["移动本土原创节目点播TOP10"],
+          ["联通本土原创节目点播TOP10"],
+          ["电信本土原创节目点播TOP10"]
+        )
+        data_arr.push(
+          vm.GT_UVWR1_Y1.data,
+          vm.GT_UVWR1_Y2.data,   //此处数据格式需处理
+          vm.GT_UVWR1_Y3.data,
+          vm.GT_UVWR1_Z1.data,
+          vm.GT_UVWR1_Z2.data,
+          vm.GT_UVWR1_Z3.data
+        )
+
+      }, 3000);
     },
   },
   mounted() {

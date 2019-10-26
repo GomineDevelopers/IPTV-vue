@@ -643,6 +643,56 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
+      setTimeout(() => {
+        // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+        // data_arr = [
+        //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+        // ];
+        let title_arr = []
+        let data_arr = []
+        title_arr.push(
+          ["电信在册用户数与新增在册用户数（户）"],
+          [vm.GT_UVWR1_M2.content[0].title],
+          [vm.GT_UVWR1_M2.content[1].title]
+          [vm.GT_UVWR1_N1.content[0].title],
+          [vm.GT_UVWR1_N1.content[1].title],
+          [vm.GT_UVWR1_N1.content[2].title],
+          ["电信三大基础功能观看用户数每日走势（户）"],   //
+          ["电信分组频道直播用户数（万户）"],   //
+          ["电信分组频道直播次数（万次）"],   //
+          ["电信分组频道直播收视时长（小时）"],   //
+          ["电信本地频道收视规模排名（万户）"],   //
+          ["电信轮播频道每日收视走势（户）"],  //
+          ["电信本地自办节目TOP5（万小时）"],   //
+          ["电信点播用户数（万户）"],  //
+          ["电信点播次数（万次）"],  //
+          ["电信点播时长（万小时）"],  //
+          ["电信页面点击用户数（万户"], //
+          ["电信页面点击次数（万次）"], //
+          ["电信页面播放时长（万小时）"], //
+        )
+        data_arr.push(
+          vm.GT_UVWR1_M1.data,
+          vm.GT_UVWR1_M2.content,   //此处格式为{value: , name: }，需做处理
+          vm.GT_UVWR1_N1.content,  //此处格式为{value: , name: }，需做处理
+          vm.GT_UVWR1_N2.data,
+          vm.GT_UVWR1_O1.data,
+          vm.GT_UVWR1_O2.data,
+          vm.GT_UVWR1_O3.data,
+          vm.GT_UVWR1_P1.data,
+          vm.GT_UVWR1_P2.data,
+          vm.GT_UVWR1_P3.data,
+          vm.GT_UVWR1_Q1.data,
+          vm.GT_UVWR1_Q2.data,
+          vm.GT_UVWR1_Q3.data,
+          vm.GT_UVWR1_R1.data,
+          vm.GT_UVWR1_R2.data,
+          vm.GT_UVWR1_R3.data,
+        )
+      }, 3000);
     }
   },
   methods: {

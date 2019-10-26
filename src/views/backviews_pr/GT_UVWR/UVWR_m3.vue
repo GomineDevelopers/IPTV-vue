@@ -645,6 +645,56 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
+      setTimeout(() => {
+        // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+        // data_arr = [
+        //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+        // ];
+        let title_arr = []
+        let data_arr = []   //activeDayReportTotalData
+        title_arr.push(
+          ["联通在册用户数与新增在册用户数（户）"],
+          [vm.GT_UVWR1_S2.content[0].title],
+          [vm.GT_UVWR1_S2.content[1].title]
+          [vm.GT_UVWR1_T1.content[0].title],
+          [vm.GT_UVWR1_T1.content[1].title],
+          [vm.GT_UVWR1_T1.content[2].title],
+          ["联通三大基础功能观看用户数每日走势（户）"],   //
+          ["联通分组频道直播用户数（万户）"],   //
+          ["联通分组频道直播次数（万次）"],   //
+          ["联通分组频道直播收视时长（小时）"],   //
+          ["联通本地频道收视规模排名（万户）"],   //
+          ["联通轮播频道每日收视走势（户）"],  //
+          ["联通本地自办节目TOP5（万小时）"],   //
+          ["联通点播用户数（万户）"],  //
+          ["联通点播次数（万次）"],  //
+          ["联通点播时长（万小时）"],  //
+          ["联通页面点击用户数（万户"], //
+          ["联通页面点击次数（万次）"], //
+          ["联通页面播放时长（万小时）"], //
+        )
+        data_arr.push(
+          vm.GT_UVWR1_S1.data,
+          vm.GT_UVWR1_S2.content,   //此处格式为{value: , name: }，需做处理
+          vm.GT_UVWR1_T1.content,  //此处格式为{value: , name: }，需做处理
+          vm.GT_UVWR1_T2.data,
+          vm.GT_UVWR1_U1.data,
+          vm.GT_UVWR1_U2.data,
+          vm.GT_UVWR1_U3.data,
+          vm.GT_UVWR1_V1.data,
+          vm.GT_UVWR1_V2.data,
+          vm.GT_UVWR1_V3.data,
+          vm.GT_UVWR1_W1.data,
+          vm.GT_UVWR1_W2.data,
+          vm.GT_UVWR1_W3.data,
+          vm.GT_UVWR1_X1.data,
+          vm.GT_UVWR1_X2.data,
+          vm.GT_UVWR1_X3.data,
+        )
+      }, 3000);
     }
   },
   mounted() {

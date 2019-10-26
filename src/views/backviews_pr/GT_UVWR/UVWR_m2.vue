@@ -463,7 +463,6 @@ export default {
     api_data_m2_range(newValue, oldValue) {
       // console.log("移动上周数据", newValue)
       let vm = this
-
       try {
         //电视直播频道分组收视数据（移动）
         let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets  //分组频道直播数据
@@ -655,6 +654,56 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
+      setTimeout(() => {
+        // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+        // data_arr = [
+        //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+        // ];
+        let title_arr = []
+        let data_arr = []   //activeDayReportTotalData
+        title_arr.push(
+          ["移动在册用户数与新增在册用户数（户）"],
+          [vm.GT_UVWR1_G2.content[0].title],
+          [vm.GT_UVWR1_G2.content[1].title]
+          [vm.GT_UVWR1_H1.content[0].title],
+          [vm.GT_UVWR1_H1.content[1].title],
+          [vm.GT_UVWR1_H1.content[2].title],
+          ["移动三大基础功能观看用户数每日走势（户）"],   //
+          ["移动分组频道直播用户数（万户）"],   //
+          ["移动分组频道直播次数（万次）"],   //
+          ["移动分组频道直播收视时长（小时）"],   //
+          ["移动本地频道收视规模排名（万户）"],   //
+          ["移动轮播频道每日收视走势（户）"],  //
+          ["移动本地自办节目TOP5（万小时）"],   //
+          ["移动点播用户数（万户）"],  //
+          ["移动点播次数（万次）"],  //
+          ["移动点播时长（万小时）"],  //
+          ["移动页面点击用户数（万户"], //
+          ["移动页面点击次数（万次）"], //
+          ["移动页面播放时长（万小时）"], //
+        )
+        data_arr.push(
+          vm.GT_UVWR1_G1.data,
+          vm.GT_UVWR1_G2.content,   //此处格式为{value: , name: }，需做处理
+          vm.GT_UVWR1_H1.content,   //此处格式为{value: , name: }，需做处理
+          vm.GT_UVWR1_H2.data,
+          vm.GT_UVWR1_I1.data,
+          vm.GT_UVWR1_I2.data,
+          vm.GT_UVWR1_I3.data,
+          vm.GT_UVWR1_J1.data,
+          vm.GT_UVWR1_J2.data,
+          vm.GT_UVWR1_J3.data,
+          vm.GT_UVWR1_K1.data,
+          vm.GT_UVWR1_K2.data,
+          vm.GT_UVWR1_K3.data,
+          vm.GT_UVWR1_L1.data,
+          vm.GT_UVWR1_L2.data,
+          vm.GT_UVWR1_L3.data,
+        )
+      }, 3000);
     }
   },
   methods: {

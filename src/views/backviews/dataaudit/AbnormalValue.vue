@@ -137,11 +137,7 @@
         </el-row>
         <el-row>
           <!-- <a href="#live_log">直播播放日志</a> -->
-          <a
-            class="anchor_link7"
-            href="javascript:void(0)"
-            @click="goAnchor('#look_back_log2')"
-          >直播播放日志</a>
+          <a class="anchor_link7" href="javascript:void(0)" @click="goAnchor('#live_log2')">直播播放日志</a>
         </el-row>
       </el-col>
     </el-row>
@@ -227,6 +223,59 @@ export default {
           console.info(error);
         });
     }, 100);
+
+    $("#data_integrity_content").scroll(function (event) {
+      //console.log($('.backHome_body_main').scrollTop())
+      let scrollTopHeight = $("#data_integrity_content").scrollTop();
+      if (0 <= scrollTopHeight) {
+        $(".anchor_link1")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      }
+      if (300 <= scrollTopHeight) {
+        $(".anchor_link3")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      }
+      if (600 <= scrollTopHeight) {
+        $(".anchor_link4")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      }
+      if (900 <= scrollTopHeight) {
+        $(".anchor_link5")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      }
+      if (1200 <= scrollTopHeight) {
+        $(".anchor_link6")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      }
+      if (1500 < scrollTopHeight) {
+        $(".anchor_link7")
+          .addClass("avtive_link")
+          .parent()
+          .siblings()
+          .children()
+          .removeClass("avtive_link");
+      }
+    });
   },
   methods: {
     goAnchor(selector) {
@@ -645,7 +694,8 @@ export default {
   scroll-behavior: smooth;
 }
 .data_integrity_body {
-  height: 229px;
+  /* height: 229px; */
+  height: 300px;
   margin-bottom: 14px;
 }
 .anchor_hyperlinks {

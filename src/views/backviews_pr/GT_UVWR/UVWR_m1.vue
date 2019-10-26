@@ -968,6 +968,71 @@ export default {
           }
         })
       })
+
+
+      //最后设置Excel下载数据
+      setTimeout(() => {
+        // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+        // data_arr = [
+        //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+        //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+        // ];
+
+        let title_arr = []
+        let data_arr = []   //activeDayReportTotalData
+        title_arr.push(
+          ['平台累计在册用户数总览（万户）'],
+          [""],
+          ["各大运营商在册用户数总览（万户）"],
+          [""],
+          ["新增、停机、销户用户数总览（户）"],
+          [""],
+          ["各市州在册用户占比（万户）"],
+          ["",]
+          ["各大运营商各市州一周新增在册用户数（万户）"],
+          ["新增用户占比（万户）"],
+          ["停机用户占比（户）"],
+          ["销户用户占比（户）"],
+          ["新增用户数走势（万户）"],
+          ["停机用户数走势（户）"],
+          ["销户用户数走势（户）"],
+          ["各运营商一周开机率"],
+          ["各市州一周开机率"],
+          ["移动一周直播节目收视TOP15（万小时）"],
+          ["联通一周直播节目收视TOP15（万小时）"],
+          ["电信一周直播节目收视TOP15（万小时）"],
+          ["移动一周点播节目TOP15（万次）"],
+          ["联通一周点播节目TOP15（万次）"],
+          ["电信一周点播节目TOP15（万次）"],
+        )
+
+        data_arr.push(
+          vm.GT_UVWR1_A1.date,  //平台累计在册用户数总览（万户）
+          vm.GT_UVWR1_A1.data,
+          vm.GT_UVWR1_A2.data,  //各大运营商在册用户数总览
+          vm.GT_UVWR1_A3.data,  //新增、停机、销户用户数总览
+          vm.GT_UVWR1_A3.data2,
+          vm.GT_UVWR1_B1.m_data,   //
+          vm.GT_UVWR1_B1.m_data2,
+          vm.GT_UVWR1_B2.data,  //
+          vm.GT_UVWR1_C1.data,
+          vm.GT_UVWR1_C2.data,
+          vm.GT_UVWR1_C3.data,
+          vm.GT_UVWR1_C4.data,
+          vm.GT_UVWR1_C5.data,
+          vm.GT_UVWR1_C6.data,
+          vm.GT_UVWR1_D1.data,
+          vm.GT_UVWR1_D2.data,
+          vm.GT_UVWR1_E1.data,
+          vm.GT_UVWR1_E2.data,
+          vm.GT_UVWR1_E3.data,
+          vm.GT_UVWR1_F1.data,
+          vm.GT_UVWR1_F2.data,
+          vm.GT_UVWR1_F3.data,
+        )
+
+      }, 3000);
     },
   },
   computed: {
