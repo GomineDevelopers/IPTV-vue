@@ -327,11 +327,6 @@ export default {
         } else {
           temp.operator = this.EPG_operator[0]
         }
-        // if (this.EPG_operator[0] == '移动2.0') {
-        //   temp.ver = '2.0'
-        // } else {
-        //   temp.ver = null
-        // }
       }
       //栏目类型
       if (programa_type == 1) {
