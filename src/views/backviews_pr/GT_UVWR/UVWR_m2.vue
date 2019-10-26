@@ -662,6 +662,51 @@ export default {
         //   [["运营商", "移动", "联通", "电信"], ["平均"]],
         //   [["运营商", "移动", "联通", "电信"], ["平均"]]
         // ];
+        let data_temp = [[], []]
+        let data_temp1 = [[], []]
+        vm.GT_UVWR1_G2.content.forEach((value, index) => {
+          title_temp.push(value.title)
+          if (index == 0) {
+            value.data.forEach((value2, index2) => {
+              data_temp[0].push(value2.name)
+              data_temp[1].push(value2.value)
+            })
+          }
+          else if (index == 1) {
+            value.data.forEach((value2, index2) => {
+              data_temp1[0].push(value2.name)
+              data_temp1[1].push(value2.value)
+            })
+          }
+        })
+
+        // let title_temp = []
+        let H1_data_temp = [[], []]
+        let H1_data_temp1 = [[], []]
+        let H1_data_temp2 = [[], []]
+        vm.GT_UVWR1_H1.content.forEach((value, index) => {
+          title_temp.push(value.title)
+          if (index == 0) {
+            value.data.forEach((value2, index2) => {
+              H1_data_temp[0].push(value2.name)
+              H1_data_temp[1].push(value2.value)
+            })
+          }
+          else if (index == 1) {
+            value.data.forEach((value2, index2) => {
+              H1_data_temp1[0].push(value2.name)
+              H1_data_temp1[1].push(value2.value)
+            })
+          }
+
+          else if (index == 2) {
+            value.data.forEach((value2, index2) => {
+              H1_data_temp2[0].push(value2.name)
+              H1_data_temp2[1].push(value2.value)
+            })
+          }
+        })
+
         let title_arr = []
         let data_arr = []   //activeDayReportTotalData
         title_arr.push(
@@ -687,8 +732,13 @@ export default {
         )
         data_arr.push(
           vm.GT_UVWR1_G1.data,
-          vm.GT_UVWR1_G2.content,   //此处格式为{value: , name: }，需做处理
-          vm.GT_UVWR1_H1.content,   //此处格式为{value: , name: }，需做处理
+          // vm.GT_UVWR1_G2.content,   //此处格式为{value: , name: }，需做处理
+          data_temp,
+          data_temp1,
+          // vm.GT_UVWR1_H1.content,   //此处格式为{value: , name: }，需做处理
+          H1_data_temp,
+          H1_data_temp1,
+          H1_data_temp2,
           vm.GT_UVWR1_H2.data,
           vm.GT_UVWR1_I1.data,
           vm.GT_UVWR1_I2.data,
@@ -703,7 +753,8 @@ export default {
           vm.GT_UVWR1_L2.data,
           vm.GT_UVWR1_L3.data,
         )
-      }, 3000);
+
+      }, 4000);
     }
   },
   methods: {

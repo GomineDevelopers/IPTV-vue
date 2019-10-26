@@ -292,6 +292,12 @@ export default {
       }
 
       setTimeout(() => {
+        let Y2_data_temp = [[], []]
+        VM.GT_UVWR1_Y2.data.forEach((value, index) => {
+          Y2_data_temp[0].push(value.name)
+          Y2_data_temp[1].push(value.value)
+        })
+
         let title_arr = []
         let data_arr = []
 
@@ -305,14 +311,15 @@ export default {
         )
         data_arr.push(
           vm.GT_UVWR1_Y1.data,
-          vm.GT_UVWR1_Y2.data,   //此处数据格式需处理
+          // vm.GT_UVWR1_Y2.data,   //此处数据格式需处理
+          Y2_data_temp,
           vm.GT_UVWR1_Y3.data,
           vm.GT_UVWR1_Z1.data,
           vm.GT_UVWR1_Z2.data,
           vm.GT_UVWR1_Z3.data
         )
 
-      }, 3000);
+      }, 7000);
     },
   },
   mounted() {

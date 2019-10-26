@@ -651,13 +651,58 @@ export default {
         //   [["运营商", "移动", "联通", "电信"], ["平均"]],
         //   [["运营商", "移动", "联通", "电信"], ["平均"]]
         // ];
+        let data_temp = [[], []]
+        let data_temp1 = [[], []]
+        vm.GT_UVWR1_M2.content.forEach((value, index) => {
+          title_temp.push(value.title)
+          if (index == 0) {
+            value.data.forEach((value2, index2) => {
+              data_temp[0].push(value2.name)
+              data_temp[1].push(value2.value)
+            })
+          }
+          else if (index == 1) {
+            value.data.forEach((value2, index2) => {
+              data_temp1[0].push(value2.name)
+              data_temp1[1].push(value2.value)
+            })
+          }
+        })
+
+        // let title_temp = []
+        let N1_data_temp = [[], []]
+        let N1_data_temp1 = [[], []]
+        let N1_data_temp2 = [[], []]
+        vm.GT_UVWR1_N1.content.forEach((value, index) => {
+          title_temp.push(value.title)
+          if (index == 0) {
+            value.data.forEach((value2, index2) => {
+              N1_data_temp[0].push(value2.name)
+              N1_data_temp[1].push(value2.value)
+            })
+          }
+          else if (index == 1) {
+            value.data.forEach((value2, index2) => {
+              N1_data_temp1[0].push(value2.name)
+              N1_data_temp1[1].push(value2.value)
+            })
+          }
+
+          else if (index == 2) {
+            value.data.forEach((value2, index2) => {
+              N1_data_temp2[0].push(value2.name)
+              N1_data_temp2[1].push(value2.value)
+            })
+          }
+        })
+
         let title_arr = []
         let data_arr = []
         title_arr.push(
           ["电信在册用户数与新增在册用户数（户）"],
           [vm.GT_UVWR1_M2.content[0].title],
           [vm.GT_UVWR1_M2.content[1].title]
-          [vm.GT_UVWR1_N1.content[0].title],
+          [vm.N.content[0].title],
           [vm.GT_UVWR1_N1.content[1].title],
           [vm.GT_UVWR1_N1.content[2].title],
           ["电信三大基础功能观看用户数每日走势（户）"],   //
@@ -676,8 +721,13 @@ export default {
         )
         data_arr.push(
           vm.GT_UVWR1_M1.data,
-          vm.GT_UVWR1_M2.content,   //此处格式为{value: , name: }，需做处理
-          vm.GT_UVWR1_N1.content,  //此处格式为{value: , name: }，需做处理
+          // vm.GT_UVWR1_M2.content,   //此处格式为{value: , name: }，需做处理
+          data_temp,
+          data_temp1,
+          // vm.GT_UVWR1_N1.content,  //此处格式为{value: , name: }，需做处理
+          N1_data_temp,
+          N1_data_temp1,
+          N1_data_temp2,
           vm.GT_UVWR1_N2.data,
           vm.GT_UVWR1_O1.data,
           vm.GT_UVWR1_O2.data,
@@ -692,7 +742,7 @@ export default {
           vm.GT_UVWR1_R2.data,
           vm.GT_UVWR1_R3.data,
         )
-      }, 3000);
+      }, 6000);
     }
   },
   methods: {
