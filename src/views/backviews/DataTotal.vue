@@ -239,7 +239,7 @@ export default {
             function returnKeyChinese(key) {
               let value;
               if (key == "active_user") {
-                value = "活用用户";
+                value = "活跃用户";
               }
               if (key == "silence_user") {
                 value = "沉默用户";

@@ -330,7 +330,7 @@ export default {
                 Vue.set(
                   temp_subscribersData[i_0 + 1],
                   2,
-                  buckets_0[i_0].new_income.value / 10000
+                  buckets_0[i_0].new_income.value / 10000 / 100
                 );
               } catch (error) {
                 console.log(error);
@@ -368,7 +368,7 @@ export default {
                   }
                   for (i_package = 0; i_package < length_package; i_package++) {
                     if (buckets_package[i_package].key == key) {
-                      return buckets_package[i_package].new_income.value;
+                      return buckets_package[i_package].new_income.value / 100;
                       break;
                     }
                   }

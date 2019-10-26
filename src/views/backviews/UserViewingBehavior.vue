@@ -493,6 +493,7 @@ export default {
           console.log(response);
           // /////////// 0 -
           try {
+            vm.regionData_data_arr = []; // 初始化
             let aggregations_0 = response.data.responses[0].aggregations;
             let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
             let length_0 = buckets_0.length;
@@ -541,6 +542,7 @@ export default {
           // console.log(vm.regionData_data_arr);
           // ////////////////////////////
           try {
+            vm.operatorData_arr = [];
             let buckets_0B =
               response.data.responses[0].aggregations.ac1.buckets; // x3
             let length_0B = buckets_0B.length;
@@ -745,6 +747,7 @@ export default {
           }
           // ///////////////// 收视行为播放
           try {
+            vm.playData_arr = [];
             let buckets_0BB =
               response.data.responses[0].aggregations.play_mode.buckets; // x3
             let length_0BB = buckets_0BB.length;
@@ -791,6 +794,7 @@ export default {
           }
           
           try {
+            vm.liveViewingTopList.data = []; // 初始化
             // /////////// liveViewingTopList - 1 - 直播Top15
             // 获得最大值
             let buckets_1 =
@@ -799,7 +803,6 @@ export default {
             let i_1;
             let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
             let temp_data;
-            vm.liveViewingTopList.data = []; // 初始化
 
             for (i_1 = 0; i_1 < length_1; i_1++) {
               temp_data = {
@@ -826,13 +829,13 @@ export default {
           }
           // /////////// lookBackViewingTopList - 2 - 回看Top15
           try {
+            vm.lookBackViewingTopList.data = []; // 初始化
             let buckets_2 =
               response.data.responses[2].aggregations.programname.buckets;
             let length_2 = buckets_2.length;
             let i_2;
             let temp_max_value2 = buckets_2[0].watch_freq.value; // 取第一个为最大值
             let temp_data2;
-            vm.lookBackViewingTopList.data = []; // 初始化
 
             for (i_2 = 0; i_2 < length_2; i_2++) {
               temp_data2 = {
@@ -954,117 +957,129 @@ export default {
       userAction_demand(formData)
         .then(function(response) {
           console.log(response);
+          
+          try {      
+            let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
+            let length_ti = buckets_ti.length;
+            let i_ti;
+            let temp1 = []; // 观看次数 - demand_freq
+            let temp2 = []; // 观看时长 - demand_dur
+            let temp3 = []; // 观看户数 - demand_user_num
+            let temp4 = []; // 户均收视次数 - watch_freq_family = demand_freq / demand_user_num
+            let temp5 = []; // 次均收视时长 - watch_dur_mean = demand_dur / demand_freq
+            let temp_all_C = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ti
 
-          let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
-          let length_ti = buckets_ti.length;
-          let i_ti;
-          let temp1 = []; // 观看次数 - demand_freq
-          let temp2 = []; // 观看时长 - demand_dur
-          let temp3 = []; // 观看户数 - demand_user_num
-          let temp4 = []; // 户均收视次数 - watch_freq_family = demand_freq / demand_user_num
-          let temp5 = []; // 次均收视时长 - watch_dur_mean = demand_dur / demand_freq
-          let temp_all_C = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ti
+            // ["product", "观看数"]
+            // ["分类", 43.3],
+            // ["电视", 83.1],
+            // ["推荐", 43.3],
+            // ["电影", 83.1],
+            // ["热剧", 86.4],
+            // ["少儿", 72.4],
+            // ["动漫", 86.4],
+            // ["综艺", 43.3],
+            // ["体育", 72.4],
+            // ["游戏", 72.4],
+            // ["纪实", 86.4]
+            temp1.push(["product", "观看次数"]);
+            temp2.push(["product", "观看时长"]);
+            temp3.push(["product", "观看户数"]);
+            temp4.push(["product", "户均收视次数"]);
+            temp5.push(["product", "次均收视时长"]);
 
-          // ["product", "观看数"]
-          // ["分类", 43.3],
-          // ["电视", 83.1],
-          // ["推荐", 43.3],
-          // ["电影", 83.1],
-          // ["热剧", 86.4],
-          // ["少儿", 72.4],
-          // ["动漫", 86.4],
-          // ["综艺", 43.3],
-          // ["体育", 72.4],
-          // ["游戏", 72.4],
-          // ["纪实", 86.4]
-          temp1.push(["product", "观看次数"]);
-          temp2.push(["product", "观看时长"]);
-          temp3.push(["product", "观看户数"]);
-          temp4.push(["product", "户均收视次数"]);
-          temp5.push(["product", "次均收视时长"]);
-
-          function dataManage(ti_name) {
-            for (i_ti = 0; i_ti < length_ti; i_ti++) {
-              try {
-                if (buckets_ti[i_ti].key == ti_name) {
-                  temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
-                  temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
-                  temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
-                  temp4.push([
-                    ti_name,
-                    // buckets_ti[i_ti].watch_freq_family.value
-                     buckets_ti[i_ti].demand_freq.value / buckets_ti[i_ti].demand_user_num.value
-                  ]);
-                  // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
-                  temp5.push([ti_name, buckets_ti[i_ti].demand_dur.value / ti_name, buckets_ti[i_ti].demand_freq.value]);
+            function dataManage(ti_name) {
+              for (i_ti = 0; i_ti < length_ti; i_ti++) {
+                try {
+                  if (buckets_ti[i_ti].key == ti_name) {
+                    temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
+                    temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
+                    temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
+                    temp4.push([
+                      ti_name,
+                      // buckets_ti[i_ti].watch_freq_family.value
+                      buckets_ti[i_ti].demand_freq.value / buckets_ti[i_ti].demand_user_num.value
+                    ]);
+                    // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
+                    temp5.push([ti_name, buckets_ti[i_ti].demand_dur.value / ti_name, buckets_ti[i_ti].demand_freq.value]);
+                  }
+                } catch (error) {
+                  console.log(error);
                 }
-              } catch (error) {
-                console.log(error);
               }
             }
-          }
-          // let length_pl = vm.UVB_programa_list.length;
-          let temp_programa_list;
-          if (vm.UVB_programa.length == 0) {
-            temp_programa_list = vm.UVB_programa_list;
-          } else {
-            temp_programa_list = vm.UVB_programa;
-          }
-          let length_p = temp_programa_list.length;
-          let i_p;
-          // console.log("★★★★★★★★★★★★★");
-          // console.log(vm.UVB_programa_list)
-          // console.log(vm.UVB_programa);
-          for (i_p = 0; i_p < length_p; i_p++) {
-            // 按照 UVB_programa_list 的顺序写入数据
-            // dataManage(vm.UVB_programa_list[i_p]);
-            // dataManage(vm.UVB_programa[i_p]);
-            dataManage(temp_programa_list[i_p]);
-          }
-          console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-          console.log(temp1);
-          console.log(temp2);
+            // let length_pl = vm.UVB_programa_list.length;
+            let temp_programa_list;
+            if (vm.UVB_programa.length == 0) {
+              temp_programa_list = vm.UVB_programa_list;
+            } else {
+              temp_programa_list = vm.UVB_programa;
+            }
+            let length_p = temp_programa_list.length;
+            let i_p;
+            // console.log("★★★★★★★★★★★★★");
+            // console.log(vm.UVB_programa_list)
+            // console.log(vm.UVB_programa);
+            for (i_p = 0; i_p < length_p; i_p++) {
+              // 按照 UVB_programa_list 的顺序写入数据
+              // dataManage(vm.UVB_programa_list[i_p]);
+              // dataManage(vm.UVB_programa[i_p]);
+              dataManage(temp_programa_list[i_p]);
+            }
+            console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+            console.log(temp1);
+            console.log(temp2);
 
-          temp_all_C.push(temp1);
-          temp_all_C.push(temp2);
-          temp_all_C.push(temp3);
-          temp_all_C.push(temp4);
-          temp_all_C.push(temp5);
-          // console.log("~~~~~~~~temp_all_C");
-          // console.log(temp_all_C);
-          vm.columnData_arr = temp_all_C;
+            temp_all_C.push(temp1);
+            temp_all_C.push(temp2);
+            temp_all_C.push(temp3);
+            temp_all_C.push(temp4);
+            temp_all_C.push(temp5);
+            // console.log("~~~~~~~~temp_all_C");
+            // console.log(temp_all_C);
+            vm.columnData_arr = temp_all_C;
+          } catch (error) {
+            console.log(error)
+          }
 
           // /////////// orderViewingTopList - 2 - 点播Top15
-          let buckets_top =
-            response.data.responses[1].aggregations.programname.buckets;
-          let length_top = buckets_top.length;
-          let i_top;
-          let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
-          let temp_data_top;
-          vm.orderViewingTopList.data = []; // 初始化
-          for (i_top = 0; i_top < length_top; i_top++) {
-            temp_data_top = {
-              // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
-              topNum: i_top + 1,
-              programName: buckets_top[i_top].program_type.buckets[0].key,
-              programSource: buckets_top[i_top].key,
-              hot:
-                String(
-                  commonTools.returnFloat_2(
-                    (buckets_top[i_top].demand_freq.value /
-                      temp_max_value_top) *
-                      100
-                  )
-                ) + "%",
-              // playNum: String(
-              //   commonTools.returnFloat_2(
-              //     buckets_top[i_top].demand_freq.value / 10000
-              //   )
-              // ) // 次数（万）
-              playNum: String(buckets_top[i_top].demand_freq.value) // 次数 （单次）
-            };
-            vm.orderViewingTopList.data.push(temp_data_top);
+          try {      
+
+            vm.orderViewingTopList.data = []; // 初始化
+
+            let buckets_top =
+              response.data.responses[1].aggregations.programname.buckets;
+            let length_top = buckets_top.length;
+            let i_top;
+            let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
+            let temp_data_top;
+            for (i_top = 0; i_top < length_top; i_top++) {
+              temp_data_top = {
+                // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
+                topNum: i_top + 1,
+                programName: buckets_top[i_top].program_type.buckets[0].key,
+                programSource: buckets_top[i_top].key,
+                hot:
+                  String(
+                    commonTools.returnFloat_2(
+                      (buckets_top[i_top].demand_freq.value /
+                        temp_max_value_top) *
+                        100
+                    )
+                  ) + "%",
+                // playNum: String(
+                //   commonTools.returnFloat_2(
+                //     buckets_top[i_top].demand_freq.value / 10000
+                //   )
+                // ) // 次数（万）
+                playNum: String(buckets_top[i_top].demand_freq.value) // 次数 （单次）
+              };
+              vm.orderViewingTopList.data.push(temp_data_top);
+            }
+   
+          } catch (error) {
+            console.log(error)
           }
+
         })
         .catch(function(error) {
           console.info(error);

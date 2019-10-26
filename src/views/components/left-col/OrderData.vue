@@ -117,21 +117,21 @@ export default {
               if (buckets[i].key == "欢乐家庭VIP") {
                 let temp = {
                   name: "欢乐家庭包",
-                  value: buckets[i].new_income.value
+                  value: buckets[i].new_income.value / 100
                 };
                 vm.order_data_circular.data.push(temp);
               }
               if (buckets[i].key == "少儿VIP") {
                 let temp = {
                   name: "少儿包",
-                  value: buckets[i].new_income.value
+                  value: buckets[i].new_income.value / 100
                 };
                 vm.order_data_circular.data.push(temp);
               }
               if (buckets[i].key == "影视VIP") {
                 let temp = {
                   name: "影视包",
-                  value: buckets[i].new_income.value
+                  value: buckets[i].new_income.value / 100
                 };
                 vm.order_data_circular.data.push(temp);
               }

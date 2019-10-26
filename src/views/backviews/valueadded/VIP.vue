@@ -465,6 +465,7 @@ export default {
           // watch_dur_mean
 
           try {
+            vm.regionData_data_arr = [];
             let aggregations_0 = response.data.responses[0].aggregations;
             let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
             let length_0 = buckets_0.length;
@@ -511,6 +512,7 @@ export default {
 
           // ////////////////////////////
           try {
+            vm.operatorData_arr = [];
             let buckets_0B =
               response.data.responses[0].aggregations.ac1.buckets; // x3
             let length_0B = buckets_0B.length;
@@ -666,6 +668,8 @@ export default {
           }
 
           try {
+            vm.playData_arr = [];
+
             let aggregations_0BB = response.data.responses[0].aggregations; // x3
             // let length_0BB = aggregations_0BB.length;
             // let i_0BB;
@@ -714,6 +718,8 @@ export default {
           // 用户收视行为是放在 api2  userAction_demand中 ---用ti分
           // 现在合并了俩api逻辑
           try {
+            vm.columnData_arr = [];
+
             let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
             let length_ti = buckets_ti.length;
             let i_ti;
@@ -800,13 +806,14 @@ export default {
             console.log(error);
           }
           try {
+            vm.orderViewingTopList_VIP.data = []; // 初始化
             let buckets_top =
               response.data.responses[1].aggregations.programname.buckets;
             let length_top = buckets_top.length;
             let i_top;
             let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
             let temp_data_top;
-            vm.orderViewingTopList_VIP.data = []; // 初始化
+
             for (i_top = 0; i_top < length_top; i_top++) {
               temp_data_top = {
                 // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
