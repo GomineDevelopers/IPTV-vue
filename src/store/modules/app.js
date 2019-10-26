@@ -5,10 +5,7 @@ const app = {
     state: {
         BigScreenExpirationDate: "",
         BigScreenStartDate: "",
-        PR_assignReportNum: 4, // 默认：专区4
-        PR_Report_index: 8,    // 默认专区 - 8（第8个）
-        PR_Excel_dataArr:[],
-        PR_Excel_titleArr:[],
+
         // ULC_region: [],
         ULC_region: [
             "贵阳",
@@ -63,6 +60,12 @@ const app = {
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值
         PR_value_specialName: null,
+        PR_assignReportNum: 4, // 默认：专区4
+        PR_Report_index: 8,    // 默认专区 - 8（第8个）
+        PR_Excel_dataArr: [],
+        PR_Excel_titleArr: [],
+        PR_excel_ifCanDownload: false,
+
 
         PR_week: null,
         PR_month: null,
@@ -189,9 +192,20 @@ const app = {
             })
         },
         // ////////// excel
+        init_PR_Excel_dataArr_titleArr({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_Excel_dataArr = new Array(); // 初始化 - 开辟新内存
+                state.PR_Excel_dataArr = []; 
+                // state.PR_Excel_dataArr = data;
+                state.PR_Excel_titleArr = new Array();  // 初始化 - 开辟新内存
+                state.PR_Excel_titleArr = [];
+                // state.PR_Excel_titleArr = data;
+                resolve("init_PR_Excel_dataArr_titleArr - SUCCESS !");
+            })
+        },
         set_PR_Excel_dataArr({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                state.PR_Excel_dataArr = data;
+                state.PR_Excel_dataArr.push(...(data)); // 对象展开符
                 resolve("PR_Excel_dataArr - SUCCESS !");
             })
         },
@@ -202,7 +216,7 @@ const app = {
         },
         set_PR_Excel_titleArr({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                state.PR_Excel_titleArr = data;
+                state.PR_Excel_titleArr.push(...(data)); // 对象展开符
                 resolve("PR_Excel_titleArr - SUCCESS !");
             })
         },
@@ -211,8 +225,18 @@ const app = {
                 resolve(state.PR_Excel_titleArr);
             })
         },
-        // ////////// 
-
+        // //////////    
+        set_PR_excel_ifCanDownload({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_excel_ifCanDownload = data;
+                resolve("PR_excel_ifCanDownload - SUCCESS !");
+            })
+        },
+        get_PR_excel_ifCanDownload({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_excel_ifCanDownload);
+            })
+        },
         // /////////////////////////////////////
         set_ULC_region({ commit, state }, data) {
             return new Promise((resolve, reject) => {

@@ -59,6 +59,7 @@ const getters = {
     // excel 表单
     PR_Excel_dataArr: state => state.app.PR_Excel_dataArr,   // 总data
     PR_Excel_titleArr: state => state.app.PR_Excel_titleArr, // 总title
+    PR_excel_ifCanDownload: state => state.app.PR_excel_ifCanDownload,
 
     // EPG（运营商、栏目）（周、月）
     EPG_operator: state => state.app.EPG_operator,

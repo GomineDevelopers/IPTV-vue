@@ -493,7 +493,7 @@ export default {
           temp_titleArr.push(["title3"]);
 
           temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信333333333"],
+            ["运营商", "移动", "联通", "电信444444444"],
             ["平均", 1, 2, 3]
           ]);
           temp_DataArr.push([
@@ -513,6 +513,16 @@ export default {
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
+                  // 设置excel按钮下载状态 - 开
+                  vm.$store
+                    .dispatch("set_PR_excel_ifCanDownload", true)
+                    .then(function(response_dataArr) {
+                      console.log("下载开");
+
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
                 })
                 .catch(function(error) {
                   console.info(error);
@@ -522,7 +532,7 @@ export default {
               console.info(error);
             });
         }
-      }, 3000);
+      }, 6000);
     },
     refresh_api_data(operator_type, week_type) {
       this.users_mobileReport(operator_type, week_type);

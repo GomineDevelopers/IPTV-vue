@@ -115,41 +115,53 @@ export default {
   name: "G_TVUserViewingDayReport", //G+TV用户收视日报表
   mounted() {
     // singleday - 当天  rangeday - 前七天（不包括当天）
-
     let vm = this;
     setTimeout(function() {
-      vm.$store
-        .dispatch("get_BigScreenStartDate")
-        .then(function(res1) {
-          setTimeout(function() {
-            vm.$store
-              .dispatch("get_BigScreenExpirationDate")
-              .then(function(res2) {
-                if (
-                  vm.PR_day == null ||
-                  vm.PR_day == undefined ||
-                  vm.PR_day == ""
-                ) {
-                  return;
-                }
-                vm.users_daliyReport("yd", "rangeday", res2, res2);
-                vm.users_daliyReport("lt", "rangeday", res2, res2);
-                vm.users_daliyReport("dx", "rangeday", res2, res2);
-                vm.users_daliyReport("yd", "singleday", res1, res2);
-                vm.users_daliyReport("lt", "singleday", res1, res2);
-                vm.users_daliyReport("dx", "singleday", res1, res2);  
-                // excel 处理
-                vm.Excel_data_manage();
-              })
-              .catch(function(error) {
-                console.info(error);
-              });
-          }, 100);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      if (vm.PR_day == null || vm.PR_day == undefined || vm.PR_day == "") {
+        return;
+      }
+      vm.users_daliyReport("yd", "rangeday");
+      vm.users_daliyReport("lt", "rangeday");
+      vm.users_daliyReport("dx", "rangeday");
+      vm.users_daliyReport("yd", "singleday");
+      vm.users_daliyReport("lt", "singleday");
+      vm.users_daliyReport("dx", "singleday");
+      // excel 处理
+      vm.Excel_data_manage();
     }, 100);
+    // setTimeout(function() {
+    //   vm.$store
+    //     .dispatch("get_BigScreenStartDate")
+    //     .then(function(res1) {
+    //       setTimeout(function() {
+    //         vm.$store
+    //           .dispatch("get_BigScreenExpirationDate")
+    //           .then(function(res2) {
+    //             if (
+    //               vm.PR_day == null ||
+    //               vm.PR_day == undefined ||
+    //               vm.PR_day == ""
+    //             ) {
+    //               return;
+    //             }
+    //             vm.users_daliyReport("yd", "rangeday", res2, res2);
+    //             vm.users_daliyReport("lt", "rangeday", res2, res2);
+    //             vm.users_daliyReport("dx", "rangeday", res2, res2);
+    //             vm.users_daliyReport("yd", "singleday", res1, res2);
+    //             vm.users_daliyReport("lt", "singleday", res1, res2);
+    //             vm.users_daliyReport("dx", "singleday", res1, res2);
+    //             // excel 处理
+    //             vm.Excel_data_manage();
+    //           })
+    //           .catch(function(error) {
+    //             console.info(error);
+    //           });
+    //       }, 100);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // }, 100);
   },
   watch: {
     PR_day(newValue, oldValue) {
@@ -214,7 +226,7 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 2")
+      console.log("Excel_data_manage - 2");
       let vm = this;
       setTimeout(function() {
         if (vm.PR_Report_index == 2) {
@@ -226,7 +238,7 @@ export default {
           temp_titleArr.push(["title3"]);
 
           temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信"],
+            ["运营商", "移动", "联通", "电信22222222222"],
             ["平均", 1, 2, 3]
           ]);
           temp_DataArr.push([
@@ -246,6 +258,15 @@ export default {
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
+                  // 设置excel按钮下载状态 - 开
+                  vm.$store
+                    .dispatch("set_PR_excel_ifCanDownload", true)
+                    .then(function(response_dataArr) {
+                      console.log("下载开");
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
                 })
                 .catch(function(error) {
                   console.info(error);
