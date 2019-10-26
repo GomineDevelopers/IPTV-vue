@@ -56,7 +56,9 @@ const getters = {
     // 6 - VIP增值业务专项分析      7 - G+TV月度用户收视行为报告
     // 8 - 专题专区数据报告
     PR_Report_index: state => state.app.PR_Report_index,
-
+    // excel 表单
+    PR_Excel_dataArr: state => state.app.PR_Excel_dataArr,   // 总data
+    PR_Excel_titleArr: state => state.app.PR_Excel_titleArr, // 总title
 
     // EPG（运营商、栏目）（周、月）
     EPG_operator: state => state.app.EPG_operator,
@@ -91,8 +93,6 @@ const getters = {
     // 0-不显示  1-显示
     ADD_VIP_target_type: state => state.app.ADD_VIP_target_type,  // 默认都是全选，默认0-不显示
 
-    
-
     // 节目搜索（时间段）
     PS_time: state => state.app.PS_time,
     PS_name: state => state.app.PS_name,
@@ -104,6 +104,7 @@ const getters = {
     // 测试
     ifTest: state => state.app.ifTest,
 
+    
 
 }
 export default getters

@@ -101,13 +101,22 @@ export default {
   },
   mounted() {
     this.api_data_set();
+    let vm = this;
+    // excel 处理
+    vm.Excel_data_manage();
   },
   watch: {
     PR_operator(newValue, oldValue) {
       this.api_data_set();
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
     },
     PR_week(newValue, oldValue) {
       this.api_data_set();
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
     }
   },
   // ▲▲▲▲ 8个模块的数据传入类型
@@ -122,6 +131,50 @@ export default {
   // 7 - single x 3
   // 8 - single dx
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 3");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 3) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信333333333"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 3000);
+    },
     api_data_set() {
       let vm = this;
       setTimeout(function() {
@@ -2252,12 +2305,14 @@ export default {
       m8_0.row_bottom.push("总计");
       for (i_8_2_days = 0; i_8_2_days < length_8_2_days; i_8_2_days++) {
         m8_0.row_bottom.push(buckets_8_2_days[i_8_2_days].new_paid_num.value);
-        m8_0.row_bottom.push(buckets_8_2_days[i_8_2_days].new_income.value / 100);
+        m8_0.row_bottom.push(
+          buckets_8_2_days[i_8_2_days].new_income.value / 100
+        );
       }
 
       // 最右下角的合计
       m8_0.row_bottom.push(wd_dx[2].aggregations.new_paid_num.value);
-      m8_0.row_bottom.push(wd_dx[2].aggregations.new_income.value /  100);
+      m8_0.row_bottom.push(wd_dx[2].aggregations.new_income.value / 100);
 
       let m8 = [];
       m8.push(m8_0);
@@ -2379,7 +2434,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_operator", "PR_week"]),
+    ...mapGetters(["PR_operator", "PR_week", "PR_Report_index"]),
     ifFormRowShow_yd: {
       get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {

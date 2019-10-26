@@ -7,7 +7,8 @@ const app = {
         BigScreenStartDate: "",
         PR_assignReportNum: 4, // 默认：专区4
         PR_Report_index: 8,    // 默认专区 - 8（第8个）
-
+        PR_Excel_dataArr:[],
+        PR_Excel_titleArr:[],
         // ULC_region: [],
         ULC_region: [
             "贵阳",
@@ -187,6 +188,31 @@ const app = {
                 resolve(state.PR_Report_index);
             })
         },
+        // ////////// excel
+        set_PR_Excel_dataArr({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_Excel_dataArr = data;
+                resolve("PR_Excel_dataArr - SUCCESS !");
+            })
+        },
+        get_PR_Excel_dataArr({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_Excel_dataArr);
+            })
+        },
+        set_PR_Excel_titleArr({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_Excel_titleArr = data;
+                resolve("PR_Excel_titleArr - SUCCESS !");
+            })
+        },
+        get_PR_Excel_titleArr({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_Excel_titleArr);
+            })
+        },
+        // ////////// 
+
         // /////////////////////////////////////
         set_ULC_region({ commit, state }, data) {
             return new Promise((resolve, reject) => {

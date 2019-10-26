@@ -74,7 +74,7 @@ export default {
     dayREportBarLv
   },
   computed: {
-    ...mapGetters(["PR_operator", "PR_day"])
+    ...mapGetters(["PR_operator", "PR_day", "PR_Report_index"])
   },
   watch: {
     PR_operator(newValue, oldValue) {
@@ -83,6 +83,8 @@ export default {
       vm.liveUsers_daliyReport("lt"); //联通数据
       vm.liveUsers_daliyReport("dx"); //电信数据
       vm.api_data_set(); //混合数据
+      // excel 处理
+      vm.Excel_data_manage();
     },
     PR_day(newValue, oldValue) {
       let vm = this;
@@ -90,6 +92,8 @@ export default {
       vm.liveUsers_daliyReport("lt"); //联通数据
       vm.liveUsers_daliyReport("dx"); //电信数据
       vm.api_data_set(); //混合数据
+      // excel 处理
+      vm.Excel_data_manage();
     }
   },
   data() {
@@ -197,8 +201,54 @@ export default {
     vm.liveUsers_daliyReport("lt"); //联通数据
     vm.liveUsers_daliyReport("dx"); //电信数据
     vm.api_data_set(); //混合数据
+    // excel 处理
+    vm.Excel_data_manage();
   },
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 1");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 1) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信1111111111"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 3000);
+    },
     //G+TV用户活跃发展日报表（今日数据）
     liveUsers_daliyReport(type) {
       let vm = this;
@@ -262,18 +312,22 @@ export default {
       //G+TV用户活跃发展日报表api对接(单个运营商数据)  今日
       liveUsers_daliyReport(formData)
         .then(response => {
-          console.log("今日数据~~~~~~~", ttt)
-          console.log(response.data)
+          console.log("今日数据~~~~~~~", ttt);
+          console.log(response.data);
           try {
-            let register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
+            let register_num =
+              response.data.responses[0].aggregations.register_num.value; //在册用户数
             let new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
-            let open_num = response.data.responses[0].aggregations.open_num.value; //开机用户
+            let open_num =
+              response.data.responses[0].aggregations.open_num.value; //开机用户
             // let open_rate1 = (open_num / register_num) * 100 //开机率
             let open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
             // let watch_freq_family = this.returnFloat(response.data.responses[2].aggregations.watch_freq_family.value);
-            let watch_dur = response.data.responses[2].aggregations.watch_dur.value
-            let watch_user_num = response.data.responses[2].aggregations.watch_user_num.value;
-            let watch_freq_family = (watch_dur / watch_user_num).toFixed(2)
+            let watch_dur =
+              response.data.responses[2].aggregations.watch_dur.value;
+            let watch_user_num =
+              response.data.responses[2].aggregations.watch_user_num.value;
+            let watch_freq_family = (watch_dur / watch_user_num).toFixed(2);
             //户均观看时长
             // console.log("在册用户数（今日）", ttt, register_num)
             // console.log("新增在册用户数（今日）", ttt, new_num)
@@ -315,21 +369,33 @@ export default {
           console.log("G+TV用户活跃发展日报表", error);
         });
 
-
       //平均数据的获取 （当前日期前7天）
       liveUsers_daliyReport(average_data_formData)
         .then(response => {
           console.log("前7天平均数据为", ttt, response.data);
           try {
-            let average_register_num = response.data.responses[1].aggregations.register_num.buckets[0].register_num.value; //在册用户数
-            let average_new_num = Math.floor(response.data.responses[1].aggregations.new_num.value / 7); //新增在册用户数（平均）
-            let average_open_num = response.data.responses[1].aggregations.open_num.value; //开机用户
-            let average_open_rate = this.returnFloat(((average_open_num / average_register_num) * 100) / 7); //开机率
+            let average_register_num =
+              response.data.responses[1].aggregations.register_num.buckets[0]
+                .register_num.value; //在册用户数
+            let average_new_num = Math.floor(
+              response.data.responses[1].aggregations.new_num.value / 7
+            ); //新增在册用户数（平均）
+            let average_open_num =
+              response.data.responses[1].aggregations.open_num.value; //开机用户
+            let average_open_rate = this.returnFloat(
+              ((average_open_num / average_register_num) * 100) / 7
+            ); //开机率
 
             //let average_watch_freq_family = this.returnFloat(response.data.responses[3].aggregations.watch_freq_family.value / 7); //户均观看时长
-            let average_watch_dur = response.data.responses[3].aggregations.watch_dur.value
-            let average_watch_user_num = response.data.responses[3].aggregations.watch_user_num.value;
-            let average_watch_freq_family = (average_watch_dur / average_watch_user_num / 7).toFixed(2)  //户均观看时长
+            let average_watch_dur =
+              response.data.responses[3].aggregations.watch_dur.value;
+            let average_watch_user_num =
+              response.data.responses[3].aggregations.watch_user_num.value;
+            let average_watch_freq_family = (
+              average_watch_dur /
+              average_watch_user_num /
+              7
+            ).toFixed(2); //户均观看时长
 
             // console.log("在册用户数average_register_num（平均）", ttt, average_register_num)
             // console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num);
@@ -429,8 +495,10 @@ export default {
         .then(response => {
           // console.log("用户选择的条件筛选结果为：******")
           // console.log(response.data)
-          let play_mode_buckets = response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
-          let program_type_dur_order = response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          let play_mode_buckets =
+            response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+          let program_type_dur_order =
+            response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
 
           // console.log("program_type_dur_order", program_type_dur_order)
           try {
@@ -554,8 +622,10 @@ export default {
         .then(response => {
           // console.log("平均数据", ttt)
           // console.log(response.data)
-          let average_play_mode_buckets = response.data.responses[5].aggregations.play_mode.buckets; //基础功能观看时长（今日）
-          let average_program_type_dur_order = response.data.responses[7].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          let average_play_mode_buckets =
+            response.data.responses[5].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+          let average_program_type_dur_order =
+            response.data.responses[7].aggregations.program_type.buckets; //各类型节目点播时长（今日）
 
           // console.log("program_type_dur_order", program_type_dur_order)
 
@@ -594,52 +664,72 @@ export default {
               switch (value.key) {
                 case "热剧":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 1, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    1,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "少儿":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 2, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    2,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "电影":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 3, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    3,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "动漫":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 4, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    4,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "综艺":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 5, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    5,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "游戏":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 6, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    6,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "纪实":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 7, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    7,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "体育":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 8, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    8,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "音乐":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 9, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    9,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 case "资讯":
                   Vue.set(
-                    vm.typeLooktime.data[0][1], 10, vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.typeLooktime.data[0][1],
+                    10,
+                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
                   );
                   break;
                 default:
@@ -658,8 +748,8 @@ export default {
               //   [["运营商", "移动", "联通", "电信"], ["平均"]],
               //   [["运营商", "移动", "联通", "电信"], ["平均"]]
               // ];
-              let title_arr = []
-              let data_arr = []   //activeDayReportTotalData
+              let title_arr = [];
+              let data_arr = []; //activeDayReportTotalData
               title_arr.push(
                 [vm.registeredUsers.title],
                 [vm.newAddUserNumber.title],
@@ -669,34 +759,31 @@ export default {
                 [vm.outLookTime.title],
                 [""],
                 [vm.dayLooktime.title],
-                ["",]
-                [vm.typeLooktime.title],
+                [""][vm.typeLooktime.title],
                 [""]
-              )
+              );
               data_arr.push(
-                vm.registeredUsers.data,  //各运营商在册用户数（户）
-                vm.newAddUserNumber.data[0],  //各运营商新增在册用户数（户）
+                vm.registeredUsers.data, //各运营商在册用户数（户）
+                vm.newAddUserNumber.data[0], //各运营商新增在册用户数（户）
                 vm.newAddUserNumber.data[1],
-                vm.turnOnRate.data[0],  //开机率（%）
+                vm.turnOnRate.data[0], //开机率（%）
                 vm.turnOnRate.data[1],
-                vm.outLookTime.data[0],  //户均观看时长（小时）
+                vm.outLookTime.data[0], //户均观看时长（小时）
                 vm.outLookTime.data[1],
-                vm.dayLooktime.data[0],  //三大基础功能单日观看时长（万小时）
+                vm.dayLooktime.data[0], //三大基础功能单日观看时长（万小时）
                 vm.dayLooktime.data[1],
-                vm.typeLooktime.data[0],  //各类型节目单日点播时长（千小时）
+                vm.typeLooktime.data[0], //各类型节目单日点播时长（千小时）
                 vm.typeLooktime.data[1]
-              )
+              );
             }, 3000);
-            console.log("日报excel下载数据~~~~~", title_arr, data_arr)
+            console.log("日报excel下载数据~~~~~", title_arr, data_arr);
           } catch (error) {
             console.log(error);
           }
-
         })
         .catch(error => {
           console.log("G+TV用户活跃发展日报表", error);
         });
-
     },
 
     //保留两位小数

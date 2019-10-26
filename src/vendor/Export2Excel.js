@@ -317,10 +317,22 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
         for (let n = 0; n < DataArr[0].length; n++) {
             data1.push(DataArr[0][n]);
         }
-        data1.unshift(titleA1);
+        if (titleA1[0] != "") {
+            data1.unshift(titleA1);
+        }
+        else {
+        }
         ws1 = Object.assign({}, sheet_from_array_of_arrays(data1));
-        Object_range1 = compute_Object_range(ws1);
-        objResult = ws1;
+        let temp_obj = Object.assign({}, ws1);
+        objResult = temp_obj;
+        let ws_name = "SheetJS";
+        let wb = new Workbook();
+        wb.SheetNames.push(ws_name);
+        wb.Sheets[ws_name] = objResult;
+        let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+        let title = defaultTitle || '列表'
+        saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+        return;
     }
     if (arr_length > 1) {
         for (let i_arr = 0; i_arr < arr_length; i_arr++) {
@@ -356,10 +368,11 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
                 max_letter = temp_obj.max_letter;
                 ws1 = Object.assign({}, objResult);
                 Object_range1 = compute_Object_range(ws1);
-
             }
         }
     }
+
+
     let temp_objResult = new Object();
     temp_objResult = Object.assign({}, objResult);;
     let Object_rangeX = compute_Object_range(temp_objResult);
@@ -374,13 +387,13 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             }
         }
     }
-    temp_objResult["!ref"] = ref_manageS(max_letter, max_num); 
-    var ws_name = "SheetJS";
-    var wb = new Workbook();
+    temp_objResult["!ref"] = ref_manageS(max_letter, max_num);
+    let ws_name = "SheetJS";
+    let wb = new Workbook();
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = temp_objResult;
-    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
-    var title = defaultTitle || '列表'
+    let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+    let title = defaultTitle || '列表'
     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
 }
 
