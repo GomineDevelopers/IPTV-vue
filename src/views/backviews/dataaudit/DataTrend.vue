@@ -1,6 +1,19 @@
 <template>
   <div class="data_trend">
     <el-col :span="20">
+      <!-- 时间选择 -->
+      <el-row class="date_row back_white">
+        <el-row class="model_title">
+          <span class="title_border_left"></span>条件筛选
+        </el-row>
+        <el-row class="date_picker">
+          <span>日期：</span>
+          <span>
+            <el-date-picker v-model="day_date" type="date" placeholder="选择日期"></el-date-picker>
+          </span>
+        </el-row>
+      </el-row>
+
       <!-- 各地市每天开机用户数量图表开始 -->
       <el-row class="data_trend_chart" id="power_user_number">
         <el-row class="model_title">
@@ -83,6 +96,7 @@ export default {
   },
   data() {
     return {
+      day_date: '',  //日期选择
       powerUserNumber: {
         id: "powerUserNumber",
         dataTime: [
@@ -215,7 +229,7 @@ export default {
     };
   },
   mounted() {
-    $(".data_trend").scroll(function(event) {
+    $(".data_trend").scroll(function (event) {
       let scrollTopHeight = $(".data_trend").scrollTop();
       let power_user_number = document.querySelector("#power_user_number")
         .offsetTop;
@@ -226,7 +240,7 @@ export default {
       // console.log('power_user_number 84', power_user_number)
       // console.log('online_user_number 858', online_user_number)
       // console.log('heartbeat_frequency 1632', heartbeat_frequency)
-      if (0 <= scrollTopHeight) {
+      if (120 <= scrollTopHeight) {
         $(".anchor_link1")
           .addClass("avtive_link")
           .parent()
@@ -234,7 +248,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (658 <= scrollTopHeight) {
+      if (778 <= scrollTopHeight) {
         $(".anchor_link2")
           .addClass("avtive_link")
           .parent()
@@ -242,7 +256,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (1000 <= scrollTopHeight) {
+      if (1200 <= scrollTopHeight) {
         $(".anchor_link3")
           .addClass("avtive_link")
           .parent()
@@ -252,13 +266,13 @@ export default {
       }
     });
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.errorReport(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
@@ -280,7 +294,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       errorReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
 
           // 传入 2019-10-11  返回11日
@@ -582,7 +596,7 @@ export default {
           vm.heartbeatFrequency.nameArray = temp_3_2;  // 心跳
           vm.heartbeatFrequency.stringArray = temp_3_3;  // 心跳
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -591,7 +605,7 @@ export default {
       let data_trend = document.querySelector(".data_trend"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       data_trend.scrollTop = anchor.offsetTop - 80;
-      $(".anchor_hyperlinks a").on("click", function() {
+      $(".anchor_hyperlinks a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -604,6 +618,19 @@ export default {
 };
 </script>
 <style scoped>
+.date_row {
+  height: 120px;
+  margin-bottom: 14px;
+}
+.date_picker {
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  margin-left: 20px;
+  font-size: 14px;
+  color: #333333;
+  font-weight: bold;
+}
 /*webkit内核*/
 .data_trend::-webkit-scrollbar {
   width: 0px;
