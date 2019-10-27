@@ -520,7 +520,11 @@ export default {
           // /// 实际
 
           // ///
-
+          if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
+            console.log("请选择时间！");
+            return;
+          }
+          
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {

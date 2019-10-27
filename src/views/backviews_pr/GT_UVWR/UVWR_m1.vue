@@ -1446,6 +1446,14 @@ export default {
     Excel_data_manage() {
       console.log("Excel_data_manage - 5 - m1");
       let vm = this;
+      vm.$store
+        .dispatch("set_PR_excel_ifCanDownload", false)
+        .then(function(response_dataArr) {
+          console.log("下载关");
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
       setTimeout(function() {
         if (vm.PR_Report_index == 5) {
           let temp_titleArr = [];
