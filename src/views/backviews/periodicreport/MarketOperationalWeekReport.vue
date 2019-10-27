@@ -102,21 +102,18 @@ export default {
   mounted() {
     this.api_data_set();
     let vm = this;
-    // excel 处理
-    vm.Excel_data_manage();
+
   },
   watch: {
     PR_operator(newValue, oldValue) {
       this.api_data_set();
       let vm = this;
-      // excel 处理
-      vm.Excel_data_manage();
+
     },
     PR_week(newValue, oldValue) {
       this.api_data_set();
       let vm = this;
-      // excel 处理
-      vm.Excel_data_manage();
+ 
     }
   },
   // ▲▲▲▲ 8个模块的数据传入类型
@@ -131,60 +128,7 @@ export default {
   // 7 - single x 3
   // 8 - single dx
   methods: {
-    Excel_data_manage() {
-      console.log("Excel_data_manage - 3");
-      let vm = this;
-      setTimeout(function () {
-        if (vm.PR_Report_index == 3) {
-          let temp_titleArr = [];
-          let temp_DataArr = [];
-          // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信333333333"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          // ///
-          vm.$store
-            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
-            .then(function (response_title) {
-              console.log(response_title);
-              vm.$store
-                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
-                .then(function (response_dataArr) {
-                  console.log(response_dataArr);
-                  // 设置excel按钮下载状态 - 开
-                  vm.$store
-                    .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function (response_dataArr) {
-                      console.log("下载开");
-
-                    })
-                    .catch(function (error) {
-                      console.info(error);
-                    });
-                })
-                .catch(function (error) {
-                  console.info(error);
-                });
-            })
-            .catch(function (error) {
-              console.info(error);
-            });
-        }
-      }, 3000);
-    },
     api_data_set() {
       let vm = this;
       setTimeout(function () {

@@ -346,35 +346,7 @@ export default {
         console.log(error);
       }
 
-      setTimeout(() => {
-        let Y2_data_temp = [[], []]
-        VM.GT_UVWR1_Y2.data.forEach((value, index) => {
-          Y2_data_temp[0].push(value.name)
-          Y2_data_temp[1].push(value.value)
-        })
 
-        let title_arr = []
-        let data_arr = []
-
-        title_arr.push(
-          ["本土原创节目一周点播数据"],
-          ["内容类型点播次数占比"],
-          ["不同平台点播次数占比"],
-          ["移动本土原创节目点播TOP10"],
-          ["联通本土原创节目点播TOP10"],
-          ["电信本土原创节目点播TOP10"]
-        )
-        data_arr.push(
-          vm.GT_UVWR1_Y1.data,
-          // vm.GT_UVWR1_Y2.data,   //此处数据格式需处理
-          Y2_data_temp,
-          vm.GT_UVWR1_Y3.data,
-          vm.GT_UVWR1_Z1.data,
-          vm.GT_UVWR1_Z2.data,
-          vm.GT_UVWR1_Z3.data
-        )
-
-      }, 7000);
     },
   },
   mounted() {
@@ -518,7 +490,34 @@ export default {
           // ///
 
           // /// 实际
+          // setTimeout(() => {
+          //   let Y2_data_temp = [[], []]
+          //   VM.GT_UVWR1_Y2.data.forEach((value, index) => {
+          //     Y2_data_temp[0].push(value.name)
+          //     Y2_data_temp[1].push(value.value)
+          //   })
 
+          //   let title_arr = []
+          //   let data_arr = []
+
+          //   title_arr.push(
+          //     ["本土原创节目一周点播数据"],
+          //     ["内容类型点播次数占比"],
+          //     ["不同平台点播次数占比"],
+          //     ["移动本土原创节目点播TOP10"],
+          //     ["联通本土原创节目点播TOP10"],
+          //     ["电信本土原创节目点播TOP10"]
+          //   )
+          //   data_arr.push(
+          //     vm.GT_UVWR1_Y1.data,
+          //     // vm.GT_UVWR1_Y2.data,   //此处数据格式需处理
+          //     Y2_data_temp,
+          //     vm.GT_UVWR1_Y3.data,
+          //     vm.GT_UVWR1_Z1.data,
+          //     vm.GT_UVWR1_Z2.data,
+          //     vm.GT_UVWR1_Z3.data
+          //   )
+          // }, 7000);
           // ///
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");

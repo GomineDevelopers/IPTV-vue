@@ -19,7 +19,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 1000);
   },
@@ -41,12 +41,12 @@ export default {
       setTimeout(function() {
         vm.setLineChart();
       }, 2000);
-    },
+    }
   },
   computed: {
     ...mapGetters(["PR_operator", "PR_month"]),
     pieData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
 
         if (
@@ -62,26 +62,31 @@ export default {
             content = vm.pieData.content;
             color = vm.pieData.color;
           } else {
-            if (this.PR_operator.indexOf("移动") > -1) {
-              color.push(vm.pieData.color[0]);
-              data.push(vm.pieData.content[0].data[0]);
+            try {
+              if (this.PR_operator.indexOf("移动") > -1) {
+                color.push(vm.pieData.color[0]);
+                data.push(vm.pieData.content[0].data[0]);
+              }
+              if (this.PR_operator.indexOf("联通") > -1) {
+                color.push(vm.pieData.color[1]);
+                data.push(vm.pieData.content[0].data[1]);
+              }
+              if (this.PR_operator.indexOf("电信") > -1) {
+                color.push(vm.pieData.color[2]);
+                data.push(vm.pieData.content[0].data[2]);
+              }
+              temp = {
+                title: vm.pieData.content[0].title,
+                data: data
+              };
+              content.push(temp);
+            } catch (error) {
+              console.log(error);
+              return;
             }
-            if (this.PR_operator.indexOf("联通") > -1) {
-              color.push(vm.pieData.color[1]);
-              data.push(vm.pieData.content[0].data[1]);
-            }
-            if (this.PR_operator.indexOf("电信") > -1) {
-              color.push(vm.pieData.color[2]);
-              data.push(vm.pieData.content[0].data[2]);
-            }
-            temp = {
-              title: vm.pieData.content[0].title,
-              data: data
-            };
-            content.push(temp);
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             vm.setLineChart();
           }, 1000);
 
@@ -160,7 +165,7 @@ export default {
             content.push(temp3);
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             vm.setLineChart();
           }, 1000);
 
@@ -177,12 +182,12 @@ export default {
         }
 
         // 视图更新
-        setTimeout(function () {
+        setTimeout(function() {
           vm.setLineChart();
         }, 1000);
         return vm.pieData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   methods: {

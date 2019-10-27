@@ -44,25 +44,30 @@ export default {
         document.getElementById(this.barListData.id)
       );
       let seriesData = [];
-      //设置series数据条数
-      for (let i = 1; i <= this.barListData.data[0].length - 1; i++) {
-        seriesData.push({
-          type: "bar",
-          barWidth: "20",
-          stack: "堆叠",
-          itemStyle: {
-            normal: {
-              label: {
-                show: true, //开启显示
-                textStyle: {
-                  //数值样式
-                  color: "black",
-                  fontSize: 12
+      try {
+        //设置series数据条数
+        for (let i = 1; i <= this.barListData.data[0].length - 1; i++) {
+          seriesData.push({
+            type: "bar",
+            barWidth: "20",
+            stack: "堆叠",
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true, //开启显示
+                  textStyle: {
+                    //数值样式
+                    color: "black",
+                    fontSize: 12
+                  }
                 }
               }
             }
-          }
-        });
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        return;
       }
       var option = {
         color: this.barListData.color,

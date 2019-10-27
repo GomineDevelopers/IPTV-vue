@@ -50,47 +50,34 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "MOWR_m3",
   components: {},
   props: ["m3_data"],
+  computed: {
+    ...mapGetters(["PR_week", "PR_operator", "PR_Report_index"])
+  },
   watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
     m3_data(newValue, oldValue) {
       // console.log("m3_data - newValue");
       // console.log(newValue);
       let vm = this;
       vm.form = newValue[0][0];
-
-      setTimeout(() => {
-
-        //移动24小时新增激活情况
-        let yd_hour_add = []
-        array.push(
-          vm.form.title,
-          vm.form.row1,
-          vm.form.row2,
-          vm.form.row3,
-          vm.form.row4,
-          vm.form.row5,
-          vm.form.row6,
-          vm.form.row7,
-          vm.form.row8,
-          vm.form.row9,
-          vm.form.row10,
-          vm.form.row11,
-        )
-        let title_arr = []
-        let data_arr = []
-        title_arr.push(
-          ["移动24小时新增激活情况"]
-        )
-        data_arr.push(
-          yd_hour_add,
-        )
-      }, 5000);
     }
   },
-  mounted() { },
+
   data() {
     return {
       form: {
@@ -109,7 +96,80 @@ export default {
       }
     };
   },
-  methods: {}
+  methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 3 - m3");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 3) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信33333.333"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+
+          // /// 实际
+
+          // setTimeout(() => {
+          //   //移动24小时新增激活情况
+          //   let yd_hour_add = [];
+          //   yd_hour_add.push(
+          //     vm.form.title,
+          //     vm.form.row1,
+          //     vm.form.row2,
+          //     vm.form.row3,
+          //     vm.form.row4,
+          //     vm.form.row5,
+          //     vm.form.row6,
+          //     vm.form.row7,
+          //     vm.form.row8,
+          //     vm.form.row9,
+          //     vm.form.row10,
+          //     vm.form.row11
+          //   );
+          //   let title_arr = [];
+          //   let data_arr = [];
+          //   title_arr.push(["移动24小时新增激活情况"]);
+          //   data_arr.push(yd_hour_add);
+          // }, 5000);
+
+          // ///
+
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 5600); //m3: 5000 + 200 * 3
+    }
+  }
 };
 </script>
 
