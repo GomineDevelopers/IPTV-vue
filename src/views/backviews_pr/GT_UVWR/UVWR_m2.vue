@@ -160,9 +160,19 @@ export default {
   },
   props: ["api_data_m2", "api_data_m2_range"],
   computed: {
-    ...mapGetters(["PR_week"]),
+    ...mapGetters(["PR_week", "PR_operator","PR_Report_index"]),
   },
   watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
     //本周数据
     api_data_m2(newValue, oldValue) {
       console.log("api_data_m2 - 移动专项数据(本周)", newValue)
@@ -457,6 +467,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
     },
 
     //上周数据
@@ -758,6 +769,55 @@ export default {
     }
   },
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 5 - m2");
+      let vm = this;
+      setTimeout(function() {
+        if (vm.PR_Report_index == 5) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信555555555555555.222"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+
+          // /// 实际
+
+          // ///
+
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 5400); //m2: 5000 + 200 * 2
+    },
     returnFloat(value) {
       // 保留两位小数
       var value = Math.round(parseFloat(value) * 100) / 100;

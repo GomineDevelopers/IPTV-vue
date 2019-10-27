@@ -250,6 +250,64 @@ export default {
             ["平均", 1, 2, 3, 4]
           ]);
           // ///
+
+          // /// 实际
+          try {
+            let title_arr = [];
+            let data_arr = [];
+            title_arr.push(
+              [vm.yidongTypeLooktime.title],
+              [""],
+              [vm.yidongLiveBroadcast.title],
+              [vm.yidongtypedayusernumber.title],
+              [vm.yidongtypedayclicknumber.title],
+              [vm.yidongAsideClickUser.title],
+
+              [vm.liantongTypeLooktime.title]
+              [""],
+              [vm.liantongLiveBroadcast.title],
+              [vm.liantongtypedayusernumber.title],
+              [vm.liantongtypedayclicknumber.title],
+              [vm.liantongAsideClickUser.title],
+
+              [vm.dianxingTypeLooktime.title]
+              [""],
+              [vm.dianxingLiveBroadcast.title],
+              [vm.dianxingtypedayusernumber.title],
+              [vm.dianxingtypedayclicknumber.title],
+              [vm.dianxingAsideClickUser.title],
+
+            );
+            data_arr.push(
+              vm.yidongTypeLooktime.data[0],
+              vm.yidongTypeLooktime.data[1],
+              vm.yidongLiveBroadcast.data[0],
+              vm.yidongtypedayusernumber.data[0],
+              vm.yidongtypedayclicknumber.data[0],
+              vm.yidongAsideClickUser.data[0],
+
+              vm.liantongTypeLooktime.data[0],
+              vm.liantongTypeLooktime.data[1],
+              vm.liantongLiveBroadcast.data[1],
+              vm.liantongtypedayusernumber.data[0],
+              vm.liantongtypedayclicknumber.data[0],
+              vm.liantongAsideClickUser.data[0],
+
+
+              vm.dianxingTypeLooktime.data[0],
+              vm.dianxingTypeLooktime.data[1],
+              vm.dianxingLiveBroadcast.data[1],
+              vm.dianxingtypedayusernumber.data[0],
+              vm.dianxingtypedayclicknumber.data[0],
+              vm.dianxingAsideClickUser.data[0],
+
+            );
+          } catch (error) {
+            console.log(error);
+          }
+
+          // ///
+
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {

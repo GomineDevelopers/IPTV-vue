@@ -203,6 +203,14 @@ const app = {
                 resolve("init_PR_Excel_dataArr_titleArr - SUCCESS !");
             })
         },
+        set_PR_Excel_dataArr_firstM1({ commit, state }, data) { // m1
+            return new Promise((resolve, reject) => {
+                state.PR_Excel_dataArr = new Array();
+                state.PR_Excel_dataArr = []; 
+                state.PR_Excel_dataArr.push(...(data)); 
+                resolve("PR_Excel_dataArr - SUCCESS !");
+            })
+        },
         set_PR_Excel_dataArr({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PR_Excel_dataArr.push(...(data)); // 对象展开符
@@ -212,6 +220,14 @@ const app = {
         get_PR_Excel_dataArr({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.PR_Excel_dataArr);
+            })
+        },
+        set_PR_Excel_titleArr_firstM1({ commit, state }, data) { // m1
+            return new Promise((resolve, reject) => {
+                state.PR_Excel_titleArr = new Array(); 
+                state.PR_Excel_titleArr = [];
+                state.PR_Excel_titleArr.push(...(data)); 
+                resolve("PR_Excel_titleArr - SUCCESS !");
             })
         },
         set_PR_Excel_titleArr({ commit, state }, data) {

@@ -199,7 +199,52 @@ export default {
     "smooth-line-chart": SmoothLineChart,
     "bar-list-chart": BarListChart
   },
-  props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4", "api_data_m1_range", "api_data_m2_range", "api_data_m3_range", "api_data_m4_range", "PR_Report_index"],
+  props: ["api_data_m1", "api_data_m2", "api_data_m3", "api_data_m4", "api_data_m1_range", "api_data_m2_range", "api_data_m3_range", "api_data_m4_range"],
+  computed: {
+    ...mapGetters(["PR_operator", "PR_week", "PR_Report_index"]),
+    ifModuleydShow: {
+      get: function () {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function (newValue) { }
+    },
+    ifModuleltShow: {
+      get: function () {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function (newValue) { }
+    },
+    ifModuledxShow: {
+      get: function () {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function (newValue) { }
+    }
+  },
   mounted() {
     let vm = this;
     setTimeout(function () {
@@ -208,9 +253,18 @@ export default {
     }, 300);
   },
   watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
     //上周数据
     api_data_m1_range(newValue, oldValue) {
- ;
 
       // 在这里获取上期week的数据
       console.log("混合数据上周数据")
@@ -249,7 +303,6 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      vm.Excel_data_manage();// excel 处理
 
     },
     //本周数据
@@ -334,7 +387,6 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      vm.Excel_data_manage();// excel 处理
 
     },
     //移动数据(本周)
@@ -508,7 +560,6 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      vm.Excel_data_manage();// excel 处理
 
     },
     //联通数据（本周）
@@ -661,7 +712,6 @@ export default {
           Vue.set(vm.GT_UVWR1_F2.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
         }
       })
-      vm.Excel_data_manage();// excel 处理
 
     },
     //电信数据（本周）
@@ -813,7 +863,6 @@ export default {
           Vue.set(vm.GT_UVWR1_F3.data[15 - index], 1, (value.demand_freq.value / 10000).toFixed(1))
         }
       })
-      vm.Excel_data_manage();// excel 处理
 
     },
     //移动数据（上周）
@@ -870,7 +919,6 @@ export default {
         })
       })
       // console.log("vm.GT_UVWR1_F1.data", vm.GT_UVWR1_F1.data)
-      vm.Excel_data_manage();// excel 处理
 
     },
     //联通数据（上周）
@@ -926,7 +974,6 @@ export default {
           }
         })
       })
-      vm.Excel_data_manage();// excel 处理
 
     },
     //电信数据（上周）
@@ -1047,54 +1094,8 @@ export default {
 
       }, 3000);
 
-      vm.Excel_data_manage();// excel 处理
 
     },
-  },
-  computed: {
-    ...mapGetters(["PR_operator", "PR_week"]),
-    ifModuleydShow: {
-      get: function () {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          return true;
-        } else {
-          if (vm.PR_operator.indexOf("移动") > -1) {
-            return true;
-          }
-        }
-        return false;
-      },
-      set: function (newValue) { }
-    },
-    ifModuleltShow: {
-      get: function () {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          return true;
-        } else {
-          if (vm.PR_operator.indexOf("联通") > -1) {
-            return true;
-          }
-        }
-        return false;
-      },
-      set: function (newValue) { }
-    },
-    ifModuledxShow: {
-      get: function () {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          return true;
-        } else {
-          if (vm.PR_operator.indexOf("电信") > -1) {
-            return true;
-          }
-        }
-        return false;
-      },
-      set: function (newValue) { }
-    }
   },
   data() {
     return {
@@ -1443,7 +1444,7 @@ export default {
 
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 5");
+      console.log("Excel_data_manage - 5 - m1");
       let vm = this;
       setTimeout(function() {
         if (vm.PR_Report_index == 5) {
@@ -1455,7 +1456,7 @@ export default {
           temp_titleArr.push(["title3"]);
 
           temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信555555555555555"],
+            ["运营商", "移动", "联通", "电信555555555555555.111"],
             ["平均", 1, 2, 3]
           ]);
           temp_DataArr.push([
@@ -1473,23 +1474,14 @@ export default {
           // ///
 
           vm.$store
-            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr) 
             .then(function(response_title) {
               console.log(response_title);
               vm.$store
-                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
-                  // 设置excel按钮下载状态 - 开
-                  vm.$store
-                    .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function(response_dataArr) {
-                      console.log("下载开");
 
-                    })
-                    .catch(function(error) {
-                      console.info(error);
-                    });
                 })
                 .catch(function(error) {
                   console.info(error);
@@ -1499,7 +1491,7 @@ export default {
               console.info(error);
             });
         }
-      }, 5000);
+      }, 5200); //m1: 5000 + 200 * 1
     },
     //冒泡排序 -- 从序数index几开始
     sortArr(arr, index) {
