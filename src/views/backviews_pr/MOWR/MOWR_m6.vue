@@ -94,14 +94,41 @@ export default {
       setTimeout(() => {
         //停机用户表
         let down_user_data = []
+        down_user_data.push(
+          vm.form.title,
+          vm.form.rowA,
+          vm.form.rowC,
+          vm.form.rowB
+        )
+        //停机用户表（上周）
+        let last_down_user_data = []
+        last_down_user_data.push(
+          vm.form2.title,
+          vm.form2.rowA,
+          vm.form2.rowC,
+          vm.form2.rowB
+        )
         let title_arr = []
         let data_arr = []
         title_arr.push(
           ["停机用户表"],
-
+          ["移动停机用户图"],
+          ["联通停机用户图"],
+          ["电信停机用户图"],
+          ["停机用户表（上周）"],
+          ["移动停机用户图(上周)"],
+          ["联通停机用户图(上周)"],
+          ["电信停机用户图(上周)"],
         )
         data_arr.push(
-
+          down_user_data,
+          vm.MOWR_m6_A1.data,
+          vm.MOWR_m6_A2.data,
+          vm.MOWR_m6_A3.data,
+          last_down_user_data,
+          vm.vm.MOWR_m6_A1_2.data,
+          vm.MOWR_m6_A2_2.data,
+          vm.MOWR_m6_A3_2.data,
         )
       }, 8000);
     }
