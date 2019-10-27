@@ -90,13 +90,27 @@ export default {
       vm.MOWR_m6_A1_2 = newValue[1][1];
       vm.MOWR_m6_A2_2 = newValue[1][2];
       vm.MOWR_m6_A3_2 = newValue[1][3];
+
+      setTimeout(() => {
+        //停机用户表
+        let down_user_data = []
+        let title_arr = []
+        let data_arr = []
+        title_arr.push(
+          ["停机用户表"],
+
+        )
+        data_arr.push(
+
+        )
+      }, 8000);
     }
   },
-  mounted() {},
+  mounted() { },
   computed: {
     ...mapGetters(["PR_operator"]),
     ifFormRowShow_yd: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -106,10 +120,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifFormRowShow_lt: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -119,10 +133,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifFormRowShow_dx: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -132,7 +146,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {

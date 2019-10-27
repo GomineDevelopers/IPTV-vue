@@ -664,7 +664,7 @@ export default {
         let data_temp = [[], []]
         let data_temp1 = [[], []]
         vm.GT_UVWR1_M2.content.forEach((value, index) => {
-          title_temp.push(value.title)
+          // title_temp.push(value.title)
           if (index == 0) {
             value.data.forEach((value2, index2) => {
               data_temp[0].push(value2.name)
@@ -684,7 +684,7 @@ export default {
         let N1_data_temp1 = [[], []]
         let N1_data_temp2 = [[], []]
         vm.GT_UVWR1_N1.content.forEach((value, index) => {
-          title_temp.push(value.title)
+          // title_temp.push(value.title)
           if (index == 0) {
             value.data.forEach((value2, index2) => {
               N1_data_temp[0].push(value2.name)
@@ -712,7 +712,7 @@ export default {
           ["电信在册用户数与新增在册用户数（户）"],
           [vm.GT_UVWR1_M2.content[0].title],
           [vm.GT_UVWR1_M2.content[1].title]
-          [vm.N.content[0].title],
+          [vm.GT_UVWR1_N1.content[0].title],
           [vm.GT_UVWR1_N1.content[1].title],
           [vm.GT_UVWR1_N1.content[2].title],
           ["电信三大基础功能观看用户数每日走势（户）"],   //
