@@ -14,6 +14,19 @@
   <div class="data_integrity" id="data_integrity_content">
     <el-row>
       <el-col :span="20" class="table_content">
+        <!-- 时间选择 -->
+        <el-row class="date_row back_white">
+          <el-row class="model_title">
+            <span class="title_border_left"></span>条件筛选
+          </el-row>
+          <el-row class="date_picker">
+            <span>日期：</span>
+            <span>
+              <el-date-picker v-model="day_date" type="date" placeholder="选择日期"></el-date-picker>
+            </span>
+          </el-row>
+        </el-row>
+
         <!-- 开机日志开始 -->
         <el-row class="data_integrity_body" id="boot_log2">
           <el-row class="model_title">
@@ -155,6 +168,7 @@ export default {
   },
   data() {
     return {
+      day_date: '',  //日期选择
       usercount: [],
       heartbeat: [],
       basedata: [],
@@ -227,7 +241,7 @@ export default {
     $("#data_integrity_content").scroll(function (event) {
       //console.log($('.backHome_body_main').scrollTop())
       let scrollTopHeight = $("#data_integrity_content").scrollTop();
-      if (0 <= scrollTopHeight) {
+      if (120 <= scrollTopHeight) {
         $(".anchor_link1")
           .addClass("avtive_link")
           .parent()
@@ -235,7 +249,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (300 <= scrollTopHeight) {
+      if (400 <= scrollTopHeight) {
         $(".anchor_link3")
           .addClass("avtive_link")
           .parent()
@@ -243,7 +257,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (600 <= scrollTopHeight) {
+      if (700 <= scrollTopHeight) {
         $(".anchor_link4")
           .addClass("avtive_link")
           .parent()
@@ -251,7 +265,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (900 <= scrollTopHeight) {
+      if (1000 <= scrollTopHeight) {
         $(".anchor_link5")
           .addClass("avtive_link")
           .parent()
@@ -259,7 +273,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (1200 <= scrollTopHeight) {
+      if (1300 <= scrollTopHeight) {
         $(".anchor_link6")
           .addClass("avtive_link")
           .parent()
@@ -267,7 +281,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (1500 < scrollTopHeight) {
+      if (1600 < scrollTopHeight) {
         $(".anchor_link7")
           .addClass("avtive_link")
           .parent()
@@ -663,7 +677,19 @@ export default {
   height: 750px;
   margin-bottom: 50px;
 }
-
+.date_row {
+  height: 120px;
+  margin-bottom: 14px;
+}
+.date_picker {
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  margin-left: 20px;
+  font-size: 14px;
+  color: #333333;
+  font-weight: bold;
+}
 /*webkit内核*/
 #data_integrity_content::-webkit-scrollbar {
   width: 0px;

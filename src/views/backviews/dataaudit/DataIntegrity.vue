@@ -2,6 +2,19 @@
   <div class="data_integrity" id="data_integrity_content">
     <el-row>
       <el-col :span="20">
+        <!-- 时间选择 -->
+        <el-row class="date_row back_white">
+          <el-row class="model_title">
+            <span class="title_border_left"></span>条件筛选
+          </el-row>
+          <el-row class="date_picker">
+            <span>日期：</span>
+            <span>
+              <el-date-picker v-model="day_date" type="date" placeholder="选择日期"></el-date-picker>
+            </span>
+          </el-row>
+        </el-row>
+
         <!-- 开机日志开始 -->
         <el-row class="data_integrity_body" id="boot_log">
           <el-row class="model_title">
@@ -147,6 +160,7 @@ export default {
   },
   data() {
     return {
+      day_date: '',  //日期选择
       //开机日志
       usercount: [
         // {
@@ -288,7 +302,7 @@ export default {
     };
   },
   mounted() {
-    $("#data_integrity_content").scroll(function(event) {
+    $("#data_integrity_content").scroll(function (event) {
       //console.log($('.backHome_body_main').scrollTop())
       let scrollTopHeight = $("#data_integrity_content").scrollTop();
       // let boot_log = document.querySelector('#boot_log').offsetTop
@@ -298,7 +312,7 @@ export default {
       // let bunch_planting_log = document.querySelector('#bunch_planting_log').offsetTop
       // let look_back_log = document.querySelector('#look_back_log').offsetTop
       // let live_log = document.querySelector('#live_log').offsetTop
-      if (0 <= scrollTopHeight) {
+      if (120 <= scrollTopHeight) {
         $(".anchor_link1")
           .addClass("avtive_link")
           .parent()
@@ -306,7 +320,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (400 <= scrollTopHeight) {
+      if (500 <= scrollTopHeight) {
         $(".anchor_link2")
           .addClass("avtive_link")
           .parent()
@@ -314,7 +328,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (800 <= scrollTopHeight) {
+      if (900 <= scrollTopHeight) {
         $(".anchor_link3")
           .addClass("avtive_link")
           .parent()
@@ -322,7 +336,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (1200 <= scrollTopHeight) {
+      if (1320 <= scrollTopHeight) {
         $(".anchor_link4")
           .addClass("avtive_link")
           .parent()
@@ -330,7 +344,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (1500 <= scrollTopHeight) {
+      if (1660 <= scrollTopHeight) {
         $(".anchor_link5")
           .addClass("avtive_link")
           .parent()
@@ -338,7 +352,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (1800 <= scrollTopHeight) {
+      if (1920 <= scrollTopHeight) {
         $(".anchor_link6")
           .addClass("avtive_link")
           .parent()
@@ -346,7 +360,7 @@ export default {
           .children()
           .removeClass("avtive_link");
       }
-      if (2100 < scrollTopHeight) {
+      if (2220 < scrollTopHeight) {
         $(".anchor_link7")
           .addClass("avtive_link")
           .parent()
@@ -357,13 +371,13 @@ export default {
     });
     // 数据填充 （暂定为“当天”数据）
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.missReport(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
@@ -381,7 +395,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       missReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(response);
           // 暂时为某日的
           let buckets =
@@ -590,7 +604,7 @@ export default {
           vm.review = temp_all[5];
           vm.onlive = temp_all[6];
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     },
@@ -602,7 +616,7 @@ export default {
       //console.log("backHome_body_main", backHome_body_main)
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       data_integrity_content.scrollTop = anchor.offsetTop;
-      $(".anchor_hyperlinks a").on("click", function() {
+      $(".anchor_hyperlinks a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -611,11 +625,24 @@ export default {
           .removeClass("avtive_link");
       });
     },
-    getDatategrity() {}
+    getDatategrity() { }
   }
 };
 </script>
 <style scoped>
+.date_row {
+  height: 120px;
+  margin-bottom: 14px;
+}
+.date_picker {
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  margin-left: 20px;
+  font-size: 14px;
+  color: #333333;
+  font-weight: bold;
+}
 /*webkit内核*/
 #data_integrity_content::-webkit-scrollbar {
   width: 0px;
