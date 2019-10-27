@@ -211,6 +211,14 @@ export default {
     Excel_data_manage() {
       console.log("Excel_data_manage - 1");
       let vm = this;
+      vm.$store
+        .dispatch("set_PR_excel_ifCanDownload", false)
+        .then(function(response_dataArr) {
+          console.log("下载关");
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
       setTimeout(function() {
         if (vm.PR_Report_index == 1) {
           let temp_titleArr = [];
@@ -276,12 +284,17 @@ export default {
           //   console.log(error);
           // }
           // ///
+
+          if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
+            console.log("请选择时间！");
+            return;
+          }
           vm.$store
-            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
             .then(function(response_title) {
               console.log(response_title);
               vm.$store
-                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开

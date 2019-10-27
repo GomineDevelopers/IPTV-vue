@@ -164,6 +164,11 @@ export default {
     // }, 100);
   },
   watch: {
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      // excel 处理
+      vm.Excel_data_manage();
+    },
     PR_day(newValue, oldValue) {
       // console.log("~~~~~PR_day");
       // console.log(newValue);
@@ -228,6 +233,16 @@ export default {
     Excel_data_manage() {
       console.log("Excel_data_manage - 2");
       let vm = this;
+      // 处理当前报告-切换条件情况
+      // 设置excel按钮下载状态 - 关
+      vm.$store
+        .dispatch("set_PR_excel_ifCanDownload", false)
+        .then(function(response_dataArr) {
+          console.log("下载关");
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
       setTimeout(function() {
         if (vm.PR_Report_index == 2) {
           let temp_titleArr = [];
@@ -250,70 +265,73 @@ export default {
             ["平均", 1, 2, 3, 4]
           ]);
           // ///
-
           // /// 实际
-          try {
-            let title_arr = [];
-            let data_arr = [];
-            title_arr.push(
-              [vm.yidongTypeLooktime.title],
-              [""],
-              [vm.yidongLiveBroadcast.title],
-              [vm.yidongtypedayusernumber.title],
-              [vm.yidongtypedayclicknumber.title],
-              [vm.yidongAsideClickUser.title],
+          // try {
+          //   let title_arr = [];
+          //   let data_arr = [];
+          //   title_arr.push(
+          //     [vm.yidongTypeLooktime.title],
+          //     [""],
+          //     [vm.yidongLiveBroadcast.title],
+          //     [vm.yidongtypedayusernumber.title],
+          //     [vm.yidongtypedayclicknumber.title],
+          //     [vm.yidongAsideClickUser.title],
 
-              [vm.liantongTypeLooktime.title]
-              [""],
-              [vm.liantongLiveBroadcast.title],
-              [vm.liantongtypedayusernumber.title],
-              [vm.liantongtypedayclicknumber.title],
-              [vm.liantongAsideClickUser.title],
+          //     [vm.liantongTypeLooktime.title]
+          //     [""],
+          //     [vm.liantongLiveBroadcast.title],
+          //     [vm.liantongtypedayusernumber.title],
+          //     [vm.liantongtypedayclicknumber.title],
+          //     [vm.liantongAsideClickUser.title],
 
-              [vm.dianxingTypeLooktime.title]
-              [""],
-              [vm.dianxingLiveBroadcast.title],
-              [vm.dianxingtypedayusernumber.title],
-              [vm.dianxingtypedayclicknumber.title],
-              [vm.dianxingAsideClickUser.title],
+          //     [vm.dianxingTypeLooktime.title]
+          //     [""],
+          //     [vm.dianxingLiveBroadcast.title],
+          //     [vm.dianxingtypedayusernumber.title],
+          //     [vm.dianxingtypedayclicknumber.title],
+          //     [vm.dianxingAsideClickUser.title],
 
-            );
-            data_arr.push(
-              vm.yidongTypeLooktime.data[0],
-              vm.yidongTypeLooktime.data[1],
-              vm.yidongLiveBroadcast.data[0],
-              vm.yidongtypedayusernumber.data[0],
-              vm.yidongtypedayclicknumber.data[0],
-              vm.yidongAsideClickUser.data[0],
+          //   );
+          //   data_arr.push(
+          //     vm.yidongTypeLooktime.data[0],
+          //     vm.yidongTypeLooktime.data[1],
+          //     vm.yidongLiveBroadcast.data[0],
+          //     vm.yidongtypedayusernumber.data[0],
+          //     vm.yidongtypedayclicknumber.data[0],
+          //     vm.yidongAsideClickUser.data[0],
 
-              vm.liantongTypeLooktime.data[0],
-              vm.liantongTypeLooktime.data[1],
-              vm.liantongLiveBroadcast.data[1],
-              vm.liantongtypedayusernumber.data[0],
-              vm.liantongtypedayclicknumber.data[0],
-              vm.liantongAsideClickUser.data[0],
+          //     vm.liantongTypeLooktime.data[0],
+          //     vm.liantongTypeLooktime.data[1],
+          //     vm.liantongLiveBroadcast.data[1],
+          //     vm.liantongtypedayusernumber.data[0],
+          //     vm.liantongtypedayclicknumber.data[0],
+          //     vm.liantongAsideClickUser.data[0],
 
 
-              vm.dianxingTypeLooktime.data[0],
-              vm.dianxingTypeLooktime.data[1],
-              vm.dianxingLiveBroadcast.data[1],
-              vm.dianxingtypedayusernumber.data[0],
-              vm.dianxingtypedayclicknumber.data[0],
-              vm.dianxingAsideClickUser.data[0],
+          //     vm.dianxingTypeLooktime.data[0],
+          //     vm.dianxingTypeLooktime.data[1],
+          //     vm.dianxingLiveBroadcast.data[1],
+          //     vm.dianxingtypedayusernumber.data[0],
+          //     vm.dianxingtypedayclicknumber.data[0],
+          //     vm.dianxingAsideClickUser.data[0],
 
-            );
-          } catch (error) {
-            console.log(error);
-          }
+          //   );
+          // } catch (error) {
+          //   console.log(error);
+          // }
 
           // ///
-
+          if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
+            console.log("请选择时间！");
+            return;
+          }
+          
           vm.$store
-            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
             .then(function(response_title) {
               console.log(response_title);
               vm.$store
-                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开

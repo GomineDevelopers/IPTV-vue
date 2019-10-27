@@ -278,22 +278,13 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             }
         }
         let obj3_num_arr = Object_range2.num_arr;
-        // console.log("~~~~~~~~~~~~~~~~~~");
-        // console.log(obj1_title_arr_length);
-        // console.log(obj2_title_arr_length);
-        // console.log(min_length);
-        // console.log(max_length);
         if (obj1_title_arr_length < obj2_title_arr_length) { // length1 < length2 的部分
             for (let k = min_length; k < max_length; k++) {
                 for (let n = 0; n < obj3_num_arr[k]; n++) {
-                    // console.log("~~~~~~")
-                    console.log(obj3_num_arr[k]);
                     let current_letter = obj3_title_arr[k];
                     let L1 = LetterM(current_letter, Object_range1.num_arr[0] + n + 1);
                     let L2 = LetterM(current_letter, n + 1);
                     obj3[L1] = obj2[L2]
-                    // console.log(L1);
-                    // console.log(L2);
                 }
             }
         }
@@ -301,13 +292,11 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
         // length1 > length2 的部分 -- （反向）俄罗斯方块+加填充线
         let obj3_num_arr0 = Object_range2.num_arr[0]; // 以第一个的height算
         if (obj1_title_arr_length > obj2_title_arr_length) {
-            console.log("~~~~length1 > length2");
             for (let k = min_length; k < max_length; k++) {
                 for (let n = 0; n < obj3_num_arr0; n++) { // 不用change的则这里没有值！相当于0
                     let current_letter = obj3_title_arr[k];
                     let L1 = LetterM(current_letter, Object_range1.num_arr[0] + n + 1);
                     obj3[L1] = "-";
-                    console.log(L1);
                 }
             }
         }
