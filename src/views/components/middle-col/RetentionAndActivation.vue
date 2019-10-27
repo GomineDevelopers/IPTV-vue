@@ -152,9 +152,13 @@ export default {
                 }
                 for (i = 0; i < length; i++) {
                   temp_data_date.push(keyManage(buckets2[i].key));
+                  // temp_h_24.push(
+                  //   buckets2[i].new_activate_num.value /
+                  //     buckets2[i].new_num.value
+                  // );
                   temp_h_24.push(
-                    buckets2[i].new_activate_num.value /
-                      buckets2[i].new_num.value
+                    (buckets2[i].new_activate_num.value /
+                      buckets2[i].new_num.value).toFixed(2)
                   );
                 }
                 // console.log("~~~~~~~");
@@ -174,8 +178,8 @@ export default {
                 let temp_h_48 = [];
                 for (i = 0; i < length; i++) {
                   temp_h_48.push(
-                    buckets2[i].new_activate_num.value /
-                      buckets2[i].new_num.value
+                    (buckets2[i].new_activate_num.value /
+                      buckets2[i].new_num.value).toFixed(2)
                   );
                 }
                 // console.log("~~~~~~~");
@@ -193,8 +197,8 @@ export default {
                 let temp_d_7 = [];
                 for (i = 0; i < length; i++) {
                   temp_d_7.push(
-                    buckets[i].remain_num.value /
-                      buckets[i].new_activate_num.value
+                    (buckets[i].remain_num.value /
+                      buckets[i].new_activate_num.value).toFixed(2)
                   );
                 }
                 vm.echarts_data.d_7 = temp_d_7;
@@ -357,7 +361,7 @@ export default {
             markLine: {
               silent: true,
               // lineStyle: { color: "#fff", type: "dotted" },
-              lineStyle: { color: "yellow", type: "dotted" }, // 基准线
+              lineStyle: { color: "#FAFA93", type: "solid" }, // 基准线    //'dotted'虚线 'solid'实线
               data: [
                 {
                   name: "24小时激活基准线",

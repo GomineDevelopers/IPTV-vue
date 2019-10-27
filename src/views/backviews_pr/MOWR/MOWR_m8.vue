@@ -2,7 +2,8 @@
   <div class="MOWR_m8">
     <el-row class="special_click_data back_white">
       <el-row>
-        <p class="m_common_sm_title_font">停机用户表</p>
+        <!-- <p class="m_common_sm_title_font">停机用户表</p> -->
+        <p class="m_common_sm_title_font">增值包订购表</p>
         <table class="m_table" border="1">
           <tr class="tr_title">
             <template v-for="(item,index) in form.title1 ">

@@ -10,7 +10,12 @@
           <el-row class="date_picker">
             <span>日期：</span>
             <span>
-              <el-date-picker v-model="day_date" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker
+                v-model="day_date"
+                type="date"
+                placeholder="选择日期"
+                @change="dayValue_change"
+              ></el-date-picker>
             </span>
           </el-row>
         </el-row>
@@ -152,6 +157,7 @@
 <script>
 import { missReport } from "@/api/api_main";
 import DataIntegrityModel from "@/views/backcoms/dataaudit/DataIntegrityModel"; //表格组件
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "DataIntegrity", //数据完整性
@@ -160,7 +166,7 @@ export default {
   },
   data() {
     return {
-      day_date: '',  //日期选择
+      day_date: "", //日期选择
       //开机日志
       usercount: [
         // {
@@ -301,8 +307,18 @@ export default {
       onlive: []
     };
   },
+  watch: {
+    day_date(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        if (vm.day_date == "") {
+        }
+        vm.missReport(vm.day_date);
+      }, 1000);
+    }
+  },
   mounted() {
-    $("#data_integrity_content").scroll(function (event) {
+    $("#data_integrity_content").scroll(function(event) {
       //console.log($('.backHome_body_main').scrollTop())
       let scrollTopHeight = $("#data_integrity_content").scrollTop();
       // let boot_log = document.querySelector('#boot_log').offsetTop
@@ -371,18 +387,27 @@ export default {
     });
     // 数据填充 （暂定为“当天”数据）
     let vm = this;
-    setTimeout(function () {
-      vm.$store
-        .dispatch("get_BigScreenExpirationDate")
-        .then(function (response) {
-          vm.missReport(response);
-        })
-        .catch(function (error) {
-          console.info(error);
-        });
-    }, 100);
+    setTimeout(function() {
+      if (vm.day_date == "") {
+      }
+      vm.missReport(vm.day_date);
+    }, 1000);
+    // setTimeout(function() {
+    //   vm.$store
+    //     .dispatch("get_BigScreenExpirationDate")
+    //     .then(function(response) {
+    //       vm.missReport(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // }, 100);
   },
   methods: {
+    dayValue_change(event) {
+      let vm = this;
+      this.day_date = commonTools.dayChange(String(event));
+    },
     missReport(ExpirationDate) {
       let vm = this;
       let temp = {
@@ -395,7 +420,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       missReport(formData)
-        .then(function (response) {
+        .then(function(response) {
           // console.log(response);
           // 暂时为某日的
           let buckets =
@@ -604,7 +629,7 @@ export default {
           vm.review = temp_all[5];
           vm.onlive = temp_all[6];
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -616,7 +641,7 @@ export default {
       //console.log("backHome_body_main", backHome_body_main)
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       data_integrity_content.scrollTop = anchor.offsetTop;
-      $(".anchor_hyperlinks a").on("click", function () {
+      $(".anchor_hyperlinks a").on("click", function() {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -625,7 +650,7 @@ export default {
           .removeClass("avtive_link");
       });
     },
-    getDatategrity() { }
+    getDatategrity() {}
   }
 };
 </script>
