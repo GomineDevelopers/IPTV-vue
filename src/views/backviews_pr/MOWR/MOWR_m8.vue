@@ -64,51 +64,43 @@ export default {
       let vm = this;
       vm.form = newValue[0][0];
 
+      setTimeout(() => {
+        //电信增值业务周发展情况
+        let value_added_arr = []
+        value_added_arr.push(
+          vm.form.title1,
+          vm.form.title2,
+          vm.form.row1,
+          vm.form.row2,
+          vm.form.row3,
+          vm.form.row4,
+          vm.form.row5,
+          vm.form.row6,
+          vm.form.row7,
+          vm.form.row_bottom
+        )
+
+        let title_arr = []
+        let data_arr = []
+        title_arr.push(
+          ["电信增值业务周发展情况"]
+        )
+        data_arr.push(
+          value_added_arr
+        )
+
+      }, 10000);
+
     }
   },
-  mounted() {},
+  mounted() { },
   data() {
     return {
       form: {
-        title1: [
-          "订购日期",
-          "欢乐家庭VIP",
-          "欢乐家庭包季",
-          "欢乐家庭包年",
-          "少儿VIP",
-          "少儿包季",
-          "少儿包年",
-          "影视VIP",
-          "影视包季",
-          "影视包年",
-          "合计"
-        ],
-        title2: [
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入",
-          "订购数",
-          "收入"
-        ],
+        title1: ["订购日期", "欢乐家庭VIP", "欢乐家庭包季", "欢乐家庭包年", "少儿VIP", "少儿包季", "少儿包年", "影视VIP", "影视包季", "影视包年", "合计"],
+        title2: ["订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入", "订购数", "收入"],
 
-        row1: [
-          "7月1日",
-          "0",
+        row1: ["7月1日", "0",
           "0.00",
           "0",
           "0.00",

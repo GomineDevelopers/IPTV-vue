@@ -126,12 +126,44 @@ export default {
       vm.MOWR_m7_A1 = newValue[0][1];
       vm.MOWR_m7_A2 = newValue[0][2];
       vm.MOWR_m7_A3 = newValue[0][3];
+
+      setTimeout(() => {
+        //停机用户表
+        let down_user_arr = []
+        down_user_arr.push(
+          vm.form.title,
+          vm.form.row1,
+          vm.form.row2,
+          vm.form.row3,
+          vm.form.row4,
+          vm.form.row5,
+          vm.form.row6,
+          vm.form.row7,
+          vm.form.row8,
+          vm.form.row9
+        )
+
+        let title_arr = []
+        let data_arr = []
+        title_arr.push(
+          ["停机用户表"],
+          ["周新增占比"],
+          ["周销户占比"],
+          ["周净增占比"]
+        )
+        data_arr.push(
+          down_user_arr,
+          vm.MOWR_m7_A1.data,
+          vm.MOWR_m7_A2.data,
+          vm.MOWR_m7_A3.data
+        )
+      }, 9000);
     }
   },
   computed: {
     ...mapGetters(["PR_operator"]),
     ifFormRowShow_yd: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -141,10 +173,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifFormRowShow_lt: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -154,10 +186,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifFormRowShow_dx: {
-      get: function() {
+      get: function () {
         // console.log("~~~MOWR_m7_A1_Change2222");
 
         if (this.PR_operator == null || this.PR_operator.length == 0) {
@@ -171,10 +203,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     MOWR_m7_A1_Change: {
-      get: function() {
+      get: function () {
         // console.log("~~~MOWR_m7_A1_Change");
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
@@ -200,7 +232,7 @@ export default {
           }
           // console.log("~~~MOWR_m7_A1_Change4");
 
-          setTimeout(function() {
+          setTimeout(function () {
             vm.drawLine();
           }, 300);
           // console.log("~~~MOWR_m7_A1_Change5");
@@ -216,10 +248,10 @@ export default {
         }
         return vm.MOWR_m7_A1;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     MOWR_m7_A2_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return vm.MOWR_m7_A2;
@@ -238,7 +270,7 @@ export default {
             color.push(vm.MOWR_m7_A2.color[2]);
             data.push(vm.MOWR_m7_A2.data[2]);
           }
-          setTimeout(function() {
+          setTimeout(function () {
             vm.drawLine2();
           }, 300);
           return {
@@ -250,10 +282,10 @@ export default {
         }
         return vm.MOWR_m7_A2;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     MOWR_m7_A3_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return vm.MOWR_m7_A3;
@@ -272,7 +304,7 @@ export default {
             color.push(vm.MOWR_m7_A3.color[2]);
             data.push(vm.MOWR_m7_A3.data[2]);
           }
-          setTimeout(function() {
+          setTimeout(function () {
             vm.drawLine3();
           }, 300);
           return {
@@ -284,7 +316,7 @@ export default {
         }
         return vm.MOWR_m7_A3;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   mounted() {
@@ -295,58 +327,14 @@ export default {
   data() {
     return {
       form: {
-        title: [
-          "运营商",
-          "分类",
-          "7月1日",
-          "7月2日",
-          "7月3日",
-          "7月4日",
-          "7月5日",
-          "7月6日",
-          "7月7日",
-          "合计"
-        ],
-        row1: [
-          "移动",
-          "新增",
-          "79",
-          "130",
-          "408",
-          "533",
-          "311",
-          "310",
-          "534",
-          "2098"
-        ],
+        title: ["运营商", "分类", "7月1日", "7月2日", "7月3日", "7月4日", "7月5日", "7月6日", "7月7日", "合计"],
+        row1: ["移动", "新增", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row2: ["销户", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row3: ["净增", "79", "130", "408", "533", "311", "310", "534", "2098"],
-        row4: [
-          "联通",
-          "新增",
-          "79",
-          "130",
-          "408",
-          "533",
-          "311",
-          "310",
-          "534",
-          "2098"
-        ],
+        row4: ["联通", "新增", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row5: ["销户", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row6: ["净增", "79", "130", "408", "533", "311", "310", "534", "2098"],
-        row7: [
-          "电信",
-          "新增",
-          "79",
-          "130",
-          "408",
-          "533",
-          "311",
-          "310",
-          "534",
-          "2098"
-        ],
+        row7: ["电信", "新增", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row8: ["销户", "79", "130", "408", "533", "311", "310", "534", "2098"],
         row9: ["净增", "79", "130", "408", "533", "311", "310", "534", "2098"]
       },
