@@ -3544,8 +3544,115 @@ export default {
 
           //设置Excel下载数据
           setTimeout(() => {
+            //处理格式为{value,name的数组}
+            //三大基础功能使用用户占比
+            let usingTheUser_titleArr = []
+            let usingTheUser_dataArr = []
+            vm.usingTheUser.content.forEach((value, index) => {
+              usingTheUser_titleArr.push([value.title])
+              usingTheUser_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                usingTheUser_dataArr[index][0].push(value2.name)
+                usingTheUser_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //usingTheTime三大基础功能使用次数占比
+            let usingTheTime_titleArr = []
+            let usingTheTime_dataArr = []
+            vm.usingTheTime.content.forEach((value, index) => {
+              usingTheTime_titleArr.push([value.title])
+              usingTheTime_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                usingTheTime_dataArr[index][0].push(value2.name)
+                usingTheTime_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //usingTheDuration三大基础功能使用时长占比
+            let usingTheDuration_titleArr = []
+            let usingTheDuration_dataArr = []
+            vm.usingTheDuration.content.forEach((value, index) => {
+              usingTheDuration_titleArr.push([value.title])
+              usingTheDuration_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                usingTheDuration_dataArr[index][0].push(value2.name)
+                usingTheDuration_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //liveViewingDurationData直播观看时长数据
+            let liveViewingDurationData_titleArr = []
+            let liveViewingDurationData_dataArr = []
+            vm.liveViewingDurationData.content.forEach((value, index) => {
+              liveViewingDurationData_titleArr.push([value.title])
+              liveViewingDurationData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                liveViewingDurationData_dataArr[index][0].push(value2.name)
+                liveViewingDurationData_dataArr[index][1].push(value2.value)
+              })
+            })
+            //liveViewingUserData 直播观看用户数据
+            let liveViewingUserData_titleArr = []
+            let liveViewingUserData_dataArr = []
+            vm.liveViewingUserData.content.forEach((value, index) => {
+              liveViewingUserData_titleArr.push([value.title])
+              liveViewingUserData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                liveViewingUserData_dataArr[index][0].push(value2.name)
+                liveViewingUserData_dataArr[index][1].push(value2.value)
+              })
+            })
+            //liveViewingTimesData 直播观看次数数据
+            let liveViewingTimesData_titleArr = []
+            let liveViewingTimesData_dataArr = []
+            vm.liveViewingTimesData.content.forEach((value, index) => {
+              liveViewingTimesData_titleArr.push([value.title])
+              liveViewingTimesData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                liveViewingTimesData_dataArr[index][0].push(value2.name)
+                liveViewingTimesData_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //weekLiveViewUserData 各周直播收视用户数
+            let weekLiveViewUserData_titleArr = []
+            let weekLiveViewUserData_dataArr = []
+            vm.weekLiveViewUserData.content.forEach((value, index) => {
+              weekLiveViewUserData_titleArr.push([value.title])
+              weekLiveViewUserData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                weekLiveViewUserData_dataArr[index][0].push(value2.name)
+                weekLiveViewUserData_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //weekLiveViewTimesData各周直播收视次数
+            let weekLiveViewTimesData_titleArr = []
+            let weekLiveViewTimesData_dataArr = []
+            vm.weekLiveViewTimesData.content.forEach((value, index) => {
+              weekLiveViewTimesData_titleArr.push([value.title])
+              weekLiveViewTimesData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                weekLiveViewTimesData_dataArr[index][0].push(value2.name)
+                weekLiveViewTimesData_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //weekliveViewDurationData
+            let weekliveViewDurationData_titleArr = []
+            let weekliveViewDurationData_dataArr = []
+            vm.weekliveViewDurationData.content.forEach((value, index) => {
+              weekliveViewDurationData_titleArr.push([value.title])
+              weekliveViewDurationData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                weekliveViewDurationData_dataArr[index][0].push(value2.name)
+                weekliveViewDurationData_dataArr[index][1].push(value2.value)
+              })
+            })
+
             let title_arr = []
-            let data_arr = []   //activeDayReportTotalData
+            let data_arr = []
             title_arr.push(
               [vm.G_TVUserData.title],
               [vm.NewUserComparisonData.title],
@@ -3562,21 +3669,21 @@ export default {
               [vm.areaPowerActivityData.title],
               [vm.everyPowerActivityData.data],
 
-              [vm.usingTheUser.title],  //此处数据格式待处理
-              [vm.usingTheTime.title],  //此处数据格式待处理
-              [vm.usingTheDuration.title],  //此处数据格式待处理
+              ...(usingTheUser_titleArr),  //此处数据格式待处理
+              ...(usingTheTime_titleArr),  //此处数据格式待处理
+              ...(usingTheDuration_titleArr),  //此处数据格式待处理
 
               [vm.monthlyTotalViewingData.title],
 
-              [vm.liveViewingDurationData.title],  //此处数据格式待处理
-              [vm.liveViewingUserData.title],  //此处数据格式待处理
-              [vm.liveViewingTimesData.title],  //此处数据格式待处理
+              ...(liveViewingDurationData_titleArr),  //此处数据格式待处理
+              ...(liveViewingUserData_titleArr),  //此处数据格式待处理
+              ...(liveViewingTimesData_titleArr),  //此处数据格式待处理
 
               [vm.monthlyTotalViewingData2.title],
 
-              [vm.weekLiveViewUserData.title],  //此处数据格式待处理
-              [vm.weekLiveViewTimesData.title],   //此处数据格式待处理
-              [vm.weekliveViewDurationData.title],  //此处数据格式待处理
+              ...(weekLiveViewUserData_titleArr),  //此处数据格式待处理
+              ...(weekLiveViewTimesData_titleArr),   //此处数据格式待处理
+              ...(weekliveViewDurationData_titleArr),  //此处数据格式待处理
 
               [vm.weekliveViewingData.title],
               [vm.liveViewerData.title],
@@ -3620,21 +3727,21 @@ export default {
               vm.areaPowerActivityData.data,
               vm.everyPowerActivityData.data,
 
-              vm.usingTheUser.content,  //此处数据格式待处理
-              vm.usingTheTime.content,  //此处数据格式待处理
-              vm.usingTheDuration.content,  //此处数据格式待处理
+              ...(usingTheUser_dataArr),  //此处数据格式待处理
+              ...(usingTheTime_dataArr),  //此处数据格式待处理
+              ...(usingTheDuration_dataArr),  //此处数据格式待处理
 
               vm.monthlyTotalViewingData.data,
 
-              vm.liveViewingDurationData.data,  //此处数据格式待处理
-              vm.liveViewingUserData.data,  //此处数据格式待处理
-              vm.liveViewingTimesData.data, //此处数据格式待处理
+              ...(liveViewingDurationData_dataArr),  //此处数据格式待处理
+              ...(liveViewingUserData_dataArr),  //此处数据格式待处理
+              ...(liveViewingTimesData_dataArr), //此处数据格式待处理
 
               vm.monthlyTotalViewingData2.data,
 
-              vm.weekLiveViewUserData.content,  //此处数据格式待处理
-              vm.weekLiveViewTimesData.oontent,  //此处数据格式待处理
-              vm.weekliveViewDurationData.content,  //此处数据格式待处理
+              ...(weekLiveViewUserData_dataArr),  //此处数据格式待处理
+              ...(weekLiveViewTimesData_dataArr),  //此处数据格式待处理
+              ...(weekliveViewDurationData_dataArr),  //此处数据格式待处理
 
               vm.weekliveViewingData.data,
               vm.liveViewerData.data,

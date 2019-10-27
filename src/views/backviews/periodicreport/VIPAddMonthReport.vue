@@ -214,7 +214,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.set_api_data();
     }, 100);
   },
@@ -226,14 +226,14 @@ export default {
     PR_operator(newValue, oldValue) {
       let vm = this;
       console.log("PR_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.set_api_data();
       }, 1000);
     },
     PR_month(newValue, oldValue) {
       let vm = this;
       console.log("PR_month: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.set_api_data();
       }, 1000);
     }
@@ -243,7 +243,7 @@ export default {
     Excel_data_manage() {
       console.log("Excel_data_manage - 6");
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         if (vm.PR_Report_index == 6) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -267,18 +267,18 @@ export default {
           // ///
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
-            .then(function(response_title) {
+            .then(function (response_title) {
               console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
-                .then(function(response_dataArr) {
+                .then(function (response_dataArr) {
                   console.log(response_dataArr);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.info(error);
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         }
@@ -341,7 +341,7 @@ export default {
       formData.append("end", temp.end);
       formData.append("year", temp.year);
       users_vipReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // responses0 ru_ord            --普通用户的
           // responses1 ru_ord_prd        --VIP用户的
           // responses2 ru_guide_content  -- 订购内容来源  Top那个
@@ -490,7 +490,7 @@ export default {
                 commonTools.returnFloat_2(
                   (buckets_0[i_0].new_paid_num.value /
                     buckets_0[i_0].new_num.value) *
-                    100
+                  100
                 )
               );
               // 第3个（结构b）
@@ -583,8 +583,8 @@ export default {
                   buckets_1[index_month].value_added_service_package.buckets[
                     index_month_child
                   ].new_income.value /
-                    10000 /
-                    100
+                  10000 /
+                  100
                 );
               }
               if (key == "少儿VIP") {
@@ -605,8 +605,8 @@ export default {
                   buckets_1[index_month].value_added_service_package.buckets[
                     index_month_child
                   ].new_income.value /
-                    10000 /
-                    100
+                  10000 /
+                  100
                 );
               }
               if (key == "欢乐家庭VIP") {
@@ -625,8 +625,8 @@ export default {
                   buckets_1[index_month].value_added_service_package.buckets[
                     index_month_child
                   ].new_income.value /
-                    10000 /
-                    100
+                  10000 /
+                  100
                 );
               }
             } // function （尾巴）
@@ -1182,8 +1182,106 @@ export default {
             vm.tableData = temp_data_8_last; // 上月 tableData
             vm.tableData2 = temp_data_8_current; // 当月  tableData2
           }
+
+          //设置Excel下载数据
+          setTimeout(() => {
+            //orderUserContrastData订购用户情况
+            let orderUserContrastData_titleArr = []
+            let orderUserContrastData_dataArr = []
+            vm.orderUserContrastData.content.forEach((value, index) => {
+              orderUserContrastData_titleArr.push([value.title])
+              orderUserContrastData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                orderUserContrastData_dataArr[index][0].push(value2.name)
+                orderUserContrastData_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //incomeContrastData收入分布对比情况
+            let incomeContrastData_titleArr = []
+            let incomeContrastData_dataArr = []
+            vm.incomeContrastData.content.forEach((value, index) => {
+              incomeContrastData_titleArr.push([value.title])
+              incomeContrastData_dataArr.push([[], []])
+              value.data.forEach((value2, index2) => {
+                incomeContrastData_dataArr[index][0].push(value2.name)
+                incomeContrastData_dataArr[index][1].push(value2.value)
+              })
+            })
+
+            //上月点播次数排名（TOP15）
+            let tableData_dataArr = [["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"], []]
+            vm.tableData.forEach((value, index) => {
+              tableData_dataArr[1].push([value.programName, value.programType, value.userNum, value.times, value.duration])
+            })
+
+            //本月点播次数排名（TOP15）
+            let tableData2_dataArr = [["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"], []]
+            vm.tableData2.forEach((value, index) => {
+              tableData2_dataArr[1].push([value.programName, value.programType, value.userNum, value.times, value.duration])
+            })
+
+            let title_arr = []
+            let data_arr = []
+            title_arr.push(
+              [vm.newAddUserPercentData.title],
+              [vm.newAddPayingUserData.title],
+              [vm.newRegisteredUsersData.title],
+              [vm.powerAddNewUsersData.title],
+              [vm.powerAddNewPayingUsersData.title],
+              [vm.monthOrderData.title],
+              [vm.monthVIPOrderData.title],
+              [vm.monthVIPOrderIncomeData.title],
+              [vm.guideUserPayingContentData1.title],
+              [vm.guideUserPayingContentData2.title],
+              [vm.orderUserRegionData.title],
+              [vm.GuiyangPayingUserData.title],
+              [vm.ZunyiPayingUserData.title],
+              [vm.QiannanPayingUserData.title],
+              [vm.QiandongnanPayingUserData.title],
+              [vm.TongrenPayingUserData.title],
+              [vm.BijiePayingUserData.title],
+              [vm.QianxinanPayingUserData.title],
+              [vm.LiupanshuiPayingUserData.title],
+              [vm.AnshunPayingUserData.title],
+              ...(orderUserContrastData_titleArr),
+              ...(incomeContrastData_titleArr),
+              ["上月点播次数排名（TOP15）"],
+              ["本月点播次数排名（TOP15）"]
+
+            )
+            data_arr.push(
+              vm.newAddUserPercentData.data,
+              vm.newAddPayingUserData.data,
+              vm.newRegisteredUsersData.data,
+              vm.powerAddNewUsersData.data,
+              vm.powerAddNewPayingUsersData.data,
+              vm.monthOrderData.data,
+              vm.monthVIPOrderData.data,
+              vm.monthVIPOrderIncomeData.data,
+              vm.guideUserPayingContentData1.data,
+              vm.guideUserPayingContentData2.data,
+              vm.orderUserRegionData.data,
+              vm.GuiyangPayingUserData.data,
+              vm.ZunyiPayingUserData.data,
+              vm.QiannanPayingUserData.data,
+              vm.QiandongnanPayingUserData.data,
+              vm.TongrenPayingUserData.data,
+              vm.BijiePayingUserData.data,
+              vm.QianxinanPayingUserData.data,
+              vm.LiupanshuiPayingUserData.data,
+              vm.AnshunPayingUserData.data,
+              ...(orderUserContrastData_dataArr),
+              ...(incomeContrastData_dataArr),
+              tableData_dataArr,
+              tableData2_dataArr
+            )
+
+
+          }, 3000);
+
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -2207,7 +2305,7 @@ export default {
       ]
     };
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 <style scoped>

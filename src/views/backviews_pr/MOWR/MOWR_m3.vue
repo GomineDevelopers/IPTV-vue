@@ -60,9 +60,37 @@ export default {
       // console.log(newValue);
       let vm = this;
       vm.form = newValue[0][0];
+
+      setTimeout(() => {
+
+        //移动24小时新增激活情况
+        let yd_hour_add = []
+        array.push(
+          vm.form.title,
+          vm.form.row1,
+          vm.form.row2,
+          vm.form.row3,
+          vm.form.row4,
+          vm.form.row5,
+          vm.form.row6,
+          vm.form.row7,
+          vm.form.row8,
+          vm.form.row9,
+          vm.form.row10,
+          vm.form.row11,
+        )
+        let title_arr = []
+        let data_arr = []
+        title_arr.push(
+          ["移动24小时新增激活情况"]
+        )
+        data_arr.push(
+          yd_hour_add,
+        )
+      }, 5000);
     }
   },
-  mounted() {},
+  mounted() { },
   data() {
     return {
       form: {

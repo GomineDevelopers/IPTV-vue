@@ -665,7 +665,7 @@ export default {
         let data_temp = [[], []]
         let data_temp1 = [[], []]
         vm.GT_UVWR1_G2.content.forEach((value, index) => {
-          title_temp.push(value.title)
+          // title_temp.push(value.title)
           if (index == 0) {
             value.data.forEach((value2, index2) => {
               data_temp[0].push(value2.name)
@@ -685,7 +685,7 @@ export default {
         let H1_data_temp1 = [[], []]
         let H1_data_temp2 = [[], []]
         vm.GT_UVWR1_H1.content.forEach((value, index) => {
-          title_temp.push(value.title)
+          // title_temp.push(value.title)
           if (index == 0) {
             value.data.forEach((value2, index2) => {
               H1_data_temp[0].push(value2.name)

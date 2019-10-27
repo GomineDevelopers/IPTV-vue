@@ -143,7 +143,7 @@ export default {
   mounted() {
     // this.users_subReport();
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.refresh_api_data();
     }, 100);
   },
@@ -151,21 +151,21 @@ export default {
     PR_operator(newValue, oldValue) {
       let vm = this;
       console.log("PR_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     PR_picker(newValue, oldValue) {
       let vm = this;
       console.log("PR_picker: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     },
     PR_value_specialName(newValue, oldValue) {
       let vm = this;
       console.log("PR_value_specialName: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 100);
     }
@@ -244,7 +244,7 @@ export default {
       formData.append("end", temp.end);
       formData.append("name", temp.name);
       users_subReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // 小小福星 暂无数据
           // 70周年有 有数据
 
@@ -286,7 +286,7 @@ export default {
               value: 0,
               name: "移动"
             });
-            setTimeout(function() {
+            setTimeout(function () {
               for (i = 0; i < length; i++) {
                 vm.clickNumData.data[0].push(buckets[i].key);
                 console.log(buckets[i].key);
@@ -373,7 +373,7 @@ export default {
               value: 0,
               name: "联通"
             });
-            setTimeout(function() {
+            setTimeout(function () {
               for (i = 0; i < length; i++) {
                 vm.clickNumData.data[2].push(buckets[i].click_freq.value);
 
@@ -443,7 +443,7 @@ export default {
               value: 0,
               name: "电信"
             });
-            setTimeout(function() {
+            setTimeout(function () {
               for (i = 0; i < length; i++) {
                 vm.clickNumData.data[3].push(buckets[i].click_freq.value);
                 console.log(buckets[i].key);
@@ -503,6 +503,44 @@ export default {
             }
           }
 
+          //设置Excel下载数据
+          setTimeout(() => {
+            //pageProportionData 所属页面占比
+            let pageProportionData_dataArr = [[], []]
+            vm.pageProportionData.data.forEach((value, index) => {
+              pageProportionData_dataArr[0].push(value.name)
+              pageProportionData_dataArr[1].push(value.value)
+            })
+
+            //operatorProportionData.dataArr所属运营商占比
+            let operatorProportionData_dataArr = [[], []]
+            vm.operatorProportionData.data.forEach((value, index) => {
+              operatorProportionData_dataArr[0].push(value.name)
+              operatorProportionData_dataArr[1].push(value.value)
+            })
+
+            let title_arr = []
+            let data_arr = []
+            title_arr.push(
+              ["数据总览——用户点击"],
+              [vm.clickNumData.title],
+              [vm.pageProportionData.title],
+              [vm.operatorProportionData.title],
+              [vm.recommendPageData.title],
+              [vm.childrenPageData.title],
+              [vm.classifyPageData.title]
+            )
+            data_arr.push(
+              vm.totalData.data[0].value,
+              vm.clickNumData.data,
+              pageProportionData_dataArr,
+              operatorProportionData_dataArr,
+              vm.recommendPageData.data,
+              vm.childrenPageData.data,
+              vm.classifyPageData.data
+            )
+          }, 3000);
+
           // console.log(response);
           // console.log(response.data.responses[0].aggregations.ti.buckets);
           // let data = response.data.responses[0].aggregations.ti.buckets;
@@ -531,7 +569,7 @@ export default {
           //   // console.log("~~~~i: " + i);
           // }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }

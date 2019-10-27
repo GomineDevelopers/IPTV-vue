@@ -134,7 +134,7 @@ export default {
     Excel_data_manage() {
       console.log("Excel_data_manage - 3");
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         if (vm.PR_Report_index == 3) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -158,28 +158,28 @@ export default {
           // ///
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
-            .then(function(response_title) {
+            .then(function (response_title) {
               console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
-                .then(function(response_dataArr) {
+                .then(function (response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function(response_dataArr) {
+                    .then(function (response_dataArr) {
                       console.log("下载开");
 
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                       console.info(error);
                     });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.info(error);
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         }
@@ -187,7 +187,7 @@ export default {
     },
     api_data_set() {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data("yd", "week");
         vm.refresh_api_data("lt", "week");
         vm.refresh_api_data("dx", "week");
@@ -198,7 +198,7 @@ export default {
         vm.refresh_api_data("lt", "week_days_last");
         vm.refresh_api_data("dx", "week_days_last");
         // 数据统一处理 - 给对应的m?传入相应处理好的data!
-        setTimeout(function() {
+        setTimeout(function () {
           vm.modulesDataManage();
         }, 100);
       }, 100);
@@ -461,7 +461,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_yd[i_2_1].new_activate_num.value /
                 buckets_2_1_yd[i_2_1].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -472,7 +472,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_lt[i_2_1].new_activate_num.value /
                 buckets_2_1_lt[i_2_1].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -483,7 +483,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_dx[i_2_1].new_activate_num.value /
                 buckets_2_1_dx[i_2_1].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -496,7 +496,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_yd[i_2_1].new_activate_num.value /
                 buckets_2_1_yd[i_2_1].new_num.value) *
-                100
+              100
             )
           )
         );
@@ -507,7 +507,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_lt[i_2_1].new_activate_num.value /
                 buckets_2_1_lt[i_2_1].new_num.value) *
-                100
+              100
             )
           )
         );
@@ -518,7 +518,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_dx[i_2_1].new_activate_num.value /
                 buckets_2_1_dx[i_2_1].new_num.value) *
-                100
+              100
             )
           )
         );
@@ -529,7 +529,7 @@ export default {
           commonTools.returnFloat_2(
             (aggregations_2_1_yd_all.new_activate_num.value /
               aggregations_2_1_yd_all.new_num.value) *
-              100
+            100
           )
         ) + "%";
       sum_2_1_lt =
@@ -537,7 +537,7 @@ export default {
           commonTools.returnFloat_2(
             (aggregations_2_1_lt_all.new_activate_num.value /
               aggregations_2_1_lt_all.new_num.value) *
-              100
+            100
           )
         ) + "%";
       sum_2_1_dx =
@@ -545,7 +545,7 @@ export default {
           commonTools.returnFloat_2(
             (aggregations_2_1_dx_all.new_activate_num.value /
               aggregations_2_1_dx_all.new_num.value) *
-              100
+            100
           )
         ) + "%";
       sum_2_1_all =
@@ -557,7 +557,7 @@ export default {
               (aggregations_2_1_yd_all.new_num.value +
                 aggregations_2_1_lt_all.new_num.value +
                 aggregations_2_1_dx_all.new_num.value)) *
-              100
+            100
           )
         ) + "%";
 
@@ -620,7 +620,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_yd_2[i_2_1_2].new_activate_num.value /
                 buckets_2_1_yd_2[i_2_1_2].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -631,7 +631,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_lt_2[i_2_1_2].new_activate_num.value /
                 buckets_2_1_lt_2[i_2_1_2].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -642,7 +642,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_dx_2[i_2_1_2].new_activate_num.value /
                 buckets_2_1_dx_2[i_2_1_2].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -655,7 +655,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_yd_2[i_2_1_2].new_activate_num.value /
                 buckets_2_1_yd_2[i_2_1_2].new_num.value) *
-                100
+              100
             )
           )
         );
@@ -666,7 +666,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_lt_2[i_2_1_2].new_activate_num.value /
                 buckets_2_1_lt_2[i_2_1_2].new_num.value) *
-                100
+              100
             )
           )
         );
@@ -677,7 +677,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_2_1_dx_2[i_2_1_2].new_activate_num.value /
                 buckets_2_1_dx_2[i_2_1_2].new_num.value) *
-                100
+              100
             )
           )
         );
@@ -688,7 +688,7 @@ export default {
           commonTools.returnFloat_2(
             (aggregations_2_1_yd_all_2.new_activate_num.value /
               aggregations_2_1_yd_all_2.new_num.value) *
-              100
+            100
           )
         ) + "%";
       sum_2_1_lt_2 =
@@ -696,7 +696,7 @@ export default {
           commonTools.returnFloat_2(
             (aggregations_2_1_lt_all_2.new_activate_num.value /
               aggregations_2_1_lt_all_2.new_num.value) *
-              100
+            100
           )
         ) + "%";
       sum_2_1_dx_2 =
@@ -704,7 +704,7 @@ export default {
           commonTools.returnFloat_2(
             (aggregations_2_1_dx_all_2.new_activate_num.value /
               aggregations_2_1_dx_all_2.new_num.value) *
-              100
+            100
           )
         ) + "%";
       sum_2_1_all_2 =
@@ -716,7 +716,7 @@ export default {
               (aggregations_2_1_yd_all_2.new_num.value +
                 aggregations_2_1_lt_all_2.new_num.value +
                 aggregations_2_1_dx_all_2.new_num.value)) *
-              100
+            100
           )
         ) + "%";
 
@@ -875,7 +875,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[0].new_activate_num.value /
               buckets_3_1_yd[0].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -886,7 +886,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[1].new_activate_num.value /
               buckets_3_1_yd[1].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -897,7 +897,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[2].new_activate_num.value /
               buckets_3_1_yd[2].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -908,7 +908,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[3].new_activate_num.value /
               buckets_3_1_yd[3].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -919,7 +919,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[4].new_activate_num.value /
               buckets_3_1_yd[4].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -930,7 +930,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[5].new_activate_num.value /
               buckets_3_1_yd[5].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -941,7 +941,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[6].new_activate_num.value /
               buckets_3_1_yd[6].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -952,7 +952,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[7].new_activate_num.value /
               buckets_3_1_yd[7].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -963,7 +963,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_3_1_yd[8].new_activate_num.value /
               buckets_3_1_yd[8].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -975,7 +975,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_3_1_yd[9].new_activate_num.value /
                 buckets_3_1_yd[9].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -1149,7 +1149,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[0].new_activate_num.value /
               buckets_4_1_lt[0].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1160,7 +1160,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[1].new_activate_num.value /
               buckets_4_1_lt[1].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1171,7 +1171,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[2].new_activate_num.value /
               buckets_4_1_lt[2].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1182,7 +1182,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[3].new_activate_num.value /
               buckets_4_1_lt[3].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1193,7 +1193,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[4].new_activate_num.value /
               buckets_4_1_lt[4].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1204,7 +1204,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[5].new_activate_num.value /
               buckets_4_1_lt[5].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1215,7 +1215,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[6].new_activate_num.value /
               buckets_4_1_lt[6].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1226,7 +1226,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[7].new_activate_num.value /
               buckets_4_1_lt[7].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1237,7 +1237,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_4_1_lt[8].new_activate_num.value /
               buckets_4_1_lt[8].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1250,7 +1250,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_4_1_lt[9].new_activate_num.value /
                 buckets_4_1_lt[9].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -1424,7 +1424,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[0].new_activate_num.value /
               buckets_5_1_dx[0].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1435,7 +1435,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[1].new_activate_num.value /
               buckets_5_1_dx[1].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1446,7 +1446,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[2].new_activate_num.value /
               buckets_5_1_dx[2].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1457,7 +1457,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[3].new_activate_num.value /
               buckets_5_1_dx[3].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1468,7 +1468,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[4].new_activate_num.value /
               buckets_5_1_dx[4].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1479,7 +1479,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[5].new_activate_num.value /
               buckets_5_1_dx[5].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1490,7 +1490,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[6].new_activate_num.value /
               buckets_5_1_dx[6].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1501,7 +1501,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[7].new_activate_num.value /
               buckets_5_1_dx[7].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1512,7 +1512,7 @@ export default {
           commonTools.returnFloat_2(
             (buckets_5_1_dx[8].new_activate_num.value /
               buckets_5_1_dx[8].new_num.value) *
-              100
+            100
           )
         ) + "%"
       );
@@ -1525,7 +1525,7 @@ export default {
             commonTools.returnFloat_2(
               (buckets_5_1_dx[9].new_activate_num.value /
                 buckets_5_1_dx[9].new_num.value) *
-                100
+              100
             )
           ) + "%"
         );
@@ -1848,7 +1848,7 @@ export default {
           m7_0.row3,
           i_7_0 + 1,
           buckets_7_0_yd[i_7_0].register_num.value -
-            buckets_7_0_yd_l[i_7_0].register_num.value
+          buckets_7_0_yd_l[i_7_0].register_num.value
         );
         sum_7_0_yd_nn += buckets_7_0_yd[i_7_0].new_num.value;
         sum_7_0_yd_uun += buckets_7_0_yd[i_7_0].unsub_user_num.value;
@@ -1858,7 +1858,7 @@ export default {
           m7_0.row4,
           i_7_0 + 2,
           buckets_7_0_yd[i_7_0].register_num.value -
-            buckets_7_0_yd_l[i_7_0].register_num.value
+          buckets_7_0_yd_l[i_7_0].register_num.value
         );
         Vue.set(
           m7_0.row5,
@@ -1869,7 +1869,7 @@ export default {
           m7_0.row6,
           i_7_0 + 1,
           buckets_7_0_lt[i_7_0].register_num.value -
-            buckets_7_0_lt_l[i_7_0].register_num.value
+          buckets_7_0_lt_l[i_7_0].register_num.value
         );
         sum_7_0_lt_nn += buckets_7_0_lt[i_7_0].new_num.value;
         sum_7_0_lt_uun += buckets_7_0_lt[i_7_0].unsub_user_num.value;
@@ -1879,7 +1879,7 @@ export default {
           m7_0.row7,
           i_7_0 + 2,
           buckets_7_0_lt[i_7_0].register_num.value -
-            buckets_7_0_lt_l[i_7_0].register_num.value
+          buckets_7_0_lt_l[i_7_0].register_num.value
         );
         Vue.set(
           m7_0.row8,
@@ -1890,7 +1890,7 @@ export default {
           m7_0.row9,
           i_7_0 + 1,
           buckets_7_0_dx[i_7_0].register_num.value -
-            buckets_7_0_dx_l[i_7_0].register_num.value
+          buckets_7_0_dx_l[i_7_0].register_num.value
         );
         sum_7_0_dx_nn += buckets_7_0_dx[i_7_0].new_num.value;
         sum_7_0_dx_uun += buckets_7_0_dx[i_7_0].unsub_user_num.value;
@@ -2389,7 +2389,7 @@ export default {
       formData.append("year", temp.year);
 
       users_marketReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // console.log(operator_type + " " + week_type);
           // console.log(response);
           if (week_type == "week") {
@@ -2438,7 +2438,7 @@ export default {
             }
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -2446,7 +2446,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_week", "PR_Report_index"]),
     ifFormRowShow_yd: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -2456,10 +2456,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifFormRowShow_lt: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -2469,10 +2469,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifFormRowShow_dx: {
-      get: function() {
+      get: function () {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -2482,7 +2482,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   }
 };
