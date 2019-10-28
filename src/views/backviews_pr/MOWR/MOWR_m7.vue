@@ -422,59 +422,61 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信33333.7777"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信33333.7777"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
 
           // /// 实际
-          // setTimeout(() => {
-          //   //停机用户表
-          //   let down_user_arr = []
-          //   down_user_arr.push(
-          //     vm.form.title,
-          //     vm.form.row1,
-          //     vm.form.row2,
-          //     vm.form.row3,
-          //     vm.form.row4,
-          //     vm.form.row5,
-          //     vm.form.row6,
-          //     vm.form.row7,
-          //     vm.form.row8,
-          //     vm.form.row9
-          //   )
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            //停机用户表
+            let down_user_arr = [];
+            down_user_arr.push(
+              vm.form.title,
+              vm.form.row1,
+              vm.form.row2,
+              vm.form.row3,
+              vm.form.row4,
+              vm.form.row5,
+              vm.form.row6,
+              vm.form.row7,
+              vm.form.row8,
+              vm.form.row9
+            );
 
-          //   let title_arr = []
-          //   let data_arr = []
-          //   title_arr.push(
-          //     ["停机用户表"],
-          //     ["周新增占比"],
-          //     ["周销户占比"],
-          //     ["周净增占比"]
-          //   )
-          //   data_arr.push(
-          //     down_user_arr,
-          //     vm.MOWR_m7_A1.data,
-          //     vm.MOWR_m7_A2.data,
-          //     vm.MOWR_m7_A3.data
-          //   )
-          // }, 9000);
-
+            title_arr.push(
+              ["停机用户表"],
+              ["周新增占比"],
+              ["周销户占比"],
+              ["周净增占比"]
+            );
+            data_arr.push(
+              down_user_arr,
+              vm.MOWR_m7_A1.data,
+              vm.MOWR_m7_A2.data,
+              vm.MOWR_m7_A3.data
+            );
+          } catch (error) {
+            console.log(error);
+          }
           // ///
-
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {

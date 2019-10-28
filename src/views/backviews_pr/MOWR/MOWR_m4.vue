@@ -105,54 +105,52 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信33333.4444"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信33333.4444"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
 
           // /// 实际
-          // setTimeout(() => {
-          //   //联通24小时新增激活情况
-          //   let lt_hour_add = []
-          //   lt_hour_add.push(
-          //     vm.form.title,
-          //     vm.form.row1,
-          //     vm.form.row2,
-          //     vm.form.row3,
-          //     vm.form.row4,
-          //     vm.form.row5,
-          //     vm.form.row6,
-          //     vm.form.row7,
-          //     vm.form.row8,
-          //     vm.form.row9,
-          //     vm.form.row10,
-          //     vm.form.row11,
-          //   )
-          //   let title_arr = []
-          //   let data_arr = []
-          //   title_arr.push(
-          //     ["联通24小时新增激活情况"]
-          //   )
-          //   data_arr.push(
-          //     lt_hour_add,
-          //   )
-          // }, 6000);
-
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            //联通24小时新增激活情况
+            let lt_hour_add = [];
+            lt_hour_add.push(
+              vm.form.title,
+              vm.form.row1,
+              vm.form.row2,
+              vm.form.row3,
+              vm.form.row4,
+              vm.form.row5,
+              vm.form.row6,
+              vm.form.row7,
+              vm.form.row8,
+              vm.form.row9,
+              vm.form.row10,
+              vm.form.row11
+            );
+            title_arr.push(["联通24小时新增激活情况"]);
+            data_arr.push(lt_hour_add);
+          } catch (error) {
+            console.log(error);
+          }
           // ///
-
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {

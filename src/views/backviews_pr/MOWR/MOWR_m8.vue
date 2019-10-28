@@ -316,47 +316,52 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信33333.8888"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信33333.8888"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
 
           // /// 实际
-          // setTimeout(() => {
-          //   //电信增值业务周发展情况
-          //   let value_added_arr = [];
-          //   value_added_arr.push(
-          //     vm.form.title1,
-          //     vm.form.title2,
-          //     vm.form.row1,
-          //     vm.form.row2,
-          //     vm.form.row3,
-          //     vm.form.row4,
-          //     vm.form.row5,
-          //     vm.form.row6,
-          //     vm.form.row7,
-          //     vm.form.row_bottom
-          //   );
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            //电信增值业务周发展情况
+            let value_added_arr = [];
+            value_added_arr.push(
+              vm.form.title1,
+              vm.form.title2,
+              vm.form.row1,
+              vm.form.row2,
+              vm.form.row3,
+              vm.form.row4,
+              vm.form.row5,
+              vm.form.row6,
+              vm.form.row7,
+              vm.form.row_bottom
+            );
 
-          //   let title_arr = [];
-          //   let data_arr = [];
-          //   title_arr.push(["电信增值业务周发展情况"]);
-          //   data_arr.push(value_added_arr);
-          // }, 10000);
+            title_arr.push(["电信增值业务周发展情况"]);
+            data_arr.push(value_added_arr);
+          } catch (error) {
+            console.log(error);
+          }
           // ///
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
+
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");
             return;

@@ -45,6 +45,7 @@
         >{{item.name}}</el-button>
       </div>
     </div>
+    <!-- 复选-运营商 -->
     <div v-show="ifOperatorShow" class="operator">
       <span class="font_title">运营商：</span>
       <el-checkbox v-model="operator_checkAll" @change="operatorChoose_all">全部</el-checkbox>
@@ -64,6 +65,29 @@
         v-for="(item,index) in operator"
         :key="index + 'ac' "
         v-show="!operator_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+    </div>
+    <!-- 单选-运营商 -->
+    <div v-show="ifOperatorShow2" class="operator">
+      <span class="font_title">运营商：</span>
+      <!-- <el-checkbox v-model="operator_checkAll" @change="operatorChoose_all">全部</el-checkbox> -->
+      <el-checkbox-group
+        @change="operatorChoose2_change"
+        v-model="operatorChoose2"
+        v-for="(item,index) in operator"
+        :key="index + 'a' "
+        v-show="operator_isIndeterminate2"
+      >
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+      <el-checkbox-group
+        @change="operatorChoose2_change"
+        v-model="operatorChoose2"
+        v-for="(item,index) in operator"
+        :key="index + 'ac' "
+        v-show="!operator_isIndeterminate2"
       >
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
@@ -177,6 +201,12 @@ import { subReport_list } from "@/api/api_main";
 
 var operatorChoose_new = [];
 var operatorChoose_old = [];
+
+// var operatorChoose_new2 = [];
+// var operatorChoose_old2 = [];
+var operatorChoose_new2 = ["移动"]; // 单选框-初始化
+var operatorChoose_old2 = ["移动"]; // 单选框-初始化
+
 export default {
   name: "OptionSelectPR",
   computed: {
@@ -203,6 +233,27 @@ export default {
         .dispatch("set_PR_operator", newValue)
         .then(function(response) {
           // console.log(response);
+          console.log(newValue);
+          // vm.$store
+          //   .dispatch("get_PR_operator")
+          //   .then(function(response) {
+          //     console.log(response);
+          //   })
+          //   .catch(function(error) {
+          //     console.info(error);
+          //   });
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+    },
+    operatorChoose2(newValue, oldValue) {
+      let vm = this;
+      this.$store
+        .dispatch("set_PR_operator", newValue)
+        .then(function(response) {
+          // console.log(response);
+          console.log(newValue);
           // vm.$store
           //   .dispatch("get_PR_operator")
           //   .then(function(response) {
@@ -309,7 +360,7 @@ export default {
           routerLink: "/backhome/periodicreport/MarketOperationalWeekReport"
         },
         {
-          name: "移动运营数据周报",
+          name: "运营数据周报",
           pointStatus: false,
           routerLink: "/backhome/periodicreport/OperationalWeekReport"
         },
@@ -352,6 +403,10 @@ export default {
       operator_checkAll: true,
 
       operator_isIndeterminate: true,
+
+      operatorChoose2: ["移动"],
+      operator_isIndeterminate2: true,
+
       options_specialName: [
         // 专区专题名称 -- 先从后台获取
         // {
@@ -445,6 +500,7 @@ export default {
         pickerValue: ""
       },
       ifOperatorShow: true,
+      ifOperatorShow2: false,
       list: [
         {
           name: "韩版设计时尚风衣大",
@@ -554,6 +610,7 @@ export default {
         .then(function(response) {
           // console.log(response);
           vm.operatorChoose = response;
+          vm.operatorChoose2 = response;
         })
         .catch(function(error) {
           console.info(error);
@@ -713,6 +770,7 @@ export default {
     },
 
     operatorChoose_change(event) {
+      //c
       operatorChoose_old = operatorChoose_new;
       let checkedCount = event.length;
       this.operator_checkAll = checkedCount === this.operator.length;
@@ -732,7 +790,26 @@ export default {
     },
     operatorChoose_all(val) {
       this.operatorChoose = val ? this.operator : [];
-      this.operator_isIndeterminate = !this.operator_isIndeterminate;
+      this.operator_isIndeterminate2 = !this.operator_isIndeterminate2;
+    },
+    operatorChoose2_change(event) {
+      //c
+      operatorChoose_old2 = operatorChoose_new2;
+      let checkedCount = event.length;
+      // this.operator_checkAll = checkedCount === this.operator.length;
+      this.operator_isIndeterminate2 =
+        checkedCount > 0 && checkedCount < this.operator.length;
+      if (this.operatorChoose2.length == 0) {
+        this.operator_isIndeterminate2 = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        operatorChoose_new2 = vm.operatorChoose2;
+        vm.operatorChoose2 = commonTools.delete_repet_origin(
+          operatorChoose_new2,
+          operatorChoose_old2
+        );
+      }, 100);
     },
     //点击报表对应切换
     setReportOption(reportName, routerLink, num, index) {
@@ -784,12 +861,20 @@ export default {
               vm.reportOption = reportName;
               vm.routerLink = routerLink;
               if (
-                reportName == "移动运营数据周报" ||
+                reportName == "运营数据周报" ||
                 reportName == "电信VIP增值业务专项分析"
               ) {
-                vm.ifOperatorShow = false;
+                if (reportName == "运营数据周报") {
+                  vm.ifOperatorShow = false;
+                  vm.ifOperatorShow2 = true;
+                }
+                if (reportName == "电信VIP增值业务专项分析") {
+                  vm.ifOperatorShow = false;
+                  vm.ifOperatorShow2 = false;
+                }
               } else {
                 vm.ifOperatorShow = true;
+                vm.ifOperatorShow2 = false;
               }
             })
             .catch(function(error) {
@@ -808,8 +893,8 @@ export default {
       // console.log(this.monthValue);
       // console.log(this.pickerValue);
       this.$emit("setRoute", {
-        repotrName: this.reportOption,
-        operatorOption: this.operatorChoose,
+        // repotrName: this.reportOption,
+        // operatorOption: this.operatorChoose,
         routerLink: this.routerLink
       });
     },
@@ -915,8 +1000,9 @@ export default {
                       //   ["平均", 1, 2, 3, 4]
                       // ]);
                       // ///
-
-                      exportExcel(temp_titleArr, temp_DataArr, excelName);
+                      setTimeout(function() {
+                        exportExcel(temp_titleArr, temp_DataArr, excelName);
+                      }, 100);
                     })
                     .catch(function(error) {
                       console.info(error);

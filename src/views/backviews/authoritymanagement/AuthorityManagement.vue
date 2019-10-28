@@ -199,7 +199,8 @@ export default {
         "数据审计",
         "节目搜索",
         "权限管理",
-        "大屏管理"
+        "大屏管理",
+        "大屏查看",
       ],
       // visit_data
       // visit_life
@@ -212,6 +213,7 @@ export default {
       // visit_search
       // visit_control
       // visit_screen
+      // visit_lookscreen
       authorizationChoose: [],
       dialogFormVisible3: false,
       dialogFormVisible5: false,
@@ -282,6 +284,9 @@ export default {
           if (temp.indexOf(11) > -1) {
             temp_authorizationChoose.push("大屏管理");
           }
+          if (temp.indexOf(12) > -1) {
+            temp_authorizationChoose.push("大屏查看");
+          }
           vm.authorizationChoose = temp_authorizationChoose;
           // vm.$store.dispatch("get_current_authority").then(function(response) {
           //   console.log("~~~~~get_current_authority");
@@ -335,7 +340,9 @@ export default {
       if (temp_authorizationChoose.indexOf("大屏管理") > -1) {
         temp_format_options.push("visit_screen");
       }
-
+      if (temp_authorizationChoose.indexOf("大屏查看") > -1) {
+        temp_format_options.push("visit_lookscreen");
+      }
       let temp = {
         // permissions: String(["visit_data,visit_life"])
         // permissions: String(["visit_life", "visit_action"])

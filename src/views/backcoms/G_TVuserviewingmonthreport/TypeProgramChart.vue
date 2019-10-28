@@ -13,7 +13,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_week","PR_month"])
+    ...mapGetters(["PR_week","PR_month", "PR_operator"])
   },
   watch: {
     PR_week(newValue, oldValue) {
@@ -24,6 +24,12 @@ export default {
       }, 1000);
     },
     PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();

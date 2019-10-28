@@ -248,79 +248,79 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信22222222222"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信22222222222"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
           // /// 实际
-          // try {
-          //   let title_arr = [];
-          //   let data_arr = [];
-          //   title_arr.push(
-          //     [vm.yidongTypeLooktime.title],
-          //     [""],
-          //     [vm.yidongLiveBroadcast.title],
-          //     [vm.yidongtypedayusernumber.title],
-          //     [vm.yidongtypedayclicknumber.title],
-          //     [vm.yidongAsideClickUser.title],
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            title_arr.push(
+              [vm.yidongTypeLooktime.title],
+              [""],
+              [vm.yidongLiveBroadcast.title],
+              [vm.yidongtypedayusernumber.title],
+              [vm.yidongtypedayclicknumber.title],
+              [vm.yidongAsideClickUser.title],
 
-          //     [vm.liantongTypeLooktime.title]
-          //     [""],
-          //     [vm.liantongLiveBroadcast.title],
-          //     [vm.liantongtypedayusernumber.title],
-          //     [vm.liantongtypedayclicknumber.title],
-          //     [vm.liantongAsideClickUser.title],
+              [vm.liantongTypeLooktime.title],
+              [""],
+              [vm.liantongLiveBroadcast.title],
+              [vm.liantongtypedayusernumber.title],
+              [vm.liantongtypedayclicknumber.title],
+              [vm.liantongAsideClickUser.title],
 
-          //     [vm.dianxingTypeLooktime.title]
-          //     [""],
-          //     [vm.dianxingLiveBroadcast.title],
-          //     [vm.dianxingtypedayusernumber.title],
-          //     [vm.dianxingtypedayclicknumber.title],
-          //     [vm.dianxingAsideClickUser.title],
+              [vm.dianxingTypeLooktime.title],
+              [""],
+              [vm.dianxingLiveBroadcast.title],
+              [vm.dianxingtypedayusernumber.title],
+              [vm.dianxingtypedayclicknumber.title],
+              [vm.dianxingAsideClickUser.title],
 
-          //   );
-          //   data_arr.push(
-          //     vm.yidongTypeLooktime.data[0],
-          //     vm.yidongTypeLooktime.data[1],
-          //     vm.yidongLiveBroadcast.data[0],
-          //     vm.yidongtypedayusernumber.data[0],
-          //     vm.yidongtypedayclicknumber.data[0],
-          //     vm.yidongAsideClickUser.data[0],
+            );
+            data_arr.push(
+              vm.yidongTypeLooktime.data[0],
+              vm.yidongTypeLooktime.data[1],
+              vm.yidongLiveBroadcast.data[0],
+              vm.yidongtypedayusernumber.data[0],
+              vm.yidongtypedayclicknumber.data[0],
+              vm.yidongAsideClickUser.data[0],
 
-          //     vm.liantongTypeLooktime.data[0],
-          //     vm.liantongTypeLooktime.data[1],
-          //     vm.liantongLiveBroadcast.data[1],
-          //     vm.liantongtypedayusernumber.data[0],
-          //     vm.liantongtypedayclicknumber.data[0],
-          //     vm.liantongAsideClickUser.data[0],
+              vm.liantongTypeLooktime.data[0],
+              vm.liantongTypeLooktime.data[1],
+              vm.liantongLiveBroadcast.data[0],
+              vm.liantongtypedayusernumber.data[0],
+              vm.liantongtypedayclicknumber.data[0],
+              vm.liantongAsideClickUser.data[0],
 
-
-          //     vm.dianxingTypeLooktime.data[0],
-          //     vm.dianxingTypeLooktime.data[1],
-          //     vm.dianxingLiveBroadcast.data[1],
-          //     vm.dianxingtypedayusernumber.data[0],
-          //     vm.dianxingtypedayclicknumber.data[0],
-          //     vm.dianxingAsideClickUser.data[0],
-
-          //   );
-          // } catch (error) {
-          //   console.log(error);
-          // }
+              vm.dianxingTypeLooktime.data[0],
+              vm.dianxingTypeLooktime.data[1],
+              vm.dianxingLiveBroadcast.data[0],
+              vm.dianxingtypedayusernumber.data[0],
+              vm.dianxingtypedayclicknumber.data[0],
+              vm.dianxingAsideClickUser.data[0],
+            );
+          } catch (error) {
+            console.log(error);
+          }
 
           // ///
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");
             return;

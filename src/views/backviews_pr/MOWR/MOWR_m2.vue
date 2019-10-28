@@ -92,9 +92,9 @@ export default {
   },
   props: ["m2_data"],
   computed: {
-    ...mapGetters(["PR_week", "PR_operator","PR_Report_index"]),
+    ...mapGetters(["PR_week", "PR_operator", "PR_Report_index"]),
     ifFormRowShow_yd: {
-      get: function () {
+      get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -104,10 +104,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifFormRowShow_lt: {
-      get: function () {
+      get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -117,10 +117,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifFormRowShow_dx: {
-      get: function () {
+      get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         } else {
@@ -130,10 +130,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     form_Change: {
-      get: function () {
+      get: function() {
         let sumArr = [];
         let sum = 0;
         let length;
@@ -184,10 +184,10 @@ export default {
 
         return this.form;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     form_Change2: {
-      get: function () {
+      get: function() {
         let sumArr = [];
         let sum = 0;
         let length;
@@ -238,7 +238,7 @@ export default {
 
         return this.form2;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   watch: {
@@ -260,58 +260,16 @@ export default {
       vm.MOWR_m2_A1 = newValue[0][1];
       vm.form2 = newValue[1][0];
       vm.MOWR_m2_A2 = newValue[1][1];
-
-
     }
   },
-  
+
   data() {
     return {
       form: {
-        title: [
-          "日新增",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "总计"
-        ],
-        rowA: [
-          "移动",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
-        ],
-        rowB: [
-          "联通",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
-        ],
-        rowC: [
-          "电信",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
-        ],
+        title: ["日新增", "", "", "", "", "", "", "", "总计"],
+        rowA: ["移动", "0", "0", "0", "0", "0", "0", "0", "0"],
+        rowB: ["联通", "0", "0", "0", "0", "0", "0", "0", "0"],
+        rowC: ["电信", "0", "0", "0", "0", "0", "0", "0", "0"],
         rowD: ["", "", "", "", "", "", "", "", "0"]
       },
       MOWR_m2_A1: {
@@ -319,67 +277,17 @@ export default {
         id: "MOWR_m2_A1",
         color: ["#8064A2", "#9BBB59", "#C0504D"],
         data: [
-          [
-            "product",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-
-          ],
+          ["product", "", "", "", "", "", "", ""],
           ["移动", 0, 0, 0, 0, 0, 0, 0],
           ["联通", 0, 0, 0, 0, 0, 0, 0],
           ["电信", 0, 0, 0, 0, 0, 0, 0]
         ]
       },
       form2: {
-        title: [
-          "日新增",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "总计"
-        ],
-        rowA: [
-          "移动",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
-        ],
-        rowB: [
-          "联通",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
-        ],
-        rowC: [
-          "电信",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
-        ],
+        title: ["日新增", "", "", "", "", "", "", "", "总计"],
+        rowA: ["移动", "0", "0", "0", "0", "0", "0", "0", "0"],
+        rowB: ["联通", "0", "0", "0", "0", "0", "0", "0", "0"],
+        rowC: ["电信", "0", "0", "0", "0", "0", "0", "0", "0"],
         rowD: ["", "", "", "", "", "", "", "", "0"]
       },
       MOWR_m2_A2: {
@@ -387,17 +295,7 @@ export default {
         id: "MOWR_m2_A2",
         color: ["#8064A2", "#9BBB59", "#C0504D"],
         data: [
-          [
-            "product",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-
-          ],
+          ["product", "", "", "", "", "", "", ""],
           ["移动", 0, 0, 0, 0, 0, 0, 0],
           ["联通", 0, 0, 0, 0, 0, 0, 0],
           ["电信", 0, 0, 0, 0, 0, 0, 0]
@@ -432,41 +330,45 @@ export default {
           ]);
           // ///
 
-          // /// 实际
-          // setTimeout(() => {
-          //   //24小时新增用户激活率表
-          //   let hour_new_add_array = []
-          //   hour_new_add_array.push(vm.form.title)
-          //   hour_new_add_array.push(vm.form.rowA)
-          //   hour_new_add_array.push(vm.form.rowB)
-          //   hour_new_add_array.push(vm.form.rowC)
-          //   hour_new_add_array.push(vm.form.rowD)
+          /// 实际
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            //24小时新增用户激活率表
+            let hour_new_add_array = [];
+            hour_new_add_array.push(vm.form.title);
+            hour_new_add_array.push(vm.form.rowA);
+            hour_new_add_array.push(vm.form.rowB);
+            hour_new_add_array.push(vm.form.rowC);
+            hour_new_add_array.push(vm.form.rowD);
 
-          //   //24小时新增用户激活率表（上周）
-          //   let last_hour_new_add_array = []
-          //   last_hour_new_add_array.push(vm.form2.title)
-          //   last_hour_new_add_array.push(vm.form2.rowA)
-          //   last_hour_new_add_array.push(vm.form2.rowB)
-          //   last_hour_new_add_array.push(vm.form2.rowC)
-          //   last_hour_new_add_array.push(vm.form2.rowD)
+            //24小时新增用户激活率表（上周）
+            let last_hour_new_add_array = [];
+            last_hour_new_add_array.push(vm.form2.title);
+            last_hour_new_add_array.push(vm.form2.rowA);
+            last_hour_new_add_array.push(vm.form2.rowB);
+            last_hour_new_add_array.push(vm.form2.rowC);
+            last_hour_new_add_array.push(vm.form2.rowD);
 
-          //   let title_arr = []
-          //   let data_arr = []
-          //   title_arr.push(
-          //     ["24小时新增用户激活率表"],
-          //     ["24小时新增用户激活率图"],
-          //     ["24小时新增用户激活率表（上周）"],
-          //     ["24小时新增用户激活率图（上周）"],
-          //   )
-          //   data_arr.push(
-          //     hour_new_add_array,
-          //     vm.MOWR_m2_A1.data,
-          //     vm.last_hour_new_add_array,
-          //     vm.MOWR_m2_A2.data,
-          //   )
-          // }, 4000);
-          // ///
+            title_arr.push(
+              ["24小时新增用户激活率表"],
+              ["24小时新增用户激活率图"],
+              ["24小时新增用户激活率表（上周）"],
+              ["24小时新增用户激活率图（上周）"]
+            );
+            data_arr.push(
+              hour_new_add_array,
+              vm.MOWR_m2_A1.data,
+              last_hour_new_add_array,
+              vm.MOWR_m2_A2.data
+            );
+          } catch (error) {
+            console.log(error);
+          }
 
+          ///
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {
@@ -485,7 +387,7 @@ export default {
             });
         }
       }, 5400); //m2: 5000 + 200 * 2
-    },
+    }
   }
 };
 </script>

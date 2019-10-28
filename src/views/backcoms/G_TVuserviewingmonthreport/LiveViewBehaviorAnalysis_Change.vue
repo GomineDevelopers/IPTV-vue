@@ -169,44 +169,51 @@ export default {
                 }
                 // Manage_Unit("千万", "");
 
-                if (vm.barListData_Change.data[5][1] > 100000000) {
-                  m_Unit = "亿";
-                  // m_result = String(value / 10000 / 10000) + "亿";
-                  m_result = String(value / 10000 / 10000);
-                  Manage_Unit(m_Unit, m_result);
-                  vm.current_value = 100000000;
-                  return m_result;
-                }
-                if (
-                  vm.barListData_Change.data[5][1] > 10000000 &&
-                  vm.barListData_Change.data[5][1] <= 100000000
-                ) {
-                  m_Unit = "千万";
-                  m_result = String(value / 10000 / 1000);
-                  Manage_Unit(m_Unit, m_result);
-                  vm.current_value = 10000000;
-                  return m_result;
-                }
-                if (
-                  vm.barListData_Change.data[5][1] > 1000000 &&
-                  vm.barListData_Change.data[5][1] <= 10000000
-                ) {
-                  m_Unit = "百万";
-                  m_result = String(value / 10000 / 100);
-                  Manage_Unit(m_Unit, m_result);
-                  vm.current_value = 1000000;
-                  return m_result;
-                }
-                if (
-                  vm.barListData_Change.data[5][1] > 10000 &&
-                  vm.barListData_Change.data[5][1] <= 1000000
-                ) {
-                  m_Unit = "万";
-                  m_result = String(value / 10000);
-                  Manage_Unit(m_Unit, m_result);
-                  vm.current_value = 10000;
-                  return m_result;
-                }
+                // if (vm.barListData_Change.data[5][1] > 100000000) {
+                //   m_Unit = "亿";
+                //   // m_result = String(value / 10000 / 10000) + "亿";
+                //   m_result = String(value / 10000 / 10000);
+                //   Manage_Unit(m_Unit, m_result);
+                //   vm.current_value = 100000000;
+                //   return m_result;
+                // }
+                // if (
+                //   vm.barListData_Change.data[5][1] > 10000000 &&
+                //   vm.barListData_Change.data[5][1] <= 100000000
+                // ) {
+                //   m_Unit = "千万";
+                //   m_result = String(value / 10000 / 1000);
+                //   Manage_Unit(m_Unit, m_result);
+                //   vm.current_value = 10000000;
+                //   return m_result;
+                // }
+                // if (
+                //   vm.barListData_Change.data[5][1] > 1000000 &&
+                //   vm.barListData_Change.data[5][1] <= 10000000
+                // ) {
+                //   m_Unit = "百万";
+                //   m_result = String(value / 10000 / 100);
+                //   Manage_Unit(m_Unit, m_result);
+                //   vm.current_value = 1000000;
+                //   return m_result;
+                // }
+                // if (
+                //   vm.barListData_Change.data[5][1] > 10000 &&
+                //   vm.barListData_Change.data[5][1] <= 1000000
+                // ) {
+                //   m_Unit = "万";
+                //   m_result = String(value / 10000);
+                //   Manage_Unit(m_Unit, m_result);
+                //   vm.current_value = 10000;
+                //   return m_result;
+                // }
+
+                // 固定
+                m_result = String(value / 10000 / 1000);
+                Manage_Unit(m_Unit, m_result);
+                vm.current_value = 10000000;
+                return m_result;
+
               }
               // console.log("~~~~~~~~~~~~~~~~over");
               return String(value);

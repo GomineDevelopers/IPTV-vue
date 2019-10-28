@@ -26,6 +26,12 @@ export default {
         vm.drawLine();
       }, 2000);
     },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function () {
+        vm.drawLine();
+      }, 2000);
+    },
     chartData(newValue, oldValue) {
       let vm = this;
       setTimeout(function () {

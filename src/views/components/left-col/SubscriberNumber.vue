@@ -22,7 +22,7 @@
           <br />
           <span class="number">
             <!-- <i>4367.7</i>万元 -->
-            <i>{{cum_income}}</i>元
+            <i>{{cum_income}}</i>万元
           </span>
         </el-row>
       </el-col>
@@ -47,7 +47,7 @@
           <br />
           <span class="number">
             <!-- <i>47.2</i>万元 -->
-            <i>{{new_income}}</i>元
+            <i>{{new_income}}</i>万元
           </span>
         </el-row>
       </el-col>
@@ -153,7 +153,7 @@ export default {
               let aggregations2 = response2.data.responses[0].aggregations;
               if (date_time == "day") {
                 vm.cum_paid_num = aggregations.cum_paid_num.value;
-                vm.cum_income = aggregations.cum_income.value / 100;
+                vm.cum_income = (aggregations.cum_income.value / 100 / 10000).toFixed(0);
                 // 订购用户占比
                 vm.subscriber_proportion = commonTools.returnFloat_2(
                   (aggregations.cum_paid_num.value /
@@ -170,7 +170,7 @@ export default {
               // console.log(aggregations2.all_unsub_user_num.value);
               if (date_time == "7days") {
                 vm.new_paid_num = aggregations.new_paid_num.value;
-                vm.new_income = aggregations.new_income.value / 100;
+                vm.new_income = (aggregations.new_income.value / 100 / 10000).toFixed(0);
                 vm.New_order_conversion_rate = commonTools.returnFloat_2(
                   (aggregations.new_paid_num.value /
                     aggregations.new_num.value) *
