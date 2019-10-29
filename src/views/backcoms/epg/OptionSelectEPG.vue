@@ -380,7 +380,7 @@ export default {
         .catch(function (error) {
           console.info(error);
         });
-    }, 100);
+    }, 200);
 
     this.getEpgProgramsTotal()
     this.programsSwitch()
