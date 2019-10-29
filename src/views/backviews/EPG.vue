@@ -117,7 +117,7 @@ export default {
     }
   },
   mounted() {
-
+    this.refresh_api_data()
   },
   data() {
     return {

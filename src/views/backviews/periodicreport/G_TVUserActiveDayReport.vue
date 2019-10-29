@@ -213,13 +213,13 @@ export default {
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function(response_dataArr) {
+        .then(function (response_dataArr) {
           console.log("下载关");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
-      setTimeout(function() {
+      setTimeout(function () {
         if (vm.PR_Report_index == 1) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -248,38 +248,38 @@ export default {
 
           try {
             // setTimeout(() => {
-              // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
-              // data_arr = [
-              //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
-              //   [["运营商", "移动", "联通", "电信"], ["平均"]],
-              //   [["运营商", "移动", "联通", "电信"], ["平均"]]
-              // ];
-              title_arr.push(
-                [vm.registeredUsers.title],
-                [vm.newAddUserNumber.title],
-                [""],
-                [vm.turnOnRate.title],
-                [""],
-                [vm.outLookTime.title],
-                [""],
-                [vm.dayLooktime.title],
-                [""],
-                [vm.typeLooktime.title],
-                [""]
-              );
-              data_arr.push(
-                vm.registeredUsers.data, //各运营商在册用户数（户）
-                vm.newAddUserNumber.data[0], //各运营商新增在册用户数（户）
-                vm.newAddUserNumber.data[1],
-                vm.turnOnRate.data[0], //开机率（%）
-                vm.turnOnRate.data[1],
-                vm.outLookTime.data[0], //户均观看时长（小时）
-                vm.outLookTime.data[1],
-                vm.dayLooktime.data[0], //三大基础功能单日观看时长（万小时）
-                vm.dayLooktime.data[1],
-                vm.typeLooktime.data[0], //各类型节目单日点播时长（千小时）
-                vm.typeLooktime.data[1]
-              );
+            // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+            // data_arr = [
+            //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+            //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+            //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+            // ];
+            title_arr.push(
+              [vm.registeredUsers.title],
+              [vm.newAddUserNumber.title],
+              [""],
+              [vm.turnOnRate.title],
+              [""],
+              [vm.outLookTime.title],
+              [""],
+              [vm.dayLooktime.title],
+              [""],
+              [vm.typeLooktime.title],
+              [""]
+            );
+            data_arr.push(
+              vm.registeredUsers.data, //各运营商在册用户数（户）
+              vm.newAddUserNumber.data[0], //各运营商新增在册用户数（户）
+              vm.newAddUserNumber.data[1],
+              vm.turnOnRate.data[0], //开机率（%）
+              vm.turnOnRate.data[1],
+              vm.outLookTime.data[0], //户均观看时长（小时）
+              vm.outLookTime.data[1],
+              vm.dayLooktime.data[0], //三大基础功能单日观看时长（万小时）
+              vm.dayLooktime.data[1],
+              vm.typeLooktime.data[0], //各类型节目单日点播时长（千小时）
+              vm.typeLooktime.data[1]
+            );
             // }, 3000);
             console.log("日报excel下载数据~~~~~", title_arr, data_arr);
           } catch (error) {
@@ -296,27 +296,27 @@ export default {
           }
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function(response_title) {
+            .then(function (response_title) {
               console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function(response_dataArr) {
+                .then(function (response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function(response_dataArr) {
+                    .then(function (response_dataArr) {
                       console.log("下载开");
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                       console.info(error);
                     });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.info(error);
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         }
@@ -388,26 +388,35 @@ export default {
           console.log("今日数据~~~~~~~", ttt);
           console.log(response.data);
           try {
-            let register_num =
-              response.data.responses[0].aggregations.register_num.value; //在册用户数
-            let new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
-            let open_num =
-              response.data.responses[0].aggregations.open_num.value; //开机用户
-            // let open_rate1 = (open_num / register_num) * 100 //开机率
-            let open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
-            // let watch_freq_family = this.returnFloat(response.data.responses[2].aggregations.watch_freq_family.value);
-            let watch_dur =
-              response.data.responses[2].aggregations.watch_dur.value;
-            let watch_user_num =
-              response.data.responses[2].aggregations.watch_user_num.value;
-            let watch_freq_family = (watch_dur / watch_user_num).toFixed(2);
+            // let register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
+            let register_num = ""
+            let new_num = ''
+            let open_num = ''
+            let open_rate = ''
+            let watch_dur = ''
+            let watch_user_num = ''
+            let watch_freq_family = ''
+            try {
+              register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
+              new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
+              open_num = response.data.responses[0].aggregations.open_num.value; //开机用户
+              open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
+            } catch (error) {
+
+            }
+            try {
+              watch_dur = response.data.responses[2].aggregations.watch_dur.value / 60;
+              watch_user_num = response.data.responses[2].aggregations.watch_user_num.value;
+              watch_freq_family = (watch_dur / watch_user_num).toFixed(2);
+            } catch (error) {
+
+            }
             //户均观看时长
             // console.log("在册用户数（今日）", ttt, register_num)
             // console.log("新增在册用户数（今日）", ttt, new_num)
             // console.log("开机用户数（今日）", ttt, open_num)
             // console.log("开机率（今日）", ttt, open_rate)
             // console.log("户均观看时长（今日）", ttt, watch_freq_family)
-
             // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
             //移动
@@ -447,29 +456,31 @@ export default {
         .then(response => {
           console.log("前7天平均数据为", ttt, response.data);
           try {
-            let average_register_num =
-              response.data.responses[1].aggregations.register_num.buckets[0]
-                .register_num.value; //在册用户数
-            let average_new_num = Math.floor(
-              response.data.responses[1].aggregations.new_num.value / 7
-            ); //新增在册用户数（平均）
-            let average_open_num =
-              response.data.responses[1].aggregations.open_num.value; //开机用户
-            let average_open_rate = this.returnFloat(
-              ((average_open_num / average_register_num) * 100) / 7
-            ); //开机率
+            let average_register_num = ''
+            let average_new_num = ''
+            let average_open_num = ''
+            let average_open_rate = ''
+            let average_watch_dur = ''
+            let average_watch_user_num = ''
+            let average_watch_freq_family = ''
 
-            //let average_watch_freq_family = this.returnFloat(response.data.responses[3].aggregations.watch_freq_family.value / 7); //户均观看时长
-            let average_watch_dur =
-              response.data.responses[3].aggregations.watch_dur.value;
-            let average_watch_user_num =
-              response.data.responses[3].aggregations.watch_user_num.value;
-            let average_watch_freq_family = (
-              average_watch_dur /
-              average_watch_user_num /
-              7
-            ).toFixed(2); //户均观看时长
+            try {
+              average_register_num = response.data.responses[1].aggregations.register_num.buckets[0].register_num.value; //在册用户数
+              average_new_num = Math.floor(response.data.responses[1].aggregations.new_num.value / 7); //新增在册用户数（平均）
+              average_open_num = response.data.responses[1].aggregations.open_num.value; //开机用户
+              average_open_rate = this.returnFloat(((average_open_num / average_register_num) * 100) / 7); //开机率
+            } catch (error) {
 
+            }
+
+            try {
+              //let average_watch_freq_family = this.returnFloat(response.data.responses[3].aggregations.watch_freq_family.value / 7); //户均观看时长
+              average_watch_dur = response.data.responses[3].aggregations.watch_dur.value / 60;
+              average_watch_user_num = response.data.responses[3].aggregations.watch_user_num.value;
+              average_watch_freq_family = (average_watch_dur / average_watch_user_num / 7).toFixed(2); //户均观看时长
+            } catch (error) {
+
+            }
             // console.log("在册用户数average_register_num（平均）", ttt, average_register_num)
             // console.log("新增在册用户数average_new_num（平均）", ttt, average_new_num);
             // console.log("开机用户数average_open_num（平均）", ttt, average_open_num)
@@ -568,11 +579,13 @@ export default {
         .then(response => {
           // console.log("用户选择的条件筛选结果为：******")
           // console.log(response.data)
-          let play_mode_buckets =
-            response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
-          let program_type_dur_order =
-            response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          let play_mode_buckets
+          let program_type_dur_order
+          try {
+            play_mode_buckets = response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+          } catch (error) {
 
+          }
           // console.log("program_type_dur_order", program_type_dur_order)
           try {
             //循环遍历播放数据，取出回看，点播，直播数据
@@ -602,6 +615,11 @@ export default {
             console.log(error);
           }
 
+          try {
+            program_type_dur_order = response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          } catch (error) {
+
+          }
           try {
             //循环遍历各类型节目点播时长，取出相应数据
             program_type_dur_order.forEach((value, index) => {
@@ -695,11 +713,19 @@ export default {
         .then(response => {
           // console.log("平均数据", ttt)
           // console.log(response.data)
-          let average_play_mode_buckets =
-            response.data.responses[5].aggregations.play_mode.buckets; //基础功能观看时长（今日）
-          let average_program_type_dur_order =
-            response.data.responses[7].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          let average_play_mode_buckets
+          let average_program_type_dur_order
 
+          try {
+            average_play_mode_buckets = response.data.responses[5].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+          } catch (error) {
+
+          }
+          try {
+            average_program_type_dur_order = response.data.responses[7].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+          } catch (error) {
+
+          }
           // console.log("program_type_dur_order", program_type_dur_order)
 
           try {

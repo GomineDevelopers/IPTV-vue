@@ -126,7 +126,7 @@
       </span>
     </div>
     <div class="submitP">
-      <el-button class="submit" @click="getBoxDetail">确定</el-button>
+      <el-button class="submit">确定</el-button>
     </div>
   </div>
 </template>
@@ -201,7 +201,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month"])
+    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month", "EPG_time_type"])
   },
   watch: {
     operatorChoose(newValue, oldValue) {
@@ -251,28 +251,29 @@ export default {
           console.info(error);
         });
     },
-    "time.weekValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_EPG_week", newValue)
-        .then(function (response) {
-          // console.log(response);
-        })
-        .catch(function (error) {
-          console.info(error);
-        });
-    },
-    "time.monthValue"(newValue, oldValue) {
-      let vm = this;
-      this.$store
-        .dispatch("set_EPG_month", newValue)
-        .then(function (response) {
-          // console.log(response);
-        })
-        .catch(function (error) {
-          console.info(error);
-        });
-    },
+
+    // "time.weekValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_EPG_week", newValue)
+    //     .then(function (response) {
+    //       // console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //       console.info(error);
+    //     });
+    // },
+    // "time.monthValue"(newValue, oldValue) {
+    //   let vm = this;
+    //   this.$store
+    //     .dispatch("set_EPG_month", newValue)
+    //     .then(function (response) {
+    //       // console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //       console.info(error);
+    //     });
+    // },
 
     //监听运营商的变化
     EPG_operator(newValue, oldValue) {
@@ -282,42 +283,104 @@ export default {
   },
   mounted() {
     let vm = this;
-    // ▲历史条件获取
-    vm.$store
-      .dispatch("get_EPG_operator")
-      .then(function (response) {
-        // console.log(response);
-        vm.operatorChoose = response;
-      })
-      .catch(function (error) {
-        console.info(error);
-      });
-    vm.$store
-      .dispatch("get_EPG_programa")
-      .then(function (response) {
-        // console.log(response);
-        vm.programaChoose = response;
-      })
-      .catch(function (error) {
-        console.info(error);
-      });
-
     // 初始化周
     let arr_temp = [];
     setTimeout(function () {
       // arr_temp = commonTools.weekDate(2018);
       // arr_temp = commonTools.weekDate_add(2019, arr_temp);
-
       vm.time.week = commonTools.weekDate_ED();
+      // console.log("初始化vm.time.week", vm.time.week)
     }, 100);
 
     // 初始化月
     setTimeout(function () {
       // let arr_temp2 = commonTools.format_MonthDays(2018);
       // arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
-
       vm.time.month = commonTools.format_MonthDays_ED();
+      // console.log("初始化vm.time.month", vm.time.month)
     }, 100);
+
+    // ▲历史条件获取
+    setTimeout(function () {
+      vm.$store
+        .dispatch("get_EPG_operator")
+        .then(function (response) {
+          // console.log(response);
+          vm.operatorChoose = response;
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_EPG_programa")
+        .then(function (response) {
+          // console.log(response);
+          vm.programaChoose = response;
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+
+      //新增
+      vm.$store
+        .dispatch("get_EPG_week")
+        .then(function (res) {
+          vm.$store
+            .dispatch("get_EPG_time_type")
+            .then(function (response) {
+              // console.log("~~~get_EPG_time_type:");
+              // console.log(response);
+              if (response == 1) {
+                console.log("history：" + response);
+                let length = vm.time.week.length;
+                let i;
+                let temp_label;
+                for (i = 0; i < length; i++) {
+                  if (vm.time.week[i].value == res) {
+                    temp_label = vm.time.week[i].label;
+                    break;
+                  }
+                }
+                vm.time.weekValue = temp_label;
+              }
+            })
+            .catch(function (error) {
+              console.info(error);
+            });
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+      vm.$store
+        .dispatch("get_EPG_month")
+        .then(function (res) {
+          vm.$store
+            .dispatch("get_EPG_time_type")
+            .then(function (response) {
+              console.log("~~~get_EPG_time_type:");
+              console.log(response);
+              if (response == 2) {
+                console.log("history：" + response);
+                let length = vm.time.month.length;
+                let i;
+                let temp_label;
+                for (i = 0; i < length; i++) {
+                  if (vm.time.month[i].value == res) {
+                    temp_label = vm.time.month[i].label;
+                    break;
+                  }
+                }
+                vm.time.monthValue = temp_label;
+              }
+            })
+            .catch(function (error) {
+              console.info(error);
+            });
+        })
+        .catch(function (error) {
+          console.info(error);
+        });
+    }, 200);
 
     this.getEpgProgramsTotal()
     this.programsSwitch()
@@ -367,16 +430,6 @@ export default {
     programaChoose_all(val) {
       this.programaChoose = val ? this.programa : [];
       this.programa_isIndeterminate = !this.programa_isIndeterminate;
-    },
-
-    getBoxDetail() {
-      // let operatorName = this.operatorChoose[0]
-      // let programName = this.programaChoose[0]
-      // let timeItem = this.timeChoose
-      // console.log("查询数据")
-      // console.log(operatorName)
-      // console.log(programName)
-      // console.log(timeItem)
     },
 
     //点击运营商切换栏目分类
@@ -518,7 +571,7 @@ export default {
       vm.$store
         .dispatch("set_EPG_month", newValue)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_EPG_time_type", 2)
@@ -530,14 +583,6 @@ export default {
         .catch(function (error) {
           console.info(error);
         });
-      // if (this.time.monthValue != '') {
-      //   // console.log("月选择", event)
-      //   this.time.weekValue = ''
-      //   this.timeChoose = event
-      // } else {
-      //   this.timeChoose = ''
-      // }
-
 
     },
 
