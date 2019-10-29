@@ -68,7 +68,7 @@ export default {
         vm.$commonTools.setCookieCry("email", vm.name, 1); // 邮箱名称
 
         login(vm.data)
-          .then(function(response) {
+          .then(function (response) {
             if (response.status === 201) {
               console.log("201");
               let access_token = response.data.access_token;
@@ -77,12 +77,12 @@ export default {
                 JSON.stringify(access_token),
                 60
               );
-              setTimeout(function() {
+              setTimeout(function () {
                 // 权限判定
                 let token = vm.$commonTools.getCookie("user_token");
                 let newToken = token.replace('"', "").replace('"', "");
                 get_user_permissions(newToken)
-                  .then(function(response) {
+                  .then(function (response) {
                     console.log(response);
                     console.log("~~~~获取权限成功！");
                     let m_res_data = response.data.data;
@@ -99,34 +99,44 @@ export default {
                         "set_current_authority",
                         temp_authorizationChoose
                       )
-                      .then(function(response) {
+                      .then(function (response) {
                         console.log(response);
                         console.log(temp_authorizationChoose);
                         // 跳转-后台主页面
                         vm.$router.push({ path: "/backhome" });
                         // 路由处理：跳转到具有权限的第一个页面
                       })
-                      .catch(function(error) {
+                      .catch(function (error) {
                         console.info(error);
                       });
                   })
-                  .catch(function(error) {
+                  .catch(function (error) {
                     console.info(error);
                   });
               }, 300);
-            } else {
-              console.log("Failed");
-              vm.alertShow = true;
-              vm.alertTitle = "登录失败，请重试！";
-              vm.alertType = "warning";
             }
           })
-          .catch(function(error) {
-            console.log(error);
-            console.log("Failed");
-            vm.alertShow = true;
-            vm.alertTitle = "登录失败，请重试！";
-            vm.alertType = "warning";
+          .catch(function (error) {
+            // console.log(error);
+            let error_status = error.response.status
+            // console.log("校验码：", error_status);
+            if (error_status === 401) {
+              vm.alertShow = true;
+              vm.alertTitle = "用户名或密码错误！";
+              vm.alertType = "error";
+            } else if (error_status === 422) {
+              vm.alertShow = true;
+              vm.alertTitle = "用户名或密码错误！";
+              vm.alertType = "error";
+            } else if (error_status === 404) {
+              vm.alertShow = true;
+              vm.alertTitle = "错误！";
+              vm.alertType = "error";
+            } else if (error_status === 500) {
+              vm.alertShow = true;
+              vm.alertTitle = "服务器错误！";
+              vm.alertType = "error";
+            }
           });
       }
     }
