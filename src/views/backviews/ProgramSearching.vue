@@ -8,11 +8,6 @@
       <el-row class="chart_body back_white">
         <div class="operator">
           <span class="font_title">运营商：</span>
-          <!-- <el-checkbox
-        :indeterminate="operator_isIndeterminate"
-        v-model="operator_checkAll"
-        @change="operatorChoose_all"
-          >全部</el-checkbox>-->
           <el-checkbox-group
             @change="operatorChoose_change"
             v-model="operatorChoose"
@@ -44,20 +39,9 @@
             ></el-date-picker>
           </div>
           <div class="block">
-            <span class="demonstration">时间：</span>
+            <span class="demonstration">时段：</span>
             <el-time-select
-              class="startTime"
-              v-model="time"
-              :picker-options="{
-            start: '00:00',
-            step: '01:00',
-            end: '23:00'
-            }"
-              placeholder="选择时间"
-            ></el-time-select>
-            <span>—</span>
-            <el-time-select
-              class="endTime"
+              class="time"
               v-model="time"
               :picker-options="{
             start: '00:00',
@@ -97,20 +81,21 @@
           </el-row>
           <el-row>
             <el-table :data="tableData" style="width: 100%">
-              <el-table-column
+              <!-- <el-table-column
                 prop="date(hits.hits[0]._source.demand_user_num,hits.hits[0]._source.onlive_user_num)"
                 label="观看户数"
               >
                 <template
                   slot-scope="scope"
                 >{{scope.row.hits.hits[0]._source.demand_user_num + scope.row.hits.hits[0]._source.onlive_user_num}}</template>
-              </el-table-column>
-              <el-table-column prop="hits.hits[0]._source.watch_freq" label="观看次数"></el-table-column>
-              <el-table-column prop="hits.hits[0]._source.watch_dur" label="观看时长（小时）"></el-table-column>
-              <el-table-column prop="hits.hits[0]._source.watch_freq_family" label="户均收视次数"></el-table-column>
-              <el-table-column prop="hits.hits[0]._source.watch_dur_mean" label="次均收视时长"></el-table-column>
-              <el-table-column prop="hits.hits[0]._source.rank_demand_dur" label="节目收视排名（点播）"></el-table-column>
-              <el-table-column prop="hits.hits[0]._source.rank_onlive_dur" label="节目收视排名（直播）"></el-table-column>
+              </el-table-column>-->
+              <el-table-column prop="watchUserNumber" label="观看户数（户）"></el-table-column>
+              <el-table-column prop="watchNumberTimes" label="观看次数（次）"></el-table-column>
+              <el-table-column prop="WatchTheTime" label="观看时长（小时）"></el-table-column>
+              <el-table-column prop="familyViewingNumber" label="户均收视次数（次）"></el-table-column>
+              <el-table-column prop="ViewingTime" label="次均收视时长（小时）"></el-table-column>
+              <el-table-column prop="programDemandDur" label="节目收视时长排名（点播）"></el-table-column>
+              <el-table-column prop="programOnliveDur" label="节目收视时长排名（直播）"></el-table-column>
             </el-table>
           </el-row>
         </el-col>
@@ -122,7 +107,7 @@
 <script>
 import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
-import { program_search } from "@/api/api_main"
+import { program_search, program_search_day } from "@/api/api_main"
 var operatorChoose_new = [];
 var operatorChoose_old = [];
 var programaChoose_new = [];
@@ -167,25 +152,45 @@ export default {
       operator_checkAll: false,
       operator_isIndeterminate: true,
       date: '',  //日期
-      time: '',  //时间
+      time: '',  //时间点
       programInput: "",  //节目名称
       //节目数据
-      tableData: [],
+      tableData: [
+        // {
+        //   watchUserNumber: '2345464',
+        //   watchNumberTimes: '1324',
+        //   WatchTheTime: '7854235',
+        //   familyViewingNumber: "548",
+        //   ViewingTime: "44",
+        //   programDemandDur: "1354",
+        //   programOnliveDur: "789"
+        // }, {
+        //   watchUserNumber: '2345464',
+        //   watchNumberTimes: '1324',
+        //   WatchTheTime: '7854235',
+        //   familyViewingNumber: "548",
+        //   ViewingTime: "44",
+        //   programDemandDur: "1354",
+        //   programOnliveDur: "789"
+        // }
+      ],
     };
   },
   methods: {
     searchSubmit() {
-      let time = (this.time).slice(0, 2)
-      let startTime
-      //截取时间小时段  截取有效数字
-      if (time.slice(0, 1) == 0) {
-        // console.log("当前时间第一位是0")
-        startTime = time.slice(1, 2)
-      } else {
-        // console.log("当前时间第一位不是0")
-        startTime = time.slice(0, 2)
+      this.tableData = []
+      let startTime = ''
+      if (this.time) {
+        let time = (this.time).slice(0, 2)
+        //截取时间小时段  截取有效数字
+        if (time.slice(0, 1) == 0) {
+          // console.log("当前时间第一位是0")
+          startTime = time.slice(1, 2)
+        } else {
+          // console.log("当前时间第一位不是0")
+          startTime = time.slice(0, 2)
+        }
       }
-      // let endTime = String(Number(startTime) + 1)   //结束时间是开始时间 + 1小时
 
       let operatorChoose = this.operatorChoose[0]
       console.log("运营商", operatorChoose)
@@ -200,18 +205,78 @@ export default {
       // formData.append("end", endTime)
       formData.append("date", this.date)
 
-      if (operatorChoose != '' && startTime != '' && this.date != '' && this.programInput != '') {
-        // console.log("可以提交数据")
-        program_search(formData)
-          .then((response) => {
-            console.log("查询结果", response)
-            this.tableData = response.data.responses[0]
-            this.showMessage('success', '查询成功！')
-            // console.log("返回的数据tableData为：", response.data.responses)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      let dayFormData = new FormData()   //operator
+      dayFormData.append("operator", this.operatorChoose)
+      dayFormData.append("name", this.programInput)
+      dayFormData.append("date", this.date)
+
+      if (this.date != '' && this.programInput != '' && operatorChoose != undefined) {
+        let data_temp = []
+        //若选择了时间段
+        if (startTime) {
+          console.log("查询节目时间段内的数据！")
+          program_search(formData)
+            .then((response) => {
+              // console.log("查询结果", response.data.responses)
+              let responseData = response.data.responses[0].hits.hits
+              if (responseData) {
+                let programData = responseData[0]._source
+                let watch_user_num = programData.watch_user_num  //观看户数
+                let watch_freq = programData.watch_freq  //观看次数
+                let watch_dur = programData.watch_dur / 60 //观看时长(小时)
+                let demand_dur_top = programData.rank_demand_dur
+                let rank_onlive_dur = programData.rank_onlive_dur
+                data_temp.push(
+                  {
+                    watchUserNumber: watch_user_num,
+                    watchNumberTimes: watch_freq,
+                    WatchTheTime: watch_dur.toFixed(2),
+                    familyViewingNumber: (watch_freq / watch_user_num).toFixed(2),
+                    ViewingTime: (watch_dur / watch_freq).toFixed(2),
+                    programDemandDur: demand_dur_top,
+                    programOnliveDur: rank_onlive_dur
+                  }
+                )
+                this.showMessage('success', '查询成功！')
+              }
+              this.tableData = data_temp
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        } else {
+          //若未选择时间段  则返回一整天的栏目数据
+          console.log("当前查询为节目一天的数据")
+          program_search_day(dayFormData)
+            .then((response) => {
+              // console.log(response)
+              let responseData = response.data.responses[0].hits.hits
+              if (responseData) {
+                let programData = responseData[0]._source
+                let watch_user_num = programData.watch_user_num  //观看户数
+                let watch_freq = programData.watch_freq  //观看次数
+                let watch_dur = programData.watch_dur / 60 //观看时长(小时)
+                let demand_dur_top = programData.rank_demand_dur
+                let rank_onlive_dur = programData.rank_onlive_dur
+                data_temp.push(
+                  {
+                    watchUserNumber: watch_user_num,
+                    watchNumberTimes: watch_freq,
+                    WatchTheTime: watch_dur.toFixed(2),
+                    familyViewingNumber: (watch_freq / watch_user_num).toFixed(2),
+                    ViewingTime: (watch_dur / watch_freq).toFixed(2),
+                    programDemandDur: demand_dur_top,
+                    programOnliveDur: rank_onlive_dur
+                  }
+                )
+                this.showMessage('success', '查询成功！')
+              }
+              this.tableData = data_temp
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
       } else {
         this.showMessage('warning', '请填写完整查询条件')
       }
@@ -353,5 +418,8 @@ export default {
 }
 .program_searching .operator label {
   margin-right: 20px;
+}
+.program_searching .time {
+  width: 120px !important;
 }
 </style>

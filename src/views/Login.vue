@@ -114,31 +114,29 @@ export default {
                     console.info(error);
                   });
               }, 300);
-            } else if (response.status === 404) {
-              vm.alertShow = true;
-              vm.alertTitle = "错误！";
-              vm.alertType = "error";
-            } else if (response.status === 500) {
-              vm.alertShow = true;
-              vm.alertTitle = "服务器错误！";
-              vm.alertType = "error";
-            } else if (response.status === 401) {
-              vm.alertShow = true;
-              vm.alertTitle = "用户名或密码错误！";
-              vm.alertType = "error";
-            } else {
-              console.log("Failed");
-              vm.alertShow = true;
-              vm.alertTitle = "登录失败，请重试！";
-              vm.alertType = "error";
             }
           })
           .catch(function (error) {
-            console.log(error);
-            console.log("Failed");
-            vm.alertShow = true;
-            vm.alertTitle = "登录失败，请重试！";
-            vm.alertType = "error";
+            // console.log(error);
+            let error_status = error.response.status
+            // console.log("校验码：", error_status);
+            if (error_status === 401) {
+              vm.alertShow = true;
+              vm.alertTitle = "用户名或密码错误！";
+              vm.alertType = "error";
+            } else if (error_status === 422) {
+              vm.alertShow = true;
+              vm.alertTitle = "用户名或密码错误！";
+              vm.alertType = "error";
+            } else if (error_status === 404) {
+              vm.alertShow = true;
+              vm.alertTitle = "错误！";
+              vm.alertType = "error";
+            } else if (error_status === 500) {
+              vm.alertShow = true;
+              vm.alertTitle = "服务器错误！";
+              vm.alertType = "error";
+            }
           });
       }
     }

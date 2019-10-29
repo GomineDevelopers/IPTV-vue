@@ -575,6 +575,15 @@ export function program_search(postData) {
     })
 }
 
+// 节目搜索(搜索节目一整天的数据)
+export function program_search_day(postData) {
+    return request({
+        method: 'post',
+        url: '/daySearch',
+        data: postData
+    })
+}
+
 // let temp = {
 //     programName: programName,
 //     UTC: UTC,
