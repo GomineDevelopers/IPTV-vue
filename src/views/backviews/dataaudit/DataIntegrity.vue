@@ -311,9 +311,9 @@ export default {
     day_date(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
-        if (vm.day_date == "") {
+        if (vm.day_date != "") {
+          vm.missReport(vm.day_date);
         }
-        vm.missReport(vm.day_date);
       }, 1000);
     }
   },
@@ -388,9 +388,9 @@ export default {
     // 数据填充 （暂定为“当天”数据）
     let vm = this;
     setTimeout(function() {
-      if (vm.day_date == "") {
+      if (vm.day_date != "") {
+        vm.missReport(vm.day_date);
       }
-      vm.missReport(vm.day_date);
     }, 1000);
     // setTimeout(function() {
     //   vm.$store

@@ -150,8 +150,8 @@ export default {
             // demand_freq: {value: 6}
             // demand_user_num:
             // value: 4
-            let buckets =
-              response.data.responses[0].aggregations.program_type.buckets;
+            // let buckets = response.data.responses[0].aggregations.program_type.buckets;
+            let buckets = response.data.responses[0].aggregations.vodTags.buckets;
             let length = buckets.length;
             let i;
             let temp = [];

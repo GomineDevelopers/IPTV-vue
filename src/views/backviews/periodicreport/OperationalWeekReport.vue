@@ -604,8 +604,16 @@ export default {
               temp_buttonClickTOPData_title.push([
                 value.buttonClickTOPData.title
               ]);
-              temp_columnButtonClickNum_data.push(
-                value.columnButtonClickNum.data
+              let temp_str = value.columnButtonClickNum.data 
+              // let temp_str = [JSON.stringify(...(value.columnButtonClickNum.data))] // 拆后转换再封装
+              // let temp_str = [];
+              // for(let i = 0; i < value.columnButtonClickNum.data.length; i++){
+              // }
+              // => temp_columnButtonClickNum_data = [ [string{..},{..}],[{..},{},{}],[{}] ]
+              // => temp_str 
+              console.log(temp_str);
+              temp_columnButtonClickNum_data.push(    
+                temp_str
               );
               temp_columnButtonClickNum_title.push([
                 value.columnButtonClickNum.title
@@ -652,7 +660,7 @@ export default {
 
               ...temp_weeklyThermodynamic_title,
               ...temp_buttonClickTOPData_title,
-              // ...temp_columnButtonClickNum_title,
+              ...temp_columnButtonClickNum_title, // 
               ...temp_someButtonDayTrendData_title,
 
               [vm.thematicData.title],
@@ -694,7 +702,7 @@ export default {
 
               ...temp_weeklyThermodynamic_data,
               ...temp_buttonClickTOPData_data,
-              // ...temp_columnButtonClickNum_data,
+              ...temp_columnButtonClickNum_data, // 
               ...temp_someButtonDayTrendData_data,
 
               vm.thematicData.data,

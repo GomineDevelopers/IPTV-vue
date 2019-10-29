@@ -59,7 +59,11 @@ const getters = {
     // excel 表单
     PR_Excel_dataArr: state => state.app.PR_Excel_dataArr,   // 总data
     PR_Excel_titleArr: state => state.app.PR_Excel_titleArr, // 总title
-    PR_excel_ifCanDownload: state => state.app.PR_excel_ifCanDownload,
+    PR_excel_ifCanDownload: state => state.app.PR_excel_ifCanDownload, // 能否下载
+    PR_downloadNum_child: state => state.app.PR_downloadNum_child,
+    PR_downloadNum_parent: state => state.app.PR_downloadNum_parent,
+    PR_excel_DownloadingStatus: state => state.app.PR_excel_DownloadingStatus, // 0-未下载/下载完成 1-初始化数据中 2-下载中 
+
 
     // EPG（运营商、栏目）（周、月）
     EPG_operator: state => state.app.EPG_operator,
