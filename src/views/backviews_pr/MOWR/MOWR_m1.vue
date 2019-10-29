@@ -256,10 +256,26 @@ export default {
       let vm = this;
       // console.log("m1_data - newValue");
       // console.log(newValue);
-      vm.form = newValue[0][0];
-      vm.MOWR_m1_A1 = newValue[0][1];
-      vm.form2 = newValue[1][0];
-      vm.MOWR_m1_A2 = newValue[1][1];
+      try {
+        vm.form = newValue[0][0];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m1_A1 = newValue[0][1];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.form2 = newValue[1][0];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m1_A2 = newValue[1][1];
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
 

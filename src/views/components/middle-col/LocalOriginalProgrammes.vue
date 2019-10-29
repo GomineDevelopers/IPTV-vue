@@ -3,8 +3,8 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>本土原创节目
     </el-row>
-    <!-- <el-row v-show="ifgetdata" class="local_programmes_main"> -->
-    <el-row class="local_programmes_main">
+    <el-row v-show="ifgetdata" class="local_programmes_main">
+    <!-- <el-row class="local_programmes_main"> -->
       <el-row id="local_programmes"></el-row>
       <!-- <el-row id="local_programmes2" class="bottom_bar"></el-row> -->
       <el-row class="m_row2">
@@ -30,9 +30,9 @@
         </table>
       </el-row>
     </el-row>
-    <!-- <el-row v-show="!ifgetdata" class="exception_p">
+    <el-row v-show="!ifgetdata" class="exception_p">
       <span class="exception_child">数据请求异常!</span>
-    </el-row>-->
+    </el-row>
   </div>
 </template>
 <script>
@@ -151,7 +151,7 @@ export default {
             // demand_user_num:
             // value: 4
             // let buckets = response.data.responses[0].aggregations.program_type.buckets;
-            let buckets = response.data.responses[0].aggregations.vodTags.buckets;
+            let buckets = response.data.responses[0].aggregations.program_type.buckets;
             let length = buckets.length;
             let i;
             let temp = [];
@@ -257,7 +257,11 @@ export default {
         "#2D99FF",
         "#00c2ff",
         "#16CEB9",
-        "#6F38FC"
+        "#6F38FC",
+        "#4346D3",
+        "#2D99FF",
+        "#00c2ff",
+        "#16CEB9",
       ];
       let m_color = [];
       // let m_color = o_color;
@@ -281,42 +285,14 @@ export default {
         color: m_color,
         tooltip: {
           trigger: "item",
-          formatter: "{b} : {c} ({d}%)"
+          formatter: "{b}（点播用户数） : {c} ({d}%)"
         },
         legend: [
-          {
-            show: true,
-            top: "17%",
-            left: "56%",
-            data: legend_data,
-            itemWidth: 5,
-            itemHeight: 5,
-            width: 40,
-            padding: [0, 5],
-            itemGap: 10,
-            textStyle: {
-              color: "#dedede"
-            }
-          }
           // {
           //   show: true,
           //   top: "17%",
           //   left: "56%",
-          //   data: ["综艺", "微电影", "纪实"],
-          //   itemWidth: 5,
-          //   itemHeight: 5,
-          //   width: 40,
-          //   padding: [0, 5],
-          //   itemGap: 10,
-          //   textStyle: {
-          //     color: "#dedede"
-          //   }
-          // },
-          // {
-          //   show: true,
-          //   top: "17%",
-          //   left: "76%",
-          //   data: ["电影", "新闻", "时尚生活"],
+          //   data: legend_data,
           //   itemWidth: 5,
           //   itemHeight: 5,
           //   width: 40,
@@ -326,6 +302,36 @@ export default {
           //     color: "#dedede"
           //   }
           // }
+          {
+            show: true,
+            top: "10%",
+            left: "56%",
+            // data: ["综艺", "微电影", "纪实"],
+            data: legend_data.slice(0,5),
+            itemWidth: 5,
+            itemHeight: 5,
+            width: 40,
+            padding: [0, 5],
+            itemGap: 10,
+            textStyle: {
+              color: "#dedede"
+            }
+          },
+          {
+            show: true,
+            top: "10%",
+            left: "76%",
+            // data: ["电影", "新闻", "时尚生活"],
+            data: legend_data.slice(5,10),
+            itemWidth: 5,
+            itemHeight: 5,
+            width: 40,
+            padding: [0, 5],
+            itemGap: 10,
+            textStyle: {
+              color: "#dedede"
+            }
+          }
         ],
         series: [
           {
@@ -413,7 +419,9 @@ export default {
           bottom: "1%",
           containLabel: true
         },
-        tooltip: {},
+        tooltip: {
+
+        },
         dataset: {
           source: vm.echarts2.data
         },
@@ -493,6 +501,7 @@ export default {
   margin-top: 0.3rem;
   line-height: 0.3rem;
   /* border: #ffffff; */
+  width: 95%;
 }
 .m_table_font {
   font-size: 0.13rem;

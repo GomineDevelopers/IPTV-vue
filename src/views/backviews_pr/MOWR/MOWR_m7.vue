@@ -132,10 +132,26 @@ export default {
       // console.log("m7_data - newValue");
       // console.log(newValue);
       let vm = this;
-      vm.form = newValue[0][0];
-      vm.MOWR_m7_A1 = newValue[0][1];
-      vm.MOWR_m7_A2 = newValue[0][2];
-      vm.MOWR_m7_A3 = newValue[0][3];
+      try {
+        vm.form = newValue[0][0];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m7_A1 = newValue[0][1];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m7_A2 = newValue[0][2];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m7_A3 = newValue[0][3];
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   computed: {

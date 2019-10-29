@@ -74,7 +74,11 @@ export default {
       // console.log("m3_data - newValue");
       // console.log(newValue);
       let vm = this;
-      vm.form = newValue[0][0];
+      try {
+        vm.form = newValue[0][0];
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
 

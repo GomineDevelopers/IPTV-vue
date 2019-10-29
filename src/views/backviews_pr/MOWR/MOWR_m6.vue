@@ -134,14 +134,46 @@ export default {
       // console.log("m6_data - newValue");
       // console.log(newValue);
       let vm = this;
-      vm.form = newValue[0][0];
-      vm.MOWR_m6_A1 = newValue[0][1];
-      vm.MOWR_m6_A2 = newValue[0][2];
-      vm.MOWR_m6_A3 = newValue[0][3];
-      vm.form2 = newValue[1][0];
-      vm.MOWR_m6_A1_2 = newValue[1][1];
-      vm.MOWR_m6_A2_2 = newValue[1][2];
-      vm.MOWR_m6_A3_2 = newValue[1][3];
+      try {
+        vm.form = newValue[0][0];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m6_A1 = newValue[0][1];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m6_A2 = newValue[0][2];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m6_A3 = newValue[0][3];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.form2 = newValue[1][0];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m6_A1_2 = newValue[1][1];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m6_A2_2 = newValue[1][2];
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        vm.MOWR_m6_A3_2 = newValue[1][3];
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
 
