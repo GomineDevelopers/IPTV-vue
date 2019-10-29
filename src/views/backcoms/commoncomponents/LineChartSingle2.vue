@@ -18,7 +18,7 @@ export default {
   mounted() {
     // console.log(this.lineData)
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -34,25 +34,25 @@ export default {
       // console.log("~~~~~~");
       // console.log(newValue);
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     },
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     }
@@ -103,9 +103,10 @@ export default {
         },
         grid: {
           top: "30%",
-          left: "8%",
-          right: "5%",
-          bottom: "10%"
+          left: "10",
+          right: "15",
+          bottom: "10",
+          containLabel: true,
         },
         tooltip: {
           trigger: "axis",
@@ -118,7 +119,7 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function(params) {
+          formatter: function (params) {
             // console.log(params);
             let title = params[0].data[0];
 

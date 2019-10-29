@@ -565,7 +565,7 @@ export function userLives_areaCode() {
 
 // //////////////////////// 节目搜索
 
-// 节目搜索
+// 节目搜索(搜索节目分小时段的数据 2019-06-01 22:00)
 // post http://{{iptv}}/api/search
 export function program_search(postData) {
     return request({
@@ -575,7 +575,7 @@ export function program_search(postData) {
     })
 }
 
-// 节目搜索(搜索节目一整天的数据)
+// 节目搜索(搜索节目一整天的数据 2019-06-01 )
 export function program_search_day(postData) {
     return request({
         method: 'post',
