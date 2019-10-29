@@ -98,7 +98,7 @@ export default {
           // 忠诚用户户均点击次数 = 忠诚用户点击次数/忠诚用户用户数
           // click_freq_loyal / loyal_user_num
           vm.avg_freq = parseInt(aggregations.click_freq_loyal.value / aggregations.loyal_user_num.value)
-          vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value /3600)
+          vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value / 60)
           vm.loyal_num = aggregations.loyal_user_num.value;
           Vue.set(vm.echart_data.data[0],1,vm.avg_freq);
           Vue.set(vm.echart_data.data[1],1,vm.avg_dur);

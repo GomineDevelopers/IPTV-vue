@@ -1399,7 +1399,7 @@ export default {
                   parseFloat(q3_d[i_9])) /
                   100 /
                   10000 /
-                  3600
+                  60
               ); // 观看时长计时 - 秒 =》百万小时
               let user_num2 = vm.returnFloat(
                 (parseFloat(q1_u[i_9]) +
@@ -1529,7 +1529,7 @@ export default {
                       .onlive_dur.value /
                       100 /
                       10000 /
-                      3600
+                      60
                   )
                 );
               }
@@ -1600,7 +1600,7 @@ export default {
                         buckets_child_12_2_2[i_12_2].onlive_dur.value /
                           100 /
                           10000 /
-                          3600
+                          60
                       );
                       break;
                     }
@@ -1669,7 +1669,7 @@ export default {
                 vm.returnFloat(parseFloat(q3_f_14[i_14]) / 1000 / 10000)
               );
               temp_monthlyDemandViewingData[2].push(
-                vm.returnFloat(parseFloat(q3_d_14[i_14]) / 1000 / 10000 / 3600)
+                vm.returnFloat(parseFloat(q3_d_14[i_14]) / 1000 / 10000 / 60)
               );
               temp_monthlyDemandViewingData[3].push(
                 vm.returnFloat(parseFloat(q3_u_14[i_14]) / 1000 / 10000)
@@ -2068,7 +2068,7 @@ export default {
                       .demand_dur.value /
                       100 /
                       10000 /
-                      3600
+                      60
                   )
                 );
               }
@@ -2141,7 +2141,7 @@ export default {
                         buckets_child_17_2_3[i_17_2].demand_dur.value / // 3
                           10 /
                           10000 /
-                          3600
+                          60
                       );
                       break;
                     }
@@ -2303,7 +2303,7 @@ export default {
                   vm.returnFloat(parseFloat(q3_f_19[i_19]) / 10000)
                 );
                 temp_monthDemandData[2].push(
-                  vm.returnFloat(parseFloat(q3_d_19[i_19]) / 10000 / 3600)
+                  vm.returnFloat(parseFloat(q3_d_19[i_19]) / 10000 / 60)
                 );
                 temp_monthDemandData[3].push(
                   vm.returnFloat(parseFloat(q3_u_19[i_19]) / 10000)
@@ -2394,7 +2394,7 @@ export default {
                 );
                 temp_weekDemandViewingData[2].push(
                   vm.returnFloat(
-                    parseFloat(q3_d_14[i_14]) / 1000 / 10000 / 3600
+                    parseFloat(q3_d_14[i_14]) / 1000 / 10000 / 60
                   )
                 );
                 temp_weekDemandViewingData[3].push(
@@ -4177,7 +4177,7 @@ export default {
               (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
                 100 /
                 10000 /
-                3600
+                60
             ); // 观看时长计时 - 秒 =》百万小时
             let user_num2 = vm.returnFloat(
               (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /

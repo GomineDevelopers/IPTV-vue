@@ -163,7 +163,7 @@ export default {
         // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
         // console.log("--------------------")
         let register_num = Number((value.register_num.value / 10000).toFixed(2))
-        let watch_dur_family = ((value.watch_dur.value / 3600) / value.watch_user_num.value).toFixed(2)
+        let watch_dur_family = ((value.watch_dur.value / 60) / value.watch_user_num.value).toFixed(2)
         let cum_paid_rate = Number(((value.cum_paid_num.value / value.register_num.value) * 100).toFixed(2)) + '%'
         if (value.key == 'active_user') {
           // console.log(value)
@@ -224,7 +224,7 @@ export default {
         total_register_num += value.register_num.value  //总在册人数
         total_watch_dur += value.watch_dur.value   //总的观看时长(小时)
         total_watch_user_num += value.watch_user_num.value  //总的观看用户数
-        total_watch_dur_family = (total_watch_dur / 3600) / total_watch_user_num
+        total_watch_dur_family = (total_watch_dur / 60) / total_watch_user_num
         total_cum_paid_num += value.cum_paid_num.value  //总订购人数
 
         total_firsttime_num += value.firsttime_num.value

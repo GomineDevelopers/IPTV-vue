@@ -987,7 +987,7 @@ export default {
                 );
                 temp_data_11_2.push(buckets_11[i_11].demand_freq.value / 10000);
                 temp_data_11_3.push(
-                  buckets_11[i_11].demand_dur.value / 10000 / 3600
+                  buckets_11[i_11].demand_dur.value / 10000 / 60
                 );
               }
               temp_data_11.push(temp_data_11_1);
@@ -1159,7 +1159,7 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_13[1].program_type.buckets[i_13].demand_dur.value /
                       10000 /
-                      3600
+                      60
                   )
                 );
               }
@@ -1202,7 +1202,7 @@ export default {
                 for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      buckets_child_13_2[i_13_2].demand_dur / 10000 / 3600
+                      buckets_child_13_2[i_13_2].demand_dur / 10000 / 60
                     );
                     break;
                   }
@@ -1340,7 +1340,7 @@ export default {
               for (i_15 = 0; i_15 < length_15; i_15++) {
                 temp_data_15_1.push(buckets_15[i_15].demand_user_num.value);
                 temp_data_15_2.push(buckets_15[i_15].demand_freq.value);
-                temp_data_15_3.push(buckets_15[i_15].demand_dur.value / 3600);
+                temp_data_15_3.push(buckets_15[i_15].demand_dur.value / 60);
               }
               temp_data_15.push(temp_data_15_1);
               temp_data_15.push(temp_data_15_2);
@@ -1441,7 +1441,7 @@ export default {
                 );
                 temp_data_17_2.push(buckets_17[i_17].onlive_freq.value / 10000);
                 temp_data_17_3.push(
-                  buckets_17[i_17].onlive_dur.value / 10000 / 3600
+                  buckets_17[i_17].onlive_dur.value / 10000 / 60
                 );
               }
               temp_data_17.push(temp_data_17_1);
@@ -1485,7 +1485,7 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_18[1].programname.buckets[i_18].onlive_dur.value /
                       10000 /
-                      3600
+                      60
                   )
                 );
               }
@@ -1501,7 +1501,7 @@ export default {
                   if (buckets_child_18_2[i_18_2].key == key) {
                     // console.log(buckets_child_18_2[i_18_2].key);
                     value = commonTools.returnFloat_2(
-                      buckets_child_18_2[i_18_2].onlive_dur.value / 10000 / 3600
+                      buckets_child_18_2[i_18_2].onlive_dur.value / 10000 / 60
                     );
                     break;
                   }
@@ -1567,7 +1567,7 @@ export default {
                   buckets_19_child_0[i_19].onlive_freq.value / 10000
                 );
                 temp_data_19_3[i_19 + 1].push(
-                  buckets_19_child_0[i_19].onlive_dur.value / 10000 / 3600
+                  buckets_19_child_0[i_19].onlive_dur.value / 10000 / 60
                 );
 
                 temp_data_19_1[i_19 + 1].push(
@@ -1577,7 +1577,7 @@ export default {
                   buckets_19_child_1[i_19].onlive_freq.value / 10000
                 );
                 temp_data_19_3[i_19 + 1].push(
-                  buckets_19_child_1[i_19].onlive_dur.value / 10000 / 3600
+                  buckets_19_child_1[i_19].onlive_dur.value / 10000 / 60
                 );
               }
 
@@ -1687,7 +1687,7 @@ export default {
                   temp_data_21[i_21 + 1],
                   2,
                   commonTools.returnFloat_2(
-                    buckets_21_child_1[i_21].onlive_dur.value / 10000 / 3600
+                    buckets_21_child_1[i_21].onlive_dur.value / 10000 / 60
                   )
                 );
               }
@@ -1699,7 +1699,7 @@ export default {
                 for (i_21_2 = 0; i_21_2 < top10_length_21_week2_all; i_21_2++) {
                   if (buckets_21_child_0[i_21_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      buckets_21_child_0[i_21_2].onlive_dur.value / 10000 / 3600
+                      buckets_21_child_0[i_21_2].onlive_dur.value / 10000 / 60
                     );
                     break;
                   }
@@ -1818,7 +1818,7 @@ export default {
                   temp_data_23[i_23 + 1],
                   2,
                   commonTools.returnFloat_2(
-                    buckets_23_child_1[i_23].onlive_dur.value / 10000 / 3600
+                    buckets_23_child_1[i_23].onlive_dur.value / 10000 / 60
                   )
                 );
               }
@@ -1830,7 +1830,7 @@ export default {
                 for (i_23_2 = 0; i_23_2 < top5_length_23_week2_all; i_23_2++) {
                   if (buckets_23_child_0[i_23_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      buckets_23_child_0[i_23_2].onlive_dur.value / 10000 / 3600
+                      buckets_23_child_0[i_23_2].onlive_dur.value / 10000 / 60
                     );
                     break;
                   }
@@ -1944,7 +1944,7 @@ export default {
                   temp_data_25[i_25 + 1],
                   2,
                   commonTools.returnFloat_2(
-                    buckets_25_child_1[i_25].onlive_dur.value / 10000 / 3600
+                    buckets_25_child_1[i_25].onlive_dur.value / 10000 / 60
                   )
                 );
               }
@@ -1956,7 +1956,7 @@ export default {
                 for (i_25_2 = 0; i_25_2 < top10_length_25_week2_all; i_25_2++) {
                   if (buckets_25_child_0[i_25_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      buckets_25_child_0[i_25_2].onlive_dur.value / 10000 / 3600
+                      buckets_25_child_0[i_25_2].onlive_dur.value / 10000 / 60
                     );
                     break;
                   }
@@ -3553,9 +3553,9 @@ export default {
               ]);
               temp_data_123.push([
                 "观看时长（万小时）",
-                aggregations_1.onlive_dur.value / 10000 / 3600,
-                aggregations_2.demand_dur.value / 10000 / 3600,
-                aggregations_3.watch_dur.value / 10000 / 3600
+                aggregations_1.onlive_dur.value / 10000 / 60,
+                aggregations_2.demand_dur.value / 10000 / 60,
+                aggregations_3.watch_dur.value / 10000 / 60
               ]);
               vm.hebdomadViewNumData.data = temp_data_123;
             } catch (error) {

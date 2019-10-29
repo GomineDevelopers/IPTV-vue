@@ -537,7 +537,7 @@ export default {
           let program_name = value.channel.buckets[0].key
           if (index < 15) {
             Vue.set(vm.GT_UVWR1_E1.data[15 - index], 0, program + '—' + program_name)
-            Vue.set(vm.GT_UVWR1_E1.data[15 - index], 1, (value.onlive_dur.value / 10000 / 3600).toFixed(1))
+            Vue.set(vm.GT_UVWR1_E1.data[15 - index], 1, (value.onlive_dur.value / 10000 / 60).toFixed(1))
           }
         })
         // console.log("移动一周直播节目TOP15", vm.GT_UVWR1_E1.data)
@@ -693,7 +693,7 @@ export default {
         if (index < 15) {
           // console.log("联通本周收视数据top15", value)
           Vue.set(vm.GT_UVWR1_E2.data[15 - index], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 1, (value.onlive_dur.value / 10000 / 3600).toFixed(1))
+          Vue.set(vm.GT_UVWR1_E2.data[15 - index], 1, (value.onlive_dur.value / 10000 / 60).toFixed(1))
         }
       })
       // console.log(vm.GT_UVWR1_E1.data)
@@ -845,7 +845,7 @@ export default {
         if (index < 15) {
           // console.log("移动本周收视数据top15", value)
           Vue.set(vm.GT_UVWR1_E3.data[15 - index], 0, program + '—' + program_name)
-          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 1, (value.onlive_dur.value / 10000 / 3600).toFixed(1))
+          Vue.set(vm.GT_UVWR1_E3.data[15 - index], 1, (value.onlive_dur.value / 10000 / 60).toFixed(1))
         }
       })
 
@@ -890,7 +890,7 @@ export default {
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
                 // console.log(program_full, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_E1.data[index], 2, (value2.onlive_dur.value / 10000 / 3600).toFixed(1))
+                Vue.set(vm.GT_UVWR1_E1.data[index], 2, (value2.onlive_dur.value / 10000 / 60).toFixed(1))
               }
             })
           }
@@ -947,7 +947,7 @@ export default {
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
                 // console.log(program_full,index, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_E2.data[index], 2, (value2.onlive_dur.value / 10000 / 3600).toFixed(1))
+                Vue.set(vm.GT_UVWR1_E2.data[index], 2, (value2.onlive_dur.value / 10000 / 60).toFixed(1))
               }
             })
           }
@@ -1001,7 +1001,7 @@ export default {
               let program_full = program + '—' + program_name
               if (program_full == value[0]) {
                 // console.log(program_full, index2, value2.onlive_dur.value)
-                Vue.set(vm.GT_UVWR1_E3.data[index], 2, (value2.onlive_dur.value / 10000 / 3600).toFixed(1))
+                Vue.set(vm.GT_UVWR1_E3.data[index], 2, (value2.onlive_dur.value / 10000 / 60).toFixed(1))
               }
             })
           }
