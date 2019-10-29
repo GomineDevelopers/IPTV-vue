@@ -1154,7 +1154,7 @@ export default {
       title: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "从未订购", "睡眠用户"],
       customerSegmentation: {
         // 用户细分数据
-        title: ["VIP包", "用户数（万）", "户均观看时长（小时）", "完播率", "观看行为"],
+        title: ["VIP包", "用户数（万户）", "户均观看时长（小时）", "完播率", "观看行为"],
         viewingBehaviorCategory: ["少儿", "影视", "非少儿非影视"],
         categoryData: [
           {
@@ -1436,6 +1436,6 @@ export default {
   cursor: pointer;
 }
 .CustomerSegmentation .viewingTopList {
-  height: 630px;
+  height: 720px;
 }
 </style>

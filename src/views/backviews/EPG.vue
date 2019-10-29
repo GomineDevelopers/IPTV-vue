@@ -420,10 +420,7 @@ export default {
                   //此处是1.0版本 的box信息
                   let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
                   // console.log("box详细信息", click_freq_num)
-                  console.log("box名称：", areanumber)
-                  // click_freq_num.forEach((value2, index2) => {
-                  //   console.log(index2, value2.key, value2.click_freq.value)
-                  // })
+                  // console.log("box名称：", areanumber)
                   //此处需要判断是否有上期数据
                   let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
                   let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
@@ -441,7 +438,7 @@ export default {
                     thisWeek: current_click_freq_num,
                     chainIndex: chain_index + '%'
                   }
-                  console.log("----------------------------")
+                  // console.log("----------------------------")
                 })
               )
             })
@@ -449,7 +446,7 @@ export default {
             // 全部执行完之后再执行……
             Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
               // console.log(`执行完所有才OK，${res}`);
-              console.log(res)
+              // console.log(res)
               let result = []
               res.forEach((item) => {
                 if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
@@ -486,12 +483,7 @@ export default {
             let promise_list = []   //存放所有的请求
 
             box_data.forEach((value, index) => {
-              console.log("2.0box名称", value._source.areanumber)
-              console.log("width:", value._source.w)
-              console.log("height:", value._source.h)
-              console.log("X:", value._source.x)
-              console.log("Y:", value._source.y)
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+              // console.log("2.0box名称", value._source.areanumber)
               let res_index = index
               let areanumber = value._source.areanumber
               last_temp.areanumber = areanumber
@@ -509,9 +501,6 @@ export default {
                   let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
                   // console.log("box详细信息", click_freq_num)
                   // console.log("box名称：", areanumber)
-                  // click_freq_num.forEach((value2, index2) => {
-                  //   console.log(index2, value2.key, value2.click_freq.value)
-                  // })
                   //此处需要判断是否有上期数据
                   let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
                   let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
@@ -536,7 +525,7 @@ export default {
                       top: value._source.y + 'px'
                     }
                   }
-                  console.log("----------------------------")
+                  // console.log("----------------------------")
                 })
               )
             })
@@ -544,22 +533,13 @@ export default {
             // 全部执行完之后再执行……
             Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
               // console.log(`执行完所有才OK，${res}`);
-              console.log(res)
-              // let result = []
-              // res.forEach((item) => {
-              //   if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
-              //     result[Number(item.title.substring(3, item.title.indexOf('_')))] = []
-              //   }
-              //   result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
-              // })
-              // console.log("result--------", result)
-
+              // console.log(res)
               if (vm.EPG_programa_type == 1) {
                 vm.mobileProgramesListOne = res
-                console.log("2.0版本一级页面vm.mobileProgramesListOne~~~~~~~~~", vm.mobileProgramesListOne)
+                // console.log("2.0版本一级页面vm.mobileProgramesListOne~~~~~~~~~", vm.mobileProgramesListOne)
               } else if (vm.EPG_programa_type == 2) {
                 vm.mobileProgramesListTwo = res
-                console.log("2.0版本二级页面vm.mobileProgramesListTwo~~~~~~~~~", vm.mobileProgramesListTwo)
+                // console.log("2.0版本二级页面vm.mobileProgramesListTwo~~~~~~~~~", vm.mobileProgramesListTwo)
               }
             });
 

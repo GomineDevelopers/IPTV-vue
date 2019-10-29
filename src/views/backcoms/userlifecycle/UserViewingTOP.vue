@@ -181,7 +181,7 @@ export default {
 .programsTOP_list .viewing_top_list {
   /* height: 42.5px;
   line-height: 42.5px; */
-  height: 38px;
+  height: 43px;
   overflow: hidden;
 }
 .programsTOP_list .viewing_top_list .el-col {
