@@ -200,64 +200,66 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信8888888"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信8888888"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
 
           // /// 实际
-          // //设置Excel下载数据
-          // setTimeout(() => {
-          //   //pageProportionData 所属页面占比
-          //   let pageProportionData_dataArr = [[], []];
-          //   vm.pageProportionData.data.forEach((value, index) => {
-          //     pageProportionData_dataArr[0].push(value.name);
-          //     pageProportionData_dataArr[1].push(value.value);
-          //   });
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            //pageProportionData 所属页面占比
+            let pageProportionData_dataArr = [[], []];
+            vm.pageProportionData.data.forEach((value, index) => {
+              pageProportionData_dataArr[0].push(value.name);
+              pageProportionData_dataArr[1].push(value.value);
+            });
 
-          //   //operatorProportionData.dataArr所属运营商占比
-          //   let operatorProportionData_dataArr = [[], []];
-          //   vm.operatorProportionData.data.forEach((value, index) => {
-          //     operatorProportionData_dataArr[0].push(value.name);
-          //     operatorProportionData_dataArr[1].push(value.value);
-          //   });
+            //operatorProportionData.dataArr所属运营商占比
+            let operatorProportionData_dataArr = [[], []];
+            vm.operatorProportionData.data.forEach((value, index) => {
+              operatorProportionData_dataArr[0].push(value.name);
+              operatorProportionData_dataArr[1].push(value.value);
+            });
 
-          //   let title_arr = [];
-          //   let data_arr = [];
-          //   title_arr.push(
-          //     ["数据总览——用户点击"],
-          //     [vm.clickNumData.title],
-          //     [vm.pageProportionData.title],
-          //     [vm.operatorProportionData.title],
-          //     [vm.recommendPageData.title],
-          //     [vm.childrenPageData.title],
-          //     [vm.classifyPageData.title]
-          //   );
-          //   data_arr.push(
-          //     vm.totalData.data[0].value,
-          //     vm.clickNumData.data,
-          //     pageProportionData_dataArr,
-          //     operatorProportionData_dataArr,
-          //     vm.recommendPageData.data,
-          //     vm.childrenPageData.data,
-          //     vm.classifyPageData.data
-          //   );
-          // }, 3000);
+            title_arr.push(
+              ["数据总览——用户点击"],
+              [vm.clickNumData.title],
+              [vm.pageProportionData.title],
+              [vm.operatorProportionData.title],
+              [vm.recommendPageData.title]
+              // [vm.childrenPageData.title],
+              // [vm.classifyPageData.title]
+            );
+            data_arr.push(
+              [vm.totalData.data], // 特殊加一层
+              vm.clickNumData.data,
+              pageProportionData_dataArr,
+              operatorProportionData_dataArr,
+              vm.recommendPageData.data
+              // vm.childrenPageData.data,
+              // vm.classifyPageData.data
+            );
+          } catch (error) {
+            console.log(error);
+          }
           // ///
-
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");
             return;
@@ -371,254 +373,288 @@ export default {
             console.log(response);
 
             ///////////
-            let aggregations = response.data.responses[0].aggregations;
-            vm.totalData.text = aggregations.click_freq.value;
-            vm.totalData.data.push({
-              value: aggregations.click_freq.value,
-              name: "用户点击"
-            });
-
-            ///////////
-            let buckets =
-              response.data.responses[1].aggregations.special_or_activity_name
-                .buckets;
-            let length = buckets.length;
-            let i;
-            vm.pageProportionData.data = []; // 初始化
-            for (i = 0; i < length; i++) {
-              vm.pageProportionData.data.push({
-                value: buckets[i].click_freq.value,
-                name: buckets[i].key
+            try {
+              vm.totalData.text = "";
+              vm.totalData.data = [];
+              let aggregations = response.data.responses[0].aggregations;
+              vm.totalData.text = aggregations.click_freq.value;
+              vm.totalData.data.push({
+                value: aggregations.click_freq.value,
+                name: "用户点击"
               });
+            } catch (error) {
+              console.log(error);
+            }
+            ///////////
+            try {
+              vm.pageProportionData.data = [];
+              let buckets =
+                response.data.responses[1].aggregations.special_or_activity_name
+                  .buckets;
+              let length = buckets.length;
+              let i;
+              for (i = 0; i < length; i++) {
+                vm.pageProportionData.data.push({
+                  value: buckets[i].click_freq.value,
+                  name: buckets[i].key
+                });
+              }
+            } catch (error) {
+              console.log(error);
             }
           }
           if (operator_type == "yd") {
             console.log(response);
-            let buckets =
-              response.data.responses[1].aggregations.special_or_activity_name
-                .buckets;
-            let length = buckets.length;
-            let i;
-            Vue.set(vm.clickNumData.data, 0, ["product"]); // 初始化
-            Vue.set(vm.clickNumData.data, 1, ["移动"]); // 初始化
-            Vue.set(vm.operatorProportionData.data, 0, {
-              value: 0,
-              name: "移动"
-            });
-            setTimeout(function() {
-              for (i = 0; i < length; i++) {
-                vm.clickNumData.data[0].push(buckets[i].key);
-                console.log(buckets[i].key);
-                vm.clickNumData.data[1].push(buckets[i].click_freq.value);
-                Vue.set(vm.operatorProportionData.data, 0, {
-                  value: buckets[i].click_freq.value,
-                  name: "移动"
-                });
-              }
-            }, 500);
 
+            try {
+              vm.clickNumData.data = []; // 只在移动初始化
+              vm.operatorProportionData.data = []; // 只在移动初始化
+              let buckets =
+                response.data.responses[1].aggregations.special_or_activity_name
+                  .buckets;
+              let length = buckets.length;
+              let i;
+              Vue.set(vm.clickNumData.data, 0, ["product"]); // 初始化
+              Vue.set(vm.clickNumData.data, 1, ["移动"]); // 初始化
+              Vue.set(vm.operatorProportionData.data, 0, {
+                value: 0,
+                name: "移动"
+              });
+              setTimeout(function() {
+                for (i = 0; i < length; i++) {
+                  vm.clickNumData.data[0].push(buckets[i].key);
+                  console.log(buckets[i].key);
+                  vm.clickNumData.data[1].push(buckets[i].click_freq.value);
+                  Vue.set(vm.operatorProportionData.data, 0, {
+                    value: buckets[i].click_freq.value,
+                    name: "移动"
+                  });
+                }
+              }, 500);
+            } catch (error) {
+              console.log(error);
+            }
             // ///////
-            let buckets_days =
-              response.data.responses[1].aggregations.statistical_granularity
-                .buckets;
-            let length_days = buckets_days.length;
-            let i_days;
-            Vue.set(vm.recommendPageData.data, 0, ["product"]); // 推荐 --70周年专区  --小小福星专区
-            // Vue.set(vm.childrenPageData.data, 0, ["product"]); // 少儿  --小小福星专区
-            // Vue.set(vm.classifyPageData.data, 0, ["product"]); // 分类
+            try {
+              vm.recommendPageData.data = []; // 只在移动初始化
+              let buckets_days =
+                response.data.responses[1].aggregations.statistical_granularity
+                  .buckets;
+              let length_days = buckets_days.length;
+              let i_days;
+              Vue.set(vm.recommendPageData.data, 0, ["product"]); // 推荐 --70周年专区  --小小福星专区
+              // Vue.set(vm.childrenPageData.data, 0, ["product"]); // 少儿  --小小福星专区
+              // Vue.set(vm.classifyPageData.data, 0, ["product"]); // 分类
 
-            Vue.set(vm.recommendPageData.data, 1, ["移动"]); // 推荐  --70周年专区  --小小福星专区
-            // Vue.set(vm.childrenPageData.data, 1, ["移动"]); // 少儿
-            // Vue.set(vm.classifyPageData.data, 1, ["移动"]); // 分类
+              Vue.set(vm.recommendPageData.data, 1, ["移动"]); // 推荐  --70周年专区  --小小福星专区
+              // Vue.set(vm.childrenPageData.data, 1, ["移动"]); // 少儿
+              // Vue.set(vm.classifyPageData.data, 1, ["移动"]); // 分类
 
-            for (i_days = 0; i_days < length_days; i_days++) {
-              Vue.set(
-                vm.recommendPageData.data[0],
-                i_days + 1,
-                buckets_days[i_days].key
-              );
-              // vm.childrenPageData.data[0].push(buckets_days[i_days].key);
-              // vm.classifyPageData.data[0].push(buckets_days[i_days].key);
-              if (
-                buckets_days[i_days].special_or_activity_name.buckets.length !=
-                0
-              ) {
+              for (i_days = 0; i_days < length_days; i_days++) {
+                Vue.set(
+                  vm.recommendPageData.data[0],
+                  i_days + 1,
+                  buckets_days[i_days].key
+                );
+                // vm.childrenPageData.data[0].push(buckets_days[i_days].key);
+                // vm.classifyPageData.data[0].push(buckets_days[i_days].key);
                 if (
-                  buckets_days[i_days].special_or_activity_name.buckets[0]
-                    .key == "70周年专区"
+                  buckets_days[i_days].special_or_activity_name.buckets
+                    .length != 0
                 ) {
-                  // console.log(buckets_days[i_days].key);
-                  // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
-                  try {
-                    Vue.set(
-                      vm.recommendPageData.data[1],
-                      i_days + 1,
-                      buckets_days[i_days].special_or_activity_name.buckets[0]
-                        .click_freq.value
-                    );
-                  } catch (error) {
-                    console.log(error);
+                  if (
+                    buckets_days[i_days].special_or_activity_name.buckets[0]
+                      .key == "70周年专区"
+                  ) {
+                    // console.log(buckets_days[i_days].key);
+                    // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
+                    try {
+                      Vue.set(
+                        vm.recommendPageData.data[1],
+                        i_days + 1,
+                        buckets_days[i_days].special_or_activity_name.buckets[0]
+                          .click_freq.value
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
-                }
-                if (
-                  buckets_days[i_days].special_or_activity_name.buckets[0]
-                    .key == "小小福星专区"
-                ) {
-                  // console.log(buckets_days[i_days].key);
-                  // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
-                  try {
-                    Vue.set(
-                      vm.recommendPageData.data[1],
-                      i_days + 1,
-                      buckets_days[i_days].special_or_activity_name.buckets[0]
-                        .click_freq.value
-                    );
-                  } catch (error) {
-                    console.log(error);
+                  if (
+                    buckets_days[i_days].special_or_activity_name.buckets[0]
+                      .key == "小小福星专区"
+                  ) {
+                    // console.log(buckets_days[i_days].key);
+                    // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
+                    try {
+                      Vue.set(
+                        vm.recommendPageData.data[1],
+                        i_days + 1,
+                        buckets_days[i_days].special_or_activity_name.buckets[0]
+                          .click_freq.value
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
                 }
               }
+            } catch (error) {
+              console.log(error);
             }
           }
           if (operator_type == "lt") {
             console.log(response);
-            let buckets =
-              response.data.responses[1].aggregations.special_or_activity_name
-                .buckets;
-            let length = buckets.length;
-            let i;
-            Vue.set(vm.clickNumData.data, 2, ["联通"]); // 初始化
-            Vue.set(vm.operatorProportionData.data, 1, {
-              value: 0,
-              name: "联通"
-            });
-            setTimeout(function() {
-              for (i = 0; i < length; i++) {
-                vm.clickNumData.data[2].push(buckets[i].click_freq.value);
+            try {
+              let buckets =
+                response.data.responses[1].aggregations.special_or_activity_name
+                  .buckets;
+              let length = buckets.length;
+              let i;
+              Vue.set(vm.clickNumData.data, 2, ["联通"]); // 初始化
+              Vue.set(vm.operatorProportionData.data, 1, {
+                value: 0,
+                name: "联通"
+              });
+              setTimeout(function() {
+                for (i = 0; i < length; i++) {
+                  vm.clickNumData.data[2].push(buckets[i].click_freq.value);
 
-                Vue.set(vm.operatorProportionData.data, 1, {
-                  value: buckets[i].click_freq.value,
-                  name: "联通"
-                });
-              }
-            }, 1000);
-
+                  Vue.set(vm.operatorProportionData.data, 1, {
+                    value: buckets[i].click_freq.value,
+                    name: "联通"
+                  });
+                }
+              }, 1000);
+            } catch (error) {
+              console.log(error);
+            }
             // ///////
-            let buckets_days =
-              response.data.responses[1].aggregations.statistical_granularity
-                .buckets;
-            let length_days = buckets_days.length;
-            let i_days;
+            try {
+              let buckets_days =
+                response.data.responses[1].aggregations.statistical_granularity
+                  .buckets;
+              let length_days = buckets_days.length;
+              let i_days;
 
-            Vue.set(vm.recommendPageData.data, 2, ["联通"]); // 推荐  --70周年专区  --小小福星专区
+              Vue.set(vm.recommendPageData.data, 2, ["联通"]); // 推荐  --70周年专区  --小小福星专区
 
-            for (i_days = 0; i_days < length_days; i_days++) {
-              if (
-                buckets_days[i_days].special_or_activity_name.buckets.length !=
-                0
-              ) {
+              for (i_days = 0; i_days < length_days; i_days++) {
                 if (
-                  buckets_days[i_days].special_or_activity_name.buckets[0]
-                    .key == "70周年专区"
+                  buckets_days[i_days].special_or_activity_name.buckets
+                    .length != 0
                 ) {
-                  try {
-                    Vue.set(
-                      vm.recommendPageData.data[2],
-                      i_days + 1,
-                      buckets_days[i_days].special_or_activity_name.buckets[0]
-                        .click_freq.value
-                    );
-                  } catch (error) {
-                    console.log(error);
+                  if (
+                    buckets_days[i_days].special_or_activity_name.buckets[0]
+                      .key == "70周年专区"
+                  ) {
+                    try {
+                      Vue.set(
+                        vm.recommendPageData.data[2],
+                        i_days + 1,
+                        buckets_days[i_days].special_or_activity_name.buckets[0]
+                          .click_freq.value
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
-                }
-                if (
-                  buckets_days[i_days].special_or_activity_name.buckets[0]
-                    .key == "小小福星专区"
-                ) {
-                  try {
-                    Vue.set(
-                      vm.recommendPageData.data[2],
-                      i_days + 1,
-                      buckets_days[i_days].special_or_activity_name.buckets[0]
-                        .click_freq.value
-                    );
-                  } catch (error) {
-                    console.log(error);
+                  if (
+                    buckets_days[i_days].special_or_activity_name.buckets[0]
+                      .key == "小小福星专区"
+                  ) {
+                    try {
+                      Vue.set(
+                        vm.recommendPageData.data[2],
+                        i_days + 1,
+                        buckets_days[i_days].special_or_activity_name.buckets[0]
+                          .click_freq.value
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
                 }
               }
+            } catch (error) {
+              console.log(error);
             }
           }
           if (operator_type == "dx") {
-            console.log(response);
-            let buckets =
-              response.data.responses[1].aggregations.special_or_activity_name
-                .buckets;
-            let length = buckets.length;
-            let i;
-            Vue.set(vm.clickNumData.data, 3, ["电信"]); // 初始化
-            Vue.set(vm.operatorProportionData.data, 2, {
-              value: 0,
-              name: "电信"
-            });
-            setTimeout(function() {
-              for (i = 0; i < length; i++) {
-                vm.clickNumData.data[3].push(buckets[i].click_freq.value);
-                console.log(buckets[i].key);
+            try {
+              console.log(response);
+              let buckets =
+                response.data.responses[1].aggregations.special_or_activity_name
+                  .buckets;
+              let length = buckets.length;
+              let i;
+              Vue.set(vm.clickNumData.data, 3, ["电信"]); // 初始化
+              Vue.set(vm.operatorProportionData.data, 2, {
+                value: 0,
+                name: "电信"
+              });
+              setTimeout(function() {
+                for (i = 0; i < length; i++) {
+                  vm.clickNumData.data[3].push(buckets[i].click_freq.value);
+                  console.log(buckets[i].key);
 
-                Vue.set(vm.operatorProportionData.data, 2, {
-                  value: buckets[i].click_freq.value,
-                  name: "电信"
-                });
-              }
-            }, 1000);
-
+                  Vue.set(vm.operatorProportionData.data, 2, {
+                    value: buckets[i].click_freq.value,
+                    name: "电信"
+                  });
+                }
+              }, 1000);
+            } catch (error) {
+              console.log(error);
+            }
             // ///////
-            let buckets_days =
-              response.data.responses[1].aggregations.statistical_granularity
-                .buckets;
-            let length_days = buckets_days.length;
-            let i_days;
+            try {
+              let buckets_days =
+                response.data.responses[1].aggregations.statistical_granularity
+                  .buckets;
+              let length_days = buckets_days.length;
+              let i_days;
 
-            Vue.set(vm.recommendPageData.data, 3, ["电信"]); // 推荐  --70周年专区  --小小福星专区
+              Vue.set(vm.recommendPageData.data, 3, ["电信"]); // 推荐  --70周年专区  --小小福星专区
 
-            for (i_days = 0; i_days < length_days; i_days++) {
-              if (
-                buckets_days[i_days].special_or_activity_name.buckets.length !=
-                0
-              ) {
+              for (i_days = 0; i_days < length_days; i_days++) {
                 if (
-                  buckets_days[i_days].special_or_activity_name.buckets[0]
-                    .key == "70周年专区"
+                  buckets_days[i_days].special_or_activity_name.buckets
+                    .length != 0
                 ) {
-                  try {
-                    Vue.set(
-                      vm.recommendPageData.data[3],
-                      i_days + 1,
-                      buckets_days[i_days].special_or_activity_name.buckets[0]
-                        .click_freq.value
-                    );
-                  } catch (error) {
-                    console.log(error);
+                  if (
+                    buckets_days[i_days].special_or_activity_name.buckets[0]
+                      .key == "70周年专区"
+                  ) {
+                    try {
+                      Vue.set(
+                        vm.recommendPageData.data[3],
+                        i_days + 1,
+                        buckets_days[i_days].special_or_activity_name.buckets[0]
+                          .click_freq.value
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
-                }
-                if (
-                  buckets_days[i_days].special_or_activity_name.buckets[0]
-                    .key == "小小福星专区"
-                ) {
-                  try {
-                    Vue.set(
-                      vm.recommendPageData.data[3],
-                      i_days + 1,
-                      buckets_days[i_days].special_or_activity_name.buckets[0]
-                        .click_freq.value
-                    );
-                  } catch (error) {
-                    console.log(error);
+                  if (
+                    buckets_days[i_days].special_or_activity_name.buckets[0]
+                      .key == "小小福星专区"
+                  ) {
+                    try {
+                      Vue.set(
+                        vm.recommendPageData.data[3],
+                        i_days + 1,
+                        buckets_days[i_days].special_or_activity_name.buckets[0]
+                          .click_freq.value
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
                 }
               }
+            } catch (error) {
+              console.log(error);
             }
           }
 

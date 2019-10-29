@@ -252,6 +252,17 @@ export default {
       console.log(arr);
       let arr2 = ["1","2"];
       console.log(...(arr)); // 对象展开符
+      let temp_data = {a:1};
+      console.log(String(temp_data));
+      console.log(JSON.stringify(temp_data));
+
+      if (typeof (temp_data) == "object" ){
+        console.log("1");
+      }
+      if(typeof (temp_data) == "Object"){
+        console.log("2");
+      }
+
 
       // console.log("test_login");
       // test_login()

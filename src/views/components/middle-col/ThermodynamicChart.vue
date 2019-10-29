@@ -486,7 +486,7 @@ export default {
           { start: 0, end: 20 }
         ];
       }
-      if (value_max == 1 && value_min < 1) {
+      else if (value_max == 1 && value_min < 1) {
         splitList = [
           { start: 80, end: 100 },
           { start: 60, end: 80 },
@@ -509,7 +509,7 @@ export default {
             splitList.push({ start: splitArr[i], end: splitArr[i + 1] });
             dis = splitArr[i + 1] - splitArr[i];
           }
-          if (i == split_length - 1) {
+          else if (i == split_length - 1) {
             splitList.push({ start: splitArr[i], end: splitArr[i] + dis });
           }
         }

@@ -261,137 +261,140 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信666666"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信666666"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
 
           // /// 实际
-          //设置Excel下载数据
-          // setTimeout(() => {
-          //   //orderUserContrastData订购用户情况
-          //   let orderUserContrastData_titleArr = [];
-          //   let orderUserContrastData_dataArr = [];
-          //   vm.orderUserContrastData.content.forEach((value, index) => {
-          //     orderUserContrastData_titleArr.push([value.title]);
-          //     orderUserContrastData_dataArr.push([[], []]);
-          //     value.data.forEach((value2, index2) => {
-          //       orderUserContrastData_dataArr[index][0].push(value2.name);
-          //       orderUserContrastData_dataArr[index][1].push(value2.value);
-          //     });
-          //   });
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            //orderUserContrastData订购用户情况
+            let orderUserContrastData_titleArr = [];
+            let orderUserContrastData_dataArr = [];
+            vm.orderUserContrastData.content.forEach((value, index) => {
+              orderUserContrastData_titleArr.push([value.title]);
+              orderUserContrastData_dataArr.push([[], []]);
+              value.data.forEach((value2, index2) => {
+                orderUserContrastData_dataArr[index][0].push(value2.name);
+                orderUserContrastData_dataArr[index][1].push(value2.value);
+              });
+            });
 
-          //   //incomeContrastData收入分布对比情况
-          //   let incomeContrastData_titleArr = [];
-          //   let incomeContrastData_dataArr = [];
-          //   vm.incomeContrastData.content.forEach((value, index) => {
-          //     incomeContrastData_titleArr.push([value.title]);
-          //     incomeContrastData_dataArr.push([[], []]);
-          //     value.data.forEach((value2, index2) => {
-          //       incomeContrastData_dataArr[index][0].push(value2.name);
-          //       incomeContrastData_dataArr[index][1].push(value2.value);
-          //     });
-          //   });
+            //incomeContrastData收入分布对比情况
+            let incomeContrastData_titleArr = [];
+            let incomeContrastData_dataArr = [];
+            vm.incomeContrastData.content.forEach((value, index) => {
+              incomeContrastData_titleArr.push([value.title]);
+              incomeContrastData_dataArr.push([[], []]);
+              value.data.forEach((value2, index2) => {
+                incomeContrastData_dataArr[index][0].push(value2.name);
+                incomeContrastData_dataArr[index][1].push(value2.value);
+              });
+            });
 
-          //   //上月点播次数排名（TOP15）
-          //   let tableData_dataArr = [
-          //     ["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"],
-          //     []
-          //   ];
-          //   vm.tableData.forEach((value, index) => {
-          //     tableData_dataArr[1].push([
-          //       value.programName,
-          //       value.programType,
-          //       value.userNum,
-          //       value.times,
-          //       value.duration
-          //     ]);
-          //   });
+            //上月点播次数排名（TOP15）
+            let tableData_dataArr = [
+              ["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"],
+              []
+            ];
+            vm.tableData.forEach((value, index) => {
+              tableData_dataArr[1].push([
+                value.programName,
+                value.programType,
+                value.userNum,
+                value.times,
+                value.duration
+              ]);
+            });
 
-          //   //本月点播次数排名（TOP15）
-          //   let tableData2_dataArr = [
-          //     ["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"],
-          //     []
-          //   ];
-          //   vm.tableData2.forEach((value, index) => {
-          //     tableData2_dataArr[1].push([
-          //       value.programName,
-          //       value.programType,
-          //       value.userNum,
-          //       value.times,
-          //       value.duration
-          //     ]);
-          //   });
+            //本月点播次数排名（TOP15）
+            let tableData2_dataArr = [
+              ["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"],
+              []
+            ];
+            vm.tableData2.forEach((value, index) => {
+              tableData2_dataArr[1].push([
+                value.programName,
+                value.programType,
+                value.userNum,
+                value.times,
+                value.duration
+              ]);
+            });
 
-          //   let title_arr = [];
-          //   let data_arr = [];
-          //   title_arr.push(
-          //     [vm.newAddUserPercentData.title],
-          //     [vm.newAddPayingUserData.title],
-          //     [vm.newRegisteredUsersData.title],
-          //     [vm.powerAddNewUsersData.title],
-          //     [vm.powerAddNewPayingUsersData.title],
-          //     [vm.monthOrderData.title],
-          //     [vm.monthVIPOrderData.title],
-          //     [vm.monthVIPOrderIncomeData.title],
-          //     [vm.guideUserPayingContentData1.title],
-          //     [vm.guideUserPayingContentData2.title],
-          //     [vm.orderUserRegionData.title],
-          //     [vm.GuiyangPayingUserData.title],
-          //     [vm.ZunyiPayingUserData.title],
-          //     [vm.QiannanPayingUserData.title],
-          //     [vm.QiandongnanPayingUserData.title],
-          //     [vm.TongrenPayingUserData.title],
-          //     [vm.BijiePayingUserData.title],
-          //     [vm.QianxinanPayingUserData.title],
-          //     [vm.LiupanshuiPayingUserData.title],
-          //     [vm.AnshunPayingUserData.title],
-          //     ...orderUserContrastData_titleArr,
-          //     ...incomeContrastData_titleArr,
-          //     ["上月点播次数排名（TOP15）"],
-          //     ["本月点播次数排名（TOP15）"]
-          //   );
-          //   data_arr.push(
-          //     vm.newAddUserPercentData.data,
-          //     vm.newAddPayingUserData.data,
-          //     vm.newRegisteredUsersData.data,
-          //     vm.powerAddNewUsersData.data,
-          //     vm.powerAddNewPayingUsersData.data,
-          //     vm.monthOrderData.data,
-          //     vm.monthVIPOrderData.data,
-          //     vm.monthVIPOrderIncomeData.data,
-          //     vm.guideUserPayingContentData1.data,
-          //     vm.guideUserPayingContentData2.data,
-          //     vm.orderUserRegionData.data,
-          //     vm.GuiyangPayingUserData.data,
-          //     vm.ZunyiPayingUserData.data,
-          //     vm.QiannanPayingUserData.data,
-          //     vm.QiandongnanPayingUserData.data,
-          //     vm.TongrenPayingUserData.data,
-          //     vm.BijiePayingUserData.data,
-          //     vm.QianxinanPayingUserData.data,
-          //     vm.LiupanshuiPayingUserData.data,
-          //     vm.AnshunPayingUserData.data,
-          //     ...orderUserContrastData_dataArr,
-          //     ...incomeContrastData_dataArr,
-          //     tableData_dataArr,
-          //     tableData2_dataArr
-          //   );
-          // }, 3000);
+            title_arr.push(
+              [vm.newAddUserPercentData.title],
+              [vm.newAddPayingUserData.title],
+              [vm.newRegisteredUsersData.title],
+              [vm.powerAddNewUsersData.title],
+              [vm.powerAddNewPayingUsersData.title],
+              [vm.monthOrderData.title],
+              [vm.monthVIPOrderData.title],
+              [vm.monthVIPOrderIncomeData.title],
+              [vm.guideUserPayingContentData1.title],
+              [vm.guideUserPayingContentData2.title],
+              [vm.orderUserRegionData.title],
+              [vm.GuiyangPayingUserData.title],
+              [vm.ZunyiPayingUserData.title],
+              [vm.QiannanPayingUserData.title],
+              [vm.QiandongnanPayingUserData.title],
+              [vm.TongrenPayingUserData.title],
+              [vm.BijiePayingUserData.title],
+              [vm.QianxinanPayingUserData.title],
+              [vm.LiupanshuiPayingUserData.title],
+              [vm.AnshunPayingUserData.title],
+              ...orderUserContrastData_titleArr,
+              ...incomeContrastData_titleArr,
+              ["上月点播次数排名（TOP15）"],
+              ["本月点播次数排名（TOP15）"]
+            );
+            data_arr.push(
+              vm.newAddUserPercentData.data,
+              vm.newAddPayingUserData.data,
+              vm.newRegisteredUsersData.data,
+              vm.powerAddNewUsersData.data,
+              vm.powerAddNewPayingUsersData.data,
+              vm.monthOrderData.data,
+              vm.monthVIPOrderData.data,
+              vm.monthVIPOrderIncomeData.data,
+              vm.guideUserPayingContentData1.data,
+              vm.guideUserPayingContentData2.data,
+              vm.orderUserRegionData.data,
+              vm.GuiyangPayingUserData.data,
+              vm.ZunyiPayingUserData.data,
+              vm.QiannanPayingUserData.data,
+              vm.QiandongnanPayingUserData.data,
+              vm.TongrenPayingUserData.data,
+              vm.BijiePayingUserData.data,
+              vm.QianxinanPayingUserData.data,
+              vm.LiupanshuiPayingUserData.data,
+              vm.AnshunPayingUserData.data,
+              ...orderUserContrastData_dataArr,
+              ...incomeContrastData_dataArr,
+              tableData_dataArr,
+              tableData2_dataArr
+            );
+          } catch (error) {
+            console.log(error);
+          }
           // ///
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
 
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");
@@ -492,66 +495,73 @@ export default {
 
           if (RequestType == "month_day") {
             // console.log(response);
+            try {
+              vm.newRegisteredUsersData.data = [];
+              vm.powerAddNewUsersData.data = [];
+              vm.powerAddNewPayingUsersData.data = [];
 
-            let responses0 = response.data.responses[0];
+              let responses0 = response.data.responses[0];
 
-            // //////////////// 新增在册用户及开机行为用户数据（日趋势） row2 responses0
-            // 新增在册用户数（万户） new_num
-            // 新增付费用户数（万户） new_paid_num
-            // //////////////// 新增在册用户、开机行为用户数及新增付费用户数据（日趋势） row3 left responses0
-            // 开机行为用户数（万户） open_num
-            // 新增在册用户数（万户） new_num
-            // //////////////// 新增在册用户、开机行为用户数及新增付费用户数据（日趋势） row3 right responses0
-            // 开机行为用户数（万户） open_num
-            // 新增付费用户数（万户） new_paid_num  （视图需要改）
+              // //////////////// 新增在册用户及开机行为用户数据（日趋势） row2 responses0
+              // 新增在册用户数（万户） new_num
+              // 新增付费用户数（万户） new_paid_num
+              // //////////////// 新增在册用户、开机行为用户数及新增付费用户数据（日趋势） row3 left responses0
+              // 开机行为用户数（万户） open_num
+              // 新增在册用户数（万户） new_num
+              // //////////////// 新增在册用户、开机行为用户数及新增付费用户数据（日趋势） row3 right responses0
+              // 开机行为用户数（万户） open_num
+              // 新增付费用户数（万户） new_paid_num  （视图需要改）
 
-            // 上述3个 - 一个 逻辑OK   分别对应 temp_data1 temp_data2 temp_data3
-            let temp_data1 = [];
-            let temp_data2 = [];
-            let temp_data3 = [];
+              // 上述3个 - 一个 逻辑OK   分别对应 temp_data1 temp_data2 temp_data3
+              let temp_data1 = [];
+              let temp_data2 = [];
+              let temp_data3 = [];
 
-            // 3个数据结构 都为3row
-            let i_0_t;
-            for (i_0_t = 0; i_0_t < 3; i_0_t++) {
-              temp_data1.push([]);
-              temp_data2.push([]);
-              temp_data3.push([]);
+              // 3个数据结构 都为3row
+              let i_0_t;
+              for (i_0_t = 0; i_0_t < 3; i_0_t++) {
+                temp_data1.push([]);
+                temp_data2.push([]);
+                temp_data3.push([]);
+              }
+              temp_data1[0].push("product");
+              temp_data1[1].push("新增在册用户数");
+              temp_data1[2].push("新增付费用户数");
+              temp_data2[0].push("product");
+              temp_data2[1].push("开机行为用户数");
+              temp_data2[2].push("新增在册用户数");
+              temp_data3[0].push("product");
+              temp_data3[1].push("开机行为用户数");
+              temp_data3[2].push("新增在册用户数");
+
+              let buckets_0 =
+                responses0.aggregations.statistical_granularity.buckets;
+              let length_0 = buckets_0.length;
+              let i_0;
+              for (i_0 = 0; i_0 < length_0; i_0++) {
+                temp_data1[0].push(buckets_0[i_0].key);
+                temp_data1[1].push(buckets_0[i_0].new_num.value);
+                temp_data1[2].push(buckets_0[i_0].new_paid_num.value);
+
+                temp_data2[0].push(buckets_0[i_0].key);
+                temp_data2[1].push(buckets_0[i_0].open_num.value);
+                temp_data2[2].push(buckets_0[i_0].new_num.value);
+
+                temp_data3[0].push(buckets_0[i_0].key);
+                temp_data3[1].push(buckets_0[i_0].open_num.value);
+                temp_data3[2].push(buckets_0[i_0].new_paid_num.value);
+              }
+
+              vm.newRegisteredUsersData.data = temp_data1;
+              vm.powerAddNewUsersData.data = temp_data2;
+              vm.powerAddNewPayingUsersData.data = temp_data3;
+              // console.log("~~~~~~~~~~~~~~~~~~~~temp_data1~3");
+              // console.log(temp_data1);
+              // console.log(temp_data2);
+              // console.log(temp_data3);
+            } catch (error) {
+              console.log(error);
             }
-            temp_data1[0].push("product");
-            temp_data1[1].push("新增在册用户数");
-            temp_data1[2].push("新增付费用户数");
-            temp_data2[0].push("product");
-            temp_data2[1].push("开机行为用户数");
-            temp_data2[2].push("新增在册用户数");
-            temp_data3[0].push("product");
-            temp_data3[1].push("开机行为用户数");
-            temp_data3[2].push("新增在册用户数");
-
-            let buckets_0 =
-              responses0.aggregations.statistical_granularity.buckets;
-            let length_0 = buckets_0.length;
-            let i_0;
-            for (i_0 = 0; i_0 < length_0; i_0++) {
-              temp_data1[0].push(buckets_0[i_0].key);
-              temp_data1[1].push(buckets_0[i_0].new_num.value);
-              temp_data1[2].push(buckets_0[i_0].new_paid_num.value);
-
-              temp_data2[0].push(buckets_0[i_0].key);
-              temp_data2[1].push(buckets_0[i_0].open_num.value);
-              temp_data2[2].push(buckets_0[i_0].new_num.value);
-
-              temp_data3[0].push(buckets_0[i_0].key);
-              temp_data3[1].push(buckets_0[i_0].open_num.value);
-              temp_data3[2].push(buckets_0[i_0].new_paid_num.value);
-            }
-
-            vm.newRegisteredUsersData.data = temp_data1;
-            vm.powerAddNewUsersData.data = temp_data2;
-            vm.powerAddNewPayingUsersData.data = temp_data3;
-            // console.log("~~~~~~~~~~~~~~~~~~~~temp_data1~3");
-            // console.log(temp_data1);
-            // console.log(temp_data2);
-            // console.log(temp_data3);
           }
           // //////////////////////////////////////////////////////////////////////////////////////////
           // //////////////////////////////////////////////////////////////////////////////////////////
@@ -570,89 +580,99 @@ export default {
             let responses2 = response.data.responses[2];
             let responses3 = response.data.responses[3];
             let responses4 = response.data.responses[4];
+            try {
+              vm.newAddUserPercentData.data = [];
+              vm.newAddPayingUserData.data = [];
+              vm.monthOrderData.data = [];
 
-            // 订购-即付费
+              // 订购-即付费
 
-            // //////////////// 新增用户转化情况 row1 left   responses0
-            // 新增在册用户数（万户） new_num
-            // 开机行为用户数（万户）（开机用户数） open_num
-            // 新增付费用户数（万户） new_paid_num
-            // //////////////// 新增用户转化情况 row1 right  responses0
-            // 新增付费用户占比 new_paid_num   = 新增用户中付费用户数/新增用户
-            // //////////////// 订购数据 row4 left responses0
-            // 订购用户数（户） - 即新增订购用户数 new_paid_num
-            // 收入-即新增收入 newincome  实际后台字段为：new_income
+              // //////////////// 新增用户转化情况 row1 left   responses0
+              // 新增在册用户数（万户） new_num
+              // 开机行为用户数（万户）（开机用户数） open_num
+              // 新增付费用户数（万户） new_paid_num
+              // //////////////// 新增用户转化情况 row1 right  responses0
+              // 新增付费用户占比 new_paid_num   = 新增用户中付费用户数/新增用户
+              // //////////////// 订购数据 row4 left responses0
+              // 订购用户数（户） - 即新增订购用户数 new_paid_num
+              // 收入-即新增收入 newincome  实际后台字段为：new_income
 
-            // 上述3个 为一类结构
+              // 上述3个 为一类结构
 
-            let temp_data_0_1 = [];
-            let temp_data_0_2 = [];
-            let temp_data_0_3 = [];
+              let temp_data_0_1 = [];
+              let temp_data_0_2 = [];
+              let temp_data_0_3 = [];
 
-            let buckets_0 =
-              responses0.aggregations.statistical_granularity.buckets;
-            let length_0 = buckets_0.length; // 月份的个数 - 后台返回的个数
-            let i_0;
+              let buckets_0 =
+                responses0.aggregations.statistical_granularity.buckets;
+              let length_0 = buckets_0.length; // 月份的个数 - 后台返回的个数
+              let i_0;
 
-            // 注意数据结构类型不同的问题
-            // 第1个（结构a） --固定长度
-            for (i_0 = 0; i_0 < 4; i_0++) {
-              temp_data_0_1.push([]);
+              // 注意数据结构类型不同的问题
+              // 第1个（结构a） --固定长度
+              for (i_0 = 0; i_0 < 4; i_0++) {
+                temp_data_0_1.push([]);
+              }
+              temp_data_0_1[0].push("product");
+              temp_data_0_1[1].push("新增在册用户数（万户）");
+              temp_data_0_1[2].push("开机行为用户数（万户）");
+              temp_data_0_1[3].push("新增付费用户数（万户）");
+
+              // 第2个（结构a） --固定长度
+              for (i_0 = 0; i_0 < 2; i_0++) {
+                temp_data_0_2.push([]);
+              }
+              temp_data_0_2[0].push("product");
+              temp_data_0_2[1].push("新增付费用户占比");
+
+              // 第3个（结构b） -- 按月长度分
+              temp_data_0_3.push([]); // 初始title行
+              temp_data_0_3[0].push(
+                "product",
+                "订购用户数（户）",
+                "收入（元）"
+              );
+
+              for (i_0 = 0; i_0 < length_0; i_0++) {
+                // 第1个（结构a）
+                temp_data_0_1[0].push(
+                  commonTools.format_monthToChinese(buckets_0[i_0].key)
+                );
+                temp_data_0_1[1].push(buckets_0[i_0].new_num.value);
+                temp_data_0_1[2].push(buckets_0[i_0].open_num.value);
+                temp_data_0_1[3].push(buckets_0[i_0].new_paid_num.value);
+                // 第2个（结构a）
+                temp_data_0_2[0].push(
+                  commonTools.format_monthToChinese(buckets_0[i_0].key)
+                );
+                temp_data_0_2[1].push(
+                  // 视图需要添加百分号 -- OK
+                  commonTools.returnFloat_2(
+                    (buckets_0[i_0].new_paid_num.value /
+                      buckets_0[i_0].new_num.value) *
+                      100
+                  )
+                );
+                // 第3个（结构b）
+                temp_data_0_3.push([]);
+                temp_data_0_3[i_0 + 1].push(
+                  commonTools.format_monthToChinese(buckets_0[i_0].key)
+                );
+                temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_paid_num.value);
+                temp_data_0_3[i_0 + 1].push(
+                  buckets_0[i_0].new_income.value / 100
+                );
+              }
+              vm.newAddUserPercentData.data = temp_data_0_1;
+              vm.newAddPayingUserData.data = temp_data_0_2;
+              vm.monthOrderData.data = temp_data_0_3;
+              // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_0_1~3");
+              // console.log(temp_data_0_1);
+              // console.log(temp_data_0_2);
+              // console.log(temp_data_0_3);
+            } catch (error) {
+              console.log(error);
             }
-            temp_data_0_1[0].push("product");
-            temp_data_0_1[1].push("新增在册用户数（万户）");
-            temp_data_0_1[2].push("开机行为用户数（万户）");
-            temp_data_0_1[3].push("新增付费用户数（万户）");
-
-            // 第2个（结构a） --固定长度
-            for (i_0 = 0; i_0 < 2; i_0++) {
-              temp_data_0_2.push([]);
-            }
-            temp_data_0_2[0].push("product");
-            temp_data_0_2[1].push("新增付费用户占比");
-
-            // 第3个（结构b） -- 按月长度分
-            temp_data_0_3.push([]); // 初始title行
-            temp_data_0_3[0].push("product", "订购用户数（户）", "收入（元）");
-
-            for (i_0 = 0; i_0 < length_0; i_0++) {
-              // 第1个（结构a）
-              temp_data_0_1[0].push(
-                commonTools.format_monthToChinese(buckets_0[i_0].key)
-              );
-              temp_data_0_1[1].push(buckets_0[i_0].new_num.value);
-              temp_data_0_1[2].push(buckets_0[i_0].open_num.value);
-              temp_data_0_1[3].push(buckets_0[i_0].new_paid_num.value);
-              // 第2个（结构a）
-              temp_data_0_2[0].push(
-                commonTools.format_monthToChinese(buckets_0[i_0].key)
-              );
-              temp_data_0_2[1].push(
-                // 视图需要添加百分号 -- OK
-                commonTools.returnFloat_2(
-                  (buckets_0[i_0].new_paid_num.value /
-                    buckets_0[i_0].new_num.value) *
-                    100
-                )
-              );
-              // 第3个（结构b）
-              temp_data_0_3.push([]);
-              temp_data_0_3[i_0 + 1].push(
-                commonTools.format_monthToChinese(buckets_0[i_0].key)
-              );
-              temp_data_0_3[i_0 + 1].push(buckets_0[i_0].new_paid_num.value);
-              temp_data_0_3[i_0 + 1].push(
-                buckets_0[i_0].new_income.value / 100
-              );
-            }
-            vm.newAddUserPercentData.data = temp_data_0_1;
-            vm.newAddPayingUserData.data = temp_data_0_2;
-            vm.monthOrderData.data = temp_data_0_3;
-            // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_0_1~3");
-            // console.log(temp_data_0_1);
-            // console.log(temp_data_0_2);
-            // console.log(temp_data_0_3);
-
             // return;
 
             // //////////////// 订购数据 row4 middle responses1
@@ -665,320 +685,347 @@ export default {
             // （新增）收人（按包分-包分为月季年） newincome 实际字段： new_income
 
             // 上面4个 为一类结构 把8提上来
+            try {
+              vm.monthVIPOrderData.data = [];
+              vm.monthVIPOrderIncomeData.data = [];
+              vm.orderUserContrastData.content = [];
+              vm.incomeContrastData.content = [];
 
-            let temp_data_1_1 = [];
-            let temp_data_1_2 = [];
-            let temp_data_1_3 = [];
-            let temp_data_1_4 = [];
+              let temp_data_1_1 = [];
+              let temp_data_1_2 = [];
+              let temp_data_1_3 = [];
+              let temp_data_1_4 = [];
 
-            let buckets_1 =
-              responses1.aggregations.statistical_granularity.buckets;
-            let length_1 = buckets_1.length; // 月份的个数 - 后台返回的个数
-            let i_1;
+              let buckets_1 =
+                responses1.aggregations.statistical_granularity.buckets;
+              let length_1 = buckets_1.length; // 月份的个数 - 后台返回的个数
+              let i_1;
 
-            // 数据结构框架
-            // 第一个
-            temp_data_1_1.push([]); // 初始title行
-            temp_data_1_1[0].push(
-              "product",
-              "影视包（户）",
-              "少儿包（户）",
-              "欢乐家庭包（户）"
-            );
-
-            let buckets_1_child_1 =
-              buckets_1[0].value_added_service_package.buckets;
-            let length_1_child_1 = buckets_1_child_1.length; //10~11 ▲▲▲ 注意数据有重复的唯一字段 --需要 try catch
-            let i_1_child_1;
-            // 第二个
-            temp_data_1_2.push([]); // 初始title行
-            temp_data_1_2[0].push(
-              "product",
-              "影视包（万元）",
-              "少儿包（万元）",
-              "欢乐家庭包（万元）"
-            );
-            // let buckets_1_child_2 = buckets_1[1].value_added_service_package.buckets;
-            // let length_1_child_2 = buckets_1_child_2.length;
-            // let i_1_child_2;
-            // 第三个
-            // 第四个
-
-            // 第一、二个
-            function Retrun_KeyValue_1_1a(key, index_month, index_month_child) {
-              if (key == "影视VIP") {
-                // 处理 =》 重复的数据 这里不使用push了，直接固定位置set覆盖！
-                Vue.set(
-                  // 第一个
-                  temp_data_1_1[index_month + 1],
-                  1,
-
-                  buckets_1[index_month].value_added_service_package.buckets[
-                    index_month_child
-                  ].new_paid_num.value
-                );
-                Vue.set(
-                  // 第二个
-                  temp_data_1_2[index_month + 1],
-                  1,
-
-                  buckets_1[index_month].value_added_service_package.buckets[
-                    index_month_child
-                  ].new_income.value /
-                    10000 /
-                    100
-                );
-              }
-              if (key == "少儿VIP") {
-                Vue.set(
-                  // 第一个
-                  temp_data_1_1[index_month + 1],
-                  2,
-
-                  buckets_1[index_month].value_added_service_package.buckets[
-                    index_month_child
-                  ].new_paid_num.value
-                );
-                Vue.set(
-                  // 第二个
-                  temp_data_1_2[index_month + 1],
-                  2,
-
-                  buckets_1[index_month].value_added_service_package.buckets[
-                    index_month_child
-                  ].new_income.value /
-                    10000 /
-                    100
-                );
-              }
-              if (key == "欢乐家庭VIP") {
-                Vue.set(
-                  // 第一个
-                  temp_data_1_1[index_month + 1],
-                  3,
-                  buckets_1[index_month].value_added_service_package.buckets[
-                    index_month_child
-                  ].new_paid_num.value
-                );
-                Vue.set(
-                  // 第二个
-                  temp_data_1_2[index_month + 1],
-                  3,
-                  buckets_1[index_month].value_added_service_package.buckets[
-                    index_month_child
-                  ].new_income.value /
-                    10000 /
-                    100
-                );
-              }
-            } // function （尾巴）
-
-            // 第三、四个
-            function dataManage_1_1b(index_month, index_month_child, index) {
-              temp_data_1_3[index_month].data[index].value =
-                buckets_1[index_month].value_added_service_package.buckets[
-                  index_month_child
-                ].new_paid_num.value;
-              temp_data_1_4[index_month].data[index].value =
-                buckets_1[index_month].value_added_service_package.buckets[
-                  index_month_child
-                ].new_income.value / 100;
-            }
-            function Retrun_KeyValue_1_1b(key, index_month, index_month_child) {
-              if (key == "影视VIP") {
-                dataManage_1_1b(index_month, index_month_child, 0);
-              }
-              if (key == "影视VIP包季") {
-                dataManage_1_1b(index_month, index_month_child, 1);
-              }
-              if (key == "影视VIP包年") {
-                dataManage_1_1b(index_month, index_month_child, 2);
-              }
-              if (key == "少儿VIP") {
-                dataManage_1_1b(index_month, index_month_child, 3);
-              }
-              if (key == "少儿VIP包季") {
-                dataManage_1_1b(index_month, index_month_child, 4);
-              }
-              if (key == "少儿VIP包年") {
-                dataManage_1_1b(index_month, index_month_child, 5);
-              }
-              if (key == "欢乐家庭VIP") {
-                dataManage_1_1b(index_month, index_month_child, 6);
-              }
-              if (key == "欢乐家庭VIP包季") {
-                dataManage_1_1b(index_month, index_month_child, 7);
-              }
-              if (key == "欢乐家庭VIP包年") {
-                dataManage_1_1b(index_month, index_month_child, 8);
-              }
-            } // function （尾巴）
-
-            // 总数据处理
-            for (i_1 = 0; i_1 < length_1; i_1++) {
+              // 数据结构框架
               // 第一个
-              temp_data_1_1.push([]);
-              temp_data_1_1[i_1 + 1].push(
-                commonTools.format_monthToChinese(buckets_1[i_1].key)
+              temp_data_1_1.push([]); // 初始title行
+              temp_data_1_1[0].push(
+                "product",
+                "影视包（户）",
+                "少儿包（户）",
+                "欢乐家庭包（户）"
               );
+
+              let buckets_1_child_1 =
+                buckets_1[0].value_added_service_package.buckets;
+              let length_1_child_1 = buckets_1_child_1.length; //10~11 ▲▲▲ 注意数据有重复的唯一字段 --需要 try catch
+              let i_1_child_1;
               // 第二个
-              temp_data_1_2.push([]);
-              temp_data_1_2[i_1 + 1].push(
-                commonTools.format_monthToChinese(buckets_1[i_1].key)
+              temp_data_1_2.push([]); // 初始title行
+              temp_data_1_2[0].push(
+                "product",
+                "影视包（万元）",
+                "少儿包（万元）",
+                "欢乐家庭包（万元）"
               );
+              // let buckets_1_child_2 = buckets_1[1].value_added_service_package.buckets;
+              // let length_1_child_2 = buckets_1_child_2.length;
+              // let i_1_child_2;
               // 第三个
-              temp_data_1_3.push({
-                title: "", // X月订购用户情况（户）
-                data: [
-                  { value: 0, name: "影视包" },
-                  { value: 0, name: "影视包（包季）" },
-                  { value: 0, name: "影视包（包年）" },
-                  { value: 0, name: "少儿包" },
-                  { value: 0, name: "少儿包（包季）" },
-                  { value: 0, name: "少儿包（包年）" },
-                  { value: 0, name: "欢乐家庭包" },
-                  { value: 0, name: "欢乐家庭包（包季）" },
-                  { value: 0, name: "欢乐家庭包（包年）" }
-                ]
-              });
-              temp_data_1_3[i_1].title =
-                commonTools.format_monthToChinese(buckets_1[i_1].key) +
-                "订购用户情况（户）";
               // 第四个
-              temp_data_1_4.push({
-                title: "", // X月订购用户情况（户）
-                data: [
-                  { value: 0, name: "影视包" },
-                  { value: 0, name: "影视包（包季）" },
-                  { value: 0, name: "影视包（包年）" },
-                  { value: 0, name: "少儿包" },
-                  { value: 0, name: "少儿包（包季）" },
-                  { value: 0, name: "少儿包（包年）" },
-                  { value: 0, name: "欢乐家庭包" },
-                  { value: 0, name: "欢乐家庭包（包季）" },
-                  { value: 0, name: "欢乐家庭包（包年）" }
-                ]
-              });
-              temp_data_1_4[i_1].title =
-                commonTools.format_monthToChinese(buckets_1[i_1].key) +
-                "收入分布对比（元）";
 
-              // 统一点：第一、二、三、四个的for
-              for (
-                i_1_child_1 = 0;
-                i_1_child_1 < length_1_child_1;
-                i_1_child_1++
+              // 第一、二个
+              function Retrun_KeyValue_1_1a(
+                key,
+                index_month,
+                index_month_child
               ) {
-                // 第一、二
-                try {
-                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
-                  Retrun_KeyValue_1_1a(
-                    buckets_1[i_1].value_added_service_package.buckets[
-                      i_1_child_1
-                    ].key,
-                    i_1, // ?month 同级
-                    i_1_child_1 // ??VIP  同级
+                if (key == "影视VIP") {
+                  // 处理 =》 重复的数据 这里不使用push了，直接固定位置set覆盖！
+                  Vue.set(
+                    // 第一个
+                    temp_data_1_1[index_month + 1],
+                    1,
+
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_paid_num.value
                   );
-                } catch (err) {
-                  console.log(err);
+                  Vue.set(
+                    // 第二个
+                    temp_data_1_2[index_month + 1],
+                    1,
+
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_income.value /
+                      10000 /
+                      100
+                  );
+                }
+                if (key == "少儿VIP") {
+                  Vue.set(
+                    // 第一个
+                    temp_data_1_1[index_month + 1],
+                    2,
+
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_paid_num.value
+                  );
+                  Vue.set(
+                    // 第二个
+                    temp_data_1_2[index_month + 1],
+                    2,
+
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_income.value /
+                      10000 /
+                      100
+                  );
+                }
+                if (key == "欢乐家庭VIP") {
+                  Vue.set(
+                    // 第一个
+                    temp_data_1_1[index_month + 1],
+                    3,
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_paid_num.value
+                  );
+                  Vue.set(
+                    // 第二个
+                    temp_data_1_2[index_month + 1],
+                    3,
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_income.value /
+                      10000 /
+                      100
+                  );
+                }
+              } // function （尾巴）
+
+              // 第三、四个
+              function dataManage_1_1b(index_month, index_month_child, index) {
+                temp_data_1_3[index_month].data[index].value =
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_paid_num.value;
+                temp_data_1_4[index_month].data[index].value =
+                  buckets_1[index_month].value_added_service_package.buckets[
+                    index_month_child
+                  ].new_income.value / 100;
+              }
+              function Retrun_KeyValue_1_1b(
+                key,
+                index_month,
+                index_month_child
+              ) {
+                if (key == "影视VIP") {
+                  dataManage_1_1b(index_month, index_month_child, 0);
+                }
+                if (key == "影视VIP包季") {
+                  dataManage_1_1b(index_month, index_month_child, 1);
+                }
+                if (key == "影视VIP包年") {
+                  dataManage_1_1b(index_month, index_month_child, 2);
+                }
+                if (key == "少儿VIP") {
+                  dataManage_1_1b(index_month, index_month_child, 3);
+                }
+                if (key == "少儿VIP包季") {
+                  dataManage_1_1b(index_month, index_month_child, 4);
+                }
+                if (key == "少儿VIP包年") {
+                  dataManage_1_1b(index_month, index_month_child, 5);
+                }
+                if (key == "欢乐家庭VIP") {
+                  dataManage_1_1b(index_month, index_month_child, 6);
+                }
+                if (key == "欢乐家庭VIP包季") {
+                  dataManage_1_1b(index_month, index_month_child, 7);
+                }
+                if (key == "欢乐家庭VIP包年") {
+                  dataManage_1_1b(index_month, index_month_child, 8);
+                }
+              } // function （尾巴）
+
+              // 总数据处理
+              for (i_1 = 0; i_1 < length_1; i_1++) {
+                // 第一个
+                temp_data_1_1.push([]);
+                temp_data_1_1[i_1 + 1].push(
+                  commonTools.format_monthToChinese(buckets_1[i_1].key)
+                );
+                // 第二个
+                temp_data_1_2.push([]);
+                temp_data_1_2[i_1 + 1].push(
+                  commonTools.format_monthToChinese(buckets_1[i_1].key)
+                );
+                // 第三个
+                temp_data_1_3.push({
+                  title: "", // X月订购用户情况（户）
+                  data: [
+                    { value: 0, name: "影视包" },
+                    { value: 0, name: "影视包（包季）" },
+                    { value: 0, name: "影视包（包年）" },
+                    { value: 0, name: "少儿包" },
+                    { value: 0, name: "少儿包（包季）" },
+                    { value: 0, name: "少儿包（包年）" },
+                    { value: 0, name: "欢乐家庭包" },
+                    { value: 0, name: "欢乐家庭包（包季）" },
+                    { value: 0, name: "欢乐家庭包（包年）" }
+                  ]
+                });
+                temp_data_1_3[i_1].title =
+                  commonTools.format_monthToChinese(buckets_1[i_1].key) +
+                  "订购用户情况（户）";
+                // 第四个
+                temp_data_1_4.push({
+                  title: "", // X月订购用户情况（户）
+                  data: [
+                    { value: 0, name: "影视包" },
+                    { value: 0, name: "影视包（包季）" },
+                    { value: 0, name: "影视包（包年）" },
+                    { value: 0, name: "少儿包" },
+                    { value: 0, name: "少儿包（包季）" },
+                    { value: 0, name: "少儿包（包年）" },
+                    { value: 0, name: "欢乐家庭包" },
+                    { value: 0, name: "欢乐家庭包（包季）" },
+                    { value: 0, name: "欢乐家庭包（包年）" }
+                  ]
+                });
+                temp_data_1_4[i_1].title =
+                  commonTools.format_monthToChinese(buckets_1[i_1].key) +
+                  "收入分布对比（元）";
+
+                // 统一点：第一、二、三、四个的for
+                for (
+                  i_1_child_1 = 0;
+                  i_1_child_1 < length_1_child_1;
+                  i_1_child_1++
+                ) {
+                  // 第一、二
+                  try {
+                    // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+                    Retrun_KeyValue_1_1a(
+                      buckets_1[i_1].value_added_service_package.buckets[
+                        i_1_child_1
+                      ].key,
+                      i_1, // ?month 同级
+                      i_1_child_1 // ??VIP  同级
+                    );
+                  } catch (err) {
+                    console.log(err);
+                  }
+                }
+                for (
+                  i_1_child_1 = 0;
+                  i_1_child_1 < length_1_child_1;
+                  i_1_child_1++
+                ) {
+                  // 第三、四
+                  try {
+                    // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
+                    Retrun_KeyValue_1_1b(
+                      buckets_1[i_1].value_added_service_package.buckets[
+                        i_1_child_1
+                      ].key,
+                      i_1, // ?month 同级
+                      i_1_child_1 // ??VIP  同级
+                    );
+                  } catch (err) {
+                    console.log(err);
+                  }
                 }
               }
-              for (
-                i_1_child_1 = 0;
-                i_1_child_1 < length_1_child_1;
-                i_1_child_1++
-              ) {
-                // 第三、四
-                try {
-                  // 处理 =》 数据有重复的唯一字段 导致length 10~11不固定
-                  Retrun_KeyValue_1_1b(
-                    buckets_1[i_1].value_added_service_package.buckets[
-                      i_1_child_1
-                    ].key,
-                    i_1, // ?month 同级
-                    i_1_child_1 // ??VIP  同级
-                  );
-                } catch (err) {
-                  console.log(err);
-                }
-              }
+
+              // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
+              // console.log(temp_data_1_1);
+              // console.log(temp_data_1_2);
+              // console.log(temp_data_1_3);
+              // console.log(temp_data_1_4);
+
+              vm.monthVIPOrderData.data = temp_data_1_1;
+              vm.monthVIPOrderIncomeData.data = temp_data_1_2;
+              vm.orderUserContrastData.content = temp_data_1_3;
+              vm.incomeContrastData.content = temp_data_1_4;
+            } catch (error) {
+              console.log(error);
             }
-
-            // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
-            // console.log(temp_data_1_1);
-            // console.log(temp_data_1_2);
-            // console.log(temp_data_1_3);
-            // console.log(temp_data_1_4);
-
-            vm.monthVIPOrderData.data = temp_data_1_1;
-            vm.monthVIPOrderIncomeData.data = temp_data_1_2;
-            vm.orderUserContrastData.content = temp_data_1_3;
-            vm.incomeContrastData.content = temp_data_1_4;
 
             // //////////////// 订购内容来源 row5 left right   responses2    （有）
             // 点击次数 （▲▲▲ 没这东西-视图错了）
             // 新增订购用户数 new_paid_num
 
-            let buckets_2 =
-              responses2.aggregations.statistical_granularity.buckets;
-            let length_2 = buckets_2.length;
-            let i_2;
-            // 本月 （index = length -1）
-            let temp_data_2_current = [];
-            if (length_2 == 0) {
-              temp_data_2_current = [];
-            } else {
-              let buckets_2_current = buckets_2[length_2 - 1];
-              let buckets_2_child = buckets_2_current.programname.buckets;
-              let length_2_child = 20;
-              if (buckets_2_child.length < 20) {
-                length_2_child = buckets_2_child.length;
-              }
-              let i_2_child;
-              temp_data_2_current.push([
-                "product",
-                "引导用户付费内容排名（户）"
-              ]);
-              for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
-                temp_data_2_current.push([
-                  buckets_2_child[length_2_child - i_2_child - 1].key,
-                  buckets_2_child[length_2_child - i_2_child - 1].new_paid_num
-                    .value
-                ]);
-              }
-            }
+            try {
+              vm.guideUserPayingContentData1.data = [];
+              vm.guideUserPayingContentData2.data = [];
 
-            // 上月  index = length -2   （如果 index<0 则只有1个月数据）
-            let temp_data_2_last = [];
-            if (length_2 - 2 < 0) {
-              temp_data_2_last = [];
-            } else {
-              let buckets_2_last = buckets_2[length_2 - 2];
-              let buckets_2_child = buckets_2_last.programname.buckets;
-              let length_2_child = 20;
-              if (buckets_2_child.length < 20) {
-                length_2_child = buckets_2_child.length;
-              }
-              let i_2_child;
-              temp_data_2_last.push(["product", "引导用户付费内容排名（户）"]);
-              for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
-                temp_data_2_last.push([
-                  buckets_2_child[length_2_child - i_2_child - 1].key,
-                  buckets_2_child[length_2_child - i_2_child - 1].new_paid_num
-                    .value
+              let buckets_2 =
+                responses2.aggregations.statistical_granularity.buckets;
+              let length_2 = buckets_2.length;
+              let i_2;
+              // 本月 （index = length -1）
+              let temp_data_2_current = [];
+              if (length_2 == 0) {
+                temp_data_2_current = [];
+              } else {
+                let buckets_2_current = buckets_2[length_2 - 1];
+                let buckets_2_child = buckets_2_current.programname.buckets;
+                let length_2_child = 20;
+                if (buckets_2_child.length < 20) {
+                  length_2_child = buckets_2_child.length;
+                }
+                let i_2_child;
+                temp_data_2_current.push([
+                  "product",
+                  "引导用户付费内容排名（户）"
                 ]);
+                for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
+                  temp_data_2_current.push([
+                    buckets_2_child[length_2_child - i_2_child - 1].key,
+                    buckets_2_child[length_2_child - i_2_child - 1].new_paid_num
+                      .value
+                  ]);
+                }
               }
+
+              // 上月  index = length -2   （如果 index<0 则只有1个月数据）
+              let temp_data_2_last = [];
+              if (length_2 - 2 < 0) {
+                temp_data_2_last = [];
+              } else {
+                let buckets_2_last = buckets_2[length_2 - 2];
+                let buckets_2_child = buckets_2_last.programname.buckets;
+                let length_2_child = 20;
+                if (buckets_2_child.length < 20) {
+                  length_2_child = buckets_2_child.length;
+                }
+                let i_2_child;
+                temp_data_2_last.push([
+                  "product",
+                  "引导用户付费内容排名（户）"
+                ]);
+                for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
+                  temp_data_2_last.push([
+                    buckets_2_child[length_2_child - i_2_child - 1].key,
+                    buckets_2_child[length_2_child - i_2_child - 1].new_paid_num
+                      .value
+                  ]);
+                }
+              }
+              // console.log("temp_data_2_current ~ last");
+              // console.log(temp_data_2_current);
+              // console.log(temp_data_2_last);
+              vm.guideUserPayingContentData1.data = temp_data_2_last; // 上月 - guideUserPayingContentData1
+              vm.guideUserPayingContentData2.data = temp_data_2_current; // 本月 - guideUserPayingContentData2
+            } catch (error) {
+              console.log(error);
             }
-            // console.log("temp_data_2_current ~ last");
-            // console.log(temp_data_2_current);
-            // console.log(temp_data_2_last);
-            vm.guideUserPayingContentData1.data = temp_data_2_last; // 上月 - guideUserPayingContentData1
-            vm.guideUserPayingContentData2.data = temp_data_2_current; // 本月 - guideUserPayingContentData2
 
             // //////////////// 订购用户所属地区数据  row6 left responses3   （没有）
             // （新增）订购用户数（ 按地区分） new_paid_num
             // （结构类似：月度收视行为报告-row12）
             try {
+              vm.orderUserRegionData.data = [];
               let buckets_6_3 =
                 responses3.aggregations.statistical_granularity.buckets; //  responses2
               let length_6_3 = buckets_6_3.length;
@@ -1073,170 +1120,201 @@ export default {
             // //////////////// 订购用户所属地区数据  row6 right （实际为：分地区订购用户引导付费内容订购排名） responses2  （有）
             // //////////////// 分地区订购用户引导付费内容订购排名 row7 全部
             // （新增）订购用户数（ 先按单地区分，再分别列出Top5的电视节目） new_paid_num
-            let buckets_6 =
-              responses2.aggregations.statistical_granularity.buckets; //  responses2
-            let length_6 = buckets_6.length;
-            let i_6;
+            try {
+              vm.GuiyangPayingUserData.data = [];
+              vm.GuiyangPayingUserData.title = "";
+              vm.ZunyiPayingUserData.data = [];
+              vm.ZunyiPayingUserData.title = "";
+              vm.QiannanPayingUserData.data = [];
+              vm.QiannanPayingUserData.title = "";
+              vm.QiandongnanPayingUserData.data = [];
+              vm.QiandongnanPayingUserData.title = "";
+              vm.TongrenPayingUserData.data = [];
+              vm.TongrenPayingUserData.title = "";
+              vm.BijiePayingUserData.data = [];
+              vm.BijiePayingUserData.title = "";
+              vm.QianxinanPayingUserData.data = [];
+              vm.QianxinanPayingUserData.title = "";
+              vm.LiupanshuiPayingUserData.data = [];
+              vm.LiupanshuiPayingUserData.title = "";
+              vm.AnshunPayingUserData.data = [];
+              vm.AnshunPayingUserData.title = "";
 
-            let temp_data_6_1 = [];
-            let temp_data_6_2 = [];
-            let temp_data_6_3 = [];
-            let temp_data_6_4 = [];
-            let temp_data_6_5 = [];
-            let temp_data_6_6 = [];
-            let temp_data_6_7 = [];
-            let temp_data_6_8 = [];
-            let temp_data_6_9 = [];
-            let title_6_arr = [
-              "贵阳",
-              "遵义",
-              "安顺",
-              "黔南",
-              "黔东南",
-              "铜仁",
-              "毕节",
-              "六盘水",
-              "黔西南"
-            ];
+              let buckets_6 =
+                responses2.aggregations.statistical_granularity.buckets; //  responses2
+              let length_6 = buckets_6.length;
+              let i_6;
 
-            temp_data_6_1.push(["product", "本月订购用户数"]);
-            temp_data_6_2.push(["product", "本月订购用户数"]);
-            temp_data_6_3.push(["product", "本月订购用户数"]);
-            temp_data_6_4.push(["product", "本月订购用户数"]);
-            temp_data_6_5.push(["product", "本月订购用户数"]);
-            temp_data_6_6.push(["product", "本月订购用户数"]);
-            temp_data_6_7.push(["product", "本月订购用户数"]);
-            temp_data_6_8.push(["product", "本月订购用户数"]);
-            temp_data_6_9.push(["product", "本月订购用户数"]);
+              let temp_data_6_1 = [];
+              let temp_data_6_2 = [];
+              let temp_data_6_3 = [];
+              let temp_data_6_4 = [];
+              let temp_data_6_5 = [];
+              let temp_data_6_6 = [];
+              let temp_data_6_7 = [];
+              let temp_data_6_8 = [];
+              let temp_data_6_9 = [];
+              let title_6_arr = [
+                "贵阳",
+                "遵义",
+                "安顺",
+                "黔南",
+                "黔东南",
+                "铜仁",
+                "毕节",
+                "六盘水",
+                "黔西南"
+              ];
 
-            if (length_6 != 0) {
-              // 有month数据情况
-              let buckets_6_child = buckets_2[length_2 - 1].ac.buckets;
-              let length_6_child = buckets_6_child.length;
-              let i_6_child;
+              temp_data_6_1.push(["product", "本月订购用户数"]);
+              temp_data_6_2.push(["product", "本月订购用户数"]);
+              temp_data_6_3.push(["product", "本月订购用户数"]);
+              temp_data_6_4.push(["product", "本月订购用户数"]);
+              temp_data_6_5.push(["product", "本月订购用户数"]);
+              temp_data_6_6.push(["product", "本月订购用户数"]);
+              temp_data_6_7.push(["product", "本月订购用户数"]);
+              temp_data_6_8.push(["product", "本月订购用户数"]);
+              temp_data_6_9.push(["product", "本月订购用户数"]);
 
-              for (i_6_child = 0; i_6_child < length_6_child; i_6_child++) {
-                let i_6_cc;
-                let length_6_cc = 5; // 只要Top5
-                let buckets_6_cc =
-                  buckets_6_child[i_6_child].programname.buckets;
-                // console.log(buckets_6_child[i_6_child].key);
+              if (length_6 != 0) {
+                // 有month数据情况
+                let buckets_6_child = buckets_2[length_2 - 1].ac.buckets;
+                let length_6_child = buckets_6_child.length;
+                let i_6_child;
 
-                if (buckets_6_child[i_6_child].key == "851") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_1.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                for (i_6_child = 0; i_6_child < length_6_child; i_6_child++) {
+                  let i_6_cc;
+                  let length_6_cc = 5; // 只要Top5
+                  let buckets_6_cc =
+                    buckets_6_child[i_6_child].programname.buckets;
+                  // console.log(buckets_6_child[i_6_child].key);
+
+                  if (buckets_6_child[i_6_child].key == "851") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_1.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "852") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_2.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "852") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_2.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "853") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_3.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "853") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_3.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "854") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_4.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "854") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_4.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "855") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_5.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "855") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_5.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "856") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_6.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "856") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_6.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "857") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_7.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "857") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_7.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "858") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_8.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "858") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_8.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
-                }
-                if (buckets_6_child[i_6_child].key == "859") {
-                  for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
-                    temp_data_6_9.push([
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].key,
-                      buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num.value
-                    ]);
+                  if (buckets_6_child[i_6_child].key == "859") {
+                    for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
+                      temp_data_6_9.push([
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].key,
+                        buckets_6_cc[length_6_cc - i_6_cc - 1].new_paid_num
+                          .value
+                      ]);
+                    }
                   }
                 }
               }
+
+              // console.log(temp_data_6_1);
+              // console.log(temp_data_6_2);
+              // console.log(temp_data_6_3);
+              // console.log(temp_data_6_4);
+              // console.log(temp_data_6_5);
+              // console.log(temp_data_6_6);
+              // console.log(temp_data_6_7);
+              // console.log(temp_data_6_8);
+              // console.log(temp_data_6_9);
+
+              // 数据不按原视图的来，按照 851~859的顺序来，变量名称不管
+
+              vm.GuiyangPayingUserData.data = temp_data_6_1;
+              vm.GuiyangPayingUserData.title =
+                title_6_arr[0] + "引导付费内容排名（户）";
+              vm.ZunyiPayingUserData.data = temp_data_6_2;
+              vm.ZunyiPayingUserData.title =
+                title_6_arr[1] + "引导付费内容排名（户）";
+              vm.QiannanPayingUserData.data = temp_data_6_3;
+              vm.QiannanPayingUserData.title =
+                title_6_arr[2] + "引导付费内容排名（户）";
+              vm.QiandongnanPayingUserData.data = temp_data_6_4;
+              vm.QiandongnanPayingUserData.title =
+                title_6_arr[3] + "引导付费内容排名（户）";
+              vm.TongrenPayingUserData.data = temp_data_6_5;
+              vm.TongrenPayingUserData.title =
+                title_6_arr[4] + "引导付费内容排名（户）";
+              vm.BijiePayingUserData.data = temp_data_6_6;
+              vm.BijiePayingUserData.title =
+                title_6_arr[5] + "引导付费内容排名（户）";
+              vm.QianxinanPayingUserData.data = temp_data_6_7;
+              vm.QianxinanPayingUserData.title =
+                title_6_arr[6] + "引导付费内容排名（户）";
+              vm.LiupanshuiPayingUserData.data = temp_data_6_8;
+              vm.LiupanshuiPayingUserData.title =
+                title_6_arr[7] + "引导付费内容排名（户）";
+              vm.AnshunPayingUserData.data = temp_data_6_9;
+              vm.AnshunPayingUserData.title =
+                title_6_arr[8] + "引导付费内容排名（户）";
+            } catch (error) {
+              console.log(error);
             }
-
-            // console.log(temp_data_6_1);
-            // console.log(temp_data_6_2);
-            // console.log(temp_data_6_3);
-            // console.log(temp_data_6_4);
-            // console.log(temp_data_6_5);
-            // console.log(temp_data_6_6);
-            // console.log(temp_data_6_7);
-            // console.log(temp_data_6_8);
-            // console.log(temp_data_6_9);
-
-            // 数据不按原视图的来，按照 851~859的顺序来，变量名称不管
-
-            vm.GuiyangPayingUserData.data = temp_data_6_1;
-            vm.GuiyangPayingUserData.title =
-              title_6_arr[0] + "引导付费内容排名（户）";
-            vm.ZunyiPayingUserData.data = temp_data_6_2;
-            vm.ZunyiPayingUserData.title =
-              title_6_arr[1] + "引导付费内容排名（户）";
-            vm.QiannanPayingUserData.data = temp_data_6_3;
-            vm.QiannanPayingUserData.title =
-              title_6_arr[2] + "引导付费内容排名（户）";
-            vm.QiandongnanPayingUserData.data = temp_data_6_4;
-            vm.QiandongnanPayingUserData.title =
-              title_6_arr[3] + "引导付费内容排名（户）";
-            vm.TongrenPayingUserData.data = temp_data_6_5;
-            vm.TongrenPayingUserData.title =
-              title_6_arr[4] + "引导付费内容排名（户）";
-            vm.BijiePayingUserData.data = temp_data_6_6;
-            vm.BijiePayingUserData.title =
-              title_6_arr[5] + "引导付费内容排名（户）";
-            vm.QianxinanPayingUserData.data = temp_data_6_7;
-            vm.QianxinanPayingUserData.title =
-              title_6_arr[6] + "引导付费内容排名（户）";
-            vm.LiupanshuiPayingUserData.data = temp_data_6_8;
-            vm.LiupanshuiPayingUserData.title =
-              title_6_arr[7] + "引导付费内容排名（户）";
-            vm.AnshunPayingUserData.data = temp_data_6_9;
-            vm.AnshunPayingUserData.title =
-              title_6_arr[8] + "引导付费内容排名（户）";
-
             // //////////////// row8 原位置
 
             // //////////////// 点播TOP榜单 row9 responses4
@@ -1247,82 +1325,87 @@ export default {
             // 点播时长 demand_dur
 
             // 数据格式：先分月份 - 再分节目名称（节目名称里面包括节目类型 ） --后台数据 名称和类型字段反了
+            try {
+              vm.tableData = [];
+              vm.tableData2 = [];
+              let buckets_8 =
+                responses4.aggregations.statistical_granularity.buckets;
+              let length_8 = buckets_8.length;
+              let i_8;
+              // 本月 （index = length -1）
+              let temp_data_8_current = [];
+              if (length_8 == 0) {
+                temp_data_8_current = [];
+              } else {
+                let buckets_8_current = buckets_8[length_8 - 1];
+                let buckets_8_child = buckets_8_current.programname.buckets;
+                let length_8_child = 15;
+                if (buckets_8_child.length < 15) {
+                  length_8_child = buckets_8_child.length;
+                }
+                let i_8_child;
 
-            let buckets_8 =
-              responses4.aggregations.statistical_granularity.buckets;
-            let length_8 = buckets_8.length;
-            let i_8;
-            // 本月 （index = length -1）
-            let temp_data_8_current = [];
-            if (length_8 == 0) {
-              temp_data_8_current = [];
-            } else {
-              let buckets_8_current = buckets_8[length_8 - 1];
-              let buckets_8_child = buckets_8_current.programname.buckets;
-              let length_8_child = 15;
-              if (buckets_8_child.length < 15) {
-                length_8_child = buckets_8_child.length;
+                for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
+                  temp_data_8_current.push({
+                    programName: "",
+                    programType: "",
+                    userNum: 0,
+                    times: 0,
+                    duration: 0
+                  });
+                  temp_data_8_current[i_8_child].programName =
+                    buckets_8_child[i_8_child].key;
+                  temp_data_8_current[i_8_child].programType =
+                    buckets_8_child[i_8_child].program_type.buckets[0].key;
+                  temp_data_8_current[i_8_child].userNum =
+                    buckets_8_child[i_8_child].demand_user_num.value;
+                  temp_data_8_current[i_8_child].times =
+                    buckets_8_child[i_8_child].demand_freq.value;
+                  temp_data_8_current[i_8_child].duration =
+                    buckets_8_child[i_8_child].demand_dur.value;
+                }
               }
-              let i_8_child;
 
-              for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
-                temp_data_8_current.push({
-                  programName: "",
-                  programType: "",
-                  userNum: 0,
-                  times: 0,
-                  duration: 0
-                });
-                temp_data_8_current[i_8_child].programName =
-                  buckets_8_child[i_8_child].key;
-                temp_data_8_current[i_8_child].programType =
-                  buckets_8_child[i_8_child].program_type.buckets[0].key;
-                temp_data_8_current[i_8_child].userNum =
-                  buckets_8_child[i_8_child].demand_user_num.value;
-                temp_data_8_current[i_8_child].times =
-                  buckets_8_child[i_8_child].demand_freq.value;
-                temp_data_8_current[i_8_child].duration =
-                  buckets_8_child[i_8_child].demand_dur.value;
+              // 上月  index = length -2   （如果 index<0 则只有1个月数据）
+              let temp_data_8_last = [];
+              if (length_8 - 2 < 0) {
+                temp_data_8_last = [];
+              } else {
+                let buckets_8_last = buckets_8[length_8 - 2];
+                let buckets_8_child = buckets_8_last.programname.buckets;
+                let length_8_child = 15;
+                if (buckets_8_child.length < 15) {
+                  length_8_child = buckets_8_child.length;
+                }
+                let i_8_child;
+                for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
+                  temp_data_8_last.push({
+                    programName: "",
+                    programType: "",
+                    userNum: 0,
+                    times: 0,
+                    duration: 0
+                  });
+                  temp_data_8_last[i_8_child].programName =
+                    buckets_8_child[i_8_child].key;
+                  temp_data_8_last[i_8_child].programType =
+                    buckets_8_child[i_8_child].program_type.buckets[0].key;
+                  temp_data_8_last[i_8_child].userNum =
+                    buckets_8_child[i_8_child].demand_user_num.value;
+                  temp_data_8_last[i_8_child].times =
+                    buckets_8_child[i_8_child].demand_freq.value;
+                  temp_data_8_last[i_8_child].duration =
+                    buckets_8_child[i_8_child].demand_dur.value;
+                }
               }
+              console.log("temp_data_8_current ~ last");
+              console.log(temp_data_8_current);
+              console.log(temp_data_8_last);
+              vm.tableData = temp_data_8_last; // 上月 tableData
+              vm.tableData2 = temp_data_8_current; // 当月  tableData2
+            } catch (error) {
+              console.log(error);
             }
-
-            // 上月  index = length -2   （如果 index<0 则只有1个月数据）
-            let temp_data_8_last = [];
-            if (length_8 - 2 < 0) {
-              temp_data_8_last = [];
-            } else {
-              let buckets_8_last = buckets_8[length_8 - 2];
-              let buckets_8_child = buckets_8_last.programname.buckets;
-              let length_8_child = 15;
-              if (buckets_8_child.length < 15) {
-                length_8_child = buckets_8_child.length;
-              }
-              let i_8_child;
-              for (i_8_child = 0; i_8_child < length_8_child; i_8_child++) {
-                temp_data_8_last.push({
-                  programName: "",
-                  programType: "",
-                  userNum: 0,
-                  times: 0,
-                  duration: 0
-                });
-                temp_data_8_last[i_8_child].programName =
-                  buckets_8_child[i_8_child].key;
-                temp_data_8_last[i_8_child].programType =
-                  buckets_8_child[i_8_child].program_type.buckets[0].key;
-                temp_data_8_last[i_8_child].userNum =
-                  buckets_8_child[i_8_child].demand_user_num.value;
-                temp_data_8_last[i_8_child].times =
-                  buckets_8_child[i_8_child].demand_freq.value;
-                temp_data_8_last[i_8_child].duration =
-                  buckets_8_child[i_8_child].demand_dur.value;
-              }
-            }
-            console.log("temp_data_8_current ~ last");
-            console.log(temp_data_8_current);
-            console.log(temp_data_8_last);
-            vm.tableData = temp_data_8_last; // 上月 tableData
-            vm.tableData2 = temp_data_8_current; // 当月  tableData2
           }
         })
         .catch(function(error) {

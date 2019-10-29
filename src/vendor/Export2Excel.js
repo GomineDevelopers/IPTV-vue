@@ -62,7 +62,13 @@ function sheet_from_array_of_arrays(data, opts) {
             if (range.e.r < R) range.e.r = R;
             if (range.e.c < C) range.e.c = C;
             // var cell = { v: data[R][C] };
-            var cell = { v: String(data[R][C]) }; // ▲统一字符串！
+            var cell;
+            let temp_data = data[R][C];
+            if (typeof (temp_data) == "object"){
+                cell = { v: JSON.stringify(data[R][C]) }; 
+            }else{
+                cell = { v: String(data[R][C]) }; // 其他：统一字符串！
+            }
             console.log(data[R][C]);
             if (cell.v == null) continue;
             var cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
@@ -157,7 +163,7 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             console.info(error);
         });
 
-    // return;
+    return; // 数据检测
 
     var rowString = ["A", "B", "C", "..."];
     var rowString_length_setting = 32;

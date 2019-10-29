@@ -22,49 +22,49 @@ export default {
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     chartData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     PR_picker(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     PR_value_specialName(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 1000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 1000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 1000);
     }
@@ -87,7 +87,7 @@ export default {
     // ...this.$mapGetters(["PR_operator"]),
 
     chartData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         let data = [];
         // ★由于该组件是复用组件-涉及不同筛选条件的渲染-用唯一值（id）做数据+渲染
@@ -112,7 +112,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("specialClickNum 视图更新");
             vm.drawLine();
           }, 1000);
@@ -148,7 +148,7 @@ export default {
             //   });
             vm.$store
               .dispatch("get_UVB_programa")
-              .then(function (response) {
+              .then(function(response) {
                 console.log(response);
                 let length = response.length;
                 let i;
@@ -160,7 +160,7 @@ export default {
                 console.log("~~~~~!!data");
                 console.log(data);
               })
-              .catch(function (error) {
+              .catch(function(error) {
                 console.info(error);
               });
             // if (vm.UVB_programa.indexOf("分类") > -1) {
@@ -198,7 +198,7 @@ export default {
             // }
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("columnChart 视图更新");
             vm.drawLine();
           }, 1000);
@@ -217,7 +217,7 @@ export default {
             data.push(vm.chartData.data[0]);
             vm.$store
               .dispatch("get_ADD_VIP_programa")
-              .then(function (response) {
+              .then(function(response) {
                 console.log(response);
                 let length = response.length;
                 let i;
@@ -229,7 +229,7 @@ export default {
                 console.log("~~~~~!!data");
                 console.log(data);
               })
-              .catch(function (error) {
+              .catch(function(error) {
                 console.info(error);
               });
             // if (vm.ADD_VIP_programa.indexOf("分类") > -1) {
@@ -267,7 +267,7 @@ export default {
             // }
           }
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             // console.log("columnChart 视图更新");
             vm.drawLine();
           }, 1000);
@@ -305,12 +305,12 @@ export default {
         }
 
         // 视图更新
-        setTimeout(function () {
+        setTimeout(function() {
           vm.drawLine();
         }, 1000);
         return vm.chartData;
       },
-      set: function (newValue) {
+      set: function(newValue) {
         //
       }
     }
@@ -321,7 +321,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.drawLine();
     }, 1000);
   },
@@ -332,8 +332,12 @@ export default {
       );
       let seriesData = [];
       //设置series数据条数
-      for (let i = 1; i <= this.chartData_Change.data[0].length - 1; i++) {
-        seriesData.push({ type: "bar", barWidth: "12" });
+      try {
+        for (let i = 1; i <= this.chartData_Change.data[0].length - 1; i++) {
+          seriesData.push({ type: "bar", barWidth: "12" });
+        }
+      } catch (error) {
+        console.log(error);
       }
       var option = {
         color: this.chartData_Change.color,
@@ -379,7 +383,7 @@ export default {
           left: "10",
           right: "5",
           bottom: "10",
-          containLabel: true,
+          containLabel: true
         },
         dataset: {
           source: this.chartData_Change.data
