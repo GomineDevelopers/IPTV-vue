@@ -147,15 +147,17 @@ export default {
       let total_cum_paid_num = 0   //总的订购用户
 
       //用户画像
-      let active_user_por_temp = []
-      let silence_user_por_temp = []
-      let downtime_user_por_temp = []
-      let total_user_por_temp = []
+      let active_user_por_temp = []   //活跃用户
+      let silence_user_por_temp = []   //沉默用户
+      let downtime_user_por_temp = []   //停机用户
+      let total_user_por_temp = []   //总体数据
 
       let total_firsttime_num = 0   //总的firsttime_num
       let total_oncetime_num = 0   //总的oncetime_num
       let total_loyal_user_num = 0   //总的loyal_user_num
       let total_unord_num = 0   //总的unord_num
+      let total_repurchase_num = 0   //总的repurchase_num
+      let total_lapsed_num = 0   //总的lapsed_num
 
       inTheNetworkData.forEach((value, index) => {
         // console.log("--------------------")
@@ -170,55 +172,79 @@ export default {
           active_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
           active_user_por_temp.push({
             value: value.firsttime_num.value,
-            name: "订购-Firsttime"
+            name: "尝试购买"
           })
           active_user_por_temp.push({
             value: value.oncetime_num.value,
-            name: "订购-Oncetime"
+            name: "一次性购买"
           })
           active_user_por_temp.push({
             value: value.loyal_user_num.value,
-            name: "订购-忠诚用户"
+            name: "忠诚用户"
           })
           active_user_por_temp.push({
             value: value.unord_num.value,
-            name: "未订购用户"
+            name: "从未订购"
+          })
+          active_user_por_temp.push({
+            value: value.repurchase_num.value,
+            name: "重新激活"
+          })
+          active_user_por_temp.push({
+            value: value.lapsed_num.value,
+            name: "睡眠用户"
           })
         } else if (value.key == 'silence_user') {
           silence_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
           silence_user_por_temp.push({
             value: value.firsttime_num.value,
-            name: "订购-Firsttime"
+            name: "尝试购买"
           })
           silence_user_por_temp.push({
             value: value.oncetime_num.value,
-            name: "订购-Oncetime"
+            name: "一次性购买"
           })
           silence_user_por_temp.push({
             value: value.loyal_user_num.value,
-            name: "订购-忠诚用户"
+            name: "忠诚用户"
           })
           silence_user_por_temp.push({
             value: value.unord_num.value,
-            name: "未订购用户"
+            name: "从未订购"
+          })
+          silence_user_por_temp.push({
+            value: value.repurchase_num.value,
+            name: "重新激活"
+          })
+          silence_user_por_temp.push({
+            value: value.lapsed_num.value,
+            name: "睡眠用户"
           })
         } else if (value.key == 'downtime_user') {
           downtime_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
           downtime_user_por_temp.push({
             value: value.firsttime_num.value,
-            name: "订购-Firsttime"
+            name: "尝试购买"
           })
           downtime_user_por_temp.push({
             value: value.oncetime_num.value,
-            name: "订购-Oncetime"
+            name: "一次性购买"
           })
           downtime_user_por_temp.push({
             value: value.loyal_user_num.value,
-            name: "订购-忠诚用户"
+            name: "忠诚用户"
           })
           downtime_user_por_temp.push({
             value: value.unord_num.value,
-            name: "未订购用户"
+            name: "从未订购"
+          })
+          downtime_user_por_temp.push({
+            value: value.repurchase_num.value,
+            name: "重新激活"
+          })
+          downtime_user_por_temp.push({
+            value: value.lapsed_num.value,
+            name: "睡眠用户"
           })
         }
         total_register_num += value.register_num.value  //总在册人数
@@ -231,7 +257,8 @@ export default {
         total_oncetime_num += value.oncetime_num.value
         total_loyal_user_num += value.loyal_user_num.value
         total_unord_num += value.unord_num.value
-
+        total_repurchase_num += value.repurchase_num.value
+        total_lapsed_num += value.lapsed_num.value
       });
       //总的订购用户占比
       let total_cum_paid_rate = Number(((total_cum_paid_num / total_register_num) * 100).toFixed(2))
@@ -243,19 +270,27 @@ export default {
       //得到总的用户画像
       total_user_por_temp.push({
         value: total_firsttime_num,
-        name: "订购-Firsttime"
+        name: "尝试购买"
       })
       total_user_por_temp.push({
         value: total_oncetime_num,
-        name: "订购-Oncetime"
+        name: "一次性订购"
       })
       total_user_por_temp.push({
         value: total_loyal_user_num,
-        name: "订购-忠诚用户"
+        name: "忠诚用户"
       })
       total_user_por_temp.push({
         value: total_unord_num,
-        name: "未订购用户"
+        name: "从未订购"
+      })
+      total_user_por_temp.push({
+        value: total_repurchase_num,
+        name: "重新激活"
+      })
+      total_user_por_temp.push({
+        value: total_lapsed_num,
+        name: "睡眠用户"
       })
 
       vm.total_user_data = total_user_temp
@@ -309,13 +344,13 @@ export default {
         legend: [
           {
             show: true,
-            top: "15%",
+            top: "0",
             right: "0",
             data: vm.Net_data1.data1,
             itemWidth: 6,
             itemHeight: 6,
             width: 20,
-            itemGap: 5,
+            itemGap: 2,
             textStyle: {
               color: "rgba(0,0,0,0.45)"
             }

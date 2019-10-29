@@ -30,12 +30,17 @@ export default {
       let total_oncetime_num = 0   //总的oncetime_num
       let total_loyal_user_num = 0   //总的loyal_user_num
       let total_unord_num = 0   //总的unord_num
+      let total_repurchase_num = 0   //总的repurchase_num
+      let total_lapsed_num = 0   //总的lapsed_num
+
       total_data.forEach((value, index) => {
         // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
         total_firsttime_num += value.firsttime_num.value
         total_oncetime_num += value.oncetime_num.value
         total_loyal_user_num += value.loyal_user_num.value
         total_unord_num += value.unord_num.value
+        total_repurchase_num += value.repurchase_num.value
+        total_lapsed_num += value.lapsed_num.value
       })
 
       // console.log("total_firsttime_num", total_firsttime_num)
@@ -50,7 +55,7 @@ export default {
         name: "未订购"
       })
       order_data.push({
-        value: total_firsttime_num + total_oncetime_num + total_loyal_user_num,
+        value: total_firsttime_num + total_oncetime_num + total_loyal_user_num + total_repurchase_num + total_lapsed_num,
         name: "订购"
       })
       vm.US_data1.data1 = order_data
@@ -59,15 +64,23 @@ export default {
       let order_user_detail_data = []
       order_user_detail_data.push({
         value: total_firsttime_num,
-        name: "订购-Firsttime"
+        name: "尝试购买"
       })
       order_user_detail_data.push({
         value: total_oncetime_num,
-        name: "订购-Onetime"
+        name: "一次性订购"
       })
       order_user_detail_data.push({
         value: total_loyal_user_num,
-        name: "订购-忠诚用户"
+        name: "忠诚用户"
+      })
+      order_user_detail_data.push({
+        value: total_repurchase_num,
+        name: "重新激活"
+      })
+      order_user_detail_data.push({
+        value: total_lapsed_num,
+        name: "睡眠用户"
       })
       vm.US_data2.data1 = order_user_detail_data
 
@@ -132,7 +145,7 @@ export default {
           {
             name: "用户",
             type: "pie",
-            radius: "60%",
+            radius: "85%",
             center: ["45%", "50%"],
             selectedMode: "single",
             color: ["#FCB84F", "#F97E6F"],
@@ -192,10 +205,10 @@ export default {
           {
             name: "用户",
             type: "pie",
-            radius: "60%",
+            radius: "85%",
             center: ["45%", "50%"],
             selectedMode: "single",
-            color: ["#FCB84F", "#B37CF4", "#7ECDF4", "#F97E6F", "#4ADBC7"],
+            color: ["#FCB84F", "#B37CF4", "#7ECDF4", "#F97E6F", "#7584F2"],
             label: {
               normal: {
                 position: 'inner',

@@ -47,7 +47,11 @@
             <com-inthenetwork v-bind:api_data3="api_data3"></com-inthenetwork>
           </el-row>
         </el-col>
-        <el-col class="height_auto padding_left" :span="10">
+        <el-col
+          class="height_auto padding_left"
+          :span="10"
+          v-if="ULC_operator.indexOf('电信') != -1 || ULC_operator==''"
+        >
           <el-row class="model_title">
             <span class="title_border_left"></span>在网用户结构
           </el-row>
@@ -59,7 +63,10 @@
       <!-- 在网结束 -->
 
       <!-- 用户细分开始 -->
-      <el-row class="user_segment back_white" v-if="ULC_time_type == 3">
+      <el-row
+        class="user_segment back_white"
+        v-if="ULC_time_type == 3 && (ULC_operator.indexOf('电信') != -1 || ULC_operator=='')"
+      >
         <el-row class="model_title">
           <span class="title_border_left"></span>用户细分
         </el-row>
