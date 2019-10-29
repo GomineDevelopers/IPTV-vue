@@ -13,7 +13,7 @@
     <!-- 条件筛选结束 -->
 
     <!-- 收视行为开始 -->
-    <el-row class="viewing_behavior" v-show="ifInitShow">
+    <el-row class="viewing_behavior" v-if="ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>收视行为
       </el-row>
@@ -48,7 +48,7 @@
     <!-- 收视行为结束 -->
 
     <!-- 收视TOP开始 -->
-    <el-row class="viewing_top15" v-show="ifPlaymodeShow_zb &&  ifInitShow" >
+    <el-row class="viewing_top15" v-if="ifPlaymodeShow_zb &&  ifInitShow" >
       <el-row class="model_title">
         <span class="title_border_left"></span>直播收视TOP15
       </el-row>
@@ -57,7 +57,7 @@
       </el-row>
     </el-row>
 
-    <el-row class="viewing_top15" v-show="ifPlaymodeShow_db &&  ifInitShow">
+    <el-row class="viewing_top15" v-if="ifPlaymodeShow_db &&  ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>点播收视TOP15
       </el-row>
@@ -66,7 +66,7 @@
       </el-row>
     </el-row>
 
-    <el-row class="viewing_top15 last_viewing_top15" v-show="ifPlaymodeShow_hk &&  ifInitShow">
+    <el-row class="viewing_top15 last_viewing_top15" v-if="ifPlaymodeShow_hk &&  ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>回看收视TOP15
       </el-row>
@@ -1092,6 +1092,9 @@ export default {
     let vm = this;
     setTimeout(function() {
       if(vm.UVB_time_type == 0){ // 显示初始化
+        vm.ifInitShow = false;
+      }
+      else{
         vm.ifInitShow = true;
       }
     }, 500);
@@ -1136,7 +1139,7 @@ export default {
   },
   data() {
     return {
-      ifInitShow:true,
+      ifInitShow:false,
       // targetOption: "", //存放选择的指标
       targetOption: "观看次数", 
 

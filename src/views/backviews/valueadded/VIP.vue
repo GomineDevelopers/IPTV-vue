@@ -12,7 +12,7 @@
     <!-- 条件筛选结束 -->
 
     <!-- 收视行为开始 -->
-    <el-row class="vip_behavior">
+    <el-row class="vip_behavior" v-if="ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>收视行为
       </el-row>
@@ -63,7 +63,7 @@
         <user-viewing-behavior-top-vip :viewingTopList="liveViewingTopList_VIP"></user-viewing-behavior-top-vip>
       </el-row>
     </el-row>-->
-    <el-row class="viewing_top15" v-show="ifPlaymodeShow_db">
+    <el-row class="viewing_top15" v-if="ifPlaymodeShow_db && ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>点播收视TOP15
       </el-row>
@@ -184,6 +184,15 @@ export default {
   mounted() {
     // console.log("~~~~~test");
     // console.log(this.lookBackViewingTopList_VIP);
+    let vm = this;
+    setTimeout(function() {
+      if(vm.ADD_VIP_time_type == 0){ // 显示初始化
+        vm.ifInitShow = false;
+      }
+      else{
+        vm.ifInitShow = true;
+      }
+    }, 500);
   },
   watch: {
     ADD_VIP_region(newValue, oldValue) {
@@ -269,6 +278,7 @@ export default {
     ADD_VIP_time_type(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_time_type: " + newValue);
+      vm.ifInitShow = true;
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -943,6 +953,8 @@ export default {
 
   data() {
     return {
+      ifInitShow:false,
+
       // targetOption: "", //存放选择的指标
       targetOption: "观看次数", 
       //选择指标数据
@@ -1496,7 +1508,8 @@ export default {
   margin: 14px 0px;
 }
 .viewing_top15 {
-  height: 520px;
+  /* height: 520px; */
+  height: 750px;
   margin-bottom: 14px;
 }
 .last_viewing_top15 {

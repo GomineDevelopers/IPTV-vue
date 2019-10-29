@@ -1,5 +1,6 @@
 
 import Vue from "vue";
+import store from '@/store'
 
 /* eslint-disable */
 require('script-loader!file-saver');
@@ -60,7 +61,9 @@ function sheet_from_array_of_arrays(data, opts) {
             if (range.s.c > C) range.s.c = C;
             if (range.e.r < R) range.e.r = R;
             if (range.e.c < C) range.e.c = C;
-            var cell = { v: data[R][C] };
+            // var cell = { v: data[R][C] };
+            var cell = { v: String(data[R][C]) }; // ▲统一字符串！
+            console.log(data[R][C]);
             if (cell.v == null) continue;
             var cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
 
@@ -141,9 +144,18 @@ export function export_json_to_excel_plural(th, th2, jsonData, jsonData2, defaul
 export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defaultTitle) {
 }
 export function exportExcel(titleArr, DataArr, defaultTitle) {
+
     console.log(titleArr);
     console.log(DataArr);
     console.log(defaultTitle);
+    store
+        .dispatch("set_PR_downloadNum_parent", titleArr.length)
+        .then(function (response) {
+            // console.log(response);
+        })
+        .catch(function (error) {
+            console.info(error);
+        });
 
     // return;
 
@@ -329,6 +341,15 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
         return;
     }
     if (arr_length == 1) {
+        store
+            .dispatch("set_PR_downloadNum_child", 1)
+            .then(function (response) {
+                // console.log(response);
+            })
+            .catch(function (error) {
+                console.info(error);
+            });
+
         titleA1 = titleArr[0];
         data1 = [];
         if (DataArr[0] == undefined) {
@@ -363,6 +384,24 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
     if (arr_length > 1) {
         for (let i_arr = 0; i_arr < arr_length; i_arr++) {
             console.log(i_arr);
+            // function currentSchedule() {
+            //     console.log(i_arr);
+            //     store
+            //         .dispatch("set_PR_downloadNum_parent", i_arr)
+            //         .then(function (response) {
+            //             // console.log(response);
+            //             console.log("~~~~~：" + String(i_arr));
+            //         })
+            //         .catch(function (error) {
+            //             console.info(error);
+            //         });
+            //     if (i_arr == arr_length - 1) {
+            //         clearInterval(currentSchedule);
+            //     }
+            // }
+            // if (i_arr == 0) { // do x1
+            //     setInterval(currentSchedule, 1);
+            // }
             if (i_arr == 0) {
                 titleA1 = titleArr[i_arr];
                 data1 = [];
@@ -443,5 +482,12 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
     let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
     let title = defaultTitle || '列表'
     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+
+    store
+        .dispatch("set_PR_excel_DownloadingStatus", 0)
+        .then(function (response) { console.log("下载完成") })
+        .catch(function (error) {
+            console.info(error);
+        });
 }
 

@@ -182,9 +182,33 @@
     </div>
     <div class="download">
       <span class="font_title">下载：</span>
-      <el-button class="btn_download" id="id_btn_download" @click="export2Excel()">
+      <el-button
+        v-show="PR_excel_DownloadingStatus == 0"
+        class="btn_download"
+        id="id_btn_download"
+        @click="export2Excel()"
+      >
         <div class="download_text">Excel表单</div>
         <div :style="download_style" class="download_icon"></div>
+      </el-button>
+      <el-button v-show="PR_excel_DownloadingStatus == 1" class="btn_download2">
+        <div class="download_text2">
+          数据初始化中
+          <img
+            class="m_wait"
+            src="@/assets/loading.gif"
+          />
+        </div>
+      </el-button>
+      <el-button v-show="PR_excel_DownloadingStatus == 2" class="btn_download2">
+        <div class="download_text2">
+          <!-- 下载中({{PR_downloadNum_child}}/{{PR_downloadNum_parent}}) -->
+          下载中
+          <img
+            class="m_wait"
+            src="@/assets/loading.gif"
+          />
+        </div>
       </el-button>
     </div>
 
@@ -210,7 +234,13 @@ var operatorChoose_old2 = ["移动"]; // 单选框-初始化
 export default {
   name: "OptionSelectPR",
   computed: {
-    ...mapGetters(["PR_assignReportNum", "PR_excel_ifCanDownload"])
+    ...mapGetters([
+      "PR_assignReportNum",
+      "PR_excel_ifCanDownload",
+      "PR_downloadNum_child",
+      "PR_downloadNum_parent",
+      "PR_excel_DownloadingStatus"
+    ])
   },
   watch: {
     PR_excel_ifCanDownload(newValue, oldValue) {
@@ -949,6 +979,12 @@ export default {
           require.ensure([], () => {
             const { exportExcel } = require("../../../vendor/Export2Excel");
             // 获取当前excel data --延时3s
+            vm.$store
+              .dispatch("set_PR_excel_DownloadingStatus", 1)
+              .then(function(response_dataArr) {})
+              .catch(function(error) {
+                console.info(error);
+              });
             setTimeout(function() {
               vm.$store
                 .dispatch("get_PR_Excel_titleArr")
@@ -973,6 +1009,12 @@ export default {
                         return;
                       } else {
                         console.log("excel下载中...");
+                        vm.$store
+                          .dispatch("set_PR_excel_DownloadingStatus", 2)
+                          .then(function(response_dataArr) {})
+                          .catch(function(error) {
+                            console.info(error);
+                          });
                       }
                       for (let i = 0; i < response_title.length; i++) {
                         // 用for处理-避免引用问题
@@ -1150,9 +1192,30 @@ export default {
   width: 177px;
   margin-left: 10px;
 }
+.OptionSelectPR .btn_download2 {
+  background-color: #8dd85f;
+  color: #ffffff;
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+  width: 177px;
+  margin-left: 10px;
+}
+.OptionSelectPR .m_wait {
+  width: 17px;
+  height: 17px;
+  margin-top: 3px;
+  vertical-align: bottom;
+}
+
 .download_text {
   height: 22px;
   width: 100px;
+  display: inline-block;
+}
+.download_text2 {
+  height: 22px;
+  width: 100%;
   display: inline-block;
 }
 .download_icon {

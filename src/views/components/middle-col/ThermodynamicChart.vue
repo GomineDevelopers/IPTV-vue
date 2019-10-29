@@ -21,6 +21,8 @@ export default {
     return {
       ifgetdata: true,
 
+      trigger_info: "在册数", //触碰地图显示的“数据”类型  1-在册数 2-日活数 3-激活率 4-七日留存率
+
       myNums: [],
       myNumsArr: [],
       royalty: [],
@@ -72,8 +74,7 @@ export default {
         operator: m_operator,
         start: ExpirationDate,
         end: ExpirationDate,
-        year:commonTools.get_ExpirationDate_year(ExpirationDate)
-
+        year: commonTools.get_ExpirationDate_year(ExpirationDate)
       };
       users_basic(temp)
         .then(function(response) {
@@ -119,14 +120,15 @@ export default {
                   temp1.push(buckets[i].register_num.value);
                   temp2.push(buckets[i].active_num.value);
 
-
                   // temp3.push(
                   //   buckets[i].activate_user_num.value /
                   //     buckets[i].register_num.value
                   // ); //显示百分比
                   temp3.push(
-                    (buckets[i].activate_user_num.value /
-                      buckets[i].register_num.value).toFixed(2)
+                    (
+                      buckets[i].activate_user_num.value /
+                      buckets[i].register_num.value
+                    ).toFixed(2)
                   ); //显示百分比
 
                   // temp4.push(
@@ -135,16 +137,16 @@ export default {
                   // );
                   // temp4.push(hits2[i]._source.remain_rate);
 
-
                   // temp4.push(
                   //   aggregations2[i].remain_num.value /
                   //     aggregations2[i].new_activate_num.value
                   // );
                   temp4.push(
-                    (aggregations2[i].remain_num.value /
-                      aggregations2[i].new_activate_num.value).toFixed(2)
+                    (
+                      aggregations2[i].remain_num.value /
+                      aggregations2[i].new_activate_num.value
+                    ).toFixed(2)
                   );
-
                 }
                 vm.myNumsArr.push(temp1);
                 vm.myNumsArr.push(temp2);
@@ -182,6 +184,7 @@ export default {
         //   Math.round(Math.random() * this.perValue),
         //   Math.round(Math.random() * this.perValue)
         // ];
+        this.trigger_info = "在册数";
         this.myNums = this.myNumsArr[0];
         this.drawLine();
       }
@@ -197,6 +200,7 @@ export default {
         //   Math.round(Math.random() * this.perValue),
         //   Math.round(Math.random() * this.perValue)
         // ];
+        this.trigger_info = "日活数";
         this.myNums = this.myNumsArr[1];
         this.drawLine();
       }
@@ -212,6 +216,7 @@ export default {
         //   Math.round(Math.random() * this.perValue),
         //   Math.round(Math.random() * this.perValue)
         // ];
+        this.trigger_info = "激活率";
         this.myNums = this.myNumsArr[2];
         this.drawLine();
       }
@@ -227,6 +232,7 @@ export default {
         //   Math.round(Math.random() * this.perValue),
         //   Math.round(Math.random() * this.perValue)
         // ];
+        this.trigger_info = "七日留存率";
         this.myNums = this.myNumsArr[3];
         this.drawLine();
       }
@@ -457,6 +463,7 @@ export default {
       return splitArr;
     },
     drawLine() {
+      let vm = this;
       var selectProe = "贵州";
       this.$echarts.registerMap(selectProe, myJson);
       var myChartProe = this.$echarts.init(
@@ -466,22 +473,49 @@ export default {
       // console.log(this.myNums);
       let value_max = this.returnArrMax(this.myNums);
       let value_min = this.returnArrMin(this.myNums);
-      let split_length = 5;
-      // let splitArr = this.MaxAndMinManage(value_max, value_min, split_length);
-      let splitArr = this.MaxAndMinManageUp(value_max, value_min, split_length);
-      let i;
+      // console.log(value_max);
+      // console.log(value_min);
       let splitList = [];
-      let dis;
-      for (i = 0; i < split_length; i++) {
-        if (i < split_length - 1) {
-          splitList.push({ start: splitArr[i], end: splitArr[i + 1] });
-          dis = splitArr[i + 1] - splitArr[i];
-        }
-        if (i == split_length - 1) {
-          splitList.push({ start: splitArr[i], end: splitArr[i] + dis });
-        }
+      if (value_max == value_min && value_max == 1 ) {
+        // 处理激活率百分百情况
+        splitList = [
+          { start: 80, end: 100 },
+          { start: 60, end: 80 },
+          { start: 40, end: 60 },
+          { start: 20, end: 40 },
+          { start: 0, end: 20 }
+        ];
       }
-      // console.log(splitList);
+      if (value_max == 1 && value_min < 1) {
+        splitList = [
+          { start: 80, end: 100 },
+          { start: 60, end: 80 },
+          { start: 40, end: 60 },
+          { start: 20, end: 40 },
+          { start: 0, end: 20 }
+        ];
+      } else {
+        let split_length = 5;
+        // let splitArr = this.MaxAndMinManage(value_max, value_min, split_length);
+        let splitArr = this.MaxAndMinManageUp(
+          value_max,
+          value_min,
+          split_length
+        );
+        let i;
+        let dis;
+        for (i = 0; i < split_length; i++) {
+          if (i < split_length - 1) {
+            splitList.push({ start: splitArr[i], end: splitArr[i + 1] });
+            dis = splitArr[i + 1] - splitArr[i];
+          }
+          if (i == split_length - 1) {
+            splitList.push({ start: splitArr[i], end: splitArr[i] + dis });
+          }
+        }
+        // console.log(splitList);
+      }
+
       let data;
       if (value_max > 1) {
         data = [
@@ -535,12 +569,28 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: function loadData(result) {
+            // console.log(result);
             let temp_str = "";
             if (value_max < 1) {
               temp_str = "%";
             }
+            if (value_max == 1 && value_min < 1) {
+              temp_str = "%";
+            }
+            if (value_max == value_min && value_max == 1) {
+              // 处理激活率百分百情况
+              temp_str = "%";
+            }
 
-            return result.name + "<br />数据:" + result.value + temp_str;
+            // return result.name + "<br />数据:" + result.value + temp_str;
+            return (
+              result.name +
+              "<br />" +
+              vm.trigger_info +
+              "：" +
+              result.value +
+              temp_str
+            );
           }
         },
         visualMap: {
@@ -550,6 +600,13 @@ export default {
             // console.log(value2);
             let temp_str = "";
             if (value_max < 1) {
+              temp_str = "%";
+            }
+            if (value_max == 1 && value_min < 1) {
+              temp_str = "%";
+            }
+            if (value_max == value_min && value_max == 1) {
+              // 处理激活率百分百情况
               temp_str = "%";
             }
             return value + temp_str + "-" + value2 + temp_str;

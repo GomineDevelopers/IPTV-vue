@@ -3,10 +3,13 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>订购用户数
     </el-row>
+    <el-row class="title_row2">
+      <span class="m_time_title">当日：</span>
+    </el-row>
     <el-row v-show="ifgetdata" class="paid_users_row proportion">
       <el-col :span="12" class="height_auto">
         <el-row id="proportion_of_subscribers"></el-row>
-        <el-row class="order_user_title">订购用户占比（日）</el-row>
+        <el-row class="order_user_title">订购用户占比</el-row>
       </el-col>
       <el-col :span="12">
         <el-row class="height_auto">
@@ -27,11 +30,14 @@
         </el-row>
       </el-col>
     </el-row>
+    <el-row class="title_row2">
+      <span class="m_time_title">近七天：</span>
+    </el-row>
     <el-row v-show="ifgetdata" class="paid_users_row add_order">
       <el-col :span="12" class="height_auto">
         <el-row id="add_order_conversion_rate"></el-row>
         <!-- <el-row class="order_user_title">新增订购转换率（周）</el-row> -->
-        <el-row class="order_user_title">新增订购转换率（近7天）</el-row>
+        <el-row class="order_user_title">新增订购转换率</el-row>
       </el-col>
       <el-col :span="12">
         <el-row>
@@ -220,7 +226,8 @@ export default {
             name: "Line 1",
             type: "pie",
             clockWise: true,
-            radius: ["50%", "73%"],
+            // radius: ["50%", "73%"],
+            radius: ["60%", "93%"],
             itemStyle: {
               normal: {
                 borderWidth: 2, //设置border的宽度有多大
@@ -300,7 +307,8 @@ export default {
             name: "Line 1",
             type: "pie",
             clockWise: true,
-            radius: ["50%", "73%"],
+            // radius: ["50%", "73%"],
+            radius: ["60%", "93%"],
             itemStyle: {
               normal: {
                 borderWidth: 2, //设置border的宽度有多大
@@ -364,9 +372,14 @@ export default {
 </script>
 
 <style scoped>
+.m_time_title{
+  margin-left:0.1rem;
+  font-size: 0.1rem; 
+}
+
 /* 订购用户中的两个层设置高开始 */
 .paid_users_row {
-  height: calc((100% - 0.3rem) / 2);
+  height: calc((100% - 0.7rem) / 2);
   display: flex;
   align-items: center;
 }
@@ -378,7 +391,9 @@ export default {
   height: 0.2rem;
   line-height: 0.2rem;
   text-align: center !important;
-  margin-top: -0.1rem !important;
+  /* margin-top: -0.1rem !important; */
+  margin-top: 0rem !important;
+
 }
 .paid_users_row .el-row {
   text-align: left;

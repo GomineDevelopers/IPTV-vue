@@ -66,8 +66,9 @@ const app = {
         PR_Excel_dataArr: [],
         PR_Excel_titleArr: [],
         PR_excel_ifCanDownload: false,
-
-
+        PR_downloadNum_child: 1,
+        PR_downloadNum_parent: 1,
+        PR_excel_DownloadingStatus:0,
         PR_week: null,
         PR_month: null,
         PR_picker: [],
@@ -252,6 +253,39 @@ const app = {
         get_PR_excel_ifCanDownload({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.PR_excel_ifCanDownload);
+            })
+        },
+        set_PR_downloadNum_child({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_downloadNum_child = data;
+                resolve("PR_downloadNum_child - SUCCESS !");
+            })
+        },
+        get_PR_downloadNum_child({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_downloadNum_child);
+            })
+        },
+        set_PR_downloadNum_parent({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_downloadNum_parent = data;
+                resolve("PR_downloadNum_parent - SUCCESS !");
+            })
+        },
+        get_PR_downloadNum_parent({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_downloadNum_parent);
+            })
+        },
+        set_PR_excel_DownloadingStatus({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_excel_DownloadingStatus = data;
+                resolve("PR_excel_DownloadingStatus - SUCCESS !");
+            })
+        },
+        get_PR_excel_DownloadingStatus({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.PR_excel_DownloadingStatus);
             })
         },
         // /////////////////////////////////////

@@ -56,7 +56,7 @@ store
     console.info(error);
   });
 
-let ifTest = false;
+let ifTest = true;
 
 
 // var routerform = [
