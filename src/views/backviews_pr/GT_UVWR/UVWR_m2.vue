@@ -666,106 +666,6 @@ export default {
         console.log(error);
       }
 
-      setTimeout(() => {
-        // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
-        // data_arr = [
-        //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
-        //   [["运营商", "移动", "联通", "电信"], ["平均"]],
-        //   [["运营商", "移动", "联通", "电信"], ["平均"]]
-        // ];
-        let data_temp = [[], []]
-        let data_temp1 = [[], []]
-        vm.GT_UVWR1_G2.content.forEach((value, index) => {
-          // title_temp.push(value.title)
-          if (index == 0) {
-            value.data.forEach((value2, index2) => {
-              data_temp[0].push(value2.name)
-              data_temp[1].push(value2.value)
-            })
-          }
-          else if (index == 1) {
-            value.data.forEach((value2, index2) => {
-              data_temp1[0].push(value2.name)
-              data_temp1[1].push(value2.value)
-            })
-          }
-        })
-
-        // let title_temp = []
-        let H1_data_temp = [[], []]
-        let H1_data_temp1 = [[], []]
-        let H1_data_temp2 = [[], []]
-        vm.GT_UVWR1_H1.content.forEach((value, index) => {
-          // title_temp.push(value.title)
-          if (index == 0) {
-            value.data.forEach((value2, index2) => {
-              H1_data_temp[0].push(value2.name)
-              H1_data_temp[1].push(value2.value)
-            })
-          }
-          else if (index == 1) {
-            value.data.forEach((value2, index2) => {
-              H1_data_temp1[0].push(value2.name)
-              H1_data_temp1[1].push(value2.value)
-            })
-          }
-
-          else if (index == 2) {
-            value.data.forEach((value2, index2) => {
-              H1_data_temp2[0].push(value2.name)
-              H1_data_temp2[1].push(value2.value)
-            })
-          }
-        })
-
-        let title_arr = []
-        let data_arr = []   //activeDayReportTotalData
-        title_arr.push(
-          ["移动在册用户数与新增在册用户数（户）"],
-          [vm.GT_UVWR1_G2.content[0].title],
-          [vm.GT_UVWR1_G2.content[1].title]
-          [vm.GT_UVWR1_H1.content[0].title],
-          [vm.GT_UVWR1_H1.content[1].title],
-          [vm.GT_UVWR1_H1.content[2].title],
-          ["移动三大基础功能观看用户数每日走势（户）"],   //
-          ["移动分组频道直播用户数（万户）"],   //
-          ["移动分组频道直播次数（万次）"],   //
-          ["移动分组频道直播收视时长（小时）"],   //
-          ["移动本地频道收视规模排名（万户）"],   //
-          ["移动轮播频道每日收视走势（户）"],  //
-          ["移动本地自办节目TOP5（万小时）"],   //
-          ["移动点播用户数（万户）"],  //
-          ["移动点播次数（万次）"],  //
-          ["移动点播时长（万小时）"],  //
-          ["移动页面点击用户数（万户"], //
-          ["移动页面点击次数（万次）"], //
-          ["移动页面播放时长（万小时）"], //
-        )
-        data_arr.push(
-          vm.GT_UVWR1_G1.data,
-          // vm.GT_UVWR1_G2.content,   //此处格式为{value: , name: }，需做处理
-          data_temp,
-          data_temp1,
-          // vm.GT_UVWR1_H1.content,   //此处格式为{value: , name: }，需做处理
-          H1_data_temp,
-          H1_data_temp1,
-          H1_data_temp2,
-          vm.GT_UVWR1_H2.data,
-          vm.GT_UVWR1_I1.data,
-          vm.GT_UVWR1_I2.data,
-          vm.GT_UVWR1_I3.data,
-          vm.GT_UVWR1_J1.data,
-          vm.GT_UVWR1_J2.data,
-          vm.GT_UVWR1_J3.data,
-          vm.GT_UVWR1_K1.data,
-          vm.GT_UVWR1_K2.data,
-          vm.GT_UVWR1_K3.data,
-          vm.GT_UVWR1_L1.data,
-          vm.GT_UVWR1_L2.data,
-          vm.GT_UVWR1_L3.data,
-        )
-
-      }, 4000);
     }
   },
   methods: {
@@ -797,6 +697,106 @@ export default {
 
           // /// 实际
 
+          // setTimeout(() => {
+          //   // title_arr = [["各运营商在册用户数（户）"],["各运营商新增在册用户数（户）"],[""]];
+          //   // data_arr = [
+          //   //   [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
+          //   //   [["运营商", "移动", "联通", "电信"], ["平均"]],
+          //   //   [["运营商", "移动", "联通", "电信"], ["平均"]]
+          //   // ];
+          //   let data_temp = [[], []]
+          //   let data_temp1 = [[], []]
+          //   vm.GT_UVWR1_G2.content.forEach((value, index) => {
+          //     // title_temp.push(value.title)
+          //     if (index == 0) {
+          //       value.data.forEach((value2, index2) => {
+          //         data_temp[0].push(value2.name)
+          //         data_temp[1].push(value2.value)
+          //       })
+          //     }
+          //     else if (index == 1) {
+          //       value.data.forEach((value2, index2) => {
+          //         data_temp1[0].push(value2.name)
+          //         data_temp1[1].push(value2.value)
+          //       })
+          //     }
+          //   })
+
+          //   // let title_temp = []
+          //   let H1_data_temp = [[], []]
+          //   let H1_data_temp1 = [[], []]
+          //   let H1_data_temp2 = [[], []]
+          //   vm.GT_UVWR1_H1.content.forEach((value, index) => {
+          //     // title_temp.push(value.title)
+          //     if (index == 0) {
+          //       value.data.forEach((value2, index2) => {
+          //         H1_data_temp[0].push(value2.name)
+          //         H1_data_temp[1].push(value2.value)
+          //       })
+          //     }
+          //     else if (index == 1) {
+          //       value.data.forEach((value2, index2) => {
+          //         H1_data_temp1[0].push(value2.name)
+          //         H1_data_temp1[1].push(value2.value)
+          //       })
+          //     }
+
+          //     else if (index == 2) {
+          //       value.data.forEach((value2, index2) => {
+          //         H1_data_temp2[0].push(value2.name)
+          //         H1_data_temp2[1].push(value2.value)
+          //       })
+          //     }
+          //   })
+
+          //   let title_arr = []
+          //   let data_arr = []   //activeDayReportTotalData
+          //   title_arr.push(
+          //     ["移动在册用户数与新增在册用户数（户）"],
+          //     [vm.GT_UVWR1_G2.content[0].title],
+          //     [vm.GT_UVWR1_G2.content[1].title]
+          //     [vm.GT_UVWR1_H1.content[0].title],
+          //     [vm.GT_UVWR1_H1.content[1].title],
+          //     [vm.GT_UVWR1_H1.content[2].title],
+          //     ["移动三大基础功能观看用户数每日走势（户）"],   //
+          //     ["移动分组频道直播用户数（万户）"],   //
+          //     ["移动分组频道直播次数（万次）"],   //
+          //     ["移动分组频道直播收视时长（小时）"],   //
+          //     ["移动本地频道收视规模排名（万户）"],   //
+          //     ["移动轮播频道每日收视走势（户）"],  //
+          //     ["移动本地自办节目TOP5（万小时）"],   //
+          //     ["移动点播用户数（万户）"],  //
+          //     ["移动点播次数（万次）"],  //
+          //     ["移动点播时长（万小时）"],  //
+          //     ["移动页面点击用户数（万户"], //
+          //     ["移动页面点击次数（万次）"], //
+          //     ["移动页面播放时长（万小时）"], //
+          //   )
+          //   data_arr.push(
+          //     vm.GT_UVWR1_G1.data,
+          //     // vm.GT_UVWR1_G2.content,   //此处格式为{value: , name: }，需做处理
+          //     data_temp,
+          //     data_temp1,
+          //     // vm.GT_UVWR1_H1.content,   //此处格式为{value: , name: }，需做处理
+          //     H1_data_temp,
+          //     H1_data_temp1,
+          //     H1_data_temp2,
+          //     vm.GT_UVWR1_H2.data,
+          //     vm.GT_UVWR1_I1.data,
+          //     vm.GT_UVWR1_I2.data,
+          //     vm.GT_UVWR1_I3.data,
+          //     vm.GT_UVWR1_J1.data,
+          //     vm.GT_UVWR1_J2.data,
+          //     vm.GT_UVWR1_J3.data,
+          //     vm.GT_UVWR1_K1.data,
+          //     vm.GT_UVWR1_K2.data,
+          //     vm.GT_UVWR1_K3.data,
+          //     vm.GT_UVWR1_L1.data,
+          //     vm.GT_UVWR1_L2.data,
+          //     vm.GT_UVWR1_L3.data,
+          //   )
+
+          // }, 4000);
           // ///
 
           vm.$store

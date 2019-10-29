@@ -387,6 +387,32 @@ export default {
             radius: "55%",
             center: ["50%", "60%"],
             data: this.chartData_Change.data,
+            // itemStyle: {
+            //   emphasis: {
+            //     shadowBlur: 10,
+            //     shadowOffsetX: 0,
+            //     shadowColor: "rgba(0, 0, 0, 0.5)"
+            //   }
+            // },
+            // //// 新增
+            selectedMode: "single",
+
+            label: {
+              normal: {
+                // position: "inner",
+                // color: "#000",
+                fontSize: "10",
+                formatter: "{b}:\n {c}"
+              }
+            },
+            labelLine: {
+              show: false,
+              normal: {
+               smooth: 0.2,
+               length: 1
+              }
+            },
+            emphasis: false,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -394,6 +420,7 @@ export default {
                 shadowColor: "rgba(0, 0, 0, 0.5)"
               }
             }
+            // ////
           }
         ]
       };

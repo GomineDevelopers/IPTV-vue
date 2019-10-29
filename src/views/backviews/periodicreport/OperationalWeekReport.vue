@@ -4,7 +4,7 @@
     <el-row class="OperationalWeekReport">
       <!-- 左侧内容开始 -->
       <el-col class="height_auto operational_left_content">
-        <el-row class="periodic_report_title">移动运营数据周报</el-row>
+        <el-row class="periodic_report_title">运营数据周报</el-row>
         <el-row class="operational_left_content_body">
           <!-- 模块一 G+TV一周整体数据概览开始-->
           <!-- 一周用户活跃情况开始 -->
@@ -408,24 +408,69 @@ export default {
       let vm = this;
       console.log("PR_week: " + newValue);
       setTimeout(function() {
-        vm.refresh_api_data("yd", "week");
-        vm.refresh_api_data("yd", "week_days");
+        let operator_type = "";
+        if (vm.PR_operator[0] == "移动") {
+          operator_type = "yd";
+        }
+        if (vm.PR_operator[0] == "联通") {
+          operator_type = "lt";
+        }
+        if (vm.PR_operator[0] == "电信") {
+          operator_type = "dx";
+        }
+        vm.refresh_api_data(operator_type, "week");
+        vm.refresh_api_data(operator_type, "week_days");
         // excel 处理
-        vm.Excel_data_manage();
       }, 100);
+      setTimeout(function() {
+        vm.Excel_data_manage();
+      }, 200);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
-      // excel 处理
-      vm.Excel_data_manage();
+      console.log("PR_week: " + newValue);
+      setTimeout(function() {
+        let operator_type = "";
+
+        if (newValue[0] == "移动") {
+          operator_type = "yd";
+        }
+        if (newValue[0] == "联通") {
+          operator_type = "lt";
+        }
+        if (newValue[0] == "电信") {
+          operator_type = "dx";
+        }
+        vm.refresh_api_data(operator_type, "week");
+        vm.refresh_api_data(operator_type, "week_days");
+        // excel 处理
+      }, 100);
+      setTimeout(function() {
+        vm.Excel_data_manage();
+      }, 200);
     }
+    // PR_operator(newValue, oldValue) {
+    //   let vm = this;
+    //   // excel 处理
+    //   vm.Excel_data_manage();
+    // }
   },
   mounted() {
     // 数据刷新
     let vm = this;
     setTimeout(function() {
-      vm.refresh_api_data("yd", "week");
-      vm.refresh_api_data("yd", "week_days");
+      let operator_type = "";
+      if (vm.PR_operator[0] == "移动") {
+        operator_type = "yd";
+      }
+      if (vm.PR_operator[0] == "联通") {
+        operator_type = "lt";
+      }
+      if (vm.PR_operator[0] == "电信") {
+        operator_type = "dx";
+      }
+      vm.refresh_api_data(operator_type, "week");
+      vm.refresh_api_data(operator_type, "week_days");
       // excel 处理
       vm.Excel_data_manage();
     }, 200);
@@ -501,162 +546,178 @@ export default {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
-          temp_titleArr.push(["title1"]);
-          temp_titleArr.push(["title2"]);
-          temp_titleArr.push(["title3"]);
+          // temp_titleArr.push(["title1"]);
+          // temp_titleArr.push(["title2"]);
+          // temp_titleArr.push(["title3"]);
 
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信444444444"],
-            ["平均", 1, 2, 3]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试22"],
-            ["平均", 1, 2, 3, 4]
-          ]);
-          temp_DataArr.push([
-            ["运营商", "移动", "联通", "电信", "测试33"],
-            ["平均", 1, 2, 3, 4]
-          ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信444444444"],
+          //   ["平均", 1, 2, 3]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试22"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
+          // temp_DataArr.push([
+          //   ["运营商", "移动", "联通", "电信", "测试33"],
+          //   ["平均", 1, 2, 3, 4]
+          // ]);
           // ///
 
           // /// 实际
-          // try {
-          //   let title_arr = [];
-          //   let data_arr = [];
+          let title_arr = [];
+          let data_arr = [];
+          try {
+            let i;
+            let temp_pageClickNumData_content_data = [];
+            let temp_pageClickNumData_content_title = [];
+            for (i = 0; i < vm.pageClickNumData.content.length; i++) {
+              temp_pageClickNumData_content_data.push([]); // [  [], ]
+              vm.pageClickNumData.content[i].data.forEach((value, index) => {
+                temp_pageClickNumData_content_data[i].push([]); // [  [[]]  ]
+                temp_pageClickNumData_content_data[i][index].push(value.name); // [ [[name,value]], [[]] ]
+                temp_pageClickNumData_content_data[i][index].push(value.value);
+              });
 
-          //   let i;
+              temp_pageClickNumData_content_title.push([]); // [  [],  ]
+              temp_pageClickNumData_content_title[i].push(
+                vm.pageClickNumData.content[i].title
+              ); //  [   [title],[]   ]
+            }
+            let temp_weeklyThermodynamic_data = []; // 一周热力数据
+            let temp_weeklyThermodynamic_title = [];
+            let temp_buttonClickTOPData_data = [];
+            let temp_buttonClickTOPData_title = [];
+            let temp_columnButtonClickNum_data = [];
+            let temp_columnButtonClickNum_title = [];
+            let temp_someButtonDayTrendData_data = [];
+            let temp_someButtonDayTrendData_title = [];
 
-          //   let temp_pageClickNumData_content_data = [];
-          //   let temp_pageClickNumData_content_title = [];
-          //   for(i=0;i<vm.pageClickNumData.content.length;i++){
-          //     temp_pageClickNumData_content_data.push([]); // [  [], ]
-          //     vm.pageClickNumData.content[i].data.forEach((value, index) => {
-          //       temp_pageClickNumData_content_data[i].push([]);  // [  [[]]  ]
-          //       temp_pageClickNumData_content_data[i][index].push(value.name); // [ [[name,value]], [[]] ]
-          //       temp_pageClickNumData_content_data[i][index].push(value.value);
-          //     });
+            vm.Pane_ColumnData.forEach((value, index) => {
+              temp_weeklyThermodynamic_data.push(
+                value.weeklyThermodynamic.data
+              ); //  [  [[]], [[]]   ]
+              temp_weeklyThermodynamic_title.push([
+                value.weeklyThermodynamic.title
+              ]); // [ [title], ]
+              temp_buttonClickTOPData_data.push(value.buttonClickTOPData.data);
+              temp_buttonClickTOPData_title.push([
+                value.buttonClickTOPData.title
+              ]);
+              temp_columnButtonClickNum_data.push(
+                value.columnButtonClickNum.data
+              );
+              temp_columnButtonClickNum_title.push([
+                value.columnButtonClickNum.title
+              ]);
+              temp_someButtonDayTrendData_data.push(
+                value.someButtonDayTrendData.data
+              );
+              temp_someButtonDayTrendData_title.push([
+                value.someButtonDayTrendData.title
+              ]);
+            });
 
-          //     temp_pageClickNumData_content_title.push([]); // [  [],  ]
-          //     vm.pageClickNumData.content[i].forEach((value, index) => {
-          //       temp_pageClickNumData_content_title[i].push(value.title); //  [   [title],[]   ]
-          //     });
-          //   }
+            title_arr.push(
+              [vm.userNumAddPowerData.title],
+              [vm.dailyOperatingRateData.title],
+              [vm.hebdomadViewNumData.title],
+              [vm.threeBasedUserViewData.title],
+              ...temp_pageClickNumData_content_title, // 特殊
+              ["一周热力数据柱状图和折线图数据"],
+              [vm.hebdomadDibbleSeedingData.title],
+              [vm.hebdomadDibbleSeedingTOPData.title],
+              [vm.dibbleSeedingUserNumData.title],
+              [vm.dibbleSeedingNumData.title],
 
-          //   let temp_weeklyThermodynamic_data = []; // 一周热力数据
-          //   let temp_weeklyThermodynamic_title = [];
-          //   let temp_buttonClickTOPData_data = [];
-          //   let temp_buttonClickTOPData_title = [];
-          //   let temp_columnButtonClickNum_data = [];
-          //   let temp_columnButtonClickNum_title = [];
-          //   let temp_someButtonDayTrendData_data = [];
-          //   let temp_someButtonDayTrendData_title = [];
+              [vm.dibbleSeedingDurationData.title],
+              [vm.mainProgramaPlayData.title],
+              [vm.localProgramsPlayData.title],
+              [vm.localProgramsPlayTOPData.title],
+              [vm.hebdomadLiveData.title],
+              [vm.hebdomadLiveTOPData.title],
 
-          //   vm.Pane_ColumnData.forEach((value, index) => {
-          //     temp_weeklyThermodynamic_data.push(value.weeklyThermodynamic.data);    //  [  [[]], [[]]   ]
-          //     temp_weeklyThermodynamic_title.push([value.weeklyThermodynamic.title]);  // [ [title], ]
-          //     temp_buttonClickTOPData_data.push(value.buttonClickTOPData.data);
-          //     temp_buttonClickTOPData_title.push(value.buttonClickTOPData.title);
-          //     temp_columnButtonClickNum_data.push(value.columnButtonClickNum.data);
-          //     temp_columnButtonClickNum_title.push(value.columnButtonClickNum.title);
-          //     temp_someButtonDayTrendData_data.push(value.someButtonDayTrendData.data);
-          //     temp_someButtonDayTrendData_title.push(value.someButtonDayTrendData.title);
-          //   });
+              [vm.channelLiveUserNumData.title],
+              [vm.channelLiveTimesData.title],
+              [vm.channelLiveDurationData.title],
+              [vm.liveChannelTOPData.title],
+              [vm.liveProgramTOPData.title],
+              [vm.localChannelTOPData.title],
+              [vm.localProgramTOPData.title],
 
-          //   title_arr.push(
-          //     [vm.userNumAddPowerData.title],
-          //     [vm.dailyOperatingRateData.title],
-          //     [vm.hebdomadViewNumData.title],
-          //     [vm.threeBasedUserViewData.title],
-          //     ...(temp_pageClickNumData_content_title),// 特殊
-          //     ["一周热力数据柱状图和折线图数据"],
-          //     [vm.hebdomadDibbleSeedingData.title],
-          //     [vm.hebdomadDibbleSeedingTOPData.title],
-          //     [vm.dibbleSeedingUserNumData.title],
-          //     [vm.dibbleSeedingNumData.title],
+              [vm.satelliteChannelTOPData.title],
+              [vm.satelliteLiveProgramTOPData.title],
+              [vm.carouselChannelData.title],
+              [vm.originalProgramsDemandData.title],
 
-          //     [vm.dibbleSeedingDurationData.title],
-          //     [vm.mainProgramaPlayData.title],
-          //     [vm.localProgramsPlayData.title],
-          //     [vm.localProgramsPlayTOPData.title],
-          //     [vm.hebdomadLiveData.title],
-          //     [vm.hebdomadLiveTOPData.title],
+              ...temp_weeklyThermodynamic_title,
+              ...temp_buttonClickTOPData_title,
+              // ...temp_columnButtonClickNum_title,
+              ...temp_someButtonDayTrendData_title,
 
-          //     [vm.channelLiveUserNumData.title],
-          //     [vm.channelLiveTimesData.title],
-          //     [vm.channelLiveDurationData.title],
-          //     [vm.liveChannelTOPData.title],
-          //     [vm.liveProgramTOPData.title],
-          //     [vm.localChannelTOPData.title],
-          //     [vm.localProgramTOPData.title],
+              [vm.thematicData.title],
+              [vm.monographicPlanData.title],
+              [vm.specialTrendData1.title]
+              // [vm.specialTrendData2.title], // pass
+            );
+            data_arr.push(
+              vm.userNumAddPowerData.data,
+              vm.dailyOperatingRateData.data,
+              vm.hebdomadViewNumData.data,
+              vm.threeBasedUserViewData.data,
+              ...temp_pageClickNumData_content_data, // 特殊
+              vm.hebdomadHotData.data,
+              vm.hebdomadDibbleSeedingData.data,
+              vm.hebdomadDibbleSeedingTOPData.data,
+              vm.dibbleSeedingUserNumData.data,
+              vm.dibbleSeedingNumData.data,
 
-          //     [vm.satelliteChannelTOPData.title],
-          //     [vm.satelliteLiveProgramTOPData.title],
-          //     [vm.carouselChannelData.title],
-          //     [vm.originalProgramsDemandData.title],
+              vm.dibbleSeedingDurationData.data,
+              vm.mainProgramaPlayData.data,
+              vm.localProgramsPlayData.data,
+              vm.localProgramsPlayTOPData.data,
+              vm.hebdomadLiveData.data,
+              vm.hebdomadLiveTOPData.data,
 
-          //     ...(temp_weeklyThermodynamic_title),
-          //     ...(temp_buttonClickTOPData_title),
-          //     ...(temp_columnButtonClickNum_title),
-          //     ...(temp_someButtonDayTrendData_title),
+              vm.channelLiveUserNumData.data,
+              vm.channelLiveTimesData.data,
+              vm.channelLiveDurationData.data,
+              vm.liveChannelTOPData.data,
+              vm.liveProgramTOPData.data,
+              vm.localChannelTOPData.data,
+              vm.localProgramTOPData.data,
 
-          //     [vm.thematicData.title],
-          //     [vm.monographicPlanData.title],
-          //     [vm.specialTrendData1.title],
-          //     // [vm.specialTrendData2.title], // pass
+              vm.satelliteChannelTOPData.data,
+              vm.satelliteLiveProgramTOPData.data,
+              vm.carouselChannelData.data,
+              vm.originalProgramsDemandData.data,
 
-          //   );
-          //   data_arr.push(
-          //     vm.userNumAddPowerData.data,
-          //     vm.dailyOperatingRateData.data,
-          //     vm.hebdomadViewNumData.data,
-          //     vm.threeBasedUserViewData.data,
-          //     ...(temp_pageClickNumData_content_data),// 特殊
-          //     vm.hebdomadHotData.data,
-          //     vm.hebdomadDibbleSeedingData.data,
-          //     vm.hebdomadDibbleSeedingTOPData.data,
-          //     vm.dibbleSeedingUserNumData.data,
-          //     vm.dibbleSeedingNumData.data,
+              ...temp_weeklyThermodynamic_data,
+              ...temp_buttonClickTOPData_data,
+              // ...temp_columnButtonClickNum_data,
+              ...temp_someButtonDayTrendData_data,
 
-          //     vm.dibbleSeedingDurationData.data,
-          //     vm.mainProgramaPlayData.data,
-          //     vm.localProgramsPlayData.data,
-          //     vm.localProgramsPlayTOPData.data,
-          //     vm.hebdomadLiveData.data,
-          //     vm.hebdomadLiveTOPData.data,
+              vm.thematicData.data,
+              vm.monographicPlanData.data,
+              vm.specialTrendData1.data
+              // vm.specialTrendData2.data, // pass
+            );
+          } catch (error) {
+            console.log(error);
+          }
+          // ///
 
-          //     vm.channelLiveUserNumData.data,
-          //     vm.channelLiveTimesData.data,
-          //     vm.channelLiveDurationData.data,
-          //     vm.liveChannelTOPData.data,
-          //     vm.liveProgramTOPData.data,
-          //     vm.localChannelTOPData.data,
-          //     vm.localProgramTOPData.data,
+          temp_titleArr = title_arr;
+          temp_DataArr = data_arr;
+          console.log("运营数据周报");
+          console.log(temp_titleArr);
+          console.log(temp_DataArr);
 
-          //     vm.satelliteChannelTOPData.data,
-          //     vm.satelliteLiveProgramTOPData.data,
-          //     vm.carouselChannelData.data,
-          //     vm.originalProgramsDemandData.data,
-
-          //     ...(temp_weeklyThermodynamic_data),
-          //     ...(temp_buttonClickTOPData_data),
-          //     ...(temp_columnButtonClickNum_data),
-          //     ...(temp_someButtonDayTrendData_data),
-
-          //     vm.thematicData.data,
-          //     vm.monographicPlanData.data,
-          //     vm.specialTrendData1.data,
-          //     // vm.specialTrendData2.data, // pass
-
-          //   );
-          // } catch (error) {
-          //   console.log(error);
-          // }
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");
             return;
           }
 
-          // ///
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {
@@ -683,7 +744,7 @@ export default {
               console.info(error);
             });
         }
-      }, 6000);
+      }, 12000); // 内容比较多
     },
     refresh_api_data(operator_type, week_type) {
       this.users_mobileReport(operator_type, week_type);
@@ -695,11 +756,15 @@ export default {
       if (vm.PR_week == "" || vm.PR_week == null || vm.PR_week == undefined) {
         return;
       }
-
-      let m_operator;
+      let m_operator = "";
       if (operator_type == "yd") {
-        // 暂且只有移动的
         m_operator = "移动";
+      }
+      if (operator_type == "lt") {
+        m_operator = "联通";
+      }
+      if (operator_type == "dx") {
+        m_operator = "电信";
       }
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
       let temp;

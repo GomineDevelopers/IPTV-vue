@@ -13,7 +13,7 @@
     <!-- 条件筛选结束 -->
 
     <!-- 收视行为开始 -->
-    <el-row class="viewing_behavior">
+    <el-row class="viewing_behavior" v-show="ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>收视行为
       </el-row>
@@ -48,7 +48,7 @@
     <!-- 收视行为结束 -->
 
     <!-- 收视TOP开始 -->
-    <el-row class="viewing_top15" v-show="ifPlaymodeShow_zb">
+    <el-row class="viewing_top15" v-show="ifPlaymodeShow_zb &&  ifInitShow" >
       <el-row class="model_title">
         <span class="title_border_left"></span>直播收视TOP15
       </el-row>
@@ -57,7 +57,7 @@
       </el-row>
     </el-row>
 
-    <el-row class="viewing_top15" v-show="ifPlaymodeShow_db">
+    <el-row class="viewing_top15" v-show="ifPlaymodeShow_db &&  ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>点播收视TOP15
       </el-row>
@@ -66,7 +66,7 @@
       </el-row>
     </el-row>
 
-    <el-row class="viewing_top15 last_viewing_top15" v-show="ifPlaymodeShow_hk">
+    <el-row class="viewing_top15 last_viewing_top15" v-show="ifPlaymodeShow_hk &&  ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>回看收视TOP15
       </el-row>
@@ -253,6 +253,7 @@ export default {
     UVB_time_type(newValue, oldValue) {
       let vm = this;
       console.log("UVB_time_type: " + newValue);
+      vm.ifInitShow = true;
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -1090,6 +1091,12 @@ export default {
   mounted() {
     let vm = this;
     setTimeout(function() {
+      if(vm.UVB_time_type == 0){ // 显示初始化
+        vm.ifInitShow = true;
+      }
+    }, 500);
+
+    setTimeout(function() {
       vm.$store
         .dispatch("get_UVB_programa_list")
         .then(function(response) {
@@ -1129,7 +1136,10 @@ export default {
   },
   data() {
     return {
-      targetOption: "", //存放选择的指标
+      ifInitShow:true,
+      // targetOption: "", //存放选择的指标
+      targetOption: "观看次数", 
+
       //选择指标数据
       // target: [
       //   "观看次数",

@@ -471,21 +471,75 @@ export default {
     "bar-chart-single": BarChartSingle,
     "smooth-line-chart": SmoothLineChart
   },
+  computed: {
+    ...mapGetters(["PR_operator", "PR_month", "PR_Report_index"]),
+    ifModuleydShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("移动") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuleltShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("联通") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    },
+    ifModuledxShow: {
+      get: function() {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          return true;
+        } else {
+          if (vm.PR_operator.indexOf("电信") > -1) {
+            return true;
+          }
+        }
+        return false;
+      },
+      set: function(newValue) {}
+    }
+  },
   watch: {
     PR_operator(newValue, oldValue) {
+      console.log("~~~~!!!!!PR_operator");
       let vm = this;
-      setTimeout(function () {
-        // // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
-        // vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
-        // vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（每月分周）
+      setTimeout(function() {
+        try {
+          // // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
+          // vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
+          // vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（每月分周）
 
-        vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
-        vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
-        vm.api_data_set("mixture", "day");
+          vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
+          vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
+          vm.api_data_set("mixture", "day");
 
-        vm.api_data_set("single", "month_range"); // single - 单运营商数据类型（多月）
-        vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
-        vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+          vm.api_data_set("single", "month_range"); // single - 单运营商数据类型（多月）
+          vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
+          vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+        } catch (error) {
+          console.log(error);
+        }
+
+        console.log("~~~~excel 处理");
+        // excel 处理
+        vm.Excel_data_manage();
       }, 100);
     },
     PR_month(newValue, oldValue) {
@@ -518,66 +572,29 @@ export default {
         ["总开机活跃率"]
       ];
 
-      setTimeout(function () {
-        // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
-        vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
-        vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
-        vm.api_data_set("mixture", "day");
+      setTimeout(function() {
+        try {
+          // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
+          vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
+          vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
+          vm.api_data_set("mixture", "day");
 
-        vm.api_data_set("single", "month_range"); // single - 单运营商数据类型（多月）
-        vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
-        vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+          vm.api_data_set("single", "month_range"); // single - 单运营商数据类型（多月）
+          vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
+          vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+        } catch (error) {
+          console.log(error);
+        }
+        console.log("~~~~excel 处理");
+        // excel 处理
+        vm.Excel_data_manage();
       }, 100);
     }
   },
-  computed: {
-    ...mapGetters(["PR_operator", "PR_month"]),
-    ifModuleydShow: {
-      get: function () {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          return true;
-        } else {
-          if (vm.PR_operator.indexOf("移动") > -1) {
-            return true;
-          }
-        }
-        return false;
-      },
-      set: function (newValue) { }
-    },
-    ifModuleltShow: {
-      get: function () {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          return true;
-        } else {
-          if (vm.PR_operator.indexOf("联通") > -1) {
-            return true;
-          }
-        }
-        return false;
-      },
-      set: function (newValue) { }
-    },
-    ifModuledxShow: {
-      get: function () {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          return true;
-        } else {
-          if (vm.PR_operator.indexOf("电信") > -1) {
-            return true;
-          }
-        }
-        return false;
-      },
-      set: function (newValue) { }
-    }
-  },
+
   mounted() {
     //监听滚动事件
-    $(".monthly_report_body").scroll(function (event) {
+    $(".monthly_report_body").scroll(function(event) {
       let scrollTopHeight = $(".monthly_report_body").scrollTop();
       // let user_development_data = document.querySelector('#user_development_data').offsetTop
       // let operational_data = document.querySelector('#operational_data').offsetTop
@@ -601,17 +618,319 @@ export default {
 
     let vm = this;
     // api 数据处理 - by 运营商
-    setTimeout(function () {
-      // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型（单月）
-      vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（单月）
-      vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
+    setTimeout(function() {
+      try {
+        // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型（单月）
+        vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（单月）
+        vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
 
-      vm.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
-      vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
-      vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+        vm.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
+        vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
+        vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+      } catch (error) {
+        console.log(error);
+      }
+      // excel 处理
+      vm.Excel_data_manage();
     }, 100);
   },
   methods: {
+    Excel_data_manage() {
+      console.log("Excel_data_manage - 7");
+      let vm = this;
+      vm.$store
+        .dispatch("set_PR_excel_ifCanDownload", false)
+        .then(function(response_dataArr) {
+          console.log("下载关");
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      setTimeout(function() {
+        if (vm.PR_Report_index == 7) {
+          let temp_titleArr = [];
+          let temp_DataArr = [];
+          // /// 临时
+          temp_titleArr.push(["title1"]);
+          temp_titleArr.push(["title2"]);
+          temp_titleArr.push(["title3"]);
+
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信7777777"],
+            ["平均", 1, 2, 3]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试22"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          temp_DataArr.push([
+            ["运营商", "移动", "联通", "电信", "测试33"],
+            ["平均", 1, 2, 3, 4]
+          ]);
+          // ///
+
+          // /// 实际
+          // //设置Excel下载数据
+          // setTimeout(() => {
+          //   //处理格式为{value,name的数组}
+          //   //三大基础功能使用用户占比
+          //   let usingTheUser_titleArr = [];
+          //   let usingTheUser_dataArr = [];
+          //   vm.usingTheUser.content.forEach((value, index) => {
+          //     usingTheUser_titleArr.push([value.title]);
+          //     usingTheUser_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       usingTheUser_dataArr[index][0].push(value2.name);
+          //       usingTheUser_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   //usingTheTime三大基础功能使用次数占比
+          //   let usingTheTime_titleArr = [];
+          //   let usingTheTime_dataArr = [];
+          //   vm.usingTheTime.content.forEach((value, index) => {
+          //     usingTheTime_titleArr.push([value.title]);
+          //     usingTheTime_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       usingTheTime_dataArr[index][0].push(value2.name);
+          //       usingTheTime_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   //usingTheDuration三大基础功能使用时长占比
+          //   let usingTheDuration_titleArr = [];
+          //   let usingTheDuration_dataArr = [];
+          //   vm.usingTheDuration.content.forEach((value, index) => {
+          //     usingTheDuration_titleArr.push([value.title]);
+          //     usingTheDuration_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       usingTheDuration_dataArr[index][0].push(value2.name);
+          //       usingTheDuration_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   //liveViewingDurationData直播观看时长数据
+          //   let liveViewingDurationData_titleArr = [];
+          //   let liveViewingDurationData_dataArr = [];
+          //   vm.liveViewingDurationData.content.forEach((value, index) => {
+          //     liveViewingDurationData_titleArr.push([value.title]);
+          //     liveViewingDurationData_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       liveViewingDurationData_dataArr[index][0].push(value2.name);
+          //       liveViewingDurationData_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+          //   //liveViewingUserData 直播观看用户数据
+          //   let liveViewingUserData_titleArr = [];
+          //   let liveViewingUserData_dataArr = [];
+          //   vm.liveViewingUserData.content.forEach((value, index) => {
+          //     liveViewingUserData_titleArr.push([value.title]);
+          //     liveViewingUserData_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       liveViewingUserData_dataArr[index][0].push(value2.name);
+          //       liveViewingUserData_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+          //   //liveViewingTimesData 直播观看次数数据
+          //   let liveViewingTimesData_titleArr = [];
+          //   let liveViewingTimesData_dataArr = [];
+          //   vm.liveViewingTimesData.content.forEach((value, index) => {
+          //     liveViewingTimesData_titleArr.push([value.title]);
+          //     liveViewingTimesData_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       liveViewingTimesData_dataArr[index][0].push(value2.name);
+          //       liveViewingTimesData_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   //weekLiveViewUserData 各周直播收视用户数
+          //   let weekLiveViewUserData_titleArr = [];
+          //   let weekLiveViewUserData_dataArr = [];
+          //   vm.weekLiveViewUserData.content.forEach((value, index) => {
+          //     weekLiveViewUserData_titleArr.push([value.title]);
+          //     weekLiveViewUserData_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       weekLiveViewUserData_dataArr[index][0].push(value2.name);
+          //       weekLiveViewUserData_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   //weekLiveViewTimesData各周直播收视次数
+          //   let weekLiveViewTimesData_titleArr = [];
+          //   let weekLiveViewTimesData_dataArr = [];
+          //   vm.weekLiveViewTimesData.content.forEach((value, index) => {
+          //     weekLiveViewTimesData_titleArr.push([value.title]);
+          //     weekLiveViewTimesData_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       weekLiveViewTimesData_dataArr[index][0].push(value2.name);
+          //       weekLiveViewTimesData_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   //weekliveViewDurationData
+          //   let weekliveViewDurationData_titleArr = [];
+          //   let weekliveViewDurationData_dataArr = [];
+          //   vm.weekliveViewDurationData.content.forEach((value, index) => {
+          //     weekliveViewDurationData_titleArr.push([value.title]);
+          //     weekliveViewDurationData_dataArr.push([[], []]);
+          //     value.data.forEach((value2, index2) => {
+          //       weekliveViewDurationData_dataArr[index][0].push(value2.name);
+          //       weekliveViewDurationData_dataArr[index][1].push(value2.value);
+          //     });
+          //   });
+
+          //   let title_arr = [];
+          //   let data_arr = [];
+          //   title_arr.push(
+          //     [vm.G_TVUserData.title],
+          //     [vm.NewUserComparisonData.title],
+          //     [vm.registeredUsersData.title],
+          //     [vm.monthNewRegUserData.title],
+          //     [vm.monthCancellationUserData.title],
+          //     [vm.G_TVRegionUserData.title],
+          //     [vm.weekNewUserData.title],
+          //     [vm.mobileNewUserData.title],
+          //     [vm.unicornNewUserData.title],
+          //     [vm.telecomNewUserData],
+          //     [vm.everyDayUserData.title],
+          //     [vm.monthPowerActivityData.title],
+          //     [vm.areaPowerActivityData.title],
+          //     [vm.everyPowerActivityData.data],
+
+          //     ...usingTheUser_titleArr, //此处数据格式待处理
+          //     ...usingTheTime_titleArr, //此处数据格式待处理
+          //     ...usingTheDuration_titleArr, //此处数据格式待处理
+
+          //     [vm.monthlyTotalViewingData.title],
+
+          //     ...liveViewingDurationData_titleArr, //此处数据格式待处理
+          //     ...liveViewingUserData_titleArr, //此处数据格式待处理
+          //     ...liveViewingTimesData_titleArr, //此处数据格式待处理
+
+          //     [vm.monthlyTotalViewingData2.title],
+
+          //     ...weekLiveViewUserData_titleArr, //此处数据格式待处理
+          //     ...weekLiveViewTimesData_titleArr, //此处数据格式待处理
+          //     ...weekliveViewDurationData_titleArr, //此处数据格式待处理
+
+          //     [vm.weekliveViewingData.title],
+          //     [vm.liveViewerData.title],
+          //     [vm.liveViewTimesData.title],
+          //     [vm.liveViewTimesData2.title],
+          //     [vm.mobileLiveViewerData.title],
+          //     [vm.unicornLiveViewerData.title],
+          //     [vm.telecomLiveViewerData.title],
+          //     [vm.monthlyDemandViewingData.title],
+          //     [vm.weekDemandViewingData.title],
+          //     [vm.demandUserNumData.title],
+          //     [vm.demandTimesData.title],
+          //     [vm.demandDurationData.title],
+          //     [vm.programPageClickUserData.title],
+          //     [vm.programPageClickNumData.title],
+          //     [vm.demandUserNumData2.title],
+          //     [vm.demandTimesData2.title],
+          //     [vm.demandDurationData2.title],
+          //     [vm.newAddUserData.title],
+          //     [vm.payingUserData.title],
+          //     [vm.monthDemandData.data],
+          //     [vm.originalProgramsDemandData.title],
+          //     [vm.mobileKeyProjectData.data],
+          //     [vm.unicornKeyProjectData],
+          //     [vm.telecomKeyProjectData.data]
+          //   );
+
+          //   data_arr.push(
+          //     vm.G_TVUserData.data,
+          //     vm.NewUserComparisonData.data,
+          //     vm.registeredUsersData.data,
+          //     vm.monthNewRegUserData.data,
+          //     vm.monthCancellationUserData.data,
+          //     vm.G_TVRegionUserData.data,
+          //     vm.weekNewUserData.data,
+          //     vm.mobileNewUserData.data,
+          //     vm.unicornNewUserData.data,
+          //     vm.telecomNewUserData.data,
+          //     vm.everyDayUserData.data,
+          //     vm.monthPowerActivityData.data,
+          //     vm.areaPowerActivityData.data,
+          //     vm.everyPowerActivityData.data,
+
+          //     ...usingTheUser_dataArr, //此处数据格式待处理
+          //     ...usingTheTime_dataArr, //此处数据格式待处理
+          //     ...usingTheDuration_dataArr, //此处数据格式待处理
+
+          //     vm.monthlyTotalViewingData.data,
+
+          //     ...liveViewingDurationData_dataArr, //此处数据格式待处理
+          //     ...liveViewingUserData_dataArr, //此处数据格式待处理
+          //     ...liveViewingTimesData_dataArr, //此处数据格式待处理
+
+          //     vm.monthlyTotalViewingData2.data,
+
+          //     ...weekLiveViewUserData_dataArr, //此处数据格式待处理
+          //     ...weekLiveViewTimesData_dataArr, //此处数据格式待处理
+          //     ...weekliveViewDurationData_dataArr, //此处数据格式待处理
+
+          //     vm.weekliveViewingData.data,
+          //     vm.liveViewerData.data,
+          //     vm.liveViewTimesData.data,
+          //     vm.liveViewTimesData2.data,
+          //     vm.mobileLiveViewerData.data,
+          //     vm.unicornLiveViewerData.data,
+          //     vm.telecomLiveViewerData.data,
+          //     vm.monthlyDemandViewingData.data,
+          //     vm.weekDemandViewingData.data,
+          //     vm.demandUserNumData.data,
+          //     vm.demandTimesData.data,
+          //     vm.demandDurationData.data,
+          //     vm.programPageClickUserData.data,
+          //     vm.programPageClickNumData.data,
+          //     vm.demandUserNumData2.data,
+          //     vm.demandTimesData2.data,
+          //     vm.demandDurationData2.data,
+          //     vm.newAddUserData.data,
+          //     vm.payingUserData.data,
+          //     vm.monthDemandData.data,
+          //     vm.originalProgramsDemandData.data,
+          //     vm.mobileKeyProjectData.data,
+          //     vm.unicornKeyProjectData.data,
+          //     vm.telecomKeyProjectData.data
+          //   );
+          // }, 5000);
+          // ///
+
+          if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
+            console.log("请选择时间！");
+            return;
+          }
+          vm.$store
+            .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
+            .then(function(response_title) {
+              console.log(response_title);
+              vm.$store
+                .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
+                .then(function(response_dataArr) {
+                  console.log(response_dataArr);
+                  // 设置excel按钮下载状态 - 开
+                  vm.$store
+                    .dispatch("set_PR_excel_ifCanDownload", true)
+                    .then(function(response_dataArr) {
+                      console.log("下载开");
+                    })
+                    .catch(function(error) {
+                      console.info(error);
+                    });
+                })
+                .catch(function(error) {
+                  console.info(error);
+                });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
+        }
+      }, 3000);
+    },
     returnFloat(value) {
       // 保留两位小数
       var value = Math.round(parseFloat(value) * 100) / 100;
@@ -822,7 +1141,7 @@ export default {
             let mixture_month_range_data = response.data.responses; //总的混合多月数据
 
             //G+TV用户发展数据概览
-            //G+TV用户发展情况 
+            //G+TV用户发展情况
             let registe_and_new_num =
               mixture_month_range_data[0].aggregations.statistical_granularity
                 .buckets;
@@ -863,17 +1182,23 @@ export default {
             new_num_user_comparison.forEach((value, index) => {
               if (value.key != "other") {
                 // console.log(commonTools.acConvert_Single(value.key))
-                new_num_user_temp[9 - index].push(commonTools.acConvert_Single(value.key));
+                new_num_user_temp[9 - index].push(
+                  commonTools.acConvert_Single(value.key)
+                );
                 // Vue.set(vm.NewUserComparisonData.data[0], index + 1, commonTools.acConvert_Single(value.key))
                 value.statistical_granularity.buckets.forEach(
                   (value2, index2) => {
                     // console.log(value2.key, value2.open_num.value)
                     //设置月份（只执行一次）
                     if (index == 0) {
-                      let data_month = commonTools.format_monthToChinese(value2.key);
+                      let data_month = commonTools.format_monthToChinese(
+                        value2.key
+                      );
                       new_num_user_temp[0].push(data_month);
                     }
-                    new_num_user_temp[9 - index].push(Number((value2.new_num.value / 10000).toFixed(1)));
+                    new_num_user_temp[9 - index].push(
+                      Number((value2.new_num.value / 10000).toFixed(1))
+                    );
                     // Vue.set(vm.NewUserComparisonData.data[index + 1], index2 + 1, (Number(value2.new_num.value / 10000).toFixed(1)))
                   }
                 );
@@ -1065,23 +1390,23 @@ export default {
                 (parseFloat(q1_f[i_9]) +
                   parseFloat(q2_f[i_9]) +
                   parseFloat(q3_f[i_9])) /
-                100 /
-                10000
+                  100 /
+                  10000
               );
               let dur2 = vm.returnFloat(
                 (parseFloat(q1_d[i_9]) +
                   parseFloat(q2_d[i_9]) +
                   parseFloat(q3_d[i_9])) /
-                100 /
-                10000 /
-                3600
+                  100 /
+                  10000 /
+                  3600
               ); // 观看时长计时 - 秒 =》百万小时
               let user_num2 = vm.returnFloat(
                 (parseFloat(q1_u[i_9]) +
                   parseFloat(q2_u[i_9]) +
                   parseFloat(q3_u[i_9])) /
-                100 /
-                10000
+                  100 /
+                  10000
               );
 
               temp_monthlyTotalViewingData[0].push(
@@ -1170,8 +1495,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12[month_index_current].channel.buckets[i_12]
                       .onlive_user_num.value /
-                    100 /
-                    10000
+                      100 /
+                      10000
                   )
                 );
                 // 二   // 3 7 freq
@@ -1186,8 +1511,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12_3[month_index_current].channel.buckets[i_12]
                       .onlive_freq.value /
-                    100 /
-                    10000
+                      100 /
+                      10000
                   )
                 );
                 // 三  // 2 6 dur
@@ -1202,9 +1527,9 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12_2[month_index_current].channel.buckets[i_12]
                       .onlive_dur.value /
-                    100 /
-                    10000 /
-                    3600
+                      100 /
+                      10000 /
+                      3600
                   )
                 );
               }
@@ -1234,8 +1559,8 @@ export default {
                     if (buckets_child_12_2[i_12_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2[i_12_2].onlive_user_num.value /
-                        100 /
-                        10000
+                          100 /
+                          10000
                       );
                       break;
                     }
@@ -1253,8 +1578,8 @@ export default {
                     if (buckets_child_12_2_3[i_12_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2_3[i_12_2].onlive_freq.value /
-                        100 /
-                        10000
+                          100 /
+                          10000
                       );
                       break;
                     }
@@ -1273,9 +1598,9 @@ export default {
                       //
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2_2[i_12_2].onlive_dur.value /
-                        100 /
-                        10000 /
-                        3600
+                          100 /
+                          10000 /
+                          3600
                       );
                       break;
                     }
@@ -1501,21 +1826,21 @@ export default {
                     temp_data_15[i_15 + 1],
                     3,
                     (temp_data_15[i_15 + 1][2] - temp_data_15[i_15 + 1][1]) /
-                    temp_data_15[i_15 + 1][1]
+                      temp_data_15[i_15 + 1][1]
                   ); // ▲ 3
                   Vue.set(
                     temp_data_15_dur[i_15 + 1],
                     3,
                     (temp_data_15_dur[i_15 + 1][2] -
                       temp_data_15_dur[i_15 + 1][1]) /
-                    temp_data_15_dur[i_15 + 1][1]
+                      temp_data_15_dur[i_15 + 1][1]
                   ); // ▲ 3
                   Vue.set(
                     temp_data_15_fr[i_15 + 1],
                     3,
                     (temp_data_15_fr[i_15 + 1][2] -
                       temp_data_15_fr[i_15 + 1][1]) /
-                    temp_data_15_fr[i_15 + 1][1]
+                      temp_data_15_fr[i_15 + 1][1]
                   ); // ▲ 3
                 }
               }
@@ -1638,14 +1963,14 @@ export default {
                     temp_data_16[i_16 + 1],
                     3,
                     (temp_data_16[i_16 + 1][2] - temp_data_16[i_16 + 1][1]) /
-                    temp_data_16[i_16 + 1][1]
+                      temp_data_16[i_16 + 1][1]
                   ); // ▲ 3
                   Vue.set(
                     temp_data_16_cun[i_16 + 1],
                     3,
                     (temp_data_16_cun[i_16 + 1][2] -
                       temp_data_16_cun[i_16 + 1][1]) /
-                    temp_data_16_cun[i_16 + 1][1]
+                      temp_data_16_cun[i_16 + 1][1]
                   ); // ▲ 3
                 }
               }
@@ -1707,8 +2032,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17[month_index_current].program_type.buckets[i_17]
                       .demand_user_num.value /
-                    100 /
-                    10000
+                      100 /
+                      10000
                   )
                 );
                 // 二   // 2 6 dur
@@ -1724,8 +2049,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17_2[month_index_current].program_type.buckets[i_17]
                       .demand_freq.value /
-                    100 /
-                    10000
+                      100 /
+                      10000
                   )
                 );
                 // 三  // 3 7 freq
@@ -1741,9 +2066,9 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17_3[month_index_current].program_type.buckets[i_17]
                       .demand_dur.value /
-                    100 /
-                    10000 /
-                    3600
+                      100 /
+                      10000 /
+                      3600
                   )
                 );
               }
@@ -1773,8 +2098,8 @@ export default {
                     if (buckets_child_17_2[i_17_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2[i_17_2].demand_user_num.value /
-                        10 /
-                        10000
+                          10 /
+                          10000
                       );
                       break;
                     }
@@ -1793,8 +2118,8 @@ export default {
                       // 2
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2_2[i_17_2].demand_freq.value / // 2
-                        10 /
-                        10000
+                          10 /
+                          10000
                       );
                       break;
                     }
@@ -1814,9 +2139,9 @@ export default {
                       //
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2_3[i_17_2].demand_dur.value / // 3
-                        10 /
-                        10000 /
-                        3600
+                          10 /
+                          10000 /
+                          3600
                       );
                       break;
                     }
@@ -1889,7 +2214,7 @@ export default {
                 temp_data_18[i_18 + 1].push(buckets_18[i_18].new_num.value);
                 temp_data_18[i_18 + 1].push(
                   buckets_18[i_18].new_paid_num.value /
-                  buckets_18[i_18].new_num.value
+                    buckets_18[i_18].new_num.value
                 );
               }
 
@@ -1928,11 +2253,11 @@ export default {
                   temp_data_18b_npn[top20_length_18b - i_18b],
                   0,
                   "(" +
-                  buckets_18b[month_index_current].programname.buckets[i_18b]
-                    .program_type.buckets[0].key +
-                  ")" +
-                  buckets_18b[month_index_current].programname.buckets[i_18b]
-                    .key
+                    buckets_18b[month_index_current].programname.buckets[i_18b]
+                      .program_type.buckets[0].key +
+                    ")" +
+                    buckets_18b[month_index_current].programname.buckets[i_18b]
+                      .key
                 );
                 Vue.set(
                   temp_data_18b_npn[top20_length_18b - i_18b],
@@ -2253,7 +2578,7 @@ export default {
                   data: []
                 });
               }
-              setTimeout(function () {
+              setTimeout(function() {
                 vm.liveViewingDurationData.content = temp_liveViewingDurationData_content;
                 vm.liveViewingUserData.content = temp_liveViewingUserData_content;
                 vm.liveViewingTimesData.content = temp_liveViewingTimesData_content;
@@ -2331,13 +2656,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                    ManageSpecialKey(
-                      buckets_20zt[month_index_current]
-                        .special_or_activity_name.buckets[i_20zt].ti.buckets
-                    ) +
-                    ")" +
-                    buckets_20zt[month_index_current].special_or_activity_name
-                      .buckets[i_20zt].key
+                      ManageSpecialKey(
+                        buckets_20zt[month_index_current]
+                          .special_or_activity_name.buckets[i_20zt].ti.buckets
+                      ) +
+                      ")" +
+                      buckets_20zt[month_index_current].special_or_activity_name
+                        .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -2466,7 +2791,7 @@ export default {
               let temp_liveViewingUserData_content = [];
               let temp_liveViewingTimesData_content = [];
 
-              setTimeout(function () {
+              setTimeout(function() {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -2530,13 +2855,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                    ManageSpecialKey(
-                      buckets_20zt[month_index_current]
-                        .special_or_activity_name.buckets[i_20zt].ti.buckets
-                    ) +
-                    ")" +
-                    buckets_20zt[month_index_current].special_or_activity_name
-                      .buckets[i_20zt].key
+                      ManageSpecialKey(
+                        buckets_20zt[month_index_current]
+                          .special_or_activity_name.buckets[i_20zt].ti.buckets
+                      ) +
+                      ")" +
+                      buckets_20zt[month_index_current].special_or_activity_name
+                        .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -2686,13 +3011,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                    ManageSpecialKey(
-                      buckets_20zt[month_index_current]
-                        .special_or_activity_name.buckets[i_20zt].ti.buckets
-                    ) +
-                    ")" +
-                    buckets_20zt[month_index_current].special_or_activity_name
-                      .buckets[i_20zt].key
+                      ManageSpecialKey(
+                        buckets_20zt[month_index_current]
+                          .special_or_activity_name.buckets[i_20zt].ti.buckets
+                      ) +
+                      ")" +
+                      buckets_20zt[month_index_current].special_or_activity_name
+                        .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -2722,7 +3047,7 @@ export default {
             let temp_liveViewingUserData_content = [];
             let temp_liveViewingTimesData_content = [];
 
-            setTimeout(function () {
+            setTimeout(function() {
               for (i_10 = 0; i_10 < length_10; i_10++) {
                 onlive_usernum_yd.push(buckets_10[i_10].onlive_user_num.value);
                 onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
@@ -2849,7 +3174,7 @@ export default {
                   data: []
                 });
               }
-              setTimeout(function () {
+              setTimeout(function() {
                 vm.weekLiveViewUserData.content = temp_weekLiveViewUserData_content;
                 vm.weekLiveViewTimesData.content = temp_weekLiveViewTimesData_content;
                 vm.weekliveViewDurationData.content = temp_weekliveViewDurationData_content;
@@ -3213,7 +3538,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                          10000
+                            10000
                         );
                         break;
                       }
@@ -3285,7 +3610,7 @@ export default {
               let onlive_usernum_yd = [];
               let onlive_freq_yd = [];
 
-              setTimeout(function () {
+              setTimeout(function() {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -3365,7 +3690,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                          10000
+                            10000
                         );
                         break;
                       }
@@ -3420,7 +3745,7 @@ export default {
               let onlive_usernum_yd = [];
               let onlive_freq_yd = [];
 
-              setTimeout(function () {
+              setTimeout(function() {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -3500,7 +3825,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                          10000
+                            10000
                         );
                         break;
                       }
@@ -3541,236 +3866,6 @@ export default {
             // console.log(temp_8_3);
             Vue.set(vm.everyPowerActivityData.data, 3, temp_8_3);
           }
-
-          //设置Excel下载数据
-          setTimeout(() => {
-            //处理格式为{value,name的数组}
-            //三大基础功能使用用户占比
-            let usingTheUser_titleArr = []
-            let usingTheUser_dataArr = []
-            vm.usingTheUser.content.forEach((value, index) => {
-              usingTheUser_titleArr.push([value.title])
-              usingTheUser_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                usingTheUser_dataArr[index][0].push(value2.name)
-                usingTheUser_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            //usingTheTime三大基础功能使用次数占比
-            let usingTheTime_titleArr = []
-            let usingTheTime_dataArr = []
-            vm.usingTheTime.content.forEach((value, index) => {
-              usingTheTime_titleArr.push([value.title])
-              usingTheTime_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                usingTheTime_dataArr[index][0].push(value2.name)
-                usingTheTime_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            //usingTheDuration三大基础功能使用时长占比
-            let usingTheDuration_titleArr = []
-            let usingTheDuration_dataArr = []
-            vm.usingTheDuration.content.forEach((value, index) => {
-              usingTheDuration_titleArr.push([value.title])
-              usingTheDuration_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                usingTheDuration_dataArr[index][0].push(value2.name)
-                usingTheDuration_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            //liveViewingDurationData直播观看时长数据
-            let liveViewingDurationData_titleArr = []
-            let liveViewingDurationData_dataArr = []
-            vm.liveViewingDurationData.content.forEach((value, index) => {
-              liveViewingDurationData_titleArr.push([value.title])
-              liveViewingDurationData_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                liveViewingDurationData_dataArr[index][0].push(value2.name)
-                liveViewingDurationData_dataArr[index][1].push(value2.value)
-              })
-            })
-            //liveViewingUserData 直播观看用户数据
-            let liveViewingUserData_titleArr = []
-            let liveViewingUserData_dataArr = []
-            vm.liveViewingUserData.content.forEach((value, index) => {
-              liveViewingUserData_titleArr.push([value.title])
-              liveViewingUserData_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                liveViewingUserData_dataArr[index][0].push(value2.name)
-                liveViewingUserData_dataArr[index][1].push(value2.value)
-              })
-            })
-            //liveViewingTimesData 直播观看次数数据
-            let liveViewingTimesData_titleArr = []
-            let liveViewingTimesData_dataArr = []
-            vm.liveViewingTimesData.content.forEach((value, index) => {
-              liveViewingTimesData_titleArr.push([value.title])
-              liveViewingTimesData_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                liveViewingTimesData_dataArr[index][0].push(value2.name)
-                liveViewingTimesData_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            //weekLiveViewUserData 各周直播收视用户数
-            let weekLiveViewUserData_titleArr = []
-            let weekLiveViewUserData_dataArr = []
-            vm.weekLiveViewUserData.content.forEach((value, index) => {
-              weekLiveViewUserData_titleArr.push([value.title])
-              weekLiveViewUserData_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                weekLiveViewUserData_dataArr[index][0].push(value2.name)
-                weekLiveViewUserData_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            //weekLiveViewTimesData各周直播收视次数
-            let weekLiveViewTimesData_titleArr = []
-            let weekLiveViewTimesData_dataArr = []
-            vm.weekLiveViewTimesData.content.forEach((value, index) => {
-              weekLiveViewTimesData_titleArr.push([value.title])
-              weekLiveViewTimesData_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                weekLiveViewTimesData_dataArr[index][0].push(value2.name)
-                weekLiveViewTimesData_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            //weekliveViewDurationData
-            let weekliveViewDurationData_titleArr = []
-            let weekliveViewDurationData_dataArr = []
-            vm.weekliveViewDurationData.content.forEach((value, index) => {
-              weekliveViewDurationData_titleArr.push([value.title])
-              weekliveViewDurationData_dataArr.push([[], []])
-              value.data.forEach((value2, index2) => {
-                weekliveViewDurationData_dataArr[index][0].push(value2.name)
-                weekliveViewDurationData_dataArr[index][1].push(value2.value)
-              })
-            })
-
-            let title_arr = []
-            let data_arr = []
-            title_arr.push(
-              [vm.G_TVUserData.title],
-              [vm.NewUserComparisonData.title],
-              [vm.registeredUsersData.title],
-              [vm.monthNewRegUserData.title],
-              [vm.monthCancellationUserData.title],
-              [vm.G_TVRegionUserData.title],
-              [vm.weekNewUserData.title],
-              [vm.mobileNewUserData.title],
-              [vm.unicornNewUserData.title],
-              [vm.telecomNewUserData],
-              [vm.everyDayUserData.title],
-              [vm.monthPowerActivityData.title],
-              [vm.areaPowerActivityData.title],
-              [vm.everyPowerActivityData.data],
-
-              ...(usingTheUser_titleArr),  //此处数据格式待处理
-              ...(usingTheTime_titleArr),  //此处数据格式待处理
-              ...(usingTheDuration_titleArr),  //此处数据格式待处理
-
-              [vm.monthlyTotalViewingData.title],
-
-              ...(liveViewingDurationData_titleArr),  //此处数据格式待处理
-              ...(liveViewingUserData_titleArr),  //此处数据格式待处理
-              ...(liveViewingTimesData_titleArr),  //此处数据格式待处理
-
-              [vm.monthlyTotalViewingData2.title],
-
-              ...(weekLiveViewUserData_titleArr),  //此处数据格式待处理
-              ...(weekLiveViewTimesData_titleArr),   //此处数据格式待处理
-              ...(weekliveViewDurationData_titleArr),  //此处数据格式待处理
-
-              [vm.weekliveViewingData.title],
-              [vm.liveViewerData.title],
-              [vm.liveViewTimesData.title],
-              [vm.liveViewTimesData2.title],
-              [vm.mobileLiveViewerData.title],
-              [vm.unicornLiveViewerData.title],
-              [vm.telecomLiveViewerData.title],
-              [vm.monthlyDemandViewingData.title],
-              [vm.weekDemandViewingData.title],
-              [vm.demandUserNumData.title],
-              [vm.demandTimesData.title],
-              [vm.demandDurationData.title],
-              [vm.programPageClickUserData.title],
-              [vm.programPageClickNumData.title],
-              [vm.demandUserNumData2.title],
-              [vm.demandTimesData2.title],
-              [vm.demandDurationData2.title],
-              [vm.newAddUserData.title],
-              [vm.payingUserData.title],
-              [vm.monthDemandData.data],
-              [vm.originalProgramsDemandData.title],
-              [vm.mobileKeyProjectData.data],
-              [vm.unicornKeyProjectData],
-              [vm.telecomKeyProjectData.data]
-            )
-
-            data_arr.push(
-              vm.G_TVUserData.data,
-              vm.NewUserComparisonData.data,
-              vm.registeredUsersData.data,
-              vm.monthNewRegUserData.data,
-              vm.monthCancellationUserData.data,
-              vm.G_TVRegionUserData.data,
-              vm.weekNewUserData.data,
-              vm.mobileNewUserData.data,
-              vm.unicornNewUserData.data,
-              vm.telecomNewUserData.data,
-              vm.everyDayUserData.data,
-              vm.monthPowerActivityData.data,
-              vm.areaPowerActivityData.data,
-              vm.everyPowerActivityData.data,
-
-              ...(usingTheUser_dataArr),  //此处数据格式待处理
-              ...(usingTheTime_dataArr),  //此处数据格式待处理
-              ...(usingTheDuration_dataArr),  //此处数据格式待处理
-
-              vm.monthlyTotalViewingData.data,
-
-              ...(liveViewingDurationData_dataArr),  //此处数据格式待处理
-              ...(liveViewingUserData_dataArr),  //此处数据格式待处理
-              ...(liveViewingTimesData_dataArr), //此处数据格式待处理
-
-              vm.monthlyTotalViewingData2.data,
-
-              ...(weekLiveViewUserData_dataArr),  //此处数据格式待处理
-              ...(weekLiveViewTimesData_dataArr),  //此处数据格式待处理
-              ...(weekliveViewDurationData_dataArr),  //此处数据格式待处理
-
-              vm.weekliveViewingData.data,
-              vm.liveViewerData.data,
-              vm.liveViewTimesData.data,
-              vm.liveViewTimesData2.data,
-              vm.mobileLiveViewerData.data,
-              vm.unicornLiveViewerData.data,
-              vm.telecomLiveViewerData.data,
-              vm.monthlyDemandViewingData.data,
-              vm.weekDemandViewingData.data,
-              vm.demandUserNumData.data,
-              vm.demandTimesData.data,
-              vm.demandDurationData.data,
-              vm.programPageClickUserData.data,
-              vm.programPageClickNumData.data,
-              vm.demandUserNumData2.data,
-              vm.demandTimesData2.data,
-              vm.demandDurationData2.data,
-              vm.newAddUserData.data,
-              vm.payingUserData.data,
-              vm.monthDemandData.data,
-              vm.originalProgramsDemandData.data,
-              vm.mobileKeyProjectData.data,
-              vm.unicornKeyProjectData.data,
-              vm.telecomKeyProjectData.data,
-
-            )
-
-          }, 5000);
         })
         .catch(error => {
           console.info(error);
@@ -3829,7 +3924,7 @@ export default {
       formData.append("end", temp.end);
 
       users_monthActiveReport(formData)
-        .then(function (response) {
+        .then(function(response) {
           if (datatype == "mixture" && timetype == "month") {
             // //////////////////
 
@@ -3966,7 +4061,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -3997,7 +4092,7 @@ export default {
       formData.append("end", temp.end);
 
       users_monthActiveReport_range(formData)
-        .then(function (response) {
+        .then(function(response) {
           if (datatype == "mixture" && timetype == "month") {
             // usingTheUser;
             // usingTheTimes;
@@ -4075,19 +4170,19 @@ export default {
             let td2 = [];
             let freq2 = vm.returnFloat(
               (parseFloat(q1_f) + parseFloat(q2_f) + parseFloat(q3_f)) /
-              100 /
-              10000
+                100 /
+                10000
             );
             let dur2 = vm.returnFloat(
               (parseFloat(q1_d) + parseFloat(q2_d) + parseFloat(q3_d)) /
-              100 /
-              10000 /
-              3600
+                100 /
+                10000 /
+                3600
             ); // 观看时长计时 - 秒 =》百万小时
             let user_num2 = vm.returnFloat(
               (parseFloat(q1_u) + parseFloat(q2_u) + parseFloat(q3_u)) /
-              100 /
-              10000
+                100 /
+                10000
             );
             td2.push(["product", "7月"]);
             td2.push(["观看次数（百万次）", freq2]);
@@ -4550,7 +4645,7 @@ export default {
               console.log("none!");
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -4560,7 +4655,7 @@ export default {
       let scrollDiv = document.querySelector(".monthly_report_body"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".monthly_nav a").on("click", function () {
+      $(".monthly_nav a").on("click", function() {
         $(this)
           .addClass("avtive_link")
           .parent()

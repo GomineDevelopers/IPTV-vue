@@ -2,7 +2,8 @@
   <div class="height_auto">
     <el-row class="title_row">
       <span class="title_border_left"></span>
-      收视用户({{m_Unit}})
+      <!-- 收视用户({{m_Unit}}) -->
+      收视用户
     </el-row>
     <el-row v-show="ifgetdata" class="chart_height" id="viewing_user"></el-row>
     <el-row v-show="!ifgetdata" class="exception_p">
@@ -272,7 +273,8 @@ export default {
         dataset: {
           source: [
             // ["product", "用户数", "收视次数", "户均收视次数"],
-            ["product", "用户数", "收视次数"],
+            // ["product", "用户数", "收视次数"],
+            ["product", "用户数（千万）", "收视次数（千万）"],
             // ["总体收视", 111950, 111837, 111433],
             [
               "总体收视",
@@ -329,41 +331,45 @@ export default {
             // formatter:'{value}(万)'
             formatter: function(value) {
               // return String(value / 10000 / 1000) + "（千万）";
-              if (value == 0) {
-                return 0;
-              }
-              if (vm.media_watch_total_2 > 100000000) {
-                vm.m_Unit = "亿";
-                // return String(value / 10000 / 10000) + "亿";
-                vm.current_value = 100000000;
-                return String(value / 10000 / 10000);
-              }
-              if (
-                vm.media_watch_total_2 > 10000000 &&
-                vm.media_watch_total_2 <= 100000000
-              ) {
-                vm.m_Unit = "千万";
-                vm.current_value = 10000000;
-                return String(value / 10000 / 1000);
-              }
-              if (
-                vm.media_watch_total_2 > 1000000 &&
-                vm.media_watch_total_2 <= 10000000
-              ) {
-                vm.m_Unit = "百万";
-                vm.current_value = 1000000;
-                return String(value / 10000 / 100);
-              }
-              if (
-                vm.media_watch_total_2 > 10000 &&
-                vm.media_watch_total_2 <= 1000000
-              ) {
-                vm.m_Unit = "万";
-                vm.current_value = 10000;
-                return String(value / 10000);
-              }
 
-              return String(value);
+              // if (value == 0) {
+              //   return 0;
+              // }
+              // if (vm.media_watch_total_2 > 100000000) {
+              //   vm.m_Unit = "亿";
+              //   // return String(value / 10000 / 10000) + "亿";
+              //   vm.current_value = 100000000;
+              //   return String(value / 10000 / 10000);
+              // }
+              // if (
+              //   vm.media_watch_total_2 > 10000000 &&
+              //   vm.media_watch_total_2 <= 100000000
+              // ) {
+              //   vm.m_Unit = "千万";
+              //   vm.current_value = 10000000;
+              //   return String(value / 10000 / 1000);
+              // }
+              // if (
+              //   vm.media_watch_total_2 > 1000000 &&
+              //   vm.media_watch_total_2 <= 10000000
+              // ) {
+              //   vm.m_Unit = "百万";
+              //   vm.current_value = 1000000;
+              //   return String(value / 10000 / 100);
+              // }
+              // if (
+              //   vm.media_watch_total_2 > 10000 &&
+              //   vm.media_watch_total_2 <= 1000000
+              // ) {
+              //   vm.m_Unit = "万";
+              //   vm.current_value = 10000;
+              //   return String(value / 10000);
+              // }
+              // return String(value);
+
+              // 固定
+              vm.current_value = 10000000;
+              return String(value / 10000 / 1000);
             }
           },
           // 刻度线的设置

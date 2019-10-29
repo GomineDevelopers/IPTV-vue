@@ -56,7 +56,7 @@ store
     console.info(error);
   });
 
-let ifTest = true;
+let ifTest = false;
 
 
 // var routerform = [
@@ -80,6 +80,9 @@ let ifTest = true;
 //   // '/backhome/authoritymanagement',
 
 //   // '/backhome/bigscreenmanagement',
+
+//   // '/',   // 新增
+
 // ];
 
 var ifFirstLogin = false;
@@ -117,8 +120,11 @@ function jumpStatus(authority_arr, topath, frompath, next) {
       };
     }
     let count = 0;
-    let length = 11;
-    let t_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    // let length = 11;
+    // let t_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    let length = 12;
+    let t_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12];
+
     let t_path = [
       '/backhome',
       '/backhome/userlifecycle',
@@ -130,7 +136,8 @@ function jumpStatus(authority_arr, topath, frompath, next) {
       '/backhome/dataintegrity',
       '/backhome/programsearching',
       '/backhome/authoritymanagement',
-      '/backhome/bigscreenmanagement'
+      '/backhome/bigscreenmanagement',
+      '/'  // 新增
     ]
     let my_return = true;
     // if (topath == path) {
@@ -236,6 +243,10 @@ function jumpStatus(authority_arr, topath, frompath, next) {
       current_topath = topath;
       return type1;
     }
+    if (authority_arr.indexOf(12) > -1 && topath == '/') {
+      current_topath = topath;
+      return type1;
+    }
     return type0;
   }
 }
@@ -286,7 +297,8 @@ router.beforeEach((to, from, next) => {
       if (ifFirstLogin) {
         next()
       }
-      if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
+      if (topath == '/login' || topath == '/noauthority' || topath == '/404') {
+      // if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
         // if (topath == '/mytest' || topath == '/mytest2' || topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
 
         next()

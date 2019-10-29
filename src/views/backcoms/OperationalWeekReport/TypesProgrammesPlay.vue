@@ -14,13 +14,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_week"])
+    ...mapGetters(["PR_week", "PR_operator"])
   },
   data() {
     return {};
   },
   watch: {
     PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();

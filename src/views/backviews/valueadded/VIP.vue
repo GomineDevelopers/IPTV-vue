@@ -943,7 +943,8 @@ export default {
 
   data() {
     return {
-      targetOption: "", //存放选择的指标
+      // targetOption: "", //存放选择的指标
+      targetOption: "观看次数", 
       //选择指标数据
       target: [
         "观看次数",

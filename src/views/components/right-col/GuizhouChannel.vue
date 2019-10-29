@@ -2,7 +2,8 @@
   <div class="height_auto">
     <el-row class="title_row">
       <span class="title_border_left"></span>
-      贵州本土频道收视TOP5({{GuizhouChannel_unit}})
+      <!-- 贵州本土频道收视TOP5({{GuizhouChannel_unit}}) -->
+      贵州本土频道收视TOP5
       <!-- 贵州频道收视TOP5 -->
     </el-row>
     <el-row class="programmes_name"></el-row>
@@ -41,7 +42,9 @@ export default {
         id: "GuizhouChannel",
         color: ["#5078FF", "#00A8F1"],
         data: [
-          ["product", "收视时长", "收视次数"]
+          // ["product", "收视时长", "收视次数"]
+          ["product", "收视时长（千万）", "收视次数（千万）"]
+
           // ["贵州-4", 55, 58],
           // ["贵州-3", 540, 532],
           // ["贵州-2", 555, 514],
@@ -83,7 +86,9 @@ export default {
           let buckets = response.data.responses[0].aggregations.channel.buckets;
           let length = buckets.length;
           let i;
-          let temp = ["product", "收视时长", "收视次数"];
+          // let temp = ["product", "收视时长", "收视次数"];
+          let temp = ["product", "收视时长（千万）", "收视次数（千万）"];
+
           let data = [];
           data.push(temp);
           function keyManage(key) {

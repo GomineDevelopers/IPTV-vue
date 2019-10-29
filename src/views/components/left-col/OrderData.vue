@@ -145,7 +145,7 @@ export default {
           if (time_type == "months") {
             // console.log(response);
             let buckets =
-              response.data.responses[0].aggregations.statistical_granularity
+              response.data.responses[2].aggregations.statistical_granularity
                 .buckets;
             let length = buckets.length;
             let i;

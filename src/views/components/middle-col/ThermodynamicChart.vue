@@ -118,19 +118,33 @@ export default {
                 for (i = 0; i < length; i++) {
                   temp1.push(buckets[i].register_num.value);
                   temp2.push(buckets[i].active_num.value);
+
+
+                  // temp3.push(
+                  //   buckets[i].activate_user_num.value /
+                  //     buckets[i].register_num.value
+                  // ); //显示百分比
                   temp3.push(
-                    buckets[i].activate_user_num.value /
-                      buckets[i].register_num.value
+                    (buckets[i].activate_user_num.value /
+                      buckets[i].register_num.value).toFixed(2)
                   ); //显示百分比
+
                   // temp4.push(
                   //   hits2[i]._source.remain_num /
                   //     hits2[i]._source.new_activate_num
                   // );
                   // temp4.push(hits2[i]._source.remain_rate);
+
+
+                  // temp4.push(
+                  //   aggregations2[i].remain_num.value /
+                  //     aggregations2[i].new_activate_num.value
+                  // );
                   temp4.push(
-                    aggregations2[i].remain_num.value /
-                      aggregations2[i].new_activate_num.value
+                    (aggregations2[i].remain_num.value /
+                      aggregations2[i].new_activate_num.value).toFixed(2)
                   );
+
                 }
                 vm.myNumsArr.push(temp1);
                 vm.myNumsArr.push(temp2);

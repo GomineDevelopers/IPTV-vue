@@ -9,7 +9,12 @@
         <el-row class="date_picker">
           <span>日期：</span>
           <span>
-            <el-date-picker v-model="day_date" type="date" placeholder="选择日期"></el-date-picker>
+            <el-date-picker
+              v-model="day_date"
+              type="date"
+              placeholder="选择日期"
+              @change="dayValue_change"
+            ></el-date-picker>
           </span>
         </el-row>
       </el-row>
@@ -88,6 +93,7 @@
 import dataTendency from "@/views/backcoms/dataaudit/dataTendency";
 import { errorReport } from "@/api/api_main";
 import Vue from "vue";
+import { commonTools } from "@/utils/test";
 
 export default {
   name: "DataTrend", //数据趋势
@@ -96,7 +102,7 @@ export default {
   },
   data() {
     return {
-      day_date: '',  //日期选择
+      day_date: "", //日期选择
       powerUserNumber: {
         id: "powerUserNumber",
         dataTime: [
@@ -228,8 +234,18 @@ export default {
       }
     };
   },
+  watch: {
+    day_date(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        if (vm.day_date == "") {
+        }
+        vm.errorReport(vm.day_date);
+      }, 1000);
+    }
+  },
   mounted() {
-    $(".data_trend").scroll(function (event) {
+    $(".data_trend").scroll(function(event) {
       let scrollTopHeight = $(".data_trend").scrollTop();
       let power_user_number = document.querySelector("#power_user_number")
         .offsetTop;
@@ -266,18 +282,28 @@ export default {
       }
     });
     let vm = this;
-    setTimeout(function () {
-      vm.$store
-        .dispatch("get_BigScreenExpirationDate")
-        .then(function (response) {
-          vm.errorReport(response);
-        })
-        .catch(function (error) {
-          console.info(error);
-        });
-    }, 100);
+    setTimeout(function() {
+      if (vm.day_date == "") {
+        return;
+      }
+      vm.errorReport(vm.day_date);
+    }, 1000);
+    // setTimeout(function() {
+    //   vm.$store
+    //     .dispatch("get_BigScreenExpirationDate")
+    //     .then(function(response) {
+    //       vm.errorReport(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    // }, 100);
   },
   methods: {
+    dayValue_change(event) {
+      let vm = this;
+      this.day_date = commonTools.dayChange(String(event));
+    },
     errorReport(ExpirationDate) {
       let vm = this;
       // 截止日期-日变成01
@@ -294,7 +320,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       errorReport(formData)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
 
           // 传入 2019-10-11  返回11日
@@ -554,7 +580,9 @@ export default {
                   temp_ManageStr +=
                     String(buckets_cc[i_cc].heart_beat_freq.value) + "\t";
                 } else {
-                  temp_ManageStr += String(buckets_cc[i_cc].heart_beat_freq.value);
+                  temp_ManageStr += String(
+                    buckets_cc[i_cc].heart_beat_freq.value
+                  );
                 }
               } catch (error) {
                 console.log(error);
@@ -592,11 +620,11 @@ export default {
             }
           }
 
-          vm.heartbeatFrequency.dataTime = temp_3_1;  // 心跳
-          vm.heartbeatFrequency.nameArray = temp_3_2;  // 心跳
-          vm.heartbeatFrequency.stringArray = temp_3_3;  // 心跳
+          vm.heartbeatFrequency.dataTime = temp_3_1; // 心跳
+          vm.heartbeatFrequency.nameArray = temp_3_2; // 心跳
+          vm.heartbeatFrequency.stringArray = temp_3_3; // 心跳
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -605,7 +633,7 @@ export default {
       let data_trend = document.querySelector(".data_trend"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       data_trend.scrollTop = anchor.offsetTop - 80;
-      $(".anchor_hyperlinks a").on("click", function () {
+      $(".anchor_hyperlinks a").on("click", function() {
         $(this)
           .addClass("avtive_link")
           .parent()

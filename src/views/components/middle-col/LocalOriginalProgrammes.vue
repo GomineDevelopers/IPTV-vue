@@ -3,13 +3,36 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>本土原创节目
     </el-row>
-    <el-row v-show="ifgetdata" class="local_programmes_main">
+    <!-- <el-row v-show="ifgetdata" class="local_programmes_main"> -->
+    <el-row class="local_programmes_main">
       <el-row id="local_programmes"></el-row>
-      <el-row id="local_programmes2" class="bottom_bar"></el-row>
+      <!-- <el-row id="local_programmes2" class="bottom_bar"></el-row> -->
+      <el-row class="m_row2">
+        <table class="m_table" border="1">
+          <tr class="m_table_font">
+            <td colspan="1">&nbsp;</td>
+            <td colspan="1">点播用户数</td>
+            <td colspan="1">点播次数</td>
+            <td colspan="1">点播时长</td>
+          </tr>
+          <tr class="m_table_font">
+            <td colspan="1">本周</td>
+            <td colspan="1">{{un1}}</td>
+            <td colspan="1">{{freq1}}</td>
+            <td colspan="1">{{dur1}}</td>
+          </tr>
+          <tr class="m_table_font">
+            <td colspan="1">上周</td>
+            <td colspan="1">{{un2}}</td>
+            <td colspan="1">{{freq2}}</td>
+            <td colspan="1">{{dur2}}</td>
+          </tr>
+        </table>
+      </el-row>
     </el-row>
-    <el-row v-show="!ifgetdata" class="exception_p">
+    <!-- <el-row v-show="!ifgetdata" class="exception_p">
       <span class="exception_child">数据请求异常!</span>
-    </el-row>
+    </el-row>-->
   </div>
 </template>
 <script>
@@ -22,11 +45,25 @@ export default {
   data() {
     return {
       ifgetdata: true,
-
+      un1: 0,
+      freq1: 0,
+      dur1: 0,
+      un2: 0,
+      freq2: 0,
+      dur2: 0,
       pie_data: {
         id: "local_programmes",
-        value: [],
-        name: []
+        name: [],
+        value: []
+        // name: ["综艺", "微电影", "纪实", "电影", "新闻", "时尚生活"],
+        // value: [
+        //   { value: 350, name: "综艺" },
+        //   { value: 300, name: "微电影" },
+        //   { value: 200, name: "纪实" },
+        //   { value: 200, name: "电影" },
+        //   { value: 170, name: "新闻" },
+        //   { value: 150, name: "时尚生活" }
+        // ]
       },
       echarts2: {
         data: [
@@ -43,8 +80,9 @@ export default {
     };
   },
   mounted() {
-    // this.drawLine();
-    // this.drawLine2();
+    this.drawLine(); // 测试
+    // this.drawLine2(); // 测试
+
     let vm = this;
     setTimeout(function() {
       vm.$store
@@ -137,44 +175,51 @@ export default {
             demands_location(data2)
               .then(function(response2) {
                 // console.log(response2);
-                let aggregations1_last = response2.data.responses[1].aggregations;
+                let aggregations1_last =
+                  response2.data.responses[1].aggregations;
 
                 Vue.set(
                   vm.echarts2.data[1],
                   1,
                   aggregations1_current.demand_user_num.value
                 );
+                vm.un1 = aggregations1_current.demand_user_num.value; //
                 Vue.set(
                   vm.echarts2.data[2],
                   1,
                   aggregations1_current.demand_freq.value
                 );
+                vm.freq1 = aggregations1_current.demand_freq.value;
                 Vue.set(
                   vm.echarts2.data[3],
                   1,
                   parseInt(aggregations1_current.demand_dur.value / 3600)
+                );
+                vm.dur1 = parseInt(
+                  aggregations1_current.demand_dur.value / 3600
                 );
                 Vue.set(
                   vm.echarts2.data[1],
                   2,
                   aggregations1_last.demand_user_num.value
                 );
+                vm.un2 = aggregations1_last.demand_user_num.value;
                 Vue.set(
                   vm.echarts2.data[2],
                   2,
                   aggregations1_last.demand_freq.value
                 );
+                vm.freq2 = aggregations1_last.demand_freq.value;
                 Vue.set(
                   vm.echarts2.data[3],
                   2,
                   parseInt(aggregations1_last.demand_dur.value / 3600)
                 );
+                vm.dur2 = parseInt(aggregations1_last.demand_dur.value / 3600);
 
                 setTimeout(function() {
                   vm.drawLine2();
                 }, 100);
-
-
               })
               .catch(function(error) {
                 console.info(error);
@@ -234,6 +279,10 @@ export default {
 
       var option11 = {
         color: m_color,
+        tooltip: {
+          trigger: "item",
+          formatter: "{b} : {c} ({d}%)"
+        },
         legend: [
           {
             show: true,
@@ -284,7 +333,7 @@ export default {
             radius: "80%",
             center: ["30%", "50%"],
             avoidLabelOverlap: false,
-            // roseType: "radius",
+            // roseType: "radius", // 按半径分
             label: {
               normal: {
                 show: false
@@ -297,6 +346,7 @@ export default {
           }
         ]
       };
+      myChart11.clear();
       myChart11.setOption(option11);
       window.addEventListener("resize", () => {
         myChart11.resize();
@@ -405,11 +455,20 @@ export default {
             show: false //设置坐标轴刻度不显示
           }
         },
-        series: [{ type: "bar", barWidth: 10 }, { type: "bar", barWidth: 10 }]
+        series: [
+          {
+            type: "bar",
+            barWidth: 10
+          },
+          {
+            type: "bar",
+            barWidth: 10
+          }
+        ]
       };
       // 使用刚指定的配置项和数据显示图表。
+      myChart22.clear();
       myChart22.setOption(option22);
-
       window.addEventListener("resize", () => {
         myChart22.resize();
       });
@@ -426,6 +485,17 @@ export default {
 }
 #local_programmes2 {
   height: 50%;
+}
+.m_row2 {
+  margin-left: 0.2rem;
+}
+.m_table {
+  margin-top: 0.3rem;
+  line-height: 0.3rem;
+  /* border: #ffffff; */
+}
+.m_table_font {
+  font-size: 0.13rem;
 }
 </style>
 

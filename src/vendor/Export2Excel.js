@@ -141,6 +141,12 @@ export function export_json_to_excel_plural(th, th2, jsonData, jsonData2, defaul
 export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defaultTitle) {
 }
 export function exportExcel(titleArr, DataArr, defaultTitle) {
+    console.log(titleArr);
+    console.log(DataArr);
+    console.log(defaultTitle);
+
+    // return;
+
     var rowString = ["A", "B", "C", "..."];
     var rowString_length_setting = 32;
     rowString = rowStringManage(rowString_length_setting);
@@ -254,7 +260,7 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             min_length = obj1_title_arr_length;
             max_length = obj2_title_arr_length;
         }
-        for (let i = 0; i < min_length; i++) { // length1 length2 相同部分
+        for (let i = 0; i < min_length; i++) {
             for (let j = 0; j < Object_range2.num_arr[i]; j++) {
                 if (obj3_title_arr[i] == "A") {
                     if (j == 0) {
@@ -278,7 +284,7 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             }
         }
         let obj3_num_arr = Object_range2.num_arr;
-        if (obj1_title_arr_length < obj2_title_arr_length) { // length1 < length2 的部分
+        if (obj1_title_arr_length < obj2_title_arr_length) {
             for (let k = min_length; k < max_length; k++) {
                 for (let n = 0; n < obj3_num_arr[k]; n++) {
                     let current_letter = obj3_title_arr[k];
@@ -289,11 +295,10 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             }
         }
 
-        // length1 > length2 的部分 -- （反向）俄罗斯方块+加填充线
-        let obj3_num_arr0 = Object_range2.num_arr[0]; // 以第一个的height算
+        let obj3_num_arr0 = Object_range2.num_arr[0];
         if (obj1_title_arr_length > obj2_title_arr_length) {
             for (let k = min_length; k < max_length; k++) {
-                for (let n = 0; n < obj3_num_arr0; n++) { // 不用change的则这里没有值！相当于0
+                for (let n = 0; n < obj3_num_arr0; n++) {
                     let current_letter = obj3_title_arr[k];
                     let L1 = LetterM(current_letter, Object_range1.num_arr[0] + n + 1);
                     obj3[L1] = "-";
@@ -326,8 +331,17 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
     if (arr_length == 1) {
         titleA1 = titleArr[0];
         data1 = [];
-        for (let n = 0; n < DataArr[0].length; n++) {
-            data1.push(DataArr[0][n]);
+        if (DataArr[0] == undefined) {
+            console.log("undefined: " + String(0));
+            data1.push([]);
+        } else {
+            if (DataArr[0].length == 0) {
+                data1.push([]);
+            } else {
+                for (let n = 0; n < DataArr[0].length; n++) {
+                    data1.push(DataArr[0][n]);
+                }
+            }
         }
         if (titleA1[0] != "") {
             data1.unshift(titleA1);
@@ -348,11 +362,22 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
     }
     if (arr_length > 1) {
         for (let i_arr = 0; i_arr < arr_length; i_arr++) {
+            console.log(i_arr);
             if (i_arr == 0) {
                 titleA1 = titleArr[i_arr];
                 data1 = [];
-                for (let n = 0; n < DataArr[i_arr].length; n++) {
-                    data1.push(DataArr[i_arr][n]);
+                if (DataArr[i_arr] == undefined) {
+                    console.log("undefined: " + String(i_arr));
+                    data1.push([]);
+                }
+                else {
+                    if (DataArr[i_arr].length == 0) {
+                        data1.push([]);
+                    } else {
+                        for (let n = 0; n < DataArr[i_arr].length; n++) {
+                            data1.push(DataArr[i_arr][n]);
+                        }
+                    }
                 }
                 if (titleA1[0] != "") {
                     data1.unshift(titleA1);
@@ -365,8 +390,17 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             if (i_arr > 0) {
                 titleA2 = titleArr[i_arr];
                 data2 = [];
-                for (let n = 0; n < DataArr[i_arr].length; n++) {
-                    data2.push(DataArr[i_arr][n]);
+                if (DataArr[i_arr] == undefined) {
+                    console.log("undefined: " + String(i_arr));
+                    data2.push([]);
+                } else {
+                    if (DataArr[i_arr].length == 0) {
+                        data2.push([]);
+                    } else {
+                        for (let n = 0; n < DataArr[i_arr].length; n++) {
+                            data2.push(DataArr[i_arr][n]);
+                        }
+                    }
                 }
                 if (titleA2[0] != "") {
                     data2.unshift(titleA2);
@@ -383,6 +417,8 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             }
         }
     }
+
+    console.log("over");
 
 
     let temp_objResult = new Object();

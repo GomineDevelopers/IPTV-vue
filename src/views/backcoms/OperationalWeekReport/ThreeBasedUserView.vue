@@ -15,12 +15,18 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["PR_week"])
+    ...mapGetters(["PR_week", "PR_operator"])
   },
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
       // console.log("~~~~~~~!!ThreeBasedUserView");
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 1000);
+    },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
       setTimeout(function() {
         vm.setLineChart();
       }, 1000);
