@@ -198,7 +198,7 @@ export default {
             vm.data_new = String(
               // vm.returnFloat(
               parseInt(
-                response.data.responses[1].aggregations.watch_dur.value / 3600
+                response.data.responses[1].aggregations.watch_dur.value / 60
               )
               // ) // 保留两位小数
             );

@@ -193,10 +193,10 @@ export default {
                 Vue.set(
                   vm.echarts2.data[3],
                   1,
-                  parseInt(aggregations1_current.demand_dur.value / 3600)
+                  parseInt(aggregations1_current.demand_dur.value / 60)
                 );
                 vm.dur1 = parseInt(
-                  aggregations1_current.demand_dur.value / 3600
+                  aggregations1_current.demand_dur.value / 60
                 );
                 Vue.set(
                   vm.echarts2.data[1],
@@ -213,9 +213,9 @@ export default {
                 Vue.set(
                   vm.echarts2.data[3],
                   2,
-                  parseInt(aggregations1_last.demand_dur.value / 3600)
+                  parseInt(aggregations1_last.demand_dur.value / 60)
                 );
-                vm.dur2 = parseInt(aggregations1_last.demand_dur.value / 3600);
+                vm.dur2 = parseInt(aggregations1_last.demand_dur.value / 60);
 
                 setTimeout(function() {
                   vm.drawLine2();

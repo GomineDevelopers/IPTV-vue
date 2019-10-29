@@ -235,9 +235,9 @@ export default {
           {
             title: "观看总时长",
             data: [
-              { value: (onlive3 / 3600).toFixed(2), name: "直播" },
-              { value: (demand3 / 3600).toFixed(2), name: "点播" },
-              { value: (watch3 / 3600).toFixed(2), name: "回看" }
+              { value: (onlive3 / 60).toFixed(2), name: "直播" },
+              { value: (demand3 / 60).toFixed(2), name: "点播" },
+              { value: (watch3 / 60).toFixed(2), name: "回看" }
             ]
           },
           {
@@ -310,22 +310,22 @@ export default {
             case '央视':
               Vue.set(vm.GT_UVWR1_O1.data[1], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[1], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[1], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[1], 2, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
             case '卫视':
               Vue.set(vm.GT_UVWR1_O1.data[2], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[2], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[2], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[2], 2, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
             case '本地':
               Vue.set(vm.GT_UVWR1_O1.data[3], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[3], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[3], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[3], 2, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
             case '轮播':
               Vue.set(vm.GT_UVWR1_O1.data[4], 2, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[4], 2, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[4], 2, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[4], 2, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
           }
         })
@@ -383,7 +383,7 @@ export default {
         local_program.forEach((value, index) => {
           if (index < 5) {
             Vue.set(vm.GT_UVWR1_P3.data[index + 1], 0, value.key)
-            Vue.set(vm.GT_UVWR1_P3.data[index + 1], 2, Number((value.onlive_dur.value / 10000 / 3600).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_P3.data[index + 1], 2, Number((value.onlive_dur.value / 10000 / 60).toFixed(1)))
           }
         });
       } catch (error) {
@@ -413,7 +413,7 @@ export default {
             Vue.set(vm.GT_UVWR1_Q2.data[10 - index], 1, Number((value.demand_freq.value / 10000).toFixed(1)))
 
             Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 0, value.key)
-            Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 3600).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_Q3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 60).toFixed(1)))
           }
         })
       } catch (error) {
@@ -450,7 +450,7 @@ export default {
           if (index < 10) {
             // console.log('页面点击和播放时长数据', value.key, value.demand_dur.value)
             Vue.set(vm.GT_UVWR1_R3.data[10 - index], 0, value.key)
-            Vue.set(vm.GT_UVWR1_R3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 3600).toFixed(1)))
+            Vue.set(vm.GT_UVWR1_R3.data[10 - index], 1, Number((value.demand_dur.value / 10000 / 60).toFixed(1)))
           }
         })
       } catch (error) {
@@ -470,22 +470,22 @@ export default {
             case '央视':
               Vue.set(vm.GT_UVWR1_O1.data[1], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[1], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[1], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[1], 1, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
             case '卫视':
               Vue.set(vm.GT_UVWR1_O1.data[2], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[2], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[2], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[2], 1, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
             case '本地':
               Vue.set(vm.GT_UVWR1_O1.data[3], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[3], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[3], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[3], 1, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
             case '轮播':
               Vue.set(vm.GT_UVWR1_O1.data[4], 1, Number((value.onlive_user_num.value / 10000).toFixed(1)))
               Vue.set(vm.GT_UVWR1_O2.data[4], 1, Number((value.onlive_freq.value / 10000).toFixed(1)))
-              Vue.set(vm.GT_UVWR1_O3.data[4], 1, Number((value.onlive_dur.value / 3600).toFixed(1)))
+              Vue.set(vm.GT_UVWR1_O3.data[4], 1, Number((value.onlive_dur.value / 60).toFixed(1)))
               break;
           }
         })
@@ -527,7 +527,7 @@ export default {
               local_program.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
                   // console.log(value2.key, value2.onlive_dur.value)
-                  Vue.set(vm.GT_UVWR1_P3.data[index], 1, Number((value2.onlive_dur.value / 10000 / 3600).toFixed(1)))
+                  Vue.set(vm.GT_UVWR1_P3.data[index], 1, Number((value2.onlive_dur.value / 10000 / 60).toFixed(1)))
                 }
               })
             }
@@ -583,7 +583,7 @@ export default {
               demand_user_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
                   // console.log(value2.key, value2.demand_dur.value)
-                  Vue.set(vm.GT_UVWR1_Q3.data[index], 2, (value2.demand_dur.value / 10000 / 3600).toFixed(1))
+                  Vue.set(vm.GT_UVWR1_Q3.data[index], 2, (value2.demand_dur.value / 10000 / 60).toFixed(1))
                 }
               })
             }
@@ -644,7 +644,7 @@ export default {
               program_play_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
                   // console.log(value2.key, value2.demand_dur.value)
-                  Vue.set(vm.GT_UVWR1_R3.data[index], 2, Number((value2.demand_dur.value / 10000 / 3600).toFixed(1)))
+                  Vue.set(vm.GT_UVWR1_R3.data[index], 2, Number((value2.demand_dur.value / 10000 / 60).toFixed(1)))
                 }
               })
             }

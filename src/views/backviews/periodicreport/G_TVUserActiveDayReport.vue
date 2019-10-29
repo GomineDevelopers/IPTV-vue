@@ -582,19 +582,19 @@ export default {
                 Vue.set(
                   vm.dayLooktime.data[1][1],
                   1,
-                  vm.returnFloat(value.watch_dur.value / 10000 / 3600)
+                  vm.returnFloat(value.watch_dur.value / 10000 / 60)
                 ); //回看数据
               } else if (value.key == "点播") {
                 Vue.set(
                   vm.dayLooktime.data[1][1],
                   2,
-                  vm.returnFloat(value.watch_dur.value / 10000 / 3600)
+                  vm.returnFloat(value.watch_dur.value / 10000 / 60)
                 ); //点播数据
               } else if (value.key == "直播") {
                 Vue.set(
                   vm.dayLooktime.data[1][1],
                   3,
-                  vm.returnFloat(value.watch_dur.value / 10000 / 3600)
+                  vm.returnFloat(value.watch_dur.value / 10000 / 60)
                 ); //直播数据
               }
             });
@@ -611,70 +611,70 @@ export default {
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     1,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "少儿":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     2,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "电影":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     3,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "动漫":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     4,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "综艺":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     5,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "游戏":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     6,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "纪实":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     7,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "体育":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     8,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "音乐":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     9,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 case "资讯":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     10,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60)
                   );
                   break;
                 default:
@@ -710,19 +710,19 @@ export default {
                 Vue.set(
                   vm.dayLooktime.data[0][1],
                   1,
-                  vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
+                  vm.returnFloat(value.watch_dur.value / 10000 / 60 / 7)
                 ); //回看数据
               } else if (value.key == "点播") {
                 Vue.set(
                   vm.dayLooktime.data[0][1],
                   2,
-                  vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
+                  vm.returnFloat(value.watch_dur.value / 10000 / 60 / 7)
                 ); //点播数据
               } else if (value.key == "直播") {
                 Vue.set(
                   vm.dayLooktime.data[0][1],
                   3,
-                  vm.returnFloat(value.watch_dur.value / 10000 / 3600 / 7)
+                  vm.returnFloat(value.watch_dur.value / 10000 / 60 / 7)
                 ); //直播数据
               }
             });
@@ -739,70 +739,70 @@ export default {
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     1,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "少儿":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     2,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "电影":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     3,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "动漫":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     4,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "综艺":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     5,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "游戏":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     6,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "纪实":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     7,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "体育":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     8,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "音乐":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     9,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 case "资讯":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     10,
-                    vm.returnFloat(value.demand_dur.value / 1000 / 3600 / 7)
+                    vm.returnFloat(value.demand_dur.value / 1000 / 60 / 7)
                   );
                   break;
                 default:

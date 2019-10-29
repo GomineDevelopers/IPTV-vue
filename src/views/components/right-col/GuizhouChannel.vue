@@ -99,12 +99,12 @@ export default {
             temp = [];
             temp.push(keyManage(buckets[i].key));
             temp.push(
-              // (buckets[i].onlive_dur.value  /3600).toFixed(2)
+              // (buckets[i].onlive_dur.value  / 60).toFixed(2)
               (buckets[i].onlive_dur.value ).toFixed(2)
             );
             temp.push((buckets[i].onlive_freq.value ).toFixed(2));
 
-            // temp.push(buckets[i].onlive_dur.value / 3600);
+            // temp.push(buckets[i].onlive_dur.value /  60);
             // temp.push(buckets[i].onlive_freq.value);
 
             data.push(temp);

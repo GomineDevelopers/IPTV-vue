@@ -140,7 +140,7 @@ export default {
         Vue.set(vm.GT_UVWR1_Y1.data[0], 2, currentWeekFormat)
         Vue.set(vm.GT_UVWR1_Y1.data[1], 2, program_play_data.demand_user_num.value)
         Vue.set(vm.GT_UVWR1_Y1.data[2], 2, program_play_data.demand_freq.value)
-        Vue.set(vm.GT_UVWR1_Y1.data[3], 2, (program_play_data.demand_dur.value / 3600).toFixed(2))
+        Vue.set(vm.GT_UVWR1_Y1.data[3], 2, (program_play_data.demand_dur.value / 60).toFixed(2))
 
         let content_type_data = newValue.data.responses[18].aggregations.program_type.buckets
         let content_type_temp = []
@@ -171,7 +171,7 @@ export default {
         // console.log("上周数据program_play_data", program_play_data)
         Vue.set(vm.GT_UVWR1_Y1.data[1], 1, program_play_data.demand_user_num.value)
         Vue.set(vm.GT_UVWR1_Y1.data[2], 1, program_play_data.demand_freq.value)
-        Vue.set(vm.GT_UVWR1_Y1.data[3], 1, (program_play_data.demand_dur.value / 3600).toFixed(2))
+        Vue.set(vm.GT_UVWR1_Y1.data[3], 1, (program_play_data.demand_dur.value / 60).toFixed(2))
         // console.log("vm.GT_UVWR1_Y1.data", vm.GT_UVWR1_Y1.data)
       } catch (error) {
         console.log(error);

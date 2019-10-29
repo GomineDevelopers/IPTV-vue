@@ -459,7 +459,7 @@ export default {
                   commonTools.returnFloat_4(
                     parseFloat(buckets0[i_0].all_demand_dur.value) /
                       1000 /
-                      3600 /
+                      60 /
                       7
                   )
                 )
@@ -474,7 +474,7 @@ export default {
               //   parseInt(
               //     parseFloat(buckets0[i_0].all_demand_dur.value) /
               //       1000 /
-              //       3600 /
+              //       60 /
               //       7
               //   )
               // )
@@ -555,7 +555,7 @@ export default {
                 index,
                 String(
                   commonTools.returnFloat_4(
-                    parseFloat(buckets0[i_0].demand_dur.value) / 1000 / 3600
+                    parseFloat(buckets0[i_0].demand_dur.value) / 1000 / 60
                   )
                 )
                 // buckets0[i_0].demand_dur.value
