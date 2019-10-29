@@ -11,66 +11,68 @@
     </el-row>
     <!-- 条件筛选结束 -->
 
-    <!-- 在册和激活开始 -->
-    <el-row class="user_register">
-      <el-col class="user_register_left height_auto" :span="12">
-        <el-row class="model_title">
-          <!-- <span class="title_border_left"></span>在册 -->
-          <span class="title_border_left"></span>在网
-        </el-row>
-        <el-row class="chart_body back_white">
-          <com-registered v-bind:api_data1="api_data1" v-bind:api_data2="api_data2"></com-registered>
-        </el-row>
-      </el-col>
-      <el-col class="user_register_right height_auto" :span="12">
-        <el-row class="model_title">
-          <span class="title_border_left"></span>激活
-        </el-row>
-        <el-row class="chart_body back_white">
-          <com-activate
-            v-bind:activate_user_num="activate_user_num"
-            v-bind:activate_rate_data="activate_rate_data"
-          ></com-activate>
-        </el-row>
-      </el-col>
-    </el-row>
-    <!-- 在册和激活结束-->
-
-    <!-- 在网开始 -->
-    <el-row class="user_online" v-if="ULC_time_type == 3">
-      <el-col class="height_auto padding_right" :span="14">
-        <el-row class="model_title">
-          <span class="title_border_left"></span>在网
-        </el-row>
-        <el-row class="chart_body user_online_body back_white">
-          <com-inthenetwork v-bind:api_data3="api_data3"></com-inthenetwork>
-        </el-row>
-      </el-col>
-      <el-col class="height_auto padding_left" :span="10">
-        <el-row class="model_title">
-          <span class="title_border_left"></span>在网用户结构
-        </el-row>
-        <el-row class="chart_body user_structure_body back_white">
-          <com-userstructure v-bind:api_data4="api_data4"></com-userstructure>
-        </el-row>
-      </el-col>
-    </el-row>
-    <!-- 在网结束 -->
-
-    <!-- 用户细分开始 -->
-    <el-row class="user_segment back_white" v-if="ULC_time_type == 3">
-      <el-row class="model_title">
-        <span class="title_border_left"></span>用户细分
+    <div v-if="moduleShow">
+      <!-- 在册和激活开始 -->
+      <el-row class="user_register">
+        <el-col class="user_register_left height_auto" :span="12">
+          <el-row class="model_title">
+            <!-- <span class="title_border_left"></span>在册 -->
+            <span class="title_border_left"></span>在网
+          </el-row>
+          <el-row class="chart_body back_white">
+            <com-registered v-bind:api_data1="api_data1" v-bind:api_data2="api_data2"></com-registered>
+          </el-row>
+        </el-col>
+        <el-col class="user_register_right height_auto" :span="12">
+          <el-row class="model_title">
+            <span class="title_border_left"></span>激活
+          </el-row>
+          <el-row class="chart_body back_white">
+            <com-activate
+              v-bind:activate_user_num="activate_user_num"
+              v-bind:activate_rate_data="activate_rate_data"
+            ></com-activate>
+          </el-row>
+        </el-col>
       </el-row>
-      <el-row class="chart_body padding_10">
-        <com-customersegmentation
-          v-bind:api_data5="api_data5"
-          v-bind:api_data6="api_data6"
-          v-bind:api_data7="api_data7"
-        ></com-customersegmentation>
+      <!-- 在册和激活结束-->
+
+      <!-- 在网开始 -->
+      <el-row class="user_online" v-if="ULC_time_type == 3">
+        <el-col class="height_auto padding_right" :span="14">
+          <el-row class="model_title">
+            <span class="title_border_left"></span>在网
+          </el-row>
+          <el-row class="chart_body user_online_body back_white">
+            <com-inthenetwork v-bind:api_data3="api_data3"></com-inthenetwork>
+          </el-row>
+        </el-col>
+        <el-col class="height_auto padding_left" :span="10">
+          <el-row class="model_title">
+            <span class="title_border_left"></span>在网用户结构
+          </el-row>
+          <el-row class="chart_body user_structure_body back_white">
+            <com-userstructure v-bind:api_data4="api_data4"></com-userstructure>
+          </el-row>
+        </el-col>
       </el-row>
-    </el-row>
-    <!-- 用户细分结束 -->
+      <!-- 在网结束 -->
+
+      <!-- 用户细分开始 -->
+      <el-row class="user_segment back_white" v-if="ULC_time_type == 3">
+        <el-row class="model_title">
+          <span class="title_border_left"></span>用户细分
+        </el-row>
+        <el-row class="chart_body padding_10">
+          <com-customersegmentation
+            v-bind:api_data5="api_data5"
+            v-bind:api_data6="api_data6"
+            v-bind:api_data7="api_data7"
+          ></com-customersegmentation>
+        </el-row>
+      </el-row>
+      <!-- 用户细分结束 -->
+    </div>
   </div>
 </template>
 <script>
@@ -105,6 +107,10 @@ export default {
       "ULC_month",
       "ULC_time_type"
     ])
+  },
+  mounted() {
+    let vm = this
+    vm.refresh_api_data()
   },
   watch: {
     ULC_region(newValue, oldValue) {
@@ -238,6 +244,7 @@ export default {
       if (time_type == 1) {
         // 时间类型-1-天
         // console.log("~~~~~day:" + vm.ULC_day);
+        vm.moduleShow = true
         let temp_time = commonTools.split_yearAtime2(vm.ULC_day);
         temp = {
           area: String(temp_region),
@@ -264,6 +271,7 @@ export default {
       } else if (time_type == 2) {
         // 时间类型-2-周
         // console.log("~~~~~week:" + vm.ULC_week);
+        vm.moduleShow = true
         let temp_time = commonTools.split_yearAtime(vm.ULC_week);
         temp = {
           area: String(temp_region),
@@ -294,6 +302,7 @@ export default {
       } else if (time_type == 3) {
         // 时间类型-3-月
         // console.log("~~~~~month:" + vm.ULC_month);
+        vm.moduleShow = true
         let temp_time = commonTools.split_yearAtime(vm.ULC_month);
         // console.log(temp_time);
 
@@ -325,8 +334,18 @@ export default {
         }
       } else {
         // 未选择时间情况
+        console.log("请选择时间！")
+        vm.moduleShow = false
         return;
       }
+
+      // if (temp.operator == null || temp.list == null || temp.date == null || temp.year == null) {
+      //   console.log("请输入完整的查询条件")
+      //   return
+      // } else if (temp.operator == '' || temp.list == '' || temp.date == '' || temp.year == '') {
+      //   console.log("请输入完整的查询条件")
+      //   return
+      // }
 
       // 测试开启
       // vm.api_data1 = [1];
@@ -379,23 +398,23 @@ export default {
             }
 
             //激活用户数
-            try {
-              let activate_user_num_arr = total_data[0].aggregations.ac.buckets
-              let activate_user_num_temp1 = []
-              let activate_user_num_temp2 = []
-              activate_user_num_arr.forEach((value, index) => {
-                if (value.key != "other") {
-                  activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
-                  activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
-                }
-              })
-              vm.activate_user_num.data_region = activate_user_num_temp1
-              vm.activate_user_num.series_data = activate_user_num_temp2
-              // console.log(vm.activate_user_num.data_region)
-              // console.log(vm.activate_user_num.series_data)
-            } catch (error) {
-              console.log(error);
-            }
+            // try {
+            //   let activate_user_num_arr = total_data[0].aggregations.ac.buckets
+            //   let activate_user_num_temp1 = []
+            //   let activate_user_num_temp2 = []
+            //   activate_user_num_arr.forEach((value, index) => {
+            //     if (value.key != "other") {
+            //       activate_user_num_temp1.push(commonTools.acConvert_Single(value.key))
+            //       activate_user_num_temp2.push((value.activate_user_num.value / 1000000).toFixed(2))
+            //     }
+            //   })
+            //   vm.activate_user_num.data_region = activate_user_num_temp1
+            //   vm.activate_user_num.series_data = activate_user_num_temp2
+            //   // console.log(vm.activate_user_num.data_region)
+            //   // console.log(vm.activate_user_num.series_data)
+            // } catch (error) {
+            //   console.log(error);
+            // }
 
             //激活率
             try {
@@ -431,8 +450,7 @@ export default {
               //在网用户结构
               vm.api_data4 = total_data[1]
 
-              //用户细分
-              vm.api_data5 = total_data[2]
+              vm.api_data5 = total_data[2] //用户细分
               vm.api_data6 = total_data[3]  //收视次数
               vm.api_data7 = total_data[4]  //收视时长
             } catch (error) {
@@ -466,6 +484,24 @@ export default {
                 console.log(error);
               }
 
+              //新增激活用户数
+              try {
+                let activate_user_num_arr = total_data[0].aggregations.ac.buckets
+                let activate_num_region = []
+                let activate_num_data = []
+                activate_user_num_arr.forEach((value, index) => {
+                  if (value.key != "other") {
+                    activate_num_region.push(commonTools.acConvert_Single(value.key))
+                    activate_num_data.push(value.activate_user_num.value)
+                  }
+                })
+                vm.activate_user_num.region = activate_num_region
+                Vue.set(vm.activate_user_num.showData, 0, activate_num_data)
+
+              } catch (error) {
+                console.log(error);
+              }
+
             } else if (type == "lt") {
               // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
               // console.log("运营商", ULC_operator);
@@ -486,6 +522,24 @@ export default {
                 vm.api_data2.region = new_num_region
                 // vm.api_data2.showData[1] = new_num_data
                 Vue.set(vm.api_data2.showData, 1, new_num_data)
+              } catch (error) {
+                console.log(error);
+              }
+
+              //新增激活用户数
+              try {
+                let activate_user_num_arr = total_data[0].aggregations.ac.buckets
+                let activate_num_region = []
+                let activate_num_data = []
+                activate_user_num_arr.forEach((value, index) => {
+                  if (value.key != "other") {
+                    activate_num_region.push(commonTools.acConvert_Single(value.key))
+                    activate_num_data.push(value.activate_user_num.value)
+                  }
+                })
+                vm.activate_user_num.region = activate_num_region
+                Vue.set(vm.activate_user_num.showData, 1, activate_num_data)
+
               } catch (error) {
                 console.log(error);
               }
@@ -511,6 +565,24 @@ export default {
                 // vm.api_data2.showData[2] = new_num_data
                 Vue.set(vm.api_data2.showData, 2, new_num_data)
                 // console.log(vm.api_data2)
+              } catch (error) {
+                console.log(error);
+              }
+
+              //新增激活用户数
+              try {
+                let activate_user_num_arr = total_data[0].aggregations.ac.buckets
+                let activate_num_region = []
+                let activate_num_data = []
+                activate_user_num_arr.forEach((value, index) => {
+                  if (value.key != "other") {
+                    activate_num_region.push(commonTools.acConvert_Single(value.key))
+                    activate_num_data.push(value.activate_user_num.value)
+                  }
+                })
+                vm.activate_user_num.region = activate_num_region
+                Vue.set(vm.activate_user_num.showData, 2, activate_num_data)
+
               } catch (error) {
                 console.log(error);
               }
@@ -593,6 +665,7 @@ export default {
       //   data1: ["7.08-7.14", "7.15-7.21"],
       //   data2: ["219.4", "213.4"]
       // },
+      moduleShow: false,
       api_data1: {
         id: "ULC_echartsA",
         title: "在网用户数（百万户）",
@@ -613,15 +686,22 @@ export default {
         //   [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
         // ]
       },
+      // activate_user_num: {
+      //   id: "echartsAA",
+      //   title: "激活用户数（百万户）",
+      //   dataName: ["激活数"],
+      //   color: ["#FF6123"],
+      //   data_region: [],
+      //   series_data: [],
+      //   // data_region: ["贵阳", "遵义", "安顺", "黔南", "黔东南", "铜仁", "毕节", "六盘水", "黔西南"],
+      //   // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+      // },
       activate_user_num: {
         id: "echartsAA",
-        title: "激活用户数（百万户）",
-        dataName: ["激活数"],
-        color: ["#FF6123"],
-        data_region: [],
-        series_data: [],
-        // data_region: ["贵阳", "遵义", "安顺", "黔南", "黔东南", "铜仁", "毕节", "六盘水", "黔西南"],
-        // series_data: [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800]
+        color: ["#FF6123", "#FF8859", "#FFAA89"],
+        region: ["贵阳", "遵义", "安顺", "黔南", "黔东南", "铜仁", "毕节", "六盘水", "黔西南"],
+        operator: ["移动", "联通", "电信"],
+        showData: [[], [], []]
       },
       activate_rate_data: {
         title: "激活率",
@@ -672,7 +752,8 @@ export default {
   margin-bottom: 14px;
 }
 .user_segment {
-  height: 780px;
+  /* height: 780px; */
+  height: 1100px;
   margin-bottom: 50px;
 }
 

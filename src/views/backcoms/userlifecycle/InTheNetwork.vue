@@ -141,7 +141,9 @@ export default {
       let downtime_user_temp = []  //停机用户
       let total_user_temp = []  //总的用户数据
       let total_register_num = 0   //总的在册用户
-      let total_watch_dur_family = 0   //总的户均观看时长
+      let total_watch_dur = 0   //总的观看时长
+      let total_watch_user_num = 0   //总的观看用户数
+      let total_watch_dur_family   //总的户均观看时长
       let total_cum_paid_num = 0   //总的订购用户
 
       //用户画像
@@ -161,9 +163,10 @@ export default {
         // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
         // console.log("--------------------")
         let register_num = Number((value.register_num.value / 10000).toFixed(2))
-        let watch_dur_family = Number((value.watch_dur_family.value / 3600).toFixed(2))
+        let watch_dur_family = ((value.watch_dur.value / 3600) / value.watch_user_num.value).toFixed(2)
         let cum_paid_rate = Number(((value.cum_paid_num.value / value.register_num.value) * 100).toFixed(2)) + '%'
         if (value.key == 'active_user') {
+          // console.log(value)
           active_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
           active_user_por_temp.push({
             value: value.firsttime_num.value,
@@ -218,9 +221,11 @@ export default {
             name: "未订购用户"
           })
         }
-        total_register_num += value.register_num.value
-        total_watch_dur_family += value.watch_dur_family.value
-        total_cum_paid_num += value.cum_paid_num.value
+        total_register_num += value.register_num.value  //总在册人数
+        total_watch_dur += value.watch_dur.value   //总的观看时长(小时)
+        total_watch_user_num += value.watch_user_num.value  //总的观看用户数
+        total_watch_dur_family = (total_watch_dur / 3600) / total_watch_user_num
+        total_cum_paid_num += value.cum_paid_num.value  //总订购人数
 
         total_firsttime_num += value.firsttime_num.value
         total_oncetime_num += value.oncetime_num.value
@@ -232,7 +237,7 @@ export default {
       let total_cum_paid_rate = Number(((total_cum_paid_num / total_register_num) * 100).toFixed(2))
       //总数据total_user_data
       total_user_temp.push(Number((total_register_num / 10000).toFixed(2)))
-      total_user_temp.push(Number((total_watch_dur_family / 3600).toFixed(2)))
+      total_user_temp.push(Number((total_watch_dur_family).toFixed(2)))
       total_user_temp.push(total_cum_paid_rate + '%')
 
       //得到总的用户画像

@@ -1,7 +1,10 @@
 <template>
   <div class="Activate">
     <!-- <div id="echartsAA" class="echarts1 Aleft"></div> -->
-    <div :id="activationNum_Change.id" class="echarts1 Aleft"></div>
+    <!-- <div :id="activationNum_Change.id" class="echarts1 Aleft"></div> -->
+    <div class="echarts1 Aleft">
+      <activate-stack-chart :api_data2="activate_user_num"></activate-stack-chart>
+    </div>
     <div class="Aright">
       <div :style="{width: '100%',height: '100%'}" class="echarts2 Rtop">
         <line-chart-single-prop :lineData="activationRate"></line-chart-single-prop>
@@ -29,6 +32,7 @@
 
 <script>
 import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图Y轴显示百分比组件
+import ActivateStackChart from "@/views/backcoms/userlifecycle/ActivateStackChart"; //单数据折线图Y轴显示百分比组件
 import { mapGetters } from "vuex";
 import Vue from "vue";
 
@@ -36,20 +40,21 @@ export default {
   name: "Activate",
   props: ["activate_user_num", "activate_rate_data"],
   components: {
-    "line-chart-single-prop": LineChartSingleProp
+    "line-chart-single-prop": LineChartSingleProp,
+    "activate-stack-chart": ActivateStackChart
   },
   watch: {
-    activate_user_num(newValue, oldValue) {
-      let vm = this;
+    // activate_user_num(newValue, oldValue) {
+    //   let vm = this;
 
-      console.log("ULC - activate_user_num:");
-      console.log(newValue);
-      vm.activationNum = vm.activate_user_num
-      // vm.activationNum.title = "激活用户数-测试";
-      // vm.activationRate.title = "激活率-测试";
+    //   console.log("ULC - activate_user_num:");
+    //   console.log(newValue);
+    //   vm.activationNum = vm.activate_user_num
+    //   // vm.activationNum.title = "激活用户数-测试";
+    //   // vm.activationRate.title = "激活率-测试";
 
-      // 此处组件-刷新-drawline()
-    },
+    //   // 此处组件-刷新-drawline()
+    // },
     activate_rate_data(newValue, oldValue) {
       let vm = this;
 
@@ -255,7 +260,7 @@ export default {
     };
   },
   mounted() {
-    this.activationNum = this.activate_user_num
+    // this.activationNum = this.activate_user_num
     this.activationRate = this.activate_rate_data
     console.log("this.activate_user_num~~~~~~~~~~~", this.activate_user_num)
     // this.drawLine();

@@ -6,6 +6,32 @@
         <span class="title_border_left"></span>条件筛选
       </el-row>
       <el-row class="chart_body back_white">
+        <div class="operator">
+          <span class="font_title">运营商：</span>
+          <!-- <el-checkbox
+        :indeterminate="operator_isIndeterminate"
+        v-model="operator_checkAll"
+        @change="operatorChoose_all"
+          >全部</el-checkbox>-->
+          <el-checkbox-group
+            @change="operatorChoose_change"
+            v-model="operatorChoose"
+            v-for="(item,index) in operator"
+            :key="index + 'a' "
+            v-show="operator_isIndeterminate"
+          >
+            <el-checkbox :disabled="false" :label="item"></el-checkbox>
+          </el-checkbox-group>
+          <el-checkbox-group
+            @change="operatorChoose_change"
+            v-model="operatorChoose"
+            v-for="(item,index) in operator"
+            :key="index + 'ac' "
+            v-show="!operator_isIndeterminate"
+          >
+            <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+          </el-checkbox-group>
+        </div>
         <el-row class="date_option">
           <div class="block">
             <span class="demonstration">日期：</span>
@@ -20,6 +46,18 @@
           <div class="block">
             <span class="demonstration">时间：</span>
             <el-time-select
+              class="startTime"
+              v-model="time"
+              :picker-options="{
+            start: '00:00',
+            step: '01:00',
+            end: '23:00'
+            }"
+              placeholder="选择时间"
+            ></el-time-select>
+            <span>—</span>
+            <el-time-select
+              class="endTime"
               v-model="time"
               :picker-options="{
             start: '00:00',
@@ -82,7 +120,13 @@
   </div>
 </template>
 <script>
+import { commonTools } from "@/utils/test";
+import { mapGetters } from "vuex";
 import { program_search } from "@/api/api_main"
+var operatorChoose_new = [];
+var operatorChoose_old = [];
+var programaChoose_new = [];
+var programaChoose_old = [];
 
 export default {
   name: "ProgramSearching", //节目搜索
@@ -113,6 +157,15 @@ export default {
 
   data() {
     return {
+      operator: [
+        "移动",
+        "联通",
+        "电信"
+        //  "其他"
+      ],
+      operatorChoose: [],
+      operator_checkAll: false,
+      operator_isIndeterminate: true,
       date: '',  //日期
       time: '',  //时间
       programInput: "",  //节目名称
@@ -134,22 +187,25 @@ export default {
       }
       // let endTime = String(Number(startTime) + 1)   //结束时间是开始时间 + 1小时
 
-      console.log("开始时间", startTime)
-      // console.log("结束时间", endTime)
-      // console.log("日期", this.date)
-      // console.log("节目名称", this.programInput)
+      let operatorChoose = this.operatorChoose[0]
+      console.log("运营商", operatorChoose)
+      console.log("时间", startTime)
+      console.log("日期", this.date)
+      console.log("节目名称", this.programInput)
 
-      let formData = new FormData()
+      let formData = new FormData()   //operator
+      formData.append("operator", this.operatorChoose)
       formData.append("name", this.programInput)
       formData.append("time", startTime)
       // formData.append("end", endTime)
       formData.append("date", this.date)
 
-      if (startTime != '' && this.date != '' && this.programInput != '') {
+      if (operatorChoose != '' && startTime != '' && this.date != '' && this.programInput != '') {
         // console.log("可以提交数据")
         program_search(formData)
           .then((response) => {
-            this.tableData = response.data.responses
+            console.log("查询结果", response)
+            this.tableData = response.data.responses[0]
             this.showMessage('success', '查询成功！')
             // console.log("返回的数据tableData为：", response.data.responses)
           })
@@ -159,6 +215,25 @@ export default {
       } else {
         this.showMessage('warning', '请填写完整查询条件')
       }
+    },
+
+    operatorChoose_change(event) {
+      operatorChoose_old = operatorChoose_new;
+      let checkedCount = event.length;
+      this.operator_checkAll = checkedCount === this.operator.length;
+      this.operator_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.operator.length;
+      if (this.operatorChoose.length == 0) {
+        this.operator_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function () {
+        operatorChoose_new = vm.operatorChoose;
+        vm.operatorChoose = commonTools.delete_repet_origin(
+          operatorChoose_new,
+          operatorChoose_old
+        );
+      }, 100);
     },
 
     showMessage(messageType, message) {
@@ -198,7 +273,7 @@ export default {
 }
 
 .program_searching_option {
-  height: 156px;
+  height: 220px;
 }
 .program_searching_content {
   height: 300px;
@@ -261,5 +336,22 @@ export default {
   padding: 0px;
   width: 90px;
   margin-left: 15px;
+}
+.program_searching .operator {
+  width: 100%;
+  line-height: 32px;
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 10px;
+}
+.font_title {
+  font-family: PingFangSC-Semibold;
+  font-size: 14px;
+  color: #333333;
+  line-height: 32px;
+  font-weight: bold;
+}
+.program_searching .operator label {
+  margin-right: 20px;
 }
 </style>

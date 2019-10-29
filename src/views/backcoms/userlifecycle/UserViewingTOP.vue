@@ -104,7 +104,7 @@ export default {
           i1: "排名",
           i2: "节目类型",
           i3: "节目",
-          i4: "时长（万小时）"
+          i4: "时长（千小时）"
         };
       }
       if (this.viewingTopList.id == "NumberOfViewersTop") {
