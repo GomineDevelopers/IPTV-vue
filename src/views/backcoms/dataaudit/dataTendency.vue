@@ -2,6 +2,9 @@
   <div class="height_auto" :id="data.id"></div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import Vue from "vue";
+
 export default {
   name: "dataTendency",
   props: {
@@ -16,14 +19,26 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.echarts_set();
-    }, 1000);
+    }, 2000);
+  },
+  computed: {
+    ...mapGetters(["DA_day"])
   },
   watch: {
     data(newValue, oldValue) {
+      // console.log(newValue);
+
       let vm = this;
       setTimeout(function() {
         vm.echarts_set();
-      }, 1000);
+      }, 2000);
+    },
+    DA_day(newValue, oldValue) {
+      // console.log(newValue);
+      let vm = this;
+      setTimeout(function() {
+        vm.echarts_set();
+      }, 2000);
     }
   },
   methods: {
@@ -44,11 +59,13 @@ export default {
         tmpData.symbol = "circle";
         tmpData.data = stringArray[i].split("\t");
         for (var j = 0; j < tmpData.data.length; j++) {
-          tmpData.data[j] = parseFloat(tmpData.data[j]).toFixed(2);
+          // tmpData.data[j] = parseFloat(tmpData.data[j]).toFixed(2);
+          Vue.set(tmpData.data,j,parseFloat(tmpData.data[j]).toFixed(2));
         }
         tmpData.name = nameArray[i];
-        seriesData[i] = tmpData;
-      }
+        // seriesData[i] = tmpData;
+        Vue.set(seriesData,i,tmpData);
+       }
 
       //设置异常值提示
       // seriesData[5].markPoint = {

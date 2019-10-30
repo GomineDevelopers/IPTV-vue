@@ -114,6 +114,8 @@ const app = {
         ADD_VIP_package_list: [],
         ADD_VIP_target_type: 1, // 0-不显示  默认-1-显示 (与VUB的不同)
 
+        DA_day: null,
+
         PS_time: [],
         PS_name: null,
 
@@ -877,8 +879,18 @@ const app = {
                 resolve(state.ADD_VIP_target_type);
             })
         },
-        // //////////////
-
+        // //////////////      
+        set_DA_day({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.DA_day = data;
+                resolve("DA_day - SUCCESS !");
+            })
+        },
+        get_DA_day({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.DA_day);
+            })
+        },
         set_PS_time({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PS_time = data;

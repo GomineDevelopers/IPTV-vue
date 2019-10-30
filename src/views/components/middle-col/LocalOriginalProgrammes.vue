@@ -304,7 +304,7 @@ export default {
           // }
           {
             show: true,
-            top: "10%",
+            top: "2%",
             left: "56%",
             // data: ["综艺", "微电影", "纪实"],
             data: legend_data.slice(0,5),
@@ -319,7 +319,7 @@ export default {
           },
           {
             show: true,
-            top: "10%",
+            top: "2%",
             left: "76%",
             // data: ["电影", "新闻", "时尚生活"],
             data: legend_data.slice(5,10),

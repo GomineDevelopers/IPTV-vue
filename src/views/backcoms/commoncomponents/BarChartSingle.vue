@@ -54,19 +54,43 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();
-      }, 1000);
+      }, 2000);
+    },
+    ADD_VIP_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   computed: {
@@ -74,15 +98,18 @@ export default {
       "PR_operator",
       "PR_month",
       "UVB_region",
-      "ADD_VIP_region",
       "UVB_programa",
-      "ADD_VIP_programa",
       "PR_week",
       "PR_picker",
       "PR_value_specialName",
       "ADD_ALL_operator",
       "ADD_ALL_week",
-      "ADD_ALL_month"
+      "ADD_ALL_month",
+      "ADD_VIP_region",
+      "ADD_VIP_programa",
+      "ADD_VIP_day",
+      "ADD_VIP_week",
+      "ADD_VIP_picker"
     ]),
     // ...this.$mapGetters(["PR_operator"]),
 
@@ -115,7 +142,7 @@ export default {
           setTimeout(function() {
             // console.log("specialClickNum 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -201,7 +228,7 @@ export default {
           setTimeout(function() {
             // console.log("columnChart 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -270,7 +297,7 @@ export default {
           setTimeout(function() {
             // console.log("columnChart 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -307,7 +334,7 @@ export default {
         // 视图更新
         setTimeout(function() {
           vm.drawLine();
-        }, 1000);
+        }, 2000);
         return vm.chartData;
       },
       set: function(newValue) {
@@ -323,7 +350,7 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.drawLine();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     drawLine() {
