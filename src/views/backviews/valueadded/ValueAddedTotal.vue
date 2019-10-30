@@ -66,11 +66,17 @@ export default {
   computed: {
     ...mapGetters([
       "ADD_ALL_operator",
-      "ADD_ALL_programa",
+      // "ADD_ALL_programa",
       "ADD_ALL_week",
       "ADD_ALL_month",
       "ADD_ALL_time_type"
     ])
+  },
+  components: {
+    "option-select-valueAdd": OptionSelectValueAdd,
+    "line-chart-single2": LineChartSingle2,
+    "line-chart-single-prop": LineChartSingleProp,
+    "bar-chart-single": BarChartSingle
   },
   watch: {
     ADD_ALL_operator(newValue, oldValue) {
@@ -78,28 +84,28 @@ export default {
       // console.log("ADD_ALL_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
-      }, 100);
+      }, 2000);
     },
-    ADD_ALL_programa(newValue, oldValue) {
-      let vm = this;
-      console.log("ADD_ALL_programa: " + newValue);
-      setTimeout(function() {
-        vm.refresh_api_data();
-      }, 100);
-    },
+    // ADD_ALL_programa(newValue, oldValue) {
+    //   let vm = this;
+    //   console.log("ADD_ALL_programa: " + newValue);
+    //   setTimeout(function() {
+    //     vm.refresh_api_data();
+    //   }, 2000);
+    // },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
-      }, 100);
+      }, 2000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_month: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
-      }, 100);
+      }, 2000);
     },
     ADD_ALL_time_type(newValue, oldValue) {
       let vm = this;
@@ -118,7 +124,7 @@ export default {
         return;
       }
       let temp_operator = commonTools.operatorConvert(vm.ADD_ALL_operator);
-      let temp_programa = commonTools.programaConvert(vm.ADD_ALL_programa);
+      // let temp_programa = commonTools.programaConvert(vm.ADD_ALL_programa);
 
       let temp = {
         operator: null,
@@ -128,13 +134,8 @@ export default {
         year: null
       };
 
-      if (
-        vm.ADD_ALL_week == null ||
-        vm.ADD_ALL_week == undefined ||
-        vm.ADD_ALL_week == ""
-      ) {
-        return;
-      }
+      console.log();
+
       if (time_type == 1) {
         // 时间类型-1-周
         // console.log("~~~~~week:" + vm.ADD_ALL_week);
@@ -151,8 +152,7 @@ export default {
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~1:");
         console.log(temp);
-      }
-      if (time_type == 2) {
+      } else if (time_type == 2) {
         // 时间类型-2-月
         // console.log("~~~~~month:" + vm.ADD_ALL_month);
         let temp_time = commonTools.split_yearAtime_byweekOrDay(
@@ -170,6 +170,8 @@ export default {
         // console.log("~~~~time_type:" + time_type);
         console.log("~~~~~2:");
         console.log(temp);
+      } else {
+        return;
       }
 
       var formData = new FormData();
@@ -183,14 +185,17 @@ export default {
       increment(formData)
         .then(function(response) {
           console.log(response);
+          // ///////// 1 2 3
+
           try {
             let buckets_0 =
               response.data.responses[0].aggregations.statistical_granularity
                 .buckets; //新增用户概览
-            let buckets_1 =
-              response.data.responses[1].aggregations.statistical_granularity
-                .buckets;
+
             let length_0 = buckets_0.length;
+            if (length_0 == 0) {
+              throw "error：length_0 == 0";
+            }
             let i_0;
             // 新增在册用户	new_num
             // 新增在册用户转化率	new2paid_rate
@@ -202,13 +207,6 @@ export default {
             let temp_subscribersData = [
               ["product", "订购用户数（数）", "收入（万元）"] // 3
             ];
-
-            let temp_subcontractUserData = [
-              ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"]
-            ]; // 4
-            let temp_subcontractIncomeData = [
-              ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"]
-            ]; // 5
 
             for (i_0 = 0; i_0 < length_0; i_0++) {
               if (time_type == 1) {
@@ -228,28 +226,6 @@ export default {
                 try {
                   temp_subscribersData.push([]);
                   Vue.set(temp_subscribersData[i_0 + 1], 0, buckets_0[i_0].key);
-                } catch (error) {
-                  console.log(error);
-                }
-                // 4
-                try {
-                  temp_subcontractUserData.push([]);
-                  Vue.set(
-                    temp_subcontractUserData[i_0 + 1],
-                    0,
-                    buckets_0[i_0].key
-                  );
-                } catch (error) {
-                  console.log(error);
-                }
-                // 5
-                try {
-                  temp_subcontractIncomeData.push([]);
-                  Vue.set(
-                    temp_subcontractIncomeData[i_0 + 1],
-                    0,
-                    buckets_0[i_0].key
-                  );
                 } catch (error) {
                   console.log(error);
                 }
@@ -282,28 +258,6 @@ export default {
                 } catch (error) {
                   console.log(error);
                 }
-                // 4
-                try {
-                  temp_subcontractUserData.push([]);
-                  Vue.set(
-                    temp_subcontractUserData[i_0 + 1],
-                    0,
-                    commonTools.format_weekToChinese(buckets_0[i_0].key)
-                  );
-                } catch (error) {
-                  console.log(error);
-                }
-                // 5
-                try {
-                  temp_subcontractIncomeData.push([]);
-                  Vue.set(
-                    temp_subcontractIncomeData[i_0 + 1],
-                    0,
-                    commonTools.format_weekToChinese(buckets_0[i_0].key)
-                  );
-                } catch (error) {
-                  console.log(error);
-                }
               } // if
 
               // 1
@@ -316,9 +270,11 @@ export default {
               try {
                 temp_newPayingUsersProportion[1].push(
                   commonTools.returnFloat_2(
-                    (buckets_0[i_0].new_paid_num.value /
-                      buckets_0[i_0].new_num.value) *
+                    (
+                      (buckets_0[i_0].new_paid_num.value /
+                        buckets_0[i_0].new_num.value) *
                       100
+                    ).toFixed(2)
                   )
                 );
               } catch (error) {
@@ -334,11 +290,100 @@ export default {
                 Vue.set(
                   temp_subscribersData[i_0 + 1],
                   2,
-                  buckets_0[i_0].new_income.value / 10000 / 100
+                  (buckets_0[i_0].new_income.value / 10000 / 100).toFixed(2)
                 );
               } catch (error) {
                 console.log(error);
               }
+            }
+            vm.newUserTotal.data = [];
+            vm.newPayingUsersProportion.data = [];
+            vm.subscribersData.data = [];
+
+            vm.newUserTotal.data = temp_newUserTotal;
+            vm.newPayingUsersProportion.data = temp_newPayingUsersProportion;
+            vm.subscribersData.data = temp_subscribersData;
+            // console.log("~~~~~~temp_newPayingUsersProportion");
+            // console.log(temp_newPayingUsersProportion);
+          } catch (error) {
+            console.log(error);
+            vm.newUserTotal.data = [];
+            vm.newPayingUsersProportion.data = [];
+            vm.subscribersData.data = [];
+          }
+
+          // ///////// 4 5 
+          try {
+            let buckets_1 =
+              response.data.responses[1].aggregations.statistical_granularity
+                .buckets;
+            let length_1 = buckets_1.length;
+            if (length_1 == 0) {
+              throw "length_1 == 0";
+            }
+            let i_1;
+            // 新增在册用户	new_num
+            // 新增在册用户转化率	new2paid_rate
+            // 新增在册用户转化率	new_paid_num/new_num 新增用户中订购用户数/新增用户
+            // 新增收入	new_income
+            // 新增订购用户数	new_paid_num
+
+            let temp_subcontractUserData = [
+              ["product", "欢乐家庭包（户）", "少儿包（户）", "影视包（户）"]
+            ]; // 4
+            let temp_subcontractIncomeData = [
+              ["product", "欢乐家庭包（元）", "少儿包（元）", "影视包（元）"]
+            ]; // 5
+
+            for (i_1 = 0; i_1 < length_1; i_1++) {
+              if (time_type == 1) {
+                // 4
+                try {
+                  temp_subcontractUserData.push([]);
+                  Vue.set(
+                    temp_subcontractUserData[i_1 + 1],
+                    0,
+                    buckets_1[i_1].key
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 5
+                try {
+                  temp_subcontractIncomeData.push([]);
+                  Vue.set(
+                    temp_subcontractIncomeData[i_1 + 1],
+                    0,
+                    buckets_1[i_1].key
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+              } // if
+              if (time_type == 2) {
+                // 4
+                try {
+                  temp_subcontractUserData.push([]);
+                  Vue.set(
+                    temp_subcontractUserData[i_1 + 1],
+                    0,
+                    commonTools.format_weekToChinese(buckets_1[i_1].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+                // 5
+                try {
+                  temp_subcontractIncomeData.push([]);
+                  Vue.set(
+                    temp_subcontractIncomeData[i_1 + 1],
+                    0,
+                    commonTools.format_weekToChinese(buckets_1[i_1].key)
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+              } // if
 
               function Return_KeyValue_npn(key, index_date) {
                 try {
@@ -372,7 +417,9 @@ export default {
                   }
                   for (i_package = 0; i_package < length_package; i_package++) {
                     if (buckets_package[i_package].key == key) {
-                      return buckets_package[i_package].new_income.value / 100;
+                      return (
+                        buckets_package[i_package].new_income.value / 100
+                      ).toFixed(2);
                       break;
                     }
                   }
@@ -385,19 +432,19 @@ export default {
               // 4
               try {
                 Vue.set(
-                  temp_subcontractUserData[i_0 + 1],
+                  temp_subcontractUserData[i_1 + 1],
                   1,
-                  Return_KeyValue_npn("欢乐家庭VIP", i_0)
+                  Return_KeyValue_npn("欢乐家庭VIP", i_1)
                 );
                 Vue.set(
-                  temp_subcontractUserData[i_0 + 1],
+                  temp_subcontractUserData[i_1 + 1],
                   2,
-                  Return_KeyValue_npn("少儿VIP", i_0)
+                  Return_KeyValue_npn("少儿VIP", i_1)
                 );
                 Vue.set(
-                  temp_subcontractUserData[i_0 + 1],
+                  temp_subcontractUserData[i_1 + 1],
                   3,
-                  Return_KeyValue_npn("影视VIP", i_0)
+                  Return_KeyValue_npn("影视VIP", i_1)
                 );
               } catch (error) {
                 console.log(error);
@@ -405,39 +452,35 @@ export default {
               // 5
               try {
                 Vue.set(
-                  temp_subcontractIncomeData[i_0 + 1],
+                  temp_subcontractIncomeData[i_1 + 1],
                   1,
-                  Return_KeyValue_ni("欢乐家庭VIP", i_0)
+                  Return_KeyValue_ni("欢乐家庭VIP", i_1)
                 );
                 Vue.set(
-                  temp_subcontractIncomeData[i_0 + 1],
+                  temp_subcontractIncomeData[i_1 + 1],
                   2,
-                  Return_KeyValue_ni("少儿VIP", i_0)
+                  Return_KeyValue_ni("少儿VIP", i_1)
                 );
                 Vue.set(
-                  temp_subcontractIncomeData[i_0 + 1],
+                  temp_subcontractIncomeData[i_1 + 1],
                   3,
-                  Return_KeyValue_ni("影视VIP", i_0)
+                  Return_KeyValue_ni("影视VIP", i_1)
                 );
               } catch (error) {
                 console.log(error);
               }
             }
-            vm.newUserTotal.data = [];
-            vm.newPayingUsersProportion.data = [];
-            vm.subscribersData.data = [];
             vm.subcontractUserData.data = [];
             vm.subcontractIncomeData.data = [];
 
-            vm.newUserTotal.data = temp_newUserTotal;
-            vm.newPayingUsersProportion.data = temp_newPayingUsersProportion;
-            vm.subscribersData.data = temp_subscribersData;
             vm.subcontractUserData.data = temp_subcontractUserData;
             vm.subcontractIncomeData.data = temp_subcontractIncomeData;
             // console.log("~~~~~~temp_newPayingUsersProportion");
             // console.log(temp_newPayingUsersProportion);
           } catch (error) {
             console.log(error);
+            vm.subcontractUserData.data = [];
+            vm.subcontractIncomeData.data = [];
           }
         })
         .catch(function(error) {
@@ -446,20 +489,13 @@ export default {
     }
   },
 
-  components: {
-    "option-select-valueAdd": OptionSelectValueAdd,
-    "line-chart-single2": LineChartSingle2,
-    "line-chart-single-prop": LineChartSingleProp,
-    "bar-chart-single": BarChartSingle
-  },
   mounted() {
     let vm = this;
     setTimeout(function() {
       if (vm.ADD_ALL_time_type == 0) {
         // 显示初始化
         vm.ifInitShow = false;
-      }
-      else{
+      } else {
         vm.ifInitShow = true;
       }
     }, 500);

@@ -408,7 +408,7 @@ export default {
         console.log(temp);
       } else if (time_type == 2) {
         // 时间类型-2-周
-        // console.log("~~~~~week:" + vm.ADD_VIP_week);
+        console.log("~~~~~week: " + vm.ADD_VIP_week);
         let temp_time = commonTools.split_yearAtime(vm.ADD_VIP_week);
 
         temp = {
@@ -421,7 +421,7 @@ export default {
           year: temp_time.year,
           ti: String(temp_programa),
           package: String(temp_valueAddedPackage),
-          year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
+          // year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
         };
         // }
         // console.log("~~~~time_type:" + time_type);
@@ -432,7 +432,7 @@ export default {
         // console.log("~~~~~picker:" + vm.ADD_VIP_picker);
         // console.log(typeof vm.ADD_VIP_picker);
         let temp_time = commonTools.split_picker(vm.ADD_VIP_picker);
-        // console.log(temp_time);
+        console.log(temp_time);
 
         //*****注意传参格式为这个 */
         temp = {
@@ -444,7 +444,8 @@ export default {
           end: temp_time.end,
           ti: String(temp_programa),
           package: String(temp_valueAddedPackage),
-          year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
+          // year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
+          year: temp_time.year
         };
         console.log("~~~~~3:");
         console.log(temp);

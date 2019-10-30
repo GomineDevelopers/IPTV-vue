@@ -20,7 +20,7 @@ export default {
     let vm = this;
     setTimeout(function () {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
   computed: {
     ...mapGetters([
@@ -36,25 +36,25 @@ export default {
       let vm = this;
       setTimeout(function () {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function () {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       setTimeout(function () {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function () {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     }
   },
   methods: {
@@ -133,7 +133,8 @@ export default {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
               if (vm.lineData.id == "newUserTotal") {
-                return title + "<br/>" + marker1 + t1 + ":  " + value1 + "%";
+                // return title + "<br/>" + marker1 + t1 + ":  " + value1 + "%";
+                return title + "<br/>" + marker1 + t1 + ":  " + value1;
               }
 
               return (

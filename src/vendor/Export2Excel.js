@@ -163,7 +163,7 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
             console.info(error);
         });
 
-    return; // 数据检测
+    // return; // 数据检测
 
     var rowString = ["A", "B", "C", "..."];
     var rowString_length_setting = 32;

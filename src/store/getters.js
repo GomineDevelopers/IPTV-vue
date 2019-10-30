@@ -98,6 +98,10 @@ const getters = {
     // 0-不显示  1-显示
     ADD_VIP_target_type: state => state.app.ADD_VIP_target_type,  // 默认都是全选，默认0-不显示
 
+    // 数据审计
+    DA_day: state => state.app.DA_day,
+    
+
     // 节目搜索（时间段）
     PS_time: state => state.app.PS_time,
     PS_name: state => state.app.PS_name,
