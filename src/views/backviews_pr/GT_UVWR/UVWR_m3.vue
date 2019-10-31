@@ -56,7 +56,7 @@
           <bar-chart-single :chartData="GT_UVWR1_U2"></bar-chart-single>
         </el-col>
         <el-col :span="8">
-          <p class="m_common_sm_title_font">分组频道直播收视时长（小时）</p>
+          <p class="m_common_sm_title_font">分组频道直播收视时长（万小时）</p>
           <bar-chart-single :chartData="GT_UVWR1_U3"></bar-chart-single>
         </el-col>
       </el-row>
@@ -350,7 +350,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[1],
                 2,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
             case "卫视":
@@ -367,7 +367,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[2],
                 2,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
             case "本地":
@@ -384,7 +384,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[3],
                 2,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
             case "轮播":
@@ -401,7 +401,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[4],
                 2,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
           }
@@ -476,14 +476,15 @@ export default {
 
       try {
         //本地自办节目top5 (万小时)
-        let local_program = newValue.data.responses[13].aggregations.channel.buckets;
+        let local_program = newValue.data.responses[13].aggregations.programname.buckets;
         Vue.set(vm.GT_UVWR1_V3.data[0], 1, beforeWeekFormat);
         Vue.set(vm.GT_UVWR1_V3.data[0], 2, currentWeekFormat);
         if (local_program[0].key) { }
         local_program.forEach((value, index) => {
           if (index < 5) {
             // console.log(value)
-            Vue.set(vm.GT_UVWR1_V3.data[index + 1], 0, value.key);
+            let program_name = value.key + ' ' + value.channel.buckets[0].key
+            Vue.set(vm.GT_UVWR1_V3.data[index + 1], 0, program_name);
             Vue.set(
               vm.GT_UVWR1_V3.data[index + 1],
               2,
@@ -643,7 +644,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[1],
                 1,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
             case "卫视":
@@ -660,7 +661,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[2],
                 1,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
             case "本地":
@@ -677,7 +678,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[3],
                 1,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
             case "轮播":
@@ -694,7 +695,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_U3.data[4],
                 1,
-                Number((value.onlive_dur.value / 60).toFixed(2))
+                Number((value.onlive_dur.value / 10000 / 60).toFixed(2))
               );
               break;
           }
@@ -732,7 +733,7 @@ export default {
       try {
         //本地自办节目TOP5（万小时）
         let local_program =
-          newValue.data.responses[13].aggregations.channel.buckets;
+          newValue.data.responses[13].aggregations.programname.buckets;
         setTimeout(() => {
           let live_temp = vm.GT_UVWR1_V3.data;
           live_temp.forEach((value, index) => {
@@ -740,7 +741,8 @@ export default {
               Vue.set(vm.GT_UVWR1_V3.data[index], 1, 0);
               // console.log("联通本地自办节目TOP5本周--", value)
               local_program.forEach((value2, index2) => {
-                if (value2.key == value[0]) {
+                let program_name = value2.key + ' ' + value2.channel.buckets[0].key;
+                if (program_name == value[0]) {
                   // console.log(value2.key, value2.onlive_dur.value)
                   Vue.set(
                     vm.GT_UVWR1_V3.data[index],
@@ -1234,7 +1236,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_U1",
-        color: ["#E7E6E6", "#A9D18E"],
+        color: ["#D3D3D3", "#A9D18E"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
@@ -1254,7 +1256,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_U2",
-        color: ["#E7E6E6", "#5B9BD5"],
+        color: ["#D3D3D3", "#5B9BD5"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
@@ -1274,7 +1276,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_U3",
-        color: ["#E7E6E6", "#FFC000"],
+        color: ["#D3D3D3", "#FFC000"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
@@ -1283,7 +1285,7 @@ export default {
         title: "",
         id: "GT_UVWR1_V1",
         height: "height:720px;",
-        color: ["#A9D18E", "#EDEDED"],
+        color: ["#A9D18E", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1366,7 +1368,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_V3",
-        color: ["#E7E6E6", "#5B9BD5"],
+        color: ["#D3D3D3", "#5B9BD5"],
         ifYaxisShow: false,
         ifLegendShow: true,
         m_barWidth: "40%"
@@ -1375,7 +1377,7 @@ export default {
         title: "",
         id: "GT_UVWR1_W1",
         height: "height:600px;",
-        color: ["#A9D18E", "#EDEDED"],
+        color: ["#A9D18E", "#D3D3D3"],
         data: [
           ["product", ,],
           [],
@@ -1405,7 +1407,7 @@ export default {
         title: "",
         id: "GT_UVWR1_W2",
         height: "height:600px;",
-        color: ["#5B9BD5", "#EDEDED"],
+        color: ["#5B9BD5", "#D3D3D3"],
         data: [
           ["product", ,],
           [],
@@ -1435,7 +1437,7 @@ export default {
         title: "",
         id: "GT_UVWR1_W3",
         height: "height:600px;",
-        color: ["#FFC000", "#EDEDED"],
+        color: ["#FFC000", "#D3D3D3"],
         data: [
           ["product", ,],
           [],
@@ -1465,7 +1467,7 @@ export default {
         title: "",
         id: "GT_UVWR1_X1",
         height: "height:600px;",
-        color: ["#A9D18E", "#EDEDED"],
+        color: ["#A9D18E", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1495,7 +1497,7 @@ export default {
         title: "",
         id: "GT_UVWR1_X2",
         height: "height:600px;",
-        color: ["#5B9BD5", "#EDEDED"],
+        color: ["#5B9BD5", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1525,7 +1527,7 @@ export default {
         title: "",
         id: "GT_UVWR1_X3",
         height: "height:600px;",
-        color: ["#FFC000", "#EDEDED"],
+        color: ["#FFC000", "#D3D3D3"],
         data: [
           ["product"],
           [],
