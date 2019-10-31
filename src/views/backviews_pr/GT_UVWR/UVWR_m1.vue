@@ -1594,7 +1594,7 @@ export default {
         title: "",
         date: [],
         data: [],
-        color: ["#EDEDED", "#ED7D31"]
+        color: ["#D3D3D3", "#ED7D31"]
         // date: ["0520-0526", "0527-0602"],
         // data: ["209.4", "213.4"],
       },
@@ -1747,7 +1747,7 @@ export default {
         title: "",
         id: "GT_UVWR1_D1",
         height: "height:300px;",
-        color: ["#EDEDED", "#5B9BD5"],
+        color: ["#D3D3D3", "#5B9BD5"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "20%",
@@ -1790,7 +1790,7 @@ export default {
         title: "",
         id: "GT_UVWR1_E1",
         height: "height:800px;",
-        color: ["#5B9BD5", "#EDEDED"],
+        color: ["#5B9BD5", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1830,7 +1830,7 @@ export default {
         title: "",
         id: "GT_UVWR1_E2",
         height: "height:800px;",
-        color: ["#ED7D31", "#EDEDED"],
+        color: ["#ED7D31", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1870,7 +1870,7 @@ export default {
         title: "",
         id: "GT_UVWR1_E3",
         height: "height:800px;",
-        color: ["#FFC000", "#EDEDED"],
+        color: ["#FFC000", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1910,7 +1910,7 @@ export default {
         title: "",
         id: "GT_UVWR1_F1",
         height: "height:800px;",
-        color: ["#5B9BD5", "#EDEDED"],
+        color: ["#5B9BD5", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1950,7 +1950,7 @@ export default {
         title: "",
         id: "GT_UVWR1_F2",
         height: "height:800px;",
-        color: ["#ED7D31", "#EDEDED"],
+        color: ["#ED7D31", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1990,7 +1990,7 @@ export default {
         title: "",
         id: "GT_UVWR1_F3",
         height: "height:800px;",
-        color: ["#FFC000", "#EDEDED"],
+        color: ["#FFC000", "#D3D3D3"],
         data: [
           ["product"],
           [],

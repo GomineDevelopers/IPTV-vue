@@ -1227,7 +1227,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_I1",
-        color: ["#E7E6E6", "#A9D18E"],
+        color: ["#D3D3D3", "#A9D18E"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
@@ -1247,7 +1247,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_I2",
-        color: ["#E7E6E6", "#5B9BD5"],
+        color: ["#D3D3D3", "#5B9BD5"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
@@ -1267,7 +1267,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_I3",
-        color: ["#E7E6E6", "#FFC000"],
+        color: ["#D3D3D3", "#FFC000"],
         ifYaxisShow: true,
         ifLegendShow: true,
         m_barWidth: "12"
@@ -1276,7 +1276,7 @@ export default {
         title: "",
         id: "GT_UVWR1_J1",
         height: "height:720px;",
-        color: ["#A9D18E", "#EDEDED"],
+        color: ["#A9D18E", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1352,7 +1352,7 @@ export default {
         ],
         title: "",
         id: "GT_UVWR1_J3",
-        color: ["#E7E6E6", "#5B9BD5"],
+        color: ["#D3D3D3", "#5B9BD5"],
         ifYaxisShow: false,
         ifLegendShow: true,
         m_barWidth: "30%"
@@ -1361,7 +1361,7 @@ export default {
         title: "",
         id: "GT_UVWR1_K1",
         height: "height:600px;",
-        color: ["#A9D18E", "#EDEDED"],
+        color: ["#A9D18E", "#D3D3D3"],
         data: [
           ["product", ,],
           [],
@@ -1391,7 +1391,7 @@ export default {
         title: "",
         id: "GT_UVWR1_K2",
         height: "height:600px;",
-        color: ["#5B9BD5", "#EDEDED"],
+        color: ["#5B9BD5", "#D3D3D3"],
         data: [
           ["product", ,],
           [],
@@ -1421,7 +1421,7 @@ export default {
         title: "",
         id: "GT_UVWR1_K3",
         height: "height:600px;",
-        color: ["#FFC000", "#EDEDED"],
+        color: ["#FFC000", "#D3D3D3"],
         data: [
           ["product", ,],
           [],
@@ -1451,7 +1451,7 @@ export default {
         title: "",
         id: "GT_UVWR1_L1",
         height: "height:600px;",
-        color: ["#A9D18E", "#EDEDED"],
+        color: ["#A9D18E", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1481,7 +1481,7 @@ export default {
         title: "",
         id: "GT_UVWR1_L2",
         height: "height:600px;",
-        color: ["#5B9BD5", "#EDEDED"],
+        color: ["#5B9BD5", "#D3D3D3"],
         data: [
           ["product"],
           [],
@@ -1511,7 +1511,7 @@ export default {
         title: "",
         id: "GT_UVWR1_L3",
         height: "height:600px;",
-        color: ["#FFC000", "#EDEDED"],
+        color: ["#FFC000", "#D3D3D3"],
         data: [
           ["product"],
           [],

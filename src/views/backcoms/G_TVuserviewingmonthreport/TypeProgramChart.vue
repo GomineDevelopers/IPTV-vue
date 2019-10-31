@@ -94,10 +94,10 @@ export default {
         },
         grid: {
           top: "35%",
-          left: "70",
-          right: "8%",
-          bottom: "10%",
-          containLabel:true
+          left: "10",
+          right: "10",
+          bottom: "5",
+          containLabel: true
 
         },
         dataset: {

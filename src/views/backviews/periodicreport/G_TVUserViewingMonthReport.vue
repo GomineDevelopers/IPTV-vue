@@ -1749,10 +1749,8 @@ export default {
               // 本月 - 虽然上月（先） 但以 本月从大到小排列
               for (i_15 = 0; i_15 < length_15_1; i_15++) {
                 Vue.set(temp_data_15[i_15 + 1], 0, buckets_15_1[i_15].key); // ▲ 0
-                Vue.set(
-                  temp_data_15[i_15 + 1],
-                  1,
-                  buckets_15_1[i_15].demand_user_num.value
+                Vue.set(temp_data_15[i_15 + 1], 1,
+                  commonTools.returnFloat_2(buckets_15_1[i_15].demand_user_num.value / 10000)
                 ); // ▲ 1
                 Vue.set(
                   temp_data_15_dur[i_15 + 1],
@@ -1762,7 +1760,7 @@ export default {
                 Vue.set(
                   temp_data_15_dur[i_15 + 1],
                   1,
-                  buckets_15_1_dur[i_15].demand_dur.value
+                  commonTools.returnFloat_2(buckets_15_1_dur[i_15].demand_dur.value / 10000 / 60)
                 ); // ▲ 1
                 Vue.set(
                   temp_data_15_fr[i_15 + 1],
@@ -1772,7 +1770,7 @@ export default {
                 Vue.set(
                   temp_data_15_fr[i_15 + 1],
                   1,
-                  buckets_15_1_fr[i_15].demand_freq.value
+                  commonTools.returnFloat_2(buckets_15_1_fr[i_15].demand_freq.value / 10000)
                 ); // ▲ 1
               }
 
@@ -1797,7 +1795,7 @@ export default {
                   for (i_15_2 = 0; i_15_2 < length_15_0; i_15_2++) {
                     if (buckets_15_0[i_15_2].key == key) {
                       // console.log(buckets_15_0[i_15_2].key);
-                      value = buckets_15_0[i_15_2].demand_user_num.value;
+                      value = commonTools.returnFloat_2(buckets_15_0[i_15_2].demand_user_num.value / 10000);
                       break;
                     }
                   }
@@ -1808,7 +1806,7 @@ export default {
                   for (i_15_2 = 0; i_15_2 < length_15_0; i_15_2++) {
                     if (buckets_15_0_dur[i_15_2].key == key) {
                       // console.log(buckets_15_0[i_15_2].key);
-                      value = buckets_15_0_dur[i_15_2].demand_dur.value;
+                      value = commonTools.returnFloat_2(buckets_15_0_dur[i_15_2].demand_dur.value / 10000 / 60);
                       break;
                     }
                   }
@@ -1819,7 +1817,7 @@ export default {
                   for (i_15_2 = 0; i_15_2 < length_15_0; i_15_2++) {
                     if (buckets_15_0_fr[i_15_2].key == key) {
                       // console.log(buckets_15_0[i_15_2].key);
-                      value = buckets_15_0_fr[i_15_2].demand_freq.value;
+                      value = commonTools.returnFloat_2(buckets_15_0_fr[i_15_2].demand_freq.value / 10000);
                       break;
                     }
                   }
@@ -5235,7 +5233,7 @@ export default {
 
       //点播用户数
       demandUserNumData: {
-        title: "点播用户数",
+        title: "点播用户数（万户）",
         id: "demandUserNum",
         color: ["#EC7C30", "#FFC000", "#6FAC46"],
         data: [
@@ -5254,7 +5252,7 @@ export default {
       },
       //点播次数环比
       demandTimesData: {
-        title: "点播次数环比",
+        title: "点播次数环比（万次）",
         id: "demandTimes",
         color: ["#D29E00", "#FFC000", "#FFD99F"],
         data: [
@@ -5273,7 +5271,7 @@ export default {
       },
       //点播时长环比
       demandDurationData: {
-        title: "点播时长环比",
+        title: "点播时长环比（万小时）",
         id: "demandDuration",
         color: ["#ACC5E4", "#5B9BD4", "#497EAF"],
         data: [
