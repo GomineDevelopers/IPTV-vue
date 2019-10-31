@@ -642,7 +642,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_E1.data[15 - index],
                 1,
-                (value.onlive_dur.value / 10000 / 60).toFixed(1)
+                (value.onlive_dur.value / 10000 / 60).toFixed(2)
               );
             }
           });
@@ -679,7 +679,7 @@ export default {
               Vue.set(
                 vm.GT_UVWR1_F1.data[15 - index],
                 1,
-                (value.demand_freq.value / 10000).toFixed(1)
+                (value.demand_freq.value / 10000).toFixed(2)
               );
             }
           });
@@ -932,7 +932,7 @@ export default {
             Vue.set(
               vm.GT_UVWR1_E2.data[15 - index],
               1,
-              (value.onlive_dur.value / 10000 / 60).toFixed(1)
+              (value.onlive_dur.value / 10000 / 60).toFixed(2)
             );
           }
         });
@@ -968,7 +968,7 @@ export default {
             Vue.set(
               vm.GT_UVWR1_F2.data[15 - index],
               1,
-              (value.demand_freq.value / 10000).toFixed(1)
+              (value.demand_freq.value / 10000).toFixed(2)
             );
           }
         });
@@ -1221,7 +1221,7 @@ export default {
             Vue.set(
               vm.GT_UVWR1_E3.data[15 - index],
               1,
-              (value.onlive_dur.value / 10000 / 60).toFixed(1)
+              (value.onlive_dur.value / 10000 / 60).toFixed(2)
             );
           }
         });
@@ -1253,7 +1253,7 @@ export default {
             Vue.set(
               vm.GT_UVWR1_F3.data[15 - index],
               1,
-              (value.demand_freq.value / 10000).toFixed(1)
+              (value.demand_freq.value / 10000).toFixed(2)
             );
           }
         });
@@ -1300,7 +1300,7 @@ export default {
                 Vue.set(
                   vm.GT_UVWR1_E1.data[index],
                   2,
-                  (value2.onlive_dur.value / 10000 / 60).toFixed(1)
+                  (value2.onlive_dur.value / 10000 / 60).toFixed(2)
                 );
               }
             });
@@ -1326,7 +1326,7 @@ export default {
                 Vue.set(
                   vm.GT_UVWR1_F1.data[index],
                   2,
-                  (value2.demand_freq.value / 10000).toFixed(1)
+                  (value2.demand_freq.value / 10000).toFixed(2)
                 );
               }
             });
@@ -1369,7 +1369,7 @@ export default {
                 Vue.set(
                   vm.GT_UVWR1_E2.data[index],
                   2,
-                  (value2.onlive_dur.value / 10000 / 60).toFixed(1)
+                  (value2.onlive_dur.value / 10000 / 60).toFixed(2)
                 );
               }
             });
@@ -1394,7 +1394,7 @@ export default {
                 Vue.set(
                   vm.GT_UVWR1_F2.data[index],
                   2,
-                  (value2.demand_freq.value / 10000).toFixed(1)
+                  (value2.demand_freq.value / 10000).toFixed(2)
                 );
               }
             });
@@ -1436,7 +1436,7 @@ export default {
                 Vue.set(
                   vm.GT_UVWR1_E3.data[index],
                   2,
-                  (value2.onlive_dur.value / 10000 / 60).toFixed(1)
+                  (value2.onlive_dur.value / 10000 / 60).toFixed(2)
                 );
               }
             });
@@ -1461,7 +1461,7 @@ export default {
                 Vue.set(
                   vm.GT_UVWR1_F3.data[index],
                   2,
-                  (value2.demand_freq.value / 10000).toFixed(1)
+                  (value2.demand_freq.value / 10000).toFixed(2)
                 );
               }
             });

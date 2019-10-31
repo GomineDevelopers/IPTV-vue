@@ -22,13 +22,13 @@ export default {
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     }
@@ -36,7 +36,7 @@ export default {
   mounted() {
     // this.setLineChart();
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 2000);
   },
@@ -95,9 +95,10 @@ export default {
         },
         grid: {
           top: "12%",
-          left: "19%",
-          right: "8%",
-          bottom: "7%"
+          left: "20",
+          right: "15",
+          bottom: "10",
+          containLabel: true
         },
         tooltip: {
           trigger: "axis",
@@ -155,10 +156,10 @@ export default {
           axisLabel: {
             interval: 0,
             show: true,
-            formatter: function(val) {
+            formatter: function (val) {
               var strs = val.split(""); //字符串数组
               var str = "";
-              for (var i = 0, s; (s = strs[i++]); ) {
+              for (var i = 0, s; (s = strs[i++]);) {
                 //遍历字符串数组
                 str += s;
                 if (!(i % 9)) str += "\n";

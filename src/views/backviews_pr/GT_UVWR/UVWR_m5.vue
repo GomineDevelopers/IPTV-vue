@@ -232,8 +232,8 @@ export default {
         Vue.set(vm.GT_UVWR1_Z1.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }
         local_program_type_data.forEach((value, index) => {
-          Vue.set(vm.GT_UVWR1_Z1.data[5 - index], 0, value.key);
-          Vue.set(vm.GT_UVWR1_Z1.data[5 - index], 1, value.demand_freq.value);
+          Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 0, value.key);
+          Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 1, value.demand_freq.value);
         });
       } catch (error) {
         vm.GT_UVWR1_Z1.data.forEach((value, index) => {
@@ -269,8 +269,8 @@ export default {
         Vue.set(vm.GT_UVWR1_Z2.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }
         local_program_type_data.forEach((value, index) => {
-          Vue.set(vm.GT_UVWR1_Z2.data[5 - index], 0, value.key);
-          Vue.set(vm.GT_UVWR1_Z2.data[5 - index], 1, value.demand_freq.value);
+          Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 0, value.key);
+          Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 1, value.demand_freq.value);
         });
       } catch (error) {
         vm.GT_UVWR1_Z2.data.forEach((value, index) => {
@@ -306,8 +306,8 @@ export default {
         Vue.set(vm.GT_UVWR1_Z3.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }
         local_program_type_data.forEach((value, index) => {
-          Vue.set(vm.GT_UVWR1_Z3.data[5 - index], 0, value.key);
-          Vue.set(vm.GT_UVWR1_Z3.data[5 - index], 1, value.demand_freq.value);
+          Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 0, value.key);
+          Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 1, value.demand_freq.value);
         });
       } catch (error) {
         vm.GT_UVWR1_Z3.data.forEach((value, index) => {
@@ -338,7 +338,7 @@ export default {
                   Vue.set(
                     vm.GT_UVWR1_Z1.data[index],
                     2,
-                    Number(value2.demand_freq.value.toFixed(1))
+                    Number(value2.demand_freq.value.toFixed(2))
                   );
                 }
               });
@@ -369,7 +369,7 @@ export default {
                   Vue.set(
                     vm.GT_UVWR1_Z2.data[index],
                     2,
-                    Number(value2.demand_freq.value.toFixed(1))
+                    Number(value2.demand_freq.value.toFixed(2))
                   );
                 }
               });
@@ -399,7 +399,7 @@ export default {
                   Vue.set(
                     vm.GT_UVWR1_Z3.data[index],
                     2,
-                    Number(value2.demand_freq.value.toFixed(1))
+                    Number(value2.demand_freq.value.toFixed(2))
                   );
                 }
               });

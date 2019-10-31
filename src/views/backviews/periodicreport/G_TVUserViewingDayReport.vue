@@ -456,7 +456,7 @@ export default {
                   temp_0_C2,
                   index,
                   String(
-                    commonTools.returnFloat_4(
+                    commonTools.returnFloat_2(
                       parseFloat(buckets0[i_0].all_demand_dur.value) /
                       1000 /
                       60 /
@@ -559,7 +559,7 @@ export default {
                   temp_0_C2,
                   index,
                   String(
-                    commonTools.returnFloat_4(
+                    commonTools.returnFloat_2(
                       parseFloat(buckets0[i_0].demand_dur.value) / 1000 / 60
                     )
                   )
@@ -653,12 +653,13 @@ export default {
               for (i_1 = 0; i_1 < length_1; i_1++) {
                 temp_1_C1.push(buckets1[i_1].key);
                 temp_1_C2.push(
-                  String(
-                    parseInt(
-                      (parseFloat(buckets1[i_1].onlive_dur.value) * 100) /
-                      all_count
-                    )
-                  )
+                  // String(
+                  //   parseInt(
+                  //     (parseFloat(buckets1[i_1].onlive_dur.value) * 100) /
+                  //     all_count
+                  //   )
+                  // )
+                  (((buckets1[i_1].onlive_dur.value) * 100) / all_count).toFixed(2)
                 );
               }
               temp_1.push(temp_1_C1);
