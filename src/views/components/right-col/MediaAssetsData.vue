@@ -1,7 +1,7 @@
 <template>
   <div class="MediaAssetsData height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>媒资数据
+      <span class="title_border_left"></span>媒资数据 (近7天)
     </el-row>
     <el-row v-show="ifgetdata" id="media_assets_data" :style="{width: '16vw',height: '16vh'}"></el-row>
     <el-row v-show="ifgetdata" class="MAD_bottom" :style="{width: '16vw',height: '16vh'}">

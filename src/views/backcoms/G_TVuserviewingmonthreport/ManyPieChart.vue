@@ -102,84 +102,85 @@ export default {
           return tempx;
         }
 
-        if (
-          vm.pieData.id == "weekLiveViewUser" ||
-          vm.pieData.id == "weekLiveViewTimes" ||
-          vm.pieData.id == "weekliveViewDuration"
-        ) {
-          let content = [];
-          let color = [];
-          let temp;
-          let temp1;
-          let temp2;
-          let temp3;
-          let data = [];
-          let data1 = [];
-          let data2 = [];
-          let data3 = [];
 
-          if (this.PR_operator == null || this.PR_operator.length == 0) {
-            content = vm.pieData.content;
-            color = vm.pieData.color;
-          } else {
-            if (this.PR_operator.indexOf("移动") > -1) {
-              color.push(vm.pieData.color[0]);
-              data.push(vm.pieData.content[0].data[0]);
-              data1.push(vm.pieData.content[1].data[0]);
-              data2.push(vm.pieData.content[2].data[0]);
-              data3.push(vm.pieData.content[3].data[0]);
-            }
-            if (this.PR_operator.indexOf("联通") > -1) {
-              color.push(vm.pieData.color[1]);
-              data.push(vm.pieData.content[0].data[1]);
-              data1.push(vm.pieData.content[1].data[1]);
-              data2.push(vm.pieData.content[2].data[1]);
-              data3.push(vm.pieData.content[3].data[1]);
-            }
-            if (this.PR_operator.indexOf("电信") > -1) {
-              color.push(vm.pieData.color[2]);
-              data.push(vm.pieData.content[0].data[2]);
-              data1.push(vm.pieData.content[1].data[2]);
-              data2.push(vm.pieData.content[2].data[2]);
-              data3.push(vm.pieData.content[3].data[2]);
-            }
-            temp = {
-              title: vm.pieData.content[0].title,
-              data: data
-            };
-            temp1 = {
-              title: vm.pieData.content[1].title,
-              data: data1
-            };
-            temp2 = {
-              title: vm.pieData.content[2].title,
-              data: data2
-            };
-            temp3 = {
-              title: vm.pieData.content[3].title,
-              data: data3
-            };
-            content.push(temp);
-            content.push(temp1);
-            content.push(temp2);
-            content.push(temp3);
-          }
-          // 视图更新
-          setTimeout(function() {
-            vm.setLineChart();
-          }, 1000);
+        // if (
+        //   vm.pieData.id == "weekLiveViewUser" ||
+        //   vm.pieData.id == "weekLiveViewTimes" ||
+        //   vm.pieData.id == "weekliveViewDuration"
+        // ) {
+        //   let content = [];
+        //   let color = [];
+        //   let temp;
+        //   let temp1;
+        //   let temp2;
+        //   let temp3;
+        //   let data = [];
+        //   let data1 = [];
+        //   let data2 = [];
+        //   let data3 = [];
 
-          let tempx = {
-            title: vm.pieData.title,
-            id: vm.pieData.id,
-            color: color,
-            content: content
-          };
-          // console.log("~~~~~ManyPieChart~~~~tempx");
-          // console.log(tempx);
+        //   if (this.PR_operator == null || this.PR_operator.length == 0) {
+        //     content = vm.pieData.content;
+        //     color = vm.pieData.color;
+        //   } else {
+        //     if (this.PR_operator.indexOf("移动") > -1) {
+        //       color.push(vm.pieData.color[0]);
+        //       data.push(vm.pieData.content[0].data[0]);
+        //       data1.push(vm.pieData.content[1].data[0]);
+        //       data2.push(vm.pieData.content[2].data[0]);
+        //       data3.push(vm.pieData.content[3].data[0]);
+        //     }
+        //     if (this.PR_operator.indexOf("联通") > -1) {
+        //       color.push(vm.pieData.color[1]);
+        //       data.push(vm.pieData.content[0].data[1]);
+        //       data1.push(vm.pieData.content[1].data[1]);
+        //       data2.push(vm.pieData.content[2].data[1]);
+        //       data3.push(vm.pieData.content[3].data[1]);
+        //     }
+        //     if (this.PR_operator.indexOf("电信") > -1) {
+        //       color.push(vm.pieData.color[2]);
+        //       data.push(vm.pieData.content[0].data[2]);
+        //       data1.push(vm.pieData.content[1].data[2]);
+        //       data2.push(vm.pieData.content[2].data[2]);
+        //       data3.push(vm.pieData.content[3].data[2]);
+        //     }
+        //     temp = {
+        //       title: vm.pieData.content[0].title,
+        //       data: data
+        //     };
+        //     temp1 = {
+        //       title: vm.pieData.content[1].title,
+        //       data: data1
+        //     };
+        //     temp2 = {
+        //       title: vm.pieData.content[2].title,
+        //       data: data2
+        //     };
+        //     temp3 = {
+        //       title: vm.pieData.content[3].title,
+        //       data: data3
+        //     };
+        //     content.push(temp);
+        //     content.push(temp1);
+        //     content.push(temp2);
+        //     content.push(temp3);
+        //   }
+        //   // 视图更新
+        //   setTimeout(function() {
+        //     vm.setLineChart();
+        //   }, 1000);
 
-          return tempx;
-        }
+        //   let tempx = {
+        //     title: vm.pieData.title,
+        //     id: vm.pieData.id,
+        //     color: color,
+        //     content: content
+        //   };
+        //   // console.log("~~~~~ManyPieChart~~~~tempx");
+        //   // console.log(tempx);
+
+        //   return tempx;
+        // }
 
         // 视图更新
         setTimeout(function() {

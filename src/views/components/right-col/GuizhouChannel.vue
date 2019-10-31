@@ -3,7 +3,7 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>
       <!-- 贵州本土频道收视TOP5({{GuizhouChannel_unit}}) -->
-      贵州本土频道收视TOP5
+      贵州本土频道收视TOP5 (近7天)
       <!-- 贵州频道收视TOP5 -->
     </el-row>
     <el-row class="programmes_name"></el-row>

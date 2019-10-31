@@ -3,7 +3,7 @@
     <el-row class="title_row">
       <span class="title_border_left"></span>
       <!-- 收视用户({{m_Unit}}) -->
-      收视用户
+      收视用户 (当日)
     </el-row>
     <el-row v-show="ifgetdata" class="chart_height" id="viewing_user"></el-row>
     <el-row v-show="!ifgetdata" class="exception_p">

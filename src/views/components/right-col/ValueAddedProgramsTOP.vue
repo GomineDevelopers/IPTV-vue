@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>增值节目TOP
+      <span class="title_border_left"></span>增值节目TOP (近7天)
     </el-row>
     <el-row v-show="ifgetdata" id="value_added_programsTOP">
       <el-row class="viewing_top_title">
