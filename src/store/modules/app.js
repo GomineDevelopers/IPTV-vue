@@ -55,8 +55,8 @@ const app = {
         UVB_programa_type_list: [], // api获取的内容类型列表
         UVB_target_type: 0, // 默认-0-不显示  1-显示
         // PR_operator: [],
-        // PR_operator: ["移动", "联通", "电信"],
-        PR_operator: ["移动"],
+        PR_operator: ["移动", "联通", "电信"],
+        // PR_operator: ["移动"],
 
         PR_day: null,
         // PR_day: "2019-07-03", //临时初始值

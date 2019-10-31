@@ -12,7 +12,19 @@ export default {
     lineData: Object
   },
   watch: {
+    lineData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
     PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
@@ -20,9 +32,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["PR_week"])
+    ...mapGetters(["PR_week", "PR_operator"])
   },
-
   data() {
     return {};
   },

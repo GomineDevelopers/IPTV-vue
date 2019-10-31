@@ -49,7 +49,15 @@ export default {
       "UVB_contenttype",
       "UVB_day",
       "UVB_week",
-      "UVB_picker"
+      "UVB_picker",
+
+      "ADD_VIP_region",
+      "ADD_VIP_operator",
+      "ADD_VIP_programa",
+      "ADD_VIP_valueAddedPackage",
+      "ADD_VIP_day",
+      "ADD_VIP_week",
+      "ADD_VIP_picker"
     ])
   },
   data() {
@@ -67,63 +75,106 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
 
     UVB_region(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_playmode(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_programa(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_day(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_week(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
     },
     UVB_picker(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawEcharts();
-      }, 1000);
+      }, 2000);
+    },
+
+    ADD_VIP_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_valueAddedPackage(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
     }
   },
   mounted() {
     let vm = this;
     setTimeout(function() {
       vm.drawEcharts();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     drawEcharts() {

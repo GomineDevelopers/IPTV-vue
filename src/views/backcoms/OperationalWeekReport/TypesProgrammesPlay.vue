@@ -24,17 +24,21 @@ export default {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     }
   },
   mounted() {
-    this.setLineChart();
+    // this.setLineChart();
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 2000);
   },
   methods: {
     setLineChart() {

@@ -30,6 +30,12 @@ export default {
         vm.setLineChart();
       }, 2000);
     },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
     barListData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -44,7 +50,7 @@ export default {
     }, 2000);
   },
   computed: {
-    ...mapGetters(["PR_week", "PR_month"]),
+    ...mapGetters(["PR_week", "PR_month", "PR_operator"]),
     barListData_Change: {
       get: function() {
         let vm = this;

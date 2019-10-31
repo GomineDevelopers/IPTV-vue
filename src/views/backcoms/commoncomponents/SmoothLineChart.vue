@@ -77,7 +77,7 @@ export default {
           setTimeout(function() {
             // console.log("recommendPage 视图更新");
             vm.setLineChart();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.smoothLineData.title,
             id: vm.smoothLineData.id,
@@ -92,7 +92,7 @@ export default {
         }
         setTimeout(function() {
           vm.setLineChart();
-        }, 1000);
+        }, 2000);
         return vm.smoothLineData;
       },
       set: function(newValue) {}
@@ -102,7 +102,7 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     setLineChart() {
