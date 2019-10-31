@@ -11,46 +11,46 @@ import { get_date } from "@/api/api_main";
 
 
 
-commonTools.date = { // 测试
-    start_year: 2018,
-    start_month: 1,
-    start_week: 1,
-    start_day: 1,
-    end_year: 2019,
-    end_month: 12,
-    end_week: 54,
-    end_day: 31
-}
-// commonTools.date = {
-//     start_year: 0,
-//     start_month: 0,
-//     start_week: 0,
-//     start_day: 0,
-//     end_year: 0,
-//     end_month: 0,
-//     end_week: 0,
-//     end_day: 0
+// commonTools.date = { // 测试
+//     start_year: 2018,
+//     start_month: 1,
+//     start_week: 1,
+//     start_day: 1,
+//     end_year: 2019,
+//     end_month: 12,
+//     end_week: 54,
+//     end_day: 31
 // }
-// get_date()
-//     .then(function (response_date) {
-//         // console.log(response_date);
-//         let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
-//         let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
+commonTools.date = {
+    start_year: 0,
+    start_month: 0,
+    start_week: 0,
+    start_day: 0,
+    end_year: 0,
+    end_month: 0,
+    end_week: 0,
+    end_day: 0
+}
+get_date()
+    .then(function (response_date) {
+        // console.log(response_date);
+        let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
+        let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
 
-//         commonTools.date.start_year = commonTools.date_format_DWMY(start_date).year;
-//         commonTools.date.start_month = commonTools.date_format_DWMY(start_date).month;
-//         commonTools.date.start_week = commonTools.date_format_DWMY(start_date).week;
-//         commonTools.date.start_day = commonTools.date_format_DWMY(start_date).day;
+        commonTools.date.start_year = commonTools.date_format_DWMY(start_date).year;
+        commonTools.date.start_month = commonTools.date_format_DWMY(start_date).month;
+        commonTools.date.start_week = commonTools.date_format_DWMY(start_date).week;
+        commonTools.date.start_day = commonTools.date_format_DWMY(start_date).day;
 
-//         commonTools.date.end_year = commonTools.date_format_DWMY(end_date).year;
-//         commonTools.date.end_month = commonTools.date_format_DWMY(end_date).month;
-//         commonTools.date.end_week = commonTools.date_format_DWMY(end_date).week;
-//         commonTools.date.end_day = commonTools.date_format_DWMY(end_date).day;
+        commonTools.date.end_year = commonTools.date_format_DWMY(end_date).year;
+        commonTools.date.end_month = commonTools.date_format_DWMY(end_date).month;
+        commonTools.date.end_week = commonTools.date_format_DWMY(end_date).week;
+        commonTools.date.end_day = commonTools.date_format_DWMY(end_date).day;
 
-//     })
-//     .catch(function (error) {
-//         console.info(error);
-//     });
+    })
+    .catch(function (error) {
+        console.info(error);
+    });
 
 
 

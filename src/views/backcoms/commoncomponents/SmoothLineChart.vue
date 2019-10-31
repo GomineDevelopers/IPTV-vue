@@ -85,8 +85,8 @@ export default {
             data: data
           };
         }
-        if (vm.smoothLineData.id == "originalProgramsDemand") {
-          if (vm.PR_week) {
+        if (vm.smoothLineData.id == "originalProgramsDemand_owr") {
+          if (vm.PR_week && vm.PR_operator) {
             // do nothing. --监听
           }
         }
