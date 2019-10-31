@@ -2,26 +2,26 @@
   <div class="height_auto">
     <el-row class="title_row">
       <!-- 注意是上月的数据 -->
-      <span class="title_border_left"></span>忠诚用户（月）
+      <span class="title_border_left"></span>忠诚用户（上月）
     </el-row>
     <el-row v-show="ifgetdata" class="loyal_body">
       <el-col :span="16" class="height_auto" id="loyal_user"></el-col>
       <el-col :span="8" class="height_auto show_loyal_data">
         <div>
           <el-row>
-            平均点击次数：
+            平均点击次数(次)：
             </br>
-            <span class="click_num">{{avg_freq}}</span>次
+            <span class="click_num">{{avg_freq}}</span>
           </el-row>
           <el-row>
-            平均停留时长：
+            平均停留时长(时)：
             </br>
-            <span class="keep_time">{{avg_dur}}</span>小时
+            <span class="keep_time">{{avg_dur}}</span>
           </el-row>
           <el-row>
-            忠诚用户数：
+            忠诚用户数(户)：
             </br>
-            <span class="loyal_index">{{loyal_num}}</span>户
+            <span class="loyal_index">{{loyal_num}}</span>
           </el-row>
         </div>
       </el-col>
@@ -40,6 +40,7 @@ export default {
   name: "LoyalUser",  //忠诚用户组件
   data() {
     return {
+      ifgetdata:false,
       avg_freq:0,
       avg_dur:0,
       loyal_num:0,
@@ -97,8 +98,16 @@ export default {
           // access_dur_loyal / access_loyal_user_num
           // 忠诚用户户均点击次数 = 忠诚用户点击次数/忠诚用户用户数
           // click_freq_loyal / loyal_user_num
-          vm.avg_freq = parseInt(aggregations.click_freq_loyal.value / aggregations.loyal_user_num.value)
-          vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value / 3600)
+          if( aggregations.loyal_user_num.value == 0){
+            vm.avg_freq = 0;
+          }else{
+            vm.avg_freq = parseInt(aggregations.click_freq_loyal.value / aggregations.loyal_user_num.value)
+          }
+          if( aggregations.access_loyal_user_num.value == 0){
+            vm.avg_dur = 0;
+          }else{
+            vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value / 60)
+          }
           vm.loyal_num = aggregations.loyal_user_num.value;
           Vue.set(vm.echart_data.data[0],1,vm.avg_freq);
           Vue.set(vm.echart_data.data[1],1,vm.avg_dur);

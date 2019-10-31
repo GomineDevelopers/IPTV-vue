@@ -532,7 +532,7 @@ export default {
               temp_data2[2].push("新增在册用户数");
               temp_data3[0].push("product");
               temp_data3[1].push("开机行为用户数");
-              temp_data3[2].push("新增在册用户数");
+              temp_data3[2].push("新增付费用户数");
 
               let buckets_0 =
                 responses0.aggregations.statistical_granularity.buckets;

@@ -18,7 +18,7 @@
           <img src="@/assets/up.gif" />
         </span>
       </div>
-      <p class="content_title">总收视时长</p>
+      <p class="content_title">总收视时长(时)</p>
       <div class="content_con">
         <div class="content_numP">
           <!-- <span class="content_num">4325.7万</span> -->
@@ -268,9 +268,9 @@ export default {
               vm.program_num_Ratio =
                 String(
                   commonTools.returnFloat_2(
-                    ((buckets0[1].program_content_num.value -
-                      buckets0[0].program_content_num.value) /
-                      buckets0[0].program_content_num.value) *
+                    ((buckets0[1].program_content_num_new.value -
+                      buckets0[0].program_content_num_new.value) /
+                      buckets0[0].program_content_num_new.value) *
                       100
                   )
                 ) + "%";

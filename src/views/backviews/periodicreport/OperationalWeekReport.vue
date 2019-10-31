@@ -604,17 +604,15 @@ export default {
               temp_buttonClickTOPData_title.push([
                 value.buttonClickTOPData.title
               ]);
-              let temp_str = value.columnButtonClickNum.data
+              let temp_str = value.columnButtonClickNum.data;
               // let temp_str = [JSON.stringify(...(value.columnButtonClickNum.data))] // 拆后转换再封装
               // let temp_str = [];
               // for(let i = 0; i < value.columnButtonClickNum.data.length; i++){
               // }
               // => temp_columnButtonClickNum_data = [ [string{..},{..}],[{..},{},{}],[{}] ]
-              // => temp_str 
+              // => temp_str
               console.log(temp_str);
-              temp_columnButtonClickNum_data.push(
-                temp_str
-              );
+              temp_columnButtonClickNum_data.push(temp_str);
               temp_columnButtonClickNum_title.push([
                 value.columnButtonClickNum.title
               ]);
@@ -660,7 +658,7 @@ export default {
 
               ...temp_weeklyThermodynamic_title,
               ...temp_buttonClickTOPData_title,
-              ...temp_columnButtonClickNum_title, // 
+              ...temp_columnButtonClickNum_title, //
               ...temp_someButtonDayTrendData_title,
 
               [vm.thematicData.title],
@@ -702,7 +700,7 @@ export default {
 
               ...temp_weeklyThermodynamic_data,
               ...temp_buttonClickTOPData_data,
-              ...temp_columnButtonClickNum_data, // 
+              ...temp_columnButtonClickNum_data, //
               ...temp_someButtonDayTrendData_data,
 
               vm.thematicData.data,
@@ -849,7 +847,11 @@ export default {
                     beforeWeekFormat,
                     (buckets_0[i_0].register_num.value / 10000).toFixed(2),
                     (buckets_0[i_0].open_num.value / 10000).toFixed(2),
-                    (buckets_0[i_0].open_num.value / buckets_0[i_0].register_num.value * 100).toFixed(2)
+                    (
+                      (buckets_0[i_0].open_num.value /
+                        buckets_0[i_0].register_num.value) *
+                      100
+                    ).toFixed(2)
                   ]);
                 }
                 if (i_0 == 1) {
@@ -857,8 +859,11 @@ export default {
                     currentWeekFormat,
                     (buckets_0[i_0].register_num.value / 10000).toFixed(2),
                     (buckets_0[i_0].open_num.value / 10000).toFixed(2),
-                    (buckets_0[i_0].open_num.value /
-                      buckets_0[i_0].register_num.value * 100).toFixed(2)
+                    (
+                      (buckets_0[i_0].open_num.value /
+                        buckets_0[i_0].register_num.value) *
+                      100
+                    ).toFixed(2)
                   ]);
                 }
               }
@@ -870,7 +875,7 @@ export default {
             // console.log("~~~~~!!!!!");
             // console.log(vm.userNumAddPowerData);
 
-            // //////////////// 一周热力数据概览 ///////  （row 3） responses 8 9 10  ---跳过 数据补全
+            // //////////////// 一周热力数据概览 ///////  （row 3） right responses 8 9 10  ---跳过 数据补全
             // 上周 本周
             // 访问用户数 访问次数 页面点击用户数 页面点击次数 页面播放次数 页面播放时长
             // access_user_num access_freq click_user_num click_freq access_freq  access_dur(用demand_dur)
@@ -927,34 +932,52 @@ export default {
               // 环比算法  （本期数值-上期数值）/上期数值
 
               temp_data_8910_1.push(
-                ((buckets_8[1].access_user_num.value -
-                  buckets_8[0].access_user_num.value) /
-                  buckets_8[0].access_user_num.value * 100).toFixed(2)
+                (
+                  ((buckets_8[1].access_user_num.value -
+                    buckets_8[0].access_user_num.value) /
+                    buckets_8[0].access_user_num.value) *
+                  100
+                ).toFixed(2)
               );
               temp_data_8910_2.push(
-                ((buckets_8[1].access_freq.value -
-                  buckets_8[0].access_freq.value) /
-                  buckets_8[0].access_freq.value * 100).toFixed(2)
+                (
+                  ((buckets_8[1].access_freq.value -
+                    buckets_8[0].access_freq.value) /
+                    buckets_8[0].access_freq.value) *
+                  100
+                ).toFixed(2)
               );
               temp_data_8910_3.push(
-                ((buckets_9[1].click_user_num.value -
-                  buckets_9[0].click_user_num.value) /
-                  buckets_9[0].click_user_num.value * 100).toFixed(2)
+                (
+                  ((buckets_9[1].click_user_num.value -
+                    buckets_9[0].click_user_num.value) /
+                    buckets_9[0].click_user_num.value) *
+                  100
+                ).toFixed(2)
               );
               temp_data_8910_4.push(
-                ((buckets_9[1].click_freq.value -
-                  buckets_9[0].click_freq.value) /
-                  buckets_9[0].click_freq.value * 100).toFixed(2)
+                (
+                  ((buckets_9[1].click_freq.value -
+                    buckets_9[0].click_freq.value) /
+                    buckets_9[0].click_freq.value) *
+                  100
+                ).toFixed(2)
               );
               temp_data_8910_5.push(
-                ((buckets_8[1].access_freq.value -
-                  buckets_8[0].access_freq.value) /
-                  buckets_8[0].access_freq.value * 100).toFixed(2)
+                (
+                  ((buckets_8[1].access_freq.value -
+                    buckets_8[0].access_freq.value) /
+                    buckets_8[0].access_freq.value) *
+                  100
+                ).toFixed(2)
               );
               temp_data_8910_6.push(
-                ((buckets_10[1].demand_dur.value -
-                  buckets_10[0].demand_dur.value) /
-                  buckets_10[0].demand_dur.value * 100).toFixed(2)
+                (
+                  ((buckets_10[1].demand_dur.value -
+                    buckets_10[0].demand_dur.value) /
+                    buckets_10[0].demand_dur.value) *
+                  100
+                ).toFixed(2)
               ); //
 
               temp_data_8910.push(temp_data_8910_1);
@@ -992,7 +1015,9 @@ export default {
                 temp_data_11_1.push(
                   (buckets_11[i_11].demand_user_num.value / 10000).toFixed(2)
                 );
-                temp_data_11_2.push((buckets_11[i_11].demand_freq.value / 10000).toFixed(2))
+                temp_data_11_2.push(
+                  (buckets_11[i_11].demand_freq.value / 10000).toFixed(2)
+                );
                 temp_data_11_3.push(
                   (buckets_11[i_11].demand_dur.value / 10000 / 60).toFixed(2)
                 );
@@ -1031,12 +1056,15 @@ export default {
                 Vue.set(
                   temp_data_12[top15_length_12 - i_12],
                   0,
-                  buckets_12[1].program_type.buckets[i_12].key
+                  buckets_12[1].programname.buckets[i_12].key
                 );
                 Vue.set(
                   temp_data_12[top15_length_12 - i_12],
                   1,
-                  (buckets_12[1].program_type.buckets[i_12].demand_freq.value / 10000).toFixed(2)
+                  (
+                    buckets_12[1].programname.buckets[i_12].demand_freq.value /
+                    10000
+                  ).toFixed(2)
                 );
                 // 临时设置
                 // Vue.set(
@@ -1047,7 +1075,9 @@ export default {
                 // );
               }
               // ////// 上周
-              let buckets_child_12_2 = response.data.responses[12].aggregations.statistical_granularity.buckets[0].program_type.buckets;
+              let buckets_child_12_2 =
+                response.data.responses[12].aggregations.statistical_granularity
+                  .buckets[0].programname.buckets;
               let top15_length_week2_all = buckets_child_12_2.length; // 200个
               let i_12_2;
               function Return_KeyValue_12(key) {
@@ -1055,7 +1085,9 @@ export default {
                 for (i_12_2 = 0; i_12_2 < top15_length_week2_all; i_12_2++) {
                   if (buckets_child_12_2[i_12_2].key == key) {
                     // console.log(buckets_child_12_2[i_12_2].key);
-                    value = (buckets_child_12_2[i_12_2].demand_freq.value / 10000).toFixed(2);
+                    value = (
+                      buckets_child_12_2[i_12_2].demand_freq.value / 10000
+                    ).toFixed(2);
                     break;
                   }
                 }
@@ -1068,6 +1100,11 @@ export default {
                   2,
                   Return_KeyValue_12(temp_data_12[top15_length_12 - i_12][0])
                 );
+              }
+              for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+                let temp_key_add =
+                  buckets_12[1].programname.buckets[i_12].program_type.buckets[0].key + " - " + temp_data_12[top15_length_12 - i_12][0];
+                Vue.set(temp_data_12[top15_length_12 - i_12], 0, temp_key_add);
               }
 
               vm.hebdomadDibbleSeedingTOPData.data = temp_data_12;
@@ -1240,9 +1277,11 @@ export default {
                 );
               }
 
+
+
               vm.dibbleSeedingUserNumData.data = temp_data_13_dun;
-              vm.dibbleSeedingNumData.data = temp_data_13_dun;
-              vm.dibbleSeedingDurationData.data = temp_data_13_dun;
+              vm.dibbleSeedingNumData.data = temp_data_13_df;
+              vm.dibbleSeedingDurationData.data = temp_data_13_dd ;
             } catch (error) {
               console.log(error);
             }
@@ -1343,7 +1382,9 @@ export default {
               for (i_15 = 0; i_15 < length_15; i_15++) {
                 temp_data_15_1.push(buckets_15[i_15].demand_user_num.value);
                 temp_data_15_2.push(buckets_15[i_15].demand_freq.value);
-                temp_data_15_3.push((buckets_15[i_15].demand_dur.value / 60).toFixed(2));
+                temp_data_15_3.push(
+                  (buckets_15[i_15].demand_dur.value / 60).toFixed(2)
+                );
               }
               temp_data_15.push(temp_data_15_1);
               temp_data_15.push(temp_data_15_2);
@@ -1378,7 +1419,7 @@ export default {
                 Vue.set(
                   temp_data_16[top10_length_16 - i_16],
                   0,
-                  buckets_16[1].program_type.buckets[i_16].key
+                  buckets_16[1].programname.buckets[i_16].key
                 );
                 Vue.set(
                   temp_data_16[top10_length_16 - i_16],
@@ -1389,7 +1430,7 @@ export default {
               // ////// 上周
               let buckets_child_16_2 =
                 response.data.responses[16].aggregations.statistical_granularity
-                  .buckets[0].program_type.buckets;
+                  .buckets[0].programname.buckets;
               let top10_length_16_week2_all = buckets_child_16_2.length; // 200个
               let i_16_2;
               function Return_KeyValue_16(key) {
@@ -1411,6 +1452,16 @@ export default {
                   Return_KeyValue_16(temp_data_16[top10_length_16 - i_16][0])
                 );
               }
+
+              for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+                let temp_key_add = buckets_16[1].programname.buckets[i_16].program_type.buckets[0].key + " - " + temp_data_16[top10_length_16 - i_16][0]
+                Vue.set(
+                  temp_data_16[top10_length_16 - i_16],
+                  0,
+                  temp_key_add
+                );
+              }
+
               vm.localProgramsPlayTOPData.data = temp_data_16;
             } catch (error) {
               console.log(error);
@@ -1437,7 +1488,9 @@ export default {
               ]);
 
               for (i_17 = 0; i_17 < length_17; i_17++) {
-                temp_data_17_1.push((buckets_17[i_17].onlive_user_num.value / 10000).toFixed(2));
+                temp_data_17_1.push(
+                  (buckets_17[i_17].onlive_user_num.value / 10000).toFixed(2)
+                );
                 temp_data_17_2.push((buckets_17[i_17].onlive_freq.value / 10000).toFixed(2));
                 temp_data_17_3.push(
                   (buckets_17[i_17].onlive_dur.value / 10000 / 60).toFixed(2)
@@ -1513,6 +1566,14 @@ export default {
                   temp_data_18[top15_length_18 - i_18],
                   2,
                   Return_KeyValue_18(temp_data_18[top15_length_18 - i_18][0])
+                );
+              }
+              for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+                let temp_key_add = buckets_18[1].programname.buckets[i_18].channel.buckets[0].key + " - " + temp_data_18[top15_length_18 - i_18][0];
+                Vue.set(
+                  temp_data_18[top15_length_18 - i_18],
+                  0,
+                  temp_key_add
                 );
               }
               vm.hebdomadLiveTOPData.data = temp_data_18;
@@ -3615,7 +3676,7 @@ export default {
             // console.log("~~~~~~AAAA");
             // console.log(vm.threeBasedUserViewData);
 
-            // ///////// 一周热力数据概览 (row3)  responses 7
+            // ///////// 一周热力数据概览 (row3) left responses 7
             try {
               let buckets_7 =
                 response.data.responses[7].aggregations.ti.buckets;

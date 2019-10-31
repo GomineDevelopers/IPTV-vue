@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="12">
         <el-row class="height_auto">
-          <img src="@/assets/user_icon2.png" />订购用户数：
+          <img src="@/assets/user_icon2.png" />订购用户数(户)：
           <br />
           <span class="number">
             <!-- <i>452.3</i>万 -->
@@ -21,11 +21,11 @@
           </span>
         </el-row>
         <el-row>
-          <img src="@/assets/earning_icon.png" />收入：
+          <img src="@/assets/earning_icon.png" />收入(万元)：
           <br />
           <span class="number">
             <!-- <i>4367.7</i>万元 -->
-            <i>{{cum_income}}</i>万元
+            <i>{{cum_income}}</i>
           </span>
         </el-row>
       </el-col>
@@ -41,7 +41,7 @@
       </el-col>
       <el-col :span="12">
         <el-row>
-          <img src="@/assets/user_icon.png" />新增订购用户数：
+          <img src="@/assets/user_icon.png" />新增订购用户数(户)：
           <br />
           <span class="number">
             <!-- <i>2.3</i>万 -->
@@ -49,11 +49,11 @@
           </span>
         </el-row>
         <el-row>
-          <img src="@/assets/earning_icon2.png" />收入：
+          <img src="@/assets/earning_icon2.png" />收入(万元)：
           <br />
           <span class="number">
             <!-- <i>47.2</i>万元 -->
-            <i>{{new_income}}</i>万元
+            <i>{{new_income}}</i>
           </span>
         </el-row>
       </el-col>
@@ -197,11 +197,16 @@ export default {
                   100 /
                   10000
                 ).toFixed(0);
-                vm.New_order_conversion_rate = commonTools.returnFloat_2(
-                  (aggregations.new_paid_num.value /
-                    aggregations.new_num.value) *
-                    100
-                );
+                console.log(aggregations);
+                if (aggregations.new_num.value == 0) {
+                  vm.New_order_conversion_rate = commonTools.returnFloat_2(0);
+                } else {
+                  vm.New_order_conversion_rate = commonTools.returnFloat_2(
+                    (aggregations.new_paid_num.value /
+                      aggregations.new_num.value) *
+                      100
+                  );
+                }
               }
 
               vm.ifgetdata = true;

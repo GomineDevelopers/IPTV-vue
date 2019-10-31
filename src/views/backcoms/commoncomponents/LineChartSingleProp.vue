@@ -359,10 +359,14 @@ export default {
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
-              if (vm.lineData_Change.id == "newPayingUsers_ADD_ALL") {
+              if (vm.lineData_Change.id == "newPayingUsers_ADD_ALL" ||
+               vm.lineData_Change.id == "newAddPayingUser" ||
+               vm.lineData_Change.id == "monthPowerActivity" ||
+               vm.lineData_Change.id == "areaPowerActivity" 
+               ) {
                 return title + "<br/>" + marker1 + t1 + ":  " + value1 + "%";
               }
-
+         
               return (
                 date_year +
                 date_month +
