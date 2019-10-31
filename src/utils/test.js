@@ -424,6 +424,8 @@ commonTools.format_dayToChinese_2 = function (str) {
 
 // 数据格式转换 xmonth -> x月
 commonTools.format_monthToChinese = function (str) {
+    // 特殊处理 - 去掉NaN
+    // str = str.replace("NaN", "")
     return str.replace("month", "月");
 }
 

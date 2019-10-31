@@ -26,6 +26,8 @@ export default {
   data() {
     return {
       current_value: 1,
+      current_value2: 1,
+
       ifgetdata: true,
       broadcast_demand_1: null,
       broadcast_demand_2: null,
@@ -259,22 +261,25 @@ export default {
             let length = params.length;
             // console.log(params);
             // console.log(length);
-            return params[0].name +
+            return (
+              params[0].name +
               "<br/>" +
               params[0].seriesName +
               "：" +
-              (parseInt(params[0].value[1]) / vm.current_value).toFixed(5) +
+              (parseInt(params[0].value[1]) / vm.current_value).toFixed(2) +
               "<br/>" +
               params[1].seriesName +
               "：" +
-              (parseInt(params[0].value[2]) / vm.current_value).toFixed(5);
+              (parseInt(params[0].value[2]) / vm.current_value2).toFixed(2)
+            );
           }
         },
         dataset: {
           source: [
             // ["product", "用户数", "收视次数", "户均收视次数"],
             // ["product", "用户数", "收视次数"],
-            ["product", "用户数（千万）", "收视次数（千万）"],
+            // ["product", "用户数（千万）", "收视次数（千万）"],
+            ["product", "用户数（万）", "收视次数（百万）"],
             // ["总体收视", 111950, 111837, 111433],
             [
               "总体收视",
@@ -323,73 +328,100 @@ export default {
             }
           }
         },
-        yAxis: {
-          type: "value",
-          axisLabel: {
-            //横坐标类目文字
-            //rotate: 30,
-            // formatter:'{value}(万)'
-            formatter: function(value) {
-              // return String(value / 10000 / 1000) + "（千万）";
+        yAxis: [
+          {
+            type: "value",
+            axisLabel: {
+              //横坐标类目文字
+              //rotate: 30,
+              // formatter:'{value}(万)'
+              formatter: function(value) {
+                // return String(value / 10000 / 1000) + "（千万）";
 
-              // if (value == 0) {
-              //   return 0;
-              // }
-              // if (vm.media_watch_total_2 > 100000000) {
-              //   vm.m_Unit = "亿";
-              //   // return String(value / 10000 / 10000) + "亿";
-              //   vm.current_value = 100000000;
-              //   return String(value / 10000 / 10000);
-              // }
-              // if (
-              //   vm.media_watch_total_2 > 10000000 &&
-              //   vm.media_watch_total_2 <= 100000000
-              // ) {
-              //   vm.m_Unit = "千万";
-              //   vm.current_value = 10000000;
-              //   return String(value / 10000 / 1000);
-              // }
-              // if (
-              //   vm.media_watch_total_2 > 1000000 &&
-              //   vm.media_watch_total_2 <= 10000000
-              // ) {
-              //   vm.m_Unit = "百万";
-              //   vm.current_value = 1000000;
-              //   return String(value / 10000 / 100);
-              // }
-              // if (
-              //   vm.media_watch_total_2 > 10000 &&
-              //   vm.media_watch_total_2 <= 1000000
-              // ) {
-              //   vm.m_Unit = "万";
-              //   vm.current_value = 10000;
-              //   return String(value / 10000);
-              // }
-              // return String(value);
+                // if (value == 0) {
+                //   return 0;
+                // }
+                // if (vm.media_watch_total_2 > 100000000) {
+                //   vm.m_Unit = "亿";
+                //   // return String(value / 10000 / 10000) + "亿";
+                //   vm.current_value = 100000000;
+                //   return String(value / 10000 / 10000);
+                // }
+                // if (
+                //   vm.media_watch_total_2 > 10000000 &&
+                //   vm.media_watch_total_2 <= 100000000
+                // ) {
+                //   vm.m_Unit = "千万";
+                //   vm.current_value = 10000000;
+                //   return String(value / 10000 / 1000);
+                // }
+                // if (
+                //   vm.media_watch_total_2 > 1000000 &&
+                //   vm.media_watch_total_2 <= 10000000
+                // ) {
+                //   vm.m_Unit = "百万";
+                //   vm.current_value = 1000000;
+                //   return String(value / 10000 / 100);
+                // }
+                // if (
+                //   vm.media_watch_total_2 > 10000 &&
+                //   vm.media_watch_total_2 <= 1000000
+                // ) {
+                //   vm.m_Unit = "万";
+                //   vm.current_value = 10000;
+                //   return String(value / 10000);
+                // }
+                // return String(value);
 
-              // 固定
-              vm.current_value = 10000000;
-              return String(value / 10000 / 1000);
+                // 固定
+                vm.current_value = 10000;
+                return String(value / vm.current_value);
+              }
+            },
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
             }
           },
-          // 刻度线的设置
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              opacity: 0.2
+          {
+            gridIndex: 0,
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
+            },
+            axisLine: {
+              show: false
+            },
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLabel: {
+              formatter: function(value) {
+                // 固定
+                vm.current_value2 = 1000000;
+                return String(value / vm.current_value2);
+              }
             }
-          },
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
           }
-        },
+        ],
         series: [
-          { type: "bar", barWidth: 10 },
-          { type: "bar", barWidth: 10 }
+          { type: "bar", barWidth: 10, yAxisIndex: "0" },
+          { type: "bar", barWidth: 10, yAxisIndex: "1" }
           // { type: "bar", barWidth: 10 }
         ]
       };

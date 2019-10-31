@@ -89,8 +89,10 @@ export default {
           top: "25%",
           left: "5%",
           right: "5%",
-          bottom: "10%"
+          bottom: "10%",
+          containLabel: true
         },
+    
         tooltip: {
           trigger: "axis",
           textStyle: {

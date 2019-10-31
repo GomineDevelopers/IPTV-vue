@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "LineChartSingleProp", //折线图Y轴显示百分比
+  name: "EveryPowerActivity", //折线图Y轴显示百分比
   props: {
     lineData: Object
   },

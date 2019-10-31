@@ -96,7 +96,8 @@ export default {
           top: "35%",
           left: "70",
           right: "8%",
-          bottom: "10%"
+          bottom: "10%",
+          containLabel:true
         },
         dataset: {
           source: this.chartData.data

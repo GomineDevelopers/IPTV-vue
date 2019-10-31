@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto UserDevelopmentTrend">
     <el-row class="title_row">
-      <span class="title_border_left"></span>用户发展趋势(万)
+      <span class="title_border_left"></span>用户发展趋势
     </el-row>
     <el-row  v-show="ifgetdata" id="user_development_trend"></el-row>
     <el-row v-show="!ifgetdata" class="exception_p2">
@@ -73,9 +73,9 @@ export default {
           let i;
           let temp_data = [
             ["product"],
-            ["在册用户"],
-            ["激活用户"],
-            ["活跃用户"]
+            ["在册用户(万户)"],
+            ["激活用户(万户)"],
+            ["活跃用户(万户)"]
           ];
           for (i = 0; i < length; i++) {
             temp_data[0].push(commonTools.format_dayToChinese(buckets[i].key));

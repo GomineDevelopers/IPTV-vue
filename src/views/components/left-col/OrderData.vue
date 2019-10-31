@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>订购数据（月）
+      <span class="title_border_left"></span>订购数据（当月）
     </el-row>
     <el-row v-show="ifgetdata" class="order_data_body">
       <el-row class="order_data_row1" id="order_data_circular"></el-row>
