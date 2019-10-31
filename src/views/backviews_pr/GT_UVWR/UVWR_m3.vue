@@ -626,8 +626,7 @@ export default {
 
       try {
         //电视直播频道分组收视数据（移动）
-        let onlive_data =
-          newValue.data.responses[10].aggregations.channel_flag.buckets; //分组频道直播数据
+        let onlive_data = newValue.data.responses[10].aggregations.channel_flag.buckets; //分组频道直播数据
         onlive_data.forEach((value, index) => {
           switch (value.key) {
             case "央视":
@@ -706,8 +705,7 @@ export default {
 
       try {
         //本地频道收视规模排名（万户）联通
-        let demand_top =
-          newValue.data.responses[11].aggregations.channel.buckets;
+        let demand_top = newValue.data.responses[11].aggregations.channel.buckets;
         setTimeout(() => {
           let live_temp = vm.GT_UVWR1_V1.data;
           live_temp.forEach((value, index) => {
