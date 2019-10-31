@@ -217,7 +217,7 @@ export default {
           console.log("查询节目时间段内的数据！")
           program_search(formData)
             .then((response) => {
-              // console.log("查询结果", response.data.responses)
+              console.log("查询结果", response.data.responses)
               let responseData = response.data.responses[0].hits.hits
               if (responseData) {
                 let programData = responseData[0]._source
@@ -249,7 +249,7 @@ export default {
           console.log("当前查询为节目一天的数据")
           program_search_day(dayFormData)
             .then((response) => {
-              // console.log(response)
+              console.log(response)
               let responseData = response.data.responses[0].hits.hits
               if (responseData) {
                 let programData = responseData[0]._source

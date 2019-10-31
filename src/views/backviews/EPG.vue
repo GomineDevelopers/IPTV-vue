@@ -404,6 +404,7 @@ export default {
             let promise_list = []   //存放所有的请求
 
             box_data.forEach((value, index) => {
+              console.log("box", value._source.areanumber)
               let res_index = index
               let areanumber = value._source.areanumber
               last_temp.areanumber = areanumber

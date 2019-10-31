@@ -630,6 +630,8 @@ export default {
           if (date_type == "singleday") {
             try {
               let buckets1 = response.data.responses[2].aggregations.channel.buckets;
+              console.log("buckets1-------", buckets1)
+              // if (buckets1[0].onlive_dur.value) { }  //若数组为空，则进入catch
               let temp_1 = [];
               let temp_1_C1 = [];
               let temp_1_C2 = [];
@@ -677,7 +679,17 @@ export default {
                 vm.dianxingLiveBroadcast.data.push(temp_1);
               }
             } catch (error) {
-
+              console.log("排名错误")
+              if (operator_type == "yd") {
+                vm.yidongLiveBroadcast.data = []; // 初始化
+              }
+              if (operator_type == "lt") {
+                vm.liantongLiveBroadcast.data = []; // 初始化
+              }
+              if (operator_type == "dx") {
+                vm.dianxingLiveBroadcast.data = []; // 初始化
+              }
+              console.log(error)
             }
           }
 
@@ -1329,22 +1341,22 @@ export default {
             //   1448,
             //   989
             // ]
-            [
-              " ",
-              58914,
-              36553,
-              14192,
-              12137,
-              4657,
-              3532,
-              2595,
-              2539,
-              2137,
-              1821,
-              1741,
-              1448,
-              989
-            ]
+            // [
+            //   " ",
+            //   58914,
+            //   36553,
+            //   14192,
+            //   12137,
+            //   4657,
+            //   3532,
+            //   2595,
+            //   2539,
+            //   2137,
+            //   1821,
+            //   1741,
+            //   1448,
+            //   989
+            // ]
           ]
         ]
       },
