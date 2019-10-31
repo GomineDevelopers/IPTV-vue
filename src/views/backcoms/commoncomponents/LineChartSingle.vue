@@ -18,14 +18,35 @@ export default {
   mounted() {
     // console.log(this.lineData)
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
+  watch: {
+    PR_month(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    lineData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    }
+  },
+
   computed: {
     ...mapGetters(["PR_operator", "PR_month"]),
     lineData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         let data = [];
         let color = [];
@@ -58,7 +79,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function () {
+          setTimeout(function() {
             vm.setLineChart();
           }, 1000);
           return {
@@ -73,7 +94,7 @@ export default {
           vm.lineData.id == "monthNewRegUser_UVMR" ||
           vm.lineData.id == "monthCancellationUser_UVMR"
         ) {
-          setTimeout(function () {
+          setTimeout(function() {
             vm.setLineChart();
           }, 1000);
           if (vm.PR_month) {
@@ -85,7 +106,7 @@ export default {
         }
         return vm.lineData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   methods: {

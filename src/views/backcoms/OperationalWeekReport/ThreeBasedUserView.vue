@@ -23,20 +23,20 @@ export default {
       // console.log("~~~~~~~!!ThreeBasedUserView");
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 1000);
+      }, 2000);
     }
   },
   mounted() {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     setLineChart() {

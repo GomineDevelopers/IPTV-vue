@@ -113,6 +113,20 @@ export default {
       vm.ifInitShow = true;
     }
   },
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      if (vm.ADD_ALL_time_type == 0) {
+        // 显示初始化
+        vm.ifInitShow = false;
+      } else {
+        vm.ifInitShow = true;
+        setTimeout(function() {
+          vm.refresh_api_data();
+        }, 2000);
+      }
+    }, 500);
+  },
   methods: {
     refresh_api_data() {
       this.increment(this.ADD_ALL_time_type);
@@ -188,12 +202,27 @@ export default {
           // ///////// 1 2 3
 
           try {
-            let buckets_0 =
-              response.data.responses[0].aggregations.statistical_granularity
-                .buckets; //新增用户概览
+            let buckets_0;
+            // let buckets_0 =
+            //   response.data.responses[0].aggregations.statistical_granularity
+            //     .buckets; //新增用户概览
+            if (time_type == 1) {
+              console.log("~~~~~1111");
+              buckets_0 = response.data.responses[0].aggregations.statistical_granularity.buckets;
+            } else if (time_type == 2) {
+              console.log("~~~~~2222");
+              buckets_0 = response.data.responses[2].aggregations.statistical_granularity.buckets;
+              // buckets_0 = response.data.responses[0].aggregations.statistical_granularity.buckets;
+
+            console.log(buckets_0.length);
+            }
+            console.log(buckets_0.length);
 
             let length_0 = buckets_0.length;
             if (length_0 == 0) {
+              vm.newUserTotal.data = [];
+              vm.newPayingUsersProportion.data = [];
+              vm.subscribersData.data = [];
               throw "error：length_0 == 0";
             }
             let i_0;
@@ -212,20 +241,20 @@ export default {
               if (time_type == 1) {
                 // 1
                 try {
-                  temp_newUserTotal[0].push(buckets_0[i_0].key);
+                  temp_newUserTotal[0].push(commonTools.format_dayToChinese_2(buckets_0[i_0].key));
                 } catch (error) {
                   console.log(error);
                 }
                 // 2
                 try {
-                  temp_newPayingUsersProportion[0].push(buckets_0[i_0].key);
+                  temp_newPayingUsersProportion[0].push(commonTools.format_dayToChinese_2(buckets_0[i_0].key));
                 } catch (error) {
                   console.log(error);
                 }
                 // 3
                 try {
                   temp_subscribersData.push([]);
-                  Vue.set(temp_subscribersData[i_0 + 1], 0, buckets_0[i_0].key);
+                  Vue.set(temp_subscribersData[i_0 + 1], 0, commonTools.format_dayToChinese_2(buckets_0[i_0].key));
                 } catch (error) {
                   console.log(error);
                 }
@@ -312,14 +341,21 @@ export default {
             vm.subscribersData.data = [];
           }
 
-          // ///////// 4 5 
+          // ///////// 4 5
           try {
-            let buckets_1 =
-              response.data.responses[1].aggregations.statistical_granularity
-                .buckets;
+            let buckets_1;
+            if (time_type == 1) {
+              buckets_1 = response.data.responses[1].aggregations.statistical_granularity.buckets;
+            } else if (time_type == 2) {
+              buckets_1 = response.data.responses[3].aggregations.statistical_granularity.buckets;
+              // buckets_1 = response.data.responses[1].aggregations.statistical_granularity.buckets;
+
+            }
             let length_1 = buckets_1.length;
             if (length_1 == 0) {
-              throw "length_1 == 0";
+              vm.subcontractUserData.data = [];
+              vm.subcontractIncomeData.data = [];
+              throw "error：length_1 == 0";
             }
             let i_1;
             // 新增在册用户	new_num
@@ -343,7 +379,7 @@ export default {
                   Vue.set(
                     temp_subcontractUserData[i_1 + 1],
                     0,
-                    buckets_1[i_1].key
+                    commonTools.format_dayToChinese_2(buckets_1[i_1].key)
                   );
                 } catch (error) {
                   console.log(error);
@@ -354,7 +390,7 @@ export default {
                   Vue.set(
                     temp_subcontractIncomeData[i_1 + 1],
                     0,
-                    buckets_1[i_1].key
+                    commonTools.format_dayToChinese_2(buckets_1[i_1].key)
                   );
                 } catch (error) {
                   console.log(error);
@@ -489,17 +525,6 @@ export default {
     }
   },
 
-  mounted() {
-    let vm = this;
-    setTimeout(function() {
-      if (vm.ADD_ALL_time_type == 0) {
-        // 显示初始化
-        vm.ifInitShow = false;
-      } else {
-        vm.ifInitShow = true;
-      }
-    }, 500);
-  },
   data() {
     return {
       //新增用户概览数据

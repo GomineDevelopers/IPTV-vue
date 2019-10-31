@@ -194,20 +194,14 @@
       <el-button v-show="PR_excel_DownloadingStatus == 1" class="btn_download2">
         <div class="download_text2">
           数据初始化中
-          <img
-            class="m_wait"
-            src="@/assets/loading.gif"
-          />
+          <img class="m_wait" src="@/assets/loading.gif" />
         </div>
       </el-button>
       <el-button v-show="PR_excel_DownloadingStatus == 2" class="btn_download2">
         <div class="download_text2">
           <!-- 下载中({{PR_downloadNum_child}}/{{PR_downloadNum_parent}}) -->
           下载中
-          <img
-            class="m_wait"
-            src="@/assets/loading.gif"
-          />
+          <img class="m_wait" src="@/assets/loading.gif" />
         </div>
       </el-button>
     </div>
@@ -223,8 +217,8 @@ import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
 import { subReport_list } from "@/api/api_main";
 
-var operatorChoose_new = [];
-var operatorChoose_old = [];
+var operatorChoose_new = []; // 多选框-初始化
+var operatorChoose_old = []; // 多选框-初始化
 
 // var operatorChoose_new2 = [];
 // var operatorChoose_old2 = [];
@@ -240,9 +234,19 @@ export default {
       "PR_downloadNum_child",
       "PR_downloadNum_parent",
       "PR_excel_DownloadingStatus"
+      // "PR_operator"
     ])
   },
   watch: {
+    // PR_operator(newValue, oldValue) {
+    //   let vm = this;
+    //   vm.operatorChoose = ["移动", "联通", "电信"];
+    //   vm.operatorChoose2 = ["移动"];
+    //   operatorChoose_new = []; // 多选框-初始化
+    //   operatorChoose_old = []; // 多选框-初始化
+    //   operatorChoose_new2 = ["移动"]; // 单选框-初始化
+    //   operatorChoose_old2 = ["移动"]; // 单选框-初始化
+    // },
     PR_excel_ifCanDownload(newValue, oldValue) {
       let vm = this;
       let status = newValue;
@@ -570,7 +574,7 @@ export default {
     //   arr_temp = commonTools.weekDate_add(2019, arr_temp);
     //   vm.time.week = arr_temp;
     // }, 100);
-    let arr_temp = [];
+    // let arr_temp = [];
     setTimeout(function() {
       // arr_temp = commonTools.format_WeeksDays_byDWwr(2018, 4);
       // arr_temp = commonTools.format_WeeksDays_byDWwr_add(2019, 4, arr_temp);
@@ -587,7 +591,7 @@ export default {
       // let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
       // arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
       vm.time.month = commonTools.format_MonthDays_byDWMMr_ED();
-    }, 100);
+    }, 500);
 
     // ▲历史条件获取
     setTimeout(function() {
@@ -640,7 +644,8 @@ export default {
         .then(function(response) {
           // console.log(response);
           vm.operatorChoose = response;
-          vm.operatorChoose2 = response;
+          // vm.operatorChoose2 = response;
+          vm.operatorChoose2 = ["移动"]; // 固定
         })
         .catch(function(error) {
           console.info(error);
@@ -863,6 +868,36 @@ export default {
       value2 = index;
       temp_PR_Report_index = value1 + value2;
       // console.log("~~~~~~temp_PR_Report_index:" + temp_PR_Report_index);
+
+      // 设置区分运营商
+      if (
+        reportName == "G+TV用户活跃发展日报表" ||
+        reportName == "G+TV用户收视日报表" ||
+        reportName == "市场业务运营数据分析周报" ||
+        reportName == "G+TV用户收视行为周报" ||
+        reportName == "G+TV月度用户收视行为报告" ||
+        reportName == "专题专区数据报告"
+      ) {
+        vm.operatorChoose = ["移动", "联通", "电信"];
+        operatorChoose_new = []; // 多选框-初始化
+        operatorChoose_old = []; // 多选框-初始化
+        vm.$store
+          .dispatch("set_PR_operator", ["移动", "联通", "电信"])
+          .then(function(res) {})
+          .catch(function(error) {
+            console.info(error);
+          });
+      } else {
+        vm.operatorChoose2 = ["移动"];
+        operatorChoose_new2 = ["移动"]; // 单选框-初始化
+        operatorChoose_old2 = ["移动"]; // 单选框-初始化
+        vm.$store
+          .dispatch("set_PR_operator", ["移动"])
+          .then(function(res) {})
+          .catch(function(error) {
+            console.info(error);
+          });
+      }
 
       // 设置excel按钮下载状态 - 关
       vm.$store

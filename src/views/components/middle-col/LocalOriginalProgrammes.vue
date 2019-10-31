@@ -1,19 +1,21 @@
 <template>
   <div class="LocalOriginalProgrammes height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>本土原创节目
+      <span class="title_border_left"></span>本土原创节目（近7天）
     </el-row>
     <el-row v-show="ifgetdata" class="local_programmes_main">
-    <!-- <el-row class="local_programmes_main"> -->
+      <!-- <el-row class="local_programmes_main"> -->
       <el-row id="local_programmes"></el-row>
+      <el-row id="local_programmesB"></el-row>
+
       <!-- <el-row id="local_programmes2" class="bottom_bar"></el-row> -->
-      <el-row class="m_row2">
+      <!-- <el-row class="m_row2">
         <table class="m_table" border="1">
           <tr class="m_table_font">
             <td colspan="1">&nbsp;</td>
             <td colspan="1">点播用户数</td>
             <td colspan="1">点播次数</td>
-            <td colspan="1">点播时长</td>
+            <td colspan="1">点播时长（时）</td>
           </tr>
           <tr class="m_table_font">
             <td colspan="1">本周</td>
@@ -28,7 +30,7 @@
             <td colspan="1">{{dur2}}</td>
           </tr>
         </table>
-      </el-row>
+      </el-row>-->
     </el-row>
     <el-row v-show="!ifgetdata" class="exception_p">
       <span class="exception_child">数据请求异常!</span>
@@ -65,6 +67,20 @@ export default {
         //   { value: 150, name: "时尚生活" }
         // ]
       },
+      pie_dataB: {
+        id: "local_programmesB",
+        name: [],
+        value: []
+        // name: ["综艺", "微电影", "纪实", "电影", "新闻", "时尚生活"],
+        // value: [
+        //   { value: 350, name: "综艺" },
+        //   { value: 300, name: "微电影" },
+        //   { value: 200, name: "纪实" },
+        //   { value: 200, name: "电影" },
+        //   { value: 170, name: "新闻" },
+        //   { value: 150, name: "时尚生活" }
+        // ]
+      },
       echarts2: {
         data: [
           // ["product", "本周", "上周"],
@@ -81,6 +97,8 @@ export default {
   },
   mounted() {
     this.drawLine(); // 测试
+    this.drawLineB(); 
+    
     // this.drawLine2(); // 测试
 
     let vm = this;
@@ -111,7 +129,7 @@ export default {
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
-        // console.log(data);
+        console.log(data);
       }
       if (date_type == "weeks") {
         // getweekDays_y: [2019, 32, "2019-08-09", "2019-08-15"]
@@ -129,8 +147,8 @@ export default {
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
-        // console.log(data);
-        // console.log(data2);
+        console.log(data);
+        console.log(data2);
       }
 
       demands_location(data)
@@ -151,21 +169,32 @@ export default {
             // demand_user_num:
             // value: 4
             // let buckets = response.data.responses[0].aggregations.program_type.buckets;
-            let buckets = response.data.responses[0].aggregations.program_type.buckets;
+            let buckets =
+              response.data.responses[0].aggregations.program_type.buckets;
             let length = buckets.length;
             let i;
             let temp = [];
             let temp2 = [];
+            let tempB = [];
+            let temp2B = [];
 
             for (i = 0; i < length; i++) {
-              temp.push(buckets[i].demand_user_num.value);
+              temp.push(buckets[i].demand_freq.value);
               temp2.push(buckets[i].key);
+              tempB.push((parseFloat(buckets[i].demand_dur.value / 60)).toFixed(0));
+              temp2B.push(buckets[i].key);
             }
             vm.pie_data.value = temp;
             vm.pie_data.name = temp2;
-            // console.log("vm.pie_data");
-            // console.log(vm.pie_data);
+            vm.pie_dataB.value = tempB;
+            vm.pie_dataB.name = temp2B;
             vm.drawLine();
+            vm.drawLineB();
+
+            console.log("==========");
+            console.log(vm.pie_data);
+            console.log(vm.pie_dataB);
+
             vm.ifgetdata = true;
           }
           if (date_type == "weeks") {
@@ -195,9 +224,7 @@ export default {
                   1,
                   parseInt(aggregations1_current.demand_dur.value / 60)
                 );
-                vm.dur1 = parseInt(
-                  aggregations1_current.demand_dur.value / 60
-                );
+                vm.dur1 = parseInt(aggregations1_current.demand_dur.value / 60);
                 Vue.set(
                   vm.echarts2.data[1],
                   2,
@@ -261,7 +288,7 @@ export default {
         "#4346D3",
         "#2D99FF",
         "#00c2ff",
-        "#16CEB9",
+        "#16CEB9"
       ];
       let m_color = [];
       // let m_color = o_color;
@@ -285,7 +312,8 @@ export default {
         color: m_color,
         tooltip: {
           trigger: "item",
-          formatter: "{b}（点播用户数） : {c} ({d}%)"
+          // formatter: "{b}（点播用户数） : {c} ({d}%)"
+          formatter: "{b}（点播次数） : {c} ({d}%)"
         },
         legend: [
           // {
@@ -307,7 +335,7 @@ export default {
             top: "2%",
             left: "56%",
             // data: ["综艺", "微电影", "纪实"],
-            data: legend_data.slice(0,5),
+            data: legend_data.slice(0, 5),
             itemWidth: 5,
             itemHeight: 5,
             width: 40,
@@ -322,7 +350,133 @@ export default {
             top: "2%",
             left: "76%",
             // data: ["电影", "新闻", "时尚生活"],
-            data: legend_data.slice(5,10),
+            data: legend_data.slice(5, 10),
+            itemWidth: 5,
+            itemHeight: 5,
+            width: 40,
+            padding: [0, 5],
+            itemGap: 10,
+            textStyle: {
+              color: "#dedede"
+            }
+          }
+        ],
+        series: [
+          {
+            type: "pie",
+            radius: "80%",
+            center: ["30%", "50%"],
+            avoidLabelOverlap: false,
+            // roseType: "radius", // 按半径分
+            label: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            data: data
+          }
+        ]
+      };
+      myChart11.clear();
+      myChart11.setOption(option11);
+      window.addEventListener("resize", () => {
+        myChart11.resize();
+      });
+    },
+    drawLineB() {
+      let vm = this;
+      var myChart11 = this.$echarts.init(
+        document.getElementById(vm.pie_dataB.id)
+      );
+      let length = vm.pie_dataB.value.length;
+      let i;
+      let temp;
+      let legend_data = [];
+      // let legend_data = ["综艺", "微电影", "纪实", "电影", "新闻", "时尚生活"];
+
+      let data = [
+        // { value: 350, name: "综艺" },
+        // { value: 300, name: "微电影" },
+        // { value: 200, name: "纪实" },
+        // { value: 200, name: "电影" },
+        // { value: 170, name: "新闻" },
+        // { value: 150, name: "时尚生活" }
+      ];
+      let o_color = [
+        "#6648FF",
+        "#4346D3",
+        "#2D99FF",
+        "#00c2ff",
+        "#16CEB9",
+        "#6F38FC",
+        "#4346D3",
+        "#2D99FF",
+        "#00c2ff",
+        "#16CEB9"
+      ];
+      let m_color = [];
+      // let m_color = o_color;
+
+      for (i = 0; i < length; i++) {
+        legend_data.push(vm.pie_dataB.name[i]);
+        temp = {
+          value: vm.pie_dataB.value[i],
+          name: vm.pie_dataB.name[i]
+        };
+        data.push(temp);
+        m_color.push(o_color[i]);
+      }
+
+      // console.log("~~~~");
+      // console.log(legend_data);
+      // console.log(data);
+      // console.log(m_color);
+
+      var option11 = {
+        color: m_color,
+        tooltip: {
+          trigger: "item",
+          formatter: "{b}（点播时长） : {c}小时 ({d}%)"
+        },
+        legend: [
+          // {
+          //   show: true,
+          //   top: "17%",
+          //   left: "56%",
+          //   data: legend_data,
+          //   itemWidth: 5,
+          //   itemHeight: 5,
+          //   width: 40,
+          //   padding: [0, 5],
+          //   itemGap: 10,
+          //   textStyle: {
+          //     color: "#dedede"
+          //   }
+          // }
+          {
+            show: true,
+            top: "2%",
+            left: "56%",
+            // data: ["综艺", "微电影", "纪实"],
+            data: legend_data.slice(0, 5),
+            itemWidth: 5,
+            itemHeight: 5,
+            width: 40,
+            padding: [0, 5],
+            itemGap: 10,
+            textStyle: {
+              color: "#dedede"
+            }
+          },
+          {
+            show: true,
+            top: "2%",
+            left: "76%",
+            // data: ["电影", "新闻", "时尚生活"],
+            data: legend_data.slice(5, 10),
             itemWidth: 5,
             itemHeight: 5,
             width: 40,
@@ -419,9 +573,7 @@ export default {
           bottom: "1%",
           containLabel: true
         },
-        tooltip: {
-
-        },
+        tooltip: {},
         dataset: {
           source: vm.echarts2.data
         },
@@ -492,6 +644,9 @@ export default {
   height: 50%;
 }
 #local_programmes2 {
+  height: 50%;
+}
+#local_programmesB {
   height: 50%;
 }
 .m_row2 {

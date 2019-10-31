@@ -68,12 +68,81 @@ export default {
         vm.drawLine();
       }, 2000);
     },
+
+    UVB_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_playmode(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    // UVB_contenttype(newValue, oldValue) {
+    //   let vm = this;
+    //   setTimeout(function() {
+    //     vm.drawLine();
+    //   }, 2000);
+    // },
+    UVB_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+
+    ADD_VIP_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
+    ADD_VIP_valueAddedPackage(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -97,16 +166,27 @@ export default {
     ...mapGetters([
       "PR_operator",
       "PR_month",
+
       "UVB_region",
+      "UVB_operator",
+      "UVB_playmode",
       "UVB_programa",
+      // "UVB_contenttype",
+      "UVB_day",
+      "UVB_week",
+      "UVB_picker",
+
       "PR_week",
       "PR_picker",
       "PR_value_specialName",
       "ADD_ALL_operator",
       "ADD_ALL_week",
       "ADD_ALL_month",
+
       "ADD_VIP_region",
+      "ADD_VIP_operator",
       "ADD_VIP_programa",
+      "ADD_VIP_valueAddedPackage",
       "ADD_VIP_day",
       "ADD_VIP_week",
       "ADD_VIP_picker"
@@ -173,23 +253,24 @@ export default {
             //   .catch(function(error) {
             //     console.info(error);
             //   });
-            vm.$store
-              .dispatch("get_UVB_programa")
-              .then(function(response) {
-                console.log(response);
-                let length = response.length;
-                let i;
-                for (i = 0; i < length; i++) {
-                  if (vm.UVB_programa.indexOf(response[i]) > -1) {
-                    data.push(vm.chartData.data[i + 1]);
-                  }
-                }
-                console.log("~~~~~!!data");
-                console.log(data);
-              })
-              .catch(function(error) {
-                console.info(error);
-              });
+            data = vm.chartData.data;
+            // vm.$store
+            //   .dispatch("get_UVB_programa")
+            //   .then(function(response) {
+            //     console.log(response);
+            //     let length = response.length;
+            //     let i;
+            //     for (i = 0; i < length; i++) {
+            //       if (vm.UVB_programa.indexOf(response[i]) > -1) {
+            //         data.push(vm.chartData.data[i + 1]);
+            //       }
+            //     }
+            //     console.log("~~~~~!!data");
+            //     console.log(data);
+            //   })
+            //   .catch(function(error) {
+            //     console.info(error);
+            //   });
             // if (vm.UVB_programa.indexOf("分类") > -1) {
             //   data.push(vm.chartData.data[1]);
             // }
@@ -241,24 +322,28 @@ export default {
           if (vm.ADD_VIP_programa == null || vm.ADD_VIP_programa.length == 0) {
             data = vm.chartData.data;
           } else {
-            data.push(vm.chartData.data[0]);
-            vm.$store
-              .dispatch("get_ADD_VIP_programa")
-              .then(function(response) {
-                console.log(response);
-                let length = response.length;
-                let i;
-                for (i = 0; i < length; i++) {
-                  if (vm.ADD_VIP_programa.indexOf(response[i]) > -1) {
-                    data.push(vm.chartData.data[i + 1]);
-                  }
-                }
-                console.log("~~~~~!!data");
-                console.log(data);
-              })
-              .catch(function(error) {
-                console.info(error);
-              });
+            // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲1");
+            // console.log(vm.chartData.data);
+            // data.push(vm.chartData.data[0]);
+            data = vm.chartData.data;
+            // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲2");
+            // vm.$store
+            //   .dispatch("get_ADD_VIP_programa")
+            //   .then(function(response) {
+            //     console.log(response);
+            //     let length = response.length;
+            //     let i;
+            //     for (i = 0; i < length; i++) {
+            //       if (vm.ADD_VIP_programa.indexOf(response[i]) > -1) {
+            //         data.push(vm.chartData.data[i + 1]);
+            //       }
+            //     }
+            //     console.log("~~~~~!!data");
+            //     console.log(data);
+            //   })
+            //   .catch(function(error) {
+            //     console.info(error);
+            //   });
             // if (vm.ADD_VIP_programa.indexOf("分类") > -1) {
             //   data.push(vm.chartData.data[1]);
             // }
@@ -354,13 +439,14 @@ export default {
   },
   methods: {
     drawLine() {
+      let vm = this;
       var barChartSingle = this.$echarts.init(
         document.getElementById(this.chartData_Change.id)
       );
       let seriesData = [];
       //设置series数据条数
       try {
-        for (let i = 1; i <= this.chartData_Change.data[0].length - 1; i++) {
+        for (let i = 1; i <= vm.chartData_Change.data[0].length - 1; i++) {
           seriesData.push({ type: "bar", barWidth: "12" });
         }
       } catch (error) {

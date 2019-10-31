@@ -48,7 +48,7 @@ store
 
 // 设置大屏/后台-数据总览 的 截止日期（end）
 store
-  .dispatch("set_BigScreenExpirationDate", "2019-07-31") // 18号 数据审计没东西
+  .dispatch("set_BigScreenExpirationDate", "2019-08-31") // 18号 数据审计没东西
   .then(function (response) {
     // console.log(response);
   })

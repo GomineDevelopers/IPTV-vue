@@ -847,19 +847,18 @@ export default {
                 if (i_0 == 0) {
                   temp_data_0.push([
                     beforeWeekFormat,
-                    parseInt(buckets_0[i_0].register_num.value) / 10000,
-                    parseInt(buckets_0[i_0].open_num.value) / 10000,
-                    parseInt(buckets_0[i_0].open_num.value) /
-                      parseInt(buckets_0[i_0].register_num.value)
+                    (buckets_0[i_0].register_num.value / 10000).toFixed(2),
+                    (buckets_0[i_0].open_num.value / 10000).toFixed(2),
+                    (buckets_0[i_0].open_num.value / buckets_0[i_0].register_num.value * 100).toFixed(2)
                   ]);
                 }
                 if (i_0 == 1) {
                   temp_data_0.push([
                     currentWeekFormat,
-                    parseInt(buckets_0[i_0].register_num.value) / 10000,
-                    parseInt(buckets_0[i_0].open_num.value) / 10000,
-                    parseInt(buckets_0[i_0].open_num.value) /
-                      parseInt(buckets_0[i_0].register_num.value)
+                    (buckets_0[i_0].register_num.value / 10000).toFixed(2),
+                    (buckets_0[i_0].open_num.value / 10000).toFixed(2),
+                    (buckets_0[i_0].open_num.value /
+                      buckets_0[i_0].register_num.value * 100).toFixed(2)
                   ]);
                 }
               }
@@ -928,34 +927,34 @@ export default {
               // 环比算法  （本期数值-上期数值）/上期数值
 
               temp_data_8910_1.push(
-                (buckets_8[1].access_user_num.value -
+                ((buckets_8[1].access_user_num.value -
                   buckets_8[0].access_user_num.value) /
-                  buckets_8[0].access_user_num.value
+                  buckets_8[0].access_user_num.value * 100).toFixed(2)
               );
               temp_data_8910_2.push(
-                (buckets_8[1].access_freq.value -
+                ((buckets_8[1].access_freq.value -
                   buckets_8[0].access_freq.value) /
-                  buckets_8[0].access_freq.value
+                  buckets_8[0].access_freq.value * 100).toFixed(2)
               );
               temp_data_8910_3.push(
-                (buckets_9[1].click_user_num.value -
+                ((buckets_9[1].click_user_num.value -
                   buckets_9[0].click_user_num.value) /
-                  buckets_9[0].click_user_num.value
+                  buckets_9[0].click_user_num.value * 100).toFixed(2)
               );
               temp_data_8910_4.push(
-                (buckets_9[1].click_freq.value -
+                ((buckets_9[1].click_freq.value -
                   buckets_9[0].click_freq.value) /
-                  buckets_9[0].click_freq.value
+                  buckets_9[0].click_freq.value * 100).toFixed(2)
               );
               temp_data_8910_5.push(
-                (buckets_8[1].access_freq.value -
+                ((buckets_8[1].access_freq.value -
                   buckets_8[0].access_freq.value) /
-                  buckets_8[0].access_freq.value
+                  buckets_8[0].access_freq.value * 100).toFixed(2)
               );
               temp_data_8910_6.push(
-                (buckets_10[1].demand_dur.value -
+                ((buckets_10[1].demand_dur.value -
                   buckets_10[0].demand_dur.value) /
-                  buckets_10[0].demand_dur.value
+                  buckets_10[0].demand_dur.value * 100).toFixed(2)
               ); //
 
               temp_data_8910.push(temp_data_8910_1);
@@ -991,11 +990,11 @@ export default {
 
               for (i_11 = 0; i_11 < length_11; i_11++) {
                 temp_data_11_1.push(
-                  buckets_11[i_11].demand_user_num.value / 10000
+                  (buckets_11[i_11].demand_user_num.value / 10000).toFixed(2)
                 );
-                temp_data_11_2.push(buckets_11[i_11].demand_freq.value / 10000);
+                temp_data_11_2.push((buckets_11[i_11].demand_freq.value / 10000)).toFixed(2);
                 temp_data_11_3.push(
-                  buckets_11[i_11].demand_dur.value / 10000 / 60
+                  (buckets_11[i_11].demand_dur.value / 10000 / 60).toFixed(2)
                 );
               }
               temp_data_11.push(temp_data_11_1);
@@ -3526,8 +3525,8 @@ export default {
                   buckets_0[i_0].key,
                   parseInt(buckets_0[i_0].register_num.value) / 10000,
                   parseInt(buckets_0[i_0].open_num.value) / 10000,
-                  parseInt(buckets_0[i_0].open_num.value) /
-                    parseInt(buckets_0[i_0].register_num.value)
+                  (buckets_0[i_0].open_num.value /
+                    buckets_0[i_0].register_num.value * 100).toFixed(2)
                 ]);
               }
               vm.dailyOperatingRateData.data = temp_data_0;

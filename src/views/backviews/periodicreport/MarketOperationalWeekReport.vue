@@ -1768,6 +1768,9 @@ export default {
       let m7 = [];
 
       try {
+        console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+        console.log(wd_yd);
+        console.log(wdl_yd);
         let buckets_7_0_yd =
           wd_yd[0].aggregations.statistical_granularity.buckets;
         let buckets_7_0_lt =
@@ -1822,7 +1825,9 @@ export default {
 
         // 新增 new_num         -- nn
         // 销户 unsub_user_num  -- uun
-        // 净增 net_inc_num     -- nin   -- 净增用户数 = 在册用户数-截止上周期的在册用户数 register_num
+        // 净增 net_inc_num     -- nin   
+        // 错误逻辑： 净增用户数 = 在册用户数-截止上周期的在册用户数 register_num
+        // 正确逻辑： 净增用户数（这里是以周飞天） 同期相减应该是 本天减上一天！
 
         let sum_7_0_yd_nn = 0;
         let sum_7_0_yd_uun = 0;
@@ -1844,59 +1849,65 @@ export default {
             i_7_0 + 1,
             buckets_7_0_yd[i_7_0].unsub_user_num.value
           );
-          Vue.set(
-            m7_0.row3,
-            i_7_0 + 1,
-            buckets_7_0_yd[i_7_0].register_num.value -
-              buckets_7_0_yd_l[i_7_0].register_num.value
-          );
+          let add_value_yd = 0;
+          if (i_7_0 == 0) {
+            let temp_length = buckets_7_0_yd_l.length;
+            add_value_yd =
+              buckets_7_0_yd[0].register_num.value -
+              buckets_7_0_yd_l[temp_length - 1].register_num.value;
+          } else {
+            add_value_yd =
+              buckets_7_0_yd[i_7_0].register_num.value -
+              buckets_7_0_yd[i_7_0 - 1].register_num.value;
+          }
+          Vue.set(m7_0.row3, i_7_0 + 1, add_value_yd);
           sum_7_0_yd_nn += buckets_7_0_yd[i_7_0].new_num.value;
           sum_7_0_yd_uun += buckets_7_0_yd[i_7_0].unsub_user_num.value;
-          sum_7_0_yd_nin += buckets_7_0_yd[i_7_0].register_num.value;
+          sum_7_0_yd_nin += add_value_yd;
           // lt
-          Vue.set(
-            m7_0.row4,
-            i_7_0 + 2,
-            buckets_7_0_yd[i_7_0].register_num.value -
-              buckets_7_0_yd_l[i_7_0].register_num.value
-          );
+          Vue.set(m7_0.row4, i_7_0 + 2, buckets_7_0_lt[i_7_0].new_num.value);
           Vue.set(
             m7_0.row5,
             i_7_0 + 1,
             buckets_7_0_lt[i_7_0].unsub_user_num.value
           );
-          Vue.set(
-            m7_0.row6,
-            i_7_0 + 1,
-            buckets_7_0_lt[i_7_0].register_num.value -
-              buckets_7_0_lt_l[i_7_0].register_num.value
-          );
+          let add_value_lt = 0;
+          if (i_7_0 == 0) {
+            let temp_length = buckets_7_0_lt_l.length;
+            add_value_lt =
+              buckets_7_0_lt[0].register_num.value -
+              buckets_7_0_lt_l[temp_length - 1].register_num.value;
+          } else {
+            add_value_lt =
+              buckets_7_0_lt[i_7_0].register_num.value -
+              buckets_7_0_lt[i_7_0 - 1].register_num.value;
+          }
+          Vue.set(m7_0.row6, i_7_0 + 1, add_value_lt);
           sum_7_0_lt_nn += buckets_7_0_lt[i_7_0].new_num.value;
           sum_7_0_lt_uun += buckets_7_0_lt[i_7_0].unsub_user_num.value;
-          sum_7_0_lt_nin += buckets_7_0_lt[i_7_0].register_num.value;
+          sum_7_0_lt_nin += add_value_lt;
           // dx
-          Vue.set(
-            m7_0.row7,
-            i_7_0 + 2,
-            buckets_7_0_lt[i_7_0].register_num.value -
-              buckets_7_0_lt_l[i_7_0].register_num.value
-          );
+          Vue.set(m7_0.row7, i_7_0 + 2, buckets_7_0_dx[i_7_0].new_num.value);
           Vue.set(
             m7_0.row8,
             i_7_0 + 1,
             buckets_7_0_dx[i_7_0].unsub_user_num.value
           );
-          Vue.set(
-            m7_0.row9,
-            i_7_0 + 1,
-            buckets_7_0_dx[i_7_0].register_num.value -
-              buckets_7_0_dx_l[i_7_0].register_num.value
-          );
+          let add_value_dx = 0;
+          if (i_7_0 == 0) {
+            let temp_length = buckets_7_0_dx_l.length;
+            add_value_dx =
+              buckets_7_0_dx[0].register_num.value -
+              buckets_7_0_dx_l[temp_length - 1].register_num.value;
+          } else {
+            add_value_dx =
+              buckets_7_0_dx[i_7_0].register_num.value -
+              buckets_7_0_dx[i_7_0 - 1].register_num.value;
+          }
+          Vue.set(m7_0.row9, i_7_0 + 1, add_value_dx);
           sum_7_0_dx_nn += buckets_7_0_dx[i_7_0].new_num.value;
           sum_7_0_dx_uun += buckets_7_0_dx[i_7_0].unsub_user_num.value;
-          sum_7_0_dx_nin +=
-            buckets_7_0_dx[i_7_0].register_num.value -
-            buckets_7_0_dx_l[i_7_0].register_num.value;
+          sum_7_0_dx_nin += add_value_dx;
         }
         //// m7_0
         Vue.set(m7_0.row1, length_7_0 + 2, sum_7_0_yd_nn);
@@ -1908,6 +1919,8 @@ export default {
         Vue.set(m7_0.row7, length_7_0 + 2, sum_7_0_dx_nn);
         Vue.set(m7_0.row8, length_7_0 + 1, sum_7_0_dx_uun);
         Vue.set(m7_0.row9, length_7_0 + 1, sum_7_0_dx_nin);
+        console.log("■■■■■■■■■■");
+        console.log(sum_7_0_dx_nin);
 
         //// m7_1
         Vue.set(m7_1.data[1], 1, sum_7_0_yd_nn);

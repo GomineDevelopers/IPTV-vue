@@ -21,7 +21,7 @@ export default {
       // console.log("~~~~~~~!!TypeProgramChart");
       setTimeout(function() {
         vm.drawLine();
-      }, 1000);
+      }, 2000);
     },
     PR_month(newValue, oldValue) {
       let vm = this;
@@ -49,7 +49,7 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.drawLine();
-    }, 1000);
+    }, 2000);
   },
   methods: {
     drawLine() {

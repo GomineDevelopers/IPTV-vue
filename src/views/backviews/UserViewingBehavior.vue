@@ -520,13 +520,13 @@ export default {
               });
               temp4.push({
                 // value: buckets_0[i_0].watch_freq_family.value,
-                value: buckets_0[i_0].watch_freq.value /  buckets_0[i_0].watch_user_num.value,
+                value: (buckets_0[i_0].watch_freq.value /  buckets_0[i_0].watch_user_num.value).toFixed(2),
 
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
                 // value: buckets_0[i_0].watch_dur_mean.value,
-                value: buckets_0[i_0].watch_dur.value / buckets_0[i_0].watch_freq.value,
+                value: (buckets_0[i_0].watch_dur.value / buckets_0[i_0].watch_freq.value).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
             }
@@ -636,18 +636,18 @@ export default {
                     1,
                     // buckets_0B[i_0B].operators.buckets[operator_i]
                     //   .watch_freq_family.value
-                    buckets_0B[i_0B].operators.buckets[operator_i]
+                    (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value
+                      .watch_user_num.value).toFixed(2)
                   );
                   Vue.set(
                     temp5_B[i_0B + 1],
                     1,
                     // buckets_0B[i_0B].operators.buckets[operator_i]
                     //   .watch_dur_mean.value
-                    buckets_0B[i_0B].operators.buckets[operator_i]
+                    (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value
+                      .watch_freq.value).toFixed(2)
                   );
                 }
                 if (
@@ -676,18 +676,18 @@ export default {
                     2,
                     // buckets_0B[i_0B].operators.buckets[operator_i]
                     //   .watch_freq_family.value
-                    buckets_0B[i_0B].operators.buckets[operator_i]
+                    (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value
+                      .watch_user_num.value).toFixed(2)
                   );
                   Vue.set(
                     temp5_B[i_0B + 1],
                     2,
                     // buckets_0B[i_0B].operators.buckets[operator_i]
                     //   .watch_dur_mean.value
-                    buckets_0B[i_0B].operators.buckets[operator_i]
+                    (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value
+                      .watch_freq.value).toFixed(2)
                   );
                 }
                 if (
@@ -716,18 +716,18 @@ export default {
                     3,
                     // buckets_0B[i_0B].operators.buckets[operator_i]
                     //   .watch_freq_family.value
-                    buckets_0B[i_0B].operators.buckets[operator_i]
+                    (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value
+                      .watch_user_num.value).toFixed(2)
                   );
                   Vue.set(
                     temp5_B[i_0B + 1],
                     3,
                     // buckets_0B[i_0B].operators.buckets[operator_i]
                     //   .watch_dur_mean.value
-                    buckets_0B[i_0B].operators.buckets[operator_i]
+                    (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value
+                      .watch_freq.value).toFixed(2)
                   );
                 }
               }
@@ -775,12 +775,12 @@ export default {
               });
               temp4_BB.push({
                 // value: buckets_0BB[i_0BB].watch_freq_family.value,
-                value: buckets_0BB[i_0BB].watch_freq.value /  buckets_0BB[i_0BB].watch_user_num.value,
+                value: (buckets_0BB[i_0BB].watch_freq.value /  buckets_0BB[i_0BB].watch_user_num.value).toFixed(2),
                 name: buckets_0BB[i_0BB].key
               });
               temp5_BB.push({
                 // value: buckets_0BB[i_0BB].watch_dur_mean.value,
-                value: buckets_0BB[i_0BB].watch_dur.value / buckets_0BB[i_0BB].watch_freq.value,
+                value: (buckets_0BB[i_0BB].watch_dur.value / buckets_0BB[i_0BB].watch_freq.value).toFixed(2),
                 name: buckets_0BB[i_0BB].key
               });
             }
@@ -998,10 +998,10 @@ export default {
                     temp4.push([
                       ti_name,
                       // buckets_ti[i_ti].watch_freq_family.value
-                      buckets_ti[i_ti].demand_freq.value / buckets_ti[i_ti].demand_user_num.value
+                      (buckets_ti[i_ti].demand_freq.value / buckets_ti[i_ti].demand_user_num.value).toFixed(2)
                     ]);
                     // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
-                    temp5.push([ti_name, buckets_ti[i_ti].demand_dur.value / ti_name, buckets_ti[i_ti].demand_freq.value]);
+                    temp5.push([ti_name, (buckets_ti[i_ti].demand_dur.value / ti_name, buckets_ti[i_ti].demand_freq.value).toFixed(2)]);
                   }
                 } catch (error) {
                   console.log(error);

@@ -80,6 +80,50 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
+    },
+
+    
+    ADD_VIP_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_valueAddedPackage(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    ADD_VIP_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   computed: {
@@ -95,7 +139,14 @@ export default {
       "UVB_playmode",
       "UVB_day",
       "UVB_week",
-      "UVB_picker"
+      "UVB_picker",
+      "ADD_VIP_region",
+      "ADD_VIP_operator",
+      "ADD_VIP_programa",
+      "ADD_VIP_valueAddedPackage",
+      "ADD_VIP_day",
+      "ADD_VIP_week",
+      "ADD_VIP_picker"
     ]),
     chartData_Change: {
       get: function() {
@@ -134,7 +185,7 @@ export default {
           setTimeout(function() {
             // console.log("operatorProportionChart 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
 
           return {
             title: vm.chartData.title,
@@ -204,7 +255,7 @@ export default {
           setTimeout(function() {
             // console.log("regionChart 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -261,7 +312,7 @@ export default {
           setTimeout(function() {
             // console.log("regionChart_vip 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -294,7 +345,7 @@ export default {
           setTimeout(function() {
             // console.log("regionChart_vip 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -326,7 +377,7 @@ export default {
           setTimeout(function() {
             // console.log("regionChart_vip 视图更新");
             vm.drawLine();
-          }, 1000);
+          }, 2000);
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
@@ -336,7 +387,7 @@ export default {
         }
         setTimeout(function() {
           vm.drawLine();
-        }, 1000);
+        }, 2000);
         return vm.chartData;
       },
 

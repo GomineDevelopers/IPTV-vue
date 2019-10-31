@@ -212,7 +212,7 @@ function manage_date_value(str, str_type) {
             month: month
         }
     }
-    
+
 }
 
 function M_ValueRange(arr, str_type) {
@@ -220,26 +220,26 @@ function M_ValueRange(arr, str_type) {
     if (str_type == "week" ||
         str_type == "weekdays" ||
         str_type == "weekdays_byday"
-    ){
+    ) {
         for (let i = 0; i < arr.length; i++) {
             // 非start 非end 年 
-            if (manage_date_value(arr[i].value,str_type).year > commonTools.date.start_year && manage_date_value(arr[i].value,str_type).year < commonTools.date.end_year) {
+            if (manage_date_value(arr[i].value, str_type).year > commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year < commonTools.date.end_year) {
                 temp_arr.push(arr[i]);
-            } 
+            }
             // start年 非end年
             else if (manage_date_value(arr[i].value, str_type).year == commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year != commonTools.date.end_year) {
-                if (manage_date_value(arr[i].value,str_type).week >= commonTools.date.start_week) {
+                if (manage_date_value(arr[i].value, str_type).week >= commonTools.date.start_week) {
                     temp_arr.push(arr[i]);
                 }
-            } 
+            }
             // end年 非start年
-            else if (manage_date_value(arr[i].value, str_type).year != commonTools.date.start_year && manage_date_value(arr[i].value,str_type).year == commonTools.date.end_year) {
-                if (manage_date_value(arr[i].value,str_type).week <= commonTools.date.end_week) {
+            else if (manage_date_value(arr[i].value, str_type).year != commonTools.date.start_year && manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year) {
+                if (manage_date_value(arr[i].value, str_type).week <= commonTools.date.end_week) {
                     temp_arr.push(arr[i]);
                 }
             } // start年 end年
             else if (manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year && manage_date_value(arr[i].value, str_type).year == commonTools.date.end_year) {
-                if (manage_date_value(arr[i].value, str_type).week >= commonTools.date.start_week && manage_date_value(arr[i].value, str_type).week <= commonTools.date.end_week ) {
+                if (manage_date_value(arr[i].value, str_type).week >= commonTools.date.start_week && manage_date_value(arr[i].value, str_type).week <= commonTools.date.end_week) {
                     temp_arr.push(arr[i]);
                 }
             }
@@ -291,10 +291,10 @@ commonTools.weekDate_ED = function () {
 
 commonTools.format_WeeksDays_byDWwr_ED = function () {
     let temp_year = commonTools.date.start_year
-    let arr = commonTools.format_WeeksDays_byDWwr(temp_year,4);
+    let arr = commonTools.format_WeeksDays_byDWwr(temp_year, 4);
     for (temp_year; temp_year < commonTools.date.end_year;) {
         temp_year++;
-        arr = commonTools.format_WeeksDays_byDWwr_add(temp_year,4, arr);
+        arr = commonTools.format_WeeksDays_byDWwr_add(temp_year, 4, arr);
     }
     // console.log(arr);
     arr = M_ValueRange(arr, "weekdays");
@@ -305,8 +305,8 @@ commonTools.weekDate_byday_ED = function () {
     let arr = commonTools.weekDate_byday(temp_year);
     for (temp_year; temp_year < commonTools.date.end_year;) {
         temp_year++;
-        arr = commonTools.weekDate_byday_add(temp_year, arr);
-    } 
+        arr = commonTools.weekDate_add_byday(temp_year, arr);
+    }
     // console.log(arr);
     arr = M_ValueRange(arr, "weekdays_byday");
     return arr.reverse();
@@ -328,7 +328,8 @@ commonTools.format_MonthDays_byDWMMr_ED = function () {
     let arr = commonTools.format_MonthDays_byDWMMr(temp_year);
     for (temp_year; temp_year < commonTools.date.end_year;) {
         temp_year++;
-        arr = commonTools.format_MonthDays_byDWMMr_add(temp_year, arr);
+        console.log(temp_year);
+        arr = commonTools.format_MonthDays_byDWMMr_add(temp_year, 4, arr);
     }
     // console.log(arr);
     arr = M_ValueRange(arr, "monthdays");
@@ -339,9 +340,9 @@ commonTools.format_MonthDays_byweek_ED = function () {
     let arr = commonTools.format_MonthDays_byweek(temp_year);
     for (temp_year; temp_year < commonTools.date.end_year;) {
         temp_year++;
-        arr = commonTools.format_MonthDays_byweek_add(temp_year, arr);
+        arr = commonTools.format_MonthDays_add_byweek(temp_year, arr);
     }
-    console.log(arr);
+    // console.log(arr);
     arr = M_ValueRange(arr, "monthdays_byweek");
     return arr.reverse();
 }
@@ -416,20 +417,17 @@ commonTools.format_dayToChinese = function (str) {
     return arr[2];
 }
 // 数据格式转换 2019-10-18 -> 18日
-
 commonTools.format_dayToChinese_2 = function (str) {
     let arr = str.split("-");
     return arr[2] + "日";
 }
 
 // 数据格式转换 xmonth -> x月
-
 commonTools.format_monthToChinese = function (str) {
     return str.replace("month", "月");
 }
 
-// 数据格式转换 x week -> x周
-
+// 数据格式转换 xweek -> x周
 commonTools.format_weekToChinese = function (str) {
     return str.replace("week", "周");
 }
@@ -531,11 +529,14 @@ commonTools.currentDay_7daysAgoRange = function (m_date) {
     }
 }
 
-// 返回当天日期 - 都作为start end （原因：后台7日留存率逻辑变了）
+// ▲只用于七日留存率-返回当天日期 - 都作为start end （原因：后台7日留存率逻辑变了）
 commonTools.currentDay_currenDayRange = function (m_date) {
+    // console.log(commonTools.currentDay_ndaysAgodate(m_date, 7));
     return {
-        start: m_date,
-        end: m_date
+        // start: m_date,
+        // end: m_date
+        start: commonTools.currentDay_ndaysAgodate(m_date, 7),
+        end: commonTools.currentDay_ndaysAgodate(m_date, 7)
     }
 }
 
@@ -1012,7 +1013,7 @@ commonTools.split_yearAtime_byweekOrDay = function (str) {
 // Wed Sep 11 2019 00:00:00 GMT+0800 (中国标准时间),Wed Oct 16 2019 00:00:00 GMT+0800 (中国标准时间)
 // =》 2019-09-11   2019-10-16
 commonTools.split_picker = function (str) {
-    console.log(str)
+    // console.log(str)
     let time_arr = str.split(",");
     let t1 = time_arr[0];
     let t2 = time_arr[1];
@@ -1022,7 +1023,7 @@ commonTools.split_picker = function (str) {
     return {
         start: t1,
         end: t2,
-        year:year
+        year: year
     }
 }
 
@@ -1722,9 +1723,12 @@ commonTools.format_MonthDays_byDWMMr = function (year, monthsRange) {
     }
     return m_format;
 }
-commonTools.format_MonthDays_byDWMMr_add = function (year, monthsRange, m_format) {
+commonTools.format_MonthDays_byDWMMr_add = function (year, monthsRange, m_format_get) {
     let monthDays = commonTools.getMonthDays_y(year);
-    // let m_format = [];
+    let m_format = [];
+    for (let j = 0; j < m_format_get.length; j++) {
+        m_format.push(m_format_get[j]);
+    }
     let length = 12;
     let i;
     let temp;

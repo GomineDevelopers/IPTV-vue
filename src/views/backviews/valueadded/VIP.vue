@@ -186,11 +186,17 @@ export default {
     // console.log(this.lookBackViewingTopList_VIP);
     let vm = this;
     setTimeout(function() {
-      if(vm.ADD_VIP_time_type == 0){ // 显示初始化
+      if (vm.ADD_VIP_time_type == 0) {
+        // 显示初始化
         vm.ifInitShow = false;
-      }
-      else{
+      } else {
         vm.ifInitShow = true;
+        setTimeout(function() {
+          vm.refresh_api_data();
+          setTimeout(function() {
+            vm.refreshPerData();
+          }, 200);
+        }, 1000);
       }
     }, 500);
   },
@@ -203,7 +209,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     ADD_VIP_operator(newValue, oldValue) {
       let vm = this;
@@ -213,7 +219,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     // ADD_VIP_playmode(newValue, oldValue) {
     //   let vm = this;
@@ -233,7 +239,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     ADD_VIP_valueAddedPackage(newValue, oldValue) {
       let vm = this;
@@ -243,7 +249,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
@@ -253,7 +259,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     ADD_VIP_week(newValue, oldValue) {
       let vm = this;
@@ -263,7 +269,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     ADD_VIP_picker(newValue, oldValue) {
       let vm = this;
@@ -273,7 +279,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     ADD_VIP_time_type(newValue, oldValue) {
       let vm = this;
@@ -284,7 +290,7 @@ export default {
         setTimeout(function() {
           vm.refreshPerData();
         }, 200);
-      }, 100);
+      }, 1000);
     },
     targetOption(newValue, oldValue) {
       let vm = this;
@@ -420,7 +426,7 @@ export default {
           end: temp_time.time,
           year: temp_time.year,
           ti: String(temp_programa),
-          package: String(temp_valueAddedPackage),
+          package: String(temp_valueAddedPackage)
           // year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
         };
         // }
@@ -501,11 +507,11 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp4.push({
-                value: buckets_0[i_0].watch_freq_family.value,
+                value: buckets_0[i_0].watch_freq_family.value.toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
-                value: buckets_0[i_0].watch_dur_mean.value,
+                value: buckets_0[i_0].watch_dur_mean.value.toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
             }
@@ -517,6 +523,7 @@ export default {
             vm.regionData_data_arr = temp_all;
           } catch (error) {
             console.log(error);
+            vm.regionData_data_arr = [];
           }
           // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
           // console.log(vm.regionData_data_arr);
@@ -614,14 +621,16 @@ export default {
                 Vue.set(
                   temp4_B[i_0B + 1],
                   index_sgin,
-                  buckets_0B[i_0B].operators.buckets[index_operator_i]
-                    .watch_freq_family.value
+                  buckets_0B[i_0B].operators.buckets[
+                    index_operator_i
+                  ].watch_freq_family.value.toFixed(2)
                 );
                 Vue.set(
                   temp5_B[i_0B + 1],
                   index_sgin,
-                  buckets_0B[i_0B].operators.buckets[index_operator_i]
-                    .watch_dur_mean.value
+                  buckets_0B[i_0B].operators.buckets[
+                    index_operator_i
+                  ].watch_dur_mean.value.toFixed(2)
                 );
               }
               function SetValue_ByOperator_0(
@@ -671,11 +680,12 @@ export default {
             temp_all_B.push(temp3_B);
             temp_all_B.push(temp4_B);
             temp_all_B.push(temp5_B);
-            console.log("~~~~~~~~temp_all_B");
-            console.log(temp_all_B);
+            // console.log("~~~~~~~~temp_all_B");
+            // console.log(temp_all_B);
             vm.operatorData_arr = temp_all_B;
           } catch (error) {
             console.log(error);
+            vm.operatorData_arr = [];
           }
 
           try {
@@ -705,11 +715,11 @@ export default {
               name: "点播"
             });
             temp4_BB.push({
-              value: aggregations_0BB.watch_freq_family.value,
+              value: aggregations_0BB.watch_freq_family.value.toFixed(2),
               name: "点播"
             });
             temp5_BB.push({
-              value: aggregations_0BB.watch_dur_mean.value,
+              value: aggregations_0BB.watch_dur_mean.value.toFixed(2),
               name: "点播"
             });
             // }
@@ -719,10 +729,11 @@ export default {
             temp_all_BB.push(temp4_BB);
             temp_all_BB.push(temp5_BB);
             vm.playData_arr = temp_all_BB;
-            console.log("~~~~~~~~~~~~~~~~~~~~~temp_all_BB");
-            console.log(vm.playData_arr);
+            // console.log("~~~~~~~~~~~~~~~~~~~~~temp_all_BB");
+            // console.log(vm.playData_arr);
           } catch (error) {
             console.log(error);
+            vm.playData_arr = [];
           }
 
           // /////////// 第四个视图
@@ -771,11 +782,11 @@ export default {
                     ]);
                     temp4.push([
                       ti_name,
-                      buckets_ti[i_ti].watch_freq_family.value
+                      buckets_ti[i_ti].watch_freq_family.value.toFixed(2)
                     ]);
                     temp5.push([
                       ti_name,
-                      buckets_ti[i_ti].watch_dur_mean.value
+                      buckets_ti[i_ti].watch_dur_mean.value.toFixed(2)
                     ]);
                   }
                 } catch (error) {
@@ -801,9 +812,9 @@ export default {
               // dataManage(vm.ADD_VIP_programa[i_p]);
               dataManage(temp_programa_list[i_p]);
             }
-            console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-            console.log(temp1);
-            console.log(temp2);
+            // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+            // console.log(temp1);
+            // console.log(temp2);
 
             temp_all_C.push(temp1);
             temp_all_C.push(temp2);
@@ -815,6 +826,7 @@ export default {
             vm.columnData_arr = temp_all_C;
           } catch (error) {
             console.log(error);
+            vm.columnData_arr = [];
           }
           try {
             vm.orderViewingTopList_VIP.data = []; // 初始化
@@ -850,6 +862,7 @@ export default {
             }
           } catch (error) {
             console.log(error);
+            vm.orderViewingTopList_VIP.data = [];
           }
           // // /////////// liveViewingTopList - 1 - 直播Top15
           // // 获得最大值
@@ -954,10 +967,10 @@ export default {
 
   data() {
     return {
-      ifInitShow:false,
+      ifInitShow: false,
 
       // targetOption: "", //存放选择的指标
-      targetOption: "观看次数", 
+      targetOption: "观看次数",
       //选择指标数据
       target: [
         "观看次数",
