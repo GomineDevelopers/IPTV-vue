@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>收视TOP
+      <span class="title_border_left"></span>收视TOP (近7天)
     </el-row>
     <el-row v-show="ifgetdata" id="viewing_top">
       <el-row class="viewing_top_title">

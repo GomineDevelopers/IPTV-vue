@@ -3202,6 +3202,7 @@ export default {
 
           //运营商 - 一月分周
           if (datatype == "single" && timetype == "week") {
+
             if (type == "yd") {
               console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
               console.log("移动 单运营商一月分周", tempOperatorArr);
@@ -3271,14 +3272,20 @@ export default {
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
               // weekliveViewDurationData onlive_dur
+
+              let i_10;
+              let buckets_10;
+              let length_10;
+              let onlive_dur_yd = [];
+              let onlive_usernum_yd = [];
+              let onlive_freq_yd = [];
               try {
-                let buckets_10 =
+                buckets_10 =
                   responses2.aggregations.statistical_granularity.buckets;
-                let length_10 = buckets_10.length;
-                let i_10;
-                let onlive_dur_yd = [];
-                let onlive_usernum_yd = [];
-                let onlive_freq_yd = [];
+                length_10 = buckets_10.length;
+                onlive_dur_yd = [];
+                onlive_usernum_yd = [];
+                onlive_freq_yd = [];
                 let temp_weekLiveViewUserData_content = [];
                 let temp_weekLiveViewTimesData_content = [];
                 let temp_weekliveViewDurationData_content = [];
@@ -3331,7 +3338,12 @@ export default {
                       name: "移动"
                     });
                   }
-                }, 500); // 移动延时500ms // 联通延时 500ms 电信延时1000ms
+                  console.log("■■■■■■■■■■■■■■■■■■■■■■■■■");
+                  console.log(vm.weekLiveViewUserData);
+                  console.log(vm.weekLiveViewTimesData);
+                  console.log(vm.weekliveViewDurationData);
+
+                }, 500); // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
                 vm.weekLiveViewUserData.content = [];
@@ -3377,6 +3389,7 @@ export default {
                 Vue.set(vm.originalProgramsDemandData.data, 1, []);
               }
             } else if (type == "lt") {
+
               console.log("联通 单运营商一月分周", tempOperatorArr);
               console.log(response.data.responses);
 
@@ -3762,11 +3775,13 @@ export default {
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
               // weekliveViewDurationData onlive_dur
+              let buckets_10;
+              let length_10;
+              let i_10;
               try {
-                let buckets_10 =
+                buckets_10 =
                   responses2.aggregations.statistical_granularity.buckets;
-                let length_10 = buckets_10.length;
-                let i_10;
+                length_10 = buckets_10.length;
                 let onlive_dur_yd = [];
                 let onlive_usernum_yd = [];
                 let onlive_freq_yd = [];
@@ -3778,6 +3793,36 @@ export default {
                     );
                     onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
                     onlive_dur_yd.push(buckets_10[i_10].onlive_dur.value);
+                  }
+                  for (i_10 = 0; i_10 < length_10; i_10++) {
+                    Vue.set(vm.weekLiveViewUserData.content[i_10].data, 1, {
+                      value: onlive_usernum_yd[i_10],
+                      name: "联通"
+                    });
+                    Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 1, {
+                      value: onlive_freq_yd[i_10],
+                      name: "联通"
+                    });
+                    Vue.set(vm.weekliveViewDurationData.content[i_10].data, 1, {
+                      value: onlive_dur_yd[i_10],
+                      name: "联通"
+                    });
+                  }
+                  console.log("■■■■■■■■■■■■■■■■■■■■■■■■■");
+                  console.log(vm.weekLiveViewUserData);
+                  console.log(vm.weekLiveViewTimesData);
+                  console.log(vm.weekliveViewDurationData);
+                }, 1000);  // 移动延时 1 // 联通/电信延时 2
+              } catch (error) {
+                console.log(error);
+                for (i_10 = 0; i_10 < length_10; i_10++) {
+                    onlive_usernum_yd.push(
+                      0
+                    );
+                    onlive_freq_yd.push(0);
+                    onlive_dur_yd.push(0);
+                  }
+                for (i_10 = 0; i_10 < length_10; i_10++) {
 
                     Vue.set(vm.weekLiveViewUserData.content[i_10].data, 1, {
                       value: onlive_usernum_yd[i_10],
@@ -3792,12 +3837,9 @@ export default {
                       name: "联通"
                     });
                   }
-                }, 1000); // 移动延时500ms // 联通延时 500ms 电信延时1000ms
-              } catch (error) {
-                console.log(error);
-                vm.weekLiveViewUserData.content = [];
-                vm.weekLiveViewTimesData.content = [];
-                vm.weekliveViewDurationData.content = [];
+                // vm.weekLiveViewUserData.content = [];
+                // vm.weekLiveViewTimesData.content = [];
+                // vm.weekliveViewDurationData.content = [];
               }
 
               // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 left lt
@@ -3904,14 +3946,19 @@ export default {
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
               // weekliveViewDurationData onlive_dur
+              let buckets_10;
+              let length_10;
+              let i_10;
+              let onlive_dur_yd = [];
+              let onlive_usernum_yd = [];
+              let onlive_freq_yd = [];
               try {
-                let buckets_10 =
+                buckets_10 =
                   responses2.aggregations.statistical_granularity.buckets;
-                let length_10 = buckets_10.length;
-                let i_10;
-                let onlive_dur_yd = [];
-                let onlive_usernum_yd = [];
-                let onlive_freq_yd = [];
+                length_10 = buckets_10.length;
+                onlive_dur_yd = [];
+                onlive_usernum_yd = [];
+                onlive_freq_yd = [];
 
                 setTimeout(function() {
                   for (i_10 = 0; i_10 < length_10; i_10++) {
@@ -3934,12 +3981,40 @@ export default {
                       name: "电信"
                     });
                   }
-                }, 1000); // 移动延时500ms // 联通延时 500ms 电信延时1000ms
+                  console.log("■■■■■■■■■■■■■■■■■■■■■■■■■");
+                  console.log(vm.weekLiveViewUserData);
+                  console.log(vm.weekLiveViewTimesData);
+                  console.log(vm.weekliveViewDurationData);
+                }, 1000);  // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
-                vm.weekLiveViewUserData.content = [];
-                vm.weekLiveViewTimesData.content = [];
-                vm.weekliveViewDurationData.content = [];
+                onlive_dur_yd = [];
+                onlive_usernum_yd = [];
+                onlive_freq_yd = [];
+                for (i_10 = 0; i_10 < length_10; i_10++) {
+                    onlive_usernum_yd.push(
+                      buckets_10[i_10].onlive_user_num.value
+                    );
+                    onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
+                    onlive_dur_yd.push(buckets_10[i_10].onlive_dur.value);
+                  }
+                for (i_10 = 0; i_10 < length_10; i_10++) {
+                    Vue.set(vm.weekLiveViewUserData.content[i_10].data, 2, {
+                      value: onlive_usernum_yd[i_10],
+                      name: "电信"
+                    });
+                    Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 2, {
+                      value: onlive_freq_yd[i_10],
+                      name: "电信"
+                    });
+                    Vue.set(vm.weekliveViewDurationData.content[i_10].data, 2, {
+                      value: onlive_dur_yd[i_10],
+                      name: "电信"
+                    });
+                  }
+                // vm.weekLiveViewUserData.content = [];
+                // vm.weekLiveViewTimesData.content = [];
+                // vm.weekliveViewDurationData.content = [];
               }
 
               // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 left dx

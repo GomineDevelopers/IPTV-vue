@@ -710,11 +710,14 @@ export default {
                 "少儿包（户）",
                 "欢乐家庭包（户）"
               );
+              console.log("■■■■■■■■■■■■■■■■■■■■");
+              console.log(buckets_1);
 
               let buckets_1_child_1 =
                 buckets_1[0].value_added_service_package.buckets;
               let length_1_child_1 = buckets_1_child_1.length; //10~11 ▲▲▲ 注意数据有重复的唯一字段 --需要 try catch
               let i_1_child_1;
+
               // 第二个
               temp_data_1_2.push([]); // 初始title行
               temp_data_1_2[0].push(
@@ -1177,6 +1180,10 @@ export default {
               temp_data_6_9.push(["product", "本月订购用户数"]);
 
               if (length_6 != 0) {
+                let buckets_2 =
+                  responses2.aggregations.statistical_granularity.buckets;
+                let length_2 = buckets_2.length;
+
                 // 有month数据情况
                 let buckets_6_child = buckets_2[length_2 - 1].ac.buckets;
                 let length_6_child = buckets_6_child.length;

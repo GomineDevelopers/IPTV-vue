@@ -31,7 +31,7 @@
       </el-col>
     </el-row>
     <el-row class="title_row2">
-      <span class="m_time_title">近七天：</span>
+      <span class="m_time_title">近7天：</span>
     </el-row>
     <el-row v-show="ifgetdata" class="paid_users_row add_order">
       <el-col :span="12" class="height_auto">
@@ -159,14 +159,30 @@ export default {
               let aggregations2 = response2.data.responses[0].aggregations;
               if (date_time == "day") {
                 vm.cum_paid_num = aggregations.cum_paid_num.value;
-                vm.cum_income = (aggregations.cum_income.value / 100 / 10000).toFixed(0);
+                vm.cum_income = (
+                  aggregations.cum_income.value /
+                  100 /
+                  10000
+                ).toFixed(0);
                 // 订购用户占比
+
                 vm.subscriber_proportion = commonTools.returnFloat_2(
                   (aggregations.cum_paid_num.value /
                     (aggregations2.all_register_num.value +
                       aggregations2.all_unsub_user_num.value)) *
                     100
                 );
+                // console.log(aggregations.cum_income.value);
+                // if (aggregations.cum_income.value == 0) {
+                //   vm.subscriber_proportion = "";
+                // } else {
+                //   vm.subscriber_proportion = commonTools.returnFloat_2(
+                //     (aggregations.cum_paid_num.value /
+                //       (aggregations2.all_register_num.value +
+                //         aggregations2.all_unsub_user_num.value)) *
+                //       100
+                //   );
+                // }
               }
 
               // console.log("~~~!!subscriber_proportion");
@@ -176,7 +192,11 @@ export default {
               // console.log(aggregations2.all_unsub_user_num.value);
               if (date_time == "7days") {
                 vm.new_paid_num = aggregations.new_paid_num.value;
-                vm.new_income = (aggregations.new_income.value / 100 / 10000).toFixed(0);
+                vm.new_income = (
+                  aggregations.new_income.value /
+                  100 /
+                  10000
+                ).toFixed(0);
                 vm.New_order_conversion_rate = commonTools.returnFloat_2(
                   (aggregations.new_paid_num.value /
                     aggregations.new_num.value) *
@@ -372,9 +392,9 @@ export default {
 </script>
 
 <style scoped>
-.m_time_title{
-  margin-left:0.1rem;
-  font-size: 0.1rem; 
+.m_time_title {
+  margin-left: 0.1rem;
+  font-size: 0.1rem;
 }
 
 /* 订购用户中的两个层设置高开始 */
@@ -393,7 +413,6 @@ export default {
   text-align: center !important;
   /* margin-top: -0.1rem !important; */
   margin-top: 0rem !important;
-
 }
 .paid_users_row .el-row {
   text-align: left;

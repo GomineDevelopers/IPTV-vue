@@ -1,7 +1,7 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>新增用户数（户）
+      <span class="title_border_left"></span>新增用户数（当月）
     </el-row>
     <el-row v-show="ifgetdata" class="chart_height" id="new_user_num"></el-row>
     <el-row v-show="!ifgetdata" class="exception_p">
