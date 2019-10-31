@@ -21,20 +21,20 @@ export default {
     PR_week(newValue, oldValue) {
       let vm = this;
       // console.log("~~~~~~~!!ThreeBasedUserView");
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     }
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 2000);
   },
@@ -71,9 +71,10 @@ export default {
         },
         grid: {
           top: "25%",
-          left: "5%",
-          right: "5%",
-          bottom: "10%"
+          left: "10",
+          right: "10",
+          bottom: "10",
+          containLabel: true,
         },
         tooltip: {
           trigger: "axis",
