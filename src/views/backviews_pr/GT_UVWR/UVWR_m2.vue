@@ -865,8 +865,7 @@ export default {
 
       try {
         //页面播放时长（万小时）
-        let program_play_data =
-          newValue.data.responses[16].aggregations.ti.buckets;
+        let program_play_data = newValue.data.responses[16].aggregations.ti.buckets;
         setTimeout(() => {
           let live_temp = vm.GT_UVWR1_L3.data;
           live_temp.forEach((value, index) => {
