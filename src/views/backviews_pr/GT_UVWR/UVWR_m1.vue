@@ -275,9 +275,9 @@ export default {
     //上周数据
     api_data_m1_range(newValue, oldValue) {
       // 在这里获取上期week的数据
-      console.log("混合数据上周数据");
+      // console.log("混合数据上周数据");
       let last_week_data = newValue.data.responses; //上周总数据
-      console.log("last_week_data", last_week_data);
+      // console.log("last_week_data", last_week_data);
 
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(this.PR_week);
@@ -323,7 +323,7 @@ export default {
       let vm = this;
       // console.log("混合数据模块一api_data_m1 - newValue");
       let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据
-      // console.log("模块一，G+tv用户发展数据（本周）", blendedDataModule);
+      console.log("模块一，G+tv用户发展数据（本周）", blendedDataModule);
 
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
@@ -402,22 +402,17 @@ export default {
                 console.log("数据异常！");
               } else {
                 console.log("开始计算增速");
+                // console.log("vm.current_newadd_num_arr", vm.current_newadd_num_arr)
+                // console.log("vm.last_newadd_num_arr", vm.last_newadd_num_arr)
                 //计算增速（本周新增用户 - 上周新增用户） / 上期新增用户
                 vm.current_newadd_num_arr.forEach((value, index) => {
                   // console.log(value.name, index)
-                  if (value.name == vm.last_newadd_num_arr[index].name) {
-                    // console.log(value.name)
-                    let newadd_rate =
-                      ((value.value - vm.last_newadd_num_arr[index].value) /
-                        vm.last_newadd_num_arr[index].value) *
-                      100;
-                    Vue.set(
-                      vm.GT_UVWR1_B2.data[index + 1],
-                      4,
-                      newadd_rate.toFixed(2)
-                    );
-                    // console.log(newadd_rate)
-                  }
+                  vm.last_newadd_num_arr.forEach((value2, index2) => {
+                    if (value.name == value2.name) {
+                      let newadd_rate = ((value.value - value2.value) / value2.value) * 100
+                      Vue.set(vm.GT_UVWR1_B2.data[index + 1], 4, newadd_rate.toFixed(2));
+                    }
+                  })
                 });
               }
             } catch (error) {
@@ -442,8 +437,8 @@ export default {
     },
     //移动数据(本周)
     api_data_m2(newValue, oldValue) {
-      // console.log("移动数据模块二api_data_m2 - newValue");
-      // console.log(newValue);
+      console.log("移动数据模块二api_data_m2 - newValue");
+      console.log(newValue);
       //////////////////// E1
       let vm = this;
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
@@ -476,43 +471,33 @@ export default {
         dataMudule_2.forEach((value, index) => {
           if (index < 9) {
             // console.log("一周新增在册用户数temp", value, index)
-            let open_rate = ((value.open_num.value / value.register_num.buckets[0].register_num.value) * 100).toFixed(2);
             switch (value.key) {
               case "851":
                 Vue.set(vm.GT_UVWR1_B2.data[1], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[1], 1, Number(open_rate));
                 break;
               case "852":
                 Vue.set(vm.GT_UVWR1_B2.data[2], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[2], 1, Number(open_rate));
                 break;
               case "853":
                 Vue.set(vm.GT_UVWR1_B2.data[3], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[3], 1, Number(open_rate));
                 break;
               case "854":
                 Vue.set(vm.GT_UVWR1_B2.data[4], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[4], 1, Number(open_rate));
                 break;
               case "855":
                 Vue.set(vm.GT_UVWR1_B2.data[5], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[5], 1, Number(open_rate));
                 break;
               case "856":
                 Vue.set(vm.GT_UVWR1_B2.data[6], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[6], 1, Number(open_rate));
                 break;
               case "857":
                 Vue.set(vm.GT_UVWR1_B2.data[7], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[7], 1, Number(open_rate));
                 break;
               case "858":
                 Vue.set(vm.GT_UVWR1_B2.data[8], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[8], 1, Number(open_rate));
                 break;
               case "859":
                 Vue.set(vm.GT_UVWR1_B2.data[9], 1, (value.new_num.value / 10000).toFixed(2));
-                Vue.set(vm.GT_UVWR1_D2.data[9], 1, Number(open_rate));
                 break;
               default:
                 break;
@@ -534,7 +519,58 @@ export default {
         Vue.set(vm.GT_UVWR1_B2.data[7], 1, 0);
         Vue.set(vm.GT_UVWR1_B2.data[8], 1, 0);
         Vue.set(vm.GT_UVWR1_B2.data[9], 1, 0);
+        console.log(error);
+      }
 
+
+      try {
+        //各州市一周开机率
+        let open_rate_data = data_yd[19].aggregations.ac.buckets;
+        if (open_rate_data[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        open_rate_data.forEach((value, index) => {
+          //（本期新增用户 - 上期新增用户） / 上期新增用户
+          // let current_new_add_register_num = value.new_num.value  //本期新增
+          if (index < 9) {
+            // console.log("一周新增在册用户数temp", value, index)
+            let open_rate = (
+              (value.open_num.value /
+                value.register_num.buckets[0].register_num.value) *
+              100
+            ).toFixed(2);
+            switch (value.key) {
+              case "851":
+                Vue.set(vm.GT_UVWR1_D2.data[1], 1, Number(open_rate));
+                break;
+              case "852":
+                Vue.set(vm.GT_UVWR1_D2.data[2], 1, Number(open_rate));
+                break;
+              case "853":
+                Vue.set(vm.GT_UVWR1_D2.data[3], 1, Number(open_rate));
+                break;
+              case "854":
+                Vue.set(vm.GT_UVWR1_D2.data[4], 1, Number(open_rate));
+                break;
+              case "855":
+                Vue.set(vm.GT_UVWR1_D2.data[5], 1, Number(open_rate));
+                break;
+              case "856":
+                Vue.set(vm.GT_UVWR1_D2.data[6], 1, Number(open_rate));
+                break;
+              case "857":
+                Vue.set(vm.GT_UVWR1_D2.data[7], 1, Number(open_rate));
+                break;
+              case "858":
+                Vue.set(vm.GT_UVWR1_D2.data[8], 1, Number(open_rate));
+                break;
+              case "859":
+                Vue.set(vm.GT_UVWR1_D2.data[9], 1, Number(open_rate));
+                break;
+              default:
+                break;
+            }
+          }
+        });
+      } catch (error) {
         Vue.set(vm.GT_UVWR1_D2.data[1], 1, 0);
         Vue.set(vm.GT_UVWR1_D2.data[2], 1, 0);
         Vue.set(vm.GT_UVWR1_D2.data[3], 1, 0);
@@ -544,7 +580,7 @@ export default {
         Vue.set(vm.GT_UVWR1_D2.data[7], 1, 0);
         Vue.set(vm.GT_UVWR1_D2.data[8], 1, 0);
         Vue.set(vm.GT_UVWR1_D2.data[9], 1, 0);
-        console.log(error);
+        console.log(error)
       }
 
       try {
@@ -611,11 +647,12 @@ export default {
 
       try {
         //移动本周开机率
+        let open_num_data = newValue.data.responses[19].aggregations
         Vue.set(vm.GT_UVWR1_D1.data[0], 1, beforeWeekFormat);
         Vue.set(vm.GT_UVWR1_D1.data[0], 2, currentWeekFormat);
         try {
-          let current_open_num = userBuckets.open_num.value;
-          let current_register_num = userBuckets.register_num.buckets[0].register_num.value;
+          let current_open_num = open_num_data.open_num.value;
+          let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
           let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2);
           Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate);
           // console.log("移动本周开机率", current_open_rate)
@@ -735,11 +772,6 @@ export default {
           // let current_new_add_register_num = value.new_num.value  //本期新增
           if (index < 9) {
             // console.log("一周新增在册用户数temp", value, index)
-            let open_rate = (
-              (value.open_num.value /
-                value.register_num.buckets[0].register_num.value) *
-              100
-            ).toFixed(2);
             switch (value.key) {
               case "851":
                 Vue.set(
@@ -747,7 +779,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[1], 2, Number(open_rate));
                 break;
               case "852":
                 Vue.set(
@@ -755,7 +786,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[2], 2, Number(open_rate));
                 break;
               case "853":
                 Vue.set(
@@ -763,7 +793,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[3], 2, Number(open_rate));
                 break;
               case "854":
                 Vue.set(
@@ -771,7 +800,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[4], 2, Number(open_rate));
                 break;
               case "855":
                 Vue.set(
@@ -779,7 +807,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[5], 2, Number(open_rate));
                 break;
               case "856":
                 Vue.set(
@@ -787,7 +814,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[6], 2, Number(open_rate));
                 break;
               case "857":
                 Vue.set(
@@ -795,7 +821,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[7], 2, Number(open_rate));
                 break;
               case "858":
                 Vue.set(
@@ -803,7 +828,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[8], 2, Number(open_rate));
                 break;
               case "859":
                 Vue.set(
@@ -811,7 +835,6 @@ export default {
                   2,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[9], 2, Number(open_rate));
                 break;
               default:
                 break;
@@ -832,7 +855,57 @@ export default {
         Vue.set(vm.GT_UVWR1_B2.data[7], 2, 0);
         Vue.set(vm.GT_UVWR1_B2.data[8], 2, 0);
         Vue.set(vm.GT_UVWR1_B2.data[9], 2, 0);
+        console.log(error)
+      }
 
+      try {
+        //各州市一周开机率
+        let open_rate_data = data_lt[19].aggregations.ac.buckets;
+        if (open_rate_data[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        open_rate_data.forEach((value, index) => {
+          //（本期新增用户 - 上期新增用户） / 上期新增用户
+          // let current_new_add_register_num = value.new_num.value  //本期新增
+          if (index < 9) {
+            // console.log("一周新增在册用户数temp", value, index)
+            let open_rate = (
+              (value.open_num.value /
+                value.register_num.buckets[0].register_num.value) *
+              100
+            ).toFixed(2);
+            switch (value.key) {
+              case "851":
+                Vue.set(vm.GT_UVWR1_D2.data[1], 2, Number(open_rate));
+                break;
+              case "852":
+                Vue.set(vm.GT_UVWR1_D2.data[2], 2, Number(open_rate));
+                break;
+              case "853":
+                Vue.set(vm.GT_UVWR1_D2.data[3], 2, Number(open_rate));
+                break;
+              case "854":
+                Vue.set(vm.GT_UVWR1_D2.data[4], 2, Number(open_rate));
+                break;
+              case "855":
+                Vue.set(vm.GT_UVWR1_D2.data[5], 2, Number(open_rate));
+                break;
+              case "856":
+                Vue.set(vm.GT_UVWR1_D2.data[6], 2, Number(open_rate));
+                break;
+              case "857":
+                Vue.set(vm.GT_UVWR1_D2.data[7], 2, Number(open_rate));
+                break;
+              case "858":
+                Vue.set(vm.GT_UVWR1_D2.data[8], 2, Number(open_rate));
+                break;
+              case "859":
+                Vue.set(vm.GT_UVWR1_D2.data[9], 2, Number(open_rate));
+                break;
+              default:
+                break;
+            }
+          }
+        });
+      } catch (error) {
         Vue.set(vm.GT_UVWR1_D2.data[1], 2, 0);
         Vue.set(vm.GT_UVWR1_D2.data[2], 2, 0);
         Vue.set(vm.GT_UVWR1_D2.data[3], 2, 0);
@@ -904,8 +977,9 @@ export default {
 
       try {
         //联通本周开机率
-        let current_open_num = userBuckets.open_num.value;
-        let current_register_num = userBuckets.register_num.buckets[0].register_num.value;
+        let open_num_data = newValue.data.responses[19].aggregations
+        let current_open_num = open_num_data.open_num.value;
+        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2);
         Vue.set(vm.GT_UVWR1_D1.data[2], 2, current_open_rate);
         // console.log("联通开机率", current_open_rate)
@@ -1020,11 +1094,6 @@ export default {
           // let current_new_add_register_num = value.new_num.value  //本期新增
           if (index < 9) {
             // console.log("一周新增在册用户数temp", value, index)
-            let open_rate = (
-              (value.open_num.value /
-                value.register_num.buckets[0].register_num.value) *
-              100
-            ).toFixed(2);
             switch (value.key) {
               case "851":
                 Vue.set(
@@ -1032,7 +1101,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[1], 3, Number(open_rate));
                 break;
               case "852":
                 Vue.set(
@@ -1040,7 +1108,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[2], 3, Number(open_rate));
                 break;
               case "853":
                 Vue.set(
@@ -1048,7 +1115,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[3], 3, Number(open_rate));
                 break;
               case "854":
                 Vue.set(
@@ -1056,7 +1122,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[4], 3, Number(open_rate));
                 break;
               case "855":
                 Vue.set(
@@ -1064,7 +1129,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[5], 3, Number(open_rate));
                 break;
               case "856":
                 Vue.set(
@@ -1072,7 +1136,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[6], 3, Number(open_rate));
                 break;
               case "857":
                 Vue.set(
@@ -1080,7 +1143,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[7], 3, Number(open_rate));
                 break;
               case "858":
                 Vue.set(
@@ -1088,7 +1150,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[8], 3, Number(open_rate));
                 break;
               case "859":
                 Vue.set(
@@ -1096,7 +1157,6 @@ export default {
                   3,
                   (value.new_num.value / 10000).toFixed(2)
                 );
-                Vue.set(vm.GT_UVWR1_D2.data[9], 3, Number(open_rate));
                 break;
               default:
                 break;
@@ -1116,6 +1176,57 @@ export default {
         Vue.set(vm.GT_UVWR1_B2.data[8], 3, 0);
         Vue.set(vm.GT_UVWR1_B2.data[9], 3, 0);
         // })
+        console.log(error)
+      }
+
+      try {
+        //各州市一周开机率
+        let open_rate_data = data_dx[19].aggregations.ac.buckets;
+        if (open_rate_data[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        open_rate_data.forEach((value, index) => {
+          //（本期新增用户 - 上期新增用户） / 上期新增用户
+          // let current_new_add_register_num = value.new_num.value  //本期新增
+          if (index < 9) {
+            // console.log("一周新增在册用户数temp", value, index)
+            let open_rate = (
+              (value.open_num.value /
+                value.register_num.buckets[0].register_num.value) *
+              100
+            ).toFixed(2);
+            switch (value.key) {
+              case "851":
+                Vue.set(vm.GT_UVWR1_D2.data[1], 3, Number(open_rate));
+                break;
+              case "852":
+                Vue.set(vm.GT_UVWR1_D2.data[2], 3, Number(open_rate));
+                break;
+              case "853":
+                Vue.set(vm.GT_UVWR1_D2.data[3], 3, Number(open_rate));
+                break;
+              case "854":
+                Vue.set(vm.GT_UVWR1_D2.data[4], 3, Number(open_rate));
+                break;
+              case "855":
+                Vue.set(vm.GT_UVWR1_D2.data[5], 3, Number(open_rate));
+                break;
+              case "856":
+                Vue.set(vm.GT_UVWR1_D2.data[6], 3, Number(open_rate));
+                break;
+              case "857":
+                Vue.set(vm.GT_UVWR1_D2.data[7], 3, Number(open_rate));
+                break;
+              case "858":
+                Vue.set(vm.GT_UVWR1_D2.data[8], 3, Number(open_rate));
+                break;
+              case "859":
+                Vue.set(vm.GT_UVWR1_D2.data[9], 3, Number(open_rate));
+                break;
+              default:
+                break;
+            }
+          }
+        });
+      } catch (error) {
         //初始化各市州一周开机率
         Vue.set(vm.GT_UVWR1_D2.data[1], 3, 0);
         Vue.set(vm.GT_UVWR1_D2.data[2], 3, 0);
@@ -1193,8 +1304,9 @@ export default {
 
       try {
         //电信本周开机率
-        let current_open_num = userBuckets.open_num.value;
-        let current_register_num = userBuckets.register_num.buckets[0].register_num.value;
+        let open_num_data = newValue.data.responses[19].aggregations
+        let current_open_num = open_num_data.open_num.value;
+        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2);
         Vue.set(vm.GT_UVWR1_D1.data[3], 2, current_open_rate);
         // console.log("电信开机率", current_open_rate)
@@ -1275,8 +1387,9 @@ export default {
       let userBuckets = newValue.data.responses[0].aggregations;
 
       try {
-        let current_open_num = userBuckets.open_num.value;
-        let current_register_num = userBuckets.register_num.buckets[0].register_num.value;
+        let open_num_data = newValue.data.responses[19].aggregations
+        let current_open_num = open_num_data.open_num.value;
+        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = (current_open_num / current_register_num) * 100;
         Vue.set(vm.GT_UVWR1_D1.data[1], 1, current_open_rate.toFixed(2));
       } catch (error) {
@@ -1344,8 +1457,9 @@ export default {
 
       try {
         //联通上周开机率
-        let current_open_num = userBuckets.open_num.value;
-        let current_register_num = userBuckets.register_num.buckets[0].register_num.value;
+        let open_num_data = newValue.data.responses[19].aggregations
+        let current_open_num = open_num_data.open_num.value;
+        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = (current_open_num / current_register_num) * 100;
         Vue.set(vm.GT_UVWR1_D1.data[2], 1, current_open_rate.toFixed(2));
       } catch (error) {
@@ -1411,8 +1525,9 @@ export default {
 
       try {
         //联通上周开机率
-        let current_open_num = userBuckets.open_num.value;
-        let current_register_num = userBuckets.register_num.buckets[0].register_num.value;
+        let open_num_data = newValue.data.responses[19].aggregations
+        let current_open_num = open_num_data.open_num.value;
+        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = (current_open_num / current_register_num) * 100;
         Vue.set(vm.GT_UVWR1_D1.data[3], 1, current_open_rate.toFixed(2));
       } catch (error) {

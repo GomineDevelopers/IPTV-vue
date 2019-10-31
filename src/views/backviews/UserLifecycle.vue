@@ -287,9 +287,9 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        // console.log("~~~~time_type:" + time_type);
-        // console.log("~~~~~2:");
-        // console.log(temp);
+        console.log("~~~~time_type:" + time_type);
+        console.log("~~~~~2:");
+        console.log(temp);
 
         let prev_week_str = temp_time.time.replace(/[^0-9]/ig, "")  //获取本周的数字
         let prev_week_time = prev_week_str - 1
