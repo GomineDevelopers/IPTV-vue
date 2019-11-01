@@ -1114,7 +1114,7 @@ export default {
               console.log(error);
             }
 
-            // //////////////// 各类型节目点播数据 (row5 )   responses 13  -- 暂无数据
+            // //////////////// 各类型节目点播数据 (row5 )   responses 13  
             // 结构类似：(row8 right )
             // ////// 本周（先） 上周（后）
             // dibbleSeedingUserNumData  点播用户数（万户）  demand_user_num
@@ -1169,8 +1169,8 @@ export default {
                   temp_data_13_dun[top15_length_13 - i_13],
                   1,
                   commonTools.returnFloat_2(
-                    buckets_13[1].program_type.buckets[i_13].demand_user_num
-                      .value / 10000
+                    Number(buckets_13[1].program_type.buckets[i_13].demand_user_num
+                      .value) / 10000
                   )
                 );
                 // 二 0 1
@@ -1183,7 +1183,7 @@ export default {
                   temp_data_13_df[top15_length_13 - i_13],
                   1,
                   commonTools.returnFloat_2(
-                    buckets_13[1].program_type.buckets[i_13].demand_freq.value /
+                    Number(buckets_13[1].program_type.buckets[i_13].demand_freq.value) /
                     10000
                   )
                 );
@@ -1197,7 +1197,7 @@ export default {
                   temp_data_13_dd[top15_length_13 - i_13],
                   1,
                   commonTools.returnFloat_2(
-                    buckets_13[1].program_type.buckets[i_13].demand_dur.value /
+                    Number(buckets_13[1].program_type.buckets[i_13].demand_dur.value) /
                     10000 /
                     60
                   )
@@ -1216,7 +1216,7 @@ export default {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     // console.log(buckets_child_13_2[i_13_2].key);
                     value = commonTools.returnFloat_2(
-                      buckets_child_13_2[i_13_2].demand_user_num.value / 10000
+                      (buckets_child_13_2[i_13_2].demand_user_num.value) / 10000
                     );
                     break;
                   }
@@ -1229,7 +1229,7 @@ export default {
                 for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      buckets_child_13_2[i_13_2].demand_freq.value / 10000
+                      Number(buckets_child_13_2[i_13_2].demand_freq.value) / 10000
                     );
                     break;
                   }
@@ -1242,7 +1242,7 @@ export default {
                 for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      buckets_child_13_2[i_13_2].demand_dur / 10000 / 60
+                      Number(buckets_child_13_2[i_13_2].demand_dur.value) / 10000 / 60
                     );
                     break;
                   }
@@ -1276,9 +1276,10 @@ export default {
                   )
                 );
               }
-
-
-
+              console.log(temp_data_13_dun);
+              console.log(temp_data_13_df);
+              console.log(temp_data_13_dd);
+              
               vm.dibbleSeedingUserNumData.data = temp_data_13_dun;
               vm.dibbleSeedingNumData.data = temp_data_13_df;
               vm.dibbleSeedingDurationData.data = temp_data_13_dd ;
