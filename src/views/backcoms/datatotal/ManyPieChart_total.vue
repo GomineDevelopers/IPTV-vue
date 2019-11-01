@@ -19,30 +19,30 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
   watch: {
     pieData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 2000);
     }
   },
   computed: {
     pieData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
 
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           vm.setLineChart();
         }, 1000);
         return vm.pieData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   methods: {
@@ -57,8 +57,8 @@ export default {
         let t1 = {
           name: this.pieData_Change.content[0].title,
           type: "pie",
-          radius: ["60%", "75%"],
-          center: ["50%", "56%"],
+          radius: ["85%", "100%"],
+          center: ["50%", "50%"],
           data: this.pieData_Change.content[0].data,
           labelLine: {
             normal: {
@@ -91,8 +91,8 @@ export default {
         let t2 = {
           name: this.pieData_Change.content[1].title,
           type: "pie",
-          radius: ["45%", "60%"],
-          center: ["50%", "56%"],
+          radius: ["70%", "85%"],
+          center: ["50%", "50%"],
           data: this.pieData_Change.content[1].data,
           labelLine: {
             normal: {
@@ -125,8 +125,8 @@ export default {
         let t3 = {
           name: this.pieData_Change.content[2].title,
           type: "pie",
-          radius: ["30%", "45%"],
-          center: ["50%", "56%"],
+          radius: ["55%", "70%"],
+          center: ["50%", "50%"],
           data: this.pieData_Change.content[2].data,
           labelLine: {
             normal: {
@@ -159,8 +159,8 @@ export default {
         let t4 = {
           name: this.pieData_Change.content[3].title,
           type: "pie",
-          radius: ["15%", "30%"],
-          center: ["50%", "56%"],
+          radius: ["35%", "55%"],
+          center: ["50%", "50%"],
           data: this.pieData_Change.content[3].data,
           labelLine: {
             normal: {
@@ -193,8 +193,8 @@ export default {
         let t5 = {
           name: this.pieData_Change.content[4].title,
           type: "pie",
-          radius: ["2%", "15%"],
-          center: ["50%", "56%"],
+          radius: ["20%", "35%"],
+          center: ["50%", "50%"],
           data: this.pieData_Change.content[4].data,
           labelLine: {
             normal: {
@@ -222,6 +222,40 @@ export default {
           }
         };
         series.push(t5);
+      }
+      if (this.pieData_Change.content.length >= 6) {
+        let t6 = {
+          name: this.pieData_Change.content[4].title,
+          type: "pie",
+          radius: ["5%", "20%"],
+          center: ["50%", "50%"],
+          data: this.pieData_Change.content[4].data,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            show: true,
+            position: "inside",
+            formatter: "{d}%",
+            color: "#333"
+          },
+          itemStyle: {
+            normal: {
+              borderWidth: 3, //设置border的宽度有多大
+              borderColor: "#fff"
+            },
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+              borderWidth: 1, //设置border的宽度有多大
+              borderColor: "#fff"
+            }
+          }
+        };
+        series.push(t6);
       }
 
       var option = {
