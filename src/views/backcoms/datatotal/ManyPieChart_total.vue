@@ -225,11 +225,11 @@ export default {
       }
       if (this.pieData_Change.content.length >= 6) {
         let t6 = {
-          name: this.pieData_Change.content[4].title,
+          name: this.pieData_Change.content[5].title,
           type: "pie",
           radius: ["5%", "20%"],
           center: ["50%", "50%"],
-          data: this.pieData_Change.content[4].data,
+          data: this.pieData_Change.content[5].data,
           labelLine: {
             normal: {
               show: false
