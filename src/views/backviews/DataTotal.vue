@@ -197,10 +197,10 @@ export default {
             // silence_user 沉默用户
             // downtime_user 停机用户
 
-            let buckets_flag =
-              response.data.responses[3].aggregations.flag_identity.buckets;
+            let buckets_flag = response.data.responses[3].aggregations.flag_identity.buckets;
             let length_flag = buckets_flag.length;
             let i_flag;
+            console.log("buckets_flag", buckets_flag)
             let temp_content = [
               {
                 title: "第一次购买用户数占比", // firsttime_num_ratio
@@ -228,7 +228,23 @@ export default {
                 ]
               },
               {
-                title: "未订购用户数占比", // unord_num_ratio
+                title: "从未订购用户数占比", // unord_num_ratio
+                data: [
+                  // { value: 535, name: "直播" },
+                  // { value: 410, name: "回看" },
+                  // { value: 348, name: "点播" }
+                ]
+              },
+              {
+                title: "重新激活用户数占比", // unord_num_ratio
+                data: [
+                  // { value: 535, name: "直播" },
+                  // { value: 410, name: "回看" },
+                  // { value: 348, name: "点播" }
+                ]
+              },
+              {
+                title: "睡眠用户数占比", // unord_num_ratio
                 data: [
                   // { value: 535, name: "直播" },
                   // { value: 410, name: "回看" },
@@ -273,24 +289,42 @@ export default {
                 name: returnKeyChinese(key)
               });
             }
+            function set_contentValue_re(key, index_buckets_flag) {
+              temp_content[4].data.push({
+                value: buckets_flag[index_buckets_flag].repurchase_num.value,
+                name: returnKeyChinese(key)
+              });
+            }
+            function set_contentValue_lo(key, index_buckets_flag) {
+              temp_content[5].data.push({
+                value: buckets_flag[index_buckets_flag].lapsed_num.value,
+                name: returnKeyChinese(key)
+              });
+            }
             for (i_flag = 0; i_flag < length_flag; i_flag++) {
               if (buckets_flag[i_flag].key == "active_user") {
                 set_contentValue_fn("active_user", i_flag);
                 set_contentValue_on("active_user", i_flag);
                 set_contentValue_ln("active_user", i_flag);
                 set_contentValue_un("active_user", i_flag);
+                set_contentValue_re("active_user", i_flag);
+                set_contentValue_lo("active_user", i_flag);
               }
               if (buckets_flag[i_flag].key == "silence_user") {
                 set_contentValue_fn("silence_user", i_flag);
                 set_contentValue_on("silence_user", i_flag);
                 set_contentValue_ln("silence_user", i_flag);
                 set_contentValue_un("silence_user", i_flag);
+                set_contentValue_re("silence_user", i_flag);
+                set_contentValue_lo("silence_user", i_flag);
               }
               if (buckets_flag[i_flag].key == "downtime_user") {
                 set_contentValue_fn("downtime_user", i_flag);
                 set_contentValue_on("downtime_user", i_flag);
                 set_contentValue_ln("downtime_user", i_flag);
                 set_contentValue_un("downtime_user", i_flag);
+                set_contentValue_re("downtime_user", i_flag);
+                set_contentValue_lo("downtime_user", i_flag);
               }
             }
             console.log("~~~~~~~~~~~~~~~~~temp_content");
@@ -336,9 +370,9 @@ export default {
             for (i_operator = 0; i_operator < length_operator; i_operator++) {
               for (i_time = 0; i_time < length_time; i_time++) {
                 temp_dailyLivingTrendData[i_operator + 1].push(
-                  buckets_operator[i_operator].statistical_granularity.buckets[
+                  (buckets_operator[i_operator].statistical_granularity.buckets[
                     i_time
-                  ].active_num.value
+                  ].active_num.value / 10000).toFixed(2)
                 );
 
                 // temp_dailyLivingTrendData[1].push(
@@ -1131,7 +1165,8 @@ export default {
 }
 .data_bottom_left,
 .data_bottom_right {
-  height: 352px;
+  /* height: 352px; */
+  height: 400px;
 }
 .data_total_bottom {
   margin: 14px 0px;
