@@ -336,9 +336,9 @@ export default {
             for (i_operator = 0; i_operator < length_operator; i_operator++) {
               for (i_time = 0; i_time < length_time; i_time++) {
                 temp_dailyLivingTrendData[i_operator + 1].push(
-                  buckets_operator[i_operator].statistical_granularity.buckets[
+                  (buckets_operator[i_operator].statistical_granularity.buckets[
                     i_time
-                  ].active_num.value
+                  ].active_num.value / 10000).toFixed(0)
                 );
 
                 // temp_dailyLivingTrendData[1].push(
