@@ -325,7 +325,7 @@ commonTools.format_MonthDays_ED = function () {
 }
 commonTools.format_MonthDays_byDWMMr_ED = function () {
     let temp_year = commonTools.date.start_year
-    let arr = commonTools.format_MonthDays_byDWMMr(temp_year);
+    let arr = commonTools.format_MonthDays_byDWMMr(temp_year, 4);
     for (temp_year; temp_year < commonTools.date.end_year;) {
         temp_year++;
         console.log(temp_year);

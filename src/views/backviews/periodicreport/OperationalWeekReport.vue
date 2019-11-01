@@ -2154,6 +2154,11 @@ export default {
               let length_28 = buckets_28.length;
               let i_28;
 
+              let buckets_34 =
+                response.data.responses[34].aggregations.ti.buckets;
+              // let length_34 = buckets_34.length;
+              // let i_34;
+
               let buckets_29 =
                 response.data.responses[29].aggregations.ti.buckets;
               let length_29 = buckets_29.length;
@@ -2168,8 +2173,8 @@ export default {
               let temp_Pane_ColumnData = [];
 
               try {
-                // ////// 28 29 分别对应字段
-                // 28 access_dur        页面播放时长   5
+                // ////// 28 29 34 分别对应字段
+                // 34 demand_dur        页面播放时长   5
                 // 28 access_freq       访问次数       2
                 // 28 access_user_num   访问用户数     1
                 // 29 click_freq        页面点击次数   4
@@ -2180,7 +2185,7 @@ export default {
                 // 每个 DATA_weeklyThermodynamic 的 i+1 个 分别推入
                 // 1 访问用户数      access_user_num  28
                 // 2 访问次数        access_freq      28
-                // 5 页面播放时长    access_dur       28
+                // 5 页面播放时长    demand_dur       34  --- 完整 ---34用28的逻辑
                 for (i_28 = 0; i_28 < length_28; i_28++) {
                   // 处理 分栏 - paneArr
                   temp_paneArr.push({
@@ -2226,8 +2231,8 @@ export default {
                   Vue.set(
                     DATA_weeklyThermodynamic[5],
                     2,
-                    (buckets_28[i_28].statistical_granularity.buckets[1]
-                      .access_dur.value / 10000 / 60 ).toFixed(2)
+                    (buckets_34[i_28].statistical_granularity.buckets[1]
+                      .demand_dur.value / 10000 / 60 ).toFixed(2)
                   );
 
                   // 上周 - ▲ 1
@@ -2246,8 +2251,8 @@ export default {
                   Vue.set(
                     DATA_weeklyThermodynamic[5],
                     1,
-                    (buckets_28[i_28].statistical_granularity.buckets[0]
-                      .access_dur.value / 60 / 10000).toFixed(2)
+                    (buckets_34[i_28].statistical_granularity.buckets[0]
+                      .demand_dur.value / 60 / 10000).toFixed(2)
                   );
 
                   // 增率 - ▲ 3   （本期-上期）/上期
@@ -2274,18 +2279,18 @@ export default {
                   Vue.set(
                     DATA_weeklyThermodynamic[5],
                     3,
-                    ((buckets_28[i_28].statistical_granularity.buckets[1]
-                      .access_dur.value -
-                      buckets_28[i_28].statistical_granularity.buckets[0]
-                        .access_dur.value) /
-                      buckets_28[i_28].statistical_granularity.buckets[0]
-                        .access_dur.value).toFixed(2)
+                    ((buckets_34[i_28].statistical_granularity.buckets[1]
+                      .demand_dur.value -
+                      buckets_34[i_28].statistical_granularity.buckets[0]
+                        .demand_dur.value) /
+                      buckets_34[i_28].statistical_granularity.buckets[0]
+                        .demand_dur.value).toFixed(2)
                   );
 
                   // console.log("~~~~~~!DATA_weeklyThermodynamic");
                   // console.log(DATA_weeklyThermodynamic);
 
-                  // DATA_weeklyThermodynamic.push(buckets[].access_dur)
+                  // DATA_weeklyThermodynamic.push(buckets[].demand_dur)
 
                   DATA_weeklyThermodynamic_all.push(DATA_weeklyThermodynamic);
                 }
@@ -3744,8 +3749,8 @@ export default {
             try {
               let buckets_27 =
                 response.data.responses[27].aggregations.channel.buckets;
-              console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
-              console.log(buckets_27);
+              // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
+              // console.log(buckets_27);
 
 
               let length_27 = buckets_27.length;
@@ -3759,8 +3764,8 @@ export default {
                 temp_data_27.push([]);
                 temp_data_27[i_27 + 1].push(buckets_27[i_27].key);
               }
-              console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
-              console.log(temp_data_27);
+              // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
+              // console.log(temp_data_27);
               let buckets_27_child0 =
                 buckets_27[0].statistical_granularity.buckets;
               let length_27_child = buckets_27_child0.length;
@@ -3769,8 +3774,8 @@ export default {
               for (i_27_child = 0; i_27_child < length_27_child; i_27_child++) {
                 temp_data_27[0].push(buckets_27_child0[i_27_child].key);
               }
-              console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
-              console.log(temp_data_27);
+              // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
+              // console.log(temp_data_27);
 
               function Return_KeyValue(key){
                 let temp_buckets_27c = buckets_27[i_27].statistical_granularity.buckets;
