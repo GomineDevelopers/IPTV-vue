@@ -232,7 +232,7 @@ export default {
             // 新增收入	new_income
             // 新增订购用户数	new_paid_num
             let temp_newUserTotal = [["product"], ["新增用户"]]; // 1
-            let temp_newPayingUsersProportion = [["product"], ["新增用户占比"]]; // 2
+            let temp_newPayingUsersProportion = [["product"], ["新增付费用户占比"]]; // 2
             let temp_subscribersData = [
               ["product", "订购用户数（数）", "收入（万元）"] // 3
             ];

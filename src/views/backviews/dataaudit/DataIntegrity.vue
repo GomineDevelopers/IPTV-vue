@@ -448,7 +448,7 @@ export default {
               temp_pertitle_data.missingData =
                 currentPerTitleData.n_missing.value;
               temp_pertitle_data.LackOfProportion =
-                currentPerTitleData.missign_rate.value;
+                String(currentPerTitleData.missign_rate.value * 100) + "%";
               return temp_pertitle_data;
             }
             function dataManage(index_0_child) {

@@ -338,6 +338,33 @@ export default {
             let split_arr = str.split("-");
             return split_arr[2] + "日";
           }
+          function dateManageArr(DateArr) {
+            let DateArr_toChinese = [];
+            for (let i = 0; i < DateArr.length; i++) {
+              DateArr_toChinese.push(dateManage(DateArr[i]));
+            }
+            return DateArr_toChinese;
+          }
+          function dateStrManage(year_str, month_str, day_index) {
+            return year_str + "-" + month_str + "-" + String(day_index);
+          }
+          function returnDate_StartToExpirationDate(end) {
+            let split_arr = end.split("-");
+            let year_str = split_arr[0];
+            let month_str = split_arr[1];
+            let maxValue = parseInt(split_arr[2]);
+            let dateArr = [];
+            for (let i = 0; i < maxValue; i++) {
+              dateArr.push(dateStrManage(year_str, month_str, i + 1));
+            }
+            return dateArr;
+          }
+          let temp_date_arr = returnDate_StartToExpirationDate(ExpirationDate);
+          console.log(temp_date_arr);
+          let temp_date_arr_toChinese = dateManageArr(temp_date_arr);
+          console.log(temp_date_arr_toChinese);
+          let length_all = temp_date_arr.length;
+          let i_all;
           let nameArray = [
             "贵阳",
             "遵义",
@@ -363,27 +390,32 @@ export default {
             // let temp_3_2 = nameArray; // nameArray // 心跳
 
             // 处理时间  -- ▲临时数据问题记录： 传入范围天，没有最后一天
-            let buckets_1_child = buckets_1[0].statistical_granularity.buckets; // 天
-            let length_1_child = buckets_1_child.length;
-            let i_1_child;
+            // let buckets_1_child = buckets_1[0].statistical_granularity.buckets; // 天
+            // let length_1_child = buckets_1_child.length;
+            // let i_1_child;
+
+            for (i_all = 0; i_all < length_all; i_all++) {
+              temp_1_3.push("");
+            }
+
 
             // 处理无值字符串-没有数据的地区 - 置0 (根据天数处理长短)
-            let NoExist_ManageStr = "";
-            let str1 = "0\t";
-            let str2 = "0";
+            // let NoExist_ManageStr = "";
+            // let str1 = "0\t";
+            // let str2 = "0";
 
-            for (i_1_child = 0; i_1_child < length_1_child; i_1_child++) {
-              temp_1_1.push(dateManage(buckets_1_child[i_1_child].key));
+            // for (i_1_child = 0; i_1_child < length_1_child; i_1_child++) {
+            //   temp_1_1.push(dateManage(buckets_1_child[i_1_child].key));
 
-              // 处理值 （地区=》时间） 1
-              temp_1_3.push(""); //  \t字符串 x ac个数 - 去除others
-              // 处理无值字符串
-              if (i_1_child != length_1_child - 1) {
-                NoExist_ManageStr += str1;
-              } else {
-                NoExist_ManageStr += str2;
-              }
-            }
+            //   // 处理值 （地区=》时间） 1
+            //   temp_1_3.push(""); //  \t字符串 x ac个数 - 去除others
+            //   // 处理无值字符串
+            //   // if (i_1_child != length_1_child - 1) {
+            //   //   NoExist_ManageStr += str1;
+            //   // } else {
+            //   //   NoExist_ManageStr += str2;
+            //   // }
+            // }
             // 处理值 （地区=》时间） 2
             // 参数1：ac固定顺序 参数2：当前ac的位置
             function DateManage_AcToTime_1(index_ac, index_current) {
@@ -440,8 +472,8 @@ export default {
             // console.log(temp_1_1);
             // console.log(temp_1_2);
             // console.log(temp_1_3);
-
-            vm.powerUserNumber.dataTime = temp_1_1;
+            // vm.powerUserNumber.dataTime = temp_1_1;
+            vm.powerUserNumber.dataTime = temp_date_arr_toChinese;
             vm.powerUserNumber.nameArray = temp_1_2;
             vm.powerUserNumber.stringArray = temp_1_3;
           } catch (error) {
@@ -469,10 +501,10 @@ export default {
             let i_2_child;
 
             // 处理无值字符串-没有数据的地区 - 置0 (根据天数处理长短)
-            let NoExist_ManageStr = ""; //初始化
+            // let NoExist_ManageStr = ""; //初始化
 
-            let str1 = "0\t";
-            let str2 = "0";
+            // let str1 = "0\t";
+            // let str2 = "0";
 
             for (i_2_child = 0; i_2_child < length_2_child; i_2_child++) {
               temp_2_1.push(dateManage(buckets_2_child[i_2_child].key));
@@ -480,11 +512,11 @@ export default {
               // 处理值 （地区=》时间） 1
               temp_2_3.push(""); //  \t字符串 x ac个数 - 去除others
               // 处理无值字符串
-              if (i_2_child != length_2_child - 1) {
-                NoExist_ManageStr += str1;
-              } else {
-                NoExist_ManageStr += str2;
-              }
+              // if (i_2_child != length_2_child - 1) {
+              //   NoExist_ManageStr += str1;
+              // } else {
+              //   NoExist_ManageStr += str2;
+              // }
             }
             // 处理值 （地区=》时间） 2
             // 参数1：ac固定顺序 参数2：当前ac的位置
@@ -543,7 +575,8 @@ export default {
             // console.log(temp_2_2);
             // console.log(temp_2_3);
 
-            vm.onlineUserNumber.dataTime = temp_2_1;
+            // vm.onlineUserNumber.dataTime = temp_2_1;
+            vm.onlineUserNumber.dataTime = temp_date_arr_toChinese;
             vm.onlineUserNumber.nameArray = temp_2_2;
             vm.onlineUserNumber.stringArray = temp_2_3;
           } catch (error) {
@@ -572,9 +605,9 @@ export default {
             let i_3_child;
 
             // 处理无值字符串-没有数据的地区 - 置0 (根据天数处理长短)
-            let NoExist_ManageStr = ""; //初始化
-            let str1 = "0\t";
-            let str2 = "0";
+            // let NoExist_ManageStr = ""; //初始化
+            // let str1 = "0\t";
+            // let str2 = "0";
 
             for (i_3_child = 0; i_3_child < length_3_child; i_3_child++) {
               temp_3_1.push(dateManage(buckets_3_child[i_3_child].key));
@@ -582,11 +615,11 @@ export default {
               // 处理值 （地区=》时间） 1
               temp_3_3.push(""); //  \t字符串 x ac个数 - 去除others
               // 处理无值字符串
-              if (i_3_child != length_3_child - 1) {
-                NoExist_ManageStr += str1;
-              } else {
-                NoExist_ManageStr += str2;
-              }
+              // if (i_3_child != length_3_child - 1) {
+              //   NoExist_ManageStr += str1;
+              // } else {
+              //   NoExist_ManageStr += str2;
+              // }
             }
             // 处理值 （地区=》时间） 2
             // 参数1：ac固定顺序 参数2：当前ac的位置
@@ -646,7 +679,8 @@ export default {
             // console.log(temp_3_2);
             // console.log(temp_3_3);
 
-            vm.heartbeatFrequency.dataTime = temp_3_1; // 心跳
+            // vm.heartbeatFrequency.dataTime = temp_3_1; // 心跳
+            vm.heartbeatFrequency.dataTime = temp_date_arr_toChinese; // 心跳
             vm.heartbeatFrequency.nameArray = temp_3_2; // 心跳
             vm.heartbeatFrequency.stringArray = temp_3_3; // 心跳
           } catch (error) {
