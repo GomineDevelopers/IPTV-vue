@@ -125,7 +125,7 @@
             </el-submenu>
             <el-menu-item @click="router_to('/backhome/uploadfiles')" index="/backhome/uploadfiles">
               <i class="iconfont">&#xe632;</i>
-              <span slot="title">节目搜索</span>
+              <span slot="title">文件上传</span>
             </el-menu-item>
           </el-menu>
         </el-col>

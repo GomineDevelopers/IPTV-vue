@@ -605,6 +605,7 @@ export default {
             );
           }
         });
+        // console.log("vm.GT_UVWR1_L3.data~~~~~~~~~", vm.GT_UVWR1_L3.data)
       } catch (error) {
         vm.GT_UVWR1_L3.data.forEach((value, index) => {
           Vue.set(value, 0, '');
@@ -704,7 +705,7 @@ export default {
           let live_temp = vm.GT_UVWR1_J1.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_J1.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_J1.data[index], 2, '');
               // console.log("本周收视规模排名--", value)
               demand_top.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
@@ -731,7 +732,7 @@ export default {
           live_temp.forEach((value, index) => {
             if (index > 0) {
               // console.log(value[0])
-              Vue.set(vm.GT_UVWR1_J3.data[index], 1, 0);
+              Vue.set(vm.GT_UVWR1_J3.data[index], 1, '');
               // console.log("本地自办节目TOP5本周--", value)
               local_program.forEach((value2, index2) => {
                 let program_name = value2.key + ' ' + value2.channel.buckets[0].key;
@@ -760,7 +761,7 @@ export default {
           let live_temp = vm.GT_UVWR1_K1.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_K1.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_K1.data[index], 2, '');
               // console.log("页面点击用户数本周", value)
               demand_user_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
@@ -781,7 +782,7 @@ export default {
           let live_temp = vm.GT_UVWR1_K2.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_K2.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_K2.data[index], 2, '');
               // console.log("页面点击用户数本周", value)
               demand_user_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
@@ -802,7 +803,7 @@ export default {
           let live_temp = vm.GT_UVWR1_K3.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_K3.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_K3.data[index], 2, '');
               // console.log("页面点击用户数本周", value)
               demand_user_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
@@ -829,7 +830,7 @@ export default {
           let live_temp = vm.GT_UVWR1_L1.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_L1.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_L1.data[index], 2, '');
               // console.log("页面点击用户数本周--", value)
               program_click_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
@@ -849,7 +850,7 @@ export default {
           let live_temp = vm.GT_UVWR1_L2.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_L2.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_L2.data[index], 2, '');
               // console.log("页面点击次数本周--", value)
               program_click_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {
@@ -875,7 +876,7 @@ export default {
           let live_temp = vm.GT_UVWR1_L3.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_L3.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_L3.data[index], 2, '');
               // console.log("页面播放时长本周--", value)
               program_play_data.forEach((value2, index2) => {
                 if (value2.key == value[0]) {

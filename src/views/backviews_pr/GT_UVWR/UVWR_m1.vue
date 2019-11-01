@@ -1402,7 +1402,7 @@ export default {
         let live_temp = vm.GT_UVWR1_E1.data;
         live_temp.forEach((value, index) => {
           if (index > 0) {
-            Vue.set(vm.GT_UVWR1_E1.data[index], 2, 0);
+            Vue.set(vm.GT_UVWR1_E1.data[index], 2, '');
             // console.log("移动本周直播数据--", value)
             buckets.forEach((value2, index2) => {
               let program = value2.key;
@@ -1428,12 +1428,13 @@ export default {
         let demand_temp = vm.GT_UVWR1_F1.data;
         demand_temp.forEach((value, index) => {
           if (index > 0) {
-            Vue.set(vm.GT_UVWR1_F1.data[index], 2, 0);
+            Vue.set(vm.GT_UVWR1_F1.data[index], 2, '');
             // console.log("本周点播", value)
             order_paly_data.forEach((value2, index2) => {
               let program = value2.programname.buckets[0].key;
               let program_name = value2.key;
               let program_full = program + "—" + program_name;
+              // console.log("上周点播~~~", program_full, (value2.demand_freq.value / 10000).toFixed(2))
               if (program_full == value[0]) {
                 // console.log("上周点播value2", program + '—' + program_name, value2.demand_freq.value)
                 Vue.set(
@@ -1472,7 +1473,7 @@ export default {
         let live_temp = vm.GT_UVWR1_E2.data;
         live_temp.forEach((value, index) => {
           if (index > 0) {
-            Vue.set(vm.GT_UVWR1_E2.data[index], 2, 0);
+            Vue.set(vm.GT_UVWR1_E2.data[index], 2, '');
             // console.log("联通本周直播数据--", value)
             buckets.forEach((value2, index2) => {
               let program = value2.key;
@@ -1497,7 +1498,7 @@ export default {
         let demand_temp = vm.GT_UVWR1_F2.data;
         demand_temp.forEach((value, index) => {
           if (index > 0) {
-            Vue.set(vm.GT_UVWR1_F2.data[index], 2, 0);
+            Vue.set(vm.GT_UVWR1_F2.data[index], 2, '');
             // console.log("本周点播", value)
             order_paly_data.forEach((value2, index2) => {
               let program = value2.programname.buckets[0].key;
@@ -1540,7 +1541,7 @@ export default {
         let live_temp = vm.GT_UVWR1_E3.data;
         live_temp.forEach((value, index) => {
           if (index > 0) {
-            Vue.set(vm.GT_UVWR1_E3.data[index], 2, 0);
+            Vue.set(vm.GT_UVWR1_E3.data[index], 2, '');
             // console.log("电信本周直播数据--", value)
             buckets.forEach((value2, index2) => {
               let program = value2.key;
@@ -1565,7 +1566,7 @@ export default {
         let demand_temp = vm.GT_UVWR1_F3.data;
         demand_temp.forEach((value, index) => {
           if (index > 0) {
-            Vue.set(vm.GT_UVWR1_F3.data[index], 2, 0);
+            Vue.set(vm.GT_UVWR1_F3.data[index], 2, '');
             // console.log("本周点播", value)
             order_paly_data.forEach((value2, index2) => {
               let program = value2.programname.buckets[0].key;
