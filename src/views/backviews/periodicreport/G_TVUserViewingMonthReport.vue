@@ -2510,8 +2510,7 @@ export default {
               let vm = this;
               let totle_data = response.data.responses;
               //G+TV各运营商侧用户发展数据概览
-              let user_develop_data =
-                totle_data[0].aggregations.statistical_granularity.buckets; //register_num
+              let user_develop_data = totle_data[0].aggregations.statistical_granularity.buckets; //register_num
               //数据初始化 (注意：必须初始化)
               user_develop_data.forEach((value, index) => {
                 // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
@@ -2702,6 +2701,86 @@ export default {
               // console.log(temp_liveViewingDurationData_content);
               // console.log(temp_liveViewingUserData_content);
               // console.log(temp_liveViewingTimesData_content);
+              // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 responses5 left yd
+              // 结构类似 row12
+              try {
+                let buckets_13 = responses5.aggregations.statistical_granularity.buckets;
+                console.log("buckets_13~~~~~~~**********************", buckets_13)
+                let length_13 = buckets_13.length; // 默认两月 - 2
+                let i_13;
+                let temp_data_13_un = [];
+
+                temp_data_13_un.push(["product", "本月", "上月"]);
+
+                let top20_length_13 = 20;
+                if (buckets_13[length_13 - 1].channel.buckets.length < 20) {
+                  top20_length_13 = buckets_13[length_13 - 1].channel.buckets.length;
+                }
+                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                  temp_data_13_un.push([]);
+                }
+                let month_index_current = length_13 - 1; // 倒数第一个
+                // if (length_13 == 1) {
+                // month_index_current = 0;
+                // }
+                // 本月
+                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                  // 一
+                  Vue.set(
+                    temp_data_13_un[top20_length_13 - i_13],
+                    0,
+                    buckets_13[month_index_current].channel.buckets[i_13].key
+                  );
+                  Vue.set(
+                    temp_data_13_un[top20_length_13 - i_13],
+                    1,
+                    commonTools.returnFloat_2(
+                      buckets_13[month_index_current].channel.buckets[i_13]
+                        .onlive_user_num.value / 10000
+                    )
+                  );
+                }
+                // ////// 上月
+                if (length_13 > 1) {
+                  let buckets_child_13_2 =
+                    responses5.aggregations.statistical_granularity.buckets[
+                      length_13 - 2
+                    ].channel.buckets;
+                  let top20_length_13_week2_all = buckets_child_13_2.length; // n个
+                  let i_13_2;
+                  function Return_KeyValue_13_un(key) {
+                    let value;
+                    for (
+                      i_13_2 = 0;
+                      i_13_2 < top20_length_13_week2_all;
+                      i_13_2++
+                    ) {
+                      if (buckets_child_13_2[i_13_2].key == key) {
+                        value = commonTools.returnFloat_2(
+                          buckets_child_13_2[i_13_2].onlive_user_num.value /
+                          10000
+                        );
+                        break;
+                      }
+                    }
+                    return value;
+                  }
+                  // 遍历 本月（先）top 15的key
+                  for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                    Vue.set(
+                      temp_data_13_un[top20_length_13 - i_13],
+                      2,
+                      Return_KeyValue_13_un(
+                        temp_data_13_un[top20_length_13 - i_13][0]
+                      )
+                    );
+                  }
+                }
+                vm.mobileLiveViewerData.data = temp_data_13_un;
+              } catch (error) {
+                console.log(error);
+                vm.mobileLiveViewerData.data = [];
+              }
 
               // 之后的联通 电信的数据要 慢一拍set！
 
@@ -2872,6 +2951,86 @@ export default {
                     );
                   }
                 });
+
+                try {
+                  let buckets_13 = responses5.aggregations.statistical_granularity.buckets;
+                  console.log("buckets_13-------------------*************", buckets_13)
+                  let length_13 = buckets_13.length; // 默认两月 - 2
+                  let i_13;
+                  let temp_data_13_un = [];
+
+                  temp_data_13_un.push(["product", "本月", "上月"]);
+
+                  let top20_length_13 = 20;
+                  if (buckets_13[length_13 - 1].channel.buckets.length < 20) {
+                    top20_length_13 = buckets_13[length_13 - 1].channel.buckets.length;
+                  }
+                  for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                    temp_data_13_un.push([]);
+                  }
+                  let month_index_current = length_13 - 1;
+                  // if (length_13 == 1) {
+                  // month_index_current = 0;
+                  // }
+                  // 本月
+                  for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                    // 一
+                    Vue.set(
+                      temp_data_13_un[top20_length_13 - i_13],
+                      0,
+                      buckets_13[month_index_current].channel.buckets[i_13].key
+                    );
+                    Vue.set(
+                      temp_data_13_un[top20_length_13 - i_13],
+                      1,
+                      commonTools.returnFloat_2(
+                        buckets_13[month_index_current].channel.buckets[i_13]
+                          .onlive_user_num.value / 10000
+                      )
+                    );
+                  }
+                  // ////// 上月
+                  if (length_13 > 1) {
+                    let buckets_child_13_2 =
+                      responses5.aggregations.statistical_granularity.buckets[
+                        length_13 - 2
+                      ].channel.buckets;
+                    let top20_length_13_week2_all = buckets_child_13_2.length; // n个
+                    let i_13_2;
+                    function Return_KeyValue_13_un(key) {
+                      let value;
+                      for (
+                        i_13_2 = 0;
+                        i_13_2 < top20_length_13_week2_all;
+                        i_13_2++
+                      ) {
+                        if (buckets_child_13_2[i_13_2].key == key) {
+                          value = commonTools.returnFloat_2(
+                            buckets_child_13_2[i_13_2].onlive_user_num.value /
+                            10000
+                          );
+                          break;
+                        }
+                      }
+                      return value;
+                    }
+                    // 遍历 本月（先）top 15的key
+                    for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                      Vue.set(
+                        temp_data_13_un[top20_length_13 - i_13],
+                        2,
+                        Return_KeyValue_13_un(
+                          temp_data_13_un[top20_length_13 - i_13][0]
+                        )
+                      );
+                    }
+                  }
+                  vm.unicornLiveViewerData.data = temp_data_13_un;
+                } catch (error) {
+                  console.log(error);
+                  vm.unicornLiveViewerData.data = [];
+                }
+
               } catch (error) {
                 console.log(error);
                 Vue.set(vm.areaPowerActivityData.data, 2, ["联通"]);
@@ -3186,11 +3345,95 @@ export default {
                   });
                 }
               }, 1000); // 联通延时 500ms 电信延时1000ms
+
+
             } catch (error) {
               console.log(error);
               vm.liveViewingDurationData.content = [];
               vm.liveViewingUserData.content = [];
               vm.liveViewingTimesData.content = [];
+            }
+
+            // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 left dx
+            // 结构类似 row12
+            try {
+              let buckets_13 = responses5.aggregations.statistical_granularity.buckets;
+              console.log("buckets_13----------***********", buckets_13)
+              let length_13 = buckets_13.length; // 默认两月 - 2
+              let i_13;
+              let temp_data_13_un = [];
+
+              temp_data_13_un.push(["product", "本月", "上月"]);
+
+              let top20_length_13 = 20;
+              if (buckets_13[length_13 - 1].channel.buckets.length < 20) {
+                top20_length_13 = buckets_13[length_13 - 1].channel.buckets.length;
+              }
+              for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                temp_data_13_un.push([]);
+              }
+              let month_index_current = length_13 - 1;
+              // if (length_13 == 1) {
+              // month_index_current = 0;
+              // }
+              // 本月
+              for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                // 一
+                Vue.set(
+                  temp_data_13_un[top20_length_13 - i_13],
+                  0,
+                  buckets_13[month_index_current].channel.buckets[i_13].key
+                );
+                Vue.set(
+                  temp_data_13_un[top20_length_13 - i_13],
+                  1,
+                  commonTools.returnFloat_2(
+                    buckets_13[month_index_current].channel.buckets[i_13]
+                      .onlive_user_num.value / 10000
+                  )
+                );
+              }
+              // ////// 上月
+              if (length_13 > 1) {
+                let buckets_child_13_2 =
+                  responses5.aggregations.statistical_granularity.buckets[
+                    length_13 - 2
+                  ].channel.buckets;
+                let top20_length_13_week2_all = buckets_child_13_2.length; // n个
+                let i_13_2;
+                function Return_KeyValue_13_un(key) {
+                  let value;
+                  for (
+                    i_13_2 = 0;
+                    i_13_2 < top20_length_13_week2_all;
+                    i_13_2++
+                  ) {
+                    if (buckets_child_13_2[i_13_2].key == key) {
+                      value = commonTools.returnFloat_2(
+                        buckets_child_13_2[i_13_2].onlive_user_num.value /
+                        10000
+                      );
+                      break;
+                    }
+                  }
+                  return value;
+                }
+                // 遍历 本月（先）top 15的key
+                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
+                  Vue.set(
+                    temp_data_13_un[top20_length_13 - i_13],
+                    2,
+                    Return_KeyValue_13_un(
+                      temp_data_13_un[top20_length_13 - i_13][0]
+                    )
+                  );
+                }
+              }
+
+              vm.telecomLiveViewerData.data = temp_data_13_un;
+            } catch (error) {
+              console.log(error);
+              vm.telecomLiveViewerData.data = [];
             }
           }
 
@@ -3641,86 +3884,7 @@ export default {
                 Vue.set(vm.everyPowerActivityData.data, 0, []);
                 Vue.set(vm.everyPowerActivityData.data, 1, []);
               }
-              // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 responses5 left yd
-              // 结构类似 row12
-              try {
-                let buckets_13 =
-                  responses5.aggregations.statistical_granularity.buckets;
-                let length_13 = buckets_13.length; // 默认两月 - 2
-                let i_13;
-                let temp_data_13_un = [];
 
-                temp_data_13_un.push(["product", "本月", "上月"]);
-
-                let top20_length_13 = 20;
-                if (buckets_13[0].channel.buckets.length < 20) {
-                  top20_length_13 = buckets_13[0].channel.buckets.length;
-                }
-                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                  temp_data_13_un.push([]);
-                }
-                let month_index_current = length_13 - 1; // 倒数第一个
-                // if (length_13 == 1) {
-                // month_index_current = 0;
-                // }
-                // 本月
-                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                  // 一
-                  Vue.set(
-                    temp_data_13_un[top20_length_13 - i_13],
-                    0,
-                    buckets_13[month_index_current].channel.buckets[i_13].key
-                  );
-                  Vue.set(
-                    temp_data_13_un[top20_length_13 - i_13],
-                    1,
-                    commonTools.returnFloat_2(
-                      buckets_13[month_index_current].channel.buckets[i_13]
-                        .onlive_user_num.value / 10000
-                    )
-                  );
-                }
-                // ////// 上月
-                if (length_13 > 1) {
-                  let buckets_child_13_2 =
-                    responses5.aggregations.statistical_granularity.buckets[
-                      length_13 - 2
-                    ].channel.buckets;
-                  let top20_length_13_week2_all = buckets_child_13_2.length; // n个
-                  let i_13_2;
-                  function Return_KeyValue_13_un(key) {
-                    let value;
-                    for (
-                      i_13_2 = 0;
-                      i_13_2 < top20_length_13_week2_all;
-                      i_13_2++
-                    ) {
-                      if (buckets_child_13_2[i_13_2].key == key) {
-                        value = commonTools.returnFloat_2(
-                          buckets_child_13_2[i_13_2].onlive_user_num.value /
-                          10000
-                        );
-                        break;
-                      }
-                    }
-                    return value;
-                  }
-                  // 遍历 本月（先）top 15的key
-                  for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                    Vue.set(
-                      temp_data_13_un[top20_length_13 - i_13],
-                      2,
-                      Return_KeyValue_13_un(
-                        temp_data_13_un[top20_length_13 - i_13][0]
-                      )
-                    );
-                  }
-                }
-                vm.mobileLiveViewerData.data = temp_data_13_un;
-              } catch (error) {
-                console.log(error);
-                vm.mobileLiveViewerData.data = [];
-              }
             } // yd
 
             if (type == "lt") {
@@ -3838,84 +4002,7 @@ export default {
 
               // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 left lt
               // 结构类似 row12
-              try {
-                let buckets_13 =
-                  responses5.aggregations.statistical_granularity.buckets;
-                let length_13 = buckets_13.length; // 默认两月 - 2
-                let i_13;
-                let temp_data_13_un = [];
 
-                temp_data_13_un.push(["product", "本月", "上月"]);
-
-                let top20_length_13 = 20;
-                if (buckets_13[0].channel.buckets.length < 20) {
-                  top20_length_13 = buckets_13[0].channel.buckets.length;
-                }
-                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                  temp_data_13_un.push([]);
-                }
-                let month_index_current = length_13 - 1;
-                // if (length_13 == 1) {
-                // month_index_current = 0;
-                // }
-                // 本月
-                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                  // 一
-                  Vue.set(
-                    temp_data_13_un[top20_length_13 - i_13],
-                    0,
-                    buckets_13[month_index_current].channel.buckets[i_13].key
-                  );
-                  Vue.set(
-                    temp_data_13_un[top20_length_13 - i_13],
-                    1,
-                    commonTools.returnFloat_2(
-                      buckets_13[month_index_current].channel.buckets[i_13]
-                        .onlive_user_num.value / 10000
-                    )
-                  );
-                }
-                // ////// 上月
-                if (length_13 > 1) {
-                  let buckets_child_13_2 =
-                    responses5.aggregations.statistical_granularity.buckets[
-                      length_13 - 2
-                    ].channel.buckets;
-                  let top20_length_13_week2_all = buckets_child_13_2.length; // n个
-                  let i_13_2;
-                  function Return_KeyValue_13_un(key) {
-                    let value;
-                    for (
-                      i_13_2 = 0;
-                      i_13_2 < top20_length_13_week2_all;
-                      i_13_2++
-                    ) {
-                      if (buckets_child_13_2[i_13_2].key == key) {
-                        value = commonTools.returnFloat_2(
-                          buckets_child_13_2[i_13_2].onlive_user_num.value /
-                          10000
-                        );
-                        break;
-                      }
-                    }
-                    return value;
-                  }
-                  // 遍历 本月（先）top 15的key
-                  for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                    Vue.set(
-                      temp_data_13_un[top20_length_13 - i_13],
-                      2,
-                      Return_KeyValue_13_un(
-                        temp_data_13_un[top20_length_13 - i_13][0]
-                      )
-                    );
-                  }
-                }
-                vm.unicornLiveViewerData.data = temp_data_13_un;
-              } catch (error) {
-                console.log(error);
-                vm.unicornLiveViewerData.data = [];
-              }
             }
             if (type == "dx") {
               console.log("电信 单运营商一月分天", tempOperatorArr);
@@ -4011,87 +4098,6 @@ export default {
                 // vm.weekliveViewDurationData.content = [];
               }
 
-              // /////////////////// 本地直播及轮播频道用户收视行为分析 row13 left dx
-              // 结构类似 row12
-              try {
-                let buckets_13 =
-                  responses5.aggregations.statistical_granularity.buckets;
-                let length_13 = buckets_13.length; // 默认两月 - 2
-                let i_13;
-                let temp_data_13_un = [];
-
-                temp_data_13_un.push(["product", "本月", "上月"]);
-
-                let top20_length_13 = 20;
-                if (buckets_13[0].channel.buckets.length < 20) {
-                  top20_length_13 = buckets_13[0].channel.buckets.length;
-                }
-                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                  temp_data_13_un.push([]);
-                }
-                let month_index_current = length_13 - 1;
-                // if (length_13 == 1) {
-                // month_index_current = 0;
-                // }
-                // 本月
-                for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                  // 一
-                  Vue.set(
-                    temp_data_13_un[top20_length_13 - i_13],
-                    0,
-                    buckets_13[month_index_current].channel.buckets[i_13].key
-                  );
-                  Vue.set(
-                    temp_data_13_un[top20_length_13 - i_13],
-                    1,
-                    commonTools.returnFloat_2(
-                      buckets_13[month_index_current].channel.buckets[i_13]
-                        .onlive_user_num.value / 10000
-                    )
-                  );
-                }
-                // ////// 上月
-                if (length_13 > 1) {
-                  let buckets_child_13_2 =
-                    responses5.aggregations.statistical_granularity.buckets[
-                      length_13 - 2
-                    ].channel.buckets;
-                  let top20_length_13_week2_all = buckets_child_13_2.length; // n个
-                  let i_13_2;
-                  function Return_KeyValue_13_un(key) {
-                    let value;
-                    for (
-                      i_13_2 = 0;
-                      i_13_2 < top20_length_13_week2_all;
-                      i_13_2++
-                    ) {
-                      if (buckets_child_13_2[i_13_2].key == key) {
-                        value = commonTools.returnFloat_2(
-                          buckets_child_13_2[i_13_2].onlive_user_num.value /
-                          10000
-                        );
-                        break;
-                      }
-                    }
-                    return value;
-                  }
-                  // 遍历 本月（先）top 15的key
-                  for (i_13 = 0; i_13 < top20_length_13; i_13++) {
-                    Vue.set(
-                      temp_data_13_un[top20_length_13 - i_13],
-                      2,
-                      Return_KeyValue_13_un(
-                        temp_data_13_un[top20_length_13 - i_13][0]
-                      )
-                    );
-                  }
-                }
-
-                vm.telecomLiveViewerData.data = temp_data_13_un;
-              } catch (error) {
-                console.log(error);
-                vm.telecomLiveViewerData.data = [];
-              }
             }
 
             // //////////////////// 日开机活跃数据  row8 responses0 -- everyPowerActivityData 3
@@ -5032,7 +5038,8 @@ export default {
 
       //直播频道观看用户数排名（万户）
       liveViewerData: {
-        title: "直播频道观看用户数排名（万户）",
+        // title: "直播频道观看用户数排名（万户）",    //11/1日14：22修改 单位为百万
+        title: "直播频道观看用户数排名（百万户）",
         id: "liveViewer",
         color: ["#5b9bd4", "#A4A4A4"],
         data: [

@@ -134,175 +134,189 @@ export default {
       console.log("在网用户数据------------------------")
       console.log("ULC - api_data3:");
       console.log(newValue);
+      vm.total_user_data = []
+      vm.active_user = []
+      vm.silence_user = []
+      vm.downtime_user = []
 
-      let inTheNetworkData = newValue.aggregations.flag_identity.buckets
-      let active_user_temp = []  //活跃用户
-      let silence_user_temp = []  //沉默用户
-      let downtime_user_temp = []  //停机用户
-      let total_user_temp = []  //总的用户数据
-      let total_register_num = 0   //总的在册用户
-      let total_watch_dur = 0   //总的观看时长
-      let total_watch_user_num = 0   //总的观看用户数
-      let total_watch_dur_family   //总的户均观看时长
-      let total_cum_paid_num = 0   //总的订购用户
+      vm.Net_data1.data2 = []
+      vm.Net_data2.data2 = []
+      vm.Net_data3.data2 = []
+      vm.Net_data4.data2 = []
 
-      //用户画像
-      let active_user_por_temp = []   //活跃用户
-      let silence_user_por_temp = []   //沉默用户
-      let downtime_user_por_temp = []   //停机用户
-      let total_user_por_temp = []   //总体数据
+      try {
 
-      let total_firsttime_num = 0   //总的firsttime_num
-      let total_oncetime_num = 0   //总的oncetime_num
-      let total_loyal_user_num = 0   //总的loyal_user_num
-      let total_unord_num = 0   //总的unord_num
-      let total_repurchase_num = 0   //总的repurchase_num
-      let total_lapsed_num = 0   //总的lapsed_num
+        let inTheNetworkData = newValue.aggregations.flag_identity.buckets
+        let active_user_temp = []  //活跃用户
+        let silence_user_temp = []  //沉默用户
+        let downtime_user_temp = []  //停机用户
+        let total_user_temp = []  //总的用户数据
+        let total_register_num = 0   //总的在册用户
+        let total_watch_dur = 0   //总的观看时长
+        let total_watch_user_num = 0   //总的观看用户数
+        let total_watch_dur_family   //总的户均观看时长
+        let total_cum_paid_num = 0   //总的订购用户
 
-      inTheNetworkData.forEach((value, index) => {
-        // console.log("--------------------")
-        // console.log(value.key, value.register_num.value, value.watch_dur_family.value, value.cum_paid_num.value)
-        // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
-        // console.log("--------------------")
-        let register_num = Number((value.register_num.value / 10000).toFixed(2))
-        let watch_dur_family = ((value.watch_dur.value / 60) / value.watch_user_num.value).toFixed(2)
-        let cum_paid_rate = Number(((value.cum_paid_num.value / value.register_num.value) * 100).toFixed(2)) + '%'
-        if (value.key == 'active_user') {
-          // console.log(value)
-          active_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
-          active_user_por_temp.push({
-            value: value.firsttime_num.value,
-            name: "尝试购买"
-          })
-          active_user_por_temp.push({
-            value: value.oncetime_num.value,
-            name: "一次性购买"
-          })
-          active_user_por_temp.push({
-            value: value.loyal_user_num.value,
-            name: "忠诚用户"
-          })
-          active_user_por_temp.push({
-            value: value.unord_num.value,
-            name: "从未订购"
-          })
-          active_user_por_temp.push({
-            value: value.repurchase_num.value,
-            name: "重新激活"
-          })
-          active_user_por_temp.push({
-            value: value.lapsed_num.value,
-            name: "睡眠用户"
-          })
-        } else if (value.key == 'silence_user') {
-          silence_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
-          silence_user_por_temp.push({
-            value: value.firsttime_num.value,
-            name: "尝试购买"
-          })
-          silence_user_por_temp.push({
-            value: value.oncetime_num.value,
-            name: "一次性购买"
-          })
-          silence_user_por_temp.push({
-            value: value.loyal_user_num.value,
-            name: "忠诚用户"
-          })
-          silence_user_por_temp.push({
-            value: value.unord_num.value,
-            name: "从未订购"
-          })
-          silence_user_por_temp.push({
-            value: value.repurchase_num.value,
-            name: "重新激活"
-          })
-          silence_user_por_temp.push({
-            value: value.lapsed_num.value,
-            name: "睡眠用户"
-          })
-        } else if (value.key == 'downtime_user') {
-          downtime_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
-          downtime_user_por_temp.push({
-            value: value.firsttime_num.value,
-            name: "尝试购买"
-          })
-          downtime_user_por_temp.push({
-            value: value.oncetime_num.value,
-            name: "一次性购买"
-          })
-          downtime_user_por_temp.push({
-            value: value.loyal_user_num.value,
-            name: "忠诚用户"
-          })
-          downtime_user_por_temp.push({
-            value: value.unord_num.value,
-            name: "从未订购"
-          })
-          downtime_user_por_temp.push({
-            value: value.repurchase_num.value,
-            name: "重新激活"
-          })
-          downtime_user_por_temp.push({
-            value: value.lapsed_num.value,
-            name: "睡眠用户"
-          })
-        }
-        total_register_num += value.register_num.value  //总在册人数
-        total_watch_dur += value.watch_dur.value   //总的观看时长(小时)
-        total_watch_user_num += value.watch_user_num.value  //总的观看用户数
-        total_watch_dur_family = (total_watch_dur / 60) / total_watch_user_num
-        total_cum_paid_num += value.cum_paid_num.value  //总订购人数
+        //用户画像
+        let active_user_por_temp = []   //活跃用户
+        let silence_user_por_temp = []   //沉默用户
+        let downtime_user_por_temp = []   //停机用户
+        let total_user_por_temp = []   //总体数据
 
-        total_firsttime_num += value.firsttime_num.value
-        total_oncetime_num += value.oncetime_num.value
-        total_loyal_user_num += value.loyal_user_num.value
-        total_unord_num += value.unord_num.value
-        total_repurchase_num += value.repurchase_num.value
-        total_lapsed_num += value.lapsed_num.value
-      });
-      //总的订购用户占比
-      let total_cum_paid_rate = Number(((total_cum_paid_num / total_register_num) * 100).toFixed(2))
-      //总数据total_user_data
-      total_user_temp.push(Number((total_register_num / 10000).toFixed(2)))
-      total_user_temp.push(Number((total_watch_dur_family).toFixed(2)))
-      total_user_temp.push(total_cum_paid_rate + '%')
+        let total_firsttime_num = 0   //总的firsttime_num
+        let total_oncetime_num = 0   //总的oncetime_num
+        let total_loyal_user_num = 0   //总的loyal_user_num
+        let total_unord_num = 0   //总的unord_num
+        let total_repurchase_num = 0   //总的repurchase_num
+        let total_lapsed_num = 0   //总的lapsed_num
 
-      //得到总的用户画像
-      total_user_por_temp.push({
-        value: total_firsttime_num,
-        name: "尝试购买"
-      })
-      total_user_por_temp.push({
-        value: total_oncetime_num,
-        name: "一次性订购"
-      })
-      total_user_por_temp.push({
-        value: total_loyal_user_num,
-        name: "忠诚用户"
-      })
-      total_user_por_temp.push({
-        value: total_unord_num,
-        name: "从未订购"
-      })
-      total_user_por_temp.push({
-        value: total_repurchase_num,
-        name: "重新激活"
-      })
-      total_user_por_temp.push({
-        value: total_lapsed_num,
-        name: "睡眠用户"
-      })
+        inTheNetworkData.forEach((value, index) => {
+          // console.log("--------------------")
+          // console.log(value.key, value.register_num.value, value.watch_dur_family.value, value.cum_paid_num.value)
+          // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
+          // console.log("--------------------")
+          let register_num = Number((value.register_num.value / 10000).toFixed(2))
+          let watch_dur_family = ((value.watch_dur.value / 60) / value.watch_user_num.value).toFixed(2)
+          let cum_paid_rate = Number(((value.cum_paid_num.value / value.register_num.value) * 100).toFixed(2)) + '%'
+          if (value.key == 'active_user') {
+            // console.log(value)
+            active_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
+            active_user_por_temp.push({
+              value: value.firsttime_num.value,
+              name: "尝试购买"
+            })
+            active_user_por_temp.push({
+              value: value.oncetime_num.value,
+              name: "一次性购买"
+            })
+            active_user_por_temp.push({
+              value: value.loyal_user_num.value,
+              name: "忠诚用户"
+            })
+            active_user_por_temp.push({
+              value: value.unord_num.value,
+              name: "从未订购"
+            })
+            active_user_por_temp.push({
+              value: value.repurchase_num.value,
+              name: "重新激活"
+            })
+            active_user_por_temp.push({
+              value: value.lapsed_num.value,
+              name: "睡眠用户"
+            })
+          } else if (value.key == 'silence_user') {
+            silence_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
+            silence_user_por_temp.push({
+              value: value.firsttime_num.value,
+              name: "尝试购买"
+            })
+            silence_user_por_temp.push({
+              value: value.oncetime_num.value,
+              name: "一次性购买"
+            })
+            silence_user_por_temp.push({
+              value: value.loyal_user_num.value,
+              name: "忠诚用户"
+            })
+            silence_user_por_temp.push({
+              value: value.unord_num.value,
+              name: "从未订购"
+            })
+            silence_user_por_temp.push({
+              value: value.repurchase_num.value,
+              name: "重新激活"
+            })
+            silence_user_por_temp.push({
+              value: value.lapsed_num.value,
+              name: "睡眠用户"
+            })
+          } else if (value.key == 'downtime_user') {
+            downtime_user_temp.push(register_num, watch_dur_family, cum_paid_rate)
+            downtime_user_por_temp.push({
+              value: value.firsttime_num.value,
+              name: "尝试购买"
+            })
+            downtime_user_por_temp.push({
+              value: value.oncetime_num.value,
+              name: "一次性购买"
+            })
+            downtime_user_por_temp.push({
+              value: value.loyal_user_num.value,
+              name: "忠诚用户"
+            })
+            downtime_user_por_temp.push({
+              value: value.unord_num.value,
+              name: "从未订购"
+            })
+            downtime_user_por_temp.push({
+              value: value.repurchase_num.value,
+              name: "重新激活"
+            })
+            downtime_user_por_temp.push({
+              value: value.lapsed_num.value,
+              name: "睡眠用户"
+            })
+          }
+          total_register_num += value.register_num.value  //总在册人数
+          total_watch_dur += value.watch_dur.value   //总的观看时长(小时)
+          total_watch_user_num += value.watch_user_num.value  //总的观看用户数
+          total_watch_dur_family = (total_watch_dur / 60) / total_watch_user_num
+          total_cum_paid_num += value.cum_paid_num.value  //总订购人数
 
-      vm.total_user_data = total_user_temp
-      vm.active_user = active_user_temp
-      vm.silence_user = silence_user_temp
-      vm.downtime_user = downtime_user_temp
+          total_firsttime_num += value.firsttime_num.value
+          total_oncetime_num += value.oncetime_num.value
+          total_loyal_user_num += value.loyal_user_num.value
+          total_unord_num += value.unord_num.value
+          total_repurchase_num += value.repurchase_num.value
+          total_lapsed_num += value.lapsed_num.value
+        });
+        //总的订购用户占比
+        let total_cum_paid_rate = Number(((total_cum_paid_num / total_register_num) * 100).toFixed(2))
+        //总数据total_user_data
+        total_user_temp.push(Number((total_register_num / 10000).toFixed(2)))
+        total_user_temp.push(Number((total_watch_dur_family).toFixed(2)))
+        total_user_temp.push(total_cum_paid_rate + '%')
 
-      vm.Net_data1.data2 = total_user_por_temp
-      vm.Net_data2.data2 = active_user_por_temp
-      vm.Net_data3.data2 = silence_user_por_temp
-      vm.Net_data4.data2 = downtime_user_por_temp
+        //得到总的用户画像
+        total_user_por_temp.push({
+          value: total_firsttime_num,
+          name: "尝试购买"
+        })
+        total_user_por_temp.push({
+          value: total_oncetime_num,
+          name: "一次性订购"
+        })
+        total_user_por_temp.push({
+          value: total_loyal_user_num,
+          name: "忠诚用户"
+        })
+        total_user_por_temp.push({
+          value: total_unord_num,
+          name: "从未订购"
+        })
+        total_user_por_temp.push({
+          value: total_repurchase_num,
+          name: "重新激活"
+        })
+        total_user_por_temp.push({
+          value: total_lapsed_num,
+          name: "睡眠用户"
+        })
 
+        vm.total_user_data = total_user_temp
+        vm.active_user = active_user_temp
+        vm.silence_user = silence_user_temp
+        vm.downtime_user = downtime_user_temp
+
+        vm.Net_data1.data2 = total_user_por_temp
+        vm.Net_data2.data2 = active_user_por_temp
+        vm.Net_data3.data2 = silence_user_por_temp
+        vm.Net_data4.data2 = downtime_user_por_temp
+
+      } catch (error) {
+        console.log(error)
+      }
       // console.log("active_user_temp", active_user_temp)
       // console.log("silence_user_temp", silence_user_temp)
       // console.log("downtime_user_temp", downtime_user_temp)

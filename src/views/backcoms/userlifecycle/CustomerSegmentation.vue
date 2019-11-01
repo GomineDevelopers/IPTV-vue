@@ -158,16 +158,22 @@ export default {
     api_data5(newValue, oldValue) {
       console.log("用户细分ULC - api_data5:");
       console.log(newValue);
-      let customerSegmentation = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
       let vm = this
-      let customerFirsttime_temp = []  //第一次购买
-      let customerOnectime_temp = []  //一次性购买
-      let customerLoyer_temp = []  //忠诚用户
-      let customerRepurchase_temp = []  //重新激活用户
-      let customerLapsed_temp = []  //睡眠用户
-      let customerNone_temp = []  //未订购用户
+      vm.customerSegmentation.categoryData[0].data = []
+      vm.customerSegmentation.categoryData[1].data = []
+      vm.customerSegmentation.categoryData[2].data = []
+      vm.customerSegmentation.categoryData[3].data = []
+      vm.customerSegmentation.categoryData[4].data = []
+      vm.customerSegmentation.categoryData[5].data = []
 
       try {
+        let customerSegmentation = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
+        let customerFirsttime_temp = []  //第一次购买
+        let customerOnectime_temp = []  //一次性购买
+        let customerLoyer_temp = []  //忠诚用户
+        let customerRepurchase_temp = []  //重新激活用户
+        let customerLapsed_temp = []  //睡眠用户
+        let customerNone_temp = []  //未订购用户
         customerSegmentation.forEach((value, index) => {
           // console.log(value.key)
           value.productname.buckets.forEach((value2, index2) => {
@@ -324,22 +330,35 @@ export default {
       console.log("用户生命周期收视次数TOP", newValue)
       console.log("用户生命周期收视次数------", newValue)
       let vm = this
-      let user_viewing_num_data = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
-      let viewing_num_firsttime_temp = []
-      let viewing_num_oncetime_temp = []
-      let viewing_num_loyal_temp = []
-      let viewing_num_other_temp = []
-      let viewing_num_repurchase_temp = []
-      let viewing_num_lapsed_temp = []
+      vm.NumberOfViewersTopList.data = []
+      vm.viewing_num_firsttime_temp = []
+      vm.viewing_num_oncetime_temp = []
+      vm.viewing_num_loyal_temp = []
+      vm.viewing_num_other_temp = []
+      vm.viewing_num_repurchase_temp = []
+      vm.viewing_num_lapsed_temp = []
 
-      let viewing_num_firsttime_bottom_temp = []    //收视bottom
-      let viewing_num_oncetime_bottom_temp = []   //收视bottom
-      let viewing_num_loyal_bottom_temp = []   //收视bottom
-      let viewing_num_other_bottom_temp = []   //收视bottom
-      let viewing_num_repurchase_bottom_temp = []   //收视bottom
-      let viewing_num_lapsed_bottom_temp = []   //收视bottom
-
+      vm.viewing_num_firsttime_bottom_temp = []
+      vm.viewing_num_oncetime_bottom_temp = []
+      vm.viewing_num_loyal_bottom_temp = []
+      vm.viewing_num_other_bottom_temp = []
+      vm.viewing_num_repurchase_bottom_temp = []
+      vm.viewing_num_lapsed_bottom_temp = []
       try {
+        let user_viewing_num_data = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
+        let viewing_num_firsttime_temp = []
+        let viewing_num_oncetime_temp = []
+        let viewing_num_loyal_temp = []
+        let viewing_num_other_temp = []
+        let viewing_num_repurchase_temp = []
+        let viewing_num_lapsed_temp = []
+
+        let viewing_num_firsttime_bottom_temp = []    //收视bottom
+        let viewing_num_oncetime_bottom_temp = []   //收视bottom
+        let viewing_num_loyal_bottom_temp = []   //收视bottom
+        let viewing_num_other_bottom_temp = []   //收视bottom
+        let viewing_num_repurchase_bottom_temp = []   //收视bottom
+        let viewing_num_lapsed_bottom_temp = []   //收视bottom
         user_viewing_num_data.forEach((value, index) => {
           if (value.key == 'firsttime') {
             // console.log(value.key)
@@ -604,22 +623,35 @@ export default {
     api_data7(newValue, oldValue) {
       // console.log("用户生命周期收视时长------", newValue)
       let vm = this
-      let user_viewing_time_data = newValue.aggregations.flag_user.buckets
-      let viewing_time_firsttime_temp = []    //收视top
-      let viewing_time_oncetime_temp = []   //收视top
-      let viewing_time_loyal_temp = []   //收视top
-      let viewing_time_other_temp = []   //收视top
-      let viewing_time_repurchase_temp = []   //重新激活
-      let viewing_time_lapsed_temp = []   //重新激活
+      vm.viewingTopList.data = []
+      vm.viewing_time_firsttime_temp = []
+      vm.viewing_time_oncetime_temp = []
+      vm.viewing_time_loyal_temp = []
+      vm.viewing_time_other_temp = []
+      vm.viewing_time_repurchase_temp = []
+      vm.viewing_time_lapsed_temp = []
 
-      let viewing_time_firsttime_bottom_temp = []    //收视bottom
-      let viewing_time_oncetime_bottom_temp = []   //收视bottom
-      let viewing_time_loyal_bottom_temp = []   //收视bottom
-      let viewing_time_other_bottom_temp = []   //收视bottom
-      let viewing_time_repurchase_bottom_temp = []   //重新激活
-      let viewing_time_lapsed_bottom_temp = []   //重新激活
-
+      vm.viewing_time_firsttime_bottom_temp = []
+      vm.viewing_time_oncetime_bottom_temp = []
+      vm.viewing_time_loyal_bottom_temp = []
+      vm.viewing_time_other_bottom_temp = []
+      vm.viewing_time_repurchase_bottom_temp = []
+      vm.viewing_time_lapsed_bottom_temp = []
       try {
+        let user_viewing_time_data = newValue.aggregations.flag_user.buckets
+        let viewing_time_firsttime_temp = []    //收视top
+        let viewing_time_oncetime_temp = []   //收视top
+        let viewing_time_loyal_temp = []   //收视top
+        let viewing_time_other_temp = []   //收视top
+        let viewing_time_repurchase_temp = []   //重新激活
+        let viewing_time_lapsed_temp = []   //重新激活
+
+        let viewing_time_firsttime_bottom_temp = []    //收视bottom
+        let viewing_time_oncetime_bottom_temp = []   //收视bottom
+        let viewing_time_loyal_bottom_temp = []   //收视bottom
+        let viewing_time_other_bottom_temp = []   //收视bottom
+        let viewing_time_repurchase_bottom_temp = []   //重新激活
+        let viewing_time_lapsed_bottom_temp = []   //重新激活
         user_viewing_time_data.forEach((value, index) => {
           if (value.key == 'firsttime') {
             // console.log(value.key)
