@@ -330,10 +330,10 @@ export default {
           }
         },
         legend: {
-          icon: "circle",
+          icon: "re",
           top: "10%",
-          itemWidth: 6, // 设置宽度
-          itemHeight: 6, // 设置高度
+          itemWidth: 20, // 设置宽度
+          itemHeight: 2, // 设置高度
           itemGap: 20, // 设置间距
           textStyle: {
             fontSize: 14,
@@ -488,7 +488,7 @@ export default {
           top: "30%",
           left: "15",
           right: "25",
-          bottom: "10"
+          bottom: "20"
         },
         series: seriesData
       };

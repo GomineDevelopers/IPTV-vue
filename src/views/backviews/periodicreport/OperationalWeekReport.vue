@@ -407,7 +407,7 @@ export default {
     PR_week(newValue, oldValue) {
       let vm = this;
       console.log("PR_week: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         let operator_type = "";
         if (vm.PR_operator[0] == "移动") {
           operator_type = "yd";
@@ -422,14 +422,14 @@ export default {
         vm.refresh_api_data(operator_type, "week_days");
         // excel 处理
       }, 100);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.Excel_data_manage();
       }, 200);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       console.log("PR_week: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         let operator_type = "";
 
         if (newValue[0] == "移动") {
@@ -445,7 +445,7 @@ export default {
         vm.refresh_api_data(operator_type, "week_days");
         // excel 处理
       }, 100);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.Excel_data_manage();
       }, 200);
     }
@@ -458,7 +458,7 @@ export default {
   mounted() {
     // 数据刷新
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       let operator_type = "";
       if (vm.PR_operator[0] == "移动") {
         operator_type = "yd";
@@ -475,7 +475,7 @@ export default {
       vm.Excel_data_manage();
     }, 200);
 
-    $(".operational_left_content_body").scroll(function (event) {
+    $(".operational_left_content_body").scroll(function(event) {
       let scrollTopHeight = $(".operational_left_content_body").scrollTop();
       // let weekly_whole_data = document.querySelector('#weekly_whole_data').offsetTop
       // let weekly_data_on_demand = document.querySelector('#weekly_data_on_demand').offsetTop
@@ -535,13 +535,13 @@ export default {
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function (response_dataArr) {
+        .then(function(response_dataArr) {
           console.log("下载关");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
-      setTimeout(function () {
+      setTimeout(function() {
         if (vm.PR_Report_index == 4) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -611,7 +611,7 @@ export default {
               // }
               // => temp_columnButtonClickNum_data = [ [string{..},{..}],[{..},{},{}],[{}] ]
               // => temp_str
-              console.log(temp_str);
+              // console.log(temp_str);
               temp_columnButtonClickNum_data.push(temp_str);
               temp_columnButtonClickNum_title.push([
                 value.columnButtonClickNum.title
@@ -726,27 +726,27 @@ export default {
 
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
-            .then(function (response_title) {
+            .then(function(response_title) {
               console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
-                .then(function (response_dataArr) {
+                .then(function(response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function (response_dataArr) {
+                    .then(function(response_dataArr) {
                       console.log("下载开");
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                       console.info(error);
                     });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.info(error);
                 });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         }
@@ -816,7 +816,7 @@ export default {
       formData.append("end", temp.end);
       formData.append("year", temp.year);
       users_mobileReport(formData)
-        .then(function (response) {
+        .then(function(response) {
           // //////////////////////////////// 数据填充
           if (week_type == "week") {
             console.log("users_mobileReport  week");
@@ -920,14 +920,18 @@ export default {
               temp_data_8910_3.push(buckets_9[0].click_user_num.value);
               temp_data_8910_4.push(buckets_9[0].click_freq.value);
               temp_data_8910_5.push(buckets_8[0].access_freq.value);
-              temp_data_8910_6.push((buckets_10[0].demand_dur.value / 60).toFixed(2)); //
+              temp_data_8910_6.push(
+                (buckets_10[0].demand_dur.value / 60).toFixed(2)
+              ); //
 
               temp_data_8910_1.push(buckets_8[1].access_user_num.value);
               temp_data_8910_2.push(buckets_8[1].access_freq.value);
               temp_data_8910_3.push(buckets_9[1].click_user_num.value);
               temp_data_8910_4.push(buckets_9[1].click_freq.value);
               temp_data_8910_5.push(buckets_8[1].access_freq.value);
-              temp_data_8910_6.push((buckets_10[1].demand_dur.value / 60).toFixed(2)); //
+              temp_data_8910_6.push(
+                (buckets_10[1].demand_dur.value / 60).toFixed(2)
+              ); //
 
               // 环比算法  （本期数值-上期数值）/上期数值
 
@@ -1103,7 +1107,10 @@ export default {
               }
               for (i_12 = 0; i_12 < top15_length_12; i_12++) {
                 let temp_key_add =
-                  buckets_12[1].programname.buckets[i_12].program_type.buckets[0].key + " - " + temp_data_12[top15_length_12 - i_12][0];
+                  buckets_12[1].programname.buckets[i_12].program_type
+                    .buckets[0].key +
+                  " - " +
+                  temp_data_12[top15_length_12 - i_12][0];
                 Vue.set(temp_data_12[top15_length_12 - i_12], 0, temp_key_add);
               }
 
@@ -1114,7 +1121,7 @@ export default {
               console.log(error);
             }
 
-            // //////////////// 各类型节目点播数据 (row5 )   responses 13  
+            // //////////////// 各类型节目点播数据 (row5 )   responses 13
             // 结构类似：(row8 right )
             // ////// 本周（先） 上周（后）
             // dibbleSeedingUserNumData  点播用户数（万户）  demand_user_num
@@ -1169,8 +1176,10 @@ export default {
                   temp_data_13_dun[top15_length_13 - i_13],
                   1,
                   commonTools.returnFloat_2(
-                    Number(buckets_13[1].program_type.buckets[i_13].demand_user_num
-                      .value) / 10000
+                    Number(
+                      buckets_13[1].program_type.buckets[i_13].demand_user_num
+                        .value
+                    ) / 10000
                   )
                 );
                 // 二 0 1
@@ -1183,8 +1192,9 @@ export default {
                   temp_data_13_df[top15_length_13 - i_13],
                   1,
                   commonTools.returnFloat_2(
-                    Number(buckets_13[1].program_type.buckets[i_13].demand_freq.value) /
-                    10000
+                    Number(
+                      buckets_13[1].program_type.buckets[i_13].demand_freq.value
+                    ) / 10000
                   )
                 );
                 // 三 0 1
@@ -1197,9 +1207,11 @@ export default {
                   temp_data_13_dd[top15_length_13 - i_13],
                   1,
                   commonTools.returnFloat_2(
-                    Number(buckets_13[1].program_type.buckets[i_13].demand_dur.value) /
-                    10000 /
-                    60
+                    Number(
+                      buckets_13[1].program_type.buckets[i_13].demand_dur.value
+                    ) /
+                      10000 /
+                      60
                   )
                 );
               }
@@ -1216,7 +1228,7 @@ export default {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     // console.log(buckets_child_13_2[i_13_2].key);
                     value = commonTools.returnFloat_2(
-                      (buckets_child_13_2[i_13_2].demand_user_num.value) / 10000
+                      buckets_child_13_2[i_13_2].demand_user_num.value / 10000
                     );
                     break;
                   }
@@ -1229,7 +1241,8 @@ export default {
                 for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      Number(buckets_child_13_2[i_13_2].demand_freq.value) / 10000
+                      Number(buckets_child_13_2[i_13_2].demand_freq.value) /
+                        10000
                     );
                     break;
                   }
@@ -1242,7 +1255,9 @@ export default {
                 for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
                   if (buckets_child_13_2[i_13_2].key == key) {
                     value = commonTools.returnFloat_2(
-                      Number(buckets_child_13_2[i_13_2].demand_dur.value) / 10000 / 60
+                      Number(buckets_child_13_2[i_13_2].demand_dur.value) /
+                        10000 /
+                        60
                     );
                     break;
                   }
@@ -1279,10 +1294,10 @@ export default {
               console.log(temp_data_13_dun);
               console.log(temp_data_13_df);
               console.log(temp_data_13_dd);
-              
+
               vm.dibbleSeedingUserNumData.data = temp_data_13_dun;
               vm.dibbleSeedingNumData.data = temp_data_13_df;
-              vm.dibbleSeedingDurationData.data = temp_data_13_dd ;
+              vm.dibbleSeedingDurationData.data = temp_data_13_dd;
             } catch (error) {
               console.log(error);
             }
@@ -1328,7 +1343,9 @@ export default {
                 for (i_14_2 = 0; i_14_2 < top15_length_week2_all; i_14_2++) {
                   if (buckets_14_0[i_14_2].key == key) {
                     // console.log(buckets_14_0[i_14_2].key);
-                    value = (buckets_14_0[i_14_2].demand_freq.value / 10000).toFixed(2);
+                    value = (
+                      buckets_14_0[i_14_2].demand_freq.value / 10000
+                    ).toFixed(2);
                     break;
                   }
                 }
@@ -1349,8 +1366,10 @@ export default {
                 Vue.set(
                   temp_data_14[i_14 + 1],
                   3,
-                  ((temp_data_14[i_14 + 1][2] - temp_data_14[i_14 + 1][1]) /
-                    temp_data_14[i_14 + 1][1]).toFixed(2)
+                  (
+                    (temp_data_14[i_14 + 1][2] - temp_data_14[i_14 + 1][1]) /
+                    temp_data_14[i_14 + 1][1]
+                  ).toFixed(2)
                 ); // ▲ 3
               }
               // console.log("~~~~~~~~!!!");
@@ -1425,7 +1444,10 @@ export default {
                 Vue.set(
                   temp_data_16[top10_length_16 - i_16],
                   1,
-                  (buckets_16[1].programname.buckets[i_16].demand_freq.value / 10000).toFixed(2)
+                  (
+                    buckets_16[1].programname.buckets[i_16].demand_freq.value /
+                    10000
+                  ).toFixed(2)
                 );
               }
               // ////// 上周
@@ -1439,7 +1461,9 @@ export default {
                 for (i_16_2 = 0; i_16_2 < top10_length_16_week2_all; i_16_2++) {
                   if (buckets_child_16_2[i_16_2].key == key) {
                     // console.log(buckets_child_16_2[i_16_2].key);
-                    value = (buckets_child_16_2[i_16_2].demand_freq.value / 10000).toFixed(2);
+                    value = (
+                      buckets_child_16_2[i_16_2].demand_freq.value / 10000
+                    ).toFixed(2);
                     break;
                   }
                 }
@@ -1455,12 +1479,12 @@ export default {
               }
 
               for (i_16 = 0; i_16 < top10_length_16; i_16++) {
-                let temp_key_add = buckets_16[1].programname.buckets[i_16].program_type.buckets[0].key + " - " + temp_data_16[top10_length_16 - i_16][0]
-                Vue.set(
-                  temp_data_16[top10_length_16 - i_16],
-                  0,
-                  temp_key_add
-                );
+                let temp_key_add =
+                  buckets_16[1].programname.buckets[i_16].program_type
+                    .buckets[0].key +
+                  " - " +
+                  temp_data_16[top10_length_16 - i_16][0];
+                Vue.set(temp_data_16[top10_length_16 - i_16], 0, temp_key_add);
               }
 
               vm.localProgramsPlayTOPData.data = temp_data_16;
@@ -1492,7 +1516,9 @@ export default {
                 temp_data_17_1.push(
                   (buckets_17[i_17].onlive_user_num.value / 10000).toFixed(2)
                 );
-                temp_data_17_2.push((buckets_17[i_17].onlive_freq.value / 10000).toFixed(2));
+                temp_data_17_2.push(
+                  (buckets_17[i_17].onlive_freq.value / 10000).toFixed(2)
+                );
                 temp_data_17_3.push(
                   (buckets_17[i_17].onlive_dur.value / 10000 / 60).toFixed(2)
                 );
@@ -1537,8 +1563,8 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     buckets_18[1].programname.buckets[i_18].onlive_dur.value /
-                    10000 /
-                    60
+                      10000 /
+                      60
                   )
                 );
               }
@@ -1570,12 +1596,12 @@ export default {
                 );
               }
               for (i_18 = 0; i_18 < top15_length_18; i_18++) {
-                let temp_key_add = buckets_18[1].programname.buckets[i_18].channel.buckets[0].key + " - " + temp_data_18[top15_length_18 - i_18][0];
-                Vue.set(
-                  temp_data_18[top15_length_18 - i_18],
-                  0,
-                  temp_key_add
-                );
+                let temp_key_add =
+                  buckets_18[1].programname.buckets[i_18].channel.buckets[0]
+                    .key +
+                  " - " +
+                  temp_data_18[top15_length_18 - i_18][0];
+                Vue.set(temp_data_18[top15_length_18 - i_18], 0, temp_key_add);
               }
               vm.hebdomadLiveTOPData.data = temp_data_18;
             } catch (error) {
@@ -1622,23 +1648,39 @@ export default {
                 temp_data_19_3[i_19 + 1].push(buckets_19_child_0[i_19].key);
 
                 temp_data_19_1[i_19 + 1].push(
-                  (buckets_19_child_0[i_19].onlive_user_num.value / 10000).toFixed(2)
+                  (
+                    buckets_19_child_0[i_19].onlive_user_num.value / 10000
+                  ).toFixed(2)
                 );
                 temp_data_19_2[i_19 + 1].push(
-                  (buckets_19_child_0[i_19].onlive_freq.value / 10000).toFixed(2)
+                  (buckets_19_child_0[i_19].onlive_freq.value / 10000).toFixed(
+                    2
+                  )
                 );
                 temp_data_19_3[i_19 + 1].push(
-                  (buckets_19_child_0[i_19].onlive_dur.value / 10000 / 60).toFixed(2)
+                  (
+                    buckets_19_child_0[i_19].onlive_dur.value /
+                    10000 /
+                    60
+                  ).toFixed(2)
                 );
 
                 temp_data_19_1[i_19 + 1].push(
-                  (buckets_19_child_1[i_19].onlive_user_num.value / 10000).toFixed(2)
+                  (
+                    buckets_19_child_1[i_19].onlive_user_num.value / 10000
+                  ).toFixed(2)
                 );
                 temp_data_19_2[i_19 + 1].push(
-                  (buckets_19_child_1[i_19].onlive_freq.value / 10000).toFixed(2)
+                  (buckets_19_child_1[i_19].onlive_freq.value / 10000).toFixed(
+                    2
+                  )
                 );
                 temp_data_19_3[i_19 + 1].push(
-                  (buckets_19_child_1[i_19].onlive_dur.value / 10000 / 60).toFixed(2)
+                  (
+                    buckets_19_child_1[i_19].onlive_dur.value /
+                    10000 /
+                    60
+                  ).toFixed(2)
                 );
               }
 
@@ -1683,7 +1725,7 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     buckets_20[1].channel.buckets[i_20].onlive_user_num.value /
-                    10000
+                      10000
                   )
                 );
               }
@@ -1774,16 +1816,12 @@ export default {
                   Return_KeyValue_21(temp_data_21[i_21 + 1][0])
                 );
               }
-              function Manage_longKey(key){
-                return key.replace(" ","\n");
+              function Manage_longKey(key) {
+                return key.replace(" ", "\n");
               }
               for (i_21 = 0; i_21 < top10_length_21; i_21++) {
-                let newKey = Manage_longKey(temp_data_21[i_21 + 1][0])
-                Vue.set(
-                  temp_data_21[i_21 + 1],
-                  0,
-                  newKey
-                );
+                let newKey = Manage_longKey(temp_data_21[i_21 + 1][0]);
+                Vue.set(temp_data_21[i_21 + 1], 0, newKey);
               }
               vm.liveProgramTOPData.data = temp_data_21;
             } catch (error) {
@@ -1825,7 +1863,7 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     buckets_22[1].channel.buckets[i_22].onlive_user_num.value /
-                    10000
+                      10000
                   )
                 );
               }
@@ -1916,16 +1954,12 @@ export default {
                   Return_KeyValue_23(temp_data_23[i_23 + 1][0])
                 );
               }
-              function Manage_longKey(key){
-                return key.replace(" ","\n");
+              function Manage_longKey(key) {
+                return key.replace(" ", "\n");
               }
               for (i_23 = 0; i_23 < top5_length_23; i_23++) {
                 let newKey = Manage_longKey(temp_data_23[i_23 + 1][0]);
-                Vue.set(
-                  temp_data_23[i_23 + 1],
-                  0,
-                  newKey
-                );
+                Vue.set(temp_data_23[i_23 + 1], 0, newKey);
               }
               vm.localProgramTOPData.data = temp_data_23;
             } catch (error) {
@@ -1962,7 +1996,7 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     buckets_24[1].channel.buckets[i_24].onlive_user_num.value /
-                    10000
+                      10000
                   )
                 );
               }
@@ -2055,12 +2089,12 @@ export default {
               }
 
               for (i_25 = 0; i_25 < top10_length_25; i_25++) {
-                let temp_key_add = temp_data_25[i_25 + 1][0] +"\n"+ buckets_25[1].programname.buckets[i_25].channel.buckets[0].key
-                Vue.set(
-                  temp_data_25[i_25 + 1],
-                  0,
-                  temp_key_add
-                );
+                let temp_key_add =
+                  temp_data_25[i_25 + 1][0] +
+                  "\n" +
+                  buckets_25[1].programname.buckets[i_25].channel.buckets[0]
+                    .key;
+                Vue.set(temp_data_25[i_25 + 1], 0, temp_key_add);
               }
               vm.satelliteLiveProgramTOPData.data = temp_data_25;
             } catch (error) {
@@ -2130,8 +2164,10 @@ export default {
                 Vue.set(
                   temp_data_26[i_26 + 1],
                   3,
-                  ((temp_data_26[i_26 + 1][2] - temp_data_26[i_26 + 1][1]) /
-                    temp_data_26[i_26 + 1][1]).toFixed(2)
+                  (
+                    (temp_data_26[i_26 + 1][2] - temp_data_26[i_26 + 1][1]) /
+                    temp_data_26[i_26 + 1][1]
+                  ).toFixed(2)
                 );
               }
               vm.carouselChannelData.data = temp_data_26;
@@ -2220,72 +2256,94 @@ export default {
                   Vue.set(
                     DATA_weeklyThermodynamic[1],
                     2,
-                    (buckets_28[i_28].statistical_granularity.buckets[1]
-                      .access_user_num.value / 10000).toFixed(2)
+                    (
+                      buckets_28[i_28].statistical_granularity.buckets[1]
+                        .access_user_num.value / 10000
+                    ).toFixed(2)
                   );
                   Vue.set(
                     DATA_weeklyThermodynamic[2],
                     2,
-                    (buckets_28[i_28].statistical_granularity.buckets[1]
-                      .access_freq.value / 10000).toFixed(2)
+                    (
+                      buckets_28[i_28].statistical_granularity.buckets[1]
+                        .access_freq.value / 10000
+                    ).toFixed(2)
                   );
                   Vue.set(
                     DATA_weeklyThermodynamic[5],
                     2,
-                    (buckets_34[i_28].statistical_granularity.buckets[1]
-                      .demand_dur.value / 10000 / 60 ).toFixed(2)
+                    (
+                      buckets_34[i_28].statistical_granularity.buckets[1]
+                        .demand_dur.value /
+                      10000 /
+                      60
+                    ).toFixed(2)
                   );
 
                   // 上周 - ▲ 1
                   Vue.set(
                     DATA_weeklyThermodynamic[1],
                     1,
-                    (buckets_28[i_28].statistical_granularity.buckets[0]
-                      .access_user_num.value / 10000).toFixed(2)
+                    (
+                      buckets_28[i_28].statistical_granularity.buckets[0]
+                        .access_user_num.value / 10000
+                    ).toFixed(2)
                   );
                   Vue.set(
                     DATA_weeklyThermodynamic[2],
                     1,
-                    (buckets_28[i_28].statistical_granularity.buckets[0]
-                      .access_freq.value / 10000).toFixed(2)
+                    (
+                      buckets_28[i_28].statistical_granularity.buckets[0]
+                        .access_freq.value / 10000
+                    ).toFixed(2)
                   );
                   Vue.set(
                     DATA_weeklyThermodynamic[5],
                     1,
-                    (buckets_34[i_28].statistical_granularity.buckets[0]
-                      .demand_dur.value / 60 / 10000).toFixed(2)
+                    (
+                      buckets_34[i_28].statistical_granularity.buckets[0]
+                        .demand_dur.value /
+                      60 /
+                      10000
+                    ).toFixed(2)
                   );
 
                   // 增率 - ▲ 3   （本期-上期）/上期
                   Vue.set(
                     DATA_weeklyThermodynamic[1],
                     3,
-                    ((buckets_28[i_28].statistical_granularity.buckets[1]
-                      .access_user_num.value -
+                    (
+                      (buckets_28[i_28].statistical_granularity.buckets[1]
+                        .access_user_num.value -
+                        buckets_28[i_28].statistical_granularity.buckets[0]
+                          .access_user_num.value) /
                       buckets_28[i_28].statistical_granularity.buckets[0]
-                        .access_user_num.value) /
-                      buckets_28[i_28].statistical_granularity.buckets[0]
-                        .access_user_num.value).toFixed(2)
+                        .access_user_num.value
+                    ).toFixed(2)
                   );
                   Vue.set(
                     DATA_weeklyThermodynamic[2],
                     3,
-                    ((buckets_28[i_28].statistical_granularity.buckets[1]
-                      .access_freq.value -
+                    (
+                      (buckets_28[i_28].statistical_granularity.buckets[1]
+                        .access_freq.value -
+                        buckets_28[i_28].statistical_granularity.buckets[0]
+                          .access_freq.value) /
                       buckets_28[i_28].statistical_granularity.buckets[0]
-                        .access_freq.value) /
-                      buckets_28[i_28].statistical_granularity.buckets[0]
-                        .access_freq.value).toFixed(2)
+                        .access_freq.value
+                    ).toFixed(2)
                   );
                   Vue.set(
                     DATA_weeklyThermodynamic[5],
                     3,
-                    ((buckets_34[i_28].statistical_granularity.buckets[1]
-                      .demand_dur.value -
+                    (
+                      (buckets_34[i_28].statistical_granularity.buckets[1]
+                        .demand_dur.value -
+                        buckets_34[i_28].statistical_granularity.buckets[0]
+                          .demand_dur.value) /
                       buckets_34[i_28].statistical_granularity.buckets[0]
-                        .demand_dur.value) /
-                      buckets_34[i_28].statistical_granularity.buckets[0]
-                        .demand_dur.value).toFixed(2)
+                        .demand_dur.value
+                    ).toFixed(2)
                   );
 
                   // console.log("~~~~~~!DATA_weeklyThermodynamic");
@@ -2309,50 +2367,62 @@ export default {
                       Vue.set(
                         DATA_weeklyThermodynamic_all[current_i_28][3],
                         2,
-                        (buckets_29[i_29].statistical_granularity.buckets[1]
-                          .click_user_num.value / 10000).toFixed(2)
+                        (
+                          buckets_29[i_29].statistical_granularity.buckets[1]
+                            .click_user_num.value / 10000
+                        ).toFixed(2)
                       );
                       Vue.set(
                         DATA_weeklyThermodynamic_all[current_i_28][4],
                         2,
-                        (buckets_29[i_29].statistical_granularity.buckets[1]
-                          .click_freq.value / 10000).toFixed(2)
+                        (
+                          buckets_29[i_29].statistical_granularity.buckets[1]
+                            .click_freq.value / 10000
+                        ).toFixed(2)
                       );
 
                       // 上周 - ▲ 1
                       Vue.set(
                         DATA_weeklyThermodynamic_all[current_i_28][3],
                         1,
-                        (buckets_29[i_29].statistical_granularity.buckets[0]
-                          .click_user_num.value / 10000).toFixed(2)
+                        (
+                          buckets_29[i_29].statistical_granularity.buckets[0]
+                            .click_user_num.value / 10000
+                        ).toFixed(2)
                       );
                       Vue.set(
                         DATA_weeklyThermodynamic_all[current_i_28][4],
                         1,
-                        (buckets_29[i_29].statistical_granularity.buckets[0]
-                          .click_freq.value / 10000).toFixed(2)
+                        (
+                          buckets_29[i_29].statistical_granularity.buckets[0]
+                            .click_freq.value / 10000
+                        ).toFixed(2)
                       );
 
                       // 增率 - ▲ 3   （本期-上期）/上期
                       Vue.set(
                         DATA_weeklyThermodynamic_all[current_i_28][3],
                         3,
-                        ((buckets_29[i_29].statistical_granularity.buckets[1]
-                          .click_user_num.value -
+                        (
+                          (buckets_29[i_29].statistical_granularity.buckets[1]
+                            .click_user_num.value -
+                            buckets_29[i_29].statistical_granularity.buckets[0]
+                              .click_user_num.value) /
                           buckets_29[i_29].statistical_granularity.buckets[0]
-                            .click_user_num.value) /
-                        buckets_29[i_29].statistical_granularity.buckets[0]
-                          .click_user_num.value).toFixed(2)
+                            .click_user_num.value
+                        ).toFixed(2)
                       );
                       Vue.set(
                         DATA_weeklyThermodynamic_all[current_i_28][4],
                         3,
-                        ((buckets_29[i_29].statistical_granularity.buckets[1]
-                          .click_freq.value -
+                        (
+                          (buckets_29[i_29].statistical_granularity.buckets[1]
+                            .click_freq.value -
+                            buckets_29[i_29].statistical_granularity.buckets[0]
+                              .click_freq.value) /
                           buckets_29[i_29].statistical_granularity.buckets[0]
-                            .click_freq.value) /
-                        buckets_29[i_29].statistical_granularity.buckets[0]
-                          .click_freq.value).toFixed(2)
+                            .click_freq.value
+                        ).toFixed(2)
                       );
                     }
                     // else{  // 没有则设置为undefined 或者 0
@@ -2478,7 +2548,7 @@ export default {
                         if (buckets_child_31_2[i_31_m_2].key == key) {
                           value = commonTools.returnFloat_2(
                             buckets_child_31_2[i_31_m_2].click_freq.value /
-                            10000
+                              10000
                           );
                           break;
                         }
@@ -2556,7 +2626,7 @@ export default {
                 m2_formData.append("end", temp_weeks.end);
                 m2_formData.append("year", temp_weeks.year);
                 users_mobileReport(m2_formData)
-                  .then(function (m2_response) {
+                  .then(function(m2_response) {
                     // console.log("●●●●●●●●●●●●●●●●●●●●●●●●●");
                     // console.log(m2_response); // 7天的
 
@@ -2582,6 +2652,7 @@ export default {
                       return "nokey"; //无指定 key情况
                     }
                     let temp_7days_keyArr = []; // 处理好的28key的 i_32数据  // 28栏目 =》 分两周
+                    console.log(temp_paneArr);
                     for (i_28 = 0; i_28 < length_28; i_28++) {
                       temp_7days_keyArr.push(
                         Manage_KeyValue_32_current(temp_paneArr[i_28].data)
@@ -2594,6 +2665,7 @@ export default {
                     for (i_28 = 0; i_28 < length_28; i_28++) {
                       DATA_someButtonDayTrendData_all.push([]);
                     }
+                    console.log(temp_7days_keyArr);
 
                     // for (i_28 = 0; i_28 < length_28; i_28++) {
                     // i_28 = 0; // callback 初始化
@@ -2601,225 +2673,228 @@ export default {
                     let temp_length_28 = length_28;
                     fun_callback_do(fun_callback_do);
                     function fun_callback_do(callback) {
-                      setTimeout(function () {
-                        if (temp_i_28 < temp_length_28) {
-                          // console.log("★★★★★★★★★★★★");
-                          // console.log(temp_i_28);
-                          temp_i_28++; // 进来即自增
+                      // setTimeout(function () {
+                      if (temp_i_28 < temp_length_28) {
+                        console.log("★★★★★★★★★★★★");
+                        console.log(temp_i_28);
+                        temp_i_28++; // 进来即自增
+                        let buckets_32_managed = temp_7days_keyArr[temp_i_28]; //第n个指定key - 7天
+                        console.log("buckets_32_managed");
+                        console.log(buckets_32_managed);
+                        if (buckets_32_managed != "nokey") {
+                          console.log("★★★★★★★★★★★★2");
+                          let length_32_m = buckets_32_managed.length;
+                          let i_32_m;
+                          DATA_someButtonDayTrendData = [];
+                          DATA_someButtonDayTrendData.push(["product"]);
+                          // 根据7天推入 n日
+                          // 解决数据第一行：7天
+                          for (i_32_m = 0; i_32_m < length_32_m; i_32_m++) {
+                            // 7天
+                            DATA_someButtonDayTrendData[0].push(
+                              commonTools.format_dayToChinese_2(
+                                buckets_32_managed[i_32_m].key
+                              )
+                            );
+                          }
 
-                          let buckets_32_managed = temp_7days_keyArr[temp_i_28]; //第n个指定key - 7天
-                          if (buckets_32_managed != "nokey") {
-                            let length_32_m = buckets_32_managed.length;
-                            let i_32_m;
-                            DATA_someButtonDayTrendData = [];
-                            DATA_someButtonDayTrendData.push(["product"]);
-                            // 根据7天推入 n日
-                            // 解决数据第一行：7天
-                            for (i_32_m = 0; i_32_m < length_32_m; i_32_m++) {
-                              // 7天
-                              DATA_someButtonDayTrendData[0].push(
-                                commonTools.format_dayToChinese_2(
-                                  buckets_32_managed[i_32_m].key
-                                )
-                              );
-                            }
+                          // 这里按照 指定的box来 - 有就显示数值，没有则数值置零
+                          // responses32指定box 2_0~2_5 3_0~3_5
+                          let sign_31_areanumber_arr = [
+                            "box2_0",
+                            "box2_1",
+                            "box2_2",
+                            "box2_3",
+                            "box2_4",
+                            "box2_5",
+                            "box3_0",
+                            "box3_1",
+                            "box3_2",
+                            "box3_3",
+                            "box3_4",
+                            "box3_5"
+                          ];
 
-                            // 这里按照 指定的box来 - 有就显示数值，没有则数值置零
-                            // responses32指定box 2_0~2_5 3_0~3_5
-                            let sign_31_areanumber_arr = [
-                              "box2_0",
-                              "box2_1",
-                              "box2_2",
-                              "box2_3",
-                              "box2_4",
-                              "box2_5",
-                              "box3_0",
-                              "box3_1",
-                              "box3_2",
-                              "box3_3",
-                              "box3_4",
-                              "box3_5"
-                            ];
-
-                            let length_sign_32 = sign_31_areanumber_arr.length;
+                          let length_sign_32 = sign_31_areanumber_arr.length;
+                          let i_sign_32 = 0;
+                          // 解决：单个data的 "竖"值  box?_?
+                          for (
+                            i_sign_32 = 0;
+                            i_sign_32 < length_sign_32;
+                            i_sign_32++
+                          ) {
+                            DATA_someButtonDayTrendData.push([
+                              sign_31_areanumber_arr[i_sign_32]
+                            ]);
+                          }
+                          // console.log("○○○○○○○○○○○○○○");
+                          // console.log(DATA_someButtonDayTrendData);
+                          // 传入指定list 指定Box  获取7天
+                          // 标记sign x 10个
+                          for (
                             let i_sign_32 = 0;
-                            // 解决：单个data的 "竖"值  box?_?
-                            for (
-                              i_sign_32 = 0;
-                              i_sign_32 < length_sign_32;
-                              i_sign_32++
-                            ) {
-                              DATA_someButtonDayTrendData.push([
-                                sign_31_areanumber_arr[i_sign_32]
-                              ]);
-                            }
-                            // console.log("○○○○○○○○○○○○○○");
-                            // console.log(DATA_someButtonDayTrendData);
-                            // 传入指定list 指定Box  获取7天
-                            // 标记sign x 10个
-                            for (
-                              let i_sign_32 = 0;
-                              i_sign_32 < length_sign_32;
-                              i_sign_32++
-                            ) {
-                              (function (i_sign_32_current) {
-                                // working(callback,currentIndex)
-                                // 二次请求box详细信息
-                                // let i_sign_32_current = i_sign_32;
+                            i_sign_32 < length_sign_32;
+                            i_sign_32++
+                          ) {
+                            console.log("◆◆◆◆◆◆◆1");
 
-                                let temp_data = {
-                                  operator: String(["移动"]),
-                                  // list:String(temp_paneArr_use),
-                                  // list:String(["体育"]), // ▲ list
-                                  list: String([temp_paneArr_use[temp_i_28]]), // 按指定list栏目 --data 父级arr
-                                  year: temp_time.year,
-                                  start: temp_time.week_day_start, // 传7天的 配置对应的值  -- data 横
-                                  end: temp_time.week_day_end,
-                                  // areanumber:"box2_1",
-                                  areanumber:
-                                    sign_31_areanumber_arr[i_sign_32_current] //  按指定box分  -- data 竖 x10
-                                };
+                            (function(i_sign_32_current) {
+                              // working(callback,currentIndex)
+                              // 二次请求box详细信息
+                              // let i_sign_32_current = i_sign_32;
 
-                                var m2_formData = new FormData();
-                                var m2_formData = new window.FormData();
-                                m2_formData.append(
-                                  "operator",
-                                  String(temp_data.operator)
-                                );
-                                m2_formData.append(
-                                  "list",
-                                  String(temp_data.list)
-                                );
-                                m2_formData.append(
-                                  "start",
-                                  String(temp_data.start)
-                                );
-                                m2_formData.append(
-                                  "end",
-                                  String(temp_data.end)
-                                );
-                                m2_formData.append(
-                                  "areanumber",
-                                  String(temp_data.areanumber)
-                                );
-                                m2_formData.append(
-                                  "year",
-                                  String(temp_data.year)
-                                );
-                                epg_box_content(m2_formData)
-                                  .then(function (response3) {
-                                    // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 10 = 110个请求
-                                    // console.log("list:" + temp_i_28); // --data 父级arr
-                                    // console.log("areanumber:" + i_sign_32); // -- data 竖
-                                    // console.log(temp_data);
-                                    // console.log(response3);
+                              let temp_data = {
+                                operator: String(["移动"]),
+                                // list:String(temp_paneArr_use),
+                                // list:String(["体育"]), // ▲ list
+                                list: String([temp_paneArr_use[temp_i_28]]), // 按指定list栏目 --data 父级arr
+                                year: temp_time.year,
+                                start: temp_time.week_day_start, // 传7天的 配置对应的值  -- data 横
+                                end: temp_time.week_day_end,
+                                // areanumber:"box2_1",
+                                areanumber:
+                                  sign_31_areanumber_arr[i_sign_32_current] //  按指定box分  -- data 竖 x10
+                              };
 
-                                    // 移动1.0 移动2.0都是传入移动
-                                    // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
+                              var m2_formData = new FormData();
+                              var m2_formData = new window.FormData();
+                              m2_formData.append(
+                                "operator",
+                                String(temp_data.operator)
+                              );
+                              m2_formData.append(
+                                "list",
+                                String(temp_data.list)
+                              );
+                              m2_formData.append(
+                                "start",
+                                String(temp_data.start)
+                              );
+                              m2_formData.append("end", String(temp_data.end));
+                              m2_formData.append(
+                                "areanumber",
+                                String(temp_data.areanumber)
+                              );
+                              m2_formData.append(
+                                "year",
+                                String(temp_data.year)
+                              );
+                              console.log("◆◆◆◆◆◆◆2");
+                              console.log(m2_formData);
 
-                                    let buckets_32_signValue =
-                                      response3.data.responses[0].aggregations
-                                        .statistical_granularity.buckets;
-                                    let length_32_signValue =
-                                      buckets_32_signValue.length; // x7
-                                    let i_32_signValue;
-                                    // 天 -- data 横
+                              epg_box_content(m2_formData)
+                                .then(function(response3) {
+                                  // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 10 = 110个请求
+                                  // console.log("list:" + temp_i_28); // --data 父级arr
+                                  // console.log("areanumber:" + i_sign_32); // -- data 竖
+                                  console.log("◆◆◆◆◆◆◆3");
+                                  console.log(m2_formData);
+                                  // console.log(temp_data);
+                                  console.log(response3);
 
-                                    for (
-                                      i_32_signValue = 0;
-                                      i_32_signValue < length_32_signValue;
-                                      i_32_signValue++
-                                    ) {
-                                      // console.log(
-                                      //   String(length_sign_32) +
-                                      //     " " +
-                                      //     String(length_32_signValue)
-                                      // );
-                                      // console.log( "竖: " +
-                                      //   String(i_sign_32_current) +
-                                      //     " 横： " +
-                                      //     String(i_32_signValue) + " --- " +String(
-                                      //       buckets_32_signValue[i_32_signValue]
-                                      //     .click_freq.value
-                                      //     )
-                                      // );
-                                      // 返回的7天
-                                      DATA_someButtonDayTrendData[
-                                        i_sign_32_current + 1
-                                      ].push(
-                                        buckets_32_signValue[i_32_signValue]
-                                          .click_freq.value
-                                      ); // push单个数据-横-天  （by 指定box竖  i_sign_32_current+1）
-                                    } // for 天 x7
+                                  // 移动1.0 移动2.0都是传入移动
+                                  // ▲▲▲▲ responses0 是 移动1.0 responses1 是 移动2.0
 
-                                    if (i_sign_32 == length_sign_32 - 1) {
-                                      Vue.set(
-                                        DATA_someButtonDayTrendData_all,
-                                        temp_i_28,
-                                        DATA_someButtonDayTrendData
-                                      ); // data --父级
-                                      // temp_i_28++; //自增a
-                                      setTimeout(function () {
-                                        callback(fun_callback_do);
-                                      }, 100);
-                                    }
-                                  }) // 请求收
-                                  .catch(function (error) {
-                                    console.info(error);
-                                  }); // 请求收
-                              })(i_sign_32);
-                            } //for i_sign_32
+                                  let buckets_32_signValue =
+                                    response3.data.responses[0].aggregations
+                                      .statistical_granularity.buckets;
+                                  let length_32_signValue =
+                                    buckets_32_signValue.length; // x7
+                                  let i_32_signValue;
+                                  // 天 -- data 横
 
-                            // Vue.set(
-                            //   DATA_someButtonDayTrendData_all,
-                            //   temp_i_28,
-                            //   DATA_someButtonDayTrendData
-                            // ); // data --父级
-                            // temp_i_28++; //自增a
-                            // callback(fun_callback_do);
-                          } else {
-                            // 非 nokey 情况
-                            // DATA_someButtonDayTrendData_all.push([
-                            //   [
-                            //     ["product", "?1日", "?2日", "?3日", "?4日", "?5日", "?6日", "?7日"],
-                            //     ["box?_?", 0, 0, 0, 0, 0, 0, 0],
-                            //   ]
-                            // ]);
-                            Vue.set(
-                              DATA_someButtonDayTrendData_all,
-                              temp_i_28,
-                              [
-                                [
-                                  [
-                                    "product",
-                                    "?1日",
-                                    "?2日",
-                                    "?3日",
-                                    "?4日",
-                                    "?5日",
-                                    "?6日",
-                                    "?7日"
-                                  ],
-                                  ["box?_?", 0, 0, 0, 0, 0, 0, 0]
-                                ]
-                              ]
-                            ); // data --父级
-                            setTimeout(function () {
-                              callback(fun_callback_do);
-                            }, 100);
-                          } // == "nokey"
+                                  for (
+                                    i_32_signValue = 0;
+                                    i_32_signValue < length_32_signValue;
+                                    i_32_signValue++
+                                  ) {
+                                    // console.log(
+                                    //   String(length_sign_32) +
+                                    //     " " +
+                                    //     String(length_32_signValue)
+                                    // );
+                                    // console.log( "竖: " +
+                                    //   String(i_sign_32_current) +
+                                    //     " 横： " +
+                                    //     String(i_32_signValue) + " --- " +String(
+                                    //       buckets_32_signValue[i_32_signValue]
+                                    //     .click_freq.value
+                                    //     )
+                                    // );
+                                    // 返回的7天
+                                    DATA_someButtonDayTrendData[
+                                      i_sign_32_current + 1
+                                    ].push(
+                                      buckets_32_signValue[i_32_signValue]
+                                        .click_freq.value
+                                    ); // push单个数据-横-天  （by 指定box竖  i_sign_32_current+1）
+                                  } // for 天 x7
+
+                                  if (i_sign_32 == length_sign_32 - 1) {
+                                    Vue.set(
+                                      DATA_someButtonDayTrendData_all,
+                                      temp_i_28,
+                                      DATA_someButtonDayTrendData
+                                    ); // data --父级
+                                    // temp_i_28++; //自增a
+                                    setTimeout(function() {
+                                      callback(fun_callback_do);
+                                    }, 100);
+                                  }
+                                }) // 请求收
+                                .catch(function(error) {
+                                  console.info(error);
+                                }); // 请求收
+                            })(i_sign_32);
+                          } //for i_sign_32
+
+                          // Vue.set(
+                          //   DATA_someButtonDayTrendData_all,
+                          //   temp_i_28,
+                          //   DATA_someButtonDayTrendData
+                          // ); // data --父级
+                          // temp_i_28++; //自增a
                           // callback(fun_callback_do);
                         } else {
-                          // console.log("结束回调");
-                          // console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎");
-                          // console.log(DATA_someButtonDayTrendData_all);
-                        }
-                      }, 10);
+                          console.log("nokey");
+                          // 非 nokey 情况
+                          // DATA_someButtonDayTrendData_all.push([
+                          //   [
+                          //     ["product", "?1日", "?2日", "?3日", "?4日", "?5日", "?6日", "?7日"],
+                          //     ["box?_?", 0, 0, 0, 0, 0, 0, 0],
+                          //   ]
+                          // ]);
+                          Vue.set(DATA_someButtonDayTrendData_all, temp_i_28, [
+                            [
+                              [
+                                "product",
+                                "?1日",
+                                "?2日",
+                                "?3日",
+                                "?4日",
+                                "?5日",
+                                "?6日",
+                                "?7日"
+                              ],
+                              ["box?_?", 0, 0, 0, 0, 0, 0, 0]
+                            ]
+                          ]); // data --父级
+                          setTimeout(function() {
+                            callback(fun_callback_do);
+                          }, 100);
+                        } // == "nokey"
+                        // callback(fun_callback_do);
+                      } else {
+                        // console.log("结束回调");
+                        // console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎");
+                        // console.log(DATA_someButtonDayTrendData_all);
+                      }
+                      // }, 10);
                     } // function callback
 
                     // }// for i_28;
                   })
-                  .catch(function (error) {
+                  .catch(function(error) {
                     console.info(error);
                   });
               } catch (error) {
@@ -2884,13 +2959,13 @@ export default {
                   let length_br = buckets_arr.length;
                   let i_br;
                   let temp_arr = [];
-                  console.log("※※※※※※※※※※");
+                  // console.log("※※※※※※※※※※");
                   for (i_br = 0; i_br < length_br; i_br++) {
                     temp_arr.push(boxX_X_StringToInt(buckets_arr[i_br].key)); // 转换成 Int 数组
                   }
-                  console.log(temp_arr);
+                  // console.log(temp_arr);
                   let temp_arr2 = sortArrZ(temp_arr, 0); //进行排序
-                  console.log(temp_arr2);
+                  // console.log(temp_arr2);
                   return temp_arr2;
                 }
 
@@ -3059,7 +3134,7 @@ export default {
                         i_sign_32w < length_sign_32w;
                         i_sign_32w++
                       ) {
-                        (function (i_sign_32w_current) {
+                        (function(i_sign_32w_current) {
                           // working(callback,currentIndex)
                           // 二次请求box详细信息
                           // let i_sign_32w_current = i_sign_32w;
@@ -3092,7 +3167,7 @@ export default {
                           );
                           m2_formData.append("year", String(temp_data.year));
                           epg_box_content(m2_formData)
-                            .then(function (response3) {
+                            .then(function(response3) {
                               // console.log("※※※※※※※※※※※※※※"); // ▲ 将近 11 x 30 = 330+个请求
                               // console.log("list:" + temp_i_28); // --data 父级arr
                               // console.log("areanumber:" + i_sign_32w); // -- data 竖
@@ -3159,7 +3234,7 @@ export default {
                                       classify: "",
                                       title:
                                         sign_32w_areanumber_arr[
-                                        i_sign_32w_current
+                                          i_sign_32w_current
                                         ],
                                       lastWeek: last_value,
                                       thisWeek: current_value,
@@ -3198,7 +3273,7 @@ export default {
                                       classify: "",
                                       title:
                                         sign_32w_areanumber_arr[
-                                        i_sign_32w_current
+                                          i_sign_32w_current
                                         ],
                                       lastWeek: 0,
                                       thisWeek: current_value,
@@ -3230,7 +3305,7 @@ export default {
                                       classify: "",
                                       title:
                                         sign_32w_areanumber_arr[
-                                        i_sign_32w_current
+                                          i_sign_32w_current
                                         ],
                                       lastWeek: 0,
                                       thisWeek: 0,
@@ -3242,7 +3317,7 @@ export default {
 
                               // if (i_sign_32w == length_sign_32w - 1) {
                               if (i_sign_32w_current == length_sign_32w - 1) {
-                                setTimeout(function () {
+                                setTimeout(function() {
                                   Vue.set(
                                     DATA_columnButtonClickNum_all,
                                     temp_i_28,
@@ -3254,7 +3329,7 @@ export default {
                                 }, 100);
                               }
                             }) // 请求收
-                            .catch(function (error) {
+                            .catch(function(error) {
                               console.info(error);
                             }); // 请求收
                         })(i_sign_32w);
@@ -3277,7 +3352,7 @@ export default {
                           }
                         ]
                       ]);
-                      setTimeout(function () {
+                      setTimeout(function() {
                         callback(fun_callback_do);
                       }, 100);
                     }
@@ -3295,7 +3370,7 @@ export default {
               // return; // 测试
 
               // ■■■■ 最终整合数据
-              setTimeout(function () {
+              setTimeout(function() {
                 console.log(DATA_columnButtonClickNum_all);
                 // console.log(DATA_someButtonDayTrendData_all);
 
@@ -3613,10 +3688,13 @@ export default {
               for (i_0 = 0; i_0 < length_0; i_0++) {
                 temp_data_0.push([
                   buckets_0[i_0].key,
-                  ((buckets_0[i_0].register_num.value) / 10000).toFixed(2),
-                  ((buckets_0[i_0].open_num.value) / 10000).toFixed(2),
-                  (buckets_0[i_0].open_num.value /
-                    buckets_0[i_0].register_num.value * 100).toFixed(2)
+                  (buckets_0[i_0].register_num.value / 10000).toFixed(2),
+                  (buckets_0[i_0].open_num.value / 10000).toFixed(2),
+                  (
+                    (buckets_0[i_0].open_num.value /
+                      buckets_0[i_0].register_num.value) *
+                    100
+                  ).toFixed(2)
                 ]);
               }
               vm.dailyOperatingRateData.data = temp_data_0;
@@ -3753,7 +3831,6 @@ export default {
               // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
               // console.log(buckets_27);
 
-
               let length_27 = buckets_27.length;
 
               let i_27;
@@ -3778,13 +3855,18 @@ export default {
               // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
               // console.log(temp_data_27);
 
-              function Return_KeyValue(key){
-                let temp_buckets_27c = buckets_27[i_27].statistical_granularity.buckets;
+              function Return_KeyValue(key) {
+                let temp_buckets_27c =
+                  buckets_27[i_27].statistical_granularity.buckets;
                 let temp_length_27c = temp_buckets_27c.length;
                 let temp_i_27c = 0;
-                for(temp_i_27c=0;temp_i_27c<temp_length_27c;temp_i_27c++){
-                  if(temp_buckets_27c[temp_i_27c].key == key){
-                    return temp_buckets_27c[temp_i_27c].onlive_user_num.value
+                for (
+                  temp_i_27c = 0;
+                  temp_i_27c < temp_length_27c;
+                  temp_i_27c++
+                ) {
+                  if (temp_buckets_27c[temp_i_27c].key == key) {
+                    return temp_buckets_27c[temp_i_27c].onlive_user_num.value;
                   }
                 }
                 return 0;
@@ -3796,7 +3878,9 @@ export default {
                   i_27_child < length_27_child;
                   i_27_child++
                 ) {
-                  temp_data_27[i_27 + 1].push(Return_KeyValue(temp_data_27[0][i_27_child + 1]));
+                  temp_data_27[i_27 + 1].push(
+                    Return_KeyValue(temp_data_27[0][i_27_child + 1])
+                  );
                   // temp_data_27[i_27 + 1].push(
                   //   buckets_27[i_27].statistical_granularity.buckets[i_27_child]
                   //     .onlive_user_num.value)
@@ -3877,7 +3961,7 @@ export default {
             }
           } //  if (week_type == "week_days")
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -3886,7 +3970,7 @@ export default {
       let scrollDiv = document.querySelector(".operational_left_content_body"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".operational_nav a").on("click", function () {
+      $(".operational_nav a").on("click", function() {
         $(this)
           .addClass("avtive_link")
           .parent()

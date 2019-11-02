@@ -398,7 +398,6 @@ export default {
               temp_1_3.push("");
             }
 
-
             // 处理无值字符串-没有数据的地区 - 置0 (根据天数处理长短)
             // let NoExist_ManageStr = "";
             // let str1 = "0\t";
@@ -419,25 +418,38 @@ export default {
             // 处理值 （地区=》时间） 2
             // 参数1：ac固定顺序 参数2：当前ac的位置
             function DateManage_AcToTime_1(index_ac, index_current) {
-              let buckets_cc =
-                buckets_1[index_current].statistical_granularity.buckets; // 天
-              let length_cc = buckets_cc.length;
-              let i_cc;
-              let temp_ManageStr = "";
-              for (i_cc = 0; i_cc < length_cc; i_cc++) {
-                try {
-                  // 异常处理：由于有 853 9天  854 10天的 不同length情况
-                  if (i_cc != length_cc - 1) {
-                    temp_ManageStr +=
-                      String(buckets_cc[i_cc].open_num.value) + "\t";
-                  } else {
-                    temp_ManageStr += String(buckets_cc[i_cc].open_num.value);
+              for (i_all = 0; i_all < length_all; i_all++) { // 遍历固定的
+                let buckets_cc =
+                  buckets_1[index_current].statistical_granularity.buckets; // 天
+                let i_cc;
+                let temp_ManageStr = ""
+                for (i_cc = 0; i_cc < buckets_cc.length; i_cc++) { //
+                  if (buckets_cc[i_cc].key == temp_date_arr[i_all].key) {
+
                   }
-                } catch (error) {
-                  console.log(error);
                 }
+                Vue.set(temp_1_3, index_ac, temp_ManageStr);
               }
-              Vue.set(temp_1_3, index_ac, temp_ManageStr);
+
+              // let buckets_cc =
+              //   buckets_1[index_current].statistical_granularity.buckets; // 天
+              // let length_cc = buckets_cc.length;
+              // let i_cc;
+              // let temp_ManageStr = "";
+              // for (i_cc = 0; i_cc < length_cc; i_cc++) {
+              //   try {
+              //     // 异常处理：由于有 853 9天  854 10天的 不同length情况
+              //     if (i_cc != length_cc - 1) {
+              //       temp_ManageStr +=
+              //         String(buckets_cc[i_cc].open_num.value) + "\t";
+              //     } else {
+              //       temp_ManageStr += String(buckets_cc[i_cc].open_num.value);
+              //     }
+              //   } catch (error) {
+              //     console.log(error);
+              //   }
+              // }
+              // Vue.set(temp_1_3, index_ac, temp_ManageStr);
             }
             for (i_1 = 0; i_1 < length_1; i_1++) {
               if (buckets_1[i_1].key == "851") {

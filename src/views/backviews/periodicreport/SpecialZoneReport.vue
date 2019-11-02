@@ -114,7 +114,7 @@
 </template>
 <script>
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //单坐标柱状图组件
-import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
+import PieCharts_special from "@/views/backcoms/commoncomponents/PieCharts_special"; //公用饼图
 import SpecialZoneChart from "@/views/backcoms/commoncomponents/SpecialZoneChart"; //专区数据总览圆形图
 import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"; //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"; //排名柱状图
@@ -131,7 +131,7 @@ export default {
   components: {
     "special-zone-chart": SpecialZoneChart,
     "bar-chart-single": BarChartSingle,
-    "pie-charts": PieCharts,
+    "pie-charts": PieCharts_special,
     "smooth-line-chart": SmoothLineChart,
     "bar-list-chart": BarListChart,
     "day-rank-top5": DayRankTop5

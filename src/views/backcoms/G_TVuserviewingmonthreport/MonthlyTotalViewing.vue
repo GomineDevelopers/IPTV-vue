@@ -87,9 +87,9 @@ export default {
         },
         grid: {
           top: "25%",
-          left: "5%",
-          right: "5%",
-          bottom: "10%",
+          left: "15",
+          right: "10",
+          bottom: "20",
           containLabel: true
         },
     
