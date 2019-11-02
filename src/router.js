@@ -59,6 +59,7 @@ export default new Router({
         { path: '/backhome/usermanagement', name: "usermanagement", component: () => import('@/views/backviews/authoritymanagement/UserManagement') },
         { path: '/backhome/authoritymanagement', name: "authoritymanagement", component: () => import('@/views/backviews/authoritymanagement/AuthorityManagement') },
         { path: '/backhome/bigscreenmanagement', name: "bigscreenmanagement", component: () => import('@/views/backviews/authoritymanagement/BigScreenManagement') },
+        { path: '/backhome/uploadfiles', name: "uploadfiles", component: () => import('@/views/backviews/uploadFiles') },
         { path: '/', redirect: '/backhome/datatotal' }, //二级路由默认首页为数据总览页
 
       ]
@@ -74,7 +75,7 @@ export default new Router({
       component: MyTest2
     },
     { path: '/noauthority', name: "NoAuthority", component: () => import('@/views/NoAuthority'), },
-    { path: '/404', name:"404", component: () => import('@/views/404'), },
+    { path: '/404', name: "404", component: () => import('@/views/404'), },
     { path: '*', redirect: '/404' }
 
   ]

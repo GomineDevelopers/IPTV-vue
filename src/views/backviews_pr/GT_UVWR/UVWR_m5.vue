@@ -333,7 +333,7 @@ export default {
           let live_temp = vm.GT_UVWR1_Z1.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_Z1.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_Z1.data[index], 2, '');
               // console.log(value)
               local_program_type_data.forEach((value2, index2) => {
                 let program_name = value2.program_type.buckets[0].key + ' ' + value2.key
@@ -365,7 +365,7 @@ export default {
           let live_temp = vm.GT_UVWR1_Z2.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_Z2.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_Z2.data[index], 2, '');
               // console.log("本土原创节目点播本周--", value)
               local_program_type_data.forEach((value2, index2) => {
                 let program_name = value2.program_type.buckets[0].key + ' ' + value2.key
@@ -396,7 +396,7 @@ export default {
           let live_temp = vm.GT_UVWR1_Z3.data;
           live_temp.forEach((value, index) => {
             if (index > 0) {
-              Vue.set(vm.GT_UVWR1_Z3.data[index], 2, 0);
+              Vue.set(vm.GT_UVWR1_Z3.data[index], 2, '');
               // console.log("本土原创节目点播本周--", value)
               local_program_type_data.forEach((value2, index2) => {
                 let program_name = value2.program_type.buckets[0].key + ' ' + value2.key
