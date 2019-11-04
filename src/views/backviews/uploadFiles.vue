@@ -6,7 +6,7 @@
       </el-row>
       <el-row class="upload_row" type="flex" justify="space-around">
         <el-col :span="6" class="upload_col">
-          <el-row>热点数据上传</el-row>
+          <el-row>转免节目单上传</el-row>
           <el-row class="upload_button">
             <span class="upload_click">+</span>
             <input type="file" class="file_input" @change="fileUpload($event)" />
@@ -20,7 +20,7 @@
           </el-row>
         </el-col>
         <el-col :span="6" class="upload_col">
-          <el-row>文件数据上传11</el-row>
+          <el-row>节目单上传</el-row>
           <el-row class="upload_button">
             <span class="upload_click">+</span>
             <input type="file" class="file_input" @change="fileUpload2($event)" />
@@ -33,7 +33,7 @@
           </el-row>
         </el-col>
         <el-col :span="6" class="upload_col">
-          <el-row>文件数据上传22</el-row>
+          <el-row>微博热搜上传</el-row>
           <el-row class="upload_button">
             <span class="upload_click">+</span>
             <input type="file" class="file_input" @change="fileUpload3($event)" />
@@ -57,36 +57,65 @@
   </div>
 </template>
 <script>
+import { csv_program_free, csv_program, csv_weibo } from "@/api/api_main";
+
 export default {
   name: "uploadFiles",
   data() {
     return {
       dataMatchingFile1: null,
       dataMatchingFile2: null,
-      dataMatchingFile3: null,
-    }
+      dataMatchingFile3: null
+    };
   },
   methods: {
     fileUpload(e) {
       let vm = this;
       let file = e.target.files[0];
+      let formData = new FormData();
       vm.dataMatchingFile1 = file.name;
       //注：上传成功后清空vm.dataMatchingFile1绑定的文件名称
+      formData.append("csv", file);
+      csv_program_free(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     fileUpload2(e) {
       let vm = this;
       let file = e.target.files[0];
+      let formData = new FormData();
       vm.dataMatchingFile2 = file.name;
       //注：上传成功后清空vm.dataMatchingFile2绑定的文件名称
+      formData.append("csv", file);
+      csv_program(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     fileUpload3(e) {
       let vm = this;
       let file = e.target.files[0];
+      let formData = new FormData();
       vm.dataMatchingFile3 = file.name;
       //注：上传成功后清空vm.dataMatchingFile3绑定的文件名称
-    },
+      formData.append("csv", file);
+      csv_weibo(formData)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
-}
+};
 </script>
 <style scoped>
 .upload_files {

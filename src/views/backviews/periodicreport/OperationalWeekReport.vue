@@ -2628,18 +2628,22 @@ export default {
                 users_mobileReport(m2_formData)
                   .then(function(m2_response) {
                     // console.log("●●●●●●●●●●●●●●●●●●●●●●●●●");
-                    // console.log(m2_response); // 7天的
+                    console.log(m2_response); // 7天的
 
                     let buckets_32 =
                       m2_response.data.responses[32].aggregations.epgName
                         .buckets; // m2_response  epgName
                     let length_32 = buckets_32.length;
                     let i_32;
+                    console.log(length_32);
 
                     function Manage_KeyValue_32_current(key) {
                       // 遍历i_32对应key值 - 找到对应key
+                      console.log(key);
                       let ifOver = false;
                       for (i_32 = 0; i_32 < length_32; i_32++) {
+                        console.log(i_32);
+                        console.log(buckets_32[i_32].key);
                         if (ifOver == true) {
                           break;
                         }
@@ -3091,8 +3095,8 @@ export default {
                   }
                 }
                 setTimeout(() => {
-                  console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
-                  console.log(temp_twoWeek_32w_keyArr_sort);
+                  // console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr_sort");
+                  // console.log(temp_twoWeek_32w_keyArr_sort);
                 }, 500);
 
                 // 总数据初始化

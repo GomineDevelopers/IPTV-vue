@@ -40,9 +40,37 @@ export function test_login() {
 // };
 
 
+// //////////////////////// 上传文件
+// 转免节目单上传
+// POST http://{{host}}/api/csv/program/free
+export function csv_program_free( data) {
+    return request({
+        method: 'post',
+        url: '/csv/program/free',
+        data: data  // 参数 csv
+    })
+}
+// 节目单上传
+// POST http://{{host}}/api/csv/program
+export function csv_program( data) {
+    return request({
+        method: 'post',
+        url: '/csv/program',
+        data: data  // 参数 csv
+    })
+}
+// 微博热搜上传
+// POST http://{{host}}/api/csv/weibo
+export function csv_weibo( data) {
+    return request({
+        method: 'post',
+        url: '/csv/weibo',
+        data: data  // 参数 csv
+    })
+}
 // //////////////////////// 时间日期
 // get http://{{iptv}}/api/date
-export function get_date(newToken, user) {
+export function get_date( user) {
     return request({
         method: 'get',
         url: '/date',

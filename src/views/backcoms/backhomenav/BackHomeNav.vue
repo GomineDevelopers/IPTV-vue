@@ -123,7 +123,7 @@
                 <!-- <el-menu-item  @click="router_to('')" index="/backhome/bigscreenmanagement">大屏管理</el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item @click="router_to('/backhome/uploadfiles')" index="/backhome/uploadfiles">
+            <el-menu-item v-show="ifShowMenu(13)" @click="router_to('/backhome/uploadfiles')" index="/backhome/uploadfiles">
               <i class="iconfont">&#xe632;</i>
               <span slot="title">文件上传</span>
             </el-menu-item>

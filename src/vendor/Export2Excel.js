@@ -64,9 +64,9 @@ function sheet_from_array_of_arrays(data, opts) {
             // var cell = { v: data[R][C] };
             var cell;
             let temp_data = data[R][C];
-            if (typeof (temp_data) == "object"){
-                cell = { v: JSON.stringify(data[R][C]) }; 
-            }else{
+            if (typeof (temp_data) == "object") {
+                cell = { v: JSON.stringify(data[R][C]) };
+            } else {
                 cell = { v: String(data[R][C]) }; // 其他：统一字符串！
             }
             console.log(data[R][C]);
@@ -86,6 +86,63 @@ function sheet_from_array_of_arrays(data, opts) {
 
         }
     }
+    if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
+    return ws;
+}
+
+
+function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
+
+    let m_length = dataArr.length;
+    let ws = {};
+    let data = [];
+
+
+    for (let m_j = 0; m_j < m_length; m_j++) {
+        // data.push(titleArr[m_j]);
+        if (titleArr[m_j] != "") {
+            data.push(titleArr[m_j]);
+        }
+
+        for (let c_i = 0; c_i < dataArr[m_j].length; c_i++) {
+            data.push(dataArr[m_j][c_i]);
+        }
+    }
+
+    let range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
+    for (let R = 0; R != data.length; ++R) {
+        for (let C = 0; C != data[R].length; ++C) {
+
+            // 初始化实际长度 - start大于x则start取x（），end小于x则end取x
+            if (range.s.r > R) range.s.r = R;
+            if (range.s.c > C) range.s.c = C;
+            if (range.e.r < R) range.e.r = R;
+            if (range.e.c < C) range.e.c = C;
+
+            // let cell = { v: data[R][C] }; 
+            let cell;
+            let temp_data = data[R][C];
+            if (typeof (temp_data) == "object") {
+                cell = { v: JSON.stringify(data[R][C]) };
+            } else {
+                cell = { v: String(data[R][C]) }; // 其他：统一字符串！
+            }
+            console.log(data[R][C]);
+            if (cell.v == null) continue;
+            let cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
+
+            if (typeof cell.v === 'number') cell.t = 'n';
+            else if (typeof cell.v === 'boolean') cell.t = 'b';
+            else if (cell.v instanceof Date) {
+                cell.t = 'n';
+                cell.z = XLSX.SSF._table[14];
+                cell.v = datenum(cell.v);
+            }
+            else cell.t = 's';
+            ws[cell_ref] = cell;
+        }
+    }
+
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
     return ws;
 }
@@ -127,6 +184,7 @@ function formatJson(jsonData) {
     console.log(jsonData)
 }
 
+// origin
 export function export_json_to_excel(th, jsonData, defaultTitle) {
 
     var data = jsonData;
@@ -142,6 +200,26 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
     var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
     var title = defaultTitle || '列表'
     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+}
+
+
+export function export_json_to_excel_new(titleArr, dataArr, defaultTitle) {
+    var ws_name = "SheetJS";
+
+    var wb = new Workbook(), ws = sheet_from_array_of_arrays_Arr(titleArr, dataArr);
+
+    wb.SheetNames.push(ws_name);
+    wb.Sheets[ws_name] = ws;
+
+    var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+    var title = defaultTitle || '列表'
+    saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
+    store
+        .dispatch("set_PR_excel_DownloadingStatus", 0)
+        .then(function (response) { console.log("下载完成") })
+        .catch(function (error) {
+            console.info(error);
+        });
 }
 
 export function export_json_to_excel_test2(th, jsonData, defaultTitle) {
@@ -489,7 +567,6 @@ export function exportExcel(titleArr, DataArr, defaultTitle) {
     let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
     let title = defaultTitle || '列表'
     saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), title + ".xlsx")
-
     store
         .dispatch("set_PR_excel_DownloadingStatus", 0)
         .then(function (response) { console.log("下载完成") })
