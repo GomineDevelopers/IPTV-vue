@@ -170,6 +170,7 @@ export default {
         },
         series: seriesData
       };
+      barListChart.clear();
       barListChart.setOption(option);
       window.addEventListener("resize", () => {
         barListChart.resize();
