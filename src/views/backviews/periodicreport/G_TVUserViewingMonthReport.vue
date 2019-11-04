@@ -474,7 +474,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_month", "PR_Report_index"]),
     ifModuleydShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -485,10 +485,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuleltShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -499,10 +499,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifModuledxShow: {
-      get: function() {
+      get: function () {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -513,14 +513,14 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   watch: {
     PR_operator(newValue, oldValue) {
       console.log("~~~~!!!!!PR_operator");
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         try {
           // // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
           // vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
@@ -572,7 +572,7 @@ export default {
         ["总开机活跃率"]
       ];
 
-      setTimeout(function() {
+      setTimeout(function () {
         try {
           // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型(单月)
           vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（多月）
@@ -594,7 +594,7 @@ export default {
 
   mounted() {
     //监听滚动事件
-    $(".monthly_report_body").scroll(function(event) {
+    $(".monthly_report_body").scroll(function (event) {
       let scrollTopHeight = $(".monthly_report_body").scrollTop();
       // let user_development_data = document.querySelector('#user_development_data').offsetTop
       // let operational_data = document.querySelector('#operational_data').offsetTop
@@ -618,7 +618,7 @@ export default {
 
     let vm = this;
     // api 数据处理 - by 运营商
-    setTimeout(function() {
+    setTimeout(function () {
       try {
         // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型（单月）
         vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（单月）
@@ -640,13 +640,13 @@ export default {
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function(response_dataArr) {
+        .then(function (response_dataArr) {
           console.log("下载关");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
-      setTimeout(function() {
+      setTimeout(function () {
         if (vm.PR_Report_index == 7) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -908,27 +908,27 @@ export default {
           }
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function(response_title) {
+            .then(function (response_title) {
               console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function(response_dataArr) {
+                .then(function (response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function(response_dataArr) {
+                    .then(function (response_dataArr) {
                       console.log("下载开");
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                       console.info(error);
                     });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.info(error);
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         }
@@ -1507,8 +1507,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12[month_index_current].channel.buckets[i_12]
                       .onlive_user_num.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 二   // 3 7 freq
@@ -1523,8 +1523,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12_3[month_index_current].channel.buckets[i_12]
                       .onlive_freq.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 三  // 2 6 dur
@@ -1539,9 +1539,9 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_12_2[month_index_current].channel.buckets[i_12]
                       .onlive_dur.value /
-                      100 /
-                      10000 /
-                      60
+                    100 /
+                    10000 /
+                    60
                   )
                 );
               }
@@ -1571,8 +1571,8 @@ export default {
                     if (buckets_child_12_2[i_12_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2[i_12_2].onlive_user_num.value /
-                          100 /
-                          10000
+                        100 /
+                        10000
                       );
                       break;
                     }
@@ -1590,8 +1590,8 @@ export default {
                     if (buckets_child_12_2_3[i_12_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2_3[i_12_2].onlive_freq.value /
-                          100 /
-                          10000
+                        100 /
+                        10000
                       );
                       break;
                     }
@@ -1610,9 +1610,9 @@ export default {
                       //
                       value = commonTools.returnFloat_2(
                         buckets_child_12_2_2[i_12_2].onlive_dur.value /
-                          100 /
-                          10000 /
-                          60
+                        100 /
+                        10000 /
+                        60
                       );
                       break;
                     }
@@ -2056,6 +2056,9 @@ export default {
               temp_data_17_un.push(["product", "本月", "上月"]);
               temp_data_17_fr.push(["product", "本月", "上月"]);
               temp_data_17_dur.push(["product", "本月", "上月"]);
+              console.log("buckets_17~~~~~~~", buckets_17)
+              console.log("buckets_17_2~~~~~~~", buckets_17_2)
+              console.log("buckets_17_3~~~~~~~", buckets_17_3)
 
               let top20_length_17 = 20;
               if (buckets_17[0].program_type.buckets.length < 20) {
@@ -2084,8 +2087,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17[month_index_current].program_type.buckets[i_17]
                       .demand_user_num.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 二   // 2 6 dur
@@ -2101,8 +2104,8 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17_2[month_index_current].program_type.buckets[i_17]
                       .demand_freq.value /
-                      100 /
-                      10000
+                    100 /
+                    10000
                   )
                 );
                 // 三  // 3 7 freq
@@ -2118,9 +2121,9 @@ export default {
                   commonTools.returnFloat_2(
                     buckets_17_3[month_index_current].program_type.buckets[i_17]
                       .demand_dur.value /
-                      100 /
-                      10000 /
-                      60
+                    100 /
+                    10000 /
+                    60
                   )
                 );
               }
@@ -2150,8 +2153,8 @@ export default {
                     if (buckets_child_17_2[i_17_2].key == key) {
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2[i_17_2].demand_user_num.value /
-                          10 /
-                          10000
+                        100 /
+                        10000
                       );
                       break;
                     }
@@ -2170,8 +2173,8 @@ export default {
                       // 2
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2_2[i_17_2].demand_freq.value / // 2
-                          10 /
-                          10000
+                        100 /
+                        10000
                       );
                       break;
                     }
@@ -2191,9 +2194,9 @@ export default {
                       //
                       value = commonTools.returnFloat_2(
                         buckets_child_17_2_3[i_17_2].demand_dur.value / // 3
-                          10 /
-                          10000 /
-                          60
+                        100 /
+                        10000 /
+                        60
                       );
                       break;
                     }
@@ -2311,11 +2314,11 @@ export default {
                   temp_data_18b_npn[top20_length_18b - i_18b],
                   0,
                   "(" +
-                    buckets_18b[month_index_current].programname.buckets[i_18b]
-                      .program_type.buckets[0].key +
-                    ")" +
-                    buckets_18b[month_index_current].programname.buckets[i_18b]
-                      .key
+                  buckets_18b[month_index_current].programname.buckets[i_18b]
+                    .program_type.buckets[0].key +
+                  ")" +
+                  buckets_18b[month_index_current].programname.buckets[i_18b]
+                    .key
                 );
                 Vue.set(
                   temp_data_18b_npn[top20_length_18b - i_18b],
@@ -2680,7 +2683,7 @@ export default {
                     data: []
                   });
                 }
-                setTimeout(function() {
+                setTimeout(function () {
                   vm.liveViewingDurationData.content = temp_liveViewingDurationData_content;
                   vm.liveViewingUserData.content = temp_liveViewingUserData_content;
                   vm.liveViewingTimesData.content = temp_liveViewingTimesData_content;
@@ -2778,7 +2781,7 @@ export default {
                       if (buckets_child_13_2[i_13_2].key == key) {
                         value = commonTools.returnFloat_2(
                           buckets_child_13_2[i_13_2].onlive_user_num.value /
-                            10000
+                          10000
                         );
                         break;
                       }
@@ -2845,13 +2848,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                      ManageSpecialKey(
-                        buckets_20zt[month_index_current]
-                          .special_or_activity_name.buckets[i_20zt].ti.buckets
-                      ) +
-                      ")" +
-                      buckets_20zt[month_index_current].special_or_activity_name
-                        .buckets[i_20zt].key
+                    ManageSpecialKey(
+                      buckets_20zt[month_index_current]
+                        .special_or_activity_name.buckets[i_20zt].ti.buckets
+                    ) +
+                    ")" +
+                    buckets_20zt[month_index_current].special_or_activity_name
+                      .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -3034,7 +3037,7 @@ export default {
                         if (buckets_child_13_2[i_13_2].key == key) {
                           value = commonTools.returnFloat_2(
                             buckets_child_13_2[i_13_2].onlive_user_num.value /
-                              10000
+                            10000
                           );
                           break;
                         }
@@ -3076,7 +3079,7 @@ export default {
                 let temp_liveViewingUserData_content = [];
                 let temp_liveViewingTimesData_content = [];
 
-                setTimeout(function() {
+                setTimeout(function () {
                   for (i_10 = 0; i_10 < length_10; i_10++) {
                     onlive_usernum_yd.push(
                       buckets_10[i_10].onlive_user_num.value
@@ -3146,13 +3149,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                      ManageSpecialKey(
-                        buckets_20zt[month_index_current]
-                          .special_or_activity_name.buckets[i_20zt].ti.buckets
-                      ) +
-                      ")" +
-                      buckets_20zt[month_index_current].special_or_activity_name
-                        .buckets[i_20zt].key
+                    ManageSpecialKey(
+                      buckets_20zt[month_index_current]
+                        .special_or_activity_name.buckets[i_20zt].ti.buckets
+                    ) +
+                    ")" +
+                    buckets_20zt[month_index_current].special_or_activity_name
+                      .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -3314,13 +3317,13 @@ export default {
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
                     0,
                     "(" +
-                      ManageSpecialKey(
-                        buckets_20zt[month_index_current]
-                          .special_or_activity_name.buckets[i_20zt].ti.buckets
-                      ) +
-                      ")" +
-                      buckets_20zt[month_index_current].special_or_activity_name
-                        .buckets[i_20zt].key
+                    ManageSpecialKey(
+                      buckets_20zt[month_index_current]
+                        .special_or_activity_name.buckets[i_20zt].ti.buckets
+                    ) +
+                    ")" +
+                    buckets_20zt[month_index_current].special_or_activity_name
+                      .buckets[i_20zt].key
                   );
                   Vue.set(
                     temp_data_20zt_cf[top20_length_20zt - i_20zt],
@@ -3352,7 +3355,7 @@ export default {
               let temp_liveViewingUserData_content = [];
               let temp_liveViewingTimesData_content = [];
 
-              setTimeout(function() {
+              setTimeout(function () {
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   onlive_usernum_yd.push(
                     buckets_10[i_10].onlive_user_num.value
@@ -3576,7 +3579,7 @@ export default {
                     data: []
                   });
                 }
-                setTimeout(function() {
+                setTimeout(function () {
                   vm.weekLiveViewUserData.content = temp_weekLiveViewUserData_content;
                   vm.weekLiveViewTimesData.content = temp_weekLiveViewTimesData_content;
                   vm.weekliveViewDurationData.content = temp_weekliveViewDurationData_content;
@@ -3967,7 +3970,7 @@ export default {
                 let onlive_usernum_yd = [];
                 let onlive_freq_yd = [];
 
-                setTimeout(function() {
+                setTimeout(function () {
                   for (i_10 = 0; i_10 < length_10; i_10++) {
                     onlive_usernum_yd.push(
                       buckets_10[i_10].onlive_user_num.value
@@ -4060,7 +4063,7 @@ export default {
                 onlive_usernum_yd = [];
                 onlive_freq_yd = [];
 
-                setTimeout(function() {
+                setTimeout(function () {
                   for (i_10 = 0; i_10 < length_10; i_10++) {
                     onlive_usernum_yd.push(
                       buckets_10[i_10].onlive_user_num.value
@@ -4153,7 +4156,7 @@ export default {
       let scrollDiv = document.querySelector(".monthly_report_body"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".monthly_nav a").on("click", function() {
+      $(".monthly_nav a").on("click", function () {
         $(this)
           .addClass("avtive_link")
           .parent()
@@ -5356,7 +5359,7 @@ export default {
 
       // 点播用户数对比（万户）
       demandUserNumData2: {
-        title: "点播用户数对比（万户）",
+        title: "点播用户数对比（十万户）",
         id: "demandUserNum2",
         color: ["#5B9BD4", "#EC7C30"],
         data: [
