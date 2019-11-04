@@ -1,5 +1,5 @@
 /* iconfont字体图标 */
-  /* project id 1314644 */
+/* project id 1314644 */
 /* @font-face {
   font-family: 'iconfont';
   src: url('//at.alicdn.com/t/font_1314644_5b5h5nisydy.eot');
@@ -12,13 +12,15 @@
 
 @font-face {
   font-family: 'iconfont';
-  src: url('ali_font/iconfont.eot');
-  src: url('ali_font/iconfont.eot?#iefix') format('embedded-opentype'),
-      url('ali_font/iconfont.woff2') format('woff2'),
-      url('ali_font/iconfont.woff') format('woff'),
-      url('ali_font/iconfont.ttf') format('truetype'),
-      url('ali_font/iconfont.svg#iconfont') format('svg');
+  /* project id 1314644 */
+  src: url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.eot');
+  src: url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.svg#iconfont') format('svg');
 }
+
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
@@ -55,6 +57,7 @@
   font-size: 0.18rem;
   text-align: left;
 }
+
 .title_row2 {
   display: flex;
   align-items: center;
@@ -177,9 +180,11 @@
 .marginbottom_14 {
   margin-bottom: 14px;
 }
+
 .marginbottom_24 {
   margin-bottom: 24px;
 }
-.margintop_14{
+
+.margintop_14 {
   margin-top: 14px;
 }

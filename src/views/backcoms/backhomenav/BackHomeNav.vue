@@ -123,8 +123,12 @@
                 <!-- <el-menu-item  @click="router_to('')" index="/backhome/bigscreenmanagement">大屏管理</el-menu-item> -->
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item v-show="ifShowMenu(13)" @click="router_to('/backhome/uploadfiles')" index="/backhome/uploadfiles">
-              <i class="iconfont">&#xe632;</i>
+            <el-menu-item
+              v-show="ifShowMenu(13)"
+              @click="router_to('/backhome/uploadfiles')"
+              index="/backhome/uploadfiles"
+            >
+              <i class="iconfont">&#xe60f;</i>
               <span slot="title">文件上传</span>
             </el-menu-item>
           </el-menu>
@@ -157,7 +161,7 @@ export default {
       .then(function (response) {
         if (response) {
           // 测试情况
-          vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13];
+          vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
           vm.$store
             .dispatch("set_current_authority", vm.authorityData)
             .then(function (response) { })
