@@ -201,6 +201,7 @@ export default {
         "权限管理",
         "大屏管理",
         "大屏查看",
+        "文件上传"
       ],
       // visit_data
       // visit_life
@@ -287,6 +288,9 @@ export default {
           if (temp.indexOf(12) > -1) {
             temp_authorizationChoose.push("大屏查看");
           }
+          if (temp.indexOf(13) > -1) {
+            temp_authorizationChoose.push("文件上传");
+          }
           vm.authorizationChoose = temp_authorizationChoose;
           // vm.$store.dispatch("get_current_authority").then(function(response) {
           //   console.log("~~~~~get_current_authority");
@@ -342,6 +346,9 @@ export default {
       }
       if (temp_authorizationChoose.indexOf("大屏查看") > -1) {
         temp_format_options.push("visit_lookscreen");
+      }
+      if (temp_authorizationChoose.indexOf("文件上传") > -1) {
+        temp_format_options.push("visit_upload");
       }
       let temp = {
         // permissions: String(["visit_data,visit_life"])

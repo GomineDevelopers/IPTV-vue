@@ -1474,6 +1474,8 @@ export default {
           export_json_to_excel_plural2
         } = require("../vendor/Export2Excel");
         const { exportExcel } = require("../vendor/Export2Excel");
+        const { export_json_to_excel_new } = require("../vendor/Export2Excel");
+
         const tHeader = [
           "商品名称",
           "商品货号",
@@ -1821,7 +1823,9 @@ export default {
         ]);
         let temp_titleArr = titleArr;
         let temp_DataArr = DataArr;
-        exportExcel(temp_titleArr, temp_DataArr, "测试2");
+        // exportExcel(temp_titleArr, temp_DataArr, "测试2");
+        export_json_to_excel_new(temp_titleArr, temp_DataArr, "测试2");
+
       });
     },
     drawLine() {

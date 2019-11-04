@@ -1013,6 +1013,8 @@ export default {
           // console.log(excelName);
           require.ensure([], () => {
             const { exportExcel } = require("../../../vendor/Export2Excel");
+            const { export_json_to_excel_new } = require("../../../vendor/Export2Excel");
+            
             // 获取当前excel data --延时3s
             vm.$store
               .dispatch("set_PR_excel_DownloadingStatus", 1)
@@ -1078,7 +1080,8 @@ export default {
                       // ]);
                       // ///
                       setTimeout(function() {
-                        exportExcel(temp_titleArr, temp_DataArr, excelName);
+                        // exportExcel(temp_titleArr, temp_DataArr, excelName);
+                        export_json_to_excel_new(temp_titleArr, temp_DataArr, excelName);
                       }, 100);
                     })
                     .catch(function(error) {
