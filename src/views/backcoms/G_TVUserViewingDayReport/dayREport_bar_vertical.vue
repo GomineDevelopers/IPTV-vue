@@ -13,7 +13,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -23,19 +23,19 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     },
     PR_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     },
     fillinData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.setLineChart();
       }, 1000);
     }
@@ -144,6 +144,14 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c}"
+        },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
         },
         series: seriesData
       };

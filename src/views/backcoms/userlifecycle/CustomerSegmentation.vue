@@ -175,7 +175,7 @@ export default {
         let customerLapsed_temp = []  //睡眠用户
         let customerNone_temp = []  //未订购用户
         customerSegmentation.forEach((value, index) => {
-          // console.log(value.key)
+          // console.log(value.key, value)
           value.productname.buckets.forEach((value2, index2) => {
             // console.log(value2.key)
             if (value.key == 'firsttime') {
@@ -187,18 +187,21 @@ export default {
               let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
               let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
               let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2)  //用户细分的户均观看时长
-              if (value2.demand_dur.value > value2.programTime_t.value) {
+              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              if (value2.demand_dur.value > programTime_t) {
                 play_full_rate = 100
               } else {
-                play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
               }
-              customerFirsttime_temp.push({
-                title: value2.key,
-                userNum: (value2.demand_user_num.value / 10000).toFixed(2),
-                familyWatchTime: demand_dur_family,
-                theSeedingRate: play_full_rate + '%',
-                viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-              })
+              if (value2.key != '贵州测试产品包') {
+                customerFirsttime_temp.push({
+                  title: value2.key,
+                  userNum: (value2.demand_user_num.value / 10000).toFixed(2),
+                  familyWatchTime: demand_dur_family,
+                  theSeedingRate: play_full_rate + '%',
+                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
+                })
+              }
             } else if (value.key == 'loyer') {
               let play_full_rate
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
@@ -207,18 +210,21 @@ export default {
               let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
               let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
               let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              if (value2.demand_dur.value > value2.programTime_t.value) {
+              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              if (value2.demand_dur.value > programTime_t) {
                 play_full_rate = 100
               } else {
-                play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
               }
-              customerLoyer_temp.push({
-                title: value2.key,
-                userNum: (value2.demand_user_num.value / 10000).toFixed(2),
-                familyWatchTime: demand_dur_family,
-                theSeedingRate: play_full_rate + '%',
-                viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-              })
+              if (value2.key != '贵州测试产品包') {
+                customerLoyer_temp.push({
+                  title: value2.key,
+                  userNum: (value2.demand_user_num.value / 10000).toFixed(2),
+                  familyWatchTime: demand_dur_family,
+                  theSeedingRate: play_full_rate + '%',
+                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
+                })
+              }
             } else if (value.key == 'onetime') {
               let play_full_rate
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
@@ -227,18 +233,22 @@ export default {
               let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
               let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
               let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              if (value2.demand_dur.value > value2.programTime_t.value) {
+              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              if (value2.demand_dur.value > programTime_t) {
                 play_full_rate = 100
               } else {
-                play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
               }
-              customerOnectime_temp.push({
-                title: value2.key,
-                userNum: (value2.demand_user_num.value / 10000).toFixed(2),
-                familyWatchTime: demand_dur_family,
-                theSeedingRate: play_full_rate + '%',
-                viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-              })
+              if (value2.key != '贵州测试产品包') {
+                customerOnectime_temp.push({
+                  title: value2.key,
+                  userNum: (value2.demand_user_num.value / 10000).toFixed(2),
+                  familyWatchTime: demand_dur_family,
+                  theSeedingRate: play_full_rate + '%',
+                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
+                })
+              }
+
             } else if (value.key == 'repurchase') {
               let play_full_rate
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
@@ -247,18 +257,21 @@ export default {
               let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
               let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
               let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              if (value2.demand_dur.value > value2.programTime_t.value) {
+              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              if (value2.demand_dur.value > programTime_t) {
                 play_full_rate = 100
               } else {
-                play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
               }
-              customerRepurchase_temp.push({
-                title: value2.key,
-                userNum: (value2.demand_user_num.value / 10000).toFixed(2),
-                familyWatchTime: demand_dur_family,
-                theSeedingRate: play_full_rate + '%',
-                viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-              })
+              if (value2.key != '贵州测试产品包') {
+                customerRepurchase_temp.push({
+                  title: value2.key,
+                  userNum: (value2.demand_user_num.value / 10000).toFixed(2),
+                  familyWatchTime: demand_dur_family,
+                  theSeedingRate: play_full_rate + '%',
+                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
+                })
+              }
             } else if (value.key == 'lapsed') {
               // console.log("睡眠用户------", value2)
               let play_full_rate
@@ -268,18 +281,21 @@ export default {
               let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
               let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
               let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              if (value2.demand_dur.value > value2.programTime_t.value) {
+              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              if (value2.demand_dur.value > programTime_t) {
                 play_full_rate = 100
               } else {
-                play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
               }
-              customerLapsed_temp.push({
-                title: value2.key,
-                userNum: (value2.demand_user_num.value / 10000).toFixed(2),
-                familyWatchTime: demand_dur_family,
-                theSeedingRate: play_full_rate + '%',
-                viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-              })
+              if (value2.key != '贵州测试产品包') {
+                customerLapsed_temp.push({
+                  title: value2.key,
+                  userNum: (value2.demand_user_num.value / 10000).toFixed(2),
+                  familyWatchTime: demand_dur_family,
+                  theSeedingRate: play_full_rate + '%',
+                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
+                })
+              }
             } else if (value.key == 'none') {
               let play_full_rate
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
@@ -288,18 +304,21 @@ export default {
               let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
               let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
               let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              if (value2.demand_dur.value > value2.programTime_t.value) {
+              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              if (value2.demand_dur.value > programTime_t) {
                 play_full_rate = 100
               } else {
-                play_full_rate = ((value2.demand_dur.value / value2.programTime_t.value) * 100).toFixed(2)
+                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
               }
-              customerNone_temp.push({
-                title: value2.key,
-                userNum: (value2.demand_user_num.value / 10000).toFixed(2),
-                familyWatchTime: demand_dur_family,
-                theSeedingRate: play_full_rate + '%',
-                viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-              })
+              if (value2.key != '贵州测试产品包') {
+                customerNone_temp.push({
+                  title: value2.key,
+                  userNum: (value2.demand_user_num.value / 10000).toFixed(2),
+                  familyWatchTime: demand_dur_family,
+                  theSeedingRate: play_full_rate + '%',
+                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
+                })
+              }
             }
           })
         })
@@ -310,8 +329,9 @@ export default {
         vm.customerSegmentation.categoryData[1].data = customerOnectime_temp
         vm.customerSegmentation.categoryData[2].data = customerLoyer_temp
         vm.customerSegmentation.categoryData[3].data = customerRepurchase_temp
-        vm.customerSegmentation.categoryData[4].data = customerNone_temp
-        vm.customerSegmentation.categoryData[5].data = customerLapsed_temp
+        vm.customerSegmentation.categoryData[4].data = customerLapsed_temp
+        vm.customerSegmentation.categoryData[5].data = customerNone_temp
+
       } catch (error) {
         console.log(error);
       }
@@ -360,6 +380,7 @@ export default {
         let viewing_num_repurchase_bottom_temp = []   //收视bottom
         let viewing_num_lapsed_bottom_temp = []   //收视bottom
         user_viewing_num_data.forEach((value, index) => {
+          // console.log(value.key, value)
           if (value.key == 'firsttime') {
             // console.log(value.key)
             // console.log(value)
@@ -653,8 +674,9 @@ export default {
         let viewing_time_repurchase_bottom_temp = []   //重新激活
         let viewing_time_lapsed_bottom_temp = []   //重新激活
         user_viewing_time_data.forEach((value, index) => {
+          console.log(value.key, value)
           if (value.key == 'firsttime') {
-            // console.log(value.key)
+            // console.log(value.key, value)
             let hot_num_fm  ////将top1的节目观看时长作为百分比分母(万小时)
             let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
@@ -920,9 +942,8 @@ export default {
   data() {
     return {
       targetOption: "尝试购买", //默认存放选择的指标
-      //选择指标数据
-      // target: ["订购-Firsttime", "订购-Oncetime", "订购-忠诚用户", "未订购用户"],
-      target: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "从未订购", "睡眠用户"],
+      //用户群体  下拉框选择数据
+      target: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "睡眠用户", "从未订购"],
 
       viewing_time_positive: true, //收视时长 默认正序
       //收视时长TOP数据
@@ -1183,7 +1204,7 @@ export default {
 
       //用户细分数据
       // title: ["订购-Firsttime", "订购-Oncetime", "订购-忠诚用户", "未订购用户"],
-      title: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "从未订购", "睡眠用户"],
+      title: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "睡眠用户", "从未订购"],
       customerSegmentation: {
         // 用户细分数据
         title: ["VIP包", "用户数（万户）", "户均观看时长（小时）", "完播率", "观看行为"],

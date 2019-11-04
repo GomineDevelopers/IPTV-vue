@@ -133,7 +133,7 @@ export default {
       let option = {
         title: {
           text: this.fillinData_Change.title,
-          x: "center",
+          x: "left",
           padding: [11, 0, 0, 18],
           textStyle: {
             fontStyle: "normal",
@@ -144,7 +144,7 @@ export default {
         legend: {
           orient: "horizontal",
           padding: [20, 50, 0, 50],
-          right: "right",
+          right: "center",
           data: ["平均", "今日"],
           // icon: "circle",
           textStyle: {
@@ -206,6 +206,14 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} %"
+        },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
         },
         series: seriesData
       };

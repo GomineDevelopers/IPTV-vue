@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_day"]),
     fillinData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let length1 = vm.fillinData.data.length;
@@ -103,7 +103,7 @@ export default {
           }
 
           // 视图更新
-          setTimeout(function() {
+          setTimeout(function () {
             // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
@@ -123,18 +123,18 @@ export default {
           }
         }
         // 视图更新
-        setTimeout(function() {
+        setTimeout(function () {
           // console.log("视图更新");
           vm.setLineChart();
         }, 1000);
         return vm.fillinData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.setLineChart();
     }, 1000);
   },
@@ -201,7 +201,7 @@ export default {
         legend: {
           orient: "horizontal",
           padding: [20, 50, 0, 50],
-          right: "right",
+          right: "center",
           data: legendlist,
           // icon: "circle",
           textStyle: {
@@ -260,6 +260,14 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c}"
+        },
+        //图表自带工具
+        toolbox: {
+          show: true,
+          right: "6%",
+          feature: {
+            saveAsImage: {}
+          }
         },
         series: seriesData
       };
