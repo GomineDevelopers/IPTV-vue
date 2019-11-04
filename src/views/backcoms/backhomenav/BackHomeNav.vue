@@ -157,7 +157,7 @@ export default {
       .then(function (response) {
         if (response) {
           // 测试情况
-          vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+          vm.authorityData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13];
           vm.$store
             .dispatch("set_current_authority", vm.authorityData)
             .then(function (response) { })

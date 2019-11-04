@@ -93,10 +93,12 @@ function sheet_from_array_of_arrays(data, opts) {
 
 function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
 
+    console.log("~~~~~~1");
     let m_length = dataArr.length;
     let ws = {};
     let data = [];
 
+    console.log("~~~~~~2");
 
     for (let m_j = 0; m_j < m_length; m_j++) {
         // data.push(titleArr[m_j]);
@@ -108,40 +110,51 @@ function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
             data.push(dataArr[m_j][c_i]);
         }
     }
+    console.log("~~~~~~3");
 
     let range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
     for (let R = 0; R != data.length; ++R) {
-        for (let C = 0; C != data[R].length; ++C) {
+        console.log(data[R]);
+        // for (let C = 0; C != data[R].length; ++C) {
+        if (data[R] == undefined || data[R].length == 0) { // 出现empty =》 undefined无数据情况 =》 pass掉这串数据
+            // do nothing. 
+        }   
+        else {
+            for (let C = 0; C < data[R].length; C++) {
 
-            // 初始化实际长度 - start大于x则start取x（），end小于x则end取x
-            if (range.s.r > R) range.s.r = R;
-            if (range.s.c > C) range.s.c = C;
-            if (range.e.r < R) range.e.r = R;
-            if (range.e.c < C) range.e.c = C;
+                // 初始化实际长度 - start大于x则start取x（），end小于x则end取x
+                if (range.s.r > R) range.s.r = R;
+                if (range.s.c > C) range.s.c = C;
+                if (range.e.r < R) range.e.r = R;
+                if (range.e.c < C) range.e.c = C;
 
-            // let cell = { v: data[R][C] }; 
-            let cell;
-            let temp_data = data[R][C];
-            if (typeof (temp_data) == "object") {
-                cell = { v: JSON.stringify(data[R][C]) };
-            } else {
-                cell = { v: String(data[R][C]) }; // 其他：统一字符串！
+                // let cell = { v: data[R][C] }; 
+                let cell;
+                let temp_data = data[R][C];
+                if (typeof (temp_data) == "object") {
+                    cell = { v: JSON.stringify(data[R][C]) };
+                } else {
+                    cell = { v: String(data[R][C]) }; // 其他：统一字符串！
+                }
+                // console.log(data[R][C]);
+                if (cell.v == null) continue;
+                let cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
+
+                if (typeof cell.v === 'number') cell.t = 'n';
+                else if (typeof cell.v === 'boolean') cell.t = 'b';
+                else if (cell.v instanceof Date) {
+                    cell.t = 'n';
+                    cell.z = XLSX.SSF._table[14];
+                    cell.v = datenum(cell.v);
+                }
+                else cell.t = 's';
+                ws[cell_ref] = cell;
             }
-            console.log(data[R][C]);
-            if (cell.v == null) continue;
-            let cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
-
-            if (typeof cell.v === 'number') cell.t = 'n';
-            else if (typeof cell.v === 'boolean') cell.t = 'b';
-            else if (cell.v instanceof Date) {
-                cell.t = 'n';
-                cell.z = XLSX.SSF._table[14];
-                cell.v = datenum(cell.v);
-            }
-            else cell.t = 's';
-            ws[cell_ref] = cell;
         }
+
     }
+
+    console.log("~~~~~~4");
 
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
     return ws;
