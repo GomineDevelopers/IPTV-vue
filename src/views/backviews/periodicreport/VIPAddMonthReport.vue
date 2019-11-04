@@ -214,7 +214,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.set_api_data();
     }, 100);
   },
@@ -228,7 +228,7 @@ export default {
 
       let vm = this;
       console.log("PR_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.set_api_data();
         // excel 处理
         vm.Excel_data_manage();
@@ -237,7 +237,7 @@ export default {
     PR_month(newValue, oldValue) {
       let vm = this;
       console.log("PR_month: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.set_api_data();
         // excel 处理
         vm.Excel_data_manage();
@@ -250,13 +250,13 @@ export default {
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function(response_dataArr) {
+        .then(function (response_dataArr) {
           console.log("下载关");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
-      setTimeout(function() {
+      setTimeout(function () {
         if (vm.PR_Report_index == 1) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -402,27 +402,27 @@ export default {
           }
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function(response_title) {
+            .then(function (response_title) {
               console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function(response_dataArr) {
+                .then(function (response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function(response_dataArr) {
+                    .then(function (response_dataArr) {
                       console.log("下载开");
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                       console.info(error);
                     });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.info(error);
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.info(error);
             });
         }
@@ -486,7 +486,7 @@ export default {
       formData.append("end", temp.end);
       formData.append("year", temp.year);
       users_vipReport(formData)
-        .then(function(response) {
+        .then(function (response) {
           // responses0 ru_ord            --普通用户的
           // responses1 ru_ord_prd        --VIP用户的
           // responses2 ru_guide_content  -- 订购内容来源  Top那个
@@ -650,7 +650,7 @@ export default {
                   commonTools.returnFloat_2(
                     (buckets_0[i_0].new_paid_num.value /
                       buckets_0[i_0].new_num.value) *
-                      100
+                    100
                   )
                 );
                 // 第3个（结构b）
@@ -757,8 +757,8 @@ export default {
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
                     ].new_income.value /
-                      10000 /
-                      100
+                    10000 /
+                    100
                   );
                 }
                 if (key == "少儿VIP") {
@@ -779,8 +779,8 @@ export default {
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
                     ].new_income.value /
-                      10000 /
-                      100
+                    10000 /
+                    100
                   );
                 }
                 if (key == "欢乐家庭VIP") {
@@ -799,8 +799,8 @@ export default {
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
                     ].new_income.value /
-                      10000 /
-                      100
+                    10000 /
+                    100
                   );
                 }
               } // function （尾巴）
@@ -1369,7 +1369,7 @@ export default {
                   temp_data_8_current[i_8_child].times =
                     buckets_8_child[i_8_child].demand_freq.value;
                   temp_data_8_current[i_8_child].duration =
-                    buckets_8_child[i_8_child].demand_dur.value;
+                    (buckets_8_child[i_8_child].demand_dur.value / 60).toFixed(2);
                 }
               }
 
@@ -1402,7 +1402,7 @@ export default {
                   temp_data_8_last[i_8_child].times =
                     buckets_8_child[i_8_child].demand_freq.value;
                   temp_data_8_last[i_8_child].duration =
-                    buckets_8_child[i_8_child].demand_dur.value;
+                    (buckets_8_child[i_8_child].demand_dur.value / 60).toFixed(2);
                 }
               }
               console.log("temp_data_8_current ~ last");
@@ -1415,7 +1415,7 @@ export default {
             }
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -2484,7 +2484,7 @@ export default {
   border-bottom: 1px solid #f0f0f0;
 }
 .dibble_table_body {
-  height: 680px;
+  height: 750px;
 }
 .marginbottom_60 {
   margin-bottom: 60px;
