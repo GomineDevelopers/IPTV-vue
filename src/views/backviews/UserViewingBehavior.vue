@@ -48,7 +48,7 @@
     <!-- 收视行为结束 -->
 
     <!-- 收视TOP开始 -->
-    <el-row class="viewing_top15" v-if="ifPlaymodeShow_zb &&  ifInitShow" >
+    <el-row class="viewing_top15" v-if="ifPlaymodeShow_zb &&  ifInitShow">
       <el-row class="model_title">
         <span class="title_border_left"></span>直播收视TOP15
       </el-row>
@@ -119,7 +119,7 @@ export default {
       "UVB_target_type"
     ]),
     ifPlaymodeShow_zb: {
-      get: function() {
+      get: function () {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
           return true;
         }
@@ -128,10 +128,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifPlaymodeShow_db: {
-      get: function() {
+      get: function () {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
           return true;
         }
@@ -140,10 +140,10 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     },
     ifPlaymodeShow_hk: {
-      get: function() {
+      get: function () {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
           return true;
         }
@@ -152,7 +152,7 @@ export default {
         }
         return false;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
     // if_playmode_is_single_db: {
     //   get: function() {
@@ -173,9 +173,9 @@ export default {
     UVB_region(newValue, oldValue) {
       let vm = this;
       console.log("UVB_region: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -183,9 +183,9 @@ export default {
     UVB_operator(newValue, oldValue) {
       let vm = this;
       console.log("UVB_operator: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -193,9 +193,9 @@ export default {
     UVB_playmode(newValue, oldValue) {
       let vm = this;
       console.log("UVB_playmode: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -203,9 +203,9 @@ export default {
     UVB_programa(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -213,9 +213,9 @@ export default {
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
       console.log("UVB_contenttype: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -223,9 +223,9 @@ export default {
     UVB_day(newValue, oldValue) {
       let vm = this;
       console.log("UVB_day: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -233,9 +233,9 @@ export default {
     UVB_week(newValue, oldValue) {
       let vm = this;
       console.log("UVB_week: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -243,9 +243,9 @@ export default {
     UVB_picker(newValue, oldValue) {
       let vm = this;
       console.log("UVB_picker: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -254,9 +254,9 @@ export default {
       let vm = this;
       console.log("UVB_time_type: " + newValue);
       vm.ifInitShow = true;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -266,7 +266,7 @@ export default {
       // 监听指标选中
       // console.log("targetOption");
       // console.log(newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refreshPerData();
       }, 200);
     },
@@ -288,9 +288,9 @@ export default {
     UVB_programa_list(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa_list: " + newValue);
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
-        setTimeout(function() {
+        setTimeout(function () {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -490,7 +490,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       userAction(formData)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           // /////////// 0 -
           try {
@@ -520,7 +520,7 @@ export default {
               });
               temp4.push({
                 // value: buckets_0[i_0].watch_freq_family.value,
-                value: (buckets_0[i_0].watch_freq.value /  buckets_0[i_0].watch_user_num.value).toFixed(2),
+                value: (buckets_0[i_0].watch_freq.value / buckets_0[i_0].watch_user_num.value).toFixed(2),
 
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
@@ -555,11 +555,18 @@ export default {
             let temp5_B = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
             let temp_all_B = []; //包含temp1_B~temp5_B // ▲ 5种值-分别对应运营商-分别对应ac
 
-            temp1_B.push(["product", "移动", "联通", "电信"]);
-            temp2_B.push(["product", "移动", "联通", "电信"]);
-            temp3_B.push(["product", "移动", "联通", "电信"]);
-            temp4_B.push(["product", "移动", "联通", "电信"]);
-            temp5_B.push(["product", "移动", "联通", "电信"]);
+            // temp1_B.push(["product", "移动", "联通", "电信"]);
+            // temp2_B.push(["product", "移动", "联通", "电信"]);
+            // temp3_B.push(["product", "移动", "联通", "电信"]);
+            // temp4_B.push(["product", "移动", "联通", "电信"]);
+            // temp5_B.push(["product", "移动", "联通", "电信"]);
+
+            temp1_B.push(["product"]);
+            temp2_B.push(["product"]);
+            temp3_B.push(["product"]);
+            temp4_B.push(["product"]);
+            temp5_B.push(["product"]);
+
             // for (let j = 0; j < 9; j++) {
             //   // 推入9个地区的 []
             //   temp1_B.push([]);
@@ -606,129 +613,98 @@ export default {
                 commonTools.acConvert_Single(buckets_0B[i_0B].key)
               );
 
-              let operator_length = 3;
+              // let operator_length = 3;
+              let operator_length = buckets_0B[i_0B].operators.buckets.length;
               let operator_i;
               let temp_aa = [];
               for (operator_i = 0; operator_i < operator_length; operator_i++) {
                 if (
                   buckets_0B[i_0B].operators.buckets[operator_i].key == "移动"
                 ) {
-                  Vue.set(
-                    temp1_B[i_0B + 1],
-                    1,
-                    buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
-                      .value
-                  );
-                  Vue.set(
-                    temp2_B[i_0B + 1],
-                    1,
-                    buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value
-                  );
-                  Vue.set(
-                    temp3_B[i_0B + 1],
-                    1,
-                    buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value
-                  );
-                  Vue.set(
-                    temp4_B[i_0B + 1],
-                    1,
-                    // buckets_0B[i_0B].operators.buckets[operator_i]
-                    //   .watch_freq_family.value
+                  if (i_0B == 0) {
+                    temp1_B[0].push("移动");
+                    temp2_B[0].push("移动");
+                    temp3_B[0].push("移动");
+                    temp4_B[0].push("移动");
+                    temp5_B[0].push("移动");
+                  }
+
+                  temp1_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                    .value)
+
+                  temp2_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                    .value)
+
+                  temp3_B[i_0B + 1].push
                     (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_user_num.value)
+
+                  temp4_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i]
+                    .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_user_num.value).toFixed(2)
-                  );
-                  Vue.set(
-                    temp5_B[i_0B + 1],
-                    1,
-                    // buckets_0B[i_0B].operators.buckets[operator_i]
-                    //   .watch_dur_mean.value
-                    (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
+
+                  temp5_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i]
+                    .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_freq.value).toFixed(2)
-                  );
                 }
                 if (
                   buckets_0B[i_0B].operators.buckets[operator_i].key == "联通"
                 ) {
-                  Vue.set(
-                    temp1_B[i_0B + 1],
-                    2,
+                  if (i_0B == 0) {
+
+                    temp1_B[0].push("联通");
+                    temp2_B[0].push("联通");
+                    temp3_B[0].push("联通");
+                    temp4_B[0].push("联通");
+                    temp5_B[0].push("联通");
+                  }
+
+                  temp1_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
-                      .value
-                  );
-                  Vue.set(
-                    temp2_B[i_0B + 1],
-                    2,
+                      .value)
+                  temp2_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value
-                  );
-                  Vue.set(
-                    temp3_B[i_0B + 1],
-                    2,
+                      .value)
+                  temp3_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value
-                  );
-                  Vue.set(
-                    temp4_B[i_0B + 1],
-                    2,
-                    // buckets_0B[i_0B].operators.buckets[operator_i]
-                    //   .watch_freq_family.value
+                      .watch_user_num.value)
+                  temp4_B[i_0B + 1].push(
                     (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value).toFixed(2)
-                  );
-                  Vue.set(
-                    temp5_B[i_0B + 1],
-                    2,
-                    // buckets_0B[i_0B].operators.buckets[operator_i]
-                    //   .watch_dur_mean.value
+                        .watch_user_num.value).toFixed(2))
+                  temp5_B[i_0B + 1].push(
                     (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value).toFixed(2)
-                  );
+                        .watch_freq.value).toFixed(2))
                 }
                 if (
                   buckets_0B[i_0B].operators.buckets[operator_i].key == "电信"
                 ) {
-                  Vue.set(
-                    temp1_B[i_0B + 1],
-                    3,
+                  if (i_0B == 0) {
+                    temp1_B[0].push("电信");
+                    temp2_B[0].push("电信");
+                    temp3_B[0].push("电信");
+                    temp4_B[0].push("电信");
+                    temp5_B[0].push("电信");
+                  }
+
+                  temp1_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
-                      .value
-                  );
-                  Vue.set(
-                    temp2_B[i_0B + 1],
-                    3,
+                      .value)
+                  temp2_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value
-                  );
-                  Vue.set(
-                    temp3_B[i_0B + 1],
-                    3,
+                      .value)
+                  temp3_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value
-                  );
-                  Vue.set(
-                    temp4_B[i_0B + 1],
-                    3,
-                    // buckets_0B[i_0B].operators.buckets[operator_i]
-                    //   .watch_freq_family.value
+                      .watch_user_num.value)
+                  temp4_B[i_0B + 1].push(
                     (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value).toFixed(2)
-                  );
-                  Vue.set(
-                    temp5_B[i_0B + 1],
-                    3,
-                    // buckets_0B[i_0B].operators.buckets[operator_i]
-                    //   .watch_dur_mean.value
+                        .watch_user_num.value).toFixed(2))
+                  temp5_B[i_0B + 1].push(
                     (buckets_0B[i_0B].operators.buckets[operator_i]
                       .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value).toFixed(2)
-                  );
+                        .watch_freq.value).toFixed(2))
                 }
               }
             }
@@ -775,7 +751,7 @@ export default {
               });
               temp4_BB.push({
                 // value: buckets_0BB[i_0BB].watch_freq_family.value,
-                value: (buckets_0BB[i_0BB].watch_freq.value /  buckets_0BB[i_0BB].watch_user_num.value).toFixed(2),
+                value: (buckets_0BB[i_0BB].watch_freq.value / buckets_0BB[i_0BB].watch_user_num.value).toFixed(2),
                 name: buckets_0BB[i_0BB].key
               });
               temp5_BB.push({
@@ -793,7 +769,7 @@ export default {
           } catch (error) {
             console.log(error);
           }
-          
+
           try {
             vm.liveViewingTopList.data = []; // 初始化
             // /////////// liveViewingTopList - 1 - 直播Top15
@@ -862,7 +838,7 @@ export default {
             console.log(error);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
       // }
@@ -956,10 +932,10 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       userAction_demand(formData)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
-          
-          try {      
+
+          try {
             let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
             let length_ti = buckets_ti.length;
             let i_ti;
@@ -1043,7 +1019,7 @@ export default {
           }
 
           // /////////// orderViewingTopList - 2 - 点播Top15
-          try {      
+          try {
 
             vm.orderViewingTopList.data = []; // 初始化
 
@@ -1064,7 +1040,7 @@ export default {
                     commonTools.returnFloat_2(
                       (buckets_top[i_top].demand_freq.value /
                         temp_max_value_top) *
-                        100
+                      100
                     )
                   ) + "%",
                 // playNum: String(
@@ -1076,13 +1052,13 @@ export default {
               };
               vm.orderViewingTopList.data.push(temp_data_top);
             }
-   
+
           } catch (error) {
             console.log(error)
           }
 
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }
@@ -1090,19 +1066,19 @@ export default {
 
   mounted() {
     let vm = this;
-    setTimeout(function() {
-      if(vm.UVB_time_type == 0){ // 显示初始化
+    setTimeout(function () {
+      if (vm.UVB_time_type == 0) { // 显示初始化
         vm.ifInitShow = false;
       }
-      else{
+      else {
         vm.ifInitShow = true;
       }
     }, 500);
 
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_UVB_programa_list")
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
           let length = response.length;
           let i;
@@ -1132,16 +1108,16 @@ export default {
           //   // ["纪实", 86.4]
           // ]
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 1000);
   },
   data() {
     return {
-      ifInitShow:false,
+      ifInitShow: false,
       // targetOption: "", //存放选择的指标
-      targetOption: "观看次数", 
+      targetOption: "观看次数",
 
       //选择指标数据
       // target: [

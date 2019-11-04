@@ -97,19 +97,19 @@ export default {
   },
   mounted() {
     this.drawLine(); // 测试
-    this.drawLineB(); 
-    
+    this.drawLineB();
+
     // this.drawLine2(); // 测试
 
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
-        .then(function(response) {
+        .then(function (response) {
           vm.demands_location(response, "week_days"); // 本周-前6+加当天
           vm.demands_location(response, "weeks"); // 当天所在周的范围 + 当天的上周范围
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
     }, 100);
@@ -152,7 +152,7 @@ export default {
       }
 
       demands_location(data)
-        .then(function(response) {
+        .then(function (response) {
           if (date_type == "week_days") {
             // console.log(response);
 
@@ -202,7 +202,7 @@ export default {
             let aggregations1_current = response.data.responses[1].aggregations;
             vm.ifgetdata = true;
             demands_location(data2)
-              .then(function(response2) {
+              .then(function (response2) {
                 // console.log(response2);
                 let aggregations1_last =
                   response2.data.responses[1].aggregations;
@@ -244,17 +244,17 @@ export default {
                 );
                 vm.dur2 = parseInt(aggregations1_last.demand_dur.value / 60);
 
-                setTimeout(function() {
+                setTimeout(function () {
                   vm.drawLine2();
                 }, 100);
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 console.info(error);
                 vm.ifgetdata = false;
               });
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
           vm.ifgetdata = false;
         });
@@ -340,9 +340,10 @@ export default {
             itemHeight: 5,
             width: 40,
             padding: [0, 5],
-            itemGap: 10,
+            itemGap: 5,
             textStyle: {
-              color: "#dedede"
+              color: "#dedede",
+              fontSize: "10"
             }
           },
           {
@@ -355,9 +356,10 @@ export default {
             itemHeight: 5,
             width: 40,
             padding: [0, 5],
-            itemGap: 10,
+            itemGap: 5,
             textStyle: {
-              color: "#dedede"
+              color: "#dedede",
+              fontSize: "10"
             }
           }
         ],
@@ -466,9 +468,10 @@ export default {
             itemHeight: 5,
             width: 40,
             padding: [0, 5],
-            itemGap: 10,
+            itemGap: 5,
             textStyle: {
-              color: "#dedede"
+              color: "#dedede",
+              fontSize: "10"
             }
           },
           {
@@ -481,9 +484,10 @@ export default {
             itemHeight: 5,
             width: 40,
             padding: [0, 5],
-            itemGap: 10,
+            itemGap: 5,
             textStyle: {
-              color: "#dedede"
+              color: "#dedede",
+              fontSize: "10"
             }
           }
         ],

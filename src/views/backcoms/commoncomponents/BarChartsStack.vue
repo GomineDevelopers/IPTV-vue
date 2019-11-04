@@ -17,99 +17,99 @@ export default {
   watch: {
     chartData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
 
     UVB_region(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_playmode(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_programa(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     UVB_picker(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
 
     ADD_VIP_region(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     ADD_VIP_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     ADD_VIP_valueAddedPackage(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     ADD_VIP_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     },
     ADD_VIP_picker(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.drawLine();
       }, 2000);
     }
@@ -134,7 +134,7 @@ export default {
       "ADD_VIP_picker"
     ]),
     chartData_Change: {
-      get: function() {
+      get: function () {
         let vm = this;
         let data = [];
         let color = [];
@@ -315,12 +315,12 @@ export default {
         //   // };
         // }
 
-        setTimeout(function() {
+        setTimeout(function () {
           vm.drawLine();
         }, 2000);
         return vm.chartData;
       },
-      set: function(newValue) {}
+      set: function (newValue) { }
     }
   },
   data() {
@@ -328,7 +328,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    setTimeout(function () {
       vm.drawLine();
     }, 2000);
   },
@@ -342,6 +342,8 @@ export default {
       // console.log("~~~vm.chartData_Change:");
       // console.log(vm.chartData_Change);
       //设置series数据条数
+      console.log(vm.chartData);
+      console.log(vm.chartData_Change);
       try {
         for (let i = 1; i <= vm.chartData_Change.data[0].length - 1; i++) {
           seriesData.push({ type: "bar", stack: "堆叠", barWidth: "12" });
