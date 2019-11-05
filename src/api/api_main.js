@@ -45,7 +45,7 @@ export function test_login() {
 // 运营周报top
 // post http://{{iptv}}/api/users/mobileReport/top
 export async function users_mobileReport_top(postData) {
-    let responseData = await request({ 
+    let responseData = await request({
         method: 'post',
         url: '/users/mobileReport/top',
         data: postData
@@ -54,10 +54,10 @@ export async function users_mobileReport_top(postData) {
 }
 // 用户收视行为周报top
 // post http://{{iptv}}/api/users/weeActiveReport/top
-export async function users_weekActiveReportTop(postData) {
+export async function users_activeReportTop(postData) {
     let responseData = await request({
         method: 'post',
-        url: '/users/weeActiveReport/top',
+        url: '/users/activeReport/top',
         data: postData
     })
     return responseData

@@ -686,7 +686,6 @@ export default {
             let program = value.key;
             let program_name = value.channel.buckets[0].key;
             if (index < 15) {
-              console.log(program)
               var formData = new FormData();
               var formData = new window.FormData();
               formData.append("operator", temp.operator);
@@ -695,7 +694,9 @@ export default {
               formData.append("programname", program);
               users_activeReportTop(formData)
                 .then((responses) => {
-                  console.log(responses)
+                  console.log("---------------------------------")
+                  console.log(program)
+                  console.log(responses.data.responses)
                 })
                 .catch((error) => {
                   console.log(error)
