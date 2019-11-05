@@ -130,7 +130,6 @@ export default {
     PR_week(newValue, oldValue) {
       // console.log("当前选择时间为", newValue)
       this.api_data_set();
-
     }
   },
   computed: {

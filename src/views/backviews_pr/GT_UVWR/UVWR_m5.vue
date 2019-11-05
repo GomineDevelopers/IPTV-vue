@@ -228,6 +228,7 @@ export default {
 
         //本土原创节目点播TOP10
         let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
+        // console.log("local_program_type_data~~~~~~~", local_program_type_data)
         Vue.set(vm.GT_UVWR1_Z1.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_Z1.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }

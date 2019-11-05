@@ -43,7 +43,7 @@ export function test_login() {
 // //////////////////////// 上传文件
 // 转免节目单上传
 // POST http://{{host}}/api/csv/program/free
-export function csv_program_free( data) {
+export function csv_program_free(data) {
     return request({
         method: 'post',
         url: '/csv/program/free',
@@ -52,7 +52,7 @@ export function csv_program_free( data) {
 }
 // 节目单上传
 // POST http://{{host}}/api/csv/program
-export function csv_program( data) {
+export function csv_program(data) {
     return request({
         method: 'post',
         url: '/csv/program',
@@ -61,7 +61,7 @@ export function csv_program( data) {
 }
 // 微博热搜上传
 // POST http://{{host}}/api/csv/weibo
-export function csv_weibo( data) {
+export function csv_weibo(data) {
     return request({
         method: 'post',
         url: '/csv/weibo',
@@ -70,7 +70,7 @@ export function csv_weibo( data) {
 }
 // //////////////////////// 时间日期
 // get http://{{iptv}}/api/date
-export function get_date( user) {
+export function get_date(user) {
     return request({
         method: 'get',
         url: '/date',
@@ -289,6 +289,17 @@ export function users_weekActiveReport(postData) {
         url: '/users/weekActiveReport',
         data: postData
     })
+}
+
+// 用户收视行为周报节目TOP数据
+// post http://{{iptv}}/api/users/weeActiveReport/top
+export async function users_weekActiveReportTop(postData) {
+    let responseData = await request({
+        method: 'post',
+        url: '/users/weeActiveReport/top',
+        data: postData
+    })
+    return responseData
 }
 
 // let temp = {
