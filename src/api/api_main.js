@@ -40,6 +40,30 @@ export function test_login() {
 // };
 
 
+// //////////////////////// top15回调
+
+// 运营周报top
+// post http://{{iptv}}/api/users/mobileReport/top
+export async function users_mobileReport_top(postData) {
+    let responseData = await request({ 
+        method: 'post',
+        url: '/users/mobileReport/top',
+        data: postData
+    })
+    return responseData
+}
+// 用户收视行为周报top
+// post http://{{iptv}}/api/users/weeActiveReport/top
+export async function users_weekActiveReportTop(postData) {
+    let responseData = await request({
+        method: 'post',
+        url: '/users/weeActiveReport/top',
+        data: postData
+    })
+    return responseData
+}
+
+
 // //////////////////////// 上传文件
 // 转免节目单上传
 // POST http://{{host}}/api/csv/program/free
@@ -291,16 +315,7 @@ export function users_weekActiveReport(postData) {
     })
 }
 
-// 用户收视行为周报节目TOP数据
-// post http://{{iptv}}/api/users/weeActiveReport/top
-export async function users_weekActiveReportTop(postData) {
-    let responseData = await request({
-        method: 'post',
-        url: '/users/weeActiveReport/top',
-        data: postData
-    })
-    return responseData
-}
+
 
 // let temp = {
 //     operator: operator,
