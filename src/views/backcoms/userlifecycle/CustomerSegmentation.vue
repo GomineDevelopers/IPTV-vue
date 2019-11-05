@@ -175,7 +175,7 @@ export default {
         let customerLapsed_temp = []  //睡眠用户
         let customerNone_temp = []  //未订购用户
         customerSegmentation.forEach((value, index) => {
-          // console.log(value.key, value)
+          console.log(value.key, value)
           value.productname.buckets.forEach((value2, index2) => {
             // console.log(value2.key)
             if (value.key == 'firsttime') {
