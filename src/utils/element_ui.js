@@ -29,6 +29,7 @@ import {
   Loading,
   Notification,
   Tooltip,
+  MessageBox
 } from 'element-ui'
 
 Vue.use(Row)
@@ -64,6 +65,7 @@ Vue.use(Tooltip)
 
 
 Vue.prototype.$notify = Notification   //消息提示
+Vue.prototype.$confirm = MessageBox.confirm   //弹框
 
 
 

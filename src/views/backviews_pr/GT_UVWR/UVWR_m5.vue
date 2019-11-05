@@ -55,6 +55,7 @@ import numberOfRegisteredUsers2 from "@/views/backcoms/commoncomponents2/numberO
 import Vue from "vue";
 import { commonTools } from "@/utils/test";
 import { mapGetters } from "vuex";
+import { users_activeReportTop } from "@/api/api_main";
 
 export default {
   name: "UVWR_m5",
@@ -194,7 +195,6 @@ export default {
     api_data_m1_range(newValue, oldValue) {
       console.log("api_data_m1模块5（上周）", newValue);
       let vm = this;
-
       try {
         //本土原创节目点播数据
         //本土原创节目一周点播数据
@@ -226,24 +226,60 @@ export default {
         let demand_freq_data = newValue.data.responses[18].aggregations.demand_freq.value;
         Vue.set(vm.GT_UVWR1_Y3.data[1], 1, demand_freq_data);
 
+        //上周的一周直播节目收视TOP15（万小时）开始
+        let last_week = commonTools.currentDay_7daysAgoRange(
+          temp_time.week_day_start
+        ); //获取上周的时间
+        //上一周的数据
+        let temp = {
+          operator: '移动',
+          start: last_week.start,
+          end: last_week.end,
+        }
         //本土原创节目点播TOP10
         let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
-        // console.log("local_program_type_data~~~~~~~", local_program_type_data)
         Vue.set(vm.GT_UVWR1_Z1.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_Z1.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }
         local_program_type_data.forEach((value, index) => {
-          let program_name = value.program_type.buckets[0].key + ' ' + value.key
-          Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 0, program_name);
-          Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 1, value.demand_freq.value);
-        });
-      } catch (error) {
-        vm.GT_UVWR1_Z1.data.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(value, 0, '');
-            Vue.set(value, 1, 0);
+          if (index < 10) {
+            let program = value.key
+            let program_name = value.program_type.buckets[0].key + ' ' + program
+            Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 0, program_name);
+            Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 1, value.demand_freq.value);
+            var formData = new FormData();
+            var formData = new window.FormData();
+            formData.append("operator", temp.operator);
+            formData.append("start", temp.start);
+            formData.append("end", temp.end);
+            formData.append("programname", program);
+            users_activeReportTop(formData)
+              .then((responses) => {
+                try {
+                  let last_top_value = responses.data.responses[2].aggregations.demand_freq.value
+                  // console.log(last_top_value)
+                  if (responses.data.responses[2].aggregations.programname.buckets[0].key) { }
+                  Vue.set(
+                    vm.GT_UVWR1_Z1.data[10 - index],
+                    2,
+                    last_top_value
+                  );
+                } catch (error) {
+                  Vue.set(
+                    vm.GT_UVWR1_Z1.data[10 - index],
+                    2,
+                    ''
+                  );
+                  console.log(error)
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+              })
           }
         });
+      } catch (error) {
+        vm.GT_UVWR1_Z1.data = [["product"], [], [], [], [], [], [], [], [], [], []]
         console.log(error);
       }
     },
@@ -265,23 +301,60 @@ export default {
         let demand_freq_data = newValue.data.responses[18].aggregations.demand_freq.value;
         Vue.set(vm.GT_UVWR1_Y3.data[1], 2, demand_freq_data);
 
+        //上周的一周直播节目收视TOP15（万小时）开始
+        let last_week = commonTools.currentDay_7daysAgoRange(
+          temp_time.week_day_start
+        ); //获取上周的时间
+        //上一周的数据
+        let temp = {
+          operator: '联通',
+          start: last_week.start,
+          end: last_week.end,
+        }
         //本土原创节目点播TOP10
         let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
         Vue.set(vm.GT_UVWR1_Z2.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_Z2.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }
         local_program_type_data.forEach((value, index) => {
-          let program_name = value.program_type.buckets[0].key + ' ' + value.key
-          Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 0, program_name);
-          Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 1, value.demand_freq.value);
-        });
-      } catch (error) {
-        vm.GT_UVWR1_Z2.data.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(value, 0, '');
-            Vue.set(value, 1, 0);
+          if (index < 10) {
+            let program = value.key
+            let program_name = value.program_type.buckets[0].key + ' ' + program
+            Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 0, program_name);
+            Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 1, value.demand_freq.value);
+            var formData = new FormData();
+            var formData = new window.FormData();
+            formData.append("operator", temp.operator);
+            formData.append("start", temp.start);
+            formData.append("end", temp.end);
+            formData.append("programname", program);
+            users_activeReportTop(formData)
+              .then((responses) => {
+                try {
+                  let last_top_value = responses.data.responses[2].aggregations.demand_freq.value
+                  // console.log(last_top_value)
+                  if (responses.data.responses[2].aggregations.programname.buckets[0].key) { }
+                  Vue.set(
+                    vm.GT_UVWR1_Z2.data[10 - index],
+                    2,
+                    last_top_value
+                  );
+                } catch (error) {
+                  Vue.set(
+                    vm.GT_UVWR1_Z2.data[10 - index],
+                    2,
+                    ''
+                  );
+                  console.log(error)
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+              })
           }
         });
+      } catch (error) {
+        vm.GT_UVWR1_Z2.data = [["product"], [], [], [], [], [], [], [], [], [], []]
         console.log(error);
       }
     },
@@ -303,120 +376,64 @@ export default {
         let demand_freq_data = newValue.data.responses[18].aggregations.demand_freq.value;
         Vue.set(vm.GT_UVWR1_Y3.data[1], 3, demand_freq_data);
 
+        //上周的一周直播节目收视TOP15（万小时）开始
+        let last_week = commonTools.currentDay_7daysAgoRange(
+          temp_time.week_day_start
+        ); //获取上周的时间
+        //上一周的数据
+        let temp = {
+          operator: '电信',
+          start: last_week.start,
+          end: last_week.end,
+        }
         //本土原创节目点播TOP10
         let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
         Vue.set(vm.GT_UVWR1_Z3.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_Z3.data[0], 2, beforeWeekFormat);
         if (local_program_type_data[0].key) { }
         local_program_type_data.forEach((value, index) => {
-          let program_name = value.program_type.buckets[0].key + ' ' + value.key
-          Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 0, program_name);
-          Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 1, value.demand_freq.value);
-        });
-      } catch (error) {
-        vm.GT_UVWR1_Z3.data.forEach((value, index) => {
-          if (index > 0) {
-            Vue.set(value, 0, '');
-            Vue.set(value, 1, 0);
+          if (index < 10) {
+            let program = value.key
+            let program_name = value.program_type.buckets[0].key + ' ' + program
+            Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 0, program_name);
+            Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 1, value.demand_freq.value);
+            var formData = new FormData();
+            var formData = new window.FormData();
+            formData.append("operator", temp.operator);
+            formData.append("start", temp.start);
+            formData.append("end", temp.end);
+            formData.append("programname", program);
+            users_activeReportTop(formData)
+              .then((responses) => {
+                try {
+                  let last_top_value = responses.data.responses[2].aggregations.demand_freq.value
+                  // console.log(last_top_value)
+                  if (responses.data.responses[2].aggregations.programname.buckets[0].key) { }
+                  Vue.set(
+                    vm.GT_UVWR1_Z3.data[10 - index],
+                    2,
+                    last_top_value
+                  );
+                } catch (error) {
+                  Vue.set(
+                    vm.GT_UVWR1_Z3.data[10 - index],
+                    2,
+                    ''
+                  );
+                  console.log(error)
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+              })
           }
         });
-        console.log(error);
-      }
-    },
-    //移动上周数据
-    api_data_m2_range(newValue, oldValue) {
-      console.log("移动上周数据", newValue);
-      let vm = this;
-      try {
-        //本土原创节目点播TOP10
-        let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
-        setTimeout(() => {
-          let live_temp = vm.GT_UVWR1_Z1.data;
-          live_temp.forEach((value, index) => {
-            if (index > 0) {
-              Vue.set(vm.GT_UVWR1_Z1.data[index], 2, '');
-              // console.log(value)
-              local_program_type_data.forEach((value2, index2) => {
-                let program_name = value2.program_type.buckets[0].key + ' ' + value2.key
-                if (program_name == value[0]) {
-                  // console.log(program_name, value2.demand_freq.value)
-                  Vue.set(
-                    vm.GT_UVWR1_Z1.data[index],
-                    2,
-                    Number(value2.demand_freq.value.toFixed(2))
-                  );
-                }
-              });
-            }
-          });
-        }, 500);
       } catch (error) {
+        vm.GT_UVWR1_Z3.data = [["product"], [], [], [], [], [], [], [], [], [], []]
         console.log(error);
       }
     },
-    //联通上周数据
-    api_data_m3_range(newValue, oldValue) {
-      console.log("联通上周数据", newValue);
-      let vm = this;
 
-      try {
-        //本土原创节目点播TOP10
-        let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
-        setTimeout(() => {
-          let live_temp = vm.GT_UVWR1_Z2.data;
-          live_temp.forEach((value, index) => {
-            if (index > 0) {
-              Vue.set(vm.GT_UVWR1_Z2.data[index], 2, '');
-              // console.log("本土原创节目点播本周--", value)
-              local_program_type_data.forEach((value2, index2) => {
-                let program_name = value2.program_type.buckets[0].key + ' ' + value2.key
-                if (program_name == value[0]) {
-                  // console.log(value2.key, value2.demand_freq.value)
-                  Vue.set(
-                    vm.GT_UVWR1_Z2.data[index],
-                    2,
-                    Number(value2.demand_freq.value.toFixed(2))
-                  );
-                }
-              });
-            }
-          });
-        }, 500);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    //电信上周数据
-    api_data_m4_range(newValue, oldValue) {
-      console.log("电信上周数据", newValue);
-      let vm = this;
-      try {
-        //本土原创节目点播TOP10
-        let local_program_type_data = newValue.data.responses[20].aggregations.programname.buckets;
-        setTimeout(() => {
-          let live_temp = vm.GT_UVWR1_Z3.data;
-          live_temp.forEach((value, index) => {
-            if (index > 0) {
-              Vue.set(vm.GT_UVWR1_Z3.data[index], 2, '');
-              // console.log("本土原创节目点播本周--", value)
-              local_program_type_data.forEach((value2, index2) => {
-                let program_name = value2.program_type.buckets[0].key + ' ' + value2.key
-                if (program_name == value[0]) {
-                  // console.log(value2.key, value2.demand_freq.value)
-                  Vue.set(
-                    vm.GT_UVWR1_Z3.data[index],
-                    2,
-                    Number(value2.demand_freq.value.toFixed(2))
-                  );
-                }
-              });
-            }
-          });
-        }, 500);
-      } catch (error) {
-        console.log(error);
-      }
-    }
   },
   mounted() {
     this.drawLine();

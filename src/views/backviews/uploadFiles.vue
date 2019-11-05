@@ -54,6 +54,9 @@
         </span>
       </el-row>
     </el-row>
+    <div class="alert_div">
+      <el-alert show-icon :title="alertTitle" :type="alertType" effect="dark" v-show="alertShow"></el-alert>
+    </div>
   </div>
 </template>
 <script>
@@ -63,6 +66,9 @@ export default {
   name: "uploadFiles",
   data() {
     return {
+      alertShow: false,  //文字提示
+      alertTitle: "", //提示文字
+      alertType: "", //提示类型
       dataMatchingFile1: null,
       dataMatchingFile2: null,
       dataMatchingFile3: null
@@ -76,13 +82,31 @@ export default {
       vm.dataMatchingFile1 = file.name;
       //注：上传成功后清空vm.dataMatchingFile1绑定的文件名称
       formData.append("csv", file);
-      csv_program_free(formData)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
+      console.log("file---", file)
+      if (file) {
+        vm.$confirm('确认上传文件?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          csv_program_free(formData)
+            .then(function (response) {
+              console.log(response);
+              vm.showAlert("上传成功！", 'success')
+              vm.dataMatchingFile1 = null
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+        }).catch(() => {
+          vm.showAlert("取消上传！", 'info')
+          vm.dataMatchingFile1 = null
         });
+        // console.log("可以上传文件了！")
+      } else {
+        console.log("操作取消")
+      }
     },
     fileUpload2(e) {
       let vm = this;
@@ -91,13 +115,29 @@ export default {
       vm.dataMatchingFile2 = file.name;
       //注：上传成功后清空vm.dataMatchingFile2绑定的文件名称
       formData.append("csv", file);
-      csv_program(formData)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
+      if (file) {
+        vm.$confirm('确认上传文件?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          csv_program(formData)
+            .then(function (response) {
+              console.log(response);
+              vm.showAlert("上传成功！", 'success')
+              vm.dataMatchingFile2 = null
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }).catch(() => {
+          vm.showAlert("取消上传！", 'info')
+          vm.dataMatchingFile2 = null
         });
+        // console.log("可以上传文件了！")
+      } else {
+        console.log("操作取消")
+      }
     },
     fileUpload3(e) {
       let vm = this;
@@ -106,13 +146,41 @@ export default {
       vm.dataMatchingFile3 = file.name;
       //注：上传成功后清空vm.dataMatchingFile3绑定的文件名称
       formData.append("csv", file);
-      csv_weibo(formData)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
+      if (file) {
+        vm.$confirm('确认上传文件?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          csv_weibo(formData)
+            .then(function (response) {
+              console.log(response);
+              vm.showAlert("上传成功！", 'success')
+              vm.dataMatchingFile3 = null
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }).catch(() => {
+          vm.showAlert("取消上传！", 'info')
+          vm.dataMatchingFile3 = null
         });
+        // console.log("可以上传文件了！")
+      } else {
+        console.log("操作取消")
+      }
+    },
+
+    showAlert(info, type) {
+      let vm = this
+      vm.alertShow = true;
+      vm.alertTitle = info;
+      vm.alertType = type;
+      setTimeout(() => {
+        vm.alertShow = false;
+        vm.alertTitle = "";
+        vm.alertType = "";
+      }, 2000)
     }
   }
 };
@@ -183,5 +251,14 @@ export default {
   height: 20px;
   margin-top: 5px;
   color: #666;
+}
+.alert_div {
+  position: absolute;
+  height: 20px;
+  line-height: 20px;
+  top: 90px;
+  left: 50%;
+  width: 300px;
+  transform: translateX(-50%);
 }
 </style>
