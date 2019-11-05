@@ -186,7 +186,7 @@ import BarChartsStack3 from "@/views/backcoms/commoncomponents2/BarChartsStack_C
 
 import { mapGetters } from "vuex";
 import { debuglog } from "util";
-import { users_weekActiveReportTop } from "@/api/api_main";
+import { users_activeReportTop } from "@/api/api_main";
 
 export default {
   name: "UVWR_m1",
@@ -693,7 +693,7 @@ export default {
               formData.append("start", temp.start);
               formData.append("end", temp.end);
               formData.append("programname", program);
-              users_weekActiveReportTop(formData)
+              users_activeReportTop(formData)
                 .then((responses) => {
                   console.log(responses)
                 })
