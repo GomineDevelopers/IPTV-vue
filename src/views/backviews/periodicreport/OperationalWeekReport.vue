@@ -1900,8 +1900,8 @@ export default {
               let buckets_21 =
                 response.data.responses[21].aggregations.statistical_granularity
                   .buckets;
-              let buckets_21_child_0 = buckets_21[0].channel.buckets;
-              let buckets_21_child_1 = buckets_21[1].channel.buckets;
+              let buckets_21_child_0 = buckets_21[0].programname.buckets;
+              let buckets_21_child_1 = buckets_21[1].programname.buckets;
               // let length_21 = buckets_21.length; // 默认两周 - 2
               // 本周top10 名称+数值 (0+2) => 上周数值（1）
               let i_21;
@@ -1952,13 +1952,21 @@ export default {
                   Return_KeyValue_21(temp_data_21[i_21 + 1][0])
                 );
               }
-              function Manage_longKey(key) {
+              function Manage_longKey(key) { // 特殊处理：top10有点多
                 return key.replace(" ", "\n");
               }
+              // for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+              //   let newKey = Manage_longKey(temp_data_21[i_21 + 1][0]);
+              //   Vue.set(temp_data_21[i_21 + 1], 0, newKey);
+              // }
               for (i_21 = 0; i_21 < top10_length_21; i_21++) {
-                let newKey = Manage_longKey(temp_data_21[i_21 + 1][0]);
-                Vue.set(temp_data_21[i_21 + 1], 0, newKey);
-              }
+                let temp_key_add =
+                  temp_data_21[i_21 + 1][0] +
+                  "\n" +
+                  Manage_longKey(buckets_21[1].programname.buckets[i_21].channel.buckets[0]
+                    .key);
+                Vue.set(temp_data_21[i_21 + 1], 0, temp_key_add);
+              } 
               vm.liveProgramTOPData.data = temp_data_21;
             } catch (error) {
               console.log(error);
@@ -2038,8 +2046,8 @@ export default {
               let buckets_23 =
                 response.data.responses[23].aggregations.statistical_granularity
                   .buckets;
-              let buckets_23_child_0 = buckets_23[0].channel.buckets;
-              let buckets_23_child_1 = buckets_23[1].channel.buckets;
+              let buckets_23_child_0 = buckets_23[0].programname.buckets;
+              let buckets_23_child_1 = buckets_23[1].programname.buckets;
               // let length_23 = buckets_23.length; // 默认两周 - 2
               // 本周top10 名称+数值 (0+2) => 上周数值（1）
               let i_23;
@@ -2090,12 +2098,20 @@ export default {
                   Return_KeyValue_23(temp_data_23[i_23 + 1][0])
                 );
               }
-              function Manage_longKey(key) {
-                return key.replace(" ", "\n");
-              }
+              // function Manage_longKey(key) {
+              //   return key.replace(" ", "\n");
+              // }
+              // for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+              //   let newKey = Manage_longKey(temp_data_23[i_23 + 1][0]);
+              //   Vue.set(temp_data_23[i_23 + 1], 0, newKey);
+              // }
               for (i_23 = 0; i_23 < top5_length_23; i_23++) {
-                let newKey = Manage_longKey(temp_data_23[i_23 + 1][0]);
-                Vue.set(temp_data_23[i_23 + 1], 0, newKey);
+                let temp_key_add =
+                  temp_data_23[i_23 + 1][0] +
+                  "\n" +
+                  buckets_23[1].programname.buckets[i_23].channel.buckets[0]
+                    .key;
+                Vue.set(temp_data_23[i_23 + 1], 0, temp_key_add);
               }
               vm.localProgramTOPData.data = temp_data_23;
             } catch (error) {

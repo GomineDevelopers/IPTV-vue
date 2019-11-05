@@ -119,7 +119,7 @@ export default {
       "UVB_target_type"
     ]),
     ifPlaymodeShow_zb: {
-      get: function () {
+      get: function() {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
           return true;
         }
@@ -128,10 +128,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifPlaymodeShow_db: {
-      get: function () {
+      get: function() {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
           return true;
         }
@@ -140,10 +140,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifPlaymodeShow_hk: {
-      get: function () {
+      get: function() {
         if (this.UVB_playmode == null || this.UVB_playmode.length == 0) {
           return true;
         }
@@ -152,7 +152,7 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
     // if_playmode_is_single_db: {
     //   get: function() {
@@ -173,9 +173,9 @@ export default {
     UVB_region(newValue, oldValue) {
       let vm = this;
       console.log("UVB_region: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -183,9 +183,9 @@ export default {
     UVB_operator(newValue, oldValue) {
       let vm = this;
       console.log("UVB_operator: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -193,9 +193,9 @@ export default {
     UVB_playmode(newValue, oldValue) {
       let vm = this;
       console.log("UVB_playmode: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -203,9 +203,9 @@ export default {
     UVB_programa(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -213,9 +213,9 @@ export default {
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
       console.log("UVB_contenttype: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -223,9 +223,9 @@ export default {
     UVB_day(newValue, oldValue) {
       let vm = this;
       console.log("UVB_day: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -233,9 +233,9 @@ export default {
     UVB_week(newValue, oldValue) {
       let vm = this;
       console.log("UVB_week: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -243,9 +243,9 @@ export default {
     UVB_picker(newValue, oldValue) {
       let vm = this;
       console.log("UVB_picker: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -254,9 +254,9 @@ export default {
       let vm = this;
       console.log("UVB_time_type: " + newValue);
       vm.ifInitShow = true;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -266,7 +266,7 @@ export default {
       // 监听指标选中
       // console.log("targetOption");
       // console.log(newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refreshPerData();
       }, 200);
     },
@@ -288,9 +288,9 @@ export default {
     UVB_programa_list(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa_list: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
-        setTimeout(function () {
+        setTimeout(function() {
           vm.refreshPerData();
         }, 200);
       }, 100);
@@ -490,7 +490,7 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       userAction(formData)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
           // /////////// 0 -
           try {
@@ -520,13 +520,19 @@ export default {
               });
               temp4.push({
                 // value: buckets_0[i_0].watch_freq_family.value,
-                value: (buckets_0[i_0].watch_freq.value / buckets_0[i_0].watch_user_num.value).toFixed(2),
+                value: (
+                  buckets_0[i_0].watch_freq.value /
+                  buckets_0[i_0].watch_user_num.value
+                ).toFixed(2),
 
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
                 // value: buckets_0[i_0].watch_dur_mean.value,
-                value: (buckets_0[i_0].watch_dur.value / buckets_0[i_0].watch_freq.value).toFixed(2),
+                value: (
+                  buckets_0[i_0].watch_dur.value /
+                  buckets_0[i_0].watch_freq.value
+                ).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
             }
@@ -538,6 +544,7 @@ export default {
             vm.regionData_data_arr = temp_all;
           } catch (error) {
             console.log(error);
+            vm.regionData_data_arr = [];
           }
           // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
           // console.log(vm.regionData_data_arr);
@@ -629,29 +636,43 @@ export default {
                     temp5_B[0].push("移动");
                   }
 
-                  temp1_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
-                    .value)
+                  temp1_B[i_0B + 1].push(
+                    buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                      .value
+                  );
 
-                  temp2_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                    .value)
+                  temp2_B[i_0B + 1].push(
+                    buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                      .value
+                  );
 
-                  temp3_B[i_0B + 1].push
-                    (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value)
+                  temp3_B[i_0B + 1].push(
+                    buckets_0B[i_0B].operators.buckets[operator_i]
+                      .watch_user_num.value
+                  );
 
-                  temp4_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i]
-                    .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value).toFixed(2)
+                  temp4_B[i_0B + 1]
+                    .push(
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                        .value /
+                        buckets_0B[i_0B].operators.buckets[operator_i]
+                          .watch_user_num.value
+                    )
+                    .toFixed(2);
 
-                  temp5_B[i_0B + 1].push(buckets_0B[i_0B].operators.buckets[operator_i]
-                    .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value).toFixed(2)
+                  temp5_B[i_0B + 1]
+                    .push(
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                        .value /
+                        buckets_0B[i_0B].operators.buckets[operator_i]
+                          .watch_freq.value
+                    )
+                    .toFixed(2);
                 }
                 if (
                   buckets_0B[i_0B].operators.buckets[operator_i].key == "联通"
                 ) {
                   if (i_0B == 0) {
-
                     temp1_B[0].push("联通");
                     temp2_B[0].push("联通");
                     temp3_B[0].push("联通");
@@ -661,21 +682,32 @@ export default {
 
                   temp1_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
-                      .value)
+                      .value
+                  );
                   temp2_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value)
+                      .value
+                  );
                   temp3_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value)
+                      .watch_user_num.value
+                  );
                   temp4_B[i_0B + 1].push(
-                    (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                        .watch_user_num.value).toFixed(2))
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                        .value /
+                      buckets_0B[i_0B].operators.buckets[operator_i]
+                        .watch_user_num.value
+                    ).toFixed(2)
+                  );
                   temp5_B[i_0B + 1].push(
-                    (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                        .watch_freq.value).toFixed(2))
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                        .value /
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                        .value
+                    ).toFixed(2)
+                  );
                 }
                 if (
                   buckets_0B[i_0B].operators.buckets[operator_i].key == "电信"
@@ -690,21 +722,32 @@ export default {
 
                   temp1_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
-                      .value)
+                      .value
+                  );
                   temp2_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value)
+                      .value
+                  );
                   temp3_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_user_num.value)
+                      .watch_user_num.value
+                  );
                   temp4_B[i_0B + 1].push(
-                    (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_freq.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                        .watch_user_num.value).toFixed(2))
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                        .value /
+                      buckets_0B[i_0B].operators.buckets[operator_i]
+                        .watch_user_num.value
+                    ).toFixed(2)
+                  );
                   temp5_B[i_0B + 1].push(
-                    (buckets_0B[i_0B].operators.buckets[operator_i]
-                      .watch_dur.value / buckets_0B[i_0B].operators.buckets[operator_i]
-                        .watch_freq.value).toFixed(2))
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                        .value /
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                        .value
+                    ).toFixed(2)
+                  );
                 }
               }
             }
@@ -721,6 +764,7 @@ export default {
             vm.operatorData_arr = temp_all_B;
           } catch (error) {
             console.log(error);
+            vm.operatorData_arr = [];
           }
           // ///////////////// 收视行为播放
           try {
@@ -751,12 +795,18 @@ export default {
               });
               temp4_BB.push({
                 // value: buckets_0BB[i_0BB].watch_freq_family.value,
-                value: (buckets_0BB[i_0BB].watch_freq.value / buckets_0BB[i_0BB].watch_user_num.value).toFixed(2),
+                value: (
+                  buckets_0BB[i_0BB].watch_freq.value /
+                  buckets_0BB[i_0BB].watch_user_num.value
+                ).toFixed(2),
                 name: buckets_0BB[i_0BB].key
               });
               temp5_BB.push({
                 // value: buckets_0BB[i_0BB].watch_dur_mean.value,
-                value: (buckets_0BB[i_0BB].watch_dur.value / buckets_0BB[i_0BB].watch_freq.value).toFixed(2),
+                value: (
+                  buckets_0BB[i_0BB].watch_dur.value /
+                  buckets_0BB[i_0BB].watch_freq.value
+                ).toFixed(2),
                 name: buckets_0BB[i_0BB].key
               });
             }
@@ -768,6 +818,7 @@ export default {
             vm.playData_arr = temp_all_BB;
           } catch (error) {
             console.log(error);
+            vm.playData_arr = [];
           }
 
           try {
@@ -803,6 +854,7 @@ export default {
             }
           } catch (error) {
             console.log(error);
+            vm.liveViewingTopList.data = [];
           }
           // /////////// lookBackViewingTopList - 2 - 回看Top15
           try {
@@ -838,8 +890,9 @@ export default {
             console.log(error);
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
+          vm.lookBackViewingTopList.data = [];
         });
       // }
     },
@@ -932,10 +985,12 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       userAction_demand(formData)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
 
           try {
+            vm.columnData_arr = [];
+
             let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
             let length_ti = buckets_ti.length;
             let i_ti;
@@ -970,14 +1025,24 @@ export default {
                   if (buckets_ti[i_ti].key == ti_name) {
                     temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
                     temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
-                    temp3.push([ti_name, buckets_ti[i_ti].demand_user_num.value]);
+                    temp3.push([
+                      ti_name,
+                      buckets_ti[i_ti].demand_user_num.value
+                    ]);
                     temp4.push([
                       ti_name,
                       // buckets_ti[i_ti].watch_freq_family.value
-                      (buckets_ti[i_ti].demand_freq.value / buckets_ti[i_ti].demand_user_num.value).toFixed(2)
+                      (
+                        buckets_ti[i_ti].demand_freq.value /
+                        buckets_ti[i_ti].demand_user_num.value
+                      ).toFixed(2)
                     ]);
                     // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
-                    temp5.push([ti_name, (buckets_ti[i_ti].demand_dur.value / ti_name, buckets_ti[i_ti].demand_freq.value).toFixed(2)]);
+                    temp5.push([
+                      ti_name,
+                      (buckets_ti[i_ti].demand_dur.value / ti_name,
+                      buckets_ti[i_ti].demand_freq.value).toFixed(2)
+                    ]);
                   }
                 } catch (error) {
                   console.log(error);
@@ -1015,12 +1080,12 @@ export default {
             // console.log(temp_all_C);
             vm.columnData_arr = temp_all_C;
           } catch (error) {
-            console.log(error)
+            console.log(error);
+            vm.columnData_arr = [];
           }
 
           // /////////// orderViewingTopList - 2 - 点播Top15
           try {
-
             vm.orderViewingTopList.data = []; // 初始化
 
             let buckets_top =
@@ -1040,7 +1105,7 @@ export default {
                     commonTools.returnFloat_2(
                       (buckets_top[i_top].demand_freq.value /
                         temp_max_value_top) *
-                      100
+                        100
                     )
                   ) + "%",
                 // playNum: String(
@@ -1052,13 +1117,12 @@ export default {
               };
               vm.orderViewingTopList.data.push(temp_data_top);
             }
-
           } catch (error) {
-            console.log(error)
+            console.log(error);
+            vm.orderViewingTopList.data = [];
           }
-
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }
@@ -1066,19 +1130,19 @@ export default {
 
   mounted() {
     let vm = this;
-    setTimeout(function () {
-      if (vm.UVB_time_type == 0) { // 显示初始化
+    setTimeout(function() {
+      if (vm.UVB_time_type == 0) {
+        // 显示初始化
         vm.ifInitShow = false;
-      }
-      else {
+      } else {
         vm.ifInitShow = true;
       }
     }, 500);
 
-    setTimeout(function () {
+    setTimeout(function() {
       vm.$store
         .dispatch("get_UVB_programa_list")
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
           let length = response.length;
           let i;
@@ -1108,7 +1172,7 @@ export default {
           //   // ["纪实", 86.4]
           // ]
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }, 1000);

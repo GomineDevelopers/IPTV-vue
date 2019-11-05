@@ -364,9 +364,9 @@ export default {
             return dateArr;
           }
           let Date_Arr = returnDate_StartToExpirationDate(ExpirationDate);
-          console.log(Date_Arr);
+          // console.log(Date_Arr);
           let Date_Arr_toChinese = dateManageArr(Date_Arr);
-          console.log(Date_Arr_toChinese);
+          // console.log(Date_Arr_toChinese);
           let length_all = Date_Arr.length;
           let i_all;
           let nameArray = [
@@ -382,6 +382,9 @@ export default {
           ];
           // //////////// 开机数量 open_num
           try {
+            vm.powerUserNumber.dataTime = [];
+            vm.powerUserNumber.nameArray = [];
+            vm.powerUserNumber.stringArray = [];
             let buckets_1 = response.data.responses[1].aggregations.ac.buckets;
             let length_1 = buckets_1.length;
             let i_1;
@@ -442,11 +445,11 @@ export default {
                   if (buckets_cc[i_cc].key == Date_Arr[i_all]) {
                     // console.log("~~~~~~~~:" + String(i_cc));
                     // 日期对比
-                    console.log(
-                      Date_Arr[i_all] +
-                        ": " +
-                        String(buckets_cc[i_cc].open_num.value)
-                    );
+                    // console.log(
+                    //   Date_Arr[i_all] +
+                    //     ": " +
+                    //     String(buckets_cc[i_cc].open_num.value)
+                    // );
                     if (i_all != length_all - 1) {
                       temp_ManageStr +=
                         String(buckets_cc[i_cc].open_num.value) + "\t";
@@ -457,9 +460,9 @@ export default {
                     break; // 退出 for2
                   }
                 }
-                console.log(if_Get);
+                // console.log(if_Get);
                 if (if_Get == false) {
-                  console.log(Date_Arr[i_all] + ": 0");
+                  // console.log(Date_Arr[i_all] + ": 0");
                   if (i_all != length_all - 1) {
                     temp_ManageStr += "0" + "\t";
                   } else {
@@ -535,6 +538,9 @@ export default {
           }
           // //////////// active_num 激活用户
           try {
+            vm.onlineUserNumber.dataTime = [];
+            vm.onlineUserNumber.nameArray = [];
+            vm.onlineUserNumber.stringArray = [];
             let buckets_2 = response.data.responses[2].aggregations.ac.buckets;
             let length_2 = buckets_2.length;
             let i_2;
@@ -629,6 +635,9 @@ export default {
 
           // //////////// 心跳 heart_beat_freq
           try {
+            vm.heartbeatFrequency.dataTime = [];
+            vm.heartbeatFrequency.nameArray = [];
+            vm.heartbeatFrequency.stringArray = [];
             let buckets_3 = response.data.responses[3].aggregations.ac.buckets;
             let length_3 = buckets_3.length;
             let i_3;
@@ -639,15 +648,10 @@ export default {
             // 处理地区
             let temp_3_2 = nameArray; // nameArray
 
-            let buckets_3_child = buckets_3[0].statistical_granularity.buckets; // 天
-            let length_3_child = buckets_3_child.length;
-            let i_3_child;
-
-            for (i_3_child = 0; i_3_child < length_3_child; i_3_child++) {
-              temp_3_1.push(dateManage(buckets_3_child[i_3_child].key));
-
+            for (i_all = 0; i_all < length_all; i_all++) {
               temp_3_3.push("");
             }
+            
             // 处理值 （地区=》时间） 2
             // 参数1：ac固定顺序 参数2：当前ac的位置
             function DateManage_AcToTime_3(index_ac, index_current) {
@@ -727,6 +731,15 @@ export default {
         })
         .catch(function(error) {
           console.info(error);
+          vm.powerUserNumber.dataTime = [];
+          vm.powerUserNumber.nameArray = [];
+          vm.powerUserNumber.stringArray = [];
+          vm.onlineUserNumber.dataTime = [];
+          vm.onlineUserNumber.nameArray = [];
+          vm.onlineUserNumber.stringArray = [];
+          vm.heartbeatFrequency.dataTime = [];
+          vm.heartbeatFrequency.nameArray = [];
+          vm.heartbeatFrequency.stringArray = [];
         });
     },
     //点击锚点实现左侧滚动

@@ -202,19 +202,26 @@ export default {
           // ///////// 1 2 3
 
           try {
+            vm.newUserTotal.data = [];
+            vm.newPayingUsersProportion.data = [];
+            vm.subscribersData.data = [];
             let buckets_0;
             // let buckets_0 =
             //   response.data.responses[0].aggregations.statistical_granularity
             //     .buckets; //新增用户概览
             if (time_type == 1) {
               console.log("~~~~~1111");
-              buckets_0 = response.data.responses[0].aggregations.statistical_granularity.buckets;
+              buckets_0 =
+                response.data.responses[0].aggregations.statistical_granularity
+                  .buckets;
             } else if (time_type == 2) {
               console.log("~~~~~2222");
-              buckets_0 = response.data.responses[2].aggregations.statistical_granularity.buckets;
+              buckets_0 =
+                response.data.responses[2].aggregations.statistical_granularity
+                  .buckets;
               // buckets_0 = response.data.responses[0].aggregations.statistical_granularity.buckets;
 
-            console.log(buckets_0.length);
+              console.log(buckets_0.length);
             }
             console.log(buckets_0.length);
 
@@ -232,7 +239,10 @@ export default {
             // 新增收入	new_income
             // 新增订购用户数	new_paid_num
             let temp_newUserTotal = [["product"], ["新增用户"]]; // 1
-            let temp_newPayingUsersProportion = [["product"], ["新增付费用户占比"]]; // 2
+            let temp_newPayingUsersProportion = [
+              ["product"],
+              ["新增付费用户占比"]
+            ]; // 2
             let temp_subscribersData = [
               ["product", "订购用户数（数）", "收入（万元）"] // 3
             ];
@@ -241,20 +251,28 @@ export default {
               if (time_type == 1) {
                 // 1
                 try {
-                  temp_newUserTotal[0].push(commonTools.format_dayToChinese_2(buckets_0[i_0].key));
+                  temp_newUserTotal[0].push(
+                    commonTools.format_dayToChinese_2(buckets_0[i_0].key)
+                  );
                 } catch (error) {
                   console.log(error);
                 }
                 // 2
                 try {
-                  temp_newPayingUsersProportion[0].push(commonTools.format_dayToChinese_2(buckets_0[i_0].key));
+                  temp_newPayingUsersProportion[0].push(
+                    commonTools.format_dayToChinese_2(buckets_0[i_0].key)
+                  );
                 } catch (error) {
                   console.log(error);
                 }
                 // 3
                 try {
                   temp_subscribersData.push([]);
-                  Vue.set(temp_subscribersData[i_0 + 1], 0, commonTools.format_dayToChinese_2(buckets_0[i_0].key));
+                  Vue.set(
+                    temp_subscribersData[i_0 + 1],
+                    0,
+                    commonTools.format_dayToChinese_2(buckets_0[i_0].key)
+                  );
                 } catch (error) {
                   console.log(error);
                 }
@@ -343,13 +361,18 @@ export default {
 
           // ///////// 4 5
           try {
+            vm.subcontractUserData.data = [];
+            vm.subcontractIncomeData.data = [];
             let buckets_1;
             if (time_type == 1) {
-              buckets_1 = response.data.responses[1].aggregations.statistical_granularity.buckets;
+              buckets_1 =
+                response.data.responses[1].aggregations.statistical_granularity
+                  .buckets;
             } else if (time_type == 2) {
-              buckets_1 = response.data.responses[3].aggregations.statistical_granularity.buckets;
+              buckets_1 =
+                response.data.responses[3].aggregations.statistical_granularity
+                  .buckets;
               // buckets_1 = response.data.responses[1].aggregations.statistical_granularity.buckets;
-
             }
             let length_1 = buckets_1.length;
             if (length_1 == 0) {

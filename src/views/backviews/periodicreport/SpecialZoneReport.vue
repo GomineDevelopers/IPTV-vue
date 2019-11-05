@@ -384,6 +384,8 @@ export default {
               });
             } catch (error) {
               console.log(error);
+              vm.totalData.text = "";
+              vm.totalData.data = [];
             }
             ///////////
             try {
@@ -401,6 +403,7 @@ export default {
               }
             } catch (error) {
               console.log(error);
+              vm.pageProportionData.data = [];
             }
           }
           if (operator_type == "yd") {
@@ -432,6 +435,8 @@ export default {
                 }
               }, 500);
             } catch (error) {
+              vm.clickNumData.data = []; // 只在移动初始化
+              vm.operatorProportionData.data = []; // 只在移动初始化
               console.log(error);
             }
             // ///////
@@ -500,6 +505,7 @@ export default {
               }
             } catch (error) {
               console.log(error);
+              vm.recommendPageData.data = []; // 只在移动初始化
             }
           }
           if (operator_type == "lt") {
