@@ -781,7 +781,10 @@ export default {
       );
       beforeWeekFormat = WeekFormat.beforeWeekFormat;
       currentWeekFormat = WeekFormat.currentWeekFormat; // 用于显示（将传入数据）
-      console.log(WeekFormat);
+      console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+      console.log(beforeWeekFormat);
+      console.log(currentWeekFormat);
+
       let beforeWeekFormat;
       let currentWeekFormat;
       if (week_type == "week") {
@@ -841,37 +844,22 @@ export default {
                 "开机用户数（万户）",
                 "开机率"
               ]);
-              if (length_0 > 0) {
-                for (i_0 = 0; i_0 < length_0; i_0++) {
-                  if (length_0 > 1) {
-                    // 两周有数据情况
-                    if (i_0 == 0) {
-                      temp_data_0.push([
-                        beforeWeekFormat,
-                        (buckets_0[i_0].register_num.value / 10000).toFixed(2),
-                        (buckets_0[i_0].open_num.value / 10000).toFixed(2),
-                        (
-                          (buckets_0[i_0].open_num.value /
-                            buckets_0[i_0].register_num.value) *
-                          100
-                        ).toFixed(2)
-                      ]);
-                    }
-                    if (i_0 == 1) {
-                      temp_data_0.push([
-                        currentWeekFormat,
-                        (buckets_0[i_0].register_num.value / 10000).toFixed(2),
-                        (buckets_0[i_0].open_num.value / 10000).toFixed(2),
-                        (
-                          (buckets_0[i_0].open_num.value /
-                            buckets_0[i_0].register_num.value) *
-                          100
-                        ).toFixed(2)
-                      ]);
-                    }
+              for (i_0 = 0; i_0 < length_0; i_0++) {
+                if (length_0 > 1) {
+                  // 两周有数据情况
+                  if (i_0 == 0) {
+                    temp_data_0.push([
+                      beforeWeekFormat,
+                      (buckets_0[i_0].register_num.value / 10000).toFixed(2),
+                      (buckets_0[i_0].open_num.value / 10000).toFixed(2),
+                      (
+                        (buckets_0[i_0].open_num.value /
+                          buckets_0[i_0].register_num.value) *
+                        100
+                      ).toFixed(2)
+                    ]);
                   }
-                  if (length_0 == 1) {
-                    // 一周有数据情况
+                  if (i_0 == 1) {
                     temp_data_0.push([
                       currentWeekFormat,
                       (buckets_0[i_0].register_num.value / 10000).toFixed(2),
@@ -883,6 +871,19 @@ export default {
                       ).toFixed(2)
                     ]);
                   }
+                }
+                if (length_0 == 1) {
+                  // 一周有数据情况
+                  temp_data_0.push([
+                    currentWeekFormat,
+                    (buckets_0[i_0].register_num.value / 10000).toFixed(2),
+                    (buckets_0[i_0].open_num.value / 10000).toFixed(2),
+                    (
+                      (buckets_0[i_0].open_num.value /
+                        buckets_0[i_0].register_num.value) *
+                      100
+                    ).toFixed(2)
+                  ]);
                 }
               }
 
@@ -1159,14 +1160,9 @@ export default {
                     Return_KeyValue_12(temp_data_12[top15_length_12 - i_12][0])
                   );
                 }
-              }
-              else {
+              } else {
                 for (i_12 = 0; i_12 < top15_length_12; i_12++) {
-                  Vue.set(
-                    temp_data_12[top15_length_12 - i_12],
-                    2,
-                    0
-                  );
+                  Vue.set(temp_data_12[top15_length_12 - i_12], 2, 0);
                 }
               }
               for (i_12 = 0; i_12 < top15_length_12; i_12++) {
@@ -1175,11 +1171,7 @@ export default {
                     .buckets[0].key +
                   " - " +
                   temp_data_12[top15_length_12 - i_12][0];
-                Vue.set(
-                  temp_data_12[top15_length_12 - i_12],
-                  0,
-                  temp_key_add
-                );
+                Vue.set(temp_data_12[top15_length_12 - i_12], 0, temp_key_add);
               }
               vm.hebdomadDibbleSeedingTOPData.data = temp_data_12;
               // console.log("~~~~~!!!!!");
@@ -1188,7 +1180,7 @@ export default {
               console.log(error);
             }
 
-            // //////////////// 各类型节目点播数据 (row5 )   responses 13
+            // //////////////// 各类型节目点播数据 (row5 )   responses13
             // 结构类似：(row8 right )
             // ////// 本周（先） 上周（后）
             // dibbleSeedingUserNumData  点播用户数（万户）  demand_user_num
@@ -1208,9 +1200,9 @@ export default {
               let temp_data_13_df = [];
               let temp_data_13_dd = [];
 
-              let index_current_13 = length_13-1;
+              let index_current_13 = length_13 - 1;
 
-              if(length_13 > 1){
+              if (length_13 > 1) {
                 temp_data_13_dun.push([
                   "product",
                   currentWeekFormat,
@@ -1227,19 +1219,10 @@ export default {
                   beforeWeekFormat
                 ]);
               }
-              if(length_13 == 1){
-                temp_data_13_dun.push([
-                  "product",
-                  currentWeekFormat
-                ]);
-                temp_data_13_df.push([
-                  "product",
-                  currentWeekFormat
-                ]);
-                temp_data_13_dd.push([
-                  "product",
-                  currentWeekFormat
-                ]);
+              if (length_13 == 1) {
+                temp_data_13_dun.push(["product", currentWeekFormat]);
+                temp_data_13_df.push(["product", currentWeekFormat]);
+                temp_data_13_dd.push(["product", currentWeekFormat]);
               }
 
               let buckets_13_child = buckets_13[0].program_type.buckets;
@@ -1267,8 +1250,8 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     Number(
-                      buckets_13[index_current_13].program_type.buckets[i_13].demand_user_num
-                        .value
+                      buckets_13[index_current_13].program_type.buckets[i_13]
+                        .demand_user_num.value
                     ) / 10000
                   )
                 );
@@ -1283,7 +1266,8 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     Number(
-                      buckets_13[index_current_13].program_type.buckets[i_13].demand_freq.value
+                      buckets_13[index_current_13].program_type.buckets[i_13]
+                        .demand_freq.value
                     ) / 10000
                   )
                 );
@@ -1298,7 +1282,8 @@ export default {
                   1,
                   commonTools.returnFloat_2(
                     Number(
-                      buckets_13[index_current_13].program_type.buckets[i_13].demand_dur.value
+                      buckets_13[index_current_13].program_type.buckets[i_13]
+                        .demand_dur.value
                     ) /
                       10000 /
                       60
@@ -1306,16 +1291,20 @@ export default {
                 );
               }
               // ////// 上周
-              if(length_13 > 1){
+              if (length_13 > 1) {
                 let buckets_child_13_2 =
-                  response.data.responses[13].aggregations.statistical_granularity
-                    .buckets[0].program_type.buckets;
+                  response.data.responses[13].aggregations
+                    .statistical_granularity.buckets[0].program_type.buckets;
                 let top15_length_13_week2_all = buckets_child_13_2.length; // 200个
                 let i_13_2;
                 // 一
                 function Return_KeyValue_13_dun(key) {
                   let value;
-                  for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
+                  for (
+                    i_13_2 = 0;
+                    i_13_2 < top15_length_13_week2_all;
+                    i_13_2++
+                  ) {
                     if (buckets_child_13_2[i_13_2].key == key) {
                       // console.log(buckets_child_13_2[i_13_2].key);
                       value = commonTools.returnFloat_2(
@@ -1329,7 +1318,11 @@ export default {
                 // 二
                 function Return_KeyValue_13_df(key) {
                   let value;
-                  for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
+                  for (
+                    i_13_2 = 0;
+                    i_13_2 < top15_length_13_week2_all;
+                    i_13_2++
+                  ) {
                     if (buckets_child_13_2[i_13_2].key == key) {
                       value = commonTools.returnFloat_2(
                         Number(buckets_child_13_2[i_13_2].demand_freq.value) /
@@ -1343,7 +1336,11 @@ export default {
                 // 三
                 function Return_KeyValue_13_dd(key) {
                   let value;
-                  for (i_13_2 = 0; i_13_2 < top15_length_13_week2_all; i_13_2++) {
+                  for (
+                    i_13_2 = 0;
+                    i_13_2 < top15_length_13_week2_all;
+                    i_13_2++
+                  ) {
                     if (buckets_child_13_2[i_13_2].key == key) {
                       value = commonTools.returnFloat_2(
                         Number(buckets_child_13_2[i_13_2].demand_dur.value) /
@@ -1382,9 +1379,7 @@ export default {
                     )
                   );
                 }
-              }
-              else{
-
+              } else {
               }
 
               // console.log(temp_data_13_dun);
@@ -1403,21 +1398,24 @@ export default {
             try {
               vm.mainProgramaPlayData.data = [];
 
-              let buckets_14 = response.data.responses[14].aggregations.statistical_granularity
+              let buckets_14 =
+                response.data.responses[14].aggregations.statistical_granularity
                   .buckets;
               let length_14 = buckets_14.length;
               // let index_curren_14 = length_14-1;
 
               let buckets_14_1;
-              if(length_14 > 1){
-                buckets_14_1 = response.data.responses[14].aggregations.statistical_granularity
-                  .buckets[1].ti.buckets;
+              if (length_14 > 1) {
+                buckets_14_1 =
+                  response.data.responses[14].aggregations
+                    .statistical_granularity.buckets[1].ti.buckets;
               }
               if (length_14 == 1) {
-                buckets_14_1 = response.data.responses[14].aggregations.statistical_granularity
-                  .buckets[0].ti.buckets;
+                buckets_14_1 =
+                  response.data.responses[14].aggregations
+                    .statistical_granularity.buckets[0].ti.buckets;
               }
-          
+
               let length_14_1 = buckets_14_1.length; // 以本周为主
               let i_14;
               let temp_data_14 = [];
@@ -1441,10 +1439,10 @@ export default {
                 ); // ▲ 2
               }
               // 上周
-              if(length_14 > 1){
+              if (length_14 > 1) {
                 let buckets_14_0 =
-                  response.data.responses[14].aggregations.statistical_granularity
-                    .buckets[0].ti.buckets;
+                  response.data.responses[14].aggregations
+                    .statistical_granularity.buckets[0].ti.buckets;
                 let top15_length_week2_all = buckets_14_0.length; //
                 console.log("error change");
                 let length_14_0 = buckets_14_0.length; // length_14_0
@@ -1470,7 +1468,7 @@ export default {
                     Return_KeyValue_14(temp_data_14[i_14 + 1][0])
                   ); // ▲ 1
                 }
-              
+
                 // 环比 第4位置 即3
                 // 环比算法  （本期数值-上期数值）/上期数值
                 for (i_14 = 0; i_14 < length_14_1; i_14++) {
@@ -1484,8 +1482,7 @@ export default {
                     ).toFixed(2)
                   ); // ▲ 3
                 }
-              }
-              else if(length_14 == 1){
+              } else if (length_14 == 1) {
                 for (i_14 = 0; i_14 < length_14_1; i_14++) {
                   Vue.set(temp_data_14[i_14 + 1], 1, 0); // ▲ 1
                   Vue.set(temp_data_14[i_14 + 1], 3, 0); // ▲ 3
@@ -1512,18 +1509,15 @@ export default {
               temp_data_15_1.push("点播用户数（户）");
               temp_data_15_2.push("点播次数（次）");
               temp_data_15_3.push("点播时长（小时）");
-              if(length_15 > 1 ){
+              if (length_15 > 1) {
                 temp_data_15.push([
                   "product",
                   beforeWeekFormat,
                   currentWeekFormat
                 ]);
               }
-              if(length_15 == 1 ){
-                temp_data_15.push([
-                  "product",
-                  currentWeekFormat
-                ]);
+              if (length_15 == 1) {
+                temp_data_15.push(["product", currentWeekFormat]);
               }
 
               for (i_15 = 0; i_15 < length_15; i_15++) {
@@ -1556,7 +1550,7 @@ export default {
                 currentWeekFormat,
                 beforeWeekFormat
               ]);
-       
+
               let index_current_16 = length_16 - 1;
 
               let top10_length_16 = 10;
@@ -1575,22 +1569,25 @@ export default {
                   temp_data_16[top10_length_16 - i_16],
                   1,
                   (
-                    buckets_16[index_current_16].programname.buckets[i_16].demand_freq.value /
-                    10000
+                    buckets_16[index_current_16].programname.buckets[i_16]
+                      .demand_freq.value / 10000
                   ).toFixed(2)
                 );
               }
               // ////// 上周
-              if(length_16 > 1){
-
+              if (length_16 > 1) {
                 let buckets_child_16_2 =
-                  response.data.responses[16].aggregations.statistical_granularity
-                    .buckets[0].programname.buckets;
+                  response.data.responses[16].aggregations
+                    .statistical_granularity.buckets[0].programname.buckets;
                 let top10_length_16_week2_all = buckets_child_16_2.length; // 200个
                 let i_16_2;
                 function Return_KeyValue_16(key) {
                   let value;
-                  for (i_16_2 = 0; i_16_2 < top10_length_16_week2_all; i_16_2++) {
+                  for (
+                    i_16_2 = 0;
+                    i_16_2 < top10_length_16_week2_all;
+                    i_16_2++
+                  ) {
                     if (buckets_child_16_2[i_16_2].key == key) {
                       // console.log(buckets_child_16_2[i_16_2].key);
                       value = (
@@ -1609,16 +1606,11 @@ export default {
                     Return_KeyValue_16(temp_data_16[top10_length_16 - i_16][0])
                   );
                 }
-              }else{
+              } else {
                 for (i_16 = 0; i_16 < top10_length_16; i_16++) {
-                  Vue.set(
-                    temp_data_16[top10_length_16 - i_16],
-                    2,
-                    0
-                  );
+                  Vue.set(temp_data_16[top10_length_16 - i_16], 2, 0);
                 }
               }
-
 
               for (i_16 = 0; i_16 < top10_length_16; i_16++) {
                 let temp_key_add =
@@ -1903,6 +1895,8 @@ export default {
             }
             // ////////////////  央视频道及节目收视排名 (row10 right)   responses 21
             try {
+              vm.liveProgramTOPData.data = [];
+
               let buckets_21 =
                 response.data.responses[21].aggregations.statistical_granularity
                   .buckets;
@@ -2323,6 +2317,9 @@ export default {
             // ////////// 推荐栏目一周数据概览-一周热力数据 row14 responses 28 29
             // ----待添加 移动运营周报 下面分栏 添加开机时长 在 responses30
             // ////////// 推荐栏目一周数据概览-按钮点击排行 row14 responses 31
+            vm.Pane_ColumnData = [];
+            vm.paneArr = [];
+            vm.activeName = "0";
 
             try {
               let DATA_weeklyThermodynamic = [];
@@ -2580,18 +2577,18 @@ export default {
                 console.log(error);
               }
               //// 上面是2829
-              //// 31开始
-              // 格式：栏目 =》 时间（两月） =》 节目（TOP15） =》click_freq
+              //// responses31 开始
+              // 格式：栏目 =》 时间（两周） =》 节目（TOP15） =》click_freq
               // XX页按钮点击排行
               let DATA_buttonClickTOPData = [];
               let DATA_buttonClickTOPData_all = [];
 
-              let buckets_31 =
-                response.data.responses[31].aggregations.ti.buckets;
-              let length_31 = buckets_31.length;
-              let i_31;
-
               try {
+                let buckets_31 =
+                  response.data.responses[31].aggregations.ti.buckets;
+                let length_31 = buckets_31.length;
+                let i_31;
+
                 // 遍历31的所有ti（将近45个） 以 i_28的ti（将近11个） 为主key
                 // key 对比：
                 //    temp_paneArr.push({
@@ -3887,8 +3884,10 @@ export default {
             // console.log(vm.hebdomadViewNumData);
 
             // 一周用户收视概览
-            // ////////// 三大基础功能观看用户数每日走势（万户）  (row 2 right) --- 用 responses 0 4 5 6
+            // ////////// 三大基础功能观看用户数每日走势（万户）  (row2 right) --- 用 responses 0 4 5 6
             try {
+              vm.threeBasedUserViewData.data = [];
+
               let buckets_4 =
                 response.data.responses[4].aggregations.item.buckets;
               let buckets_5 =
