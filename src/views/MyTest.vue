@@ -262,6 +262,10 @@ export default {
       if(typeof (temp_data) == "Object"){
         console.log("2");
       }
+      let temp = {
+        "status":1
+      }
+      console.log(temp["status"]);
 
 
       // console.log("test_login");

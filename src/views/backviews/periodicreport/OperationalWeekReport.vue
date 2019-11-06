@@ -379,7 +379,12 @@ import RecommendColumnWeekData from "@/views/backcoms/OperationalWeekReport/Reco
 
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
-import { users_mobileReport, epg_box_content } from "@/api/api_main";
+import {
+  users_mobileReport,
+  epg_box_content,
+  users_mobileReport_top,
+  users_mobileReport_titop
+} from "@/api/api_main";
 import Vue from "vue";
 
 export default {
@@ -531,12 +536,12 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 4");
+      // console.log("Excel_data_manage - 4");
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
         .then(function(response_dataArr) {
-          console.log("下载关");
+          // console.log("下载关");
         })
         .catch(function(error) {
           console.info(error);
@@ -715,9 +720,9 @@ export default {
 
           temp_titleArr = title_arr;
           temp_DataArr = data_arr;
-          console.log("运营数据周报");
-          console.log(temp_titleArr);
-          console.log(temp_DataArr);
+          // console.log("运营数据周报");
+          // console.log(temp_titleArr);
+          // console.log(temp_DataArr);
 
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
             console.log("请选择时间！");
@@ -757,7 +762,7 @@ export default {
     },
     users_mobileReport(operator_type, week_type) {
       let vm = this;
-      console.log("~~~~~!users_mobileReport");
+      // console.log("~~~~~!users_mobileReport");
       console.log(vm.PR_week);
       if (vm.PR_week == "" || vm.PR_week == null || vm.PR_week == undefined) {
         return;
@@ -781,9 +786,9 @@ export default {
       );
       beforeWeekFormat = WeekFormat.beforeWeekFormat;
       currentWeekFormat = WeekFormat.currentWeekFormat; // 用于显示（将传入数据）
-      console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-      console.log(beforeWeekFormat);
-      console.log(currentWeekFormat);
+      // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+      // console.log(beforeWeekFormat);
+      // console.log(currentWeekFormat);
 
       let beforeWeekFormat;
       let currentWeekFormat;
@@ -1039,8 +1044,8 @@ export default {
               temp_data_8910.push(temp_data_8910_4);
               temp_data_8910.push(temp_data_8910_5);
               temp_data_8910.push(temp_data_8910_6);
-              console.log(buckets_8);
-              console.log(temp_data_8910);
+              // console.log(buckets_8);
+              // console.log(temp_data_8910);
               vm.hebdomadHotData.data = temp_data_8910;
             } catch (error) {
               console.log(error);
@@ -1116,6 +1121,7 @@ export default {
               }
               let week_index_12 = length_12 - 1;
 
+              let tlist = [];
               // 本周
               for (i_12 = 0; i_12 < top15_length_12; i_12++) {
                 Vue.set(
@@ -1131,49 +1137,135 @@ export default {
                       .demand_freq.value / 10000
                   ).toFixed(2)
                 );
-              }
-              // ////// 上周
-              if (length_12 > 1) {
-                let buckets_child_12_2 =
-                  response.data.responses[12].aggregations
-                    .statistical_granularity.buckets[0].programname.buckets;
-                let top15_length_week2_all = buckets_child_12_2.length; // 200个
-                let i_12_2;
-                function Return_KeyValue_12(key) {
-                  let value;
-                  for (i_12_2 = 0; i_12_2 < top15_length_week2_all; i_12_2++) {
-                    if (buckets_child_12_2[i_12_2].key == key) {
-                      // console.log(buckets_child_12_2[i_12_2].key);
-                      value = (
-                        buckets_child_12_2[i_12_2].demand_freq.value / 10000
-                      ).toFixed(2);
-                      break;
-                    }
-                  }
-                  return value;
-                }
-                // 遍历 本周（先）top 15的key
-                for (i_12 = 0; i_12 < top15_length_12; i_12++) {
-                  Vue.set(
-                    temp_data_12[top15_length_12 - i_12],
-                    2,
-                    Return_KeyValue_12(temp_data_12[top15_length_12 - i_12][0])
+                if (length_12 > 1) {
+                  let temp_c = {
+                    operator: String([m_operator]),
+                    year: temp_time.year,
+                    start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    programname:
+                      buckets_12[week_index_12].programname.buckets[i_12].key
+                  };
+                  let formData_c = new FormData();
+                  formData_c = new window.FormData();
+                  formData_c.append("operator", temp_c.operator);
+                  formData_c.append("start", temp_c.start);
+                  formData_c.append("end", temp_c.end);
+                  formData_c.append("year", temp_c.year);
+                  formData_c.append("programname", temp_c.programname);
+                  tlist.push(
+                    users_mobileReport_top(formData_c)
+                      .then(function(response_c) {
+                        // console.log(response_c);
+                        // ▲▲▲ collection 0
+                        let m_buckets =
+                          response_c.data.responses[0].aggregations
+                            .statistical_granularity.buckets;
+                        let m_value;
+                        if (m_buckets.length > 0) {
+                          m_value = (
+                            m_buckets[0].demand_freq.value / 10000
+                          ).toFixed(2);
+                        }
+                        if (m_buckets.length == 0) {
+                          m_value = "";
+                        }
+                        // console.log(m_value);
+
+                        // Vue.set(
+                        //   temp_data_12[top15_length_12 - i_12],
+                        //   2,
+                        //   m_value
+                        // );
+                        return m_value;
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                        return "";
+                      })
                   );
                 }
-              } else {
-                for (i_12 = 0; i_12 < top15_length_12; i_12++) {
-                  Vue.set(temp_data_12[top15_length_12 - i_12], 2, 0);
-                }
-              }
-              for (i_12 = 0; i_12 < top15_length_12; i_12++) {
-                let temp_key_add =
-                  buckets_12[1].programname.buckets[i_12].program_type
-                    .buckets[0].key +
-                  " - " +
-                  temp_data_12[top15_length_12 - i_12][0];
-                Vue.set(temp_data_12[top15_length_12 - i_12], 0, temp_key_add);
-              }
-              vm.hebdomadDibbleSeedingTOPData.data = temp_data_12;
+              } // for
+
+              // let index_c = 0;
+              Promise.all(tlist)
+                .then(res => {
+                  // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+                  // console.log(index_c);
+                  // console.log(res);
+                  // Vue.set(temp_data_12[top15_length_12 - index_c], 2, res);
+                  // index_c++;
+                  if (length_12 > 1) {
+                    res.forEach((item, index) => {
+                      Vue.set(temp_data_12[top15_length_12 - index], 2, item);
+                    });
+                  } else {
+                    for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+                      Vue.set(temp_data_12[top15_length_12 - index], 2, "");
+                    }
+                  }
+                  for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+                    let temp_key_add =
+                      buckets_12[week_index_12].programname.buckets[i_12]
+                        .program_type.buckets[0].key +
+                      " - " +
+                      temp_data_12[top15_length_12 - i_12][0];
+                    Vue.set(
+                      temp_data_12[top15_length_12 - i_12],
+                      0,
+                      temp_key_add
+                    );
+                  }
+                })
+                .then(res2 => {
+                  // console.log(temp_data_12);
+                  vm.hebdomadDibbleSeedingTOPData.data = temp_data_12;
+                });
+              // ////// 上周
+              // if (length_12 > 1) {
+              //   let buckets_child_12_2 =
+              //     response.data.responses[12].aggregations
+              //       .statistical_granularity.buckets[0].programname.buckets;
+              //   let top15_length_week2_all = buckets_child_12_2.length; // 200个
+              //   let i_12_2;
+              //   function Return_KeyValue_12(key) {
+              //     let value;
+              //     for (i_12_2 = 0; i_12_2 < top15_length_week2_all; i_12_2++) {
+              //       if (buckets_child_12_2[i_12_2].key == key) {
+              //         // console.log(buckets_child_12_2[i_12_2].key);
+              //         value = (
+              //           buckets_child_12_2[i_12_2].demand_freq.value / 10000
+              //         ).toFixed(2);
+              //         break;
+              //       }
+              //     }
+              //     return value;
+              //   }
+              //   // 遍历 本周（先）top 15的key
+              //   for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+              //     Vue.set(
+              //       temp_data_12[top15_length_12 - i_12],
+              //       2,
+              //       Return_KeyValue_12(temp_data_12[top15_length_12 - i_12][0])
+              //     );
+              //   }
+              // } else {
+              //   for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+              //     Vue.set(temp_data_12[top15_length_12 - i_12], 2, 0);
+              //   }
+              // }
+              // for (i_12 = 0; i_12 < top15_length_12; i_12++) {
+              //   let temp_key_add =
+              //     buckets_12[1].programname.buckets[i_12].program_type
+              //       .buckets[0].key +
+              //     " - " +
+              //     temp_data_12[top15_length_12 - i_12][0];
+              //   Vue.set(temp_data_12[top15_length_12 - i_12], 0, temp_key_add);
+              // }
+              // setTimeout(function() {
+              //   console.log(temp_data_12);
+              //   vm.hebdomadDibbleSeedingTOPData.data = temp_data_12;
+              // }, 3000);
               // console.log("~~~~~!!!!!");
               // console.log(vm.hebdomadDibbleSeedingTOPData);
             } catch (error) {
@@ -1558,6 +1650,7 @@ export default {
                 temp_data_16.push([]);
               }
 
+              let tlist = [];
               // 本周
               for (i_16 = 0; i_16 < top10_length_16; i_16++) {
                 Vue.set(
@@ -1573,55 +1666,124 @@ export default {
                       .demand_freq.value / 10000
                   ).toFixed(2)
                 );
-              }
-              // ////// 上周
-              if (length_16 > 1) {
-                let buckets_child_16_2 =
-                  response.data.responses[16].aggregations
-                    .statistical_granularity.buckets[0].programname.buckets;
-                let top10_length_16_week2_all = buckets_child_16_2.length; // 200个
-                let i_16_2;
-                function Return_KeyValue_16(key) {
-                  let value;
-                  for (
-                    i_16_2 = 0;
-                    i_16_2 < top10_length_16_week2_all;
-                    i_16_2++
-                  ) {
-                    if (buckets_child_16_2[i_16_2].key == key) {
-                      // console.log(buckets_child_16_2[i_16_2].key);
-                      value = (
-                        buckets_child_16_2[i_16_2].demand_freq.value / 10000
-                      ).toFixed(2);
-                      break;
-                    }
-                  }
-                  return value;
-                }
-                // 遍历 本周（先）top 15的key
-                for (i_16 = 0; i_16 < top10_length_16; i_16++) {
-                  Vue.set(
-                    temp_data_16[top10_length_16 - i_16],
-                    2,
-                    Return_KeyValue_16(temp_data_16[top10_length_16 - i_16][0])
+                if (length_16 > 1) {
+                  let temp_c = {
+                    operator: String([m_operator]),
+                    year: temp_time.year,
+                    start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    programname:
+                      buckets_16[index_current_16].programname.buckets[i_16].key
+                  };
+                  let formData_c = new FormData();
+                  formData_c = new window.FormData();
+                  formData_c.append("operator", temp_c.operator);
+                  formData_c.append("start", temp_c.start);
+                  formData_c.append("end", temp_c.end);
+                  formData_c.append("year", temp_c.year);
+                  formData_c.append("programname", temp_c.programname);
+                  tlist.push(
+                    users_mobileReport_top(formData_c)
+                      .then(function(response_c) {
+                        // ▲▲▲ collection 1
+                        let m_buckets =
+                          response_c.data.responses[1].aggregations
+                            .statistical_granularity.buckets;
+                        let m_value;
+                        if (m_buckets.length > 0) {
+                          m_value = (
+                            m_buckets[0].demand_freq.value / 10000
+                          ).toFixed(2);
+                        }
+                        if (m_buckets.length == 0) {
+                          m_value = "";
+                        }
+                        // console.log(m_value);
+                        return m_value;
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                        return "";
+                      })
                   );
                 }
-              } else {
-                for (i_16 = 0; i_16 < top10_length_16; i_16++) {
-                  Vue.set(temp_data_16[top10_length_16 - i_16], 2, 0);
-                }
-              }
+              } // for
+              Promise.all(tlist)
+                .then(res => {
+                  if (length_16 > 1) {
+                    res.forEach((item, index) => {
+                      Vue.set(temp_data_16[top10_length_16 - index], 2, item);
+                    });
+                  } else {
+                    for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+                      Vue.set(temp_data_16[top10_length_16 - index], 2, "");
+                    }
+                  }
+                  for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+                    let temp_key_add =
+                      buckets_16[index_current_16].programname.buckets[i_16]
+                        .program_type.buckets[0].key +
+                      " - " +
+                      temp_data_16[top10_length_16 - i_16][0];
+                    Vue.set(
+                      temp_data_16[top10_length_16 - i_16],
+                      0,
+                      temp_key_add
+                    );
+                  }
+                })
+                .then(res2 => {
+                  vm.localProgramsPlayTOPData.data = temp_data_16;
+                });
 
-              for (i_16 = 0; i_16 < top10_length_16; i_16++) {
-                let temp_key_add =
-                  buckets_16[1].programname.buckets[i_16].program_type
-                    .buckets[0].key +
-                  " - " +
-                  temp_data_16[top10_length_16 - i_16][0];
-                Vue.set(temp_data_16[top10_length_16 - i_16], 0, temp_key_add);
-              }
+              // ////// 上周
+              // if (length_16 > 1) {
+              //   let buckets_child_16_2 =
+              //     response.data.responses[16].aggregations
+              //       .statistical_granularity.buckets[0].programname.buckets;
+              //   let top10_length_16_week2_all = buckets_child_16_2.length; // 200个
+              //   let i_16_2;
+              //   function Return_KeyValue_16(key) {
+              //     let value;
+              //     for (
+              //       i_16_2 = 0;
+              //       i_16_2 < top10_length_16_week2_all;
+              //       i_16_2++
+              //     ) {
+              //       if (buckets_child_16_2[i_16_2].key == key) {
+              //         // console.log(buckets_child_16_2[i_16_2].key);
+              //         value = (
+              //           buckets_child_16_2[i_16_2].demand_freq.value / 10000
+              //         ).toFixed(2);
+              //         break;
+              //       }
+              //     }
+              //     return value;
+              //   }
+              //   // 遍历 本周（先）top 15的key
+              //   for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+              //     Vue.set(
+              //       temp_data_16[top10_length_16 - i_16],
+              //       2,
+              //       Return_KeyValue_16(temp_data_16[top10_length_16 - i_16][0])
+              //     );
+              //   }
+              // } else {
+              //   for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+              //     Vue.set(temp_data_16[top10_length_16 - i_16], 2, 0);
+              //   }
+              // }
 
-              vm.localProgramsPlayTOPData.data = temp_data_16;
+              // for (i_16 = 0; i_16 < top10_length_16; i_16++) {
+              //   let temp_key_add =
+              //     buckets_16[1].programname.buckets[i_16].program_type
+              //       .buckets[0].key +
+              //     " - " +
+              //     temp_data_16[top10_length_16 - i_16][0];
+              //   Vue.set(temp_data_16[top10_length_16 - i_16], 0, temp_key_add);
+              // }
+
+              // vm.localProgramsPlayTOPData.data = temp_data_16;
             } catch (error) {
               console.log(error);
             }
@@ -1672,7 +1834,7 @@ export default {
               let buckets_18 =
                 response.data.responses[18].aggregations.statistical_granularity
                   .buckets;
-              // let length_18 = buckets_18.length; // 默认两周 - 2
+              let length_18 = buckets_18.length; // 默认两周 - 2
               let i_18;
               let temp_data_18 = [];
               temp_data_18.push([
@@ -1680,64 +1842,139 @@ export default {
                 currentWeekFormat,
                 beforeWeekFormat
               ]);
+              let index_current_18 = length_18 - 1;
+
               let top15_length_18 = 15;
               for (i_18 = 0; i_18 < top15_length_18; i_18++) {
                 temp_data_18.push([]);
               }
+
+              let tlist = [];
 
               // 本周
               for (i_18 = 0; i_18 < top15_length_18; i_18++) {
                 Vue.set(
                   temp_data_18[top15_length_18 - i_18],
                   0,
-                  buckets_18[1].programname.buckets[i_18].key
+                  buckets_18[index_current_18].programname.buckets[i_18].key
                 );
                 Vue.set(
                   temp_data_18[top15_length_18 - i_18],
                   1,
                   commonTools.returnFloat_2(
-                    buckets_18[1].programname.buckets[i_18].onlive_dur.value /
+                    buckets_18[index_current_18].programname.buckets[i_18]
+                      .onlive_dur.value /
                       10000 /
                       60
                   )
                 );
-              }
-              // ////// 上周
-              let buckets_child_18_2 =
-                response.data.responses[18].aggregations.statistical_granularity
-                  .buckets[0].programname.buckets;
-              let top15_length_18_week2_all = buckets_child_18_2.length; // 200个
-              let i_18_2;
-              function Return_KeyValue_18(key) {
-                let value;
-                for (i_18_2 = 0; i_18_2 < top15_length_18_week2_all; i_18_2++) {
-                  if (buckets_child_18_2[i_18_2].key == key) {
-                    // console.log(buckets_child_18_2[i_18_2].key);
-                    value = commonTools.returnFloat_2(
-                      buckets_child_18_2[i_18_2].onlive_dur.value / 10000 / 60
-                    );
-                    break;
-                  }
+                if (length_18 > 1) {
+                  let temp_c = {
+                    operator: String([m_operator]),
+                    year: temp_time.year,
+                    start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    programname:
+                      buckets_18[index_current_18].programname.buckets[i_18].key
+                  };
+                  let formData_c = new FormData();
+                  formData_c = new window.FormData();
+                  formData_c.append("operator", temp_c.operator);
+                  formData_c.append("start", temp_c.start);
+                  formData_c.append("end", temp_c.end);
+                  formData_c.append("year", temp_c.year);
+                  formData_c.append("programname", temp_c.programname);
+                  tlist.push(
+                    users_mobileReport_top(formData_c)
+                      .then(function(response_c) {
+                        // ▲▲▲ collection 2
+                        let m_buckets =
+                          response_c.data.responses[2].aggregations
+                            .statistical_granularity.buckets;
+                        let m_value;
+                        if (m_buckets.length > 0) {
+                          m_value = (
+                            m_buckets[0].onlive_dur.value /
+                            10000 /
+                            60
+                          ).toFixed(2);
+                        }
+                        if (m_buckets.length == 0) {
+                          m_value = "";
+                        }
+                        // console.log(m_value);
+                        return m_value;
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                        return "";
+                      })
+                  );
                 }
-                return value;
-              }
-              // 遍历 本周（先）top 15的key
-              for (i_18 = 0; i_18 < top15_length_18; i_18++) {
-                Vue.set(
-                  temp_data_18[top15_length_18 - i_18],
-                  2,
-                  Return_KeyValue_18(temp_data_18[top15_length_18 - i_18][0])
-                );
-              }
-              for (i_18 = 0; i_18 < top15_length_18; i_18++) {
-                let temp_key_add =
-                  buckets_18[1].programname.buckets[i_18].channel.buckets[0]
-                    .key +
-                  " - " +
-                  temp_data_18[top15_length_18 - i_18][0];
-                Vue.set(temp_data_18[top15_length_18 - i_18], 0, temp_key_add);
-              }
-              vm.hebdomadLiveTOPData.data = temp_data_18;
+              } // for
+              Promise.all(tlist)
+                .then(res => {
+                  if (length_18 > 1) {
+                    res.forEach((item, index) => {
+                      Vue.set(temp_data_18[top15_length_18 - index], 2, item);
+                    });
+                  } else {
+                    for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+                      Vue.set(temp_data_18[top15_length_18 - index], 2, "");
+                    }
+                  }
+                  for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+                    let temp_key_add =
+                      buckets_18[index_current_18].programname.buckets[i_18]
+                        .channel.buckets[0].key +
+                      " - " +
+                      temp_data_18[top15_length_18 - i_18][0];
+                    Vue.set(
+                      temp_data_18[top15_length_18 - i_18],
+                      0,
+                      temp_key_add
+                    );
+                  }
+                })
+                .then(res2 => {
+                  vm.hebdomadLiveTOPData.data = temp_data_18;
+                });
+              // ////// 上周
+              // let buckets_child_18_2 =
+              //   response.data.responses[18].aggregations.statistical_granularity
+              //     .buckets[0].programname.buckets;
+              // let top15_length_18_week2_all = buckets_child_18_2.length; // 200个
+              // let i_18_2;
+              // function Return_KeyValue_18(key) {
+              //   let value;
+              //   for (i_18_2 = 0; i_18_2 < top15_length_18_week2_all; i_18_2++) {
+              //     if (buckets_child_18_2[i_18_2].key == key) {
+              //       // console.log(buckets_child_18_2[i_18_2].key);
+              //       value = commonTools.returnFloat_2(
+              //         buckets_child_18_2[i_18_2].onlive_dur.value / 10000 / 60
+              //       );
+              //       break;
+              //     }
+              //   }
+              //   return value;
+              // }
+              // // 遍历 本周（先）top 15的key
+              // for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+              //   Vue.set(
+              //     temp_data_18[top15_length_18 - i_18],
+              //     2,
+              //     Return_KeyValue_18(temp_data_18[top15_length_18 - i_18][0])
+              //   );
+              // }
+              // for (i_18 = 0; i_18 < top15_length_18; i_18++) {
+              //   let temp_key_add =
+              //     buckets_18[1].programname.buckets[i_18].channel.buckets[0]
+              //       .key +
+              //     " - " +
+              //     temp_data_18[top15_length_18 - i_18][0];
+              //   Vue.set(temp_data_18[top15_length_18 - i_18], 0, temp_key_add);
+              // }
+              // vm.hebdomadLiveTOPData.data = temp_data_18;
             } catch (error) {
               console.log(error);
             }
@@ -1900,9 +2137,17 @@ export default {
               let buckets_21 =
                 response.data.responses[21].aggregations.statistical_granularity
                   .buckets;
-              let buckets_21_child_0 = buckets_21[0].programname.buckets;
-              let buckets_21_child_1 = buckets_21[1].programname.buckets;
-              // let length_21 = buckets_21.length; // 默认两周 - 2
+              let length_21 = buckets_21.length; // 默认两周 - 2
+
+              let buckets_21_child_0;
+              let buckets_21_child_1;
+              if (length_21 > 1) {
+                buckets_21_child_0 = buckets_21[0].programname.buckets;
+                buckets_21_child_1 = buckets_21[1].programname.buckets;
+              }
+              if (length_21 == 1) {
+                buckets_21_child_1 = buckets_21[0].programname.buckets;
+              }
               // 本周top10 名称+数值 (0+2) => 上周数值（1）
               let i_21;
               let temp_data_21 = [];
@@ -1915,6 +2160,8 @@ export default {
               for (i_21 = 0; i_21 < top10_length_21; i_21++) {
                 temp_data_21.push([]);
               }
+              let tlist = [];
+
               // 本周
               for (i_21 = 0; i_21 < top10_length_21; i_21++) {
                 Vue.set(
@@ -1929,45 +2176,119 @@ export default {
                     buckets_21_child_1[i_21].onlive_dur.value / 10000 / 60
                   )
                 );
-              }
-              // 上周
-              let top10_length_21_week2_all = buckets_21_child_0.length; // 至多200个
-              let i_21_2;
-              function Return_KeyValue_21(key) {
-                let value;
-                for (i_21_2 = 0; i_21_2 < top10_length_21_week2_all; i_21_2++) {
-                  if (buckets_21_child_0[i_21_2].key == key) {
-                    value = commonTools.returnFloat_2(
-                      buckets_21_child_0[i_21_2].onlive_dur.value / 10000 / 60
-                    );
-                    break;
-                  }
+                if (length_21 > 1) {
+                  let temp_c = {
+                    operator: String([m_operator]),
+                    year: temp_time.year,
+                    start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    programname: buckets_21_child_1[i_21].key
+                  };
+                  let formData_c = new FormData();
+                  formData_c = new window.FormData();
+                  formData_c.append("operator", temp_c.operator);
+                  formData_c.append("start", temp_c.start);
+                  formData_c.append("end", temp_c.end);
+                  formData_c.append("year", temp_c.year);
+                  formData_c.append("programname", temp_c.programname);
+                  // console.log(temp_c);
+                  tlist.push(
+                    users_mobileReport_top(formData_c)
+                      .then(function(response_c) {
+                        // console.log(response_c);
+                        // ▲▲▲ collection 3
+                        let m_buckets =
+                          response_c.data.responses[3].aggregations
+                            .statistical_granularity.buckets;
+                        let m_value;
+                        if (m_buckets.length > 0) {
+                          m_value = (
+                            m_buckets[0].onlive_dur.value /
+                            10000 /
+                            60
+                          ).toFixed(2);
+                        }
+                        if (m_buckets.length == 0) {
+                          m_value = "";
+                        }
+                        // console.log(m_value);
+                        return m_value;
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                        return "";
+                      })
+                  );
                 }
-                return value;
-              }
-              for (i_21 = 0; i_21 < top10_length_21; i_21++) {
-                Vue.set(
-                  temp_data_21[i_21 + 1],
-                  1,
-                  Return_KeyValue_21(temp_data_21[i_21 + 1][0])
-                );
-              }
-              function Manage_longKey(key) { // 特殊处理：top10有点多
-                return key.replace(" ", "\n");
-              }
-              // for (i_21 = 0; i_21 < top10_length_21; i_21++) {
-              //   let newKey = Manage_longKey(temp_data_21[i_21 + 1][0]);
-              //   Vue.set(temp_data_21[i_21 + 1], 0, newKey);
+              } // for
+              Promise.all(tlist)
+                .then(res => {
+                  // console.log(res);
+                  if (length_21 > 1) {
+                    res.forEach((item, index) => {
+                      Vue.set(temp_data_21[index + 1], 1, item);
+                    });
+                  } else {
+                    for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+                      Vue.set(temp_data_21[index + 1], 1, "");
+                    }
+                  }
+                  function Manage_longKey(key) {
+                    // 特殊处理：top10有点多
+                    return key.replace(" ", "\n");
+                  }
+                  for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+                    let temp_key_add =
+                      temp_data_21[i_21 + 1][0] +
+                      "\n" +
+                      Manage_longKey(
+                        buckets_21[1].programname.buckets[i_21].channel
+                          .buckets[0].key
+                      );
+                    Vue.set(temp_data_21[i_21 + 1], 0, temp_key_add);
+                  }
+                })
+                .then(res2 => {
+                  vm.liveProgramTOPData.data = temp_data_21;
+                });
+
+              // 上周
+              // let top10_length_21_week2_all = buckets_21_child_0.length; // 至多200个
+              // let i_21_2;
+              // function Return_KeyValue_21(key) {
+              //   let value;
+              //   for (i_21_2 = 0; i_21_2 < top10_length_21_week2_all; i_21_2++) {
+              //     if (buckets_21_child_0[i_21_2].key == key) {
+              //       value = commonTools.returnFloat_2(
+              //         buckets_21_child_0[i_21_2].onlive_dur.value / 10000 / 60
+              //       );
+              //       break;
+              //     }
+              //   }
+              //   return value;
               // }
-              for (i_21 = 0; i_21 < top10_length_21; i_21++) {
-                let temp_key_add =
-                  temp_data_21[i_21 + 1][0] +
-                  "\n" +
-                  Manage_longKey(buckets_21[1].programname.buckets[i_21].channel.buckets[0]
-                    .key);
-                Vue.set(temp_data_21[i_21 + 1], 0, temp_key_add);
-              } 
-              vm.liveProgramTOPData.data = temp_data_21;
+              // for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+              //   Vue.set(
+              //     temp_data_21[i_21 + 1],
+              //     1,
+              //     Return_KeyValue_21(temp_data_21[i_21 + 1][0])
+              //   );
+              // }
+              // function Manage_longKey(key) {
+              //   // 特殊处理：top10有点多
+              //   return key.replace(" ", "\n");
+              // }
+              // for (i_21 = 0; i_21 < top10_length_21; i_21++) {
+              //   let temp_key_add =
+              //     temp_data_21[i_21 + 1][0] +
+              //     "\n" +
+              //     Manage_longKey(
+              //       buckets_21[1].programname.buckets[i_21].channel.buckets[0]
+              //         .key
+              //     );
+              //   Vue.set(temp_data_21[i_21 + 1], 0, temp_key_add);
+              // }
+              // vm.liveProgramTOPData.data = temp_data_21;
             } catch (error) {
               console.log(error);
             }
@@ -2046,9 +2367,20 @@ export default {
               let buckets_23 =
                 response.data.responses[23].aggregations.statistical_granularity
                   .buckets;
-              let buckets_23_child_0 = buckets_23[0].programname.buckets;
-              let buckets_23_child_1 = buckets_23[1].programname.buckets;
-              // let length_23 = buckets_23.length; // 默认两周 - 2
+              let length_23 = buckets_23.length; // 默认两周 - 2
+
+              let buckets_23_child_0;
+              let buckets_23_child_1;
+              if (length_23 > 1) {
+                buckets_23_child_0 = buckets_23[0].programname.buckets;
+                buckets_23_child_1 = buckets_23[1].programname.buckets;
+              }
+              if (length_23 == 1) {
+                buckets_23_child_1 = buckets_23[0].programname.buckets;
+              }
+
+              let tlist = [];
+
               // 本周top10 名称+数值 (0+2) => 上周数值（1）
               let i_23;
               let temp_data_23 = [];
@@ -2075,45 +2407,107 @@ export default {
                     buckets_23_child_1[i_23].onlive_dur.value / 10000 / 60
                   )
                 );
-              }
-              // 上周
-              let top5_length_23_week2_all = buckets_23_child_0.length; // 至多200个
-              let i_23_2;
-              function Return_KeyValue_23(key) {
-                let value;
-                for (i_23_2 = 0; i_23_2 < top5_length_23_week2_all; i_23_2++) {
-                  if (buckets_23_child_0[i_23_2].key == key) {
-                    value = commonTools.returnFloat_2(
-                      buckets_23_child_0[i_23_2].onlive_dur.value / 10000 / 60
-                    );
-                    break;
-                  }
+                if (length_23 > 1) {
+                  let temp_c = {
+                    operator: String([m_operator]),
+                    year: temp_time.year,
+                    start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    programname: buckets_23_child_1[i_23].key
+                  };
+                  let formData_c = new FormData();
+                  formData_c = new window.FormData();
+                  formData_c.append("operator", temp_c.operator);
+                  formData_c.append("start", temp_c.start);
+                  formData_c.append("end", temp_c.end);
+                  formData_c.append("year", temp_c.year);
+                  formData_c.append("programname", temp_c.programname);
+                  // console.log(temp_c);
+                  tlist.push(
+                    users_mobileReport_top(formData_c)
+                      .then(function(response_c) {
+                        // console.log(response_c);
+                        // ▲▲▲ collection 4
+                        let m_buckets =
+                          response_c.data.responses[4].aggregations
+                            .statistical_granularity.buckets;
+                        let m_value;
+                        if (m_buckets.length > 0) {
+                          m_value = (
+                            m_buckets[0].onlive_dur.value /
+                            10000 /
+                            60
+                          ).toFixed(2);
+                        }
+                        if (m_buckets.length == 0) {
+                          m_value = "";
+                        }
+                        // console.log(m_value);
+                        return m_value;
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                        return "";
+                      })
+                  );
                 }
-                return value;
-              }
-              for (i_23 = 0; i_23 < top5_length_23; i_23++) {
-                Vue.set(
-                  temp_data_23[i_23 + 1],
-                  1,
-                  Return_KeyValue_23(temp_data_23[i_23 + 1][0])
-                );
-              }
-              // function Manage_longKey(key) {
-              //   return key.replace(" ", "\n");
+              } // for
+              Promise.all(tlist)
+                .then(res => {
+                  // console.log(res);
+                  if (length_23 > 1) {
+                    res.forEach((item, index) => {
+                      Vue.set(temp_data_23[index + 1], 1, item);
+                    });
+                  } else {
+                    for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+                      Vue.set(temp_data_23[index + 1], 1, "");
+                    }
+                  }
+                  for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+                    let temp_key_add =
+                      temp_data_23[i_23 + 1][0] +
+                      "\n" +
+                      buckets_23[1].programname.buckets[i_23].channel.buckets[0]
+                        .key;
+                    Vue.set(temp_data_23[i_23 + 1], 0, temp_key_add);
+                  }
+                })
+                .then(res2 => {
+                  vm.localProgramTOPData.data = temp_data_23;
+                });
+
+              // 上周
+              // let top5_length_23_week2_all = buckets_23_child_0.length; // 至多200个
+              // let i_23_2;
+              // function Return_KeyValue_23(key) {
+              //   let value;
+              //   for (i_23_2 = 0; i_23_2 < top5_length_23_week2_all; i_23_2++) {
+              //     if (buckets_23_child_0[i_23_2].key == key) {
+              //       value = commonTools.returnFloat_2(
+              //         buckets_23_child_0[i_23_2].onlive_dur.value / 10000 / 60
+              //       );
+              //       break;
+              //     }
+              //   }
+              //   return value;
               // }
               // for (i_23 = 0; i_23 < top5_length_23; i_23++) {
-              //   let newKey = Manage_longKey(temp_data_23[i_23 + 1][0]);
-              //   Vue.set(temp_data_23[i_23 + 1], 0, newKey);
+              //   Vue.set(
+              //     temp_data_23[i_23 + 1],
+              //     1,
+              //     Return_KeyValue_23(temp_data_23[i_23 + 1][0])
+              //   );
               // }
-              for (i_23 = 0; i_23 < top5_length_23; i_23++) {
-                let temp_key_add =
-                  temp_data_23[i_23 + 1][0] +
-                  "\n" +
-                  buckets_23[1].programname.buckets[i_23].channel.buckets[0]
-                    .key;
-                Vue.set(temp_data_23[i_23 + 1], 0, temp_key_add);
-              }
-              vm.localProgramTOPData.data = temp_data_23;
+              // for (i_23 = 0; i_23 < top5_length_23; i_23++) {
+              //   let temp_key_add =
+              //     temp_data_23[i_23 + 1][0] +
+              //     "\n" +
+              //     buckets_23[1].programname.buckets[i_23].channel.buckets[0]
+              //       .key;
+              //   Vue.set(temp_data_23[i_23 + 1], 0, temp_key_add);
+              // }
+              // vm.localProgramTOPData.data = temp_data_23;
             } catch (error) {
               console.log(error);
             }
@@ -2123,7 +2517,7 @@ export default {
               let buckets_24 =
                 response.data.responses[24].aggregations.statistical_granularity
                   .buckets;
-              // let length_24 = buckets_24.length; // 默认两周 - 2
+              let length_24 = buckets_24.length; // 默认两周 - 2
               let i_24;
               let temp_data_24 = [];
               temp_data_24.push([
@@ -2135,49 +2529,61 @@ export default {
               for (i_24 = 0; i_24 < top10_length_24; i_24++) {
                 temp_data_24.push([]);
               }
+              let index_current_24 = length_24 - 1;
 
               // 本周
               for (i_24 = 0; i_24 < top10_length_24; i_24++) {
                 Vue.set(
                   temp_data_24[top10_length_24 - i_24],
                   0,
-                  buckets_24[1].channel.buckets[i_24].key
+                  buckets_24[index_current_24].channel.buckets[i_24].key
                 );
                 Vue.set(
                   temp_data_24[top10_length_24 - i_24],
                   1,
                   commonTools.returnFloat_2(
-                    buckets_24[1].channel.buckets[i_24].onlive_user_num.value /
-                      10000
+                    buckets_24[index_current_24].channel.buckets[i_24]
+                      .onlive_user_num.value / 10000
                   )
                 );
               }
               // ////// 上周
-              let buckets_child_24_2 =
-                response.data.responses[24].aggregations.statistical_granularity
-                  .buckets[0].channel.buckets;
-              let top10_length_24_week2_all = buckets_child_24_2.length; // 240个
-              let i_24_2;
-              function Return_KeyValue_24(key) {
-                let value;
-                for (i_24_2 = 0; i_24_2 < top10_length_24_week2_all; i_24_2++) {
-                  if (buckets_child_24_2[i_24_2].key == key) {
-                    value = commonTools.returnFloat_2(
-                      buckets_child_24_2[i_24_2].onlive_user_num.value / 10000
-                    );
-                    break;
+              if (length_24 > 1) {
+                let buckets_child_24_2 =
+                  response.data.responses[24].aggregations
+                    .statistical_granularity.buckets[0].channel.buckets;
+                let top10_length_24_week2_all = buckets_child_24_2.length; // 240个
+                let i_24_2;
+                function Return_KeyValue_24(key) {
+                  let value;
+                  for (
+                    i_24_2 = 0;
+                    i_24_2 < top10_length_24_week2_all;
+                    i_24_2++
+                  ) {
+                    if (buckets_child_24_2[i_24_2].key == key) {
+                      value = commonTools.returnFloat_2(
+                        buckets_child_24_2[i_24_2].onlive_user_num.value / 10000
+                      );
+                      break;
+                    }
                   }
+                  return value;
                 }
-                return value;
+                // 遍历 本周（先）top 15的key
+                for (i_24 = 0; i_24 < top10_length_24; i_24++) {
+                  Vue.set(
+                    temp_data_24[top10_length_24 - i_24],
+                    2,
+                    Return_KeyValue_24(temp_data_24[top10_length_24 - i_24][0])
+                  );
+                }
+              } else {
+                for (i_24 = 0; i_24 < top10_length_24; i_24++) {
+                  Vue.set(temp_data_24[top10_length_24 - i_24], 2, "");
+                }
               }
-              // 遍历 本周（先）top 15的key
-              for (i_24 = 0; i_24 < top10_length_24; i_24++) {
-                Vue.set(
-                  temp_data_24[top10_length_24 - i_24],
-                  2,
-                  Return_KeyValue_24(temp_data_24[top10_length_24 - i_24][0])
-                );
-              }
+
               vm.satelliteChannelTOPData.data = temp_data_24;
             } catch (error) {
               console.log(error);
@@ -2187,9 +2593,17 @@ export default {
               let buckets_25 =
                 response.data.responses[25].aggregations.statistical_granularity
                   .buckets;
-              let buckets_25_child_0 = buckets_25[0].programname.buckets;
-              let buckets_25_child_1 = buckets_25[1].programname.buckets;
-              // let length_25 = buckets_25.length; // 默认两周 - 2
+              let length_25 = buckets_25.length; // 默认两周 - 2
+              let buckets_25_child_0;
+              let buckets_25_child_1;
+              if (length_25 > 1) {
+                buckets_25_child_0 = buckets_25[0].programname.buckets;
+                buckets_25_child_1 = buckets_25[1].programname.buckets;
+              }
+              if (length_25 == 1) {
+                buckets_25_child_1 = buckets_25[0].programname.buckets;
+              }
+
               // 本周top10 名称+数值 (0+2) => 上周数值（1）
               let i_25;
               let temp_data_25 = [];
@@ -2198,10 +2612,14 @@ export default {
                 beforeWeekFormat,
                 currentWeekFormat
               ]);
+              let index_current_25 = length_25 - 1;
+
               let top10_length_25 = 10;
               for (i_25 = 0; i_25 < top10_length_25; i_25++) {
                 temp_data_25.push([]);
               }
+              let tlist = [];
+
               // 本周
               for (i_25 = 0; i_25 < top10_length_25; i_25++) {
                 Vue.set(
@@ -2216,39 +2634,107 @@ export default {
                     buckets_25_child_1[i_25].onlive_dur.value / 10000 / 60
                   )
                 );
-              }
-              // 上周
-              let top10_length_25_week2_all = buckets_25_child_0.length; // 至多200个
-              let i_25_2;
-              function Return_KeyValue_25(key) {
-                let value;
-                for (i_25_2 = 0; i_25_2 < top10_length_25_week2_all; i_25_2++) {
-                  if (buckets_25_child_0[i_25_2].key == key) {
-                    value = commonTools.returnFloat_2(
-                      buckets_25_child_0[i_25_2].onlive_dur.value / 10000 / 60
-                    );
-                    break;
-                  }
+                if (length_25 > 1) {
+                  let temp_c = {
+                    operator: String([m_operator]),
+                    year: temp_time.year,
+                    start: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                    programname: buckets_25_child_1[i_25].key
+                  };
+                  let formData_c = new FormData();
+                  formData_c = new window.FormData();
+                  formData_c.append("operator", temp_c.operator);
+                  formData_c.append("start", temp_c.start);
+                  formData_c.append("end", temp_c.end);
+                  formData_c.append("year", temp_c.year);
+                  formData_c.append("programname", temp_c.programname);
+                  // console.log(temp_c);
+                  tlist.push(
+                    users_mobileReport_top(formData_c)
+                      .then(function(response_c) {
+                        // console.log(response_c);
+                        // ▲▲▲ collection 5
+                        let m_buckets =
+                          response_c.data.responses[5].aggregations
+                            .statistical_granularity.buckets;
+                        let m_value;
+                        if (m_buckets.length > 0) {
+                          m_value = (
+                            m_buckets[0].onlive_dur.value /
+                            10000 /
+                            60
+                          ).toFixed(2);
+                        }
+                        if (m_buckets.length == 0) {
+                          m_value = "";
+                        }
+                        // console.log(m_value);
+                        return m_value;
+                      })
+                      .catch(function(error) {
+                        console.info(error);
+                        return "";
+                      })
+                  );
                 }
-                return value;
-              }
-              for (i_25 = 0; i_25 < top10_length_25; i_25++) {
-                Vue.set(
-                  temp_data_25[i_25 + 1],
-                  1,
-                  Return_KeyValue_25(temp_data_25[i_25 + 1][0])
-                );
-              }
+              } //for
+              Promise.all(tlist)
+                .then(res => {
+                  // console.log(res);
+                  if (length_25 > 1) {
+                    res.forEach((item, index) => {
+                      Vue.set(temp_data_25[index + 1], 1, item);
+                    });
+                  } else {
+                    for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+                      Vue.set(temp_data_25[index + 1], 1, "");
+                    }
+                  }
+                  for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+                    let temp_key_add =
+                      temp_data_25[i_25 + 1][0] +
+                      "\n" +
+                      buckets_25[index_current_25].programname.buckets[i_25]
+                        .channel.buckets[0].key;
+                    Vue.set(temp_data_25[i_25 + 1], 0, temp_key_add);
+                  }
+                })
+                .then(res2 => {
+                  vm.satelliteLiveProgramTOPData.data = temp_data_25;
+                });
+              // 上周
+              // let top10_length_25_week2_all = buckets_25_child_0.length; // 至多200个
+              // let i_25_2;
+              // function Return_KeyValue_25(key) {
+              //   let value;
+              //   for (i_25_2 = 0; i_25_2 < top10_length_25_week2_all; i_25_2++) {
+              //     if (buckets_25_child_0[i_25_2].key == key) {
+              //       value = commonTools.returnFloat_2(
+              //         buckets_25_child_0[i_25_2].onlive_dur.value / 10000 / 60
+              //       );
+              //       break;
+              //     }
+              //   }
+              //   return value;
+              // }
+              // for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+              //   Vue.set(
+              //     temp_data_25[i_25 + 1],
+              //     1,
+              //     Return_KeyValue_25(temp_data_25[i_25 + 1][0])
+              //   );
+              // }
 
-              for (i_25 = 0; i_25 < top10_length_25; i_25++) {
-                let temp_key_add =
-                  temp_data_25[i_25 + 1][0] +
-                  "\n" +
-                  buckets_25[1].programname.buckets[i_25].channel.buckets[0]
-                    .key;
-                Vue.set(temp_data_25[i_25 + 1], 0, temp_key_add);
-              }
-              vm.satelliteLiveProgramTOPData.data = temp_data_25;
+              // for (i_25 = 0; i_25 < top10_length_25; i_25++) {
+              //   let temp_key_add =
+              //     temp_data_25[i_25 + 1][0] +
+              //     "\n" +
+              //     buckets_25[1].programname.buckets[i_25].channel.buckets[0]
+              //       .key;
+              //   Vue.set(temp_data_25[i_25 + 1], 0, temp_key_add);
+              // }
+              // vm.satelliteLiveProgramTOPData.data = temp_data_25;
             } catch (error) {
               console.log(error);
             }
@@ -2330,9 +2816,9 @@ export default {
             // console.log(vm.carouselChannelData);
             // //// 轮播频道及节目收视排名 (row13 right) 在  week_days
 
-            // ////////// 推荐栏目一周数据概览-一周热力数据 row14 responses 28 29
+            // ////////// 推荐栏目一周数据概览-一周热力数据 row14 responses28 29
             // ----待添加 移动运营周报 下面分栏 添加开机时长 在 responses30
-            // ////////// 推荐栏目一周数据概览-按钮点击排行 row14 responses 31
+            // ////////// 推荐栏目一周数据概览-按钮点击排行 row14 responses31
             vm.Pane_ColumnData = [];
             vm.paneArr = [];
             vm.activeName = "0";
@@ -2650,7 +3136,9 @@ export default {
                 for (i_28 = 0; i_28 < length_28; i_28++) {
                   let buckets_31_managed = temp_twoWeek_keyArr[i_28]; //第n个指定key - 两周
                   if (buckets_31_managed != "nokey") {
-                    // let length_31_m = buckets_31_managed.length; // 默认两周 - 2
+                    let length_31 = buckets_31_managed.length; // 默认两周 - 2
+                    // console.log("~~~~~~~~~~~~~");
+                    // console.log(length_31);
                     let i_31_m;
                     // let temp_data_31 = [];  // temp_data_31 => DATA_buttonClickTOPData
                     // temp_data_31.push([
@@ -2665,26 +3153,123 @@ export default {
                       beforeWeekFormat
                     ]);
                     let top15_length_31 = 15;
+                    let index_current_31 = length_31 - 1;
+
                     for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
                       DATA_buttonClickTOPData.push([]);
                     }
+
+                    let tlist = [];
 
                     // 本周
                     for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
                       Vue.set(
                         DATA_buttonClickTOPData[top15_length_31 - i_31_m],
                         0,
-                        buckets_31_managed[1].areaname.buckets[i_31_m].key
+                        buckets_31_managed[index_current_31].areaname.buckets[
+                          i_31_m
+                        ].key
                       );
                       Vue.set(
                         DATA_buttonClickTOPData[top15_length_31 - i_31_m],
                         1,
                         commonTools.returnFloat_2(
-                          buckets_31_managed[1].areaname.buckets[i_31_m]
-                            .click_freq.value / 10000
+                          parseFloat(
+                            buckets_31_managed[index_current_31].areaname
+                              .buckets[i_31_m].click_freq.value
+                          ) / 10000
                         )
                       );
-                    }
+
+                      // if (length_31 > 1) {
+                      //   console.log(buckets_28[i_28].key);
+                      //   let temp_c = {
+                      //     operator: String([m_operator]),
+                      //     year: temp_time.year,
+                      //     start: commonTools.ReturnBeforeWeek(
+                      //       temp_time.week,
+                      //       1
+                      //     ),
+                      //     end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                      //     areaname:
+                      //       buckets_31_managed[index_current_31].areaname
+                      //         .buckets[i_31_m].key,
+                      //     ti: buckets_28[i_28].key
+                      //   };
+                      //   let formData_c = new FormData();
+                      //   formData_c = new window.FormData();
+                      //   formData_c.append("operator", temp_c.operator);
+                      //   formData_c.append("start", temp_c.start);
+                      //   formData_c.append("end", temp_c.end);
+                      //   formData_c.append("year", temp_c.year);
+                      //   formData_c.append("areaname", temp_c.areaname);
+                      //   formData_c.append("ti", temp_c.ti);
+                      //   // console.log(temp_c);
+                      //   tlist.push(
+                      //     users_mobileReport_titop(formData_c)
+                      //       .then(function(response_c) {
+                      //         // console.log(response_c);
+                      //         // ▲▲▲ collection 0
+                      //         let m_buckets =
+                      //           response_c.data.responses[0].aggregations
+                      //             .statistical_granularity.buckets;
+                      //         let m_value;
+                      //         if (m_buckets.length > 0) {
+                      //           m_value = (
+                      //             parseFloat(m_buckets[0].click_freq.value) /
+                      //             10000
+                      //           ).toFixed(2);
+                      //         }
+                      //         if (m_buckets.length == 0) {
+                      //           m_value = "";
+                      //         }
+                      //         // console.log(m_value);
+                      //         return m_value;
+                      //       })
+                      //       .catch(function(error) {
+                      //         console.info(error);
+                      //         return "";
+                      //       })
+                      //   );
+                      // }
+                    } // for
+
+                    // Promise.all(tlist)
+                    //   .then(res => {
+                    //     // console.log(res);
+                    //     if (length_31 > 1) {
+                    //       res.forEach((item, index) => {
+                    //         // console.log(index);
+                    //         // console.log(item);
+                    //         Vue.set(
+                    //           DATA_buttonClickTOPData[top15_length_31 - index],
+                    //           2,
+                    //           item
+                    //         );
+                    //       });
+                    //     } else {
+                    //       for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
+                    //         Vue.set(
+                    //           DATA_buttonClickTOPData[top15_length_31 - i_31_m],
+                    //           2,
+                    //           ""
+                    //         );
+                    //       }
+                    //     }
+                    //     console.log(DATA_buttonClickTOPData);
+                    //     // DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
+                    //     // console.log(DATA_buttonClickTOPData_all);
+                    //   })
+                    //   .then(res2 => {
+                    //     DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
+                    //     // console.log(i_28);
+                    //     // Vue.set(
+                    //     //   DATA_buttonClickTOPData_all,
+                    //     //   i_28,
+                    //     //   DATA_buttonClickTOPData
+                    //     // );
+                    //   });
+
                     // ////// 上周
                     // let buckets_child_31_2 =
                     //   response.data.responses[31].aggregations
@@ -2724,7 +3309,7 @@ export default {
                     DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
                   } else {
                     // 非 nokey 情况
-                    DATA_buttonClickTOPData_all.push([
+                    let tempArr = [
                       ["product", "current", "lastweek"],
                       ["none1", 0, 0],
                       ["none2", 0, 0],
@@ -2741,7 +3326,9 @@ export default {
                       ["none13", 0, 0],
                       ["none14", 0, 0],
                       ["none15", 0, 0]
-                    ]);
+                    ];
+                    // Vue.set(DATA_buttonClickTOPData_all, i_28, tempArr);
+                    DATA_buttonClickTOPData_all.push(tempArr);
                   }
                 } // for i_28;
                 // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
@@ -2752,7 +3339,7 @@ export default {
 
               // ////////// 推荐栏目一周数据概览-XX页部分按钮每日走势 row14 responses32
               //// 上面是 31
-              //// 32开始
+              //// responses32 开始
 
               // 需要后置请求： epg_box_content
               // i_32
@@ -2794,7 +3381,7 @@ export default {
 
                     function Manage_KeyValue_32_current(key) {
                       // 遍历i_32对应key值 - 找到对应key
-                      console.log(key);
+                      // console.log(key);
                       let ifOver = false;
                       for (i_32 = 0; i_32 < length_32; i_32++) {
                         // console.log(i_32);
@@ -2811,7 +3398,7 @@ export default {
                       return "nokey"; //无指定 key情况
                     }
                     let temp_7days_keyArr = []; // 处理好的28key的 i_32数据  // 28栏目 =》 分两周
-                    console.log(temp_paneArr);
+                    // console.log(temp_paneArr);
                     for (i_28 = 0; i_28 < length_28; i_28++) {
                       temp_7days_keyArr.push(
                         Manage_KeyValue_32_current(temp_paneArr[i_28].data)
@@ -3173,8 +3760,8 @@ export default {
                   );
                 }
 
-                console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
-                console.log(temp_twoWeek_32w_keyArr);
+                // console.log("◆◆◆◆◆◆temp_twoWeek_32w_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
+                // console.log(temp_twoWeek_32w_keyArr);
 
                 // console.log("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
                 // ▲▲▲▲ 一个栏目的data完毕后，进行总处理
@@ -3517,8 +4104,8 @@ export default {
                     }
                   } else {
                     console.log("结束回调BBB");
-                    console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎BBB");
-                    console.log(DATA_columnButtonClickNum_all);
+                    // console.log("◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎◎BBB");
+                    // console.log(DATA_columnButtonClickNum_all);
                   }
                   // }, 10);
                 } // function callback
@@ -3530,7 +4117,7 @@ export default {
 
               // ■■■■ 最终整合数据
               setTimeout(function() {
-                console.log(DATA_columnButtonClickNum_all);
+                // console.log(DATA_columnButtonClickNum_all);
                 // console.log(DATA_someButtonDayTrendData_all);
 
                 for (i_28 = 0; i_28 < length_28; i_28++) {
@@ -4048,8 +4635,8 @@ export default {
                   //     .onlive_user_num.value)
                 }
               }
-              console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
-              console.log(temp_data_27);
+              // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■■");
+              // console.log(temp_data_27);
 
               vm.originalProgramsDemandData.data = temp_data_27;
               // console.log("~~~~~~~~!!!!!");

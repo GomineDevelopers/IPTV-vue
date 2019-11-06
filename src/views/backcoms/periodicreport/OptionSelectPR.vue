@@ -978,8 +978,8 @@ export default {
       this.$store
         .dispatch("get_PR_Report_index")
         .then(function(response_index) {
-          console.log("~~~~~当前报告序数");
-          console.log(response_index);
+          // console.log("~~~~~当前报告序数");
+          // console.log(response_index);
           // ///
           let excelName = "";
           switch (response_index) {
@@ -1026,7 +1026,7 @@ export default {
               vm.$store
                 .dispatch("get_PR_Excel_titleArr")
                 .then(function(response_title) {
-                  console.log(response_title);
+                  // console.log(response_title);
                   vm.$store
                     .dispatch("get_PR_Excel_dataArr")
                     .then(function(response_dataArr) {

@@ -42,6 +42,17 @@ export function test_login() {
 
 // //////////////////////// top15回调
 
+// 运营周报titop
+// post http://{{iptv}}/api/users/mobileReport/titop
+export async function users_mobileReport_titop(postData) {
+    let responseData = await request({
+        method: 'post',
+        url: '/users/mobileReport/titop',
+        data: postData
+    })
+    return responseData
+}
+
 // 运营周报top
 // post http://{{iptv}}/api/users/mobileReport/top
 export async function users_mobileReport_top(postData) {
@@ -62,6 +73,8 @@ export async function users_activeReportTop(postData) {
     })
     return responseData
 }
+
+
 
 
 // //////////////////////// 上传文件
