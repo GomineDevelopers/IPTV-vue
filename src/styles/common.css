@@ -13,12 +13,12 @@
 @font-face {
   font-family: 'iconfont';
   /* project id 1314644 */
-  src: url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.eot');
-  src: url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.woff2') format('woff2'),
-    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.woff') format('woff'),
-    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_1314644_lc0l2yobokk.svg#iconfont') format('svg');
+  src: url('ali_font/iconfont.eot');
+  src: url('ali_font/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('ali_font/iconfont.woff2') format('woff2'),
+    url('ali_font/iconfont.woff') format('woff'),
+    url('ali_font/iconfont.ttf') format('truetype'),
+    url('ali_font/iconfont.svg#iconfont') format('svg');
 }
 
 .iconfont {

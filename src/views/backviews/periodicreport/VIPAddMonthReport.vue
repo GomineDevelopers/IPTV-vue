@@ -257,7 +257,7 @@ export default {
           console.info(error);
         });
       setTimeout(function () {
-        if (vm.PR_Report_index == 1) {
+        if (vm.PR_Report_index == 6) {
           let temp_titleArr = [];
           let temp_DataArr = [];
           // /// 临时
@@ -309,7 +309,7 @@ export default {
 
             //上月点播次数排名（TOP15）
             let tableData_dataArr = [
-              ["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"],
+              [["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"]],
               []
             ];
             vm.tableData.forEach((value, index) => {
@@ -324,7 +324,7 @@ export default {
 
             //本月点播次数排名（TOP15）
             let tableData2_dataArr = [
-              ["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"],
+              [["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"]],
               []
             ];
             vm.tableData2.forEach((value, index) => {
@@ -340,9 +340,12 @@ export default {
             title_arr.push(
               [vm.newAddUserPercentData.title],
               [vm.newAddPayingUserData.title],
-              [vm.newRegisteredUsersData.title],
-              [vm.powerAddNewUsersData.title],
-              [vm.powerAddNewPayingUsersData.title],
+              // [vm.newRegisteredUsersData.title],
+              ["新增在册用户及开机行为用户数据"],
+              // [vm.powerAddNewUsersData.title],
+              ["新增在册用户，开机行为用户数据（日趋势）"],
+              // [vm.powerAddNewPayingUsersData.title],
+              ["新增在册用户，开机行为用户数及新增付费用户数据（日趋势）"],
               [vm.monthOrderData.title],
               [vm.monthVIPOrderData.title],
               [vm.monthVIPOrderIncomeData.title],
@@ -361,7 +364,9 @@ export default {
               ...orderUserContrastData_titleArr,
               ...incomeContrastData_titleArr,
               ["上月点播次数排名（TOP15）"],
-              ["本月点播次数排名（TOP15）"]
+              [""],
+              ["本月点播次数排名（TOP15）"],
+              [""]
             );
             data_arr.push(
               vm.newAddUserPercentData.data,
@@ -386,8 +391,10 @@ export default {
               vm.AnshunPayingUserData.data,
               ...orderUserContrastData_dataArr,
               ...incomeContrastData_dataArr,
-              tableData_dataArr,
-              tableData2_dataArr
+              tableData_dataArr[0],
+              tableData_dataArr[1],
+              tableData2_dataArr[0],
+              tableData2_dataArr[1]
             );
           } catch (error) {
             console.log(error);

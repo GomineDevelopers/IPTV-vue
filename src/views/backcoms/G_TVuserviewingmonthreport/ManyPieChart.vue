@@ -21,26 +21,26 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
-    }, 1000);
+    }, 2500);
   },
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 2500);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 2500);
     },
     pieData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 2500);
     }
   },
   computed: {
@@ -88,7 +88,7 @@ export default {
           // 视图更新
           setTimeout(function() {
             vm.setLineChart();
-          }, 1000);
+          }, 2500);
 
           let tempx = {
             title: vm.pieData.title,

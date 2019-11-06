@@ -93,12 +93,12 @@ function sheet_from_array_of_arrays(data, opts) {
 
 function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
 
-    console.log("~~~~~~1");
+    // console.log("~~~~~~1");
     let m_length = dataArr.length;
     let ws = {};
     let data = [];
 
-    console.log("~~~~~~2");
+    // console.log("~~~~~~2");
 
     for (let m_j = 0; m_j < m_length; m_j++) {
         // data.push(titleArr[m_j]);
@@ -110,11 +110,11 @@ function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
             data.push(dataArr[m_j][c_i]);
         }
     }
-    console.log("~~~~~~3");
+    // console.log("~~~~~~3");
 
     let range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
     for (let R = 0; R != data.length; ++R) {
-        console.log(data[R]);
+        // console.log(data[R]);
         // for (let C = 0; C != data[R].length; ++C) {
         if (data[R] == undefined || data[R].length == 0) { // 出现empty =》 undefined无数据情况 =》 pass掉这串数据
             // do nothing. 
@@ -219,6 +219,9 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
 export function export_json_to_excel_new(titleArr, dataArr, defaultTitle) {
     var ws_name = "SheetJS";
 
+    console.log("▲▲▲▲▲▲▲▲▲▲▲▲");
+    console.log(titleArr);
+    console.log(dataArr);
     var wb = new Workbook(), ws = sheet_from_array_of_arrays_Arr(titleArr, dataArr);
 
     wb.SheetNames.push(ws_name);

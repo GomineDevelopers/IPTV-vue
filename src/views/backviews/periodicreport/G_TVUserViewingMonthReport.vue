@@ -226,15 +226,15 @@
               <el-row class="analysis_of_viewing1">
                 <el-col class="height_auto" :span="8">
                   <many-pie-chart :pieData="weekLiveViewUserData"></many-pie-chart>
-                  <span>注：由内而外分别是7月第1周、7月第2周、7月第3周、7月第4周</span>
+                  <span>注：由内而外分别是当月月第1个~第n个（年）周</span>
                 </el-col>
                 <el-col class="height_auto" :span="8">
                   <many-pie-chart :pieData="weekLiveViewTimesData"></many-pie-chart>
-                  <span>注：由内而外分别是7月第1周、7月第2周、7月第3周、7月第4周</span>
+                  <span>注：由内而外分别是当月月第1个~第n个（年）周</span>
                 </el-col>
                 <el-col class="height_auto" :span="8">
                   <many-pie-chart :pieData="weekliveViewDurationData"></many-pie-chart>
-                  <span>注：由内而外分别是7月第1周、7月第2周、7月第3周、7月第4周</span>
+                  <span>注：由内而外分别是当月月第1个~第n个（年）周</span>
                 </el-col>
               </el-row>
               <el-row class="analysis_of_viewing2">
@@ -790,11 +790,11 @@ export default {
               [vm.weekNewUserData.title],
               [vm.mobileNewUserData.title],
               [vm.unicornNewUserData.title],
-              [vm.telecomNewUserData],
+              [vm.telecomNewUserData.title],
               [vm.everyDayUserData.title],
               [vm.monthPowerActivityData.title],
               [vm.areaPowerActivityData.title],
-              [vm.everyPowerActivityData.data],
+              [vm.everyPowerActivityData.title],
 
               ...usingTheUser_titleArr, //此处数据格式待处理
               ...usingTheTime_titleArr, //此处数据格式待处理
@@ -831,11 +831,11 @@ export default {
               [vm.demandDurationData2.title],
               [vm.newAddUserData.title],
               [vm.payingUserData.title],
-              [vm.monthDemandData.data],
+              [vm.monthDemandData.title],
               [vm.originalProgramsDemandData.title],
-              [vm.mobileKeyProjectData.data],
-              [vm.unicornKeyProjectData],
-              [vm.telecomKeyProjectData.data]
+              [vm.mobileKeyProjectData.title],
+              [vm.unicornKeyProjectData.title],
+              [vm.telecomKeyProjectData.title]
             );
 
             data_arr.push(
@@ -1059,8 +1059,8 @@ export default {
         end: end, // 暂定这一周
         year: year
       };
-      console.log("~~~~~~~~~~~~~~~~~设置请求  temp");
-      console.log(temp);
+      // console.log("~~~~~~~~~~~~~~~~~设置请求  temp");
+      // console.log(temp);
 
       var formData = new FormData();
       var formData = new window.FormData();
@@ -1105,7 +1105,7 @@ export default {
 
           //混合多月数据
           if (datatype == "mixture" && timetype == "month_range") {
-            console.log("混合多月数据", response.data.responses);
+            console.log("■■■■■■■■■■混合多月数据", response.data.responses);
 
             let vm = this;
             try {
@@ -2382,7 +2382,7 @@ export default {
 
           //混合单月分周数据
           if (datatype == "mixture" && timetype == "week") {
-            console.log("混合 单月分周数据", response.data.responses);
+            console.log("■■■■■■■■■■混合 单月分周数据", response.data.responses);
 
             // /////////////// 本月各周直播收视日数据 responses2  row11 下
             // 结构类似：直播收视行为分析 responses2  row10 下 （row9结构）
@@ -2489,7 +2489,7 @@ export default {
           }
           //混合单月多天数据
           if (datatype == "mixture" && timetype == "day") {
-            console.log("混合 单月多天数据", response.data.responses);
+            console.log("■■■■■■■■■■混合 单月多天数据", response.data.responses);
 
             try {
               // //////////////////// 日开机活跃数据  row8 responses0 -- everyPowerActivityData 1
@@ -2520,8 +2520,7 @@ export default {
           if (datatype == "single" && timetype == "month_range") {
             // console.log("单个运营商多月数据", response.data.responses)
             if (type == "yd") {
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              console.log("移动 单个运营商多月数据", tempOperatorArr);
+              console.log("■■■■■■■■■■移动 单个运营商多月数据", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -2871,7 +2870,7 @@ export default {
                 vm.mobileKeyProjectData.data = [];
               }
             } else if (type == "lt") {
-              console.log("联通 单个运营商多月数据", tempOperatorArr);
+              console.log("■■■■■■■■■■联通 单个运营商多月数据", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -3172,7 +3171,7 @@ export default {
                 vm.unicornKeyProjectData.data = [];
               }
             } else if (type == "dx") {
-              console.log("电信 单个运营商多月数据", tempOperatorArr);
+              console.log("■■■■■■■■■■电信 单个运营商多月数据", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -3470,8 +3469,7 @@ export default {
           //运营商 - 一月分周
           if (datatype == "single" && timetype == "week") {
             if (type == "yd") {
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              console.log("移动 单运营商一月分周", tempOperatorArr);
+              console.log("■■■■■■■■■■移动 单运营商一月分周", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -3533,22 +3531,22 @@ export default {
               vm.mobileNewUserData.data = week_area_temp;
               // console.log("vm.mobileNewUserData.data", vm.mobileNewUserData.data)
 
-              // /////////////// 直播收视行为分析 responses 2  row11 上  yd
+              // /////////////// 本月各周直播收视日数据 responses 2  row11 上  yd
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
               // weekliveViewDurationData onlive_dur
 
-              let i_10;
-              let buckets_10;
-              let length_10;
+              let i_11;
+              let buckets_11;
+              let length_11;
               let onlive_dur_yd = [];
               let onlive_usernum_yd = [];
               let onlive_freq_yd = [];
               try {
-                buckets_10 =
+                buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
-                length_10 = buckets_10.length;
+                length_11 = buckets_11.length;
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
                 onlive_freq_yd = [];
@@ -3559,22 +3557,22 @@ export default {
                 // vm.weekLiveViewUserData.content = []; // 在移动处初始化
                 // vm.weekLiveViewTimesData.content = [];     // 在移动处初始化
                 // vm.weekliveViewDurationData.content = [];    // 在移动处初始化
-                for (i_10 = 0; i_10 < length_10; i_10++) {
+                for (i_11 = 0; i_11 < length_11; i_11++) {
                   temp_weekLiveViewUserData_content.push({
                     title:
-                      commonTools.format_weekToChinese(buckets_10[i_10].key) +
+                      commonTools.format_weekToChinese(buckets_11[i_11].key) +
                       "直播收视用户数",
                     data: []
                   });
                   temp_weekLiveViewTimesData_content.push({
                     title:
-                      commonTools.format_weekToChinese(buckets_10[i_10].key) +
+                      commonTools.format_weekToChinese(buckets_11[i_11].key) +
                       "直播收视次数",
                     data: []
                   });
                   temp_weekliveViewDurationData_content.push({
                     title:
-                      commonTools.format_weekToChinese(buckets_10[i_10].key) +
+                      commonTools.format_weekToChinese(buckets_11[i_11].key) +
                       "直播收视时长",
                     data: []
                   });
@@ -3584,30 +3582,30 @@ export default {
                   vm.weekLiveViewTimesData.content = temp_weekLiveViewTimesData_content;
                   vm.weekliveViewDurationData.content = temp_weekliveViewDurationData_content;
 
-                  for (i_10 = 0; i_10 < length_10; i_10++) {
+                  for (i_11 = 0; i_11 < length_11; i_11++) {
                     onlive_usernum_yd.push(
-                      buckets_10[i_10].onlive_user_num.value
+                      buckets_11[i_11].onlive_user_num.value
                     );
-                    onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
-                    onlive_dur_yd.push(buckets_10[i_10].onlive_dur.value);
+                    onlive_freq_yd.push(buckets_11[i_11].onlive_freq.value);
+                    onlive_dur_yd.push(buckets_11[i_11].onlive_dur.value);
 
-                    Vue.set(vm.weekLiveViewUserData.content[i_10].data, 0, {
-                      value: onlive_usernum_yd[i_10],
+                    Vue.set(vm.weekLiveViewUserData.content[i_11].data, 0, {
+                      value: onlive_usernum_yd[i_11],
                       name: "移动"
                     });
-                    Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 0, {
-                      value: onlive_freq_yd[i_10],
+                    Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 0, {
+                      value: onlive_freq_yd[i_11],
                       name: "移动"
                     });
-                    Vue.set(vm.weekliveViewDurationData.content[i_10].data, 0, {
-                      value: onlive_dur_yd[i_10],
+                    Vue.set(vm.weekliveViewDurationData.content[i_11].data, 0, {
+                      value: onlive_dur_yd[i_11],
                       name: "移动"
                     });
                   }
-                  console.log("■■■■■■■■■■■■■■■■■■■■■■■■■");
-                  console.log(vm.weekLiveViewUserData);
-                  console.log(vm.weekLiveViewTimesData);
-                  console.log(vm.weekliveViewDurationData);
+                  // console.log("■■■■■■■■■■■■■■■■■■■■■■■■■");
+                  // console.log(vm.weekLiveViewUserData);
+                  // console.log(vm.weekLiveViewTimesData);
+                  // console.log(vm.weekliveViewDurationData);
                 }, 500); // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
@@ -3654,7 +3652,7 @@ export default {
                 Vue.set(vm.originalProgramsDemandData.data, 1, []);
               }
             } else if (type == "lt") {
-              console.log("联通 单运营商一月分周", tempOperatorArr);
+              console.log("■■■■■■■■■■联通 单运营商一月分周", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -3715,9 +3713,9 @@ export default {
                   }
                 });
                 vm.unicornNewUserData.data = week_area_temp;
-                console.log("■■■■■■■■■■■■■■■■■■■■1");
-                console.log(week_area_temp);
-                console.log(week_area_temp);
+                // console.log("■■■■■■■■■■■■■■■■■■■■1");
+                // console.log(week_area_temp);
+                // console.log(week_area_temp);
               } catch (error) {
                 console.log(error);
               }
@@ -3751,7 +3749,7 @@ export default {
                 Vue.set(vm.originalProgramsDemandData.data, 2, []);
               }
             } else if (type == "dx") {
-              console.log("电信 单运营商一月分周", tempOperatorArr);
+              console.log("■■■■■■■■■■电信 单运营商一月分周", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -3851,8 +3849,7 @@ export default {
           ////运营商 - 一月分天
           if (datatype == "single" && timetype == "day") {
             if (type == "yd") {
-              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              console.log("移动 单运营商一月分天", tempOperatorArr);
+              console.log("■■■■■■■■■■移动 单运营商一月分天", tempOperatorArr);
               console.log(response.data.responses);
               let vm = this;
               let single_day_data = response.data.responses;
@@ -3869,7 +3866,7 @@ export default {
                 let dayDate = setDateMonth + setDateDay;
                 // console.log(dayDate)
                 vm.everyDayUserData.title =
-                  setDateMonth + "日新增在册用户数（千户）";
+                  setDateMonth + "每日新增在册用户数（千户）";
                 Vue.set(vm.everyDayUserData.data[0], index + 1, dayDate);
                 Vue.set(
                   vm.everyDayUserData.data[1],
@@ -3914,7 +3911,7 @@ export default {
             } // yd
 
             if (type == "lt") {
-              console.log("联通 单运营商一月分天", tempOperatorArr);
+              console.log("■■■■■■■■■■联通 单运营商一月分天", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -3954,41 +3951,41 @@ export default {
                 console.log(error);
                 Vue.set(vm.everyPowerActivityData.data, 2, []);
               }
-              // /////////////// 直播收视行为分析 responses 2  row11 上  lt
+              // /////////////// 本月各周直播收视日数据 responses 2  row11 上  lt
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
               // weekliveViewDurationData onlive_dur
-              let buckets_10;
-              let length_10;
-              let i_10;
+              let buckets_11;
+              let length_11;
+              let i_11;
               try {
-                buckets_10 =
+                buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
-                length_10 = buckets_10.length;
+                length_11 = buckets_11.length;
                 let onlive_dur_yd = [];
                 let onlive_usernum_yd = [];
                 let onlive_freq_yd = [];
 
                 setTimeout(function () {
-                  for (i_10 = 0; i_10 < length_10; i_10++) {
+                  for (i_11 = 0; i_11 < length_11; i_11++) {
                     onlive_usernum_yd.push(
-                      buckets_10[i_10].onlive_user_num.value
+                      buckets_11[i_11].onlive_user_num.value
                     );
-                    onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
-                    onlive_dur_yd.push(buckets_10[i_10].onlive_dur.value);
+                    onlive_freq_yd.push(buckets_11[i_11].onlive_freq.value);
+                    onlive_dur_yd.push(buckets_11[i_11].onlive_dur.value);
                   }
-                  for (i_10 = 0; i_10 < length_10; i_10++) {
-                    Vue.set(vm.weekLiveViewUserData.content[i_10].data, 1, {
-                      value: onlive_usernum_yd[i_10],
+                  for (i_11 = 0; i_11 < length_11; i_11++) {
+                    Vue.set(vm.weekLiveViewUserData.content[i_11].data, 1, {
+                      value: onlive_usernum_yd[i_11],
                       name: "联通"
                     });
-                    Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 1, {
-                      value: onlive_freq_yd[i_10],
+                    Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 1, {
+                      value: onlive_freq_yd[i_11],
                       name: "联通"
                     });
-                    Vue.set(vm.weekliveViewDurationData.content[i_10].data, 1, {
-                      value: onlive_dur_yd[i_10],
+                    Vue.set(vm.weekliveViewDurationData.content[i_11].data, 1, {
+                      value: onlive_dur_yd[i_11],
                       name: "联通"
                     });
                   }
@@ -3999,22 +3996,22 @@ export default {
                 }, 1000); // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
-                for (i_10 = 0; i_10 < length_10; i_10++) {
+                for (i_11 = 0; i_11 < length_11; i_11++) {
                   onlive_usernum_yd.push(0);
                   onlive_freq_yd.push(0);
                   onlive_dur_yd.push(0);
                 }
-                for (i_10 = 0; i_10 < length_10; i_10++) {
-                  Vue.set(vm.weekLiveViewUserData.content[i_10].data, 1, {
-                    value: onlive_usernum_yd[i_10],
+                for (i_11 = 0; i_11 < length_11; i_11++) {
+                  Vue.set(vm.weekLiveViewUserData.content[i_11].data, 1, {
+                    value: onlive_usernum_yd[i_11],
                     name: "联通"
                   });
-                  Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 1, {
-                    value: onlive_freq_yd[i_10],
+                  Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 1, {
+                    value: onlive_freq_yd[i_11],
                     name: "联通"
                   });
-                  Vue.set(vm.weekliveViewDurationData.content[i_10].data, 1, {
-                    value: onlive_dur_yd[i_10],
+                  Vue.set(vm.weekliveViewDurationData.content[i_11].data, 1, {
+                    value: onlive_dur_yd[i_11],
                     name: "联通"
                   });
                 }
@@ -4027,7 +4024,7 @@ export default {
               // 结构类似 row12
             }
             if (type == "dx") {
-              console.log("电信 单运营商一月分天", tempOperatorArr);
+              console.log("■■■■■■■■■■电信 单运营商一月分天", tempOperatorArr);
               console.log(response.data.responses);
 
               let vm = this;
@@ -4044,43 +4041,43 @@ export default {
                 );
               });
 
-              // /////////////// 直播收视行为分析 responses 2  row11 上  dx
+              // /////////////// 本月各周直播收视日数据 responses 2  row11 上  dx
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
               // weekliveViewDurationData onlive_dur
-              let buckets_10;
-              let length_10;
-              let i_10;
+              let buckets_11;
+              let length_11;
+              let i_11;
               let onlive_dur_yd = [];
               let onlive_usernum_yd = [];
               let onlive_freq_yd = [];
               try {
-                buckets_10 =
+                buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
-                length_10 = buckets_10.length;
+                length_11 = buckets_11.length;
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
                 onlive_freq_yd = [];
 
                 setTimeout(function () {
-                  for (i_10 = 0; i_10 < length_10; i_10++) {
+                  for (i_11 = 0; i_11 < length_11; i_11++) {
                     onlive_usernum_yd.push(
-                      buckets_10[i_10].onlive_user_num.value
+                      buckets_11[i_11].onlive_user_num.value
                     );
-                    onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
-                    onlive_dur_yd.push(buckets_10[i_10].onlive_dur.value);
+                    onlive_freq_yd.push(buckets_11[i_11].onlive_freq.value);
+                    onlive_dur_yd.push(buckets_11[i_11].onlive_dur.value);
 
-                    Vue.set(vm.weekLiveViewUserData.content[i_10].data, 2, {
-                      value: onlive_usernum_yd[i_10],
+                    Vue.set(vm.weekLiveViewUserData.content[i_11].data, 2, {
+                      value: onlive_usernum_yd[i_11],
                       name: "电信"
                     });
-                    Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 2, {
-                      value: onlive_freq_yd[i_10],
+                    Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 2, {
+                      value: onlive_freq_yd[i_11],
                       name: "电信"
                     });
-                    Vue.set(vm.weekliveViewDurationData.content[i_10].data, 2, {
-                      value: onlive_dur_yd[i_10],
+                    Vue.set(vm.weekliveViewDurationData.content[i_11].data, 2, {
+                      value: onlive_dur_yd[i_11],
                       name: "电信"
                     });
                   }
@@ -4094,24 +4091,24 @@ export default {
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
                 onlive_freq_yd = [];
-                for (i_10 = 0; i_10 < length_10; i_10++) {
+                for (i_11 = 0; i_11 < length_11; i_11++) {
                   onlive_usernum_yd.push(
-                    buckets_10[i_10].onlive_user_num.value
+                    buckets_11[i_11].onlive_user_num.value
                   );
-                  onlive_freq_yd.push(buckets_10[i_10].onlive_freq.value);
-                  onlive_dur_yd.push(buckets_10[i_10].onlive_dur.value);
+                  onlive_freq_yd.push(buckets_11[i_11].onlive_freq.value);
+                  onlive_dur_yd.push(buckets_11[i_11].onlive_dur.value);
                 }
-                for (i_10 = 0; i_10 < length_10; i_10++) {
-                  Vue.set(vm.weekLiveViewUserData.content[i_10].data, 2, {
-                    value: onlive_usernum_yd[i_10],
+                for (i_11 = 0; i_11 < length_11; i_11++) {
+                  Vue.set(vm.weekLiveViewUserData.content[i_11].data, 2, {
+                    value: onlive_usernum_yd[i_11],
                     name: "电信"
                   });
-                  Vue.set(vm.weekLiveViewTimesData.content[i_10].data, 2, {
-                    value: onlive_freq_yd[i_10],
+                  Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 2, {
+                    value: onlive_freq_yd[i_11],
                     name: "电信"
                   });
-                  Vue.set(vm.weekliveViewDurationData.content[i_10].data, 2, {
-                    value: onlive_dur_yd[i_10],
+                  Vue.set(vm.weekliveViewDurationData.content[i_11].data, 2, {
+                    value: onlive_dur_yd[i_11],
                     name: "电信"
                   });
                 }
@@ -4406,7 +4403,7 @@ export default {
 
       // G+TV7月每日用户发展数据
       everyDayUserData: {
-        // title: "7月日新增在册用户数（千户）",
+        // title: "7月每日新增在册用户数（千户）",
         title: "",
         id: "everyDayUser",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4", "#FFC000"],

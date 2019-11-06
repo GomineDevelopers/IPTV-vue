@@ -188,7 +188,30 @@ export default {
       // wd_lt[0];
       // wd_dx[0];
       let m1 = [];
-
+      let m1_0 = {
+        // ▲ 0
+        title: ["日新增", "", "", "", "", "", "", "", "总计"],
+        rowA: ["移动", , , , , , , ,],
+        rowB: ["联通", , , , , , , ,],
+        rowC: ["电信", , , , , , , ,],
+        rowD: ["", "", "", "", "", "", "", "", ""]
+      };
+      let m1_1 = {
+        title: "",
+        id: "MOWR_m1_A1",
+        height: "height:300px;",
+        color: ["#8064A2", "#9BBB59", "#C0504D"],
+        data: [
+          ["product", "移动", "联通", "电信"],
+          ["", , ,],
+          ["", , ,],
+          ["", , ,],
+          ["", , ,],
+          ["", , ,],
+          ["", , ,],
+          ["", , ,]
+        ]
+      };
       try {
         let buckets_1_0_yd =
           wd_yd[0].aggregations.statistical_granularity.buckets;
@@ -201,35 +224,17 @@ export default {
         let i_1_0;
 
         // left
-        let m1_0 = {
-          // ▲ 0
-          title: ["日新增", "", "", "", "", "", "", "", "总计"],
-          rowA: ["移动", , , , , , , ,],
-          rowB: ["联通", , , , , , , ,],
-          rowC: ["电信", , , , , , , ,],
-          rowD: ["", "", "", "", "", "", "", "", ""]
-        };
+
         let sum_1_0_yd = 0;
         let sum_1_0_lt = 0;
         let sum_1_0_dx = 0;
         let sum_1_0_all = 0;
         // right
-        let m1_1 = {
-          title: "",
-          id: "MOWR_m1_A1",
-          height: "height:300px;",
-          color: ["#8064A2", "#9BBB59", "#C0504D"],
-          data: [
-            ["product", "移动", "联通", "电信"],
-            ["", , ,],
-            ["", , ,],
-            ["", , ,],
-            ["", , ,],
-            ["", , ,],
-            ["", , ,],
-            ["", , ,]
-          ]
-        };
+        // if (length_1_0 == 0) {
+        //   m1.push(m1_0);
+        //   m1.push(m1_1);
+        //   throw "length_1_0 == 0";
+        // }
 
         for (i_1_0 = 0; i_1_0 < length_1_0; i_1_0++) {
           // ▲ 1 - 7
@@ -251,10 +256,14 @@ export default {
         // left
         sum_1_0_all = sum_1_0_yd + sum_1_0_lt + sum_1_0_dx;
         //设置-单运营商-和 - ▲ 8
-        Vue.set(m1_0.rowA, length_1_0 + 1, sum_1_0_yd);
-        Vue.set(m1_0.rowB, length_1_0 + 1, sum_1_0_lt);
-        Vue.set(m1_0.rowC, length_1_0 + 1, sum_1_0_dx);
-        Vue.set(m1_0.rowD, length_1_0 + 1, sum_1_0_all);
+        // Vue.set(m1_0.rowA, length_1_0 + 1, sum_1_0_yd);
+        // Vue.set(m1_0.rowB, length_1_0 + 1, sum_1_0_lt);
+        // Vue.set(m1_0.rowC, length_1_0 + 1, sum_1_0_dx);
+        // Vue.set(m1_0.rowD, length_1_0 + 1, sum_1_0_all);
+        Vue.set(m1_0.rowA, 7 + 1, sum_1_0_yd);
+        Vue.set(m1_0.rowB, 7 + 1, sum_1_0_lt);
+        Vue.set(m1_0.rowC, 7 + 1, sum_1_0_dx);
+        Vue.set(m1_0.rowD, 7 + 1, sum_1_0_all);
 
         m1.push(m1_0);
         m1.push(m1_1);
@@ -264,6 +273,7 @@ export default {
         console.log(error);
         m1 = [];
       }
+
       let m12 = [];
 
       try {
@@ -352,10 +362,14 @@ export default {
         // left
         sum_1_0_all2 = sum_1_0_yd2 + sum_1_0_lt2 + sum_1_0_dx2;
         //设置-单运营商-和 - ▲ 8
-        Vue.set(m1_02.rowA, length_1_02 + 1, sum_1_0_yd2);
-        Vue.set(m1_02.rowB, length_1_02 + 1, sum_1_0_lt2);
-        Vue.set(m1_02.rowC, length_1_02 + 1, sum_1_0_dx2);
-        Vue.set(m1_02.rowD, length_1_02 + 1, sum_1_0_all2);
+        // Vue.set(m1_02.rowA, length_1_02 + 1, sum_1_0_yd2);
+        // Vue.set(m1_02.rowB, length_1_02 + 1, sum_1_0_lt2);
+        // Vue.set(m1_02.rowC, length_1_02 + 1, sum_1_0_dx2);
+        // Vue.set(m1_02.rowD, length_1_02 + 1, sum_1_0_all2);
+        Vue.set(m1_02.rowA, 7 + 1, sum_1_0_yd2);
+        Vue.set(m1_02.rowB, 7 + 1, sum_1_0_lt2);
+        Vue.set(m1_02.rowC, 7 + 1, sum_1_0_dx2);
+        Vue.set(m1_02.rowD, 7 + 1, sum_1_0_all2);
 
         m12.push(m1_02);
         m12.push(m1_12);
@@ -526,10 +540,14 @@ export default {
             )
           ) + "%";
 
-        Vue.set(m2_0.rowA, length_2_1 + 1, sum_2_1_yd);
-        Vue.set(m2_0.rowB, length_2_1 + 1, sum_2_1_lt);
-        Vue.set(m2_0.rowC, length_2_1 + 1, sum_2_1_dx);
-        Vue.set(m2_0.rowD, length_2_1 + 1, sum_2_1_all);
+        // Vue.set(m2_0.rowA, length_2_1 + 1, sum_2_1_yd);
+        // Vue.set(m2_0.rowB, length_2_1 + 1, sum_2_1_lt);
+        // Vue.set(m2_0.rowC, length_2_1 + 1, sum_2_1_dx);
+        // Vue.set(m2_0.rowD, length_2_1 + 1, sum_2_1_all);
+        Vue.set(m2_0.rowA, 7 + 1, sum_2_1_yd);
+        Vue.set(m2_0.rowB, 7 + 1, sum_2_1_lt);
+        Vue.set(m2_0.rowC, 7 + 1, sum_2_1_dx);
+        Vue.set(m2_0.rowD, 7 + 1, sum_2_1_all);
 
         m2.push(m2_0);
         m2.push(m2_1);
@@ -690,10 +708,15 @@ export default {
             )
           ) + "%";
 
-        Vue.set(m2_0_2.rowA, length_2_1_2 + 1, sum_2_1_yd_2);
-        Vue.set(m2_0_2.rowB, length_2_1_2 + 1, sum_2_1_lt_2);
-        Vue.set(m2_0_2.rowC, length_2_1_2 + 1, sum_2_1_dx_2);
-        Vue.set(m2_0_2.rowD, length_2_1_2 + 1, sum_2_1_all_2);
+        // Vue.set(m2_0_2.rowA, length_2_1_2 + 1, sum_2_1_yd_2);
+        // Vue.set(m2_0_2.rowB, length_2_1_2 + 1, sum_2_1_lt_2);
+        // Vue.set(m2_0_2.rowC, length_2_1_2 + 1, sum_2_1_dx_2);
+        // Vue.set(m2_0_2.rowD, length_2_1_2 + 1, sum_2_1_all_2);
+        
+        Vue.set(m2_0_2.rowA, 7 + 1, sum_2_1_yd_2);
+        Vue.set(m2_0_2.rowB, 7 + 1, sum_2_1_lt_2);
+        Vue.set(m2_0_2.rowC, 7 + 1, sum_2_1_dx_2);
+        Vue.set(m2_0_2.rowD, 7 + 1, sum_2_1_all_2);
 
         m2_2.push(m2_0_2);
         m2_2.push(m2_1_2);
@@ -1639,9 +1662,12 @@ export default {
           );
         }
         // m6_0
-        Vue.set(m6_0.rowA, length_6_0 + 1, sum_6_0_yd);
-        Vue.set(m6_0.rowB, length_6_0 + 1, sum_6_0_lt);
-        Vue.set(m6_0.rowC, length_6_0 + 1, sum_6_0_dx);
+        // Vue.set(m6_0.rowA, length_6_0 + 1, sum_6_0_yd);
+        // Vue.set(m6_0.rowB, length_6_0 + 1, sum_6_0_lt);
+        // Vue.set(m6_0.rowC, length_6_0 + 1, sum_6_0_dx);
+        Vue.set(m6_0.rowA, 7 + 1, sum_6_0_yd);
+        Vue.set(m6_0.rowB, 7 + 1, sum_6_0_lt);
+        Vue.set(m6_0.rowC, 7 + 1, sum_6_0_dx);
 
         m6.push(m6_0);
         m6.push(m6_1);
@@ -1741,9 +1767,12 @@ export default {
           );
         }
         // m6_02
-        Vue.set(m6_02.rowA, length_6_02 + 1, sum_6_0_yd2);
-        Vue.set(m6_02.rowB, length_6_02 + 1, sum_6_0_lt2);
-        Vue.set(m6_02.rowC, length_6_02 + 1, sum_6_0_dx2);
+        // Vue.set(m6_02.rowA, length_6_02 + 1, sum_6_0_yd2);
+        // Vue.set(m6_02.rowB, length_6_02 + 1, sum_6_0_lt2);
+        // Vue.set(m6_02.rowC, length_6_02 + 1, sum_6_0_dx2);
+        Vue.set(m6_02.rowA, 7 + 1, sum_6_0_yd2);
+        Vue.set(m6_02.rowB, 7 + 1, sum_6_0_lt2);
+        Vue.set(m6_02.rowC, 7 + 1, sum_6_0_dx2);
 
         m62.push(m6_02);
         m62.push(m6_12);
@@ -1768,9 +1797,9 @@ export default {
       let m7 = [];
 
       try {
-        console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-        console.log(wd_yd);
-        console.log(wdl_yd);
+        // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+        // console.log(wd_yd);
+        // console.log(wdl_yd);
         let buckets_7_0_yd =
           wd_yd[0].aggregations.statistical_granularity.buckets;
         let buckets_7_0_lt =
@@ -1825,7 +1854,7 @@ export default {
 
         // 新增 new_num         -- nn
         // 销户 unsub_user_num  -- uun
-        // 净增 net_inc_num     -- nin   
+        // 净增 net_inc_num     -- nin
         // 错误逻辑： 净增用户数 = 在册用户数-截止上周期的在册用户数 register_num
         // 正确逻辑： 净增用户数（这里是以周飞天） 同期相减应该是 本天减上一天！
 
@@ -1919,8 +1948,8 @@ export default {
         Vue.set(m7_0.row7, length_7_0 + 2, sum_7_0_dx_nn);
         Vue.set(m7_0.row8, length_7_0 + 1, sum_7_0_dx_uun);
         Vue.set(m7_0.row9, length_7_0 + 1, sum_7_0_dx_nin);
-        console.log("■■■■■■■■■■");
-        console.log(sum_7_0_dx_nin);
+        // console.log("■■■■■■■■■■");
+        // console.log(sum_7_0_dx_nin);
 
         //// m7_1
         Vue.set(m7_1.data[1], 1, sum_7_0_yd_nn);
@@ -1997,6 +2026,10 @@ export default {
           buckets_8_2[0].value_added_service_package.buckets;
         let length_8_2_package = buckets_8_2_package.length; // 包（个数）长度
         let i_8_2_package;
+
+        // console.log("■■■■■■■■■■■■■■■■■■■■■■");
+        // console.log(wd_dx[2]);
+
         // 存入日期
         Vue.set(m8_0.row1, 0, buckets_8_2[0].key);
         Vue.set(m8_0.row2, 0, buckets_8_2[1].key);
@@ -2059,10 +2092,10 @@ export default {
         function return_KeyValue(key, index_date) {
           let npn = 0;
           let ni = 0;
-          console.log("~~~~~~~~~~~return_KeyValue");
-          console.log("~~~~~~~~~~~" + key);
-          console.log("~~~~~~~~~~~" + String(index_date));
-          console.log("~~~~~~~~~~~");
+          // console.log("~~~~~~~~~~~return_KeyValue");
+          // console.log("~~~~~~~~~~~" + key);
+          // console.log("~~~~~~~~~~~" + String(index_date));
+          // console.log("~~~~~~~~~~~");
 
           try {
             let i_temp_r = 0;
@@ -2181,77 +2214,6 @@ export default {
           );
         }
 
-        // Vue.set(
-        //   m8_0.row1,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包年", 0).npn
-        // );
-        // Vue.set(
-        //   m8_0.row1,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包年", 0).ni
-        // );
-        // Vue.set(
-        //   m8_0.row2,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包季", 1).npn
-        // );
-        // Vue.set(
-        //   m8_0.row2,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包季", 1).ni
-        // );
-        // Vue.set(
-        //   m8_0.row3,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包季", 2).npn
-        // );
-        // Vue.set(
-        //   m8_0.row3,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包季", 2).ni
-        // );
-        // Vue.set(
-        //   m8_0.row4,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包季", 3).npn
-        // );
-        // Vue.set(
-        //   m8_0.row4,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包季", 3).ni
-        // );
-        // Vue.set(
-        //   m8_0.row5,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包季", 4).npn
-        // );
-        // Vue.set(
-        //   m8_0.row5,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包季", 4).ni
-        // );
-        // Vue.set(
-        //   m8_0.row6,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包季", 5).npn
-        // );
-        // Vue.set(
-        //   m8_0.row6,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包季", 5).ni
-        // );
-        // Vue.set(
-        //   m8_0.row7,
-        //   i_8_temp * 2 + 1,
-        //   return_KeyValue("欢乐家庭VIP包季", 6).npn
-        // );
-        // Vue.set(
-        //   m8_0.row7,
-        //   i_8_temp * 2 + 2,
-        //   return_KeyValue("欢乐家庭VIP包季", 6).ni
-        // );
-
         // 横向合计（后台已经解决） - 某天的所有包的和（分为订购数 和 收入）
         Vue.set(
           m8_0.row1,
@@ -2332,11 +2294,28 @@ export default {
         // 设置 row_bottom
         m8_0.row_bottom = [];
         m8_0.row_bottom.push("总计");
-        for (i_8_2_days = 0; i_8_2_days < length_8_2_days; i_8_2_days++) {
-          m8_0.row_bottom.push(buckets_8_2_days[i_8_2_days].new_paid_num.value);
-          m8_0.row_bottom.push(
-            buckets_8_2_days[i_8_2_days].new_income.value / 100
-          );
+        function Return_PackageNameVale(pacakge_index) {
+          let if_ok = false;
+          for (i_8_2_days = 0; i_8_2_days < length_8_2_days; i_8_2_days++) {
+            if (title1_arr[pacakge_index] == buckets_8_2_days[i_8_2_days].key) {
+              console.log(title1_arr[pacakge_index]);
+              m8_0.row_bottom.push(
+                buckets_8_2_days[i_8_2_days].new_paid_num.value
+              );
+              m8_0.row_bottom.push(
+                buckets_8_2_days[i_8_2_days].new_income.value / 100
+              );
+              if_ok = true;
+            }
+          }
+          if (!if_ok) {
+            console.log(title1_arr[pacakge_index]);
+            m8_0.row_bottom.push(0);
+            m8_0.row_bottom.push(0);
+          }
+        }
+        for (let m_i_7 = 0; m_i_7 < title1_arr.length; m_i_7++) {
+          Return_PackageNameVale(m_i_7);
         }
 
         // 最右下角的合计
@@ -2401,8 +2380,8 @@ export default {
       temp_manage("lt", "联通");
       temp_manage("dx", "电信");
 
-      console.log("~~~~~~~~~~~~~~~~~~~ temp  users_marketReport");
-      console.log(temp);
+      // console.log("~~~~~~~~~~~~~~~~~~~ temp  users_marketReport");
+      // console.log(temp);
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("operator", temp.operator);

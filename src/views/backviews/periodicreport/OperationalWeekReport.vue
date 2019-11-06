@@ -730,11 +730,11 @@ export default {
           }
 
           vm.$store
-            .dispatch("set_PR_Excel_titleArr", temp_titleArr)
+            .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
             .then(function(response_title) {
               console.log(response_title);
               vm.$store
-                .dispatch("set_PR_Excel_dataArr", temp_DataArr)
+                .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
                 .then(function(response_dataArr) {
                   console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
@@ -3133,204 +3133,230 @@ export default {
                 // console.log("~~~~~~~~~~~~~~~~~~temp_twoWeek_keyArr"); // 28中有的key值在 31中不一定有 输出了 "nokey"
                 // console.log(temp_twoWeek_keyArr);
 
-                for (i_28 = 0; i_28 < length_28; i_28++) {
-                  let buckets_31_managed = temp_twoWeek_keyArr[i_28]; //第n个指定key - 两周
-                  if (buckets_31_managed != "nokey") {
-                    let length_31 = buckets_31_managed.length; // 默认两周 - 2
-                    // console.log("~~~~~~~~~~~~~");
-                    // console.log(length_31);
-                    let i_31_m;
-                    // let temp_data_31 = [];  // temp_data_31 => DATA_buttonClickTOPData
-                    // temp_data_31.push([
-                    //   "product",
-                    //   currentWeekFormat,
-                    //   beforeWeekFormat
-                    // ]);
-                    DATA_buttonClickTOPData = [];
-                    DATA_buttonClickTOPData.push([
-                      "product",
-                      currentWeekFormat,
-                      beforeWeekFormat
-                    ]);
-                    let top15_length_31 = 15;
-                    let index_current_31 = length_31 - 1;
 
-                    for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
-                      DATA_buttonClickTOPData.push([]);
-                    }
 
-                    let tlist = [];
+                // for (i_28 = 0; i_28 < length_28; i_28++) {
+                  // (function(i_28_current) {
+                    
+                let i_28_current = -1;
+                fun_callback_do(fun_callback_do);
+                function fun_callback_do(callback) {
 
-                    // 本周
-                    for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
-                      Vue.set(
-                        DATA_buttonClickTOPData[top15_length_31 - i_31_m],
-                        0,
-                        buckets_31_managed[index_current_31].areaname.buckets[
-                          i_31_m
-                        ].key
-                      );
-                      Vue.set(
-                        DATA_buttonClickTOPData[top15_length_31 - i_31_m],
-                        1,
-                        commonTools.returnFloat_2(
-                          parseFloat(
-                            buckets_31_managed[index_current_31].areaname
-                              .buckets[i_31_m].click_freq.value
-                          ) / 10000
-                        )
-                      );
+                  if (i_28_current < length_28 - 1) {   
+                    // console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏"+ String(i_28_current));
+                    i_28_current++;   
 
-                      // if (length_31 > 1) {
-                      //   console.log(buckets_28[i_28].key);
-                      //   let temp_c = {
-                      //     operator: String([m_operator]),
-                      //     year: temp_time.year,
-                      //     start: commonTools.ReturnBeforeWeek(
-                      //       temp_time.week,
-                      //       1
-                      //     ),
-                      //     end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
-                      //     areaname:
-                      //       buckets_31_managed[index_current_31].areaname
-                      //         .buckets[i_31_m].key,
-                      //     ti: buckets_28[i_28].key
-                      //   };
-                      //   let formData_c = new FormData();
-                      //   formData_c = new window.FormData();
-                      //   formData_c.append("operator", temp_c.operator);
-                      //   formData_c.append("start", temp_c.start);
-                      //   formData_c.append("end", temp_c.end);
-                      //   formData_c.append("year", temp_c.year);
-                      //   formData_c.append("areaname", temp_c.areaname);
-                      //   formData_c.append("ti", temp_c.ti);
-                      //   // console.log(temp_c);
-                      //   tlist.push(
-                      //     users_mobileReport_titop(formData_c)
-                      //       .then(function(response_c) {
-                      //         // console.log(response_c);
-                      //         // ▲▲▲ collection 0
-                      //         let m_buckets =
-                      //           response_c.data.responses[0].aggregations
-                      //             .statistical_granularity.buckets;
-                      //         let m_value;
-                      //         if (m_buckets.length > 0) {
-                      //           m_value = (
-                      //             parseFloat(m_buckets[0].click_freq.value) /
-                      //             10000
-                      //           ).toFixed(2);
-                      //         }
-                      //         if (m_buckets.length == 0) {
-                      //           m_value = "";
-                      //         }
-                      //         // console.log(m_value);
-                      //         return m_value;
-                      //       })
-                      //       .catch(function(error) {
-                      //         console.info(error);
-                      //         return "";
-                      //       })
+                    let buckets_31_managed = temp_twoWeek_keyArr[i_28_current]; //第n个指定key - 两周
+                    if (buckets_31_managed != "nokey") {
+                      let length_31 = buckets_31_managed.length; // 默认两周 - 2
+                      // console.log("~~~~~~~~~~~~~");
+                      // console.log(length_31);
+                      let i_31_m;
+                      // let temp_data_31 = [];  // temp_data_31 => DATA_buttonClickTOPData
+                      // temp_data_31.push([
+                      //   "product",
+                      //   currentWeekFormat,
+                      //   beforeWeekFormat
+                      // ]);
+                      DATA_buttonClickTOPData = [];
+                      DATA_buttonClickTOPData.push([
+                        "product",
+                        currentWeekFormat,
+                        beforeWeekFormat
+                      ]);
+                      let top15_length_31 = 15;
+                      let index_current_31 = length_31 - 1;
+
+                      for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
+                        DATA_buttonClickTOPData.push([]);
+                      }
+
+                      let tlist = [];
+
+                      // 本周
+                      for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
+                        Vue.set(
+                          DATA_buttonClickTOPData[top15_length_31 - i_31_m],
+                          0,
+                          buckets_31_managed[index_current_31].areaname.buckets[
+                            i_31_m
+                          ].key
+                        );
+                        Vue.set(
+                          DATA_buttonClickTOPData[top15_length_31 - i_31_m],
+                          1,
+                          commonTools.returnFloat_2(
+                            parseFloat(
+                              buckets_31_managed[index_current_31].areaname
+                                .buckets[i_31_m].click_freq.value
+                            ) / 10000
+                          )
+                        );
+
+                        if (length_31 > 1) {
+                          // console.log(buckets_28[i_28_current].key);
+                          let temp_c = {
+                            operator: String([m_operator]),
+                            year: temp_time.year,
+                            start: commonTools.ReturnBeforeWeek(
+                              temp_time.week,
+                              1
+                            ),
+                            end: commonTools.ReturnBeforeWeek(temp_time.week, 1),
+                            areaname:
+                              buckets_31_managed[index_current_31].areaname
+                                .buckets[i_31_m].key,
+                            ti: buckets_28[i_28_current].key
+                          };
+                          let formData_c = new FormData();
+                          formData_c = new window.FormData();
+                          formData_c.append("operator", temp_c.operator);
+                          formData_c.append("start", temp_c.start);
+                          formData_c.append("end", temp_c.end);
+                          formData_c.append("year", temp_c.year);
+                          formData_c.append("areaname", temp_c.areaname);
+                          formData_c.append("ti", temp_c.ti);
+                          // console.log(temp_c);
+                          tlist.push(
+                            users_mobileReport_titop(formData_c)
+                              .then(function(response_c) {
+                                // console.log(response_c);
+                                // ▲▲▲ collection 0
+                                let m_buckets =
+                                  response_c.data.responses[0].aggregations
+                                    .statistical_granularity.buckets;
+                                let m_value;
+                                if (m_buckets.length > 0) {
+                                  m_value = (
+                                    parseFloat(m_buckets[0].click_freq.value) /
+                                    10000
+                                  ).toFixed(2);
+                                }
+                                if (m_buckets.length == 0) {
+                                  m_value = "";
+                                }
+                                // console.log(m_value);
+                                return m_value;
+                              })
+                              .catch(function(error) {
+                                console.info(error);
+                                return "";
+                              })
+                          );
+                        }
+                      } // for
+
+                      Promise.all(tlist)
+                        .then(res => {
+                          // console.log(res);
+                          if (length_31 > 1) {
+                            res.forEach((item, index) => {
+                              // console.log(index);
+                              // console.log(item);
+                              Vue.set(
+                                DATA_buttonClickTOPData[top15_length_31 - index],
+                                2,
+                                item
+                              );
+                            });
+                          } else {
+                            for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
+                              Vue.set(
+                                DATA_buttonClickTOPData[top15_length_31 - i_31_m],
+                                2,
+                                ""
+                              );
+                            }
+                          }
+                          // console.log(DATA_buttonClickTOPData);
+                          // DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
+                          // console.log(DATA_buttonClickTOPData_all);
+                        })
+                        .then(res2 => {
+                          DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
+                          // console.log(i_28_current);
+                          // Vue.set(
+                          //   DATA_buttonClickTOPData_all,
+                          //   i_28_current,
+                          //   DATA_buttonClickTOPData
+                          // );
+                          setTimeout(function() {
+                            callback(fun_callback_do);
+                          }, 100);
+                        });
+
+                      // // ////// 上周
+                      // let buckets_child_31_2 =
+                      //   buckets_31_managed[0].areaname.buckets;
+                      // let top15_length_31_week2_all = buckets_child_31_2.length; // 310个
+                      // let i_31_m_2;
+                      // function Return_KeyValue_31(key) {
+                      //   let value;
+                      //   for (
+                      //     i_31_m_2 = 0;
+                      //     i_31_m_2 < top15_length_31_week2_all;
+                      //     i_31_m_2++
+                      //   ) {
+                      //     if (buckets_child_31_2[i_31_m_2].key == key) {
+                      //       value = commonTools.returnFloat_2(
+                      //         buckets_child_31_2[i_31_m_2].click_freq.value /
+                      //           10000
+                      //       );
+                      //       break;
+                      //     }
+                      //   }
+                      //   return value;
+                      // }
+                      // // 遍历 本周（先）top 15的key
+                      // for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
+                      //   Vue.set(
+                      //     DATA_buttonClickTOPData[top15_length_31 - i_31_m],
+                      //     2,
+                      //     Return_KeyValue_31(
+                      //       DATA_buttonClickTOPData[top15_length_31 - i_31_m][0]
+                      //     )
                       //   );
                       // }
-                    } // for
 
-                    // Promise.all(tlist)
-                    //   .then(res => {
-                    //     // console.log(res);
-                    //     if (length_31 > 1) {
-                    //       res.forEach((item, index) => {
-                    //         // console.log(index);
-                    //         // console.log(item);
-                    //         Vue.set(
-                    //           DATA_buttonClickTOPData[top15_length_31 - index],
-                    //           2,
-                    //           item
-                    //         );
-                    //       });
-                    //     } else {
-                    //       for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
-                    //         Vue.set(
-                    //           DATA_buttonClickTOPData[top15_length_31 - i_31_m],
-                    //           2,
-                    //           ""
-                    //         );
-                    //       }
-                    //     }
-                    //     console.log(DATA_buttonClickTOPData);
-                    //     // DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
-                    //     // console.log(DATA_buttonClickTOPData_all);
-                    //   })
-                    //   .then(res2 => {
-                    //     DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
-                    //     // console.log(i_28);
-                    //     // Vue.set(
-                    //     //   DATA_buttonClickTOPData_all,
-                    //     //   i_28,
-                    //     //   DATA_buttonClickTOPData
-                    //     // );
-                    //   });
+                      // DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
 
-                    // ////// 上周
-                    // let buckets_child_31_2 =
-                    //   response.data.responses[31].aggregations
-                    //     .statistical_granularity.buckets[0].areaname.buckets;
-                    let buckets_child_31_2 =
-                      buckets_31_managed[0].areaname.buckets;
-                    let top15_length_31_week2_all = buckets_child_31_2.length; // 310个
-                    let i_31_m_2;
-                    function Return_KeyValue_31(key) {
-                      let value;
-                      for (
-                        i_31_m_2 = 0;
-                        i_31_m_2 < top15_length_31_week2_all;
-                        i_31_m_2++
-                      ) {
-                        if (buckets_child_31_2[i_31_m_2].key == key) {
-                          value = commonTools.returnFloat_2(
-                            buckets_child_31_2[i_31_m_2].click_freq.value /
-                              10000
-                          );
-                          break;
-                        }
-                      }
-                      return value;
+                    } else {
+                      // 非 nokey 情况
+                      let tempArr = [
+                        ["product", "current", "lastweek"],
+                        ["none1", 0, 0],
+                        ["none2", 0, 0],
+                        ["none3", 0, 0],
+                        ["none4", 0, 0],
+                        ["none5", 0, 0],
+                        ["none6", 0, 0],
+                        ["none7", 0, 0],
+                        ["none8", 0, 0],
+                        ["none9", 0, 0],
+                        ["none10", 0, 0],
+                        ["none11", 0, 0],
+                        ["none12", 0, 0],
+                        ["none13", 0, 0],
+                        ["none14", 0, 0],
+                        ["none15", 0, 0]
+                      ];
+                      // Vue.set(DATA_buttonClickTOPData_all, i_28_current, tempArr);
+                      DATA_buttonClickTOPData_all.push(tempArr);
+                      setTimeout(function() {
+                        callback(fun_callback_do);
+                      }, 100);
                     }
-                    // 遍历 本周（先）top 15的key
-                    for (i_31_m = 0; i_31_m < top15_length_31; i_31_m++) {
-                      Vue.set(
-                        DATA_buttonClickTOPData[top15_length_31 - i_31_m],
-                        2,
-                        Return_KeyValue_31(
-                          DATA_buttonClickTOPData[top15_length_31 - i_31_m][0]
-                        )
-                      );
-                    }
-
-                    DATA_buttonClickTOPData_all.push(DATA_buttonClickTOPData);
                   } else {
-                    // 非 nokey 情况
-                    let tempArr = [
-                      ["product", "current", "lastweek"],
-                      ["none1", 0, 0],
-                      ["none2", 0, 0],
-                      ["none3", 0, 0],
-                      ["none4", 0, 0],
-                      ["none5", 0, 0],
-                      ["none6", 0, 0],
-                      ["none7", 0, 0],
-                      ["none8", 0, 0],
-                      ["none9", 0, 0],
-                      ["none10", 0, 0],
-                      ["none11", 0, 0],
-                      ["none12", 0, 0],
-                      ["none13", 0, 0],
-                      ["none14", 0, 0],
-                      ["none15", 0, 0]
-                    ];
-                    // Vue.set(DATA_buttonClickTOPData_all, i_28, tempArr);
-                    DATA_buttonClickTOPData_all.push(tempArr);
+                    console.log("结束回调 i_31");
                   }
-                } // for i_28;
+
+                } // function callback
+
+                  // })(i_28);
+                // } // for i_28;
+
+
+
                 // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
                 // console.log(DATA_buttonClickTOPData_all);
               } catch (error) {
@@ -3415,12 +3441,12 @@ export default {
 
                     // for (i_28 = 0; i_28 < length_28; i_28++) {
                     // i_28 = 0; // callback 初始化
-                    let temp_i_28 = 0;
+                    let temp_i_28 = -1;
                     let temp_length_28 = length_28;
                     fun_callback_do(fun_callback_do);
                     function fun_callback_do(callback) {
                       // setTimeout(function () {
-                      if (temp_i_28 < temp_length_28) {
+                      if (temp_i_28 < temp_length_28 - 1) {
                         // console.log("★★★★★★★★★★★★");
                         // console.log(temp_i_28);
                         temp_i_28++; // 进来即自增
@@ -3845,15 +3871,15 @@ export default {
                 for (i_28 = 0; i_28 < length_28; i_28++) {
                   DATA_columnButtonClickNum_all.push([]);
                 }
-                let temp_i_28 = 0;
+                let temp_i_28 = -1;
                 let temp_length_28 = length_28;
                 fun_callback_do(fun_callback_do);
                 function fun_callback_do(callback) {
                   // setTimeout(function() {
-                  if (temp_i_28 < temp_length_28) {
+                  if (temp_i_28 < temp_length_28 - 1) { 
                     // console.log("★★★★★★★★★★★★BBB");
                     // console.log(temp_i_28);
-                    temp_i_28++; // 进来即自增
+                    temp_i_28++; // 进来即自增    
                     let buckets_32w_managed =
                       temp_twoWeek_32w_keyArr[temp_i_28]; //第n个指定key - 7天
                     let sign_32w_areanumber_arr =
@@ -4342,7 +4368,7 @@ export default {
                 vm.paneArr = temp_paneArr;
                 vm.Pane_ColumnData = temp_Pane_ColumnData;
                 vm.activeName = vm.paneArr[0].id;
-              }, 8000);
+              }, 9000);
             } catch (error) {
               console.log(error);
             }

@@ -2118,16 +2118,22 @@ export default {
 
           let title_arr = [];
           let data_arr = [];
+
+          let temp_GT_UVWR1_B1_data2 = [];
+          vm.GT_UVWR1_B1.m_data2.forEach((value, index) => {
+            temp_GT_UVWR1_B1_data2.push(value.value);
+          });
+
           try {
             title_arr.push(
               ["平台累计在册用户数总览（万户）"],
               [""],
               ["各大运营商在册用户数总览（万户）"],
-              [""],
               ["新增、停机、销户用户数总览（户）"],
               [""],
               ["各市州在册用户占比（万户）"],
-              [""]["各大运营商各市州一周新增在册用户数（万户）"],
+              [""],
+              ["各大运营商各市州一周新增在册用户数（万户）"],
               ["新增用户占比（万户）"],
               ["停机用户占比（户）"],
               ["销户用户占比（户）"],
@@ -2145,13 +2151,14 @@ export default {
             );
 
             data_arr.push(
-              vm.GT_UVWR1_A1.date, //平台累计在册用户数总览（万户）
-              vm.GT_UVWR1_A1.data,
-              ...vm.GT_UVWR1_A2.data, //各大运营商在册用户数总览
-              vm.GT_UVWR1_A3.data, //新增、停机、销户用户数总览
-              vm.GT_UVWR1_A3.data2,
-              vm.GT_UVWR1_B1.m_data, //
-              vm.GT_UVWR1_B1.m_data2,
+              [vm.GT_UVWR1_A1.date], //平台累计在册用户数总览（万户）
+              [vm.GT_UVWR1_A1.data],
+              ...[vm.GT_UVWR1_A2.data], //各大运营商在册用户数总览
+              [vm.GT_UVWR1_A3.data], //新增、停机、销户用户数总览
+              [vm.GT_UVWR1_A3.data2],
+              [vm.GT_UVWR1_B1.m_data], //
+              // [vm.GT_UVWR1_B1.m_data2],
+              [temp_GT_UVWR1_B1_data2],
               vm.GT_UVWR1_B2.data, //
               vm.GT_UVWR1_C1.data,
               vm.GT_UVWR1_C2.data,
