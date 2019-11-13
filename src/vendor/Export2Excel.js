@@ -6,8 +6,6 @@ import store from '@/store'
 require('script-loader!file-saver');
 require('script-loader!./Blob');
 
-
-
 require('script-loader!xlsx/dist/xlsx.core.min');
 function generateArray(table) {
     var out = [];
@@ -29,16 +27,13 @@ function generateArray(table) {
                     for (var i = 0; i <= range.e.c - range.s.c; ++i) outRow.push(null);
                 }
             });
-
             if (rowspan || colspan) {
                 rowspan = rowspan || 1;
                 colspan = colspan || 1;
                 ranges.push({ s: { r: R, c: outRow.length }, e: { r: R + rowspan - 1, c: outRow.length + colspan - 1 } });
             }
             ;
-
             outRow.push(cellValue !== "" ? cellValue : null);
-
             if (colspan) for (var k = 0; k < colspan - 1; ++k) outRow.push(null);
         }
         out.push(outRow);
@@ -81,9 +76,7 @@ function sheet_from_array_of_arrays(data, opts) {
                 cell.v = datenum(cell.v);
             }
             else cell.t = 's';
-
             ws[cell_ref] = cell;
-
         }
     }
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
@@ -92,36 +85,24 @@ function sheet_from_array_of_arrays(data, opts) {
 
 
 function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
-
-    // console.log("~~~~~~1");
     let m_length = dataArr.length;
     let ws = {};
     let data = [];
-
-    // console.log("~~~~~~2");
-
     for (let m_j = 0; m_j < m_length; m_j++) {
-        // data.push(titleArr[m_j]);
         if (titleArr[m_j] != "") {
             data.push(titleArr[m_j]);
         }
-
         for (let c_i = 0; c_i < dataArr[m_j].length; c_i++) {
             data.push(dataArr[m_j][c_i]);
         }
     }
-    // console.log("~~~~~~3");
-
     let range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
     for (let R = 0; R != data.length; ++R) {
-        // console.log(data[R]);
-        // for (let C = 0; C != data[R].length; ++C) {
-        if (data[R] == undefined || data[R].length == 0) { // 出现empty =》 undefined无数据情况 =》 pass掉这串数据
+        if (data[R] == undefined || data[R].length == 0) { 
             // do nothing. 
         }   
         else {
             for (let C = 0; C < data[R].length; C++) {
-
                 // 初始化实际长度 - start大于x则start取x（），end小于x则end取x
                 if (range.s.r > R) range.s.r = R;
                 if (range.s.c > C) range.s.c = C;
@@ -153,9 +134,6 @@ function sheet_from_array_of_arrays_Arr(titleArr, dataArr, opts) {
         }
 
     }
-
-    console.log("~~~~~~4");
-
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
     return ws;
 }
@@ -219,9 +197,6 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
 export function export_json_to_excel_new(titleArr, dataArr, defaultTitle) {
     var ws_name = "SheetJS";
 
-    console.log("▲▲▲▲▲▲▲▲▲▲▲▲");
-    console.log(titleArr);
-    console.log(dataArr);
     var wb = new Workbook(), ws = sheet_from_array_of_arrays_Arr(titleArr, dataArr);
 
     wb.SheetNames.push(ws_name);
@@ -246,9 +221,6 @@ export function export_json_to_excel_plural2(th, th2, jsonData, jsonData2, defau
 }
 export function exportExcel(titleArr, DataArr, defaultTitle) {
 
-    console.log(titleArr);
-    console.log(DataArr);
-    console.log(defaultTitle);
     store
         .dispatch("set_PR_downloadNum_parent", titleArr.length)
         .then(function (response) {

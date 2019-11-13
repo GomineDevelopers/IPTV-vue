@@ -37,7 +37,8 @@
           <el-col class="height_auto" :span="12">
             <pie-charts :chartData="playData"></pie-charts>
           </el-col>
-          <el-col class="height_auto" :span="12" v-show="ifPlaymodeShow_db">
+          <!-- <el-col class="height_auto" :span="12" v-show="ifPlaymodeShow_db && !ifPrograma_AllChoose"> -->
+          <el-col class="height_auto" :span="12" v-if="ifPlaymodeShow_db && !ifPrograma_AllChoose">
             <!-- 运营商柱状图 -->
             <bar-chart-single :chartData="columnData"></bar-chart-single>
           </el-col>
@@ -88,9 +89,9 @@
 import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 import OptionSelectVIP from "@/views/backcoms/vip/OptionSelectVIP"; // 条件筛选
 // import VIPBehaviorTOP from "@/views/backcoms/vip/VIPBehaviorTOP"; //收视TOP组件
-import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
-import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"; //公用柱状图堆叠
-import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //公用柱状图单个
+import PieCharts from "@/views/backcoms/commoncomponents/PieCharts_sort"; //公用饼图
+import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack_ShowTop"; //公用柱状图堆叠
+import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle_ShowTop"; //公用柱状图单个
 
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
@@ -234,6 +235,16 @@ export default {
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
       console.log("ADD_VIP_programa: " + newValue);
+      console.log(newValue.length);
+      console.log(vm.ADD_VIP_programa_list.length);
+      if(newValue.length == 0 || newValue.length == vm.ADD_VIP_programa_list.length){
+        console.log("true");
+        vm.ifPrograma_AllChoose = true;
+      }
+      else{
+        console.log("false");
+        vm.ifPrograma_AllChoose = false;
+      }
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -295,8 +306,14 @@ export default {
     targetOption(newValue, oldValue) {
       let vm = this;
       // 监听指标选中
-      // console.log("targetOption");
-      // console.log(newValue);
+      console.log("targetOption");
+      console.log(newValue);
+      vm.$store
+        .dispatch("set_ADD_VIP_targetOption",newValue)
+        .then(function(response) {})
+        .catch(function(error) {
+          console.info(error);
+        });
       setTimeout(function() {
         vm.refreshPerData();
       }, 200);
@@ -305,15 +322,15 @@ export default {
       let vm = this;
       if (newValue == 1) {
         vm.target = [
-          "观看次数",
-          "观看时长",
-          "观看户数",
-          "户均收视次数",
-          "次均收视次数"
+          "观看次数（次）",
+          "观看时长（时）",
+          "观看户数（户）",
+          "户均收视次数（次）",
+          "次均收视时长（时）"
         ];
       }
       if (newValue == 0) {
-        vm.target = ["观看次数", "观看时长", "次均收视次数"];
+        vm.target = ["观看次数（次）", "观看时长（时）", "次均收视时长（时）"];
       }
     }
   },
@@ -321,31 +338,32 @@ export default {
     refreshPerData() {
       let vm = this;
       let newValue = vm.targetOption;
-      if (newValue == "观看次数") {
+      console.log(newValue);
+      if (newValue == "观看次数（次）") {
         vm.regionData.data = vm.regionData_data_arr[0];
         vm.operatorData.data = vm.operatorData_arr[0];
         vm.playData.data = vm.playData_arr[0];
         vm.columnData.data = vm.columnData_arr[0];
       }
-      if (newValue == "观看时长") {
+      if (newValue == "观看时长（时）") {
         vm.regionData.data = vm.regionData_data_arr[1];
         vm.operatorData.data = vm.operatorData_arr[1];
         vm.playData.data = vm.playData_arr[1];
         vm.columnData.data = vm.columnData_arr[1];
       }
-      if (newValue == "观看户数") {
+      if (newValue == "观看户数（户）") {
         vm.regionData.data = vm.regionData_data_arr[2];
         vm.operatorData.data = vm.operatorData_arr[2];
         vm.playData.data = vm.playData_arr[2];
         vm.columnData.data = vm.columnData_arr[2];
       }
-      if (newValue == "户均收视次数") {
+      if (newValue == "户均收视次数（次）") {
         vm.regionData.data = vm.regionData_data_arr[3];
         vm.operatorData.data = vm.operatorData_arr[3];
         vm.playData.data = vm.playData_arr[3];
         vm.columnData.data = vm.columnData_arr[3];
       }
-      if (newValue == "次均收视次数") {
+      if (newValue == "次均收视时长（时）") {
         vm.regionData.data = vm.regionData_data_arr[4];
         vm.operatorData.data = vm.operatorData_arr[4];
         vm.playData.data = vm.playData_arr[4];
@@ -372,15 +390,21 @@ export default {
       }
 
       let temp_valueAddedPackage = [];
-      temp_valueAddedPackage.push(vm.ADD_VIP_valueAddedPackage);
-      if (
-        temp_valueAddedPackage == null ||
-        temp_valueAddedPackage == "" ||
-        temp_valueAddedPackage == []
-      ) {
-        console.log("请选择包");
-        return;
+      // temp_valueAddedPackage.push(vm.ADD_VIP_valueAddedPackage);
+      if (vm.ADD_VIP_valueAddedPackage.length == 0) {
+        temp_valueAddedPackage = vm.ADD_VIP_package_list;
+      } else {
+        temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage;
       }
+
+      // if (
+      //   temp_valueAddedPackage == null ||
+      //   temp_valueAddedPackage == "" ||
+      //   temp_valueAddedPackage == []
+      // ) {
+      //   console.log("请选择包");
+      //   return;
+      // }
 
       let temp;
       temp = {
@@ -483,15 +507,30 @@ export default {
 
           try {
             vm.regionData_data_arr = [];
-            let aggregations_0 = response.data.responses[0].aggregations;
-            let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
+            let aggregations_0;
+            let buckets_0;
+            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+              console.log("非全选~~~programa")
+              // 原-非全选
+              aggregations_0 = response.data.responses[0].aggregations;
+              buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
+            }
+            else{
+              console.log("全选~~~programa")
+              // new-全选
+              aggregations_0 = response.data.responses[2].aggregations;
+              buckets_0 = response.data.responses[2].aggregations.ac.buckets; // x9
+            }
+
+            // let aggregations_0 = response.data.responses[0].aggregations;
+            // let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
             let length_0 = buckets_0.length;
             let i_0;
-            let temp1 = []; // 观看次数 - demand_freq
-            let temp2 = []; // 观看时长 - demand_dur
-            let temp3 = []; // 观看户数 - demand_user_num
-            let temp4 = []; // 户均收视次数 - watch_freq_family
-            let temp5 = []; // 次均收视次数 - watch_dur_mean
+            let temp1 = []; // 观看次数（次） - demand_freq
+            let temp2 = []; // 观看时长（时） - demand_dur
+            let temp3 = []; // 观看户数（户） - demand_user_num
+            let temp4 = []; // 户均收视次数（次） - watch_freq_family
+            let temp5 = []; // 次均收视时长（时） - watch_dur_mean
             let temp_all = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ac
             for (i_0 = 0; i_0 < length_0; i_0++) {
               temp1.push({
@@ -499,7 +538,7 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp2.push({
-                value: buckets_0[i_0].demand_dur.value,
+                value: (buckets_0[i_0].demand_dur.value / 60).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp3.push({
@@ -511,7 +550,7 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
-                value: buckets_0[i_0].watch_dur_mean.value.toFixed(2),
+                value: (buckets_0[i_0].watch_dur_mean.value / 60).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
             }
@@ -531,15 +570,29 @@ export default {
           // ////////////////////////////
           try {
             vm.operatorData_arr = [];
-            let buckets_0B =
-              response.data.responses[0].aggregations.ac1.buckets; // x3
+
+            let buckets_0B;
+            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+              console.log("非全选~~~programa")
+              // 原-非全选
+              buckets_0B = response.data.responses[0].aggregations.ac1.buckets;
+            }
+            else{
+              console.log("全选~~~programa")
+              // new-全选
+              buckets_0B = response.data.responses[2].aggregations.ac1.buckets;
+            }
+            // let buckets_0B =
+              // response.data.responses[0].aggregations.ac1.buckets; // x3
+
+
             let length_0B = buckets_0B.length;
             let i_0B;
-            let temp1_B = []; // 观看次数 - demand_freq
-            let temp2_B = []; // 观看时长 - demand_dur
-            let temp3_B = []; // 观看户数 - demand_user_num
-            let temp4_B = []; // 户均收视次数 - watch_freq_family
-            let temp5_B = []; // 次均收视次数 - watch_dur_mean
+            let temp1_B = []; // 观看次数（次） - demand_freq
+            let temp2_B = []; // 观看时长（时） - demand_dur
+            let temp3_B = []; // 观看户数（户） - demand_user_num
+            let temp4_B = []; // 户均收视次数（次） - watch_freq_family
+            let temp5_B = []; // 次均收视时长（时） - watch_dur_mean
             let temp_all_B = []; //包含temp1_B~temp5_B // ▲ 5种值-分别对应运营商-分别对应ac
 
             temp1_B.push(["product", "移动", "联通", "电信"]);
@@ -609,8 +662,10 @@ export default {
                 Vue.set(
                   temp2_B[i_0B + 1],
                   index_sgin,
-                  buckets_0B[i_0B].operators.buckets[index_operator_i]
-                    .demand_dur.value
+                  (
+                    buckets_0B[i_0B].operators.buckets[index_operator_i]
+                      .demand_dur.value / 60
+                  ).toFixed(2)
                 );
                 Vue.set(
                   temp3_B[i_0B + 1],
@@ -628,9 +683,10 @@ export default {
                 Vue.set(
                   temp5_B[i_0B + 1],
                   index_sgin,
-                  buckets_0B[i_0B].operators.buckets[
-                    index_operator_i
-                  ].watch_dur_mean.value.toFixed(2)
+                  (
+                    buckets_0B[i_0B].operators.buckets[index_operator_i]
+                      .watch_dur_mean.value / 60
+                  ).toFixed(2)
                 );
               }
               function SetValue_ByOperator_0(
@@ -691,14 +747,25 @@ export default {
           try {
             vm.playData_arr = [];
 
-            let aggregations_0BB = response.data.responses[0].aggregations; // x3
+            let aggregations_0BB;
+            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+              console.log("非全选~~~programa")
+              // 原-非全选
+              aggregations_0BB = response.data.responses[0].aggregations;
+            }
+            else{
+              console.log("全选~~~programa")
+              // new-全选
+              aggregations_0BB = response.data.responses[2].aggregations;;
+            }
+            // let aggregations_0BB = response.data.responses[0].aggregations; // x3
             // let length_0BB = aggregations_0BB.length;
             // let i_0BB;
-            let temp1_BB = []; // 观看次数 - demand_freq
-            let temp2_BB = []; // 观看时长 - demand_dur
-            let temp3_BB = []; // 观看户数 - demand_user_num
-            let temp4_BB = []; // 户均收视次数 - watch_freq_family
-            let temp5_BB = []; // 次均收视次数 - watch_dur_mean
+            let temp1_BB = []; // 观看次数（次） - demand_freq
+            let temp2_BB = []; // 观看时长（时） - demand_dur
+            let temp3_BB = []; // 观看户数（户） - demand_user_num
+            let temp4_BB = []; // 户均收视次数（次） - watch_freq_family
+            let temp5_BB = []; // 次均收视时长（时） - watch_dur_mean
             let temp_all_BB = []; //包含temp1_B~temp5_BB // ▲ 5种值-分别对应运营商-分别对应ac
 
             // for (i_0BB = 0; i_0BB < length_0BB; i_0BB++) {
@@ -707,7 +774,7 @@ export default {
               name: "点播"
             });
             temp2_BB.push({
-              value: aggregations_0BB.demand_dur.value,
+              value: (aggregations_0BB.demand_dur.value / 60).toFixed(2),
               name: "点播"
             });
             temp3_BB.push({
@@ -719,7 +786,7 @@ export default {
               name: "点播"
             });
             temp5_BB.push({
-              value: aggregations_0BB.watch_dur_mean.value.toFixed(2),
+              value: (aggregations_0BB.watch_dur_mean.value / 60).toFixed(2),
               name: "点播"
             });
             // }
@@ -741,15 +808,25 @@ export default {
           // 现在合并了俩api逻辑
           try {
             vm.columnData_arr = [];
-
-            let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
+            let buckets_ti;
+            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+              console.log("非全选~~~programa")
+              // 原-非全选
+              buckets_ti = response.data.responses[0].aggregations.ti.buckets;
+            }
+            else{
+              console.log("全选~~~programa")
+              // new-全选
+              buckets_ti = response.data.responses[2].aggregations.ti.buckets;
+            }
+            // let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
             let length_ti = buckets_ti.length;
             let i_ti;
-            let temp1 = []; // 观看次数 - demand_freq
-            let temp2 = []; // 观看时长 - demand_dur
-            let temp3 = []; // 观看户数 - demand_user_num
-            let temp4 = []; // 户均收视次数 - watch_freq_family
-            let temp5 = []; // 次均收视次数 - watch_dur_mean
+            let temp1 = []; // 观看次数（次） - demand_freq
+            let temp2 = []; // 观看时长（时） - demand_dur
+            let temp3 = []; // 观看户数（户） - demand_user_num
+            let temp4 = []; // 户均收视次数（次） - watch_freq_family
+            let temp5 = []; // 次均收视时长（时） - watch_dur_mean
             let temp_all_C = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ti
 
             // ["product", "观看数"]
@@ -764,18 +841,21 @@ export default {
             // ["体育", 72.4],
             // ["游戏", 72.4],
             // ["纪实", 86.4]
-            temp1.push(["product", "观看次数"]);
-            temp2.push(["product", "观看时长"]);
-            temp3.push(["product", "观看户数"]);
-            temp4.push(["product", "户均收视次数"]);
-            temp5.push(["product", "次均收视次数"]);
+            temp1.push(["product", "观看次数（次）"]);
+            temp2.push(["product", "观看时长（时）"]);
+            temp3.push(["product", "观看户数（户）"]);
+            temp4.push(["product", "户均收视次数（次）"]);
+            temp5.push(["product", "次均收视时长（时）"]);
 
             function dataManage(ti_name) {
               for (i_ti = 0; i_ti < length_ti; i_ti++) {
                 try {
                   if (buckets_ti[i_ti].key == ti_name) {
                     temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
-                    temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
+                    temp2.push([
+                      ti_name,
+                      (buckets_ti[i_ti].demand_dur.value / 60).toFixed(2)
+                    ]);
                     temp3.push([
                       ti_name,
                       buckets_ti[i_ti].demand_user_num.value
@@ -786,7 +866,7 @@ export default {
                     ]);
                     temp5.push([
                       ti_name,
-                      buckets_ti[i_ti].watch_dur_mean.value.toFixed(2)
+                      (buckets_ti[i_ti].watch_dur_mean.value / 60).toFixed(2)
                     ]);
                   }
                 } catch (error) {
@@ -830,8 +910,20 @@ export default {
           }
           try {
             vm.orderViewingTopList_VIP.data = []; // 初始化
-            let buckets_top =
-              response.data.responses[1].aggregations.programname.buckets;
+            let buckets_top;
+            if(vm.ADD_VIP_valueAddedPackage.length > 1 && vm.ADD_VIP_valueAddedPackage.length < vm.ADD_VIP_package_list.length){
+              console.log("非全选~~~package")
+              // 原-非全选
+              buckets_top = response.data.responses[1].aggregations.programname.buckets;
+            }
+            else{
+              console.log("全选~~~package")
+              // new-全选
+              buckets_top = response.data.responses[3].aggregations.programname.buckets;
+            }
+
+            // let buckets_top =
+            //   response.data.responses[1].aggregations.programname.buckets;
             let length_top = buckets_top.length;
             let i_top;
             let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
@@ -864,122 +956,30 @@ export default {
             console.log(error);
             vm.orderViewingTopList_VIP.data = [];
           }
-          // // /////////// liveViewingTopList - 1 - 直播Top15
-          // // 获得最大值
-          // try {
-          //   let buckets_1 =
-          //     response.data.responses[1].aggregations.programname.buckets;
-          //   let length_1 = buckets_1.length;
-          //   let i_1;
-          //   let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
-          //   let temp_data;
-          //   for (i_1 = 0; i_1 < length_1; i_1++) {
-          //     temp_data = {
-          //       // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
-          //       topNum: i_1 + 1,
-          //       programName: buckets_1[i_1].channel.buckets[0].key,
-          //       programSource: buckets_1[i_1].key,
-          //       hot:
-          //         String(
-          //           commonTools.returnFloat_2(
-          //             (buckets_1[i_1].onlive_freq.value / temp_max_value) * 100
-          //           )
-          //         ) + "%",
-          //       playNum: String(
-          //         commonTools.returnFloat_2(
-          //           buckets_1[i_1].onlive_freq.value / 10000
-          //         )
-          //       ) // 次数（万）
-          //     };
-          //     vm.liveViewingTopList_VIP.data.push(temp_data);
-          //   }
-          // } catch (error) {
-          //   console.log(error);
-          // }
-          //   // /////////// lookBackViewingTopList - 2 - 回看Top15
-          // try {
-          //   let buckets_2 =
-          //     response.data.responses[2].aggregations.programname.buckets;
-          //   let length_2 = buckets_2.length;
-          //   let i_2;
-          //   let temp_max_value2 = buckets_2[0].demand_freq.value; // 取第一个为最大值
-          //   let temp_data2;
-          //   for (i_2 = 0; i_2 < length_2; i_2++) {
-          //     temp_data2 = {
-          //       // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
-          //       topNum: i_2 + 1,
-          //       programName: buckets_2[i_2].channel.buckets[0].key,
-          //       programSource: buckets_2[i_2].key,
-          //       hot:
-          //         String(
-          //           commonTools.returnFloat_2(
-          //             (buckets_2[i_2].demand_freq.value / temp_max_value2) * 100
-          //           )
-          //         ) + "%",
-          //       playNum: String(
-          //         commonTools.returnFloat_2(
-          //           buckets_2[i_2].watch_freq.value / 10000
-          //         )
-          //       ) // 次数（万）
-          //     };
-          //     vm.lookBackViewingTopList_VIP.data.push(temp_data2);
-          //   }
-
-          //   // console.log("回看数据", vm.lookBackViewingTopList_VIP)
-          // } catch (error) {
-          //   console.log(error);
-          // }
         })
         .catch(function(error) {
           console.info(error);
         });
       // }
-
-      // let temp = {
-      //   ac: "all", // 地区码，all和贵州省地级市代码
-      //   operator: "all", // 运营商列表：根据用户收视行为运营商api为准的列表单，all为全部运营商
-      //   mode: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
-      //   list: "all", // 节目列表：根据栏目api为准的列表单，all为全部节目
-      //   start: "2019-07-12",
-      //   end: "2019-07-31",
-      //   increment: "少儿包" // 增值包选项 如 少儿包
-      // };
-
-      // var formData = new FormData();
-      // var formData = new window.FormData();
-      // formData.append("ac", temp.ac);
-      // formData.append("operator", temp.operator);
-      // formData.append("mode", temp.mode);
-      // formData.append("list", temp.list);
-      // formData.append("start", temp.start);
-      // formData.append("end", temp.end);
-      // formData.append("increment", temp.increment);
-
-      // vip_increment(formData)
-      //   .then(function(response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
     }
   },
 
   data() {
     return {
       ifInitShow: false,
+      ifPrograma_AllChoose: false,
 
       // targetOption: "", //存放选择的指标
-      targetOption: "观看次数",
+      targetOption: "观看次数（次）",
       //选择指标数据
       target: [
-        "观看次数",
-        "观看时长",
-        "观看户数",
-        "户均收视次数",
-        "次均收视次数"
+        "观看次数（次）",
+        "观看时长（时）",
+        "观看户数（户）",
+        "户均收视次数（次）",
+        "次均收视时长（时）"
       ],
-      // target: ["观看次数", "观看时长", "次均收视次数"],
+      // target: ["观看次数（次）", "观看时长（时）", "次均收视时长（时）"],
       //地区数据
       regionData: {
         title: "地区",

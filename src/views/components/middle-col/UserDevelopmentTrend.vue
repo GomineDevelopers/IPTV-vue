@@ -42,7 +42,7 @@ export default {
           vm.users_basic(response);
           setTimeout(function() {
             vm.setUserEevTrendChart();
-          }, 100);
+          }, 500);
         })
         .catch(function(error) {
           console.info(error);
@@ -237,6 +237,7 @@ export default {
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
+      myChart.clear();
       myChart.setOption(option);
 
       // setInterval(function () {

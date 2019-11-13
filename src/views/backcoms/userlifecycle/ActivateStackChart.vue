@@ -17,10 +17,11 @@ export default {
       "ULC_operator",
       "ULC_day",
       "ULC_week",
-      "ULC_month"
+      "ULC_month",
+      "ULC_time_type",
     ]),
     data2_Change: {
-      get: function () {
+      get: function() {
         var vm = this;
         if (
           vm.ULC_region &&
@@ -39,7 +40,13 @@ export default {
         var d1 = [];
         var d2 = [];
         if (vm.ULC_region == null || vm.ULC_region.length == 0) {
-          if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+          if (
+            vm.ULC_region &&
+            vm.ULC_operator &&
+            vm.ULC_day &&
+            vm.ULC_week &&
+            vm.ULC_month
+          ) {
             // do nothing. --监听
           }
           region = vm.data2.region;
@@ -93,7 +100,6 @@ export default {
               regionChange(i_x, i_x);
               continue;
             }
-
           }
         }
 
@@ -129,7 +135,7 @@ export default {
         }
 
         // 视图更新
-        setTimeout(function () {
+        setTimeout(function() {
           // console.log("Registered echartsB 视图更新");
           vm.drawLine2();
         }, 2000);
@@ -141,43 +147,54 @@ export default {
           showData: showData
         };
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   watch: {
     ULC_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
-        // vm.drawLine();
+      setTimeout(function() {
+        vm.drawLine2();
       }, 2000);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
-        // vm.drawLine();
+      setTimeout(function() {
+        vm.drawLine2();
       }, 2000);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
-        // vm.drawLine();
+      setTimeout(function() {
+        vm.drawLine2();
+      }, 2000);
+    },
+    ULC_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine2();
       }, 2000);
     },
     api_data2(newValue, oldValue) {
       let vm = this;
       console.log("ULC - api_data2:");
       console.log(newValue);
-      vm.data2 = vm.api_data2
-      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+      vm.data2 = vm.api_data2;
+      if (
+        vm.ULC_region &&
+        vm.ULC_operator &&
+        vm.ULC_day &&
+        vm.ULC_week &&
+        vm.ULC_month
+      ) {
         // do nothing. --监听
       }
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine2();
       }, 2000);
       //vm.data1.data2 = ["299.5", "213.4"]; // 测试
       // 此处组件-刷新-drawline()
-
-    },
+    }
   },
   data() {
     return {
@@ -201,9 +218,9 @@ export default {
     // console.log("api_data2", this.api_data2)
     // this.drawLine();
     // this.drawLine2();
-    this.data1 = this.api_data1
-    this.data2 = this.api_data2
-    console.log("激活用户数---------", this.data2)
+    this.data1 = this.api_data1;
+    this.data2 = this.api_data2;
+    console.log("激活用户数---------", this.data2);
   },
   methods: {
     drawLine2() {
@@ -221,11 +238,76 @@ export default {
       // console.log(color);
 
       for (i = 0; i < length; i++) {
-        series.push(seriesItem(operator[i], showData[i], color[i]));
+        let barType = 0; // 0 - 为非总和bar  1 - 为总和bar
+        if (i == length - 1) {
+          barType = 1;
+        }
+        // series.push(seriesItem(operator[i], showData[i], color[i]));
+        series.push(
+          seriesItem(region, operator[i], showData[i], color[i], barType, i)
+        );
       }
       // console.log(series);
 
-      function seriesItem(myoperator, myshowData, mycolor) {
+      // function seriesItem(myoperator, myshowData, mycolor) {
+      //   return {
+      //     name: myoperator,
+      //     type: "bar",
+      //     barWidth: "33%", //柱图宽度
+      //     stack: "总量",
+      //     label: {
+      //       normal: {
+      //         show: false,
+      //         position: "insideRight"
+      //       }
+      //     },
+      //     data: myshowData,
+      //     color: mycolor
+      //   };
+      // }
+      function seriesItem(
+        myregion,
+        myoperator,
+        myshowData,
+        mycolor,
+        mybarType,
+        current_i
+      ) {
+        if (mybarType == 1) {
+          return {
+            name: myoperator,
+            type: "bar",
+            barWidth: "33%", //柱图宽度
+            stack: "总量",
+            label: {
+              normal: {
+                show: true,
+                position: "top",
+                formatter: function(params) {
+                  let region_index = 0;
+                  for (let t = 0; t < myregion.length; t++) {
+                    if (myregion[t] == params.name) {
+                      region_index = t;
+                    }
+                  }
+                  let m_perAC_SumOperator = 0;
+                  for (let z = 0; z < operator.length; z++) {
+                    m_perAC_SumOperator += showData[z][region_index];
+                  }
+                  return (
+                    String((m_perAC_SumOperator / 10000).toFixed(0)) + "万"
+                  );
+                },
+                textStyle: {
+                  color: "black",
+                  fontSize: 12
+                }
+              }
+            },
+            data: myshowData,
+            color: mycolor
+          };
+        }
         return {
           name: myoperator,
           type: "bar",
@@ -237,17 +319,17 @@ export default {
               position: "insideRight"
             }
           },
+
           data: myshowData,
           color: mycolor
         };
       }
-
       var myChart2 = vm.$echarts.init(document.getElementById(id));
 
       var option2 = {
         title: {
           // text: "新增在册用户",
-          text: "激活用户数（户）",
+          text: "激活用户数（万户）",
           textStyle: {
             //设置主标题风格
             Color: "#333333", //设置主标题字体颜色

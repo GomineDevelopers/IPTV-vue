@@ -16,9 +16,8 @@ export default {
     return {};
   },
   mounted() {
-    // console.log(this.lineData)
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 2000);
   },
@@ -26,33 +25,38 @@ export default {
     ...mapGetters([
       "ADD_ALL_operator",
       "ADD_ALL_week",
-      "ADD_ALL_month"
+      "ADD_ALL_month",
+      "ADD_ALL_time_type"
     ])
   },
   watch: {
     lineData(newValue, oldValue) {
-      // console.log("~~~~~~");
-      // console.log(newValue);
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2000);
+    },
+    ADD_ALL_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     }
@@ -72,7 +76,10 @@ export default {
         seriesData.push({
           type: "line",
           seriesLayoutBy: "row",
-          symbol: "circle"
+          symbol: "circle",
+          /////
+          itemStyle: { normal: { label: { show: true } } }
+          /////
         });
       }
       var option = {
@@ -106,7 +113,7 @@ export default {
           left: "10",
           right: "15",
           bottom: "10",
-          containLabel: true,
+          containLabel: true
         },
         tooltip: {
           trigger: "axis",
@@ -119,16 +126,13 @@ export default {
           textStyle: {
             align: "left"
           },
-          formatter: function (params) {
+          formatter: function(params) {
             // console.log(params);
             let title = params[0].data[0];
-
             let length = params.length;
-
             let t1 = params[0].seriesName;
             let marker1 = params[0].marker;
             let value1 = params[0].data[1];
-
             if (length == 1) {
               // return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
               //设置日期显示 年-月-日
@@ -136,7 +140,6 @@ export default {
                 // return title + "<br/>" + marker1 + t1 + ":  " + value1 + "%";
                 return title + "<br/>" + marker1 + t1 + ":  " + value1;
               }
-
               return (
                 date_year +
                 date_month +
@@ -155,7 +158,6 @@ export default {
             let marker3 = params[2].marker;
             let value2 = params[0].data[2];
             let value3 = params[0].data[3];
-
             return (
               date_year +
               date_month +

@@ -1,5 +1,6 @@
 <template>
   <div class="height_auto">
+    <!-- <el-row class="height_auto" :id="chartData.id"></el-row> -->
     <el-row class="height_auto" :id="chartData_Change.id"></el-row>
   </div>
 </template>
@@ -7,32 +8,25 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "BarChartSingle",
+  name: "PieCharts_sort", //饼图组件
   props: {
     chartData: {
       type: Object
     }
   },
   watch: {
-    chartData(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    PR_month(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
-
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
     PR_picker(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -45,31 +39,12 @@ export default {
         vm.drawLine();
       }, 2000);
     },
-    ADD_ALL_operator(newValue, oldValue) {
+    chartData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
-    ADD_ALL_week(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    ADD_ALL_month(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    ADD_ALL_time_type(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-
     UVB_region(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -88,18 +63,6 @@ export default {
         vm.drawLine();
       }, 2000);
     },
-    UVB_programa(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    // UVB_contenttype(newValue, oldValue) {
-    //   let vm = this;
-    //   setTimeout(function() {
-    //     vm.drawLine();
-    //   }, 2000);
-    // },
     UVB_day(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -149,7 +112,6 @@ export default {
         vm.drawLine();
       }, 2000);
     },
-
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -178,25 +140,18 @@ export default {
   computed: {
     ...mapGetters([
       "PR_operator",
-      "PR_month",
-
+      "ADD_VIP_region",
+      "ADD_VIP_playmode",
+      "PR_week",
+      "PR_picker",
+      "PR_value_specialName",
       "UVB_region",
       "UVB_operator",
       "UVB_playmode",
-      "UVB_programa",
-      // "UVB_contenttype",
       "UVB_day",
       "UVB_week",
       "UVB_picker",
       "UVB_time_type",
-
-      "PR_week",
-      "PR_picker",
-      "PR_value_specialName",
-      "ADD_ALL_operator",
-      "ADD_ALL_week",
-      "ADD_ALL_month",
-      "ADD_ALL_time_type",
 
       "ADD_VIP_region",
       "ADD_VIP_operator",
@@ -207,28 +162,35 @@ export default {
       "ADD_VIP_picker",
       "ADD_VIP_time_type"
     ]),
-    // ...this.$mapGetters(["PR_operator"]),
-
     chartData_Change: {
       get: function() {
         let vm = this;
+
         let data = [];
+        let color = [];
+
         // ★由于该组件是复用组件-涉及不同筛选条件的渲染-用唯一值（id）做数据+渲染
-        if (vm.chartData.id == "specialClickNum") {
-          data.push(vm.chartData.data[0]);
+        if (vm.chartData.id == "operatorProportionChart") {
           if (this.PR_operator == null || this.PR_operator.length == 0) {
+            data.push(vm.chartData.data[0]);
             data.push(vm.chartData.data[1]);
             data.push(vm.chartData.data[2]);
-            data.push(vm.chartData.data[3]);
+            color.push(vm.chartData.color[0]);
+            color.push(vm.chartData.color[1]);
+            color.push(vm.chartData.color[2]);
           } else {
             if (this.PR_operator.indexOf("移动") > -1) {
-              data.push(vm.chartData.data[1]);
+              data.push(vm.chartData.data[0]);
+              color.push(vm.chartData.color[0]);
             }
+
             if (this.PR_operator.indexOf("联通") > -1) {
-              data.push(vm.chartData.data[2]);
+              data.push(vm.chartData.data[1]);
+              color.push(vm.chartData.color[1]);
             }
             if (this.PR_operator.indexOf("电信") > -1) {
-              data.push(vm.chartData.data[3]);
+              data.push(vm.chartData.data[2]);
+              color.push(vm.chartData.color[2]);
             }
           }
           // 视图更新
@@ -238,16 +200,50 @@ export default {
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
-            color: vm.chartData.color,
+            color: color,
             data: data
           };
         }
 
-        if (vm.chartData.id == "columnChart") {
-          if (vm.UVB_programa == null || vm.UVB_programa.length == 0) {
+        if (vm.chartData.id == "regionChart") {
+          if (vm.UVB_playmode) {
+            // do nothing. -- 监听刷新
+          }
+          if (vm.UVB_day) {
+            // do nothing. --监听
+          }
+          if (vm.UVB_week) {
+            // do nothing. --监听
+          }
+          if (vm.UVB_picker) {
+            // do nothing. --监听
+          }
+          if (vm.UVB_region == null || vm.UVB_region.length == 0) {
+            color = vm.chartData.color;
             data = vm.chartData.data;
           } else {
-            data.push(vm.chartData.data[0]);
+            color = vm.chartData.color;
+            data = vm.chartData.data;
+          }
+          // 视图更新
+          setTimeout(function() {
+            // console.log("regionChart 视图更新");
+            vm.drawLine();
+          }, 2000);
+          return {
+            title: vm.chartData.title,
+            id: vm.chartData.id,
+            color: color,
+            data: data
+          };
+        }
+
+        if (vm.chartData.id == "regionChart_vip") {
+          if (vm.ADD_VIP_region == null || vm.ADD_VIP_region.length == 0) {
+            color = vm.chartData.color;
+            data = vm.chartData.data;
+          } else {
+            color = vm.chartData.color;
             data = vm.chartData.data;
           }
           // 视图更新
@@ -257,15 +253,16 @@ export default {
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
-            color: vm.chartData.color,
+            color: color,
             data: data
           };
         }
-
-        if (vm.chartData.id == "columnChart_vip") {
-          if (vm.ADD_VIP_programa == null || vm.ADD_VIP_programa.length == 0) {
+        if (vm.chartData.id == "playChart") {
+          if (vm.UVB_playmode == null || vm.UVB_playmode.length == 0) {
+            color = vm.chartData.color;
             data = vm.chartData.data;
           } else {
+            color = vm.chartData.color;
             data = vm.chartData.data;
           }
           // 视图更新
@@ -275,42 +272,35 @@ export default {
           return {
             title: vm.chartData.title,
             id: vm.chartData.id,
-            color: vm.chartData.color,
+            color: color,
             data: data
           };
         }
-        if (
-          vm.chartData.id == "hebdomadViewNum" ||
-          vm.chartData.id == "hebdomadDibbleSeeding" ||
-          vm.chartData.id == "localProgramsPlay" ||
-          vm.chartData.id == "hebdomadLive" ||
-          vm.chartData.id == "channelLiveUserNum" ||
-          vm.chartData.id == "channelLiveTimes" ||
-          vm.chartData.id == "channelLiveDuration" ||
-          vm.chartData.id == "liveProgramTOP" ||
-          vm.chartData.id == "localProgramTOP" ||
-          vm.chartData.id == "satelliteLiveProgramTOP"
-        ) {
-          if (vm.PR_week) {
-            // do nothing. --监听
+        if (vm.chartData.id == "playChart_vip") {
+          if (vm.ADD_VIP_playmode == null || vm.ADD_VIP_playmode.length == 0) {
+            color = vm.chartData.color;
+            data = vm.chartData.data;
+          } else {
+            color = vm.chartData.color;
+            data = vm.chartData.data;
           }
+          // 视图更新
+          setTimeout(function() {
+            vm.drawLine();
+          }, 2000);
+          return {
+            title: vm.chartData.title,
+            id: vm.chartData.id,
+            color: color,
+            data: data
+          };
         }
-        if (
-          vm.chartData.id == "monthOrder" ||
-          vm.chartData.id == "monthVIPOrder" ||
-          vm.chartData.id == "monthVIPOrderIncome"
-        ) {
-          if (vm.PR_month && vm.PR_week) {
-            // do nothing. --监听
-          }
-        }
-
-        // 视图更新
         setTimeout(function() {
           vm.drawLine();
         }, 2000);
         return vm.chartData;
       },
+
       set: function(newValue) {
         //
       }
@@ -320,130 +310,135 @@ export default {
   data() {
     return {};
   },
-  mounted() {
-    let vm = this;
-    setTimeout(function() {
-      vm.drawLine();
-    }, 2000);
-  },
   methods: {
     drawLine() {
-      let vm = this;
-      var barChartSingle = this.$echarts.init(
+      var pieChart = this.$echarts.init(
         document.getElementById(this.chartData_Change.id)
       );
-      let seriesData = [];
-      //设置series数据条数
-      try {
-        for (let i = 1; i <= vm.chartData_Change.data[0].length - 1; i++) {
-          seriesData.push({ type: "bar", barWidth: "12" });
+      let m_data_index = [];
+      // m_data_index = this.chartData_Change.data
+
+      //////
+
+      // 排序
+      //  data: [
+      // { value: 1335, name: "贵阳" },
+      // { value: 810, name: "遵义" },
+      // { value: 648, name: "安顺" },
+      // { value: 148, name: "黔南" },
+      // { value: 108, name: "黔东南" },
+      // { value: 248, name: "铜仁" },
+      // { value: 535, name: "毕节" },
+      // { value: 234, name: "六盘水" },
+      // { value: 348, name: "黔西南" }
+      // ]
+      // this.chartData_Change.data
+      // m_data_index;
+      let temp_data = this.chartData_Change.data;
+      for (let i = 0; i < temp_data.length - 1; i++) {
+        //决定每一轮比较多少次
+        for (let j = 0; j < temp_data.length - i - 1; j++) {
+          if (temp_data[j].value < temp_data[j + 1].value) {
+            // 判断第二位
+            let tmp = temp_data[j];
+            temp_data[j] = temp_data[j + 1];
+            temp_data[j + 1] = tmp;
+          }
         }
-      } catch (error) {
-        console.log(error);
       }
+      for (let z = 0; z < temp_data.length; z++) {
+        m_data_index.push(temp_data[z]);
+      }
+      // console.log(this.chartData_Change.data);
+      // console.log(temp_data);
+      //////
+
       var option = {
         color: this.chartData_Change.color,
-        textStyle: {
-          color: "rgba(0, 0, 0, 0.65)"
-        },
         title: {
           text: this.chartData_Change.title,
           x: "left",
-          y: "0",
+          y: "10",
           textStyle: {
             fontStyle: "normal",
             fontWeight: "normal",
             fontSize: "14"
           }
         },
-        legend: {
-          top: "10%",
-          itemWidth: 12,
-          itemHeight: 7
-        },
         tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          },
-          textStyle: {
-            align: "left"
-          }
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         //图表自带工具
         toolbox: {
           show: true,
-          top: "8%",
-          right: "6%",
+          top: "16%",
+          right: "10%",
           feature: {
             saveAsImage: {}
           }
         },
-        grid: {
-          top: "30%",
-          left: "10",
-          right: "5",
-          bottom: "10",
-          containLabel: true
-        },
-        dataset: {
-          source: this.chartData_Change.data
-        },
-        xAxis: {
-          type: "category",
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            interval: 0, // 坐标轴显示不全问题解决方案
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字大小
+        series: [
+          {
+            name: this.chartData_Change.title,
+            type: "pie",
+            radius: "55%",
+            center: ["50%", "60%"],
+            data: m_data_index,
+            // itemStyle: {
+            //   emphasis: {
+            //     shadowBlur: 10,
+            //     shadowOffsetX: 0,
+            //     shadowColor: "rgba(0, 0, 0, 0.5)"
+            //   }
+            // },
+            // //// 新增
+            selectedMode: "single",
+
+            label: {
+              normal: {
+                // position: "inner",
+                // color: "#000",
+                fontSize: "10",
+                formatter: "\n{b}:\n {c}"
+              }
+            },
+            labelLine: {
+              show: false,
+              normal: {
+                smooth: 0.2,
+                length: 1
+              }
+            },
+            emphasis: false,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
             }
-          },
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLine: {
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
+            // ////
           }
-        },
-        yAxis: {
-          // 刻度线的设置
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              type: "dotted",
-              opacity: 0.2
-            }
-          },
-          axisLine: {
-            show: false, //Y轴不显示
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          },
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字颜大小
-            }
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
-          }
-        },
-        series: seriesData
+        ]
       };
-      barChartSingle.clear();
-      barChartSingle.setOption(option);
+
+      // 使用刚指定的配置项和数据显示图表。
+      pieChart.clear();
+      pieChart.setOption(option);
       window.addEventListener("resize", () => {
-        barChartSingle.resize();
+        pieChart.resize();
       });
     }
+  },
+  mounted() {
+    // 基于准备好的dom，初始化echarts实例
+    let vm = this;
+    setTimeout(function() {
+      vm.drawLine();
+    }, 1000);
   }
 };
 </script>
+<style scoped>
+</style>

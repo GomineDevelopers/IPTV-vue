@@ -7,7 +7,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "PieCharts", //饼图组件
+  name: "ManyPieChart2", //饼图组件
   props: {
     pieData: {
       type: Object

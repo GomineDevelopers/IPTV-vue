@@ -78,8 +78,6 @@ export default {
         legendlist.push(this.fillinData.data[i][1][0]);
         seriesData.push(data);
       }
-      // console.log(seriesData)
-      // console.log(xAxisdata)
       // 数据配置项
       let option = {
         title: {

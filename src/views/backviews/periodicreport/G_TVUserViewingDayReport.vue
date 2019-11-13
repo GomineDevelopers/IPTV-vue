@@ -479,7 +479,7 @@ export default {
                 //   )
                 // )
                 // ); //秒-》千小时 取整
-                if (buckets0[i_0].key == "热剧") {
+                if (buckets0[i_0].key == "电视剧") {
                   data_manage(i_0, 1);
                 }
                 if (buckets0[i_0].key == "少儿") {
@@ -567,7 +567,7 @@ export default {
                 );
               }
               for (i_0 = 0; i_0 < length_0; i_0++) {
-                if (buckets0[i_0].key == "热剧") {
+                if (buckets0[i_0].key == "电视剧") {
                   data_manage(i_0, 1);
                 }
                 if (buckets0[i_0].key == "少儿") {
@@ -637,6 +637,7 @@ export default {
               let temp_1_C2 = [];
               // let length_1 = buckets1.length;
               let length_1_all = buckets1.length;
+              // console.log("~~~~~~~： " + length_1_all);
               let length_1 = 12; // ▲▲▲ 固定Top12
 
               let i_1;
@@ -650,18 +651,31 @@ export default {
               for (i_1 = 0; i_1 < length_1_all; i_1++) {
                 all_count += parseFloat(buckets1[i_1].onlive_dur.value);
               }
+              let space_count = 0; // 空值统计
               for (i_1 = 0; i_1 < length_1; i_1++) {
-                temp_1_C1.push(buckets1[i_1].key);
+                if(buckets1[i_1].key != "" && buckets1[i_1].key != " "){
+                  temp_1_C1.push(buckets1[i_1].key);
+                  temp_1_C2.push(
+                    // String(
+                    //   parseInt(
+                    //     (parseFloat(buckets1[i_1].onlive_dur.value) * 100) /
+                    //     all_count
+                    //   )
+                    // )
+                    (((buckets1[i_1].onlive_dur.value) * 100) / all_count).toFixed(2)
+                  );
+                }
+                else{
+                  space_count++;
+                }
+              }
+              for (i_1 = 0; i_1 < space_count; i_1++) {
+                temp_1_C1.push(buckets1[i_1 + length_1 - space_count].key);
                 temp_1_C2.push(
-                  // String(
-                  //   parseInt(
-                  //     (parseFloat(buckets1[i_1].onlive_dur.value) * 100) /
-                  //     all_count
-                  //   )
-                  // )
-                  (((buckets1[i_1].onlive_dur.value) * 100) / all_count).toFixed(2)
+                  (((buckets1[i_1 + length_1 - space_count].onlive_dur.value) * 100) / all_count).toFixed(2)
                 );
               }
+
               temp_1.push(temp_1_C1);
               temp_1.push(temp_1_C2);
               if (operator_type == "yd") {
@@ -886,10 +900,11 @@ export default {
           // liantongAsideClickUser
           // dianxingAsideClickUser
           if (date_type == "singleday") {
-            console.log("~~~~~~~~~~~~~~~~~~▲▲▲▲▲▲▲▲▲▲▲▲");
+            console.log("~~~~~~~~~~~~~~~~~~▲▲▲▲▲▲▲▲▲▲▲▲ 1111");
+            console.log(response);
             try {
               if (operator_type == "yd") {
-                let buckets_4 = response.data.responses[4].aggregations.ti.buckets;
+                let buckets_4 = response.data.responses[4].aggregations.areaname.buckets;
                 let length_4 = buckets_4.length;
                 let i_4;
                 let temp_data = [[["运营商"], ["今日"]]];
@@ -903,7 +918,7 @@ export default {
               }
               if (operator_type == "lt") {
                 let buckets_4 =
-                  response.data.responses[4].aggregations.ti.buckets;
+                  response.data.responses[4].aggregations.areaname.buckets;
                 let length_4 = buckets_4.length;
                 let i_4;
                 let temp_data = [[["运营商"], ["今日"]]];
@@ -917,7 +932,7 @@ export default {
               }
               if (operator_type == "dx") {
                 let buckets_4 =
-                  response.data.responses[4].aggregations.ti.buckets;
+                  response.data.responses[4].aggregations.areaname.buckets;
                 let length_4 = buckets_4.length;
                 let i_4;
                 let temp_data = [[["运营商"], ["今日"]]];
@@ -1310,22 +1325,22 @@ export default {
         color: ["#5b82c8"],
         data: [
           [
-            [
-              "运营商",
-              "直播频道",
-              "最近观看",
-              "收藏",
-              "二屏",
-              "三屏",
-              "沃家应用",
-              "专题",
-              "沃家影视",
-              "横图二",
-              "横图一",
-              "VIP限时免费",
-              "竖图",
-              "百家关注"
-            ],
+            // [
+            //   "运营商",
+            //   "直播频道",
+            //   "最近观看",
+            //   "收藏",
+            //   "二屏",
+            //   "三屏",
+            //   "沃家应用",
+            //   "专题",
+            //   "沃家影视",
+            //   "横图二",
+            //   "横图一",
+            //   "VIP限时免费",
+            //   "竖图",
+            //   "百家关注"
+            // ],
             // [
             //   "平均",
             //   58914,

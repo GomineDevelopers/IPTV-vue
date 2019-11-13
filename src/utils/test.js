@@ -1,15 +1,10 @@
-
-
-const commonTools = {}
-
+import CryptoJS from 'crypto-js' //加密js
+import { get_date } from "@/api/api_main";
 
 // import { commonTools } from "@/utils/test";
 // import { commonTools } from "@/utils/common";
-import CryptoJS from 'crypto-js' //加密js
 
-import { get_date } from "@/api/api_main";
-
-
+const commonTools = {}
 
 // commonTools.date = { // 测试
 //     start_year: 2018,
@@ -33,10 +28,8 @@ commonTools.date = {
 }
 get_date()
     .then(function (response_date) {
-        // console.log(response_date);
         let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
         let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
-
         commonTools.date.start_year = commonTools.date_format_DWMY(start_date).year;
         commonTools.date.start_month = commonTools.date_format_DWMY(start_date).month;
         commonTools.date.start_week = commonTools.date_format_DWMY(start_date).week;
@@ -46,13 +39,10 @@ get_date()
         commonTools.date.end_month = commonTools.date_format_DWMY(end_date).month;
         commonTools.date.end_week = commonTools.date_format_DWMY(end_date).week;
         commonTools.date.end_day = commonTools.date_format_DWMY(end_date).day;
-
     })
     .catch(function (error) {
         console.info(error);
     });
-
-
 
 // date 转换成 日周月年num（无单位）
 // 2019-10-01 => 1 x 10 2019
@@ -70,85 +60,6 @@ commonTools.date_format_DWMY = function (date) {
         year: year
     }
 }
-
-// /////////// 周/月下拉框可选项根据截至时间定
-// expiration date -- 截止日期 ED
-// 固定-2019
-// commonTools.weekDate_ED = function () {
-//     return commonTools.weekDate(2019).reverse();
-// }
-// commonTools.format_MonthDays_ED = function () {
-//     return commonTools.format_MonthDays(2019).reverse();
-// }
-// commonTools.format_WeeksDays_byDWwr_ED = function () {
-//     return commonTools.format_WeeksDays_byDWwr(2019, 4).reverse();
-// }
-// commonTools.format_MonthDays_byDWMMr_ED = function () {
-//     return commonTools.format_MonthDays_byDWMMr(2019, 4).reverse();
-// }
-// commonTools.weekDate_byday_ED = function () {
-//     return commonTools.weekDate_byday(2019).reverse();
-// }
-// commonTools.format_MonthDays_byweek_ED = function () {
-//     return commonTools.format_MonthDays_byweek(2019).reverse();
-// }
-// /////////// 判定-by year范围
-// commonTools.weekDate_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.weekDate(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;){
-//         temp_year++;
-//         arr = commonTools.weekDate_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-// commonTools.format_MonthDays_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.format_MonthDays(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.format_MonthDays_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-// commonTools.format_WeeksDays_byDWwr_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.format_WeeksDays_byDWwr(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.format_WeeksDays_byDWwr_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-// commonTools.format_MonthDays_byDWMMr_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.format_MonthDays_byDWMMr(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.format_MonthDays_byDWMMr_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-// commonTools.weekDate_byday_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.weekDate_byday(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.weekDate_byday_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-// commonTools.format_MonthDays_byweek_ED = function () {
-//     let temp_year = commonTools.date.start_year
-//     let arr = commonTools.format_MonthDays_byweek(temp_year);
-//     for (temp_year; temp_year < commonTools.date.end_year;) {
-//         temp_year++;
-//         arr = commonTools.format_MonthDays_byweek_add(temp_year, arr);
-//     }
-//     return arr.reverse();
-// }
-
-
 
 // 处理下拉框实际value_str - 分几种类型
 function manage_date_value(str, str_type) {
@@ -212,7 +123,6 @@ function manage_date_value(str, str_type) {
             month: month
         }
     }
-
 }
 
 function M_ValueRange(arr, str_type) {
@@ -284,11 +194,9 @@ commonTools.weekDate_ED = function () {
         temp_year++;
         arr = commonTools.weekDate_add(temp_year, arr);
     }
-    // console.log(arr);
     arr = M_ValueRange(arr, "week");
     return arr.reverse();
 }
-
 commonTools.format_WeeksDays_byDWwr_ED = function () {
     let temp_year = commonTools.date.start_year
     let arr = commonTools.format_WeeksDays_byDWwr(temp_year, 4);
@@ -296,7 +204,6 @@ commonTools.format_WeeksDays_byDWwr_ED = function () {
         temp_year++;
         arr = commonTools.format_WeeksDays_byDWwr_add(temp_year, 4, arr);
     }
-    // console.log(arr);
     arr = M_ValueRange(arr, "weekdays");
     return arr.reverse();
 }
@@ -307,7 +214,6 @@ commonTools.weekDate_byday_ED = function () {
         temp_year++;
         arr = commonTools.weekDate_add_byday(temp_year, arr);
     }
-    // console.log(arr);
     arr = M_ValueRange(arr, "weekdays_byday");
     return arr.reverse();
 }
@@ -319,7 +225,6 @@ commonTools.format_MonthDays_ED = function () {
         temp_year++;
         arr = commonTools.format_MonthDays_add(temp_year, arr);
     }
-    // console.log(arr);
     arr = M_ValueRange(arr, "month");
     return arr.reverse();
 }
@@ -328,10 +233,8 @@ commonTools.format_MonthDays_byDWMMr_ED = function () {
     let arr = commonTools.format_MonthDays_byDWMMr(temp_year, 4);
     for (temp_year; temp_year < commonTools.date.end_year;) {
         temp_year++;
-        console.log(temp_year);
         arr = commonTools.format_MonthDays_byDWMMr_add(temp_year, 4, arr);
     }
-    // console.log(arr);
     arr = M_ValueRange(arr, "monthdays");
     return arr.reverse();
 }
@@ -342,11 +245,9 @@ commonTools.format_MonthDays_byweek_ED = function () {
         temp_year++;
         arr = commonTools.format_MonthDays_add_byweek(temp_year, arr);
     }
-    // console.log(arr);
     arr = M_ValueRange(arr, "monthdays_byweek");
     return arr.reverse();
 }
-
 
 // 传入日期 month 1
 // 2019-08-10 , 1  => 7month
@@ -393,13 +294,11 @@ commonTools.get_ExpirationDate_n_months = function (date, n) {
     }
 }
 
-
 // 传入日期 2019-10-18 获得当月01号 2019-10-01
 commonTools.get_ExpirationDate_01 = function (date) {
     let spilit_str = date.split("-");
     return spilit_str[0] + "-" + spilit_str[1] + "-01";
 }
-
 
 // 数据格式转换 2019-08-06 =》8月6日
 commonTools.format_dateToChineseMD = function (date) {
@@ -416,6 +315,7 @@ commonTools.format_dayToChinese = function (str) {
     let arr = str.split("-");
     return arr[2];
 }
+
 // 数据格式转换 2019-10-18 -> 18日
 commonTools.format_dayToChinese_2 = function (str) {
     let arr = str.split("-");
@@ -447,6 +347,7 @@ commonTools.ReturnBeforeWeek = function (weekString, before_n) {
     }
     return reStr;
 }
+
 // 周-天格式显示转换
 // 2019-09-01 ,2019-09-07 =》  0901-0907
 commonTools.weekDaysShowFormat = function (date1, date2) {
@@ -454,6 +355,7 @@ commonTools.weekDaysShowFormat = function (date1, date2) {
     let str_split2 = date2.split("-");
     return str_split1[1] + str_split1[2] + "-" + str_split2[1] + str_split2[2];
 }
+
 // 周-天格式显示转换+上一周的
 // 2019-09-01 ,2019-09-07 =》 2019-08-25,2019-08-31,2019-09-01 ,2019-09-07 => 0825-0831,0901-0907
 // 注意传入的 date1为本(年)周的第一天，date2为(年)周的第二天
@@ -473,7 +375,7 @@ commonTools.weekDaysShowFormat_AndBeforeWeek = function (date1, date2) {
     }
 }
 
-
+// 获取Cookie
 commonTools.getCookieCry = function (name) {
     if (document.cookie.length > 0) {
         var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
@@ -491,6 +393,7 @@ commonTools.getCookieCry = function (name) {
     }
     return ""
 }
+
 // 获取当前运营商 - by cookie
 commonTools.GetBigScreenOperator = function () {
     let currentOperator;
@@ -519,11 +422,15 @@ commonTools.GetBigScreenOperator = function () {
 
 }
 
+
+// 获取当天+前6天的date数组  -- OperationalWeekReport  responses33
+// returnDate_StartToExpirationDate
+// 获取当天所在月的1号~当天  -- DataTrend
+// returnDate_StartToExpirationDate
+
 // //////////////// 返回当前天的前七天（不包括当天）
 
 // 返回当前的前7天（不包括当天）的范围
-// console.log("~~~~~~~!")
-// console.log(commonTools.currentDay_7daysAgoRange("2019-06-07"));
 commonTools.currentDay_7daysAgoRange = function (m_date) {
     return {
         start: commonTools.currentDay_ndaysAgodate(m_date, 7),
@@ -533,7 +440,6 @@ commonTools.currentDay_7daysAgoRange = function (m_date) {
 
 // ▲只用于七日留存率-返回当天日期 - 都作为start end （原因：后台7日留存率逻辑变了）
 commonTools.currentDay_currenDayRange = function (m_date) {
-    // console.log(commonTools.currentDay_ndaysAgodate(m_date, 7));
     return {
         // start: m_date,
         // end: m_date
@@ -544,8 +450,6 @@ commonTools.currentDay_currenDayRange = function (m_date) {
 
 // date格式： 2019-06-07
 // dateInterval:时间间隔 如：7天 =》  7
-// console.log("~~~~~~~!")
-// console.log(commonTools.currentDay_ndaysAgodate("2019-06-07", 7));
 commonTools.currentDay_ndaysAgodate = function (m_date, m_dateInterval) {
     let dateInterval = m_dateInterval;
     let split_arr = m_date.split("-");
@@ -555,8 +459,6 @@ commonTools.currentDay_ndaysAgodate = function (m_date, m_dateInterval) {
     let num_day = parseInt(split_arr[2]);
     // let date = new Date();
     let date = new Date(num_year, num_month, num_day); // 传入为num,year day正常 1+ ， month 0+
-    // console.log("~~~~~~date");
-    // console.log(date);
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -608,6 +510,7 @@ commonTools.sortArr = function (arr, index) {
     }
     return arr;
 }
+
 //冒泡排序 -- 从序数index几开始
 commonTools.sortArrZ = function (arr, index) {
     for (var i = 0; i < arr.length - 1; i++) {
@@ -625,7 +528,6 @@ commonTools.sortArrZ = function (arr, index) {
 }
 
 // 反序
-
 
 // 保留一位小数
 commonTools.returnFloat_1 = function (value) {
@@ -691,8 +593,6 @@ commonTools.returnFloat_4 = function (value) {
     }
 }
 
-
-
 // ///////////////////// ac 地区码
 // 851：贵阳
 // 852：遵义
@@ -703,7 +603,6 @@ commonTools.returnFloat_4 = function (value) {
 // 857：毕节
 // 858：六盘水
 // 859：黔西南
-
 
 commonTools.acConvert_Single = function (ac) {
     let city;
@@ -789,9 +688,9 @@ commonTools.acConvert_reverse = function (area_arr) {
         ac_arr.push("黔西南");
     }
     // }
-
     return ac_arr
 }
+
 commonTools.acConvert_R_reverse = function (area_arr) {
     let ac_arr = [];
 
@@ -825,6 +724,7 @@ commonTools.acConvert_R_reverse = function (area_arr) {
     }
     return ac_arr
 }
+
 // ac 地区码转换
 commonTools.acConvert = function (area_arr) {
     let ac_arr = [];
@@ -870,10 +770,8 @@ commonTools.acConvert = function (area_arr) {
             ac_arr.push("859");
         }
     }
-
     return ac_arr
 }
-
 
 // 运营商转换 （为空则为全选）
 commonTools.operatorConvert = function (operator_arr) {
@@ -941,8 +839,6 @@ commonTools.programaConvert = function (programa_arr) {
     }
 }
 
-
-
 ////////////////////// 
 // 分割自定义时间格式
 // 处理 2018&3week 2018&3month 类似格式，返回 year 和 time(week或month)
@@ -977,29 +873,14 @@ commonTools.split_yearAtime2 = function (str) {
         day: t_day
     };
 }
-// commonTools.split_yearAtime = function (str) {
-//     let t_year;
-//     let t_time;
-//     let strs = str.split('&');
-//     t_year = strs[0];
-//     t_time = strs[1];
-//     return {
-//         year: t_year,
-//         time: t_time
-//     };
-// }
 
 // 处理 2018*2018-01-01*2018-01-07 或者  2018*1week*4week
 // 处理 weekDate_byday  weekDate_add_byday format_MonthDays_byweek format_MonthDays_add_byweek
 commonTools.split_yearAtime_byweekOrDay = function (str) {
-    // let t_year;
     let t_year = commonTools.split_yearAtime(str).year;
-    // let t_time;
     let t_time1;
     let t_time2;
-
     let strs = str.split('*');
-    // t_year = strs[0];
     t_time1 = strs[1];
     t_time2 = strs[2];
 
@@ -1010,12 +891,10 @@ commonTools.split_yearAtime_byweekOrDay = function (str) {
     };
 }
 
-
 // 时间格式转换
 // Wed Sep 11 2019 00:00:00 GMT+0800 (中国标准时间),Wed Oct 16 2019 00:00:00 GMT+0800 (中国标准时间)
 // =》 2019-09-11   2019-10-16
 commonTools.split_picker = function (str) {
-    // console.log(str)
     let time_arr = str.split(",");
     let t1 = time_arr[0];
     let t2 = time_arr[1];
@@ -1041,6 +920,7 @@ commonTools.dayChange = function (str) { // 实际使用
     let m_time = String(year + "-" + month + "-" + day);
     return m_time
 }
+
 // 时间格式转换X (Aug 2, 2019 at 4:59PM  = 》 2019-08-02) ---s金融的格式
 commonTools.timeformatX = function (str) { // 暂且没用到
     let tmepArr = str.split(" ");
@@ -1050,6 +930,7 @@ commonTools.timeformatX = function (str) { // 暂且没用到
     return year + "-" + month + "-" + day;
 }
 
+// 处理天-数字1~9首位置零
 commonTools.dayManage = function (str) {
     let day = str;
     switch (str) {
@@ -1085,6 +966,8 @@ commonTools.dayManage = function (str) {
     }
     return day;
 }
+
+// 月判断 By 英文缩写
 commonTools.monthManage = function (str) {
     let month;
     switch (str) {
@@ -1139,6 +1022,7 @@ commonTools.dateFormat = function (stringTypeDate) {
     dateType = date.getFullYear() + "-" + commonTools.getMonth(date) + "-" + commonTools.getDay(date);
     return dateType;
 }
+
 // 日期时间格式转换
 commonTools.datetimeFormat = function (stringTypeDate) {
     var datetimeType = "";
@@ -1166,7 +1050,8 @@ commonTools.getDay = function (date) {
         day = "0" + day;
     }
     return day;
-} //返回小时 
+} 
+//返回小时 
 commonTools.getHours = function (date) {
     var hours = "";
     hours = date.getHours();
@@ -1194,29 +1079,6 @@ commonTools.getSeconds = function (date) {
     return second;
 }
 
-// $(
-//     function () {
-//         $("#add").click(function () {
-//             var client = {
-//                 "client_name": $('#client_name').val(),
-//                 "client_id": $('#client_id').val(),
-//                 "client_sex": $("input[name='client_sex']:checked").val(),
-//                 "client_birthday": dateFormat($('#client_birthday').datebox('getValue')),
-//                 "client_address": $('#client_address').val(),
-//                 "room_no": $('#room_no').val(),
-//                 "isVip": $("input[name='isVip']:checked").val(),
-//                 "check_in": datetimeFormat($('#check_in').datetimebox('getValue'))
-//             }
-//             console.log(client)
-//             $.post("../insertClient.action", client, function (flag) {
-//                 if ("OK" == flag) {
-//                     window.location.href = "allRoomsInfo.jsp";
-//                 }
-//             })
-//         })
-//     }
-// ) 
-
 // ///////////////// 返回当前日期 是当年的第几周 哪周
 commonTools.getWeek_y = function (date) {
     let d1 = new Date(date);
@@ -1228,9 +1090,9 @@ commonTools.getWeek_y = function (date) {
     let num = Math.ceil(days / 7);
     // console.log(rq / (24 * 60 * 60 * 1000)); // 221  2019-08-10 是当年第221天
     // console.log(days / 7);   // 31.571428571428573   除以7  进一法 为32周
-
     return num;
 }
+
 // ///////////////// 返回当前日期 前n周的范围
 // 传入 0 是本周 ，传入1是上周  
 // date格式： 2019-10-18
@@ -1297,7 +1159,6 @@ commonTools.getYearWeekRange = function (year, weekNum) {
 }
 
 
-
 /*
 *这个方法是获取周对应的日期范围(常规的一周为周一到周天为一周
 * 参数datevalue如：2017-01-01)
@@ -1338,33 +1199,31 @@ commonTools.getDateRange = function (datevalue) {
     return result;
 }
 
-
-
 //以下几个函数是判断当前日期所对应的周数，如2017-1-1，为2017年第一周,return 1
 /**
- 2  * 判断年份是否为润年
- 3  *
- 4  * @param {Number} year
- 5  */
+ * 判断年份是否为润年
+ *
+ * @param {Number} year
+ */
 commonTools.isLeapYear = function (year) {
     return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
 }
 /**
- 10  * 获取某一年份的某一月份的天数
- 11  *
- 12  * @param {Number} year
- 13  * @param {Number} month
- 14  */
+ * 获取某一年份的某一月份的天数
+ *
+ * @param {Number} year
+ * @param {Number} month
+ */
 commonTools.getMonthDays = function (year, month) {
     return [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month] || (commonTools.isLeapYear(year) ? 29 : 28);
 }
 /**
- 27  * 获取某年的某天是第几周
- 28  * @param {Number} y
- 29  * @param {Number} m
- 30  * @param {Number} d
- 31  * @returns {Number}
- 32  */
+ * 获取某年的某天是第几周
+ * @param {Number} y
+ * @param {Number} m
+ * @param {Number} d
+ * @returns {Number}
+ */
 commonTools.getWeekNumber = function (y, m, d) {
     var now = new Date(y, m - 1, d),
         year = now.getFullYear(),
@@ -1389,8 +1248,6 @@ commonTools.getWeekNumber = function (y, m, d) {
     return week;
 }//计算周的范围结束
 
-
-
 /*
 *js获取当前指定的前几天的日期,往前推4天，GetDateStr(4)，后推4天GetDateStr(-4)
  */
@@ -1402,8 +1259,6 @@ commonTools.GetDateStr = function (AddDayCount, date) {
     var d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();//获取当前几号，不足10补0
     return y + "-" + m + "-" + d;
 }
-
-
 
 /*
 *传入年，周数，获取周数对应的所有日期
@@ -1436,11 +1291,8 @@ commonTools.getDayEveryDay = function (year, index) {
     }
 }
 
-
-
 // 当月的第几周
 commonTools.getWeek_m = function (date) {
-
     // const getWeek = (date) => {
     let day = date.getDay();
     let no = date.getDate();
@@ -1479,10 +1331,7 @@ commonTools.getWeek_m = function (date) {
     return json;
 }
 
-
-
 ////////////////////// 遍历某年的各周日期范围(开始)
-
 
 // ////////// 周处理（by day）
 commonTools.weekDate_byday = function (year) {
@@ -1595,8 +1444,6 @@ commonTools.formatDate2 = function (mill) {
         ""
     ];
     let format = ['年', '月', '日'];
-    // console.log("~~~raws:");
-    // console.log(raws);
 
     return String.raw({ raw: raws }, ...format); // 参数 4夹3
     // eg：
@@ -1636,9 +1483,6 @@ commonTools.createWeeks = function* (year) {
     yield [startTime, +end];
 }
 
-
-
-
 ////////////////////// 遍历某年的各周日期范围(收尾)
 
 //传入年份和月份 获取该年对应月份的天数
@@ -1649,9 +1493,7 @@ commonTools.getMonthDays = function (year, month) {
 
 // 传入年份 获取1~12月的日期范围
 commonTools.getMonthDays_y = function (year) {
-
     let monthDaysArr = [];
-
     let monthDays = {
         firstDay: [],
         lastDay: []
@@ -1662,7 +1504,6 @@ commonTools.getMonthDays_y = function (year) {
     let length = 12;
 
     for (month; month <= length; month++) {
-
         monthDaysArr.push(commonTools.getMonthDays(year, month));
         temp_date1 = new Date(Date.UTC(year, month - 1, 1));
         temp_date2 = new Date(Date.UTC(year, month - 1, commonTools.getMonthDays(year, month)));
@@ -1671,12 +1512,7 @@ commonTools.getMonthDays_y = function (year) {
 
         monthDays.firstDay.push(commonTools.dateFormat(temp_date1));
         monthDays.lastDay.push(commonTools.dateFormat(temp_date2));
-        // console.log(year)
-        // console.log(month)
-        // console.log(commonTools.getMonthDays(year, month))
     }
-    // console.log(monthDaysArr);
-
     // return monthDaysArr;
     return monthDays;
 }
@@ -1834,6 +1670,8 @@ commonTools.format_WeeksDays_byDWwr_add = function (year, weeksRange, arr_temp) 
     }
     return arr_temp
 }
+
+// (&2019&26week&@2019-06-24@2019-06-30@*23week*26week*)
 commonTools.split_WeeksDays_byDWwr = function (str) {
     let arr1;  // & 1-年  2-周
     let arr2;  // @ 1-日s 2-日e
@@ -1914,8 +1752,6 @@ commonTools.format_MonthDays_byweek = function (year) {
     let t_week_arr_length
     for (i = 1; i <= length; i++) {
         t_week_arr = commonTools.get_YweeksRange_InMonth(year, i);
-        // console.log("~~~~~t_week_arr");
-        // console.log(t_week_arr);
         t_week_arr_length = t_week_arr.length;
         temp = {
             // value: String(year) + "&" + String(i) + "month" + "*" + String(t_week_arr[0]) + "week" + "*" + String(t_week_arr[3]) + "week",
@@ -1976,26 +1812,10 @@ commonTools.get_YweeksRange_InMonth = function (year, month) {
         per_split_label_1_2.push(per_split_label_1[i][1].split("周"))
         if (parseInt(per_split_label[i][1]) <= parseInt(month) && parseInt(per_split_label[i][4]) == parseInt(month)) {
             index_arr.push(i + 1); // 序数 变成 第几周
-            // if (year == 2018) {
-            //     console.log("~~~~~~~i+1:" + String(i + 1))
-            //     console.log("month: " + month)
-            //     console.log(parseInt(per_split_label[i][1]))
-            //     console.log(parseInt(per_split_label[i][4]))
-            // }
         }
     }
-    // console.log(per_split_label); // 1-月a  4-月b 
-    // console.log(per_split_label_1);
-    // console.log(per_split_label_1_2);  // 0-周  1-年
-    // console.log(index_arr);  // 4个  0-（该月）首周  3-（该月）第四周
     return index_arr;
-
 }
-
-
-
-
-
 
 // //////////////// 复选框 =》（单选框 或 复选框）
 // 原-多选换单选
@@ -2005,7 +1825,6 @@ commonTools.delete_repet_origin = function (val_new, val_old) {
     // 数组去重
     // console.log(val_new);
     // console.log(val_old);
-
 
     //做比较的两个数组
     // var array_new = ["a", "b", "c", "d", "e"]; //数组1
@@ -2045,8 +1864,6 @@ commonTools.delete_repet = function (val_new, val_old) {
     return val_new;
 
 }
-
-
 
 export {
     commonTools

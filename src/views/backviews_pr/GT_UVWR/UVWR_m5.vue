@@ -244,7 +244,8 @@ export default {
         local_program_type_data.forEach((value, index) => {
           if (index < 10) {
             let program = value.key
-            let program_name = value.program_type.buckets[0].key + ' ' + program
+            // let program_name = value.program_type.buckets[0].key + ' ' + program
+            let program_name = program
             Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 0, program_name);
             Vue.set(vm.GT_UVWR1_Z1.data[10 - index], 1, value.demand_freq.value);
             var formData = new FormData();
@@ -319,7 +320,8 @@ export default {
         local_program_type_data.forEach((value, index) => {
           if (index < 10) {
             let program = value.key
-            let program_name = value.program_type.buckets[0].key + ' ' + program
+            // let program_name = value.program_type.buckets[0].key + ' ' + program
+            let program_name = program
             Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 0, program_name);
             Vue.set(vm.GT_UVWR1_Z2.data[10 - index], 1, value.demand_freq.value);
             var formData = new FormData();
@@ -394,7 +396,8 @@ export default {
         local_program_type_data.forEach((value, index) => {
           if (index < 10) {
             let program = value.key
-            let program_name = value.program_type.buckets[0].key + ' ' + program
+            // let program_name = value.program_type.buckets[0].key + ' ' + program
+            let program_name = program
             Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 0, program_name);
             Vue.set(vm.GT_UVWR1_Z3.data[10 - index], 1, value.demand_freq.value);
             var formData = new FormData();
@@ -690,6 +693,7 @@ export default {
         data: vm.GT_UVWR1_Y2.data
       };
       var option = this.common(data);
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();
@@ -706,6 +710,7 @@ export default {
       //   // ]
       // };
       var option = this.common(data);
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();

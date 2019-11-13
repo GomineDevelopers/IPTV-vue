@@ -7,7 +7,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "BarChartSingle",
+  name: "BarChartSingle_ShowTop",
   props: {
     chartData: {
       type: Object
@@ -32,7 +32,6 @@ export default {
         vm.drawLine();
       }, 2000);
     },
-
     PR_picker(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -173,6 +172,20 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
+    },
+
+
+    ADD_VIP_targetOption(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_targetOption(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   computed: {
@@ -205,7 +218,10 @@ export default {
       "ADD_VIP_day",
       "ADD_VIP_week",
       "ADD_VIP_picker",
-      "ADD_VIP_time_type"
+      "ADD_VIP_time_type",
+
+      "ADD_VIP_targetOption",
+      "UVB_targetOption"
     ]),
     // ...this.$mapGetters(["PR_operator"]),
 
@@ -242,24 +258,27 @@ export default {
             data: data
           };
         }
-
-        if (vm.chartData.id == "columnChart") {
-          if (vm.UVB_programa == null || vm.UVB_programa.length == 0) {
-            data = vm.chartData.data;
-          } else {
-            data.push(vm.chartData.data[0]);
-            data = vm.chartData.data;
+        try {
+          if (vm.chartData.id == "columnChart") {
+            if (vm.UVB_programa == null || vm.UVB_programa.length == 0) {
+              data = vm.chartData.data;
+            } else {
+              data.push(vm.chartData.data[0]);
+              data = vm.chartData.data;
+            }
+            // 视图更新
+            setTimeout(function() {
+              vm.drawLine();
+            }, 2000);
+            return {
+              title: vm.chartData.title,
+              id: vm.chartData.id,
+              color: vm.chartData.color,
+              data: data
+            };
           }
-          // 视图更新
-          setTimeout(function() {
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: vm.chartData.color,
-            data: data
-          };
+        } catch (error) {
+          console.log(error)
         }
 
         if (vm.chartData.id == "columnChart_vip") {
@@ -328,6 +347,11 @@ export default {
   },
   methods: {
     drawLine() {
+
+      // console.log("※※※※※※※※※※※※※※※※※※");
+      // console.log(this.chartData_Change);
+
+
       let vm = this;
       var barChartSingle = this.$echarts.init(
         document.getElementById(this.chartData_Change.id)
@@ -336,7 +360,32 @@ export default {
       //设置series数据条数
       try {
         for (let i = 1; i <= vm.chartData_Change.data[0].length - 1; i++) {
-          seriesData.push({ type: "bar", barWidth: "12" });
+          seriesData.push({
+            type: "bar",
+            barWidth: "12",
+            /////
+            label: {
+              normal: {
+                show: true,
+                position: "top",
+                textStyle: {
+                  color: "black",
+                  fontSize: 12
+                },
+                formatter: function(params) {
+                  // console.log("@@@@@@@")
+                  // console.log(params);
+                  if (vm.chartData_Change.id == "columnChart") {
+                    return String((params.data[1] / 10000).toFixed(1)) + "万";
+                  }
+                  if (vm.chartData_Change.id == "columnChart_vip") {
+                    return params.data[1];
+                  }
+                }
+              }
+            }
+            /////
+          });
         }
       } catch (error) {
         console.log(error);

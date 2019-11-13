@@ -212,11 +212,16 @@ export default {
     "many-pie-chart2": ManyPieChart2,
     "dibble-table": DibbleTable
   },
+
   mounted() {
     let vm = this;
+    // console.log("*************");
+    // console.log(vm.PR_month)
     setTimeout(function () {
       vm.set_api_data();
-    }, 100);
+      // excel 处理
+        vm.Excel_data_manage();
+    }, 1000);
   },
   computed: {
     // ...this.$mapGetters(["PR_operator"])
@@ -2446,11 +2451,7 @@ export default {
       ]
     };
   },
-  mounted() {
-    let vm = this;
-    // excel 处理
-    vm.Excel_data_manage();
-  }
+
 };
 </script>
 <style scoped>

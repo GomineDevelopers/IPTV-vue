@@ -110,6 +110,7 @@ export default {
       var option = {
         textStyle: {
           color: "#dedede"
+          // color: "yellow"
         },
         //设置柱子颜色渐变
         color: {
@@ -121,11 +122,13 @@ export default {
           colorStops: [
             {
               offset: 0,
-              color: "#6648FF " // 0% 处的颜色
+              color: "#6648FF" // 0% 处的颜色
+              // color: "yellow"
             },
             {
               offset: 1,
               color: "#488BFF" // 100% 处的颜色
+              // color: "yellow"
             }
           ]
         },
@@ -197,6 +200,7 @@ export default {
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
+      // myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();

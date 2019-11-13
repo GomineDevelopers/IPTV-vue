@@ -2,7 +2,6 @@
   <div class="height_auto">
     <!-- <el-row style="height:500px;" :id="chartData.id"></el-row> -->
     <el-row style="height:500px;" :id="chartData_Change.id"></el-row>
-    <!-- <div v-show="false">{{PR_operator}}{{chartData}}{{chartData_Change}}</div> -->
   </div>
 </template>
 <script>
@@ -146,7 +145,6 @@ export default {
         }
       }
       // console.log(series);
-
       var option = {
         color: vm.chartData_Change.color,
         title: {
@@ -176,9 +174,7 @@ export default {
           },
           formatter: function (params) {
             // console.log(params);
-
             let length = params.length;
-
             let title = params[0].data[0];
             let t1 = params[0].seriesName;
             let marker1 = params[0].marker;
@@ -222,7 +218,6 @@ export default {
             let marker3 = params[2].marker;
             let value3 = params[2].data[3];
             str_return += "<br/>" + marker3 + t3 + ":  " + value3;
-
             if (length == 3) {
               return str_return;
             }

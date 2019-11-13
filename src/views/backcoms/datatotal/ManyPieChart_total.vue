@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "PieCharts", //四环饼图组件
+  name: "ManyPieChart_total", //四环饼图组件
   props: {
     pieData: {
       type: Object
@@ -35,8 +35,6 @@ export default {
     pieData_Change: {
       get: function () {
         let vm = this;
-
-        // 视图更新
         setTimeout(function () {
           vm.setLineChart();
         }, 1000);
@@ -57,7 +55,7 @@ export default {
         let t1 = {
           name: this.pieData_Change.content[0].title,
           type: "pie",
-          radius: ["85%", "100%"],
+          radius: ["75%", "90%"],
           center: ["50%", "50%"],
           data: this.pieData_Change.content[0].data,
           labelLine: {
@@ -91,7 +89,7 @@ export default {
         let t2 = {
           name: this.pieData_Change.content[1].title,
           type: "pie",
-          radius: ["70%", "85%"],
+          radius: ["60%", "75%"],
           center: ["50%", "50%"],
           data: this.pieData_Change.content[1].data,
           labelLine: {
@@ -125,7 +123,7 @@ export default {
         let t3 = {
           name: this.pieData_Change.content[2].title,
           type: "pie",
-          radius: ["55%", "70%"],
+          radius: ["45%", "60%"],
           center: ["50%", "50%"],
           data: this.pieData_Change.content[2].data,
           labelLine: {
@@ -257,7 +255,6 @@ export default {
         };
         series.push(t6);
       }
-
       var option = {
         color: this.pieData_Change.color,
         title: {
@@ -282,6 +279,9 @@ export default {
           textStyle: {
             fontSize: 14,
             color: "rgba(0, 0, 0, 0.65)"
+          },
+          selected:{
+            '从未订购用户数占比':false
           }
         },
         tooltip: {

@@ -75,7 +75,6 @@ export default {
           }
           // 视图更新
           setTimeout(function() {
-            // console.log("recommendPage 视图更新");
             vm.setLineChart();
           }, 2000);
           return {

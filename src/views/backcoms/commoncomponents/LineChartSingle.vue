@@ -16,7 +16,6 @@ export default {
     return {};
   },
   mounted() {
-    // console.log(this.lineData)
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();
@@ -74,10 +73,7 @@ export default {
               color.push(vm.lineData.color[2]);
               data.push(vm.lineData.data[3]);
             }
-            // console.log(color);
-            // console.log(data);
           }
-
           // 视图更新
           setTimeout(function() {
             vm.setLineChart();
@@ -115,7 +111,6 @@ export default {
         document.getElementById(this.lineData_Change.id)
       );
       let seriesData = [];
-      // console.log("seriesData", this.lineData_Change.title, this.lineData_Change.data)
       //设置series数据条数
       for (let i = 1; i <= this.lineData_Change.data.length - 1; i++) {
         seriesData.push({

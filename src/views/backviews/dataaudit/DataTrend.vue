@@ -665,10 +665,10 @@ export default {
                   if (buckets_cc[i_cc].key == Date_Arr[i_all]) {
                     if (i_all != length_all - 1) {
                       temp_ManageStr +=
-                        String(buckets_cc[i_cc].heart_beat_freq.value) + "\t";
+                        String((buckets_cc[i_cc].heart_beat_freq.value / buckets_cc[i_cc].heart_beat_num.value).toFixed(2)) + "\t";
                     } else {
                       temp_ManageStr += String(
-                        buckets_cc[i_cc].heart_beat_freq.value
+                        (buckets_cc[i_cc].heart_beat_freq.value / buckets_cc[i_cc].heart_beat_num.value).toFixed(2)
                       );
                     }
                     if_Get = true;

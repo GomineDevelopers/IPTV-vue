@@ -60,7 +60,6 @@ export default {
           formatter: function loadData(result) {
             // return result.name + "<br />数据:" + result.value;
             return result.name;
-
           }
         },
         visualMap: {
@@ -179,8 +178,6 @@ export default {
         // 通过t判断点击的省份，做不同的响应操作
         // console.log(t.seriesIndex);
         // @PS：echarts触发bug,从第二次存在第n次,触发(n-1) * 2,
-        // console.log("~~~1");
-        // console.log("~~~2");
         let name = t.data.name;
         let city = vm.cityManage(name);
         let datashow = vm.datashowManage();
@@ -225,7 +222,7 @@ export default {
             console.log("none!");
         }
       });
-
+      myChartProe.clear();
       myChartProe.setOption(optionE);
       window.addEventListener("resize", () => {
         myChartProe.resize();

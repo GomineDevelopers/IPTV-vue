@@ -44,11 +44,9 @@ export default {
       let seriesData = [];
       // seriesData.barWidth= 10
       let data = {};
-
       let legendlist = [];
       let xAxisdata = [];
       //设置series数据条数
-
       for (let i = 0; i < this.fillinData.data.length; i++) {
         data = {};
         data.name = this.fillinData.data[i][1][0];
@@ -64,18 +62,15 @@ export default {
         data.itemStyle = {
           color: this.fillinData.color[i]
         };
-
         for (let j = 1; j <= this.fillinData.data[i][1].length - 1; j++) {
           data.data.push(this.fillinData.data[i][1][j]);
           if (i == this.fillinData.data.length - 1) {
             xAxisdata.push(this.fillinData.data[i][0][j]);
           }
         }
-
         legendlist.push(this.fillinData.data[i][1][0]);
         seriesData.push(data);
       }
-      // console.log(seriesData,"1111111111")
       // 数据配置项
       let option = {
         title: {

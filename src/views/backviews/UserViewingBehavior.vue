@@ -38,7 +38,8 @@
           <el-col class="height_auto" :span="12">
             <pie-charts :chartData="playData"></pie-charts>
           </el-col>
-          <el-col class="height_auto" :span="12" v-show="ifPlaymodeShow_db">
+          <!-- <el-col class="height_auto" :span="12" v-show="ifPlaymodeShow_db && !ifPrograma_AllChoose"> -->
+          <el-col class="height_auto" :span="12" v-if="ifPlaymodeShow_db && !ifPrograma_AllChoose">
             <!-- 运营商柱状图 -->
             <bar-chart-single :chartData="columnData"></bar-chart-single>
           </el-col>
@@ -81,9 +82,9 @@
 <script>
 import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 import OptionSelectUVB from "@/views/backcoms/userviewingbehavior/OptionSelectUVB"; // 条件筛选
-import PieCharts from "@/views/backcoms/commoncomponents/PieCharts"; //公用饼图
-import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack"; //公用柱状图堆叠
-import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //公用柱状图单个
+import PieCharts from "@/views/backcoms/commoncomponents/PieCharts_sort"; //公用饼图
+import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack_ShowTop"; //公用柱状图堆叠
+import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle_ShowTop"; //公用柱状图单个
 
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
@@ -115,7 +116,7 @@ export default {
       "UVB_picker",
       "UVB_time_type",
       "UVB_programa_list",
-      "UVB_programa_type_list",
+      "UVB_contenttype_list",
       "UVB_target_type"
     ]),
     ifPlaymodeShow_zb: {
@@ -203,6 +204,17 @@ export default {
     UVB_programa(newValue, oldValue) {
       let vm = this;
       console.log("UVB_programa: " + newValue);
+      // 当栏目全选或者不选时候--不显示视图4-栏目
+      if (
+        newValue.length == 0 ||
+        newValue.length == vm.UVB_programa_list.length
+      ) {
+        console.log("~~~~~~~~~ifPrograma_AllChoose true");
+        vm.ifPrograma_AllChoose = true;
+      } else {
+        console.log("~~~~~~~~~ifPrograma_AllChoose false");
+        vm.ifPrograma_AllChoose = false;
+      }
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -264,25 +276,32 @@ export default {
     targetOption(newValue, oldValue) {
       let vm = this;
       // 监听指标选中
-      // console.log("targetOption");
-      // console.log(newValue);
+      console.log("targetOption");
+      console.log(newValue);
+      vm.$store
+        .dispatch("set_UVB_targetOption", newValue)
+        .then(function(response) {})
+        .catch(function(error) {
+          console.info(error);
+        });
       setTimeout(function() {
         vm.refreshPerData();
       }, 200);
     },
     UVB_target_type(newValue, oldValue) {
+      console.log("~~~~~~~UVB_target_type");
       let vm = this;
       if (newValue == 1) {
         vm.target = [
-          "观看次数",
-          "观看时长",
-          "观看户数",
-          "户均收视次数",
-          "次均收视时长"
+          "观看次数（次）",
+          "观看时长（时）",
+          "观看户数（户）",
+          "户均收视次数（次）",
+          "次均收视时长（时）"
         ];
       }
       if (newValue == 0) {
-        vm.target = ["观看次数", "观看时长", "次均收视时长"];
+        vm.target = ["观看次数（次）", "观看时长（时）", "次均收视时长（时）"];
       }
     },
     UVB_programa_list(newValue, oldValue) {
@@ -299,33 +318,35 @@ export default {
   methods: {
     refreshPerData() {
       let vm = this;
+      console.log("▲▲▲▲▲▲▲");
+      console.log(vm.targetOption);
 
       let newValue = vm.targetOption;
-      if (newValue == "观看次数") {
+      if (newValue == "观看次数（次）") {
         vm.regionData.data = vm.regionData_data_arr[0];
         vm.operatorData.data = vm.operatorData_arr[0];
         vm.columnData.data = vm.columnData_arr[0];
         vm.playData.data = vm.playData_arr[0];
       }
-      if (newValue == "观看时长") {
+      if (newValue == "观看时长（时）") {
         vm.regionData.data = vm.regionData_data_arr[1];
         vm.operatorData.data = vm.operatorData_arr[1];
         vm.columnData.data = vm.columnData_arr[1];
         vm.playData.data = vm.playData_arr[1];
       }
-      if (newValue == "观看户数") {
+      if (newValue == "观看户数（户）") {
         vm.regionData.data = vm.regionData_data_arr[2];
         vm.operatorData.data = vm.operatorData_arr[2];
         vm.columnData.data = vm.columnData_arr[2];
         vm.playData.data = vm.playData_arr[2];
       }
-      if (newValue == "户均收视次数") {
+      if (newValue == "户均收视次数（次）") {
         vm.regionData.data = vm.regionData_data_arr[3];
         vm.operatorData.data = vm.operatorData_arr[3];
         vm.columnData.data = vm.columnData_arr[3];
         vm.playData.data = vm.playData_arr[3];
       }
-      if (newValue == "次均收视时长") {
+      if (newValue == "次均收视时长（时）") {
         vm.regionData.data = vm.regionData_data_arr[4];
         vm.operatorData.data = vm.operatorData_arr[4];
         vm.columnData.data = vm.columnData_arr[4];
@@ -499,11 +520,11 @@ export default {
             let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
             let length_0 = buckets_0.length;
             let i_0;
-            let temp1 = []; // 观看次数 - watch_freq
-            let temp2 = []; // 观看时长 - watch_dur
-            let temp3 = []; // 观看户数 - watch_user_num
-            let temp4 = []; // 户均收视次数 - watch_freq_family = watch_freq / watch_user_num
-            let temp5 = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
+            let temp1 = []; // 观看次数（次） - watch_freq
+            let temp2 = []; // 观看时长（时） - watch_dur
+            let temp3 = []; // 观看户数（户） - watch_user_num
+            let temp4 = []; // 户均收视次数（次） - watch_freq_family = watch_freq / watch_user_num
+            let temp5 = []; // 次均收视时长（时） - watch_dur_mean = watch_dur / watch_freq
             let temp_all = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ac
             for (i_0 = 0; i_0 < length_0; i_0++) {
               temp1.push({
@@ -511,7 +532,7 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp2.push({
-                value: buckets_0[i_0].watch_dur.value,
+                value: (buckets_0[i_0].watch_dur.value / 60).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp3.push({
@@ -531,6 +552,7 @@ export default {
                 // value: buckets_0[i_0].watch_dur_mean.value,
                 value: (
                   buckets_0[i_0].watch_dur.value /
+                  60 /
                   buckets_0[i_0].watch_freq.value
                 ).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
@@ -555,11 +577,11 @@ export default {
               response.data.responses[0].aggregations.ac1.buckets; // x3
             let length_0B = buckets_0B.length;
             let i_0B;
-            let temp1_B = []; // 观看次数 - watch_freq
-            let temp2_B = []; // 观看时长 - watch_dur
-            let temp3_B = []; // 观看户数 - watch_user_num
-            let temp4_B = []; // 户均收视次数 - watch_freq_family = watch_freq / watch_user_num
-            let temp5_B = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
+            let temp1_B = []; // 观看次数（次） - watch_freq
+            let temp2_B = []; // 观看时长（时） - watch_dur
+            let temp3_B = []; // 观看户数（户） - watch_user_num
+            let temp4_B = []; // 户均收视次数（次） - watch_freq_family = watch_freq / watch_user_num
+            let temp5_B = []; // 次均收视时长（时） - watch_dur_mean = watch_dur / watch_freq
             let temp_all_B = []; //包含temp1_B~temp5_B // ▲ 5种值-分别对应运营商-分别对应ac
 
             // temp1_B.push(["product", "移动", "联通", "电信"]);
@@ -642,8 +664,10 @@ export default {
                   );
 
                   temp2_B[i_0B + 1].push(
-                    buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                        .value / 60
+                    ).toFixed(2)
                   );
 
                   temp3_B[i_0B + 1].push(
@@ -651,23 +675,24 @@ export default {
                       .watch_user_num.value
                   );
 
-                  temp4_B[i_0B + 1]
-                    .push(
+                  temp4_B[i_0B + 1].push(
+                    (
                       buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
                         .value /
-                        buckets_0B[i_0B].operators.buckets[operator_i]
-                          .watch_user_num.value
-                    )
-                    .toFixed(2);
+                      buckets_0B[i_0B].operators.buckets[operator_i]
+                        .watch_user_num.value
+                    ).toFixed(2)
+                  );
 
-                  temp5_B[i_0B + 1]
-                    .push(
+                  temp5_B[i_0B + 1].push(
+                    (
                       buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
                         .value /
-                        buckets_0B[i_0B].operators.buckets[operator_i]
-                          .watch_freq.value
-                    )
-                    .toFixed(2);
+                      60 /
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
+                        .value
+                    ).toFixed(2)
+                  );
                 }
                 if (
                   buckets_0B[i_0B].operators.buckets[operator_i].key == "联通"
@@ -685,8 +710,10 @@ export default {
                       .value
                   );
                   temp2_B[i_0B + 1].push(
-                    buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                        .value / 60
+                    ).toFixed(2)
                   );
                   temp3_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i]
@@ -704,6 +731,7 @@ export default {
                     (
                       buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
                         .value /
+                      60 /
                       buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
                         .value
                     ).toFixed(2)
@@ -725,8 +753,10 @@ export default {
                       .value
                   );
                   temp2_B[i_0B + 1].push(
-                    buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
-                      .value
+                    (
+                      buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
+                        .value / 60
+                    ).toFixed(2)
                   );
                   temp3_B[i_0B + 1].push(
                     buckets_0B[i_0B].operators.buckets[operator_i]
@@ -744,6 +774,7 @@ export default {
                     (
                       buckets_0B[i_0B].operators.buckets[operator_i].watch_dur
                         .value /
+                      60 /
                       buckets_0B[i_0B].operators.buckets[operator_i].watch_freq
                         .value
                     ).toFixed(2)
@@ -773,11 +804,11 @@ export default {
               response.data.responses[0].aggregations.play_mode.buckets; // x3
             let length_0BB = buckets_0BB.length;
             let i_0BB;
-            let temp1_BB = []; // 观看次数 - watch_freq
-            let temp2_BB = []; // 观看时长 - watch_dur
-            let temp3_BB = []; // 观看户数 - watch_user_num
-            let temp4_BB = []; // 户均收视次数 - watch_freq_family = watch_freq / watch_user_num
-            let temp5_BB = []; // 次均收视时长 - watch_dur_mean = watch_dur / watch_freq
+            let temp1_BB = []; // 观看次数（次） - watch_freq
+            let temp2_BB = []; // 观看时长（时） - watch_dur
+            let temp3_BB = []; // 观看户数（户） - watch_user_num
+            let temp4_BB = []; // 户均收视次数（次） - watch_freq_family = watch_freq / watch_user_num
+            let temp5_BB = []; // 次均收视时长（时） - watch_dur_mean = watch_dur / watch_freq
             let temp_all_BB = []; //包含temp1_B~temp5_BB // ▲ 5种值-分别对应运营商-分别对应ac
 
             for (i_0BB = 0; i_0BB < length_0BB; i_0BB++) {
@@ -786,7 +817,7 @@ export default {
                 name: buckets_0BB[i_0BB].key
               });
               temp2_BB.push({
-                value: buckets_0BB[i_0BB].watch_dur.value,
+                value: (buckets_0BB[i_0BB].watch_dur.value / 60).toFixed(2),
                 name: buckets_0BB[i_0BB].key
               });
               temp3_BB.push({
@@ -805,6 +836,7 @@ export default {
                 // value: buckets_0BB[i_0BB].watch_dur_mean.value,
                 value: (
                   buckets_0BB[i_0BB].watch_dur.value /
+                  60 /
                   buckets_0BB[i_0BB].watch_freq.value
                 ).toFixed(2),
                 name: buckets_0BB[i_0BB].key
@@ -910,7 +942,7 @@ export default {
       let temp_contenttype;
       if (vm.UVB_contenttype.length == 0) {
         // temp_contenttype = ["健康", "音乐"];
-        temp_contenttype = vm.UVB_programa_type_list;
+        temp_contenttype = vm.UVB_contenttype_list;
       } else {
         temp_contenttype = vm.UVB_contenttype;
       }
@@ -990,15 +1022,25 @@ export default {
 
           try {
             vm.columnData_arr = [];
+            let buckets_ti;
+            if (
+              vm.UVB_programa.length > 1 &&
+              vm.UVB_programa.length < vm.UVB_programa_list.length
+            ) {
+              console.log("非全选~~~programa");
+              buckets_ti = response.data.responses[0].aggregations.ti.buckets; // 原-非全选
+            } else {
+              console.log("全选~~~programa");
+              buckets_ti = response.data.responses[2].aggregations.ti.buckets; // new-全选
+            }
 
-            let buckets_ti = response.data.responses[0].aggregations.ti.buckets;
             let length_ti = buckets_ti.length;
             let i_ti;
-            let temp1 = []; // 观看次数 - demand_freq
-            let temp2 = []; // 观看时长 - demand_dur
-            let temp3 = []; // 观看户数 - demand_user_num
-            let temp4 = []; // 户均收视次数 - watch_freq_family = demand_freq / demand_user_num
-            let temp5 = []; // 次均收视时长 - watch_dur_mean = demand_dur / demand_freq
+            let temp1 = []; // 观看次数（次） - demand_freq
+            let temp2 = []; // 观看时长（时） - demand_dur
+            let temp3 = []; // 观看户数（户） - demand_user_num
+            let temp4 = []; // 户均收视次数（次） - watch_freq_family = demand_freq / demand_user_num
+            let temp5 = []; // 次均收视时长（时） - watch_dur_mean = demand_dur / demand_freq
             let temp_all_C = []; // 集合 temp1~temp5 // ▲ 5种值-分别对应ti
 
             // ["product", "观看数"]
@@ -1013,18 +1055,21 @@ export default {
             // ["体育", 72.4],
             // ["游戏", 72.4],
             // ["纪实", 86.4]
-            temp1.push(["product", "观看次数"]);
-            temp2.push(["product", "观看时长"]);
-            temp3.push(["product", "观看户数"]);
-            temp4.push(["product", "户均收视次数"]);
-            temp5.push(["product", "次均收视时长"]);
+            temp1.push(["product", "观看次数（次）"]);
+            temp2.push(["product", "观看时长（时）"]);
+            temp3.push(["product", "观看户数（户）"]);
+            temp4.push(["product", "户均收视次数（次）"]);
+            temp5.push(["product", "次均收视时长（时）"]);
 
             function dataManage(ti_name) {
               for (i_ti = 0; i_ti < length_ti; i_ti++) {
                 try {
                   if (buckets_ti[i_ti].key == ti_name) {
                     temp1.push([ti_name, buckets_ti[i_ti].demand_freq.value]);
-                    temp2.push([ti_name, buckets_ti[i_ti].demand_dur.value]);
+                    temp2.push([
+                      ti_name,
+                      (buckets_ti[i_ti].demand_dur.value / 60).toFixed(2)
+                    ]);
                     temp3.push([
                       ti_name,
                       buckets_ti[i_ti].demand_user_num.value
@@ -1040,8 +1085,11 @@ export default {
                     // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
                     temp5.push([
                       ti_name,
-                      (buckets_ti[i_ti].demand_dur.value / ti_name,
-                      buckets_ti[i_ti].demand_freq.value).toFixed(2)
+                      (
+                        buckets_ti[i_ti].demand_dur.value /
+                        60 /
+                        buckets_ti[i_ti].demand_freq.value
+                      ).toFixed(2)
                     ]);
                   }
                 } catch (error) {
@@ -1088,8 +1136,20 @@ export default {
           try {
             vm.orderViewingTopList.data = []; // 初始化
 
-            let buckets_top =
-              response.data.responses[1].aggregations.programname.buckets;
+            let buckets_top;
+
+            if (
+              vm.UVB_contenttype.length > 1 &&
+              vm.UVB_contenttype.length < vm.UVB_contenttype_list.length
+            ) {
+              console.log("非全选~~~~contenttype");
+              buckets_top =
+                response.data.responses[1].aggregations.programname.buckets; // 非全选
+            } else {
+              console.log("全选~~~~contenttype");
+              buckets_top =
+                response.data.responses[3].aggregations.programname.buckets; // 全选
+            }
             let length_top = buckets_top.length;
             let i_top;
             let temp_max_value_top = buckets_top[0].demand_freq.value; // 取第一个为最大值
@@ -1108,12 +1168,12 @@ export default {
                         100
                     )
                   ) + "%",
-                // playNum: String(
-                //   commonTools.returnFloat_2(
-                //     buckets_top[i_top].demand_freq.value / 10000
-                //   )
-                // ) // 次数（万）
-                playNum: String(buckets_top[i_top].demand_freq.value) // 次数 （单次）
+                playNum: String(
+                  commonTools.returnFloat_2(
+                    buckets_top[i_top].demand_freq.value / 10000
+                  )
+                ) // 次数（万）
+                // playNum: String(buckets_top[i_top].demand_freq.value) // 次数 （单次）
               };
               vm.orderViewingTopList.data.push(temp_data_top);
             }
@@ -1179,19 +1239,20 @@ export default {
   },
   data() {
     return {
+      ifPrograma_AllChoose: false,
       ifInitShow: false,
       // targetOption: "", //存放选择的指标
-      targetOption: "观看次数",
+      targetOption: "观看次数（次）",
 
       //选择指标数据
       // target: [
-      //   "观看次数",
-      //   "观看时长",
-      //   "观看户数",
-      //   "户均收视次数",
-      //   "次均收视时长"
+      //   "观看次数（次）",
+      //   "观看时长（时）",
+      //   "观看户数（户）",
+      //   "户均收视次数（次）",
+      //   "次均收视时长（时）"
       // ],
-      target: ["观看次数", "观看时长", "次均收视时长"],
+      target: ["观看次数（次）", "观看时长（时）", "次均收视时长（时）"],
       //地区数据
       regionData: {
         title: "地区",

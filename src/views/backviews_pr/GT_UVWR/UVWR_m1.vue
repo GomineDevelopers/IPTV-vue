@@ -186,7 +186,7 @@ import BarChartsStack3 from "@/views/backcoms/commoncomponents2/BarChartsStack_C
 
 import { mapGetters } from "vuex";
 import { debuglog } from "util";
-import { users_activeReportTop } from "@/api/api_main";
+import { users_activeReportTop,users_weekActiveReport } from "@/api/api_main";
 
 export default {
   name: "UVWR_m1",
@@ -347,7 +347,9 @@ export default {
           console.log(error)
         }
 
-        try {
+        try { 
+          // ///// 各市州在册用户占比 
+
           //G+tv用户发展数据
           let dataMudule_1 = blendedDataModule[0].aggregations;
           let temp = [];
@@ -367,29 +369,69 @@ export default {
 
         try {
           //各州市在册用户占比
-          let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets;
-          let temp2 = []; //各州市在册用户占比temp
-          let current_newadd_num_arr = []; //存放本周各地区新增的用户
-          dataMudule_2.forEach((value, index) => {
-            // console.log("各州市在册用户占比", value, index)
-            if (index < 9) {
-              temp2.push({
-                value: (
-                  value.register_num.buckets[0].register_num.value / 10000
-                ).toFixed(2),
-                name: commonTools.acConvert_Single(value.key)
-              });
+          let temp_t;
+          let temp_time_t = commonTools.split_WeeksDays_byDWwr(vm.PR_week); //本周时间
+          let temp_operator;
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            temp_operator = ["移动", "联通", "电信"];
+          } else {
+            temp_operator = vm.PR_operator;
+          }
+          temp_t = {
+            operator: String([temp_operator]),
+            start: temp_time_t.weeksRange_end,
+            end: temp_time_t.weeksRange_end
+          };
+          let formData_t = new FormData();
+          formData_t = new window.FormData();
+          formData_t.append("operator", temp_t.operator);
+          formData_t.append("start", temp_t.start);
+          formData_t.append("end", temp_t.end);
+          users_weekActiveReport(formData_t)
+            .then(function (response_t) {
+              // let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据
+              // let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets;
+              let dataMudule_2_t = response_t.data.responses[0].aggregations.ac1.buckets;
+              console.log("■■■■■■■■■■■■■■■■■■■■■");
+              console.log(response_t);
+              console.log(dataMudule_2_t);
 
-              //本周新增用户数
-              current_newadd_num_arr.push({
-                value: value.new_num.value,
-                name: commonTools.acConvert_Single(value.key)
+              let temp2 = []; //各州市在册用户占比temp
+              dataMudule_2_t.forEach((value, index) => {
+                // console.log("各州市在册用户占比", value, index)
+                if(value.key != "other"){
+                  // if (index < 9) {
+                    temp2.push({
+                      value: (
+                        value.register_num.value / 10000
+                      ).toFixed(2),
+                      name: commonTools.acConvert_Single(value.key)
+                    });
+                  // }
+                }
               });
-            }
+              vm.GT_UVWR1_B1.m_data2 = temp2; //各州市在册用户占比数据渲染
+              // console.log("各州市在册用户占比数据渲染", vm.GT_UVWR1_B1)
+          })
+          .catch(function (error) {
+            console.info(error);
           });
-          vm.GT_UVWR1_B1.m_data2 = temp2; //各州市在册用户占比数据渲染
-          // console.log("各州市在册用户占比数据渲染", vm.GT_UVWR1_B1)
-
+          try {
+            let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据
+            let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets;
+            let current_newadd_num_arr = []; //存放本周各地区新增的用户
+            dataMudule_2.forEach((value, index) => {
+              //本周新增用户数
+              if (index < 9) {
+                current_newadd_num_arr.push({
+                  value: value.new_num.value,
+                  name: commonTools.acConvert_Single(value.key)
+                });
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
           vm.current_newadd_num_arr = current_newadd_num_arr; //存入本周新增用户数
           setTimeout(() => {
             // console.log("本周新增用户数", vm.current_newadd_num_arr)
@@ -2369,6 +2411,7 @@ export default {
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();

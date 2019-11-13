@@ -18,26 +18,25 @@ export default {
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
-      // console.log("~~~~~~~!!TypeProgramChart");
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     PR_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     },
     chartData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
       }, 2000);
     }
@@ -47,7 +46,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.drawLine();
     }, 2000);
   },
@@ -98,7 +97,6 @@ export default {
           right: "10",
           bottom: "5",
           containLabel: true
-
         },
         dataset: {
           source: this.chartData.data

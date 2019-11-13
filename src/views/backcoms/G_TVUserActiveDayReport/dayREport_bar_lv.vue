@@ -70,10 +70,7 @@ export default {
             data[1].push(d1_0);
             data[1].push(d1_1);
           }
-
-          // 视图更新
           setTimeout(function () {
-            // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
           return {
@@ -94,12 +91,11 @@ export default {
       var lineChart = this.$echarts.init(
         document.getElementById(this.fillinData_Change.id)
       );
-      //   循环获取数据
+      // 循环获取数据
       let seriesData = [];
       let data = {};
-      //设置series数据条数
+      // 设置series数据条数
       let xAxisdata = [];
-
       for (let i = 0; i < this.fillinData_Change.data.length; i++) {
         data = {};
         data.name = this.fillinData_Change.data[i][1][0];
@@ -128,7 +124,6 @@ export default {
         }
         seriesData.push(data);
       }
-      // console.log(seriesData)
       // 数据配置项
       let option = {
         title: {

@@ -54,13 +54,9 @@ export default {
             }
             data.push(d0);
             data.push(d1);
-            // console.log("~~~~data");
-            // console.log(data);
           }
-
           // 视图更新
           setTimeout(function() {
-            // console.log("视图更新");
             vm.setLineChart();
           }, 1000);
           return {
@@ -86,8 +82,6 @@ export default {
   },
   methods: {
     setLineChart() {
-      // console.log(111)
-      // console.log(this.fillinData_Change)
       let vm = this;
       var lineChart = this.$echarts.init(
         document.getElementById(this.fillinData_Change.id)
@@ -101,7 +95,6 @@ export default {
           value: this.fillinData_Change.data[1][i]
         });
       }
-      // console.log(seriesData)
       // 数据配置项
       let option = {
         title: {

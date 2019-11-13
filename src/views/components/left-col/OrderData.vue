@@ -359,6 +359,7 @@ export default {
         series: optionData.series
       };
       // 使用刚指定的配置项和数据显示图表。
+      myChart.clear();
       myChart.setOption(option);
 
       window.addEventListener("resize", () => {
@@ -464,6 +465,7 @@ export default {
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
+      myChart2.clear();
       myChart2.setOption(option2);
 
       window.addEventListener("resize", () => {

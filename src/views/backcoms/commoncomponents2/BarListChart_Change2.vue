@@ -2,9 +2,6 @@
   <div class="height_auto">
     <!-- <div class="pie_hollow_chart" :id="barListData.id"></div> -->
     <div :style="barListData.height" :id="barListData.id"></div>
-
-    <!-- <div v-if="!barListData.id == 'GT_UVWR1_J1'" class="pie_hollow_chart" :id="barListData.id"></div> -->
-    <!-- <div v-if="barListData.id == 'GT_UVWR1_J1'" class="pie_hollow_chart2" :id="barListData.id"></div> -->
   </div>
 </template>
 <script>

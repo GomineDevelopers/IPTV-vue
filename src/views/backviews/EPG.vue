@@ -69,43 +69,49 @@ export default {
   watch: {
     EPG_operator(newValue, oldValue) {
       if (this.EPG_operator.length == 1) {
+        let vm = this;
         setTimeout(() => {
-          this.refresh_api_data()
+          vm.refresh_api_data()
         }, 500)
       }
     },
     EPG_programa(newValue, oldValue) {
       if (this.EPG_programa.length == 1) {
+        let vm = this;
         setTimeout(() => {
-          this.refresh_api_data()
+          vm.refresh_api_data()
         }, 500)
       }
     },
     EPG_value_others(newValue, oldValue) {
       if (this.EPG_value_others != null) {
+        let vm = this;
         setTimeout(() => {
-          this.refresh_api_data()
+          vm.refresh_api_data()
         }, 500)
       }
     },
     EPG_week(newValue, oldValue) {
       if (this.EPG_week != null) {
+        let vm = this;
         setTimeout(() => {
-          this.refresh_api_data()
+          vm.refresh_api_data()
         }, 500)
       }
     },
     EPG_month(newValue, oldValue) {
       if (this.EPG_month != null) {
+        let vm = this;
         setTimeout(() => {
-          this.refresh_api_data()
+          vm.refresh_api_data()
         }, 500)
       }
     },
     EPG_time_type(newValue, oldValue) {
-      // setTimeout(() => {
-      //   this.refresh_api_data()
-      // }, 500)
+      let vm = this;
+      setTimeout(() => {
+        vm.refresh_api_data()
+      }, 500)
     },
     EPG_programa_type(newValue, oldValue) {
       console.log("节目类型更新", newValue)

@@ -88,6 +88,7 @@ export default {
           }
         ]
       };
+      myChart.clear();
       myChart.setOption(option);
       window.addEventListener("resize", () => {
         myChart.resize();

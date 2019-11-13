@@ -28,6 +28,18 @@ import { get_user_permissions, refreshToken, get_date } from "@/api/api_main";
 
 // 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
 
+// PR_operator 初始化不完全问题！？！
+
+store
+  .dispatch("set_PR_operator", ["移动","联通","电信"])
+  .then(function (response) {
+    // console.log(response);
+  })
+  .catch(function (error) {
+    console.info(error);
+
+  });
+
 get_date()
   .then(function (response_date) {
     console.log(response_date);
@@ -56,8 +68,8 @@ store
     console.info(error);
   });
 
-let ifTest = true;
-// let ifTest = false;
+// let ifTest = true;
+let ifTest = false;
 
 
 // var routerform = [

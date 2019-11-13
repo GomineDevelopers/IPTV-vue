@@ -54,8 +54,8 @@
 import Vue from "vue";
 import OptionSelectValueAdd from "@/views/backcoms/valueaddedtotal/OptionSelectValueAdd"; //数据总览条件筛选
 import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件（新增用户概览）
-import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
-import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
+import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp2"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
+import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle2"; //单数据折线图Y轴显示百分比组件（新增付费用户百分比）
 
 import { mapGetters } from "vuex";
 import { commonTools } from "@/utils/test";
@@ -84,33 +84,36 @@ export default {
       // console.log("ADD_ALL_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
-      }, 2000);
+      }, 1000);
     },
     // ADD_ALL_programa(newValue, oldValue) {
     //   let vm = this;
     //   console.log("ADD_ALL_programa: " + newValue);
     //   setTimeout(function() {
     //     vm.refresh_api_data();
-    //   }, 2000);
+    //   }, 1000);
     // },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
-      }, 2000);
+      }, 1000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_month: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
-      }, 2000);
+      }, 1000);
     },
     ADD_ALL_time_type(newValue, oldValue) {
       let vm = this;
       console.log("ADD_ALL_time_type: " + newValue);
       vm.ifInitShow = true;
+      setTimeout(function() {
+        vm.refresh_api_data();
+      }, 1000);
     }
   },
   mounted() {
@@ -123,7 +126,7 @@ export default {
         vm.ifInitShow = true;
         setTimeout(function() {
           vm.refresh_api_data();
-        }, 2000);
+        }, 1000);
       }
     }, 500);
   },
@@ -235,7 +238,7 @@ export default {
             let i_0;
             // 新增在册用户	new_num
             // 新增在册用户转化率	new2paid_rate
-            // 新增在册用户转化率	new_paid_num/new_num 新增用户中订购用户数/新增用户
+            // 新增在册用户转化率	new_person_paid_num/new_num 新增用户中订购用户数/新增用户
             // 新增收入	new_income
             // 新增订购用户数	new_paid_num
             let temp_newUserTotal = [["product"], ["新增用户"]]; // 1
@@ -318,7 +321,7 @@ export default {
                 temp_newPayingUsersProportion[1].push(
                   commonTools.returnFloat_2(
                     (
-                      (buckets_0[i_0].new_paid_num.value /
+                      (buckets_0[i_0].new_person_paid_num.value /
                         buckets_0[i_0].new_num.value) *
                       100
                     ).toFixed(2)
@@ -383,7 +386,7 @@ export default {
             let i_1;
             // 新增在册用户	new_num
             // 新增在册用户转化率	new2paid_rate
-            // 新增在册用户转化率	new_paid_num/new_num 新增用户中订购用户数/新增用户
+            // 新增在册用户转化率	new_person_paid_num/new_num 新增用户中订购用户数/新增用户
             // 新增收入	new_income
             // 新增订购用户数	new_paid_num
 

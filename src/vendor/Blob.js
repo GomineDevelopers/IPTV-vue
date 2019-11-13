@@ -1,20 +1,3 @@
-/* eslint-disable */
-/* Blob.js
- * A Blob implementation.
- * 2014-05-27
- *
- * By Eli Grey, http://eligrey.com
- * By Devin Samarin, https://github.com/eboyjr
- * License: X11/MIT
- *   See LICENSE.md
- */
-
-/*global self, unescape */
-/*jslint bitwise: true, regexp: true, confusion: true, es5: true, vars: true, white: true,
- plusplus: true */
-
-/*! @source http://purl.eligrey.com/github/Blob.js/blob/master/Blob.js */
-
 (function (view) {
     "use strict";
 
@@ -26,9 +9,6 @@
             return;
         } catch (e) { }
     }
-
-    // Internally we use a BlobBuilder implementation to base Blob off of
-    // in order to support older browsers that only have BlobBuilder
     var BlobBuilder = view.BlobBuilder || view.WebKitBlobBuilder || view.MozBlobBuilder || (function (view) {
         var
             get_class = function (object) {
@@ -101,7 +81,6 @@
         };
         FBB_proto.append = function (data/*, endings*/) {
             var bb = this.data;
-            // decode data to a binary string
             if (Uint8Array && (data instanceof ArrayBuffer || data instanceof Uint8Array)) {
                 var
                     str = ""
@@ -118,7 +97,6 @@
                     var fr = new FileReaderSync;
                     bb.push(fr.readAsBinaryString(data));
                 } else {
-                    // async FileReader won't work as BlobBuilder is sync
                     throw new FileException("NOT_READABLE_ERR");
                 }
             } else if (data instanceof FakeBlob) {
@@ -131,9 +109,8 @@
                 }
             } else {
                 if (typeof data !== "string") {
-                    data += ""; // convert unsupported types to strings
+                    data += ""; 
                 }
-                // decode UTF-16 to binary string
                 bb.push(unescape(encodeURIComponent(data)));
             }
         };

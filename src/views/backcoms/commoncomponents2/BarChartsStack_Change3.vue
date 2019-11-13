@@ -61,7 +61,6 @@ export default {
               color: color,
               data: data
             };
-            // console.log(temp);
             return temp;
           }
         }

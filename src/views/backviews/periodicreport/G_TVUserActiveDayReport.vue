@@ -103,7 +103,7 @@ export default {
 
       //在册用户数
       registeredUsers: {
-        title: "各运营商在册用户数（户）",
+        title: "各运营商在册用户数（万户）",
         id: "registeredUsers_UADR",
         color: ["#4474c4", "#ed7d31", "#a5a5a5"],
         data: [["运营商", "移动", "联通", "电信"], ["占比", , ,]]
@@ -162,7 +162,7 @@ export default {
           [
             [
               "运营商",
-              "热剧",
+              "电视剧",
               "少儿",
               "电影",
               "动漫",
@@ -178,7 +178,7 @@ export default {
           [
             [
               "运营商",
-              "热剧",
+              "电视剧",
               "少儿",
               "电影",
               "动漫",
@@ -389,6 +389,7 @@ export default {
           console.log(response.data);
           try {
             // let register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
+            let register_num_n = ""
             let register_num = ""
             let new_num = ''
             let open_num = ''
@@ -397,7 +398,8 @@ export default {
             let watch_user_num = ''
             let watch_freq_family = ''
             try {
-              register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
+              register_num_n = (Number(response.data.responses[0].aggregations.register_num.value) / 10000).toFixed(2); //在册用户数
+              register_num = (Number(response.data.responses[0].aggregations.register_num.value)).toFixed(2); //在册用户数
               new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
               open_num = response.data.responses[0].aggregations.open_num.value; //开机用户
               open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
@@ -421,7 +423,7 @@ export default {
 
             //移动
             if (type == "yd") {
-              Vue.set(vm.registeredUsers.data[1], 1, register_num); //移动在册用户数
+              Vue.set(vm.registeredUsers.data[1], 1, register_num_n); //移动在册用户数
               Vue.set(vm.newAddUserNumber.data[1][1], 1, new_num); //移动新增在册用户数（今日）
               Vue.set(vm.turnOnRate.data[1][1], 1, open_rate); //移动开机率（今日）
               Vue.set(vm.outLookTime.data[1][1], 1, watch_freq_family); //移动户均观看时长
@@ -429,7 +431,7 @@ export default {
 
             //联通
             if (type == "lt") {
-              Vue.set(vm.registeredUsers.data[1], 2, register_num); //联通在册用户数
+              Vue.set(vm.registeredUsers.data[1], 2, register_num_n); //联通在册用户数
               Vue.set(vm.newAddUserNumber.data[1][1], 2, new_num); //联通新增在册用户数（今日）
               Vue.set(vm.turnOnRate.data[1][1], 2, open_rate); //联通开机率（今日）
               Vue.set(vm.outLookTime.data[1][1], 2, watch_freq_family); //联通户均观看时长
@@ -437,7 +439,7 @@ export default {
 
             //电信
             if (type == "dx") {
-              Vue.set(vm.registeredUsers.data[1], 3, register_num); //电信在册用户数
+              Vue.set(vm.registeredUsers.data[1], 3, register_num_n); //电信在册用户数
               Vue.set(vm.newAddUserNumber.data[1][1], 3, new_num); //电信新增在册用户数（今日）
               Vue.set(vm.turnOnRate.data[1][1], 3, open_rate); //电信开机率（今日）
               Vue.set(vm.outLookTime.data[1][1], 3, watch_freq_family); //电信户均观看时长
@@ -581,7 +583,7 @@ export default {
       liveUsers_daliyReport(formData)
         .then(response => {
           // console.log("基础功能单日观看时长,各类型节目点播时长数据（今日）")
-          // console.log(response.data)
+          console.log(response.data)
           // console.log("program_type_dur_order", program_type_dur_order)
           try {
             let play_mode_buckets = response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
@@ -623,7 +625,7 @@ export default {
             program_type_dur_order.forEach((value, index) => {
               // console.log(index, value)
               switch (value.key) {
-                case "热剧":
+                case "电视剧":
                   Vue.set(
                     vm.typeLooktime.data[1][1],
                     1,
@@ -751,7 +753,7 @@ export default {
             average_program_type_dur_order.forEach((value, index) => {
               // console.log(index, value)
               switch (value.key) {
-                case "热剧":
+                case "电视剧":
                   Vue.set(
                     vm.typeLooktime.data[0][1],
                     1,

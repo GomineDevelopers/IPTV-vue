@@ -6,7 +6,6 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "PieCharts_special", //饼图组件
   props: {
@@ -15,6 +14,12 @@ export default {
     }
   },
   watch: {
+    chartData(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -32,7 +37,7 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
-    }
+    },
   },
   computed: {
     ...mapGetters([
@@ -43,14 +48,10 @@ export default {
     chartData_Change: {
       get: function() {
         let vm = this;
-
         let data = [];
         let color = [];
-
         // ★由于该组件是复用组件-涉及不同筛选条件的渲染-用唯一值（id）做数据+渲染
         if (vm.chartData.id == "operatorProportionChart") {
-          // console.log("this.PR_operator");
-          // console.log(this.PR_operator);
           if (this.PR_operator == null || this.PR_operator.length == 0) {
             data.push(vm.chartData.data[0]);
             data.push(vm.chartData.data[1]);
@@ -75,77 +76,6 @@ export default {
           }
           // 视图更新
           setTimeout(function() {
-            // console.log("operatorProportionChart 视图更新");
-            vm.drawLine();
-          }, 2000);
-
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: color,
-            data: data
-          };
-        }
-
-        if (vm.chartData.id == "regionChart") {
-          if (vm.UVB_playmode) {
-            // do nothing. -- 监听刷新
-          }
-          if (vm.UVB_day) {
-            // do nothing. --监听
-          }
-          if (vm.UVB_week) {
-            // do nothing. --监听
-          }
-          if (vm.UVB_picker) {
-            // do nothing. --监听
-          }
-          if (vm.UVB_region == null || vm.UVB_region.length == 0) {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-          } else {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-            // if (vm.UVB_region.indexOf("贵阳") > -1) {
-            //   color.push(vm.chartData.color[0]);
-            //   data.push(vm.chartData.data[0]);
-            // }
-            // if (vm.UVB_region.indexOf("遵义") > -1) {
-            //   color.push(vm.chartData.color[1]);
-            //   data.push(vm.chartData.data[1]);
-            // }
-            // if (vm.UVB_region.indexOf("安顺") > -1) {
-            //   color.push(vm.chartData.color[2]);
-            //   data.push(vm.chartData.data[2]);
-            // }
-            // if (vm.UVB_region.indexOf("黔南") > -1) {
-            //   color.push(vm.chartData.color[3]);
-            //   data.push(vm.chartData.data[3]);
-            // }
-            // if (vm.UVB_region.indexOf("黔东南") > -1) {
-            //   color.push(vm.chartData.color[4]);
-            //   data.push(vm.chartData.data[4]);
-            // }
-            // if (vm.UVB_region.indexOf("铜仁") > -1) {
-            //   color.push(vm.chartData.color[5]);
-            //   data.push(vm.chartData.data[5]);
-            // }
-            // if (vm.UVB_region.indexOf("毕节") > -1) {
-            //   color.push(vm.chartData.color[6]);
-            //   data.push(vm.chartData.data[6]);
-            // }
-            // if (vm.UVB_region.indexOf("六盘水") > -1) {
-            //   color.push(vm.chartData.color[7]);
-            //   data.push(vm.chartData.data[7]);
-            // }
-            // if (vm.UVB_region.indexOf("黔西南") > -1) {
-            //   color.push(vm.chartData.color[8]);
-            //   data.push(vm.chartData.data[8]);
-            // }
-          }
-          // 视图更新
-          setTimeout(function() {
-            // console.log("regionChart 视图更新");
             vm.drawLine();
           }, 2000);
           return {
@@ -156,127 +86,7 @@ export default {
           };
         }
 
-        if (vm.chartData.id == "regionChart_vip") {
-          if (vm.ADD_VIP_region == null || vm.ADD_VIP_region.length == 0) {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-          } else {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-            // if (vm.ADD_VIP_region.indexOf("贵阳") > -1) {
-            //   color.push(vm.chartData.color[0]);
-            //   data.push(vm.chartData.data[0]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("遵义") > -1) {
-            //   color.push(vm.chartData.color[1]);
-            //   data.push(vm.chartData.data[1]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("安顺") > -1) {
-            //   color.push(vm.chartData.color[2]);
-            //   data.push(vm.chartData.data[2]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("黔南") > -1) {
-            //   color.push(vm.chartData.color[3]);
-            //   data.push(vm.chartData.data[3]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("黔东南") > -1) {
-            //   color.push(vm.chartData.color[4]);
-            //   data.push(vm.chartData.data[4]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("铜仁") > -1) {
-            //   color.push(vm.chartData.color[5]);
-            //   data.push(vm.chartData.data[5]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("毕节") > -1) {
-            //   color.push(vm.chartData.color[6]);
-            //   data.push(vm.chartData.data[6]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("六盘水") > -1) {
-            //   color.push(vm.chartData.color[7]);
-            //   data.push(vm.chartData.data[7]);
-            // }
-            // if (vm.ADD_VIP_region.indexOf("黔西南") > -1) {
-            //   color.push(vm.chartData.color[8]);
-            //   data.push(vm.chartData.data[8]);
-            // }
-          }
-          // 视图更新
-          setTimeout(function() {
-            // console.log("regionChart_vip 视图更新");
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: color,
-            data: data
-          };
-        }
-        if (vm.chartData.id == "playChart") {
-          if (vm.UVB_playmode == null || vm.UVB_playmode.length == 0) {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-          } else {
-            // if (vm.UVB_playmode.indexOf("直播") > -1) {
-            //   color.push(vm.chartData.color[0]);
-            //   data.push(vm.chartData.data[0]);
-            // }
-            // if (vm.UVB_playmode.indexOf("点播") > -1) {
-            //   color.push(vm.chartData.color[1]);
-            //   data.push(vm.chartData.data[1]);
-            // }
-            // if (vm.UVB_playmode.indexOf("回看") > -1) {
-            //   color.push(vm.chartData.color[2]);
-            //   data.push(vm.chartData.data[2]);
-            // }
-            // 数据处理了-直接pushu即可
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-          }
-          // 视图更新
-          setTimeout(function() {
-            // console.log("regionChart_vip 视图更新");
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: color,
-            data: data
-          };
-        }
-        if (vm.chartData.id == "playChart_vip") {
-          if (vm.ADD_VIP_playmode == null || vm.ADD_VIP_playmode.length == 0) {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-          } else {
-            color = vm.chartData.color;
-            data = vm.chartData.data;
-            // if (vm.ADD_VIP_playmode.indexOf("直播") > -1) {
-            //   color.push(vm.chartData.color[0]);
-            //   data.push(vm.chartData.data[0]);
-            // }
-            // if (vm.ADD_VIP_playmode.indexOf("点播") > -1) {
-            //   color.push(vm.chartData.color[1]);
-            //   data.push(vm.chartData.data[1]);
-            // }
-            // if (vm.ADD_VIP_playmode.indexOf("回看") > -1) {
-            //   color.push(vm.chartData.color[2]);
-            //   data.push(vm.chartData.data[2]);
-            // }
-          }
-          // 视图更新
-          setTimeout(function() {
-            // console.log("regionChart_vip 视图更新");
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: color,
-            data: data
-          };
-        }
+
         setTimeout(function() {
           vm.drawLine();
         }, 2000);
@@ -297,7 +107,6 @@ export default {
       var pieChart = this.$echarts.init(
         document.getElementById(this.chartData_Change.id)
       );
-
       var option = {
         color: this.chartData_Change.color,
         title: {
@@ -351,8 +160,8 @@ export default {
             labelLine: {
               show: false,
               normal: {
-               smooth: 0.2,
-               length: 1
+                smooth: 0.2,
+                length: 1
               }
             },
             emphasis: false,
@@ -381,7 +190,7 @@ export default {
     let vm = this;
     setTimeout(function() {
       vm.drawLine();
-    }, 1000);
+    }, 2000);
   }
 };
 </script>

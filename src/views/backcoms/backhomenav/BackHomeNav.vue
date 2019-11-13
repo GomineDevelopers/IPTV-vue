@@ -180,17 +180,12 @@ export default {
   // 监听,当路由发生变化的时候执行
   watch: {
     current_authority(newValue, oldValue) {
-      // console.log("watch - current_authority: ");
-      // console.log(this.authorityData);
       this.authorityData = newValue;
-      // console.log(this.authorityData);
     },
     $route: {
       handler: function (val, oldVal) {
         let vm = this;
         setTimeout(function () {
-          // console.log("~~~~~~~val.path:");
-          console.log(val.path);
           let pathLink = val.path;
           let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
           if (isTrue) {
@@ -210,49 +205,8 @@ export default {
     router_to(str) {
       let vm = this;
       vm.$router.push({ path: str });
-
-      // 添加历史报告选中 - 这里加会出现 导航栏选中样式遗留不更新问题 - Pass
-      // PR_Report_index - 有默认值
-      // vm.$store
-      //   .dispatch("get_PR_Report_index")
-      //   .then(function(response) {
-      //     switch (response) {
-      //       case 1:
-      //         str = "/backhome/periodicreport/G_TVUserActiveDayReport";
-      //         break;
-      //       case 2:
-      //         str = "/backhome/periodicreport/G_TVUserViewingDayReport";
-      //         break;
-      //       case 3:
-      //         str = "/backhome/periodicreport/MarketOperationalWeekReport";
-      //         break;
-      //       case 4:
-      //         str = "/backhome/periodicreport/OperationalWeekReport";
-      //         break;
-      //       case 5:
-      //         str = "/backhome/periodicreport/G_TVUserViewingWeekReport";
-      //         break;
-      //       case 6:
-      //         str = "/backhome/periodicreport/VIPAddMonthReport";
-      //         break;
-      //       case 7:
-      //         str = "/backhome/periodicreport/G_TVUserViewingMonthReport";
-      //         break;
-      //       case 8:
-      //         str = "/backhome/periodicreport/SpecialZoneReport";
-      //         break;
-      //       default:
-      //         break;
-      //     }
-      //     vm.$router.push({ path: str });
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
-
     },
     ifShowMenu(item) {
-      // console.log(this.authorityData);
       if (this.authorityData.indexOf(item) > -1) {
         return true;
       } else {
@@ -260,14 +214,14 @@ export default {
       }
     },
     get_user_permissions() {
-      console.log("get_user_permissions");
+      // console.log("get_user_permissions");
       let vm = this;
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       vm.authorityData = [];
       get_user_permissions(newToken)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           let m_data = response.data.data;
           let length = m_data.length;
           let i;
@@ -281,7 +235,7 @@ export default {
           vm.$store
             .dispatch("set_current_authority", temp_authorizationChoose)
             .then(function (response) {
-              console.log("~~~~set_current_authority");
+              // console.log("~~~~set_current_authority");
               // console.log(response);
               // console.log(temp_authorizationChoose);
             })

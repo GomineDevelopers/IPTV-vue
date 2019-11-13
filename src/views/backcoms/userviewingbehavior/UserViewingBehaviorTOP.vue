@@ -50,6 +50,7 @@ export default {
       "UVB_day",
       "UVB_week",
       "UVB_picker",
+      "UVB_time_type",
 
       "ADD_VIP_region",
       "ADD_VIP_operator",
@@ -57,7 +58,8 @@ export default {
       "ADD_VIP_valueAddedPackage",
       "ADD_VIP_day",
       "ADD_VIP_week",
-      "ADD_VIP_picker"
+      "ADD_VIP_picker",
+      "ADD_VIP_time_type"
     ])
   },
   data() {
@@ -126,6 +128,12 @@ export default {
         vm.drawEcharts();
       }, 2000);
     },
+    UVB_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
 
     ADD_VIP_region(newValue, oldValue) {
       let vm = this;
@@ -168,6 +176,12 @@ export default {
       setTimeout(function() {
         vm.drawEcharts();
       }, 2000);
+    },
+    ADD_VIP_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
     }
   },
   mounted() {
@@ -198,7 +212,7 @@ export default {
           i2: "内容类型",
           i3: "节目",
           // i4: "次数（万）"
-          i4: "次数"
+          i4: "次数（万）"
         };
       }
       // this.scrollLoopUp(this.viewingTopList.id); // 滚动暂时关掉

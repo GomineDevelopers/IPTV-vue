@@ -16,9 +16,6 @@ export default {
     return {};
   },
   mounted() {
-    // console.log("▲▲▲▲▲▲▲▲!!!lineData");
-    // console.log(this.lineData);
-
     let vm = this;
     setTimeout(function() {
       vm.setLineChart();

@@ -33,17 +33,15 @@
 </template>
 <script>
 export default {
-  name: 'EpgPageTwo', //EPG一级页面
-  props: ['programesListOne2'],
+  name: "EpgPageTwo", //EPG一级页面
+  props: ["programesListOne2"],
   data() {
-    return {
-
-    }
+    return {};
   },
   mounted() {
     // console.log("二级页面", this.programesListTwo)
   }
-}
+};
 </script>
 <style scoped>
 ul {
@@ -51,26 +49,26 @@ ul {
   margin: 0;
 }
 .epg_page_col {
-  /* text-align: left; */
   text-align: center;
-  /* padding: 10px 0px; */
   background: #f0f0f0;
+  box-shadow: 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #ccc;
+  /* text-align: left; */
+  /* padding: 10px 0px; */
   /* flex: 1;
   -webkit-flex: 1; */
   /* margin-left: 14px; */
   /* background: #ffffff; */
-  box-shadow: 0 1px 9px 0 rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
   /* opacity: 0.6; */
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid #ccc;
 }
 .main_body {
-  /* width: 1920px; */
   width: 100%;
   height: auto;
   min-height: 700px;
   position: relative;
+  /* width: 1920px; */
 }
 .epg_page_col:nth-child(1) {
   margin-left: 0px;
@@ -87,10 +85,10 @@ ul {
   /* align-content: space-around; */
 }
 .epg_page_col ul li {
-  /* height: 27px;
-  line-height: 27px; */
   list-style: disc;
   font-size: 10px;
+  /* height: 27px;
+  line-height: 27px; */
 }
 .epg_page_col ul li:nth-child(2) {
   color: #5e70f1;

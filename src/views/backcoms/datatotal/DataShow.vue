@@ -34,11 +34,11 @@ export default {
 
 <style>
 .DataShow {
-  /* background-color: #ffffff; */
   display: inline-block;
   height: 100%;
   width: 100%;
   padding: 4px;
+  /* background-color: #ffffff; */
   /* width: 16%;
   height: 139px;
   padding: 10px;
@@ -66,7 +66,6 @@ export default {
 /* .DataShow .info:hover{
   cursor: pointer;
 } */
-
 .DataShow .Dtop {
   margin: 0;
 }

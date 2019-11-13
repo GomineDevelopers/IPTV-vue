@@ -28,7 +28,6 @@
     </div>
     <div class="programa">
       <span class="font_title">栏目：</span>
-
       <!-- <el-checkbox-group
         v-model=" programaChoose"
         v-for="(item,index) in programa"
@@ -155,7 +154,20 @@ export default {
       operatorChoose: [],
       operator_checkAll: false,
       operator_isIndeterminate: true,
-      programa: ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"],
+      programa: [
+        "分类",
+        "电视",
+        "推荐",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "游戏",
+        "应用"
+      ],
       programaChoose: [],
       programa_checkAll: false,
       programa_isIndeterminate: true,
@@ -175,7 +187,7 @@ export default {
         // }
       ],
       value_others: [], //其他节目类型选择
-      timeChoose: '',
+      timeChoose: "",
       time: {
         week: [
           // {
@@ -196,22 +208,26 @@ export default {
           //   label: "12月"
           // }
         ],
-        monthValue: "",
+        monthValue: ""
       }
     };
   },
   computed: {
-    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_week", "EPG_month", "EPG_time_type"])
+    ...mapGetters([
+      "EPG_operator",
+      "EPG_programa",
+      "EPG_week",
+      "EPG_month",
+      "EPG_time_type"
+    ])
   },
   watch: {
     operatorChoose(newValue, oldValue) {
       let vm = this;
       this.$store
         .dispatch("set_EPG_operator", newValue)
-        .then(function (response) {
-          // console.log(response);
-        })
-        .catch(function (error) {
+        .then(function(response) {})
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -220,16 +236,15 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_programa", newValue)
-        .then(function (response) {
-          // console.log(response);
+        .then(function(response) {
           vm.$store
             .dispatch("set_EPG_programa_type", 1)
-            .then(function (response) { })
-            .catch(function (error) {
+            .then(function(response) {})
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
@@ -237,101 +252,64 @@ export default {
       let vm = this;
       this.$store
         .dispatch("set_EPG_value_others", newValue)
-        .then(function (response) {
-          // console.log(response);
+        .then(function(response) {
           // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_EPG_programa_type", 2)
-            .then(function (response) { })
-            .catch(function (error) {
+            .then(function(response) {})
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
-
-    // "time.weekValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_EPG_week", newValue)
-    //     .then(function (response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function (error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.monthValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_EPG_month", newValue)
-    //     .then(function (response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function (error) {
-    //       console.info(error);
-    //     });
-    // },
-
     //监听运营商的变化
     EPG_operator(newValue, oldValue) {
-      this.programsSwitch()
-      this.getEpgProgramsTotal()
+      this.programsSwitch();
+      this.getEpgProgramsTotal();
     }
   },
   mounted() {
     let vm = this;
     // 初始化周
     let arr_temp = [];
-    setTimeout(function () {
-      // arr_temp = commonTools.weekDate(2018);
-      // arr_temp = commonTools.weekDate_add(2019, arr_temp);
+    setTimeout(function() {
       vm.time.week = commonTools.weekDate_ED();
-      // console.log("初始化vm.time.week", vm.time.week)
     }, 100);
 
     // 初始化月
-    setTimeout(function () {
-      // let arr_temp2 = commonTools.format_MonthDays(2018);
-      // arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
+    setTimeout(function() {
       vm.time.month = commonTools.format_MonthDays_ED();
-      // console.log("初始化vm.time.month", vm.time.month)
     }, 100);
-
     // ▲历史条件获取
-    setTimeout(function () {
+    setTimeout(function() {
       vm.$store
         .dispatch("get_EPG_operator")
-        .then(function (response) {
-          // console.log(response);
+        .then(function(response) {
           vm.operatorChoose = response;
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_EPG_programa")
-        .then(function (response) {
-          // console.log(response);
+        .then(function(response) {
           vm.programaChoose = response;
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
 
       //新增
       vm.$store
         .dispatch("get_EPG_week")
-        .then(function (res) {
+        .then(function(res) {
           vm.$store
             .dispatch("get_EPG_time_type")
-            .then(function (response) {
-              // console.log("~~~get_EPG_time_type:");
-              // console.log(response);
+            .then(function(response) {
               if (response == 1) {
-                console.log("history：" + response);
                 let length = vm.time.week.length;
                 let i;
                 let temp_label;
@@ -344,21 +322,19 @@ export default {
                 vm.time.weekValue = temp_label;
               }
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
       vm.$store
         .dispatch("get_EPG_month")
-        .then(function (res) {
+        .then(function(res) {
           vm.$store
             .dispatch("get_EPG_time_type")
-            .then(function (response) {
-              console.log("~~~get_EPG_time_type:");
-              console.log(response);
+            .then(function(response) {
               if (response == 2) {
                 console.log("history：" + response);
                 let length = vm.time.month.length;
@@ -373,17 +349,17 @@ export default {
                 vm.time.monthValue = temp_label;
               }
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }, 200);
 
-    this.getEpgProgramsTotal()
-    this.programsSwitch()
+    this.getEpgProgramsTotal();
+    this.programsSwitch();
   },
   methods: {
     operatorChoose_change(event) {
@@ -396,7 +372,7 @@ export default {
         this.operator_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         operatorChoose_new = vm.operatorChoose;
         vm.operatorChoose = commonTools.delete_repet_origin(
           operatorChoose_new,
@@ -409,7 +385,7 @@ export default {
     //   this.operator_isIndeterminate = !this.operator_isIndeterminate;
     // }
     programaChoose_change(event) {
-      this.value_others = null  //点击除其他栏目时清空其他栏目的下拉框
+      this.value_others = null; //点击除其他栏目时清空其他栏目的下拉框
       programaChoose_old = programaChoose_new;
       let checkedCount = event.length;
       this.programa_checkAll = checkedCount === this.programa.length;
@@ -419,7 +395,7 @@ export default {
         this.programa_isIndeterminate = true;
       }
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         programaChoose_new = vm.programaChoose;
         vm.programaChoose = commonTools.delete_repet_origin(
           programaChoose_new,
@@ -431,29 +407,77 @@ export default {
       this.programaChoose = val ? this.programa : [];
       this.programa_isIndeterminate = !this.programa_isIndeterminate;
     },
-
     //点击运营商切换栏目分类
     programsSwitch() {
-      let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //移动1.0栏目分类
-      let programs_yd_two = ["分类", "电视", "推荐", "vip", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
-      let programs_lt = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //联通栏目分类
-      let programs_dx = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //电信栏目分类
-
-      // console.log(this.EPG_operator)
+      let programs_yd_one = [
+        "分类",
+        "电视",
+        "推荐",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "游戏",
+        "应用"
+      ]; //移动1.0栏目分类
+      let programs_yd_two = [
+        "分类",
+        "电视",
+        "推荐",
+        "vip",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "游戏",
+        "纪实"
+      ]; //移动2.0栏目分类
+      let programs_lt = [
+        "分类",
+        "电视",
+        "推荐",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "游戏",
+        "应用"
+      ]; //联通栏目分类
+      let programs_dx = [
+        "分类",
+        "电视",
+        "推荐",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "游戏",
+        "应用"
+      ]; //电信栏目分类
       if (this.EPG_operator.length == 1) {
-        let operatorName = this.EPG_operator[0]
-        // console.log("选择运营商：", operatorName)
+        let operatorName = this.EPG_operator[0];
         switch (operatorName) {
-          case '移动1.0':
+          case "移动1.0":
             this.programa = programs_yd_one;
             break;
-          case '移动2.0':
+          case "移动2.0":
             this.programa = programs_yd_two;
             break;
-          case '联通':
+          case "联通":
             this.programa = programs_lt;
             break;
-          case '电信':
+          case "电信":
             this.programa = programs_dx;
             break;
           default:
@@ -464,141 +488,159 @@ export default {
 
     //获取总的栏目分类数据
     getEpgProgramsTotal() {
-
-      this.value_others = null  //运营商改变时初始化下拉框内容
-      let programs_yd_two = ["分类", "电视", "推荐", "vip", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "游戏", "纪实"]  //移动2.0栏目分类
-      let programs_yd_one = ["分类", "电视", "推荐", "电影", "热剧", "少儿", "动漫", "综艺", "体育", "纪实", "游戏", "应用"]  //1.0栏目分类
-      // console.log(this.EPG_operator)
-      let operator
+      this.value_others = null; //运营商改变时初始化下拉框内容
+      let programs_yd_two = [
+        "分类",
+        "电视",
+        "推荐",
+        "vip",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "游戏",
+        "纪实"
+      ]; //移动2.0栏目分类
+      let programs_yd_one = [
+        "分类",
+        "电视",
+        "推荐",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "游戏",
+        "应用"
+      ]; //1.0栏目分类
+      let operator;
       if (this.EPG_operator.length == 1) {
         // operator = this.EPG_operator[0]
-        if (this.EPG_operator[0] == '移动1.0' || this.EPG_operator[0] == '移动2.0') {
-          operator = '移动'
+        if (
+          this.EPG_operator[0] == "移动1.0" ||
+          this.EPG_operator[0] == "移动2.0"
+        ) {
+          operator = "移动";
         } else {
-          operator = this.EPG_operator[0]
+          operator = this.EPG_operator[0];
         }
         var formData = new FormData();
         var formData = new window.FormData();
         formData.append("operator", operator);
         epg_programs(formData)
-          .then((response) => {
-            console.log("运营商", operator)
-            console.log("EPG所有栏目分类", response.data.responses)
-            let programs_total = null
-            let epg_programs_total = []  //后台返回的总的节目类型
-            if (this.EPG_operator[0] == '移动2.0') {
-              programs_total = response.data.responses[1].aggregations.ti.buckets
-              console.log("EPG栏目分类移动2.0", epg_programs_total)
+          .then(response => {
+            console.log("运营商", operator);
+            console.log("EPG所有栏目分类", response.data.responses);
+            let programs_total = null;
+            let epg_programs_total = []; //后台返回的总的节目类型
+            if (this.EPG_operator[0] == "移动2.0") {
+              programs_total =
+                response.data.responses[1].aggregations.ti.buckets;
+              console.log("EPG栏目分类移动2.0", epg_programs_total);
               programs_total.forEach((value, index) => {
-                epg_programs_total.push(value.key)
-              })
-              var otherProgramsList = []  //其他节目类型数组（下拉框的值）
+                epg_programs_total.push(value.key);
+              });
+              var otherProgramsList = []; //其他节目类型数组（下拉框的值）
               epg_programs_total.forEach((value, index) => {
                 if (programs_yd_two.indexOf(value) == -1) {
                   otherProgramsList.push({
                     value: value,
                     lable: value
-                  })
+                  });
                 }
-              })
-              this.options_others = otherProgramsList  //设置 ‘其他’ 节目类型下拉框的值
+              });
+              this.options_others = otherProgramsList; //设置 ‘其他’ 节目类型下拉框的值
             } else {
-              programs_total = response.data.responses[0].aggregations.ti.buckets
+              programs_total =
+                response.data.responses[0].aggregations.ti.buckets;
               // console.log("EPG栏目分类1.0", epg_programs_total)
               programs_total.forEach((value, index) => {
-                epg_programs_total.push(value.key)
-              })
-              var otherProgramsList = []  //其他节目类型数组（下拉框的值）
+                epg_programs_total.push(value.key);
+              });
+              var otherProgramsList = []; //其他节目类型数组（下拉框的值）
               epg_programs_total.forEach((value, index) => {
                 if (programs_yd_one.indexOf(value) == -1) {
                   otherProgramsList.push({
                     value: value,
                     lable: value
-                  })
+                  });
                 }
-              })
-              this.options_others = otherProgramsList  //设置 ‘其他’ 节目类型下拉框的值
+              });
+              this.options_others = otherProgramsList; //设置 ‘其他’ 节目类型下拉框的值
             }
-
             //this.epgProgramsTotal = response.data.responses[0].aggregations.ti.buckets
             // console.log("栏目分类", this.epgProgramsTotal)
           })
-          .catch((error) => {
-            console.log("EPG", error)
-          })
+          .catch(error => {
+            console.log("EPG", error);
+          });
       }
     },
-
     //栏目 其他选项的控制
     otherOption(event) {
-      console.log(event)
-      let vm = this
-      vm.programaChoose = []
+      console.log(event);
+      let vm = this;
+      vm.programaChoose = [];
     },
-
     //时间 周 选项的控制
     handleWeek(event) {
       let vm = this;
       this.time.weekValue = String(event);
       this.time.monthValue = "";
       let newValue = String(event);
-
       vm.$store
         .dispatch("set_EPG_week", newValue)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
           // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_EPG_time_type", 1)
-            .then(function (response) { })
-            .catch(function (error) {
+            .then(function(response) {})
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },
-
     //时间 月 选项的控制
     handleMonth(event) {
-
       let vm = this;
       this.time.weekValue = "";
       this.time.monthValue = String(event);
       let newValue = String(event);
-
       vm.$store
         .dispatch("set_EPG_month", newValue)
-        .then(function (response) {
+        .then(function(response) {
           // console.log(response);
           // 设置 ULC_row3是否显示
           vm.$store
             .dispatch("set_EPG_time_type", 2)
-            .then(function (response) { })
-            .catch(function (error) {
+            .then(function(response) {})
+            .catch(function(error) {
               console.info(error);
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
-
     },
-
     distinct(a, b) {
-      let arr = a.concat(b)
-      var x = new Set(arr)
-      return [...x]
+      let arr = a.concat(b);
+      var x = new Set(arr);
+      return [...x];
     }
-  },
-
+  }
 };
 </script>
 
 <style>
 /* elementui 复选框背景色 统一修改 */
-
 .el-checkbox__input.is-checked + .el-checkbox__label {
   color: #ff6123;
 }

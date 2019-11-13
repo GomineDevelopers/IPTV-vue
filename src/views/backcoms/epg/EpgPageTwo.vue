@@ -31,28 +31,26 @@
 </template>
 <script>
 export default {
-  name: 'EpgPageTwo', //EPG一级页面
-  props: ['programesListTwo'],
+  name: "EpgPageTwo", //EPG一级页面
+  props: ["programesListTwo"],
   data() {
-    return {
-
-    }
+    return {};
   },
   mounted() {
     // console.log("二级页面", this.programesListTwo)
   }
-}
+};
 </script>
 <style scoped>
 .epg_page_container .epg_page_row {
-  /* height: 130px; */
-  /* margin: 14px 0px; */
   font-size: 12px;
   display: -webkit-flex;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
+  /* height: 130px; */
+  /* margin: 14px 0px; */
 }
 .epg_page_col {
   text-align: left;

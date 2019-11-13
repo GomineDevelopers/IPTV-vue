@@ -148,11 +148,14 @@ export default {
   mounted() {
     // this.users_subReport();
     let vm = this;
+    console.log("@@@@@@@@@@@");
+    console.log(vm.PR_operator);
+
     setTimeout(function() {
       vm.refresh_api_data();
       // excel 处理
       vm.Excel_data_manage();
-    }, 100);
+    }, 1000);
   },
   watch: {
     PR_operator(newValue, oldValue) {
@@ -162,7 +165,7 @@ export default {
         vm.refresh_api_data();
         // excel 处理
         vm.Excel_data_manage();
-      }, 100);
+      }, 1000);
     },
     PR_picker(newValue, oldValue) {
       let vm = this;
@@ -171,7 +174,7 @@ export default {
         vm.refresh_api_data();
         // excel 处理
         vm.Excel_data_manage();
-      }, 100);
+      }, 1000);
     },
     PR_value_specialName(newValue, oldValue) {
       let vm = this;
@@ -180,7 +183,7 @@ export default {
         vm.refresh_api_data();
         // excel 处理
         vm.Excel_data_manage();
-      }, 100);
+      }, 1000);
     }
   },
   methods: {
@@ -293,6 +296,40 @@ export default {
       }, 3000);
     },
     refresh_api_data() {
+      let vm = this;
+      // ▲初始化前移
+      console.log("▲▲▲▲");
+      console.log(vm.PR_operator);
+
+      vm.clickNumData.data = [
+        ["product", "-"],
+        ["移动", "-"],
+        ["联通", "-"],
+        ["电信", "-"]
+      ];
+      vm.pageProportionData.data = [];
+
+      vm.operatorProportionData.data = [];
+
+      vm.recommendPageData.data = [
+        ["product", "-"],
+        ["移动", "-"],
+        ["联通", "-"],
+        ["电信", "-"]
+      ];
+      vm.childrenPageData.data = [
+        ["product", "-"],
+        ["移动", "-"],
+        ["联通", "-"],
+        ["电信", "-"]
+      ];
+      vm.classifyPageData.data = [
+        ["product", "-"],
+        ["移动", "-"],
+        ["联通", "-"],
+        ["电信", "-"]
+      ];
+
       this.users_subReport("mixture");
       this.users_subReport("yd");
       this.users_subReport("lt");
@@ -389,6 +426,7 @@ export default {
             }
             ///////////
             try {
+              console.log(response);
               vm.pageProportionData.data = [];
               let buckets =
                 response.data.responses[1].aggregations.special_or_activity_name
@@ -410,7 +448,12 @@ export default {
             console.log(response);
 
             try {
-              vm.clickNumData.data = []; // 只在移动初始化
+              vm.clickNumData.data = [
+                ["product"],
+                ["移动"],
+                ["联通"],
+                ["电信"]
+              ]; // 只在移动初始化
               vm.operatorProportionData.data = []; // 只在移动初始化
               let buckets =
                 response.data.responses[1].aggregations.special_or_activity_name
@@ -435,13 +478,23 @@ export default {
                 }
               }, 500);
             } catch (error) {
-              vm.clickNumData.data = []; // 只在移动初始化
+              vm.clickNumData.data = [
+                ["product"],
+                ["移动"],
+                ["联通"],
+                ["电信"]
+              ]; // 只在移动初始化
               vm.operatorProportionData.data = []; // 只在移动初始化
               console.log(error);
             }
             // ///////
             try {
-              vm.recommendPageData.data = []; // 只在移动初始化
+              vm.recommendPageData.data = [
+                ["product"],
+                ["移动"],
+                ["联通"],
+                ["电信"]
+              ]; // 只在移动初始化
               let buckets_days =
                 response.data.responses[1].aggregations.statistical_granularity
                   .buckets;
@@ -505,7 +558,12 @@ export default {
               }
             } catch (error) {
               console.log(error);
-              vm.recommendPageData.data = []; // 只在移动初始化
+              vm.recommendPageData.data = [
+                ["product"],
+                ["移动"],
+                ["联通"],
+                ["电信"]
+              ]; // 只在移动初始化
             }
           }
           if (operator_type == "lt") {

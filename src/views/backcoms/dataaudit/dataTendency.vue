@@ -59,14 +59,11 @@ export default {
         tmpData.symbol = "circle";
         tmpData.data = stringArray[i].split("\t");
         for (var j = 0; j < tmpData.data.length; j++) {
-          // tmpData.data[j] = parseFloat(tmpData.data[j]).toFixed(2);
           Vue.set(tmpData.data,j,parseFloat(tmpData.data[j]).toFixed(2));
         }
         tmpData.name = nameArray[i];
-        // seriesData[i] = tmpData;
         Vue.set(seriesData,i,tmpData);
        }
-
       //设置异常值提示
       // seriesData[5].markPoint = {
       //   symbol: "Rect",
@@ -82,7 +79,6 @@ export default {
       //     }
       //   ]
       // };
-
       // 指定图表的配置项和数据
       var option = {
         color: [
@@ -190,7 +186,6 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
       dataTendencyChart.clear();
       dataTendencyChart.setOption(option);
-
       window.addEventListener("resize", () => {
         dataTendencyChart.resize();
       });

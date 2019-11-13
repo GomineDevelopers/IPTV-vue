@@ -14,27 +14,14 @@ export default {
     }
   },
   watch: {
-    // chartData(newValue, oldValue) {
-    //   let vm = this;
-    //   console.log("AAAAAAAAAAAAAAA")
-
-    //   setTimeout(function () {
-    //     vm.drawLine();
-    //   }, 1000);
-    // },
     PR_week(newValue, oldValue) {
       let vm = this;
       setTimeout(function () {
         vm.drawLine();
       }, 1000);
     },
-
     chartData_Change(newValue, oldValue) {
       let vm = this;
-      // console.log("AAAAAAAAAAAAAAA")
-      // if (vm.PR_week) {
-      //   // do nothing. --监听
-      // }
       setTimeout(function () {
         vm.drawLine();
       }, 1000);
@@ -80,7 +67,6 @@ export default {
               label_formatter: vm.chartData.label_formatter,
               legend_show: vm.chartData.legend_show
             };
-            // console.log(temp);
             setTimeout(function () {
               vm.drawLine();
             }, 500);
@@ -89,12 +75,9 @@ export default {
           // return vm.chartData;
         }
         if (vm.chartData.id == "GT_UVWR1_B1") {
-          // console.log(vm.PR_operator);
           if (vm.PR_operator.length == 0) {
             // do nothing.
           }
-          // console.log("-------------mytest")
-          // console.log(vm.chartData)
           setTimeout(function () {
             vm.drawLine();
           }, 1000);

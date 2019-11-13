@@ -5,9 +5,10 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Vue from "vue";
 
 export default {
-  name: "BarChartSingle",
+  name: "BarChartsStack_ShowTop",
   props: {
     chartData: {
       type: Object
@@ -16,55 +17,7 @@ export default {
   watch: {
     chartData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    PR_month(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    PR_operator(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-
-    PR_picker(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    PR_value_specialName(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    ADD_ALL_operator(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    ADD_ALL_week(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    ADD_ALL_month(newValue, oldValue) {
-      let vm = this;
-      setTimeout(function() {
-        vm.drawLine();
-      }, 2000);
-    },
-    ADD_ALL_time_type(newValue, oldValue) {
-      let vm = this;
+      console.log("@@@@@");
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
@@ -94,12 +47,12 @@ export default {
         vm.drawLine();
       }, 2000);
     },
-    // UVB_contenttype(newValue, oldValue) {
-    //   let vm = this;
-    //   setTimeout(function() {
-    //     vm.drawLine();
-    //   }, 2000);
-    // },
+    UVB_contenttype(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
     UVB_day(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -149,7 +102,6 @@ export default {
         vm.drawLine();
       }, 2000);
     },
-
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
@@ -173,30 +125,34 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
+    },
+
+    ADD_VIP_targetOption(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
+    },
+    UVB_targetOption(newValue, oldValue) {
+      let vm = this;
+      console.log("▲▲▲▲");
+      console.log(newValue);
+      setTimeout(function() {
+        vm.drawLine();
+      }, 2000);
     }
   },
   computed: {
     ...mapGetters([
-      "PR_operator",
-      "PR_month",
-
       "UVB_region",
       "UVB_operator",
       "UVB_playmode",
       "UVB_programa",
-      // "UVB_contenttype",
+      "UVB_contenttype",
       "UVB_day",
       "UVB_week",
       "UVB_picker",
       "UVB_time_type",
-
-      "PR_week",
-      "PR_picker",
-      "PR_value_specialName",
-      "ADD_ALL_operator",
-      "ADD_ALL_week",
-      "ADD_ALL_month",
-      "ADD_ALL_time_type",
 
       "ADD_VIP_region",
       "ADD_VIP_operator",
@@ -205,118 +161,25 @@ export default {
       "ADD_VIP_day",
       "ADD_VIP_week",
       "ADD_VIP_picker",
-      "ADD_VIP_time_type"
-    ]),
-    // ...this.$mapGetters(["PR_operator"]),
+      "ADD_VIP_time_type",
 
+      "ADD_VIP_targetOption",
+      "UVB_targetOption"
+    ]),
     chartData_Change: {
       get: function() {
         let vm = this;
         let data = [];
-        // ★由于该组件是复用组件-涉及不同筛选条件的渲染-用唯一值（id）做数据+渲染
-        if (vm.chartData.id == "specialClickNum") {
-          data.push(vm.chartData.data[0]);
-          if (this.PR_operator == null || this.PR_operator.length == 0) {
-            data.push(vm.chartData.data[1]);
-            data.push(vm.chartData.data[2]);
-            data.push(vm.chartData.data[3]);
-          } else {
-            if (this.PR_operator.indexOf("移动") > -1) {
-              data.push(vm.chartData.data[1]);
-            }
-            if (this.PR_operator.indexOf("联通") > -1) {
-              data.push(vm.chartData.data[2]);
-            }
-            if (this.PR_operator.indexOf("电信") > -1) {
-              data.push(vm.chartData.data[3]);
-            }
-          }
-          // 视图更新
-          setTimeout(function() {
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: vm.chartData.color,
-            data: data
-          };
-        }
+        let color = [];
 
-        if (vm.chartData.id == "columnChart") {
-          if (vm.UVB_programa == null || vm.UVB_programa.length == 0) {
-            data = vm.chartData.data;
-          } else {
-            data.push(vm.chartData.data[0]);
-            data = vm.chartData.data;
-          }
-          // 视图更新
-          setTimeout(function() {
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: vm.chartData.color,
-            data: data
-          };
-        }
-
-        if (vm.chartData.id == "columnChart_vip") {
-          if (vm.ADD_VIP_programa == null || vm.ADD_VIP_programa.length == 0) {
-            data = vm.chartData.data;
-          } else {
-            data = vm.chartData.data;
-          }
-          // 视图更新
-          setTimeout(function() {
-            vm.drawLine();
-          }, 2000);
-          return {
-            title: vm.chartData.title,
-            id: vm.chartData.id,
-            color: vm.chartData.color,
-            data: data
-          };
-        }
-        if (
-          vm.chartData.id == "hebdomadViewNum" ||
-          vm.chartData.id == "hebdomadDibbleSeeding" ||
-          vm.chartData.id == "localProgramsPlay" ||
-          vm.chartData.id == "hebdomadLive" ||
-          vm.chartData.id == "channelLiveUserNum" ||
-          vm.chartData.id == "channelLiveTimes" ||
-          vm.chartData.id == "channelLiveDuration" ||
-          vm.chartData.id == "liveProgramTOP" ||
-          vm.chartData.id == "localProgramTOP" ||
-          vm.chartData.id == "satelliteLiveProgramTOP"
-        ) {
-          if (vm.PR_week) {
-            // do nothing. --监听
-          }
-        }
-        if (
-          vm.chartData.id == "monthOrder" ||
-          vm.chartData.id == "monthVIPOrder" ||
-          vm.chartData.id == "monthVIPOrderIncome"
-        ) {
-          if (vm.PR_month && vm.PR_week) {
-            // do nothing. --监听
-          }
-        }
-
-        // 视图更新
         setTimeout(function() {
           vm.drawLine();
         }, 2000);
         return vm.chartData;
       },
-      set: function(newValue) {
-        //
-      }
+      set: function(newValue) {}
     }
   },
-
   data() {
     return {};
   },
@@ -329,27 +192,103 @@ export default {
   methods: {
     drawLine() {
       let vm = this;
-      var barChartSingle = this.$echarts.init(
-        document.getElementById(this.chartData_Change.id)
+      var barGraphChart = vm.$echarts.init(
+        document.getElementById(vm.chartData_Change.id)
       );
       let seriesData = [];
       //设置series数据条数
+      console.log(vm.chartData);
+      console.log(vm.chartData_Change);
       try {
-        for (let i = 1; i <= vm.chartData_Change.data[0].length - 1; i++) {
-          seriesData.push({ type: "bar", barWidth: "12" });
+        // 处理顶部Top问题
+
+        let m_UVB_targetOption = vm.UVB_targetOption;
+        let m_ADD_VIP_targetOption = vm.ADD_VIP_targetOption;
+
+        let region_t = [];
+        for (let z = 1; z < vm.chartData_Change.data.length; z++) {
+          region_t.push(vm.chartData_Change.data[z][0]);
+        }
+        let length_t = vm.chartData_Change.data[0].length;
+        for (let i = 1; i <= length_t - 1; i++) {
+          // seriesData.push({ type: "bar", stack: "堆叠", barWidth: "12" });
+          let barType = 0;
+          if (i == length_t - 1) {
+            barType = 1;
+          }
+          seriesData.push(seriesItem(region_t, barType));
+        }
+        function seriesItem(myregion, mybarType) {
+          if (mybarType == 1) {
+            return {
+              type: "bar",
+              stack: "堆叠",
+              // stack: "总量",
+              barWidth: "12",
+              label: {
+                normal: {
+                  show: true,
+                  position: "top",
+                  formatter: function(params) {
+                    /////
+                    // console.log(params)
+                    let region_index = 0;
+                    for (let t = 0; t < myregion.length; t++) {
+                      if (myregion[t] == params.name) {
+                        region_index = t;
+                      }
+                    }
+                    let m_perAC_SumOperator = 0;
+                    let region_index_data =
+                      vm.chartData_Change.data[region_index + 1];
+                    for (let z = 1; z < region_index_data.length; z++) {
+                      m_perAC_SumOperator += parseFloat(region_index_data[z]);
+                    }
+                    if (vm.chartData_Change.id == "operatorChart") {
+                      // console.log("@@@@@@@@@@@@@@@@");
+                      // console.log(m_UVB_targetOption);
+                      if(m_UVB_targetOption == "次均收视时长（时）" || m_UVB_targetOption == "户均收视次数（次）"){
+                        return ""
+                      }
+                      return (
+                        String(
+                          (parseFloat(m_perAC_SumOperator) / 10000).toFixed(1)
+                        ) + "万"
+                      );
+                    }
+                    if (vm.chartData_Change.id == "operatorChart_vip") {
+                      // console.log("@@@@@@@@@@@@@@@@");
+                      // console.log(m_ADD_VIP_targetOption);
+                      if(m_ADD_VIP_targetOption == "次均收视时长（时）" || m_ADD_VIP_targetOption == "户均收视次数（次）"){
+                        return ""
+                      }
+                      return m_perAC_SumOperator;
+                    }
+                    // 关于次均、户均的，堆叠图不能直接加
+
+                    /////
+                    return "";
+
+                  },
+                  textStyle: {
+                    color: "black",
+                    fontSize: 12
+                  }
+                }
+              }
+            };
+          }
+          return { type: "bar", stack: "堆叠", barWidth: "12" };
         }
       } catch (error) {
         console.log(error);
       }
       var option = {
-        color: this.chartData_Change.color,
-        textStyle: {
-          color: "rgba(0, 0, 0, 0.65)"
-        },
+        color: vm.chartData_Change.color,
         title: {
-          text: this.chartData_Change.title,
+          text: vm.chartData_Change.title,
           x: "left",
-          y: "0",
+          y: "10",
           textStyle: {
             fontStyle: "normal",
             fontWeight: "normal",
@@ -381,14 +320,14 @@ export default {
           }
         },
         grid: {
-          top: "30%",
+          top: "35%",
           left: "10",
           right: "5",
           bottom: "10",
           containLabel: true
         },
         dataset: {
-          source: this.chartData_Change.data
+          source: vm.chartData_Change.data
         },
         xAxis: {
           type: "category",
@@ -412,12 +351,7 @@ export default {
         yAxis: {
           // 刻度线的设置
           splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              type: "dotted",
-              opacity: 0.2
-            }
+            show: false
           },
           axisLine: {
             show: false, //Y轴不显示
@@ -438,10 +372,10 @@ export default {
         },
         series: seriesData
       };
-      barChartSingle.clear();
-      barChartSingle.setOption(option);
+      barGraphChart.clear();
+      barGraphChart.setOption(option);
       window.addEventListener("resize", () => {
-        barChartSingle.resize();
+        barGraphChart.resize();
       });
     }
   }

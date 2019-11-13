@@ -1939,15 +1939,25 @@ export default {
           sum_7_0_dx_nin += add_value_dx;
         }
         //// m7_0
-        Vue.set(m7_0.row1, length_7_0 + 2, sum_7_0_yd_nn);
-        Vue.set(m7_0.row2, length_7_0 + 1, sum_7_0_yd_uun);
-        Vue.set(m7_0.row3, length_7_0 + 1, sum_7_0_yd_nin);
-        Vue.set(m7_0.row4, length_7_0 + 2, sum_7_0_lt_nn);
-        Vue.set(m7_0.row5, length_7_0 + 1, sum_7_0_lt_uun);
-        Vue.set(m7_0.row6, length_7_0 + 1, sum_7_0_lt_nin);
-        Vue.set(m7_0.row7, length_7_0 + 2, sum_7_0_dx_nn);
-        Vue.set(m7_0.row8, length_7_0 + 1, sum_7_0_dx_uun);
-        Vue.set(m7_0.row9, length_7_0 + 1, sum_7_0_dx_nin);
+        // Vue.set(m7_0.row1, length_7_0 + 2, sum_7_0_yd_nn);
+        // Vue.set(m7_0.row2, length_7_0 + 1, sum_7_0_yd_uun);
+        // Vue.set(m7_0.row3, length_7_0 + 1, sum_7_0_yd_nin);
+        // Vue.set(m7_0.row4, length_7_0 + 2, sum_7_0_lt_nn);
+        // Vue.set(m7_0.row5, length_7_0 + 1, sum_7_0_lt_uun);
+        // Vue.set(m7_0.row6, length_7_0 + 1, sum_7_0_lt_nin);
+        // Vue.set(m7_0.row7, length_7_0 + 2, sum_7_0_dx_nn);
+        // Vue.set(m7_0.row8, length_7_0 + 1, sum_7_0_dx_uun);
+        // Vue.set(m7_0.row9, length_7_0 + 1, sum_7_0_dx_nin);
+        // 总计固定位置
+        Vue.set(m7_0.row1, 7 + 2, sum_7_0_yd_nn);
+        Vue.set(m7_0.row2, 7 + 1, sum_7_0_yd_uun);
+        Vue.set(m7_0.row3, 7 + 1, sum_7_0_yd_nin);
+        Vue.set(m7_0.row4, 7 + 2, sum_7_0_lt_nn);
+        Vue.set(m7_0.row5, 7 + 1, sum_7_0_lt_uun);
+        Vue.set(m7_0.row6, 7 + 1, sum_7_0_lt_nin);
+        Vue.set(m7_0.row7, 7 + 2, sum_7_0_dx_nn);
+        Vue.set(m7_0.row8, 7 + 1, sum_7_0_dx_uun);
+        Vue.set(m7_0.row9, 7 + 1, sum_7_0_dx_nin);
         // console.log("■■■■■■■■■■");
         // console.log(sum_7_0_dx_nin);
 

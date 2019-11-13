@@ -18,10 +18,11 @@ export default {
       "ULC_operator",
       "ULC_day",
       "ULC_week",
-      "ULC_month"
+      "ULC_month",
+      "ULC_time_type",
     ]),
     data1_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (
           vm.ULC_region &&
@@ -33,15 +34,16 @@ export default {
           // do nothing. -- 监听
         }
 
-        setTimeout(function () {
+        setTimeout(function() {
           vm.drawLine();
+          vm.drawLine2();
         }, 2000);
         return vm.data1;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     data2_Change: {
-      get: function () {
+      get: function() {
         var vm = this;
         if (
           vm.ULC_region &&
@@ -60,7 +62,13 @@ export default {
         var d1 = [];
         var d2 = [];
         if (vm.ULC_region == null || vm.ULC_region.length == 0) {
-          if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
+          if (
+            vm.ULC_region &&
+            vm.ULC_operator &&
+            vm.ULC_day &&
+            vm.ULC_week &&
+            vm.ULC_month
+          ) {
             // do nothing. --监听
           }
           region = vm.data2.region;
@@ -114,7 +122,6 @@ export default {
               regionChange(i_x, i_x);
               continue;
             }
-
           }
           // if (vm.ULC_region.indexOf("贵阳") > -1) {
           //   regionChange(0, 0);
@@ -180,8 +187,8 @@ export default {
         }
 
         // 视图更新
-        setTimeout(function () {
-          // console.log("Registered echartsB 视图更新");
+        setTimeout(function() {
+          vm.drawLine();
           vm.drawLine2();
         }, 2000);
         return {
@@ -192,57 +199,94 @@ export default {
           showData: showData
         };
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   watch: {
+    ULC_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+        vm.drawLine2();
+      }, 2000);
+    },
+    ULC_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+        vm.drawLine2();
+      }, 2000);
+    },
     ULC_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
+        vm.drawLine2();
       }, 2000);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
+        vm.drawLine2();
       }, 2000);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawLine();
+        vm.drawLine2();
+      }, 2000);
+    },
+    ULC_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawLine();
+        vm.drawLine2();
       }, 2000);
     },
     api_data1(newValue, oldValue) {
       let vm = this;
       console.log("ULC - api_data1:");
       console.log(newValue);
-      vm.data1 = vm.api_data1
+      vm.data1 = vm.api_data1;
       //vm.data1.data2 = ["299.5", "213.4"]; // 测试
       // 此处组件-刷新-drawline()
-      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
-        // do nothing. --监听
-      }
-      setTimeout(function () {
+      // if (
+      //   vm.ULC_region &&
+      //   vm.ULC_operator &&
+      //   vm.ULC_day &&
+      //   vm.ULC_week &&
+      //   vm.ULC_month
+      // ) {
+      //   // do nothing. --监听
+      // }
+      setTimeout(function() {
         vm.drawLine();
+        vm.drawLine2();
       }, 2000);
     },
     api_data2(newValue, oldValue) {
       let vm = this;
       console.log("ULC - api_data2:");
       console.log(newValue);
-      vm.data2 = vm.api_data2
-      if (vm.ULC_region && vm.ULC_operator && vm.ULC_day && vm.ULC_week && vm.ULC_month) {
-        // do nothing. --监听
-      }
-      setTimeout(function () {
+      vm.data2 = vm.api_data2;
+      // if (
+      //   vm.ULC_region &&
+      //   vm.ULC_operator &&
+      //   vm.ULC_day &&
+      //   vm.ULC_week &&
+      //   vm.ULC_month
+      // ) {
+      //   // do nothing. --监听
+      // }
+      setTimeout(function() {
+        vm.drawLine();
         vm.drawLine2();
       }, 2000);
       //vm.data1.data2 = ["299.5", "213.4"]; // 测试
       // 此处组件-刷新-drawline()
-
-    },
+    }
   },
   data() {
     return {
@@ -268,7 +312,7 @@ export default {
         // ],
         // operator: ["移动", "联通", "电信"],
         // showData: [
-        //   [3000, 2800, 2700, 2800, 2700, 2500, 2600, 2700, 2800],
+        //   [3000, 2800, 2700, 2800, 2700, 2000, 2600, 2700, 2800],
         //   [4500, 4400, 4300, 4200, 4000, 4100, 4200, 4300, 4400],
         //   [6000, 5800, 5700, 5600, 5400, 5500, 5600, 5500, 5300]
         // ]
@@ -280,8 +324,11 @@ export default {
     // console.log("api_data2", this.api_data2)
     // this.drawLine();
     // this.drawLine2();
-    this.data1 = this.api_data1
-    this.data2 = this.api_data2
+    let vm = this;
+    setTimeout(function() {
+      vm.data1 = vm.api_data1;
+      vm.data2 = vm.api_data2;
+    }, 2000);
   },
   methods: {
     drawLine() {
@@ -341,7 +388,7 @@ export default {
         yAxis: [
           {
             axisLabel: {
-              formatter: function () {
+              formatter: function() {
                 return ""; // 隐藏Y左边数据
               }
             },
@@ -374,7 +421,7 @@ export default {
             itemStyle: {
               normal: {
                 //每根柱子颜色设置
-                color: function (params) {
+                color: function(params) {
                   var colorList = ["#FFAA89", "#FF6123"];
                   return colorList[params.dataIndex];
                 },
@@ -413,11 +460,71 @@ export default {
       // console.log(color);
 
       for (i = 0; i < length; i++) {
-        series.push(seriesItem(operator[i], showData[i], color[i]));
+        let barType = 0; // 0 - 为非总和bar  1 - 为总和bar
+        if (i == length - 1) {
+          barType = 1;
+        }
+        series.push(
+          seriesItem(region, operator[i], showData[i], color[i], barType, i)
+        );
       }
+
       // console.log(series);
 
-      function seriesItem(myoperator, myshowData, mycolor) {
+      function seriesItem(
+        myregion,
+        myoperator,
+        myshowData,
+        mycolor,
+        mybarType,
+        current_i
+      ) {
+        if (mybarType == 1) {
+          return {
+            name: myoperator,
+            type: "bar",
+            barWidth: "33%", //柱图宽度
+            stack: "总量",
+            label: {
+              normal: {
+                show: true,
+                position: "top",
+                // formatter: "{a}{b}{c}{d}",
+                formatter: function(params) {
+                  // console.log(params);
+                  let region_index = 0;
+                  for (let t = 0; t < myregion.length; t++) {
+                      // console.log(myregion[t])
+                      // console.log(params)
+                      // console.log(params.name)
+                    if (myregion[t] == params.name) {
+                      // console.log("■■■■■■■■■■■■■■■■")
+                      region_index = t;
+                    }
+                  }
+                  let m_perAC_SumOperator = 0;
+                  // console.log("▲▲▲▲▲▲▲");
+                  // console.log("▲▲▲▲▲▲▲");
+                  // console.log(showData);
+                  for (let z = 0; z < operator.length; z++) {
+                    m_perAC_SumOperator += showData[z][region_index];
+                    // console.log(z);
+                    // console.log(region_index);
+                    // console.log(showData[z][region_index]);
+                  }
+                    // console.log(m_perAC_SumOperator);
+                  return m_perAC_SumOperator;
+                },
+                textStyle: {
+                  color: "black",
+                  fontSize: 12
+                }
+              }
+            },
+            data: myshowData,
+            color: mycolor
+          };
+        }
         return {
           name: myoperator,
           type: "bar",
@@ -429,6 +536,7 @@ export default {
               position: "insideRight"
             }
           },
+
           data: myshowData,
           color: mycolor
         };

@@ -234,19 +234,9 @@ export default {
       "PR_downloadNum_child",
       "PR_downloadNum_parent",
       "PR_excel_DownloadingStatus"
-      // "PR_operator"
     ])
   },
   watch: {
-    // PR_operator(newValue, oldValue) {
-    //   let vm = this;
-    //   vm.operatorChoose = ["移动", "联通", "电信"];
-    //   vm.operatorChoose2 = ["移动"];
-    //   operatorChoose_new = []; // 多选框-初始化
-    //   operatorChoose_old = []; // 多选框-初始化
-    //   operatorChoose_new2 = ["移动"]; // 单选框-初始化
-    //   operatorChoose_old2 = ["移动"]; // 单选框-初始化
-    // },
     PR_excel_ifCanDownload(newValue, oldValue) {
       let vm = this;
       let status = newValue;
@@ -266,16 +256,7 @@ export default {
       this.$store
         .dispatch("set_PR_operator", newValue)
         .then(function(response) {
-          // console.log(response);
-          console.log(newValue);
-          // vm.$store
-          //   .dispatch("get_PR_operator")
-          //   .then(function(response) {
-          //     console.log(response);
-          //   })
-          //   .catch(function(error) {
-          //     console.info(error);
-          //   });
+          // console.log(newValue);
         })
         .catch(function(error) {
           console.info(error);
@@ -286,65 +267,12 @@ export default {
       this.$store
         .dispatch("set_PR_operator", newValue)
         .then(function(response) {
-          // console.log(response);
-          console.log(newValue);
-          // vm.$store
-          //   .dispatch("get_PR_operator")
-          //   .then(function(response) {
-          //     console.log(response);
-          //   })
-          //   .catch(function(error) {
-          //     console.info(error);
-          //   });
+          // console.log(newValue);
         })
         .catch(function(error) {
           console.info(error);
         });
     },
-    // "time.dayValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_PR_day", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.weekValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_PR_week", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.monthValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_PR_month", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.pickerValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_PR_picker", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // }
     value_specialName(newValue, oldValue) {
       let vm = this;
       this.$store
@@ -560,36 +488,15 @@ export default {
     this.handlerClass();
   },
   mounted() {
-    // console.log(commonTools.format_MonthDays_byDWMMr(2018, 4));
-    // console.log(commonTools.format_WeeksDays_byDWwr(2018, 4));
-
     let vm = this;
-
     this.specialName_init();
-
     // 初始化周
-    // let arr_temp = [];
-    // arr_temp = commonTools.weekDate(2018);
-    // setTimeout(function() {
-    //   arr_temp = commonTools.weekDate_add(2019, arr_temp);
-    //   vm.time.week = arr_temp;
-    // }, 100);
-    // let arr_temp = [];
     setTimeout(function() {
-      // arr_temp = commonTools.format_WeeksDays_byDWwr(2018, 4);
-      // arr_temp = commonTools.format_WeeksDays_byDWwr_add(2019, 4, arr_temp);
       vm.time.week = commonTools.format_WeeksDays_byDWwr_ED();
     }, 100);
 
     // 初始化月
-    // let arr_temp2 = commonTools.format_MonthDays(2018);
-    // setTimeout(function() {
-    //   arr_temp2 = commonTools.format_MonthDays_add(2019, arr_temp2);
-    //   vm.time.month = arr_temp2;
-    // }, 100);
     setTimeout(function() {
-      // let arr_temp2 = commonTools.format_MonthDays_byDWMMr(2018, 4);
-      // arr_temp2 = commonTools.format_MonthDays_byDWMMr_add(2019, 4, arr_temp2);
       vm.time.month = commonTools.format_MonthDays_byDWMMr_ED();
     }, 500);
 
@@ -642,7 +549,6 @@ export default {
       vm.$store
         .dispatch("get_PR_operator")
         .then(function(response) {
-          // console.log(response);
           vm.operatorChoose = response;
           // vm.operatorChoose2 = response;
           vm.operatorChoose2 = ["移动"]; // 固定
@@ -654,8 +560,6 @@ export default {
       vm.$store
         .dispatch("get_PR_picker")
         .then(function(res) {
-          // console.log("~~~~res： ");
-          // console.log(res);
           if (res.length != 0) {
             let temp = [];
             let t_arr = res.split(",");
@@ -674,8 +578,6 @@ export default {
       let vm = this;
       subReport_list()
         .then(function(response) {
-          // console.log("~~~~~~~~specialName_init");
-          // console.log(response);
           // options_specialName: [
           // 专区专题名称 -- 先从后台获取
           // {
@@ -707,13 +609,12 @@ export default {
         });
     },
     dayChange(event) {
-      // console.log("dayChange");
       let vm = this;
-      console.log(event);
-      console.log(typeof event);
+      // console.log(event);
+      // console.log(typeof event);
       let string_event = String(event);
       let m_time = commonTools.dayChange(string_event);
-      console.log(m_time);
+      // console.log(m_time);
       // this.dayReport.start = m_time;
       // this.dayReport.end = m_time;
       let newValue = {
@@ -730,63 +631,30 @@ export default {
         });
     },
     weekChange(event) {
-      console.log("~~~~~~event:");
-      console.log(event);
-      console.log("~~~split");
-      console.log(commonTools.split_WeeksDays_byDWwr(event));
-
+      // console.log(event);
+      // console.log(commonTools.split_WeeksDays_byDWwr(event));
       let vm = this;
       let newValue = event;
-
-      // let m_time1;
-      // let m_time2;
-      // if (String(event) == "选项1") {
-      //   m_time1 = "2019-07-01";
-      //   m_time2 = "2019-07-07";
-      // }
-      // if (String(event) == "选项2") {
-      //   m_time1 = "2019-07-08";
-      //   m_time2 = "2019-07-14";
-      // }
-      // if (String(event) == "选项3") {
-      //   m_time1 = "2019-07-15";
-      //   m_time2 = "2019-07-21";
-      // }
-      // if (String(event) == "选项4") {
-      //   m_time1 = "2019-07-22";
-      //   m_time2 = "2019-07-28";
-      // }
-      // newValue = {
-      //   start: m_time1,
-      //   end: m_time2
-      // };
-
       this.$store
         .dispatch("set_PR_week", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
+        .then(function(response) {})
         .catch(function(error) {
           console.info(error);
         });
     },
     monthChange(event) {
-      console.log("~~~~~~month event:");
-      console.log(event);
-      console.log("~~~split");
-      console.log(commonTools.split_MonthDays_byDWMMr(event));
+      // console.log(event);
+      // console.log(commonTools.split_MonthDays_byDWMMr(event));
       let newValue = event;
       this.$store
         .dispatch("set_PR_month", newValue)
-        .then(function(response) {
-          // console.log(response);
-        })
+        .then(function(response) {})
         .catch(function(error) {
           console.info(error);
         });
     },
     pickerValue_change(event) {
-      console.log(event);
+      // console.log(event);
       let vm = this;
       this.time.dayValue = "";
       this.time.weekValue = "";
@@ -796,9 +664,7 @@ export default {
       // let newValue = event;
       vm.$store
         .dispatch("set_PR_picker", newValue)
-        .then(function(response) {
-          console.log(response);
-        })
+        .then(function(response) {})
         .catch(function(error) {
           console.info(error);
         });
@@ -848,6 +714,7 @@ export default {
     },
     //点击报表对应切换
     setReportOption(reportName, routerLink, num, index) {
+      console.log("※※※※※※※※※※※※※※※");
       let vm = this;
 
       let value1;
@@ -867,7 +734,6 @@ export default {
       }
       value2 = index;
       temp_PR_Report_index = value1 + value2;
-      // console.log("~~~~~~temp_PR_Report_index:" + temp_PR_Report_index);
 
       // 设置区分运营商
       if (
@@ -876,7 +742,8 @@ export default {
         reportName == "市场业务运营数据分析周报" ||
         reportName == "G+TV用户收视行为周报" ||
         reportName == "G+TV月度用户收视行为报告" ||
-        reportName == "专题专区数据报告"
+        reportName == "电信VIP增值业务专项分析" ||
+        reportName == "专题专区数据报告" 
       ) {
         vm.operatorChoose = ["移动", "联通", "电信"];
         operatorChoose_new = []; // 多选框-初始化
@@ -887,7 +754,8 @@ export default {
           .catch(function(error) {
             console.info(error);
           });
-      } else {
+      }
+      if (reportName == "运营数据周报") {
         vm.operatorChoose2 = ["移动"];
         operatorChoose_new2 = ["移动"]; // 单选框-初始化
         operatorChoose_old2 = ["移动"]; // 单选框-初始化
@@ -903,12 +771,12 @@ export default {
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
         .then(function(response_dataArr) {
-          console.log("下载关");
+          // console.log("下载关");
           // 下载 title/data 数据初始化
           vm.$store
             .dispatch("init_PR_Excel_dataArr_titleArr", "")
             .then(function(response_init) {
-              console.log(response_init);
+              // console.log(response_init);
             })
             .catch(function(error) {
               console.info(error);
@@ -953,14 +821,28 @@ export default {
 
     //点击确定按钮提交数据
     submitOption() {
-      // console.log(this.dayValue);
-      // console.log(this.weekValue);
-      // console.log(this.monthValue);
-      // console.log(this.pickerValue);
-      this.$emit("setRoute", {
+      let vm = this;
+      // 重置所有时间为空：天周月范围
+      // PR_day: null,
+      // PR_week: null,
+      // PR_month: null,
+      // PR_picker: [],
+      // vm.$store
+      //   .dispatch("init_AllPRTime", "")
+      //   .then(function(response_dataArr) {
+      //     vm.$emit("setRoute", {
+      //       // repotrName: this.reportOption,
+      //       // operatorOption: this.operatorChoose,
+      //       routerLink: vm.routerLink
+      //     });
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+      vm.$emit("setRoute", {
         // repotrName: this.reportOption,
         // operatorOption: this.operatorChoose,
-        routerLink: this.routerLink
+        routerLink: vm.routerLink
       });
     },
     //页面刷新时定期报告恢复默认路由
@@ -980,7 +862,6 @@ export default {
         .then(function(response_index) {
           // console.log("~~~~~当前报告序数");
           // console.log(response_index);
-          // ///
           let excelName = "";
           switch (response_index) {
             case 1:
@@ -1013,8 +894,9 @@ export default {
           // console.log(excelName);
           require.ensure([], () => {
             const { exportExcel } = require("../../../vendor/Export2Excel");
-            const { export_json_to_excel_new } = require("../../../vendor/Export2Excel");
-            
+            const {
+              export_json_to_excel_new
+            } = require("../../../vendor/Export2Excel");
             // 获取当前excel data --延时3s
             vm.$store
               .dispatch("set_PR_excel_DownloadingStatus", 1)
@@ -1035,7 +917,6 @@ export default {
                       temp_titleArr = [];
                       let temp_DataArr = new Array();
                       temp_DataArr = [];
-
                       // temp_titleArr = response_title;
                       // temp_DataArr = response_dataArr;
                       if (
@@ -1060,7 +941,6 @@ export default {
                       }
                       // console.log(temp_titleArr.length);
                       // console.log(temp_DataArr.length);
-
                       // /// 临时
                       // temp_titleArr.push(["title1"]);
                       // temp_titleArr.push(["title2"]);
@@ -1081,7 +961,11 @@ export default {
                       // ///
                       setTimeout(function() {
                         // exportExcel(temp_titleArr, temp_DataArr, excelName);
-                        export_json_to_excel_new(temp_titleArr, temp_DataArr, excelName);
+                        export_json_to_excel_new(
+                          temp_titleArr,
+                          temp_DataArr,
+                          excelName
+                        );
                       }, 100);
                     })
                     .catch(function(error) {

@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "registereduserpie", //用户注册人数饼图
+  name: "numberOfRegisteredUsers", //用户注册人数饼图
   props: ["fillinData"],
   data() {
     return {};
@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_day"]),
     fillinData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         let data = [];
         let color = [];
@@ -30,8 +30,6 @@ export default {
             data = vm.fillinData.data;
             color = vm.fillinData.color;
           } else {
-            // data.push(vm.fillinData.data[0]);
-
             d0.push(vm.fillinData.data[0][0]);
             d1.push(vm.fillinData.data[1][0]);
             if (this.PR_operator.indexOf("移动") > -1) {
@@ -51,14 +49,8 @@ export default {
             }
             data.push(d0);
             data.push(d1);
-
-            // console.log("~~~~data");
-            // console.log(data);
           }
-
-          // 视图更新
-          setTimeout(function () {
-            // console.log("视图更新");
+          setTimeout(function() {
             vm.setLineChart();
           }, 300);
           return {
@@ -71,7 +63,7 @@ export default {
 
         return vm.fillinData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   mounted() {
@@ -79,8 +71,6 @@ export default {
   },
   methods: {
     setLineChart() {
-      // console.log(111)
-      // console.log(this.fillinData_Change)
       var lineChart = this.$echarts.init(
         document.getElementById(this.fillinData_Change.id)
       );
@@ -93,7 +83,6 @@ export default {
           value: this.fillinData_Change.data[1][i]
         });
       }
-      // console.log(seriesData)
       // 数据配置项
       let option = {
         title: {
@@ -142,11 +131,37 @@ export default {
                 shadowOffsetX: 0,
                 shadowColor: "rgba(0, 0, 0, 0.5)"
               }
+            },
+            // //// 新增
+            selectedMode: "single",
+            label: {
+              normal: {
+                // position: "inner",
+                // color: "#000",
+                fontSize: "10",
+                formatter: "{b}:\n {c}"
+              }
+            },
+            labelLine: {
+              show: false,
+              normal: {
+                smooth: 0.2,
+                length: 1
+              }
+            },
+            emphasis: false,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
             }
+            // ////
           }
         ]
       };
-
+      lineChart.clear();
       lineChart.setOption(option);
       window.addEventListener("resize", () => {
         lineChart.resize();

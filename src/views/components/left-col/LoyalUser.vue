@@ -66,7 +66,7 @@ export default {
           vm.users_basic(response);
           setTimeout(function() {
             vm.setLoyalUserChart()
-          }, 100);
+          }, 500);
         })
         .catch(function(error) {
           console.info(error);
@@ -106,7 +106,7 @@ export default {
           if( aggregations.access_loyal_user_num.value == 0){
             vm.avg_dur = 0;
           }else{
-            vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value / 60)
+            vm.avg_dur = parseInt(aggregations.access_dur_loyal.value / aggregations.access_loyal_user_num.value / 3600)
           }
           vm.loyal_num = aggregations.loyal_user_num.value;
           Vue.set(vm.echart_data.data[0],1,vm.avg_freq);
@@ -228,6 +228,7 @@ export default {
         ]
       }
       // 使用刚指定的配置项和数据显示图表。
+      myChart.clear()
       myChart.setOption(option)
 
       window.addEventListener('resize', () => {

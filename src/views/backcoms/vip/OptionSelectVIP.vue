@@ -94,12 +94,11 @@
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
-    <!-- <div class="valueAddedPackage" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
-    <div class="valueAddedPackage" v-show="ifPlaymodeShow_db ">
-      <!-- <span class="font_title">增值包（点播专属）：</span> -->
+
+    <!-- <div class="valueAddedPackage" v-show="ifPlaymodeShow_db ">
       <span class="font_title">增值包：</span>
       <el-select
-        v-model="value_valueAddedPackage"
+        v-model="valueAddedPackageChoose"
         filterable
         allow-create
         default-first-option
@@ -112,7 +111,31 @@
           :value="item.value"
         ></el-option>
       </el-select>
+    </div> -->
+
+    <div class="valueAddedPackage">
+      <span class="font_title">增值包：</span>
+      <el-checkbox v-model="valueAddedPackage_checkAll" @change="valueAddedPackageChoose_all">总体</el-checkbox>
+      <el-checkbox-group
+        @change="valueAddedPackageChoose_change"
+        v-model=" valueAddedPackageChoose"
+        v-for="(item,index) in valueAddedPackage"
+        :key="index + 'a' "
+        v-show="valueAddedPackage_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
+      <el-checkbox-group
+        @change="valueAddedPackageChoose_change"
+        v-model=" valueAddedPackageChoose"
+        v-for="(item,index) in valueAddedPackage"
+        :key="index + 'ac' "
+        v-show="!valueAddedPackage_isIndeterminate"
+      >
+        <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
+      </el-checkbox-group>
     </div>
+
 
     <div class="time">
       <span class="font_title">时间：</span>
@@ -186,6 +209,8 @@ var playmodeChoose_new = [];
 var playmodeChoose_old = [];
 var programaChoose_new = [];
 var programaChoose_old = [];
+var valueAddedPackageChoose_new = [];
+var valueAddedPackageChoose_old = [];
 export default {
   name: "OptionSelectVIP",
   computed: {
@@ -271,12 +296,18 @@ export default {
           console.info(error);
         });
     },
-    playmodeChoose(newValue, oldValue) {
+    playmodeChoose(newValue, oldValue) { // 暂且没用到
       let vm = this;
       this.$store
         .dispatch("set_ADD_VIP_playmode", newValue)
         .then(function(response) {
           // console.log(response);
+          vm.$store
+            .dispatch("set_ADD_VIP_target_type", "")
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
@@ -288,17 +319,29 @@ export default {
         .dispatch("set_ADD_VIP_programa", newValue)
         .then(function(response) {
           // console.log(response);
+          vm.$store
+            .dispatch("set_ADD_VIP_target_type", "")
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });
         })
         .catch(function(error) {
           console.info(error);
         });
     },
-    value_valueAddedPackage(newValue, oldValue) {
+    valueAddedPackageChoose(newValue, oldValue) {
       let vm = this;
       this.$store
         .dispatch("set_ADD_VIP_valueAddedPackage", newValue)
         .then(function(response) {
           // console.log(response);
+          vm.$store
+            .dispatch("set_ADD_VIP_target_type", "")
+            .then(function(response) {})
+            .catch(function(error) {
+              console.info(error);
+            });   
         })
         .catch(function(error) {
           console.info(error);
@@ -389,6 +432,8 @@ export default {
       operator_checkAll: true,
 
       operator_isIndeterminate: true,
+
+   
       playmode: [
         // "总体",
         "直播",
@@ -417,12 +462,11 @@ export default {
       ],
       // programaChoose: [],
       programaChoose: [], // 从api获取数据
-
       // programa_checkAll: false,
       programa_checkAll: true,
-
       programa_isIndeterminate: true,
-      options_valueAddedPackage: [
+
+      // options_valueAddedPackage: [
         // {
         //   value: "少儿包",
         //   label: "少儿包"
@@ -435,8 +479,14 @@ export default {
         //   value: "其他包",
         //   label: "其他包"
         // }
-      ],
-      value_valueAddedPackage: "",
+      // ],
+      // valueAddedPackageChoose: "",
+
+      valueAddedPackage: [],
+      valueAddedPackageChoose: [],
+      valueAddedPackage_checkAll: true,
+      valueAddedPackage_isIndeterminate: true,
+
 
       time: {
         day: [
@@ -548,7 +598,7 @@ export default {
         .dispatch("get_ADD_VIP_valueAddedPackage")
         .then(function(response) {
           // console.log(response);
-          vm.value_valueAddedPackage = response;
+          vm.valueAddedPackageChoose = response;
         })
         .catch(function(error) {
           console.info(error);
@@ -685,9 +735,13 @@ export default {
 
           for (i = 0; i < length; i++) {
             temp.push(buckets[i].key);
-            temp2.push({ value: buckets[i].key, label: buckets[i].key });
+          //   temp2.push({ value: buckets[i].key, label: buckets[i].key });
           }
-          vm.options_valueAddedPackage = temp2;
+          // vm.options_valueAddedPackage = temp2;
+          // console.log(temp);
+          vm.valueAddedPackage = temp;
+          vm.valueAddedPackageChoose = temp;
+
           vm.$store
             .dispatch("set_ADD_VIP_package_list", temp)
             .then(function(response) {
@@ -881,6 +935,28 @@ export default {
     programaChoose_all(val) {
       this.programaChoose = val ? this.programa : [];
       this.programa_isIndeterminate = !this.programa_isIndeterminate;
+    },
+    valueAddedPackageChoose_change(event) {
+      valueAddedPackageChoose_old = valueAddedPackageChoose_new;
+      let checkedCount = event.length;
+      this.valueAddedPackage_checkAll = checkedCount === this.valueAddedPackage.length;
+      this.valueAddedPackage_isIndeterminate =
+        checkedCount > 0 && checkedCount < this.valueAddedPackage.length;
+      if (this.valueAddedPackageChoose.length == 0) {
+        this.valueAddedPackage_isIndeterminate = true;
+      }
+      let vm = this;
+      setTimeout(function() {
+        valueAddedPackageChoose_new = vm.valueAddedPackageChoose;
+        vm.valueAddedPackageChoose = commonTools.delete_repet(
+          valueAddedPackageChoose_new,
+          valueAddedPackageChoose_old
+        );
+      }, 100);
+    },
+    valueAddedPackageChoose_all(val) {
+      this.valueAddedPackageChoose = val ? this.valueAddedPackage : [];
+      this.valueAddedPackage_isIndeterminate = !this.valueAddedPackage_isIndeterminate;
     }
   }
 };

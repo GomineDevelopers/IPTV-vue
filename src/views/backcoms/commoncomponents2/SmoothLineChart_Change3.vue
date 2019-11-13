@@ -36,7 +36,6 @@ export default {
             // do nothing. -- 监听
           }
         }
-
         setTimeout(function() {
           vm.setLineChart();
         }, 1000);
@@ -105,29 +104,23 @@ export default {
             align: "left"
           },
           formatter: function(params) {
-            // console.log(params);
             let title = params[0].data[0];
-
             let length = params.length;
-
             let t1 = params[0].seriesName;
             let marker1 = params[0].marker;
             let value1 = params[0].data[1];
-
             // if (length == 1) {
             //   return title + ":<br/>" + marker1 + t1 + ":" + value1 + "%";
             // }
             if (length == 1) {
               return title + ":<br/>" + marker1 + t1 + ":" + value1;
             }
-
             let t2 = params[1].seriesName;
             let t3 = params[2].seriesName;
             let marker2 = params[1].marker;
             let marker3 = params[2].marker;
             let value2 = params[0].data[2];
             let value3 = params[0].data[3];
-
             return (
               title +
               ":<br/>" +

@@ -442,7 +442,7 @@ import LineDottedChart from "@/views/backcoms/G_TVuserviewingmonthreport/LineDot
 import LineChartSingleProp from "@/views/backcoms/commoncomponents/LineChartSingleProp"; //单数据折线图组件（百分比）
 import EveryPowerActivity from "@/views/backcoms/G_TVuserviewingmonthreport/EveryPowerActivity"; //7月新增在册用户数组件（折线图含虚线）
 import ManyPieChart from "@/views/backcoms/G_TVuserviewingmonthreport/ManyPieChart"; //整体收拾行为分析（多个空心饼图组成的图表）
-import MonthlyTotalViewing from "@/views/backcoms/G_TVuserviewingmonthreport/MonthlyTotalViewing"; //
+import MonthlyTotalViewing from "@/views/backcoms/G_TVuserviewingmonthreport/MonthlyTotalViewing_SmallLegend"; //
 import LiveViewBehaviorAnalysis from "@/views/backcoms/G_TVuserviewingmonthreport/LiveViewBehaviorAnalysis"; //TOP排名（柱状图列表）
 import TypeProgramChart from "@/views/backcoms/G_TVuserviewingmonthreport/TypeProgramChart"; //柱状图加折线图图表组件
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //柱状图

@@ -46,7 +46,6 @@ export default {
   watch: {
     // activate_user_num(newValue, oldValue) {
     //   let vm = this;
-
     //   console.log("ULC - activate_user_num:");
     //   console.log(newValue);
     //   vm.activationNum = vm.activate_user_num
@@ -57,7 +56,6 @@ export default {
     // },
     activate_rate_data(newValue, oldValue) {
       let vm = this;
-
       console.log("ULC - activate_user_num:");
       console.log(newValue);
       vm.activationRate = vm.activate_rate_data

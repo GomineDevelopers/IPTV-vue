@@ -285,17 +285,6 @@ export default {
           console.info(error);
         });
     },
-    // contenttypeChoose(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_UVB_contenttype", newValue)
-    //     .then(function(response) {
-    //       console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
     playmodeChoose(newValue, oldValue) {
       let vm = this;
       this.$store
@@ -319,6 +308,12 @@ export default {
         .dispatch("set_UVB_programa", newValue)
         .then(function(response) {
           // console.log(response);
+          vm.$store
+          .dispatch("set_UVB_target_type", "")
+          .then(function(response) {})
+          .catch(function(error) {
+            console.info(error);
+          });
         })
         .catch(function(error) {
           console.info(error);
@@ -329,7 +324,7 @@ export default {
       this.$store
         .dispatch("set_UVB_contenttype", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           vm.$store
             .dispatch("set_UVB_target_type", "")
             .then(function(response) {})
@@ -740,7 +735,7 @@ export default {
             });
           // ////
           vm.$store
-            .dispatch("set_UVB_programa_type_list", temp)
+            .dispatch("set_UVB_contenttype_list", temp)
             .then(function(response) {
               // console.log(response);
             })

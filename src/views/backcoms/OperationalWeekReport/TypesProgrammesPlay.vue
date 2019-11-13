@@ -22,21 +22,20 @@ export default {
   watch: {
     PR_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     }
   },
   mounted() {
-    // this.setLineChart();
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 2000);
   },
@@ -156,10 +155,10 @@ export default {
           axisLabel: {
             interval: 0,
             show: true,
-            formatter: function (val) {
+            formatter: function(val) {
               var strs = val.split(""); //字符串数组
               var str = "";
-              for (var i = 0, s; (s = strs[i++]);) {
+              for (var i = 0, s; (s = strs[i++]); ) {
                 //遍历字符串数组
                 str += s;
                 if (!(i % 9)) str += "\n";

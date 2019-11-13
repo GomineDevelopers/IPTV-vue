@@ -5,8 +5,6 @@ const app = {
     state: {
         BigScreenExpirationDate: "",
         BigScreenStartDate: "",
-
-        // ULC_region: [],
         ULC_region: [
             "贵阳",
             "遵义",
@@ -18,15 +16,11 @@ const app = {
             "六盘水",
             "黔西南"
         ],
-
-        // ULC_operator: [],
         ULC_operator: ["移动", "联通", "电信"],
-
         ULC_day: null,
         ULC_week: null,
         ULC_month: null,
         ULC_time_type: 0, // 0-未选择 1-天 2-周 3-月
-        // UVB_region: [],
         UVB_region: [
             "贵阳",
             "遵义",
@@ -38,12 +32,8 @@ const app = {
             "六盘水",
             "黔西南"
         ],
-        // UVB_operator: [],
         UVB_operator: ["移动", "联通", "电信"],
-
-        // UVB_playmode: [],
         UVB_playmode: ["直播", "点播", "回看"],
-
         UVB_programa: [],
         UVB_day: null,
         UVB_week: null,
@@ -52,14 +42,12 @@ const app = {
         UVB_programa: [],  //  选中的栏目
         UVB_programa_list: [], // api获取的栏目
         UVB_contenttype: [], // 选中的内容类型
-        UVB_programa_type_list: [], // api获取的内容类型列表
+        UVB_contenttype_list: [], // api获取的内容类型列表
         UVB_target_type: 0, // 默认-0-不显示  1-显示
-        // PR_operator: [],
         PR_operator: ["移动", "联通", "电信"],
-        // PR_operator: ["移动"],
+        // PR_operator: ["联通", "电信"],
 
         PR_day: null,
-        // PR_day: "2019-07-03", //临时初始值
         PR_value_specialName: null,
         PR_assignReportNum: 4, // 默认：专区4
         PR_Report_index: 8,    // 默认专区 - 8（第8个）
@@ -68,7 +56,7 @@ const app = {
         PR_excel_ifCanDownload: false,
         PR_downloadNum_child: 1,
         PR_downloadNum_parent: 1,
-        PR_excel_DownloadingStatus:0,
+        PR_excel_DownloadingStatus: 0,
         PR_week: null,
         PR_month: null,
         PR_picker: [],
@@ -79,15 +67,11 @@ const app = {
         EPG_month: null,
         EPG_time_type: 0, // 0-未选择 1-周 2-月
         EPG_programa_type: 0, //  0-未选择 1-固定 2-其他
-
         ADD_ALL_operator: [],
-        // ADD_ALL_operator: ["移动"],
-
         ADD_ALL_programa: [],
         ADD_ALL_week: null,
         ADD_ALL_month: null,
         ADD_ALL_time_type: 0, // 0-未选择 1-周 2-月
-        // ADD_VIP_region: [],
         ADD_VIP_region: [
             "贵阳",
             "遵义",
@@ -99,34 +83,29 @@ const app = {
             "六盘水",
             "黔西南"
         ],
-
-        // ADD_VIP_operator: [],
         ADD_VIP_operator: ["移动", "联通", "电信"],
-
         ADD_VIP_playmode: [],
-        ADD_VIP_valueAddedPackage: null,
         ADD_VIP_day: null,
         ADD_VIP_week: null,
         ADD_VIP_picker: [],
         ADD_VIP_time_type: 0, // 0-未选择 1-天 2-周 3-范围
         ADD_VIP_programa: [], // 选中
         ADD_VIP_programa_list: [], // api获取
+        // ADD_VIP_valueAddedPackage: null,
+        ADD_VIP_valueAddedPackage: [],
         ADD_VIP_package_list: [],
         ADD_VIP_target_type: 1, // 0-不显示  默认-1-显示 (与VUB的不同)
-
         DA_day: null,
-
         PS_time: [],
         PS_name: null,
-
         current_authority: [],
         ifTest: null,
+        GuizhouChannel_unit: null, // 视图优化相关
 
-        // 视图优化相关
-        GuizhouChannel_unit: null
+        ADD_VIP_targetOption: "观看次数",
+        UVB_targetOption: "观看次数",
     },
     mutations: {
-
     },
     actions: {
         // 所有条件筛选属性初始化
@@ -139,14 +118,10 @@ const app = {
                 state.ULC_week = null;
                 state.ULC_month = null;
                 // ...
-
                 resolve("init_all_option - SUCCESS !");
             })
         },
-
-
         // /////////////////////////////////////
-
         // 大屏截止日期即时返回-不用Promise嵌套
         set_BigScreenExpirationDate({ commit, state }, data) {
             return new Promise((resolve, reject) => {
@@ -159,7 +134,6 @@ const app = {
                 resolve(state.BigScreenExpirationDate);
             })
         },
-
         set_BigScreenStartDate({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.BigScreenStartDate = data;
@@ -171,7 +145,17 @@ const app = {
                 resolve(state.BigScreenStartDate);
             })
         },
-
+        // /////////////////////////////////////
+        // 初始化PR的所有时间值
+        init_AllPRTime({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.PR_day = null;
+                state.PR_week = null;
+                state.PR_month = null;
+                state.PR_picker = [];
+                resolve("AllPRTime - SUCCESS !");
+            })
+        },
         // /////////////////////////////////////
         set_PR_assignReportNum({ commit, state }, data) {
             return new Promise((resolve, reject) => {
@@ -199,19 +183,17 @@ const app = {
         init_PR_Excel_dataArr_titleArr({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PR_Excel_dataArr = new Array(); // 初始化 - 开辟新内存
-                state.PR_Excel_dataArr = []; 
-                // state.PR_Excel_dataArr = data;
+                state.PR_Excel_dataArr = [];
                 state.PR_Excel_titleArr = new Array();  // 初始化 - 开辟新内存
                 state.PR_Excel_titleArr = [];
-                // state.PR_Excel_titleArr = data;
                 resolve("init_PR_Excel_dataArr_titleArr - SUCCESS !");
             })
         },
         set_PR_Excel_dataArr_firstM1({ commit, state }, data) { // m1
             return new Promise((resolve, reject) => {
                 state.PR_Excel_dataArr = new Array();
-                state.PR_Excel_dataArr = []; 
-                state.PR_Excel_dataArr.push(...(data)); 
+                state.PR_Excel_dataArr = [];
+                state.PR_Excel_dataArr.push(...(data));
                 resolve("PR_Excel_dataArr - SUCCESS !");
             })
         },
@@ -228,9 +210,9 @@ const app = {
         },
         set_PR_Excel_titleArr_firstM1({ commit, state }, data) { // m1
             return new Promise((resolve, reject) => {
-                state.PR_Excel_titleArr = new Array(); 
+                state.PR_Excel_titleArr = new Array();
                 state.PR_Excel_titleArr = [];
-                state.PR_Excel_titleArr.push(...(data)); 
+                state.PR_Excel_titleArr.push(...(data));
                 resolve("PR_Excel_titleArr - SUCCESS !");
             })
         },
@@ -306,21 +288,11 @@ const app = {
             return new Promise((resolve, reject) => {
                 state.ULC_operator = data;
                 resolve("ULC_operator - SUCCESS !");
-                // if (data == null || data.length == 0) {
-                //     state.ULC_operator = ["移动", "电信", "联通"];
-                // } else {
-                //     state.ULC_operator = data;
-                // }
-                // resolve("ULC_operator - SUCCESS !");
             })
         },
         get_ULC_operator({ commit, state }) {
             return new Promise((resolve, reject) => {
                 resolve(state.ULC_operator);
-                // if (state.ULC_operator == null || state.ULC_operator.length == 0) {
-                //     resolve(["移动", "电信", "联通"]);
-                // }
-                // resolve(state.ULC_operator);
             })
         },
         set_ULC_day({ commit, state }, data) {
@@ -477,45 +449,48 @@ const app = {
                 resolve(state.UVB_programa_list);
             })
         },
-        set_UVB_programa_type_list({ commit, state }, data) {
+        set_UVB_contenttype_list({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                state.UVB_programa_type_list = data;
-                resolve("UVB_programa_type_list - SUCCESS !");
+                state.UVB_contenttype_list = data;
+                resolve("UVB_contenttype_list - SUCCESS !");
             })
         },
-        get_UVB_programa_type_list({ commit, state }) {
+        get_UVB_contenttype_list({ commit, state }) {
             return new Promise((resolve, reject) => {
-                resolve(state.UVB_programa_type_list);
+                resolve(state.UVB_contenttype_list);
             })
         },
         // ////////////// 处理方式不同
-
         set_UVB_target_type({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 // data传任意值
-                if (state.UVB_contenttype.length == 1 &&
-                    state.UVB_playmode.length == 1 &&
-                    state.UVB_time_type != 3) {
-                    state.UVB_target_type = 1;
+                let temp_value;
+                if (state.UVB_time_type == 3) {
+                    temp_value = 0;
                 }
-                else if (
-                    state.UVB_playmode.length == 1 &&
-                    state.UVB_time_type != 3
-                ) {
-                    if (state.UVB_playmode.indexOf("直播") > -1) {
-                        state.UVB_target_type = 1;
+                if (state.UVB_time_type != 3) {
+                    if (state.UVB_playmode.length >= 2) {
+                        temp_value = 0;
                     }
-                    if (state.UVB_playmode.indexOf("点播") > -1) {
-                        state.UVB_target_type = 0;
+                    if (state.UVB_playmode.length == 1) {
+                        if (state.UVB_playmode.indexOf("直播") > -1) {
+                            temp_value = 1;
+                        }
+                        if (state.UVB_playmode.indexOf("点播") > -1) {
+                            temp_value = 1;
+                            if (state.UVB_programa.length > 1 && state.UVB_programa.length < state.UVB_programa_list.length) {
+                                temp_value = 0;
+                            }
+                            if (state.UVB_contenttype.length > 1 && state.UVB_contenttype.length < state.UVB_contenttype_list.length) {
+                                temp_value = 0;
+                            }
+                        }
+                        if (state.UVB_playmode.indexOf("回看") > -1) {
+                            temp_value = 1;
+                        }
                     }
-                    if (state.UVB_playmode.indexOf("回看") > -1) {
-                        state.UVB_target_type = 1;
-                    }
-
                 }
-                else {
-                    state.UVB_target_type = 0;
-                }
+                state.UVB_target_type = temp_value;
                 resolve("UVB_target_type - SUCCESS !");
             })
         },
@@ -524,30 +499,15 @@ const app = {
                 resolve(state.UVB_target_type);
             })
         },
-
         // //////////////
-
         set_PR_operator({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PR_operator = data;
                 resolve("PR_operator - SUCCESS !");
-                // if (data == null || data.length == 0) {
-                //     state.PR_operator = ["移动", "电信", "联通"];
-                // } else {
-                //     state.PR_operator = data;
-                // }
-                // resolve("PR_operator - SUCCESS !");
             })
         },
         get_PR_operator({ commit, state }) {
             return new Promise((resolve, reject) => {
-                // ★如果全选勾选为空，那就全部显示
-                // 这里规定返回数组（因为：分支有转换成字符串，也有数组判断）
-                // ▲▲▲ 由于弄条件筛选历史记录 - 获取原生值自作判断
-                // if (state.PR_operator == null || state.PR_operator.length == 0) {
-                //     resolve(["移动", "电信", "联通"]);
-                // }
-                // resolve(state.PR_operator);
                 resolve(state.PR_operator);
             })
         },
@@ -837,7 +797,6 @@ const app = {
                 resolve(state.ADD_VIP_time_type);
             })
         },
-
         set_ADD_VIP_programa_list({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.ADD_VIP_programa_list = data;
@@ -860,17 +819,28 @@ const app = {
                 resolve(state.ADD_VIP_package_list);
             })
         },
-
         // ////////////// 处理方式不同
         set_ADD_VIP_target_type({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 // data传任意值
+                let temp_value;
+                if (state.ADD_VIP_time_type == 3) {
+                    temp_value = 0;
+                }
                 if (state.ADD_VIP_time_type != 3) {
-                    state.ADD_VIP_target_type = 1;
+                    temp_value = 1;
+                    // console.log(state.ADD_VIP_programa);
+                    // console.log(state.ADD_VIP_programa_list);
+                    // console.log(state.ADD_VIP_valueAddedPackage);
+                    // console.log(state.ADD_VIP_package_list);
+                    if (state.ADD_VIP_programa.length > 1 && state.ADD_VIP_programa.length < state.ADD_VIP_programa_list.length) {
+                        temp_value = 0;
+                    }
+                    if (state.ADD_VIP_valueAddedPackage.length > 1 && state.ADD_VIP_valueAddedPackage.length < state.ADD_VIP_package_list.length) {
+                        temp_value = 0;
+                    }
                 }
-                else {
-                    state.ADD_VIP_target_type = 0;
-                }
+                state.ADD_VIP_target_type = temp_value;
                 resolve("ADD_VIP_target_type - SUCCESS !");
             })
         },
@@ -902,7 +872,6 @@ const app = {
                 resolve(state.PS_time);
             })
         },
-
         set_PS_name({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 state.PS_name = data;
@@ -914,7 +883,6 @@ const app = {
                 resolve(state.PS_name);
             })
         },
-
         // ///////////////// 
         set_current_authority({ commit, state }, data) {
             return new Promise((resolve, reject) => {
@@ -927,7 +895,6 @@ const app = {
                 resolve(state.current_authority);
             })
         },
-
         // ///////////////// 测试
         set_ifTest({ commit, state }, data) {
             return new Promise((resolve, reject) => {
@@ -940,7 +907,6 @@ const app = {
                 resolve(state.ifTest);
             })
         },
-
         // /////////////////
         set_GuizhouChannel_unit({ commit, state }, data) {
             return new Promise((resolve, reject) => {
@@ -952,9 +918,32 @@ const app = {
             return new Promise((resolve, reject) => {
                 resolve(state.GuizhouChannel_unit);
             })
-        }
+        },
 
+        // /////////////////
+        set_ADD_VIP_targetOption({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.ADD_VIP_targetOption = data;
+                resolve("ADD_VIP_targetOption - SUCCESS !");
+            })
+        },
+        get_ADD_VIP_targetOption({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.ADD_VIP_targetOption);
+            })
+        },
 
+        set_UVB_targetOption({ commit, state }, data) {
+            return new Promise((resolve, reject) => {
+                state.UVB_targetOption = data;
+                resolve("UVB_targetOption - SUCCESS !");
+            })
+        },
+        get_UVB_targetOption({ commit, state }) {
+            return new Promise((resolve, reject) => {
+                resolve(state.UVB_targetOption);
+            })
+        },
     }
 }
 

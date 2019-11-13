@@ -36,13 +36,13 @@ export default {
 
 <style>
 .DataOverview {
-  /* background-color: #ffffff; */
-  /* padding: 10px; */
   display: inline-block;
-  /* height: 139px; */
-  /* width: 16%; */
   height: 100%;
   width: 100%;
+  /* background-color: #ffffff; */
+  /* padding: 10px; */
+  /* height: 139px; */
+  /* width: 16%; */
   /* margin: 7px; */
 }
 .DataOverview .datatotal_date {

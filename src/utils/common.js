@@ -1,18 +1,14 @@
 import store from '@/store'
-
 import { refreshToken, } from '@/api/api_main'
 import CryptoJS from 'crypto-js' //加密js
 
-
 const commonTools = {}
-
 
 commonTools.setCookie = function (name, value, myDay) {
     var oDate = new Date()
     oDate.setTime(oDate.getTime() + (myDay * 60 * 1000))// 单位是毫秒
     document.cookie = name + '=' + value + '; expires=' + oDate.toUTCString()
 }
-
 commonTools.getCookie = function (name) {
     // document.cookie获取当前网站的所有cookie
     var arr = document.cookie.split('; ')
@@ -31,7 +27,6 @@ commonTools.delCookie = function (name) {
     if (cval != null)
         document.cookie = name + "=" + cval + ";expires=" + exp.toUTCString();
 }
-
 // ////////////////////
 // 加密Cookie
 commonTools.setCookieCry = function (name, value, days) {
@@ -41,7 +36,6 @@ commonTools.setCookieCry = function (name, value, days) {
     //字符串拼接存入cookie
     window.document.cookie = name + "=" + text + ";path=/;saveDays=" + saveDays.toGMTString();
 }
-
 //读取cookie
 commonTools.getCookieCry = function (name) {
     if (document.cookie.length > 0) {
@@ -71,8 +65,7 @@ commonTools.delCookieCry = function (name) {
 
 }
 // ////////////////////
-
-commonTools.checkToken = function () {
+commonTools.checkToken = function () {  // ---暂且没用到
     let vm = this;
     let token = commonTools.getCookie('user_token')
     let newToken = token.replace('"', '').replace('"', '')
@@ -124,7 +117,6 @@ commonTools.checkToken = function () {
                 console.info(error);
             });
     })
-
 }
 
 //日期时间计算（获取到日期的前 n 天日期）

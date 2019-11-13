@@ -1,54 +1,71 @@
 <template>
   <div class="height_auto">
-    <el-row class="height_auto" :id="lineData.id"></el-row>
+    <!-- <el-row class="height_auto" :id="lineData.id"></el-row> -->
+    <el-row class="height_auto" :id="lineData_Change.id"></el-row>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 
 export default {
-  name: "ThreeBasedUserView", //双坐标轴平滑曲线图
+  name: "MonthlyTotalViewing_SmallLegend", //折线图
   props: {
     lineData: Object
   },
   data() {
     return {};
   },
-  computed: {
-    ...mapGetters(["PR_week", "PR_operator"])
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 2000);
   },
   watch: {
-    PR_week(newValue, oldValue) {
+    PR_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     },
-    PR_operator(newValue, oldValue) {
+    lineData(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.setLineChart();
       }, 2000);
     }
   },
-  mounted() {
-    let vm = this;
-    setTimeout(function () {
-      vm.setLineChart();
-    }, 2000);
+  computed: {
+    ...mapGetters(["PR_month"]),
+    lineData_Change: {
+      get: function() {
+        let vm = this;
+        if (vm.lineData.id == "newAddUserPercent") {
+          if (vm.PR_month) {
+            // do nothing. -- 监听
+          }
+        }
+        // 视图更新
+        setTimeout(function() {
+          vm.setLineChart();
+        }, 2000);
+        return vm.lineData;
+      },
+      set: function(newValue) {}
+    }
   },
   methods: {
     setLineChart() {
       var lineChart = this.$echarts.init(
-        document.getElementById(this.lineData.id)
+        document.getElementById(this.lineData_Change.id)
       );
       var option = {
-        color: this.lineData.color,
+        color: this.lineData_Change.color,
         textStyle: {
           color: "rgba(0, 0, 0, 0.65)"
         },
         title: {
-          text: this.lineData.title,
+          text: this.lineData_Change.title,
           x: "2%",
           y: "0%",
           textStyle: {
@@ -60,21 +77,22 @@ export default {
         legend: {
           icon: "re",
           top: "8%",
-          itemWidth: 20, // 设置宽度
+          itemWidth: 18, // 设置宽度
           itemHeight: 2, // 设置高度
-          itemGap: 20, // 设置间距
+          itemGap: 15, // 设置间距
           textStyle: {
-            fontSize: 14,
+            fontSize: 12,
             color: "rgba(0, 0, 0, 0.65)"
           }
         },
         grid: {
           top: "25%",
-          left: "10",
+          left: "15",
           right: "10",
-          bottom: "10",
-          containLabel: true,
+          bottom: "20",
+          containLabel: true
         },
+    
         tooltip: {
           trigger: "axis",
           textStyle: {
@@ -91,7 +109,7 @@ export default {
           }
         },
         dataset: {
-          source: this.lineData.data
+          source: this.lineData_Change.data
         },
         xAxis: {
           type: "category",
@@ -140,15 +158,13 @@ export default {
           }
         ],
         series: [
-          { type: "line", seriesLayoutBy: "row", symbol: "none", smooth: true },
-          { type: "line", seriesLayoutBy: "row", symbol: "none", smooth: true },
-          { type: "line", seriesLayoutBy: "row", symbol: "none", smooth: true },
+          { type: "line", seriesLayoutBy: "row", symbol: "circle" },
+          { type: "line", seriesLayoutBy: "row", symbol: "circle" },
           {
             type: "line",
             seriesLayoutBy: "row",
-            symbol: "none",
-            yAxisIndex: 1,
-            smooth: true
+            symbol: "circle",
+            yAxisIndex: 1
             //使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
           }
         ]

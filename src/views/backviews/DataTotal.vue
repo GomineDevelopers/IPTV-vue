@@ -80,7 +80,7 @@
     <el-row class="data_total_bottom">
       <el-col class="data_bottom_left" :span="12">
         <el-row class="model_title">
-          <span class="title_border_left"></span>用户画像
+          <span class="title_border_left"></span>用户画像（上月）
         </el-row>
         <div class="chart_body back_white">
           <!-- <com-userportrait :lineData="UserPortraitData"></com-userportrait> -->
@@ -125,14 +125,14 @@ export default {
   mounted() {
     let vm = this;
 
-    setTimeout(function () {
+    setTimeout(function() {
       vm.$store
         .dispatch("get_BigScreenStartDate")
-        .then(function (res1) {
-          setTimeout(function () {
+        .then(function(res1) {
+          setTimeout(function() {
             vm.$store
               .dispatch("get_BigScreenExpirationDate")
-              .then(function (res2) {
+              .then(function(res2) {
                 // vm.users_total(res1, res2, "singleday"); // 截止统计日
                 // vm.users_total(res2, res2, "rangeday"); // 日维度
                 vm.users_total(res2, res2, "singleday"); // 截止统计日 -- 因为已经累计计算了，传当天即可
@@ -140,12 +140,12 @@ export default {
                 vm.users_total(res2, res2, "lastmonth"); // 截止日的上月
                 vm.users_total(res2, res2, "rangedays_n"); // 8Tina：当天+前7天
               })
-              .catch(function (error) {
+              .catch(function(error) {
                 console.info(error);
               });
           }, 100);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }, 100);
@@ -186,7 +186,7 @@ export default {
       }
 
       users_total(data)
-        .then(function (response) {
+        .then(function(response) {
           console.log(response);
           if (type == "lastmonth") {
             // 用户画像 用上个月  -- responses3
@@ -197,13 +197,143 @@ export default {
             // silence_user 沉默用户
             // downtime_user 停机用户
 
-            let buckets_flag = response.data.responses[3].aggregations.flag_identity.buckets;
+            let buckets_flag =
+              response.data.responses[3].aggregations.flag_identity.buckets;
             let length_flag = buckets_flag.length;
             let i_flag;
-            console.log("buckets_flag", buckets_flag)
+            // console.log("buckets_flag", buckets_flag)
+
+            // let temp_content = [
+            //   {
+            //     title: "第一次购买用户数占比", // firsttime_num
+            //     data: [
+            //       // { value: 535, name: "直播" },
+            //       // { value: 410, name: "回看" },
+            //       // { value: 348, name: "点播" }
+            //     ]
+            //   },
+            //   {
+            //     title: "一次性购买用户数占比", // oncetime_num
+            //     data: [
+            //       // { value: 535, name: "直播" },
+            //       // { value: 410, name: "回看" },
+            //       // { value: 348, name: "点播" }
+            //     ]
+            //   },
+            //   {
+            //     title: "忠诚用户数占比", // loyal_user_num
+
+            //     data: [
+            //       // { value: 535, name: "直播" },
+            //       // { value: 410, name: "回看" },
+            //       // { value: 348, name: "点播" }
+            //     ]
+            //   },
+            //   {
+            //     title: "从未订购用户数占比", // unord_num
+            //     data: [
+            //       // { value: 535, name: "直播" },
+            //       // { value: 410, name: "回看" },
+            //       // { value: 348, name: "点播" }
+            //     ]
+            //   },
+            //   {
+            //     title: "重新激活用户数占比", // repurchase_num
+            //     data: [
+            //       // { value: 535, name: "直播" },
+            //       // { value: 410, name: "回看" },
+            //       // { value: 348, name: "点播" }
+            //     ]
+            //   },
+            //   {
+            //     title: "睡眠用户数占比", // lapsed_num
+            //     data: [
+            //       // { value: 535, name: "直播" },
+            //       // { value: 410, name: "回看" },
+            //       // { value: 348, name: "点播" }
+            //     ]
+            //   }
+            // ];
+            // function returnKeyChinese(key) {
+            //   let value;
+            //   if (key == "active_user") {
+            //     value = "活跃用户";
+            //   }
+            //   if (key == "silence_user") {
+            //     value = "沉默用户";
+            //   }
+            //   if (key == "downtime_user") {
+            //     value = "停机用户";
+            //   }
+            //   return value;
+            // }
+            // function set_contentValue_fn(key, index_buckets_flag) {
+            //   temp_content[0].data.push({
+            //     value: buckets_flag[index_buckets_flag].firsttime_num.value,
+            //     name: returnKeyChinese(key)
+            //   });
+            // }
+            // function set_contentValue_on(key, index_buckets_flag) {
+            //   temp_content[1].data.push({
+            //     value: buckets_flag[index_buckets_flag].oncetime_num.value,
+            //     name: returnKeyChinese(key)
+            //   });
+            // }
+            // function set_contentValue_ln(key, index_buckets_flag) {
+            //   temp_content[2].data.push({
+            //     value: buckets_flag[index_buckets_flag].loyal_user_num.value,
+            //     name: returnKeyChinese(key)
+            //   });
+            // }
+            // function set_contentValue_un(key, index_buckets_flag) {
+            //   temp_content[3].data.push({
+            //     value: buckets_flag[index_buckets_flag].unord_num.value,
+            //     name: returnKeyChinese(key)
+            //   });
+            // }
+            // function set_contentValue_re(key, index_buckets_flag) {
+            //   temp_content[4].data.push({
+            //     value: buckets_flag[index_buckets_flag].repurchase_num.value,
+            //     name: returnKeyChinese(key)
+            //   });
+            // }
+            // function set_contentValue_lo(key, index_buckets_flag) {
+            //   temp_content[5].data.push({
+            //     value: buckets_flag[index_buckets_flag].lapsed_num.value,
+            //     name: returnKeyChinese(key)
+            //   });
+            // }
+            // for (i_flag = 0; i_flag < length_flag; i_flag++) {
+            //   if (buckets_flag[i_flag].key == "active_user") {
+            //     set_contentValue_fn("active_user", i_flag);
+            //     set_contentValue_on("active_user", i_flag);
+            //     set_contentValue_ln("active_user", i_flag);
+            //     set_contentValue_un("active_user", i_flag);
+            //     set_contentValue_re("active_user", i_flag);
+            //     set_contentValue_lo("active_user", i_flag);
+            //   }
+            //   if (buckets_flag[i_flag].key == "silence_user") {
+            //     set_contentValue_fn("silence_user", i_flag);
+            //     set_contentValue_on("silence_user", i_flag);
+            //     set_contentValue_ln("silence_user", i_flag);
+            //     set_contentValue_un("silence_user", i_flag);
+            //     set_contentValue_re("silence_user", i_flag);
+            //     set_contentValue_lo("silence_user", i_flag);
+            //   }
+            //   if (buckets_flag[i_flag].key == "downtime_user") {
+            //     set_contentValue_fn("downtime_user", i_flag);
+            //     set_contentValue_on("downtime_user", i_flag);
+            //     set_contentValue_ln("downtime_user", i_flag);
+            //     set_contentValue_un("downtime_user", i_flag);
+            //     set_contentValue_re("downtime_user", i_flag);
+            //     set_contentValue_lo("downtime_user", i_flag);
+            //   }
+            // }
+
+            // //////// new
             let temp_content = [
               {
-                title: "第一次购买用户数占比", // firsttime_num_ratio
+                title: "活跃用户", // active_user
                 data: [
                   // { value: 535, name: "直播" },
                   // { value: 410, name: "回看" },
@@ -211,7 +341,7 @@ export default {
                 ]
               },
               {
-                title: "一次性购买用户数占比", // oncetime_num_ratio
+                title: "沉默用户", // silence_user
                 data: [
                   // { value: 535, name: "直播" },
                   // { value: 410, name: "回看" },
@@ -219,32 +349,7 @@ export default {
                 ]
               },
               {
-                title: "忠诚用户数占比", // loyal_num_ratio
-
-                data: [
-                  // { value: 535, name: "直播" },
-                  // { value: 410, name: "回看" },
-                  // { value: 348, name: "点播" }
-                ]
-              },
-              {
-                title: "从未订购用户数占比", // unord_num_ratio
-                data: [
-                  // { value: 535, name: "直播" },
-                  // { value: 410, name: "回看" },
-                  // { value: 348, name: "点播" }
-                ]
-              },
-              {
-                title: "重新激活用户数占比", // unord_num_ratio
-                data: [
-                  // { value: 535, name: "直播" },
-                  // { value: 410, name: "回看" },
-                  // { value: 348, name: "点播" }
-                ]
-              },
-              {
-                title: "睡眠用户数占比", // unord_num_ratio
+                title: "停机用户", // downtime_user
                 data: [
                   // { value: 535, name: "直播" },
                   // { value: 410, name: "回看" },
@@ -252,83 +357,48 @@ export default {
                 ]
               }
             ];
-            function returnKeyChinese(key) {
-              let value;
-              if (key == "active_user") {
-                value = "活跃用户";
-              }
-              if (key == "silence_user") {
-                value = "沉默用户";
-              }
-              if (key == "downtime_user") {
-                value = "停机用户";
-              }
-              return value;
-            }
-            function set_contentValue_fn(key, index_buckets_flag) {
-              temp_content[0].data.push({
-                value: buckets_flag[index_buckets_flag].firsttime_num.value,
-                name: returnKeyChinese(key)
+            function Manage_KeyValue(index_content_m, index_flag) {
+              temp_content[index_content_m].data.push({
+                value: buckets_flag[index_flag].firsttime_num.value,
+                name: "第一次购买用户数占比"
               });
-            }
-            function set_contentValue_on(key, index_buckets_flag) {
-              temp_content[1].data.push({
-                value: buckets_flag[index_buckets_flag].oncetime_num.value,
-                name: returnKeyChinese(key)
+              temp_content[index_content_m].data.push({
+                value: buckets_flag[index_flag].oncetime_num.value,
+                name: "一次性购买用户数占比"
               });
-            }
-            function set_contentValue_ln(key, index_buckets_flag) {
-              temp_content[2].data.push({
-                value: buckets_flag[index_buckets_flag].loyal_user_num.value,
-                name: returnKeyChinese(key)
+              temp_content[index_content_m].data.push({
+                value: buckets_flag[index_flag].loyal_user_num.value,
+                name: "忠诚用户数占比"
               });
-            }
-            function set_contentValue_un(key, index_buckets_flag) {
-              temp_content[3].data.push({
-                value: buckets_flag[index_buckets_flag].unord_num.value,
-                name: returnKeyChinese(key)
+              temp_content[index_content_m].data.push({ // 占比太大-关了
+                value: buckets_flag[index_flag].unord_num.value,
+                name: "从未订购用户数占比"
               });
-            }
-            function set_contentValue_re(key, index_buckets_flag) {
-              temp_content[4].data.push({
-                value: buckets_flag[index_buckets_flag].repurchase_num.value,
-                name: returnKeyChinese(key)
+              temp_content[index_content_m].data.push({
+                value: buckets_flag[index_flag].repurchase_num.value,
+                name: "重新激活用户数占比"
               });
-            }
-            function set_contentValue_lo(key, index_buckets_flag) {
-              temp_content[5].data.push({
-                value: buckets_flag[index_buckets_flag].lapsed_num.value,
-                name: returnKeyChinese(key)
+              temp_content[index_content_m].data.push({
+                value: buckets_flag[index_flag].lapsed_num.value,
+                name: "睡眠用户数占比"
               });
             }
             for (i_flag = 0; i_flag < length_flag; i_flag++) {
               if (buckets_flag[i_flag].key == "active_user") {
-                set_contentValue_fn("active_user", i_flag);
-                set_contentValue_on("active_user", i_flag);
-                set_contentValue_ln("active_user", i_flag);
-                set_contentValue_un("active_user", i_flag);
-                set_contentValue_re("active_user", i_flag);
-                set_contentValue_lo("active_user", i_flag);
+                Manage_KeyValue(0, i_flag);
               }
               if (buckets_flag[i_flag].key == "silence_user") {
-                set_contentValue_fn("silence_user", i_flag);
-                set_contentValue_on("silence_user", i_flag);
-                set_contentValue_ln("silence_user", i_flag);
-                set_contentValue_un("silence_user", i_flag);
-                set_contentValue_re("silence_user", i_flag);
-                set_contentValue_lo("silence_user", i_flag);
+                Manage_KeyValue(1, i_flag);
               }
               if (buckets_flag[i_flag].key == "downtime_user") {
-                set_contentValue_fn("downtime_user", i_flag);
-                set_contentValue_on("downtime_user", i_flag);
-                set_contentValue_ln("downtime_user", i_flag);
-                set_contentValue_un("downtime_user", i_flag);
-                set_contentValue_re("downtime_user", i_flag);
-                set_contentValue_lo("downtime_user", i_flag);
+                Manage_KeyValue(2, i_flag);
               }
             }
-            console.log("~~~~~~~~~~~~~~~~~temp_content");
-            console.log(temp_content);
+
+            // ////////
+
+            // console.log("~~~~~~~~~~~~~~~~~temp_content");
+            // console.log(temp_content);
             vm.UserPortraitData.content = temp_content;
             return;
           }
@@ -370,9 +440,10 @@ export default {
             for (i_operator = 0; i_operator < length_operator; i_operator++) {
               for (i_time = 0; i_time < length_time; i_time++) {
                 temp_dailyLivingTrendData[i_operator + 1].push(
-                  (buckets_operator[i_operator].statistical_granularity.buckets[
-                    i_time
-                  ].active_num.value / 10000).toFixed(2)
+                  (
+                    buckets_operator[i_operator].statistical_granularity
+                      .buckets[i_time].active_num.value / 10000
+                  ).toFixed(2)
                 );
 
                 // temp_dailyLivingTrendData[1].push(
@@ -477,7 +548,7 @@ export default {
                 vm.api_data.module3_numC,
                 i,
                 responses1.aggregations.ac.buckets[i].open_num.value /
-                responses1.aggregations.ac.buckets[i].register_num.value
+                  responses1.aggregations.ac.buckets[i].register_num.value
               );
               Vue.set(
                 vm.api_data.module4_numT,
@@ -488,7 +559,8 @@ export default {
                 vm.api_data.module4_numC,
                 i,
                 // responses2.aggregations.ac.buckets[i].watch_dur_family.value //  10/23 19:01修改
-                responses2.aggregations.ac.buckets[i].watch_freq.value / responses2.aggregations.ac.buckets[i].watch_user_num.value
+                responses2.aggregations.ac.buckets[i].watch_freq.value /
+                  responses2.aggregations.ac.buckets[i].watch_user_num.value
               );
               Vue.set(
                 vm.api_data.module6_numC,
@@ -516,7 +588,7 @@ export default {
                 vm.api_data.module2_numC,
                 i,
                 responses1.aggregations.ac.buckets[i].activate_user_num.value /
-                responses1.aggregations.ac.buckets[i].register_num.value
+                  responses1.aggregations.ac.buckets[i].register_num.value
               );
               Vue.set(
                 vm.api_data.module5_numT,
@@ -527,7 +599,7 @@ export default {
                 vm.api_data.module5_numC,
                 i,
                 responses3.aggregations.ac.buckets[i].paid_num.value /
-                responses1.aggregations.ac.buckets[i].active_num.value
+                  responses1.aggregations.ac.buckets[i].active_num.value
               );
               Vue.set(
                 vm.api_data.module6_numT,
@@ -625,7 +697,7 @@ export default {
           vm.updateDatashow(8);
           vm.ifRequestSuccess = 1;
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
           vm.ifRequestSuccess = 0;
           vm.setDatashow(vm.data.datashow2);
@@ -755,214 +827,111 @@ export default {
       data: {
         city: "贵阳",
         //新增用户概览数据
-        datashow0: [
-          {
-            icon: "&#xe600;",
-            title: "在册用户",
-            numT: "数据请求中...",
-            content: "每日新增在册用户",
-            numC: "数据请求中..."
-          },
-          {
-            icon: "&#xe620;",
-            title: "激活用户",
-            numT: "数据请求中...",
-            content: "激活率",
-            numC: "数据请求中..."
-          },
-
-          {
-            icon: "&#xe60c;",
-            title: "开机用户",
-            numT: "数据请求中...",
-            content: "开机率",
-            numC: "数据请求中..."
-          },
-          {
-            icon: "&#xe641;",
-            title: "收视用户",
-            numT: "数据请求中...",
-            content: "户均收视次数",
-            numC: "数据请求中..."
-          },
-          {
-            icon: "&#xe64f;",
-            title: "付费用户",
-            numT: "数据请求中...",
-            content: "付费转化率",
-            numC: "数据请求中..."
-          },
-          {
-            icon: "&#xe612;",
-            title: "停机",
-            numT: "数据请求中...",
-            content: "每日停机户",
-            numC: "数据请求中..."
-          },
-          {
-            icon: "&#xe601;",
-            title: "销户",
-            numT: "数据请求中...",
-            content: "每日销户数",
-            numC: "数据请求中..."
-          }
-        ],
         datashow: [
           {
             icon: "&#xe600;",
-            title: "在册用户",
+            title: "在册用户（截止当日）",
             numT: "0",
-            content: "每日新增在册用户",
+            content: "每日新增在册用户（当日）",
             numC: "0"
           },
           {
             icon: "&#xe620;",
-            title: "激活用户",
+            title: "激活用户（截止当日）",
             numT: "0",
-            content: "激活率",
+            content: "激活率（截止当日）",
             numC: "0%"
           },
 
           {
             icon: "&#xe60c;",
-            title: "开机用户",
+            title: "开机用户（当日）",
             numT: "0",
-            content: "开机率",
+            content: "开机率（当日）",
             numC: "0%"
           },
           {
             icon: "&#xe641;",
-            title: "收视用户",
+            title: "收视用户（当日）",
             numT: "0",
-            content: "户均收视次数",
+            content: "户均收视次数（当日）",
             numC: "0"
           },
           {
             icon: "&#xe64f;",
-            title: "付费用户",
+            title: "付费用户（截止当日）",
             numT: "0",
-            content: "付费转化率",
+            content: "付费转化率（截止当日）",
             numC: "0"
           },
           {
             icon: "&#xe612;",
-            title: "停机",
+            title: "停机（截止当日）",
             numT: "0",
-            content: "每日停机户",
+            content: "每日停机户（当日）",
             numC: "0"
           },
           {
             icon: "&#xe601;",
-            title: "销户",
+            title: "销户（截止当日）",
             numT: "0",
-            content: "每日销户数",
+            content: "每日销户数（当日）",
             numC: "0"
           }
         ],
         datashow2: [
           {
             icon: "&#xe600;",
-            title: "在册用户",
+            title: "在册用户（截止当日）",
             numT: "0",
-            content: "每日新增在册用户",
+            content: "每日新增在册用户（当日）",
             numC: "0"
           },
           {
             icon: "&#xe620;",
-            title: "激活用户",
+            title: "激活用户（截止当日）",
             numT: "0",
-            content: "激活率",
+            content: "激活率（截止当日）",
             numC: "0%"
           },
 
           {
             icon: "&#xe60c;",
-            title: "开机用户",
+            title: "开机用户（当日）",
             numT: "0",
-            content: "开机率",
+            content: "开机率（当日）",
             numC: "0%"
           },
           {
             icon: "&#xe641;",
-            title: "收视用户",
+            title: "收视用户（当日）",
             numT: "0",
-            content: "户均收视次数",
+            content: "户均收视次数（当日）",
             numC: "0"
           },
           {
             icon: "&#xe64f;",
-            title: "付费用户",
+            title: "付费用户（截止当日）",
             numT: "0",
-            content: "付费转化率",
+            content: "付费转化率（截止当日）",
             numC: "0"
           },
           {
             icon: "&#xe612;",
-            title: "停机",
+            title: "停机（截止当日）",
             numT: "0",
-            content: "每日停机户",
+            content: "每日停机户（当日）",
             numC: "0"
           },
           {
             icon: "&#xe601;",
-            title: "销户",
+            title: "销户（截止当日）",
             numT: "0",
-            content: "每日销户数",
+            content: "每日销户数（当日）",
             numC: "0"
           }
         ],
-        datashow2_beifen: [
-          {
-            icon: "&#xe600;",
-            title: "在册用户",
-            numT: "数据请求失败！",
-            content: "每日新增在册用户",
-            numC: "数据请求失败！"
-          },
-          {
-            icon: "&#xe620;",
-            title: "激活用户",
-            numT: "数据请求失败！",
-            content: "激活率",
-            numC: "数据请求失败！"
-          },
-
-          {
-            icon: "&#xe60c;",
-            title: "开机用户",
-            numT: "数据请求失败！",
-            content: "开机率",
-            numC: "数据请求失败！"
-          },
-          {
-            icon: "&#xe641;",
-            title: "收视用户",
-            numT: "数据请求失败！",
-            content: "户均收视次数",
-            numC: "数据请求失败！"
-          },
-          {
-            icon: "&#xe64f;",
-            title: "付费用户",
-            numT: "数据请求失败！",
-            content: "付费转化率",
-            numC: "数据请求失败！"
-          },
-          {
-            icon: "&#xe612;",
-            title: "停机",
-            numT: "数据请求失败！",
-            content: "每日停机户",
-            numC: "数据请求失败！"
-          },
-          {
-            icon: "&#xe601;",
-            title: "销户",
-            numT: "数据请求失败！",
-            content: "每日销户数",
-            numC: "数据请求失败！"
-          }
-        ]
+        
       },
       // UserPortraitData: {
       //   title: "",

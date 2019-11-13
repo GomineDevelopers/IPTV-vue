@@ -48,8 +48,6 @@ export default {
     return {}
   },
   mounted() {
-    // console.log('~~~~~~~~')
-    // console.log(this.dayRankTop5Data)
   }
 }
 </script>

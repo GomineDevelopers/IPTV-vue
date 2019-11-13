@@ -7,7 +7,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "BarChartSingle",
+  name: "BarChartSingle2",
   props: {
     chartData: {
       type: Object
@@ -336,7 +336,13 @@ export default {
       //设置series数据条数
       try {
         for (let i = 1; i <= vm.chartData_Change.data[0].length - 1; i++) {
-          seriesData.push({ type: "bar", barWidth: "12" });
+          // seriesData.push({ type: "bar", barWidth: "12" });
+          if (i == 1) {
+            seriesData.push({ type: "bar", barWidth: "12", yAxisIndex: "0" });
+          }
+          if (i == 2) {
+            seriesData.push({ type: "bar", barWidth: "12", yAxisIndex: "1" });
+          }
         }
       } catch (error) {
         console.log(error);
@@ -409,33 +415,65 @@ export default {
             }
           }
         },
-        yAxis: {
-          // 刻度线的设置
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              type: "dotted",
-              opacity: 0.2
+        yAxis: [
+          {
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              }
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
             }
           },
-          axisLine: {
-            show: false, //Y轴不显示
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+          /////
+          {
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              }
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
             }
-          },
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字颜大小
-            }
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
           }
-        },
+          /////
+        ],
+
         series: seriesData
       };
       barChartSingle.clear();

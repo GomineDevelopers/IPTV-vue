@@ -7,16 +7,12 @@
 .m_init_div{
     display: inline-block;
 }
-
 .m_marginbottom_pxA{
     margin-bottom: 14px;
 }
 .m_textalign_c{
     text-align: center;
 }
-
-.m_margintop_
-
 .m_width_25{
     width: 25%;
 }
@@ -61,7 +57,6 @@
     padding-left: 5%;
     padding-right: 5%;
 }
-
 /* 定期报告周报-echarts模块 */
 .m_common_echarts_styleA{
     display: inline-block;
@@ -73,8 +68,6 @@
     height: 300px;
     width: 100%;
 }
-
-
 /* 定期报告周报-字段通用title */
 .m_common_title_font{
     color: #BF0000;
@@ -87,8 +80,6 @@
     font-size: 16px;
     /* font-weight: bold; */
 }
-
-
 /* 定期报告周报-字段通用样式 */
 .m_common_content_font{
     font-size: 16px;

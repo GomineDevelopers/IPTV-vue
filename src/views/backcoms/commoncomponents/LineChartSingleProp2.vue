@@ -8,7 +8,7 @@ import { mapGetters } from "vuex";
 import Vue from "vue";
 
 export default {
-  name: "LineChartSingleProp", //折线图Y轴显示百分比
+  name: "LineChartSingleProp2", //折线图Y轴显示百分比
   props: {
     lineData: Object
   },
@@ -94,9 +94,9 @@ export default {
   },
   computed: {
     ...mapGetters([
+      "ULC_region",
       "PR_operator",
       "PR_month",
-      "ULC_region",
       "ULC_operator",
       "ULC_day",
       "ULC_week",
@@ -283,7 +283,10 @@ export default {
         seriesData.push({
           type: "line",
           seriesLayoutBy: "row",
-          symbol: "circle"
+          symbol: "circle",
+          /////
+          itemStyle: { normal: { label: { show: true } } }
+          /////
         });
       }
       var option = {

@@ -426,6 +426,7 @@ export default {
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
+      myChart.clear(option);
       myChart.setOption(option);
 
       window.addEventListener("resize", () => {

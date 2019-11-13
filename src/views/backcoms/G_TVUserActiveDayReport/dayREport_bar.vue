@@ -16,20 +16,17 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_day"]),
     fillinData_Change: {
-      get: function () {
+      get: function() {
         let vm = this;
         let data = [];
         let length1 = vm.fillinData.data.length;
         // let length2 = vm.fillinData.data[0].length;
-        // console.log("~~~~~~Change_dayR");
-
         let i;
         let j;
         let d0_0 = [];
         let d0_1 = [];
         let d1_0 = [];
         let d1_1 = [];
-
         // if (
         //   vm.fillinData.id == "newAddUserNumber_UADR" ||
         //   vm.fillinData.id == "outLookTime_UADR" ||
@@ -44,29 +41,18 @@ export default {
           }
           if (this.PR_operator == null || this.PR_operator.length == 0) {
             data = vm.fillinData.data;
-            // console.log("~~all data");
-            // console.log(data);
-            // console.log(data[0][0]);
-            // console.log(data[0][1]);
-            // console.log(data[1][0]);
-            // console.log(data[1][1]);
           } else {
             d0_0.push(vm.fillinData.data[0][0][0]);
             d0_1.push(vm.fillinData.data[0][1][0]);
             d1_0.push(vm.fillinData.data[1][0][0]);
             d1_1.push(vm.fillinData.data[1][1][0]);
-            // console.log(d0_0);
-            // console.log(d0_1);
-            // console.log(d1_0);
-            // console.log(d1_1);
+
             for (i = 0; i < length1; i++) {
               data.push([]);
               // for (j = 0; j < length2; j++) {
               //   data[i].push([]);
               // }
             }
-            // console.log("~~~~data");
-            // console.log(data);
             if (this.PR_operator.indexOf("移动") > -1) {
               d0_0.push(vm.fillinData.data[0][0][1]);
               d0_1.push(vm.fillinData.data[0][1][1]);
@@ -85,26 +71,12 @@ export default {
               d1_0.push(vm.fillinData.data[1][0][3]);
               d1_1.push(vm.fillinData.data[1][1][3]);
             }
-            // data.push(d0);
-            // console.log(d0_0);
-            // console.log(d0_1);
-            // console.log(d1_0);
-            // console.log(d1_1);
-            // data[0][0].push(d0_0);
-            // data[0][1].push(d0_1);
-            // data[1][0].push(d1_0);
-            // data[1][1].push(d1_1);
             data[0].push(d0_0);
             data[0].push(d0_1);
             data[1].push(d1_0);
             data[1].push(d1_1);
-            // console.log("~~~~data");
-            // console.log(data);
           }
-
-          // 视图更新
-          setTimeout(function () {
-            // console.log("视图更新");
+          setTimeout(function() {
             vm.setLineChart();
           }, 1000);
           return {
@@ -122,19 +94,17 @@ export default {
             // do nothing. -- 监听
           }
         }
-        // 视图更新
-        setTimeout(function () {
-          // console.log("视图更新");
+        setTimeout(function() {
           vm.setLineChart();
         }, 1000);
         return vm.fillinData;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.setLineChart();
     }, 1000);
   },
@@ -143,15 +113,12 @@ export default {
       var lineChart = this.$echarts.init(
         document.getElementById(this.fillinData_Change.id)
       );
-      //   循环获取数据
+      // 循环获取数据
       let seriesData = [];
       let data = {};
       let legendlist = [];
       let xAxisdata = [];
-      //设置series数据条数
-      // console.log("~~~~~~Change_dayR");
-      // console.log(this.fillinData_Change);
-
+      // 设置series数据条数
       for (let i = 0; i < this.fillinData_Change.data.length; i++) {
         data = {};
         data.name = this.fillinData_Change.data[i][1][0];
@@ -182,10 +149,6 @@ export default {
         legendlist.push(this.fillinData_Change.data[i][1][0]);
         seriesData.push(data);
       }
-      // console.log("~~~~~~~ seriesData ");
-      // console.log(seriesData);
-
-      // console.log(seriesData)
       // 数据配置项
       let option = {
         title: {

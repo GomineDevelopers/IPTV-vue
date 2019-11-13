@@ -9,37 +9,6 @@ export function test_login() {
     })
 }
 
-// let temp = {
-//     area: "all",
-//     operator: "all",
-//     method: 0,
-//     list: "all",
-//     start: "2019-07-12",
-//     end: "2019-07-31",
-//     increment: "少儿"
-// };
-
-// var formData = new FormData();
-// var formData = new window.FormData();
-// formData.append("area", temp.area);
-// formData.append("operator", temp.operator);
-// formData.append("method", temp.method);
-// formData.append("list", temp.list);
-// formData.append("start", temp.start);
-// formData.append("end", temp.end);
-
-
-// let temp = {
-//     area: "all", // 地区码，all和贵州省地级市代码
-//     operator: "all", // 运营商列表：根据用户收视行为运营商api为准的列表单，all为全部运营商
-//     method: 0, // 播放方式：0-总体，1-直播，2-点播，3-回看
-//     list: "all", // 节目列表：根据栏目api为准的列表单，all为全部节目
-//     start: "2019-07-12",
-//     end: "2019-07-31",
-//     increment: "少儿包" // 增值包选项 如 少儿包
-// };
-
-
 // //////////////////////// top15回调
 
 // 运营周报titop
@@ -63,6 +32,7 @@ export async function users_mobileReport_top(postData) {
     })
     return responseData
 }
+
 // 用户收视行为周报top
 // post http://{{iptv}}/api/users/weeActiveReport/top
 export async function users_activeReportTop(postData) {
@@ -74,10 +44,8 @@ export async function users_activeReportTop(postData) {
     return responseData
 }
 
-
-
-
 // //////////////////////// 上传文件
+
 // 转免节目单上传
 // POST http://{{host}}/api/csv/program/free
 export function csv_program_free(data) {
@@ -87,6 +55,7 @@ export function csv_program_free(data) {
         data: data  // 参数 csv
     })
 }
+
 // 节目单上传
 // POST http://{{host}}/api/csv/program
 export function csv_program(data) {
@@ -96,6 +65,7 @@ export function csv_program(data) {
         data: data  // 参数 csv
     })
 }
+
 // 微博热搜上传
 // POST http://{{host}}/api/csv/weibo
 export function csv_weibo(data) {
@@ -105,7 +75,9 @@ export function csv_weibo(data) {
         data: data  // 参数 csv
     })
 }
+
 // //////////////////////// 时间日期
+
 // get http://{{iptv}}/api/date
 export function get_date(user) {
     return request({
@@ -115,6 +87,7 @@ export function get_date(user) {
 }
 
 // //////////////////////// 数据审计
+
 // 完整性
 // post http://{{iptv}}/api/missReport
 export function missReport(postData) {
@@ -133,6 +106,7 @@ export function errorReport(postData) {
         data: postData
     })
 }
+
 // //////////////////////// 权限
 
 // 获取id用户权限
@@ -165,11 +139,6 @@ export function post_users_permissions(newToken, user, postData) {
         data: postData
     })
 }
-// user    -- userid
-// postData --permissions
-// let temp = {
-//     permissions: permissions,
-// };
 
 // 权限列表
 // get http://{{iptv}}/api/permissions
@@ -181,8 +150,8 @@ export function get_permissions_list(newToken) {
     })
 }
 
-
 // //////////////////////// G+TV用户收视日报表
+
 // G+TV用户收视日报表数据
 // post http://{{iptv}}/api/users/daliyReport
 export function users_daliyReport(postData) {
@@ -192,19 +161,6 @@ export function users_daliyReport(postData) {
         data: postData
     })
 }
-// export function users_daliyReport() {
-//     return request({
-//         method: 'get',
-//         url: '/search',
-//     })
-// }
-
-
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
 
 // G+TV用户收视日报表数据运营商   --- ▲▲没了
 // get http://{{iptv}}/api/users/daliyReport/operators
@@ -227,12 +183,6 @@ export function liveUsers_daliyReport(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
 // G+TV用户发展活跃日报表数据运营商
 // get http://{{iptv}}/api/liveUsers/daliyReport/operators
 export function liveUsers_daliyReport_operators() {
@@ -254,21 +204,6 @@ export function users_mobileReport(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
-// // 贵州广电新媒体G+TV移动运营数据周报数据运营商
-// // get http://{{iptv}}/api/users/mobileReport/operators
-// export function users_mobileReport_operators() {
-//     return request({
-//         method: 'get',
-//         url: '/users/mobileReport/operators',
-//     })
-// }
-
 // //////////////////////// G+TV月度用户收视行为分析报告
 
 // G+TV月度用户收视行为分析报告数据
@@ -281,12 +216,6 @@ export function users_monthActiveReport(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
 // G+TV月度用户收视行为分析报告数据（月，周维度）
 // posthttp://{{iptv}}/api/users/monthActiveReport/range
 
@@ -298,13 +227,6 @@ export function users_monthActiveReport_range(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
-
 // G+TV月度用户收视行为分析报告数据运营商   --- 暂时不用
 // get http://{{iptv}}/api/users/monthActiveReport/operators
 export function users_monthActiveReport_operators() {
@@ -313,8 +235,6 @@ export function users_monthActiveReport_operators() {
         url: '/users/monthActiveReport/operators',
     })
 }
-
-
 
 // //////////////////////// 用户收视行为周报
 
@@ -328,14 +248,6 @@ export function users_weekActiveReport(postData) {
     })
 }
 
-
-
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
 // 用户收视行为周报数据运营商   // 删了！
 // get http://{{iptv}}/api/users/weekActiveReport/operators
 export function users_weekActiveReport_operators() {
@@ -344,7 +256,6 @@ export function users_weekActiveReport_operators() {
         url: '/users/weekActiveReport/operators',
     })
 }
-
 
 // //////////////////////// 市场业务运营数据分析周报
 
@@ -358,12 +269,6 @@ export function users_marketReport(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
 // 市场业务运营数据分析周报运营商
 // get http://{{iptv}}/api/users/marketReport/operators
 export function users_marketReport_operators() {
@@ -372,7 +277,6 @@ export function users_marketReport_operators() {
         url: '/users/marketReport/operators',
     })
 }
-
 
 // //////////////////////// 电信VIP增值业务专项分析
 // 电信VIP增值业务专项分析数据
@@ -385,12 +289,6 @@ export function users_vipReport(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
-
 // 电信VIP增值业务专项分析数据运营商
 // get http://{{iptv}}/api/users/vipReport/operators
 export function users_vipReport_operators() {
@@ -401,22 +299,6 @@ export function users_vipReport_operators() {
 }
 
 // //////////////////////// 专区数据报告
-
-// // 专区数据单运营商
-// // post http://{{iptv}}/api/users/subReport/single
-// export function users_subReport_single(postData) {
-//     return request({
-//         method: 'post',
-//         url: '/users/subReport/single',
-//         data: postData
-//     })
-// }
-
-// let temp = {
-//     operator:operator
-//     start: start,
-//     end: end
-// }
 
 // 专区数据全局运营商
 // post http://{{iptv}}/api/users/subReport
@@ -433,11 +315,6 @@ export function subReport_list() {
         url: '/subReport/list',
     })
 }
-
-// let temp = {
-//     start: start,
-//     end: end
-// }
 
 // 专区数据运营商
 // get http://{{iptv}}/api/users/subReport/operators
@@ -459,7 +336,6 @@ export function userAction_top() {
     })
 }
 
-
 // 用户收视行为标签搜索
 // post http://{{iptv}}/api/userAction
 export function userAction(postData) {
@@ -480,16 +356,7 @@ export function userAction_demand(postData) {
     })
 }
 
-// let temp = {
-//     area: area,
-//     operator: operator,
-//     method: method,
-//     list: list,
-//     start: start,
-//     end: end
-// }
-
-// 获取用户收视行为栏目
+// 获取用户收视行为栏目列表
 // get http://{{iptv}}/api/userAction/programs/list
 
 export function userAction_programs() {
@@ -499,6 +366,8 @@ export function userAction_programs() {
     })
 }
 
+// 获取用户收视行为内容类型列表
+// get http://{{iptv}}/api/userAction/program_type/list
 export function userAction_program_type() {
     return request({
         method: 'get',
@@ -508,7 +377,6 @@ export function userAction_program_type() {
 
 // 获取用户收视行为运营商
 // get http://{{iptv}}/api/userAction/operator
-
 export function userAction_operator() {
     return request({
         method: 'get',
@@ -551,9 +419,6 @@ export function users_total(data) {
     })
 }
 
-
-
-
 // //////////////////////// 增值业务
 
 // 增值业务搜索
@@ -566,13 +431,6 @@ export function increment(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     list: list,
-//     start: start,
-//     end: end
-// }
-
 // 获取增值业务栏目
 // get http://{{iptv}}/api/increment/programs/list
 export function increment_programs_list() {
@@ -582,7 +440,6 @@ export function increment_programs_list() {
     })
 }
 
-
 // 获取增值业务运营商
 // get http://{{iptv}}/api/increment/operators
 export function increment_operators() {
@@ -591,7 +448,6 @@ export function increment_operators() {
         url: '/vip/operators',
     })
 }
-
 
 // //////////////////////// 用户生命周期
 
@@ -604,12 +460,6 @@ export function userLives(postData) {
         data: postData
     })
 }
-// let temp = {
-//     area: area,
-//     operator: operator,
-//     start: start,
-//     end: end
-// }
 
 // 获取用户生命周期运营商
 // GET http://{{iptv}}/api/userLives/operators
@@ -651,11 +501,6 @@ export function program_search_day(postData) {
     })
 }
 
-// let temp = {
-//     programName: programName,
-//     UTC: UTC,
-// }
-
 // //////////////////////// vip
 
 // 获取vip运营商
@@ -685,6 +530,7 @@ export function vip_programs_list(postData) {
         url: '/vip/programs/list',
     })
 }
+
 // vip增值包列表
 // get http://{{iptv}}/api/vip/increment
 export function vip_increment_list(postData) {
@@ -693,26 +539,6 @@ export function vip_increment_list(postData) {
         url: '/vip/increment',
     })
 }
-
-
-// let temp = {
-//     area: area,
-//     operator: operator,
-//     method: method,
-//     list: list,
-//     start: start,
-//     end: end,
-//     increment:increment
-// }
-
-// 获取vip栏目
-// get http://{{iptv}}/api/vip/programs/list
-// export function vip_programs_list() {
-//     return request({
-//         method: 'get',
-//         url: '/vip/programs/list',
-//     })
-// }
 
 // 获取vip数据地区码
 // get http://{{iptv}}/api/vip/areaCode
@@ -754,16 +580,6 @@ export function epg_box_content(postData) {
     })
 }
 
-// let temp = {
-//     operator: operator,
-//     list: list,
-//     start: start,
-//     end: end,
-//     ver:ver
-// }
-
-
-
 // 获取epg栏目
 // post http://{{iptv}}/api/epg/programs/list
 
@@ -774,15 +590,6 @@ export function epg_programs(postData) {
         data: postData
     })
 }
-
-// // 获取epg运营商   
-// // get http://{{iptv}}/api/epg/operators
-// export function epg_operators() {
-//     return request({
-//         method: 'get',
-//         url: '/epg/operators',
-//     })
-// }
 
 // //////////////////////// 大屏页面
 
@@ -865,7 +672,6 @@ export function demands_special() {
         url: '/demands/special',
     })
 }
-
 
 // vip点播收视top - 增值业务Top
 // get http://{{iptv}}/api/demands/VipProgramTop
@@ -963,9 +769,6 @@ export function broadcast_onlive(data) {
     })
 }
 
-
-
-
 // 用户订购数据
 // get http://{{iptv}}/api/users/subscribe
 export function users_subscribe(data) {
@@ -1024,7 +827,6 @@ export function onlive_location(data) {
 
 // //////////////////////// 用户
 
-
 // 删除用户
 // delete http://{{iptv}}/api/users/:user
 export function del_user(newToken, user) {
@@ -1035,33 +837,7 @@ export function del_user(newToken, user) {
     })
 }
 
-// ▲▲ x-www-form-urlencode
-// 更新用户信息
-// put http://{{iptv}}/api/users/:user
-// export function update_users(newToken, user, postData) {
-//     return request({
-//         method: 'patch',
-//         url: '/users/' + user,
-//         headers: {
-//             'Authorization': 'Bearer' + newToken,
-//             'Content-Type': 'application/x-www-form-urlencoded'
-//         },
-//         data: postData
-//     })
-// }
-// export function update_users(newToken, user, data) {
-//     return request({
-//         method: 'patch',
-//         url: '/users/' + user,
-//         headers: {
-//             'Authorization': 'Bearer' + newToken,
-//             // 'Content-Type': 'application/x-www-form-urlencoded'
-//             'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-
-//         },
-//         params: qs.stringify(data)
-//     })
-// }
+// 更新用户
 export function update_users(newToken, user, postData) {
     return request({
         method: 'patch',
@@ -1075,15 +851,6 @@ export function update_users(newToken, user, postData) {
         // data: postData
     })
 }
-
-// let temp = {
-//     name: name,
-//     email: email,
-//     password: password,
-//     department: department,
-//     reporter: reporter,
-//     role: role
-// }
 
 // id用户信息
 // get http://{{iptv}}/api/users/:user
@@ -1105,14 +872,6 @@ export function create_users(newToken, postData) {
         data: postData
     })
 }
-// let temp = {
-//     name: name,
-//     email: email,
-//     password: password,
-//     department: department,
-//     reporter: reporter,
-//     role: role
-// }
 
 // 所有用户信息
 // get http://{{iptv}}/api/users
@@ -1170,39 +929,3 @@ export function login(data) {
         data: data
     })
 }
-
-
-
-// 用户登录
-// post http://{{iptv}}/api/login
-
-// export function login(postData) {
-//     return request({
-//         method: 'post',
-//         url: '/login',
-//         data: postData
-//     })
-// }
-
-// let temp = {
-//     email: email,
-//     password: password,
-//     captcha: captcha
-// }
-
-// 用户账号分发
-// post http://{{iptv}}/api/register
-
-// export function register(postData) {
-//     return request({
-//         method: 'post',
-//         url: '/register',
-//         data: postData
-//     })
-// }
-
-// let temp = {
-//     email_address: email_address,
-//     password: password,
-//     confirmed_password: confirmed_password
-// }
