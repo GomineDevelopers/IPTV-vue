@@ -31,14 +31,16 @@
         </div>
         <!-- 一级页面内容 -->
         <div class="pageOneContent" v-show="pageOneShow">
-          <epg-page-one :programesListOne="programesListOne" v-show="oneShow"></epg-page-one>
-          <epg-page-one2 :programesListOne2="mobileProgramesListOne" v-show="!oneShow"></epg-page-one2>
+          <epg-page-one :programesListOne="programesListOne"></epg-page-one>
+          <!-- epg-page-one2为2.0版本的盒子信息组件 -->
+          <!-- <epg-page-one2 :programesListOne2="mobileProgramesListOne" v-show="!oneShow"></epg-page-one2> -->
         </div>
 
         <!-- 二级页面内容 -->
         <div class="pageTwoContent" v-show="pageTwoShow">
-          <epg-page-two :programesListTwo="programesListTwo" v-show="oneShow"></epg-page-two>
-          <epg-page-one2 :programesListOne2="mobileProgramesListTwo" v-show="!oneShow"></epg-page-one2>
+          <epg-page-two :programesListTwo="programesListTwo"></epg-page-two>
+          <!-- epg-page-one2为2.0版本的盒子信息组件 -->
+          <!-- <epg-page-one2 :programesListOne2="mobileProgramesListTwo" v-show="!oneShow"></epg-page-one2> -->
         </div>
         <!-- <div v-for="(item,index) in box_content" :key="index">{{item}}</div> -->
       </el-row>
@@ -427,11 +429,12 @@ export default {
                 promise_list.push(epg_box_content(last_formData)
                   .then((response) => {
                     //此处是1.0版本 的box信息
+                    // console.log("1.0版本的box信息", response.data.responses)
                     let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
                     // console.log("box详细信息", click_freq_num)
                     // console.log("box名称：", areanumber)
                     //此处需要判断是否有上期数据
-                    let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
+                    let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : ''    //上期点击数
                     let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
                     let chain_index
                     if (last_click_freq_num != 0) {
@@ -496,82 +499,124 @@ export default {
               console.log(error)
             }
           } else {
-            vm.oneShow = false,  //1.0 页面显示
-              console.log("2.0版本选择1")
+            vm.programesListOne = []   //初始化
+            vm.programesListTwo = []  //初始化
+
+            // vm.oneShow = false,  //1.0 页面显示
+            console.log("2.0版本选择1")
             // console.log("2.0版本box", response.data.responses[0])
             let box_data = response.data.responses[1].hits.hits
+            console.log("2.0,2.0,2.0------", box_data)
             try {
               /*  */
               let promise_list = []   //存放所有的请求
-              if (box_data[0]._source.areanumber)  //若为空，则进入catch初始化数据
-                box_data.forEach((value, index) => {
-                  // console.log("2.0box名称", value._source.areanumber)
-                  let res_index = index
-                  let areanumber = value._source.areanumber
-                  last_temp.areanumber = areanumber
-                  var last_formData = new FormData();
-                  var last_formData = new window.FormData();
-                  last_formData.append("operator", String(last_temp.operator));
-                  last_formData.append("list", String(last_temp.list));
-                  last_formData.append("start", String(last_temp.start));
-                  last_formData.append("end", String(last_temp.end));
-                  last_formData.append("areanumber", String(last_temp.areanumber));
-                  last_formData.append("year", String(last_temp.year));
-                  promise_list.push(epg_box_content(last_formData)
-                    .then((response) => {
-                      //此处是1.0版本 的box信息
-                      let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
-                      // console.log("box详细信息", click_freq_num)
-                      // console.log("box名称：", areanumber)
-                      //此处需要判断是否有上期数据
-                      let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : 0    //上期点击数
-                      let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
-                      let chain_index
-                      if (last_click_freq_num != 0) {
-                        //若上期数据不为 0，求环比
-                        chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(1)  //����
-                      } else {
-                        chain_index = '-'
-                      }
-                      return {
-                        classify: '',
-                        title: areanumber,
-                        lastWeek: last_click_freq_num,
-                        thisWeek: current_click_freq_num,
-                        chainIndex: chain_index + '%',
-                        style: {
-                          position: 'absolute',
-                          width: value._source.w + 'px',
-                          left: value._source.x + 'px',
-                          height: value._source.h + 'px',
-                          top: value._source.y + 'px'
-                        }
-                      }
-                      // console.log("----------------------------")
-                    })
-                  )
-                })
+              // if (box_data[0]._source.areanumber)  //若为空，则进入catch初始化数据
+              box_data.forEach((value, index) => {
+                console.log("2.0box名称", value._source.areanumber)
+                let res_index = index
+                let areanumber = value._source.areanumber
+                last_temp.areanumber = areanumber
+                var last_formData = new FormData();
+                var last_formData = new window.FormData();
+                last_formData.append("operator", String(last_temp.operator));
+                last_formData.append("list", String(last_temp.list));
+                last_formData.append("start", String(last_temp.start));
+                last_formData.append("end", String(last_temp.end));
+                last_formData.append("areanumber", String(last_temp.areanumber));
+                last_formData.append("year", String(last_temp.year));
+                promise_list.push(epg_box_content(last_formData)
+                  .then((response) => {
+                    //此处是2.0版本 的box信息
+                    console.log("box名称：", areanumber)
+                    console.log("2.0版本box详细信息", response.data.responses)
+                    let click_freq_num = response.data.responses[1].aggregations.statistical_granularity.buckets
+                    // console.log("box详细信息", click_freq_num)
+                    //此处需要判断是否有上期数据
+                    let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : ''    //上期点击数
+                    let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
+                    let chain_index
+                    if (last_click_freq_num != 0) {
+                      //若上期数据不为 0，求环比
+                      chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(1)  //����
+                    } else {
+                      chain_index = '-'
+                    }
+                    //注：此处2.0版本盒子设置与1.0版本盒子显示一样，不涉及位置信息，等广电2.0版本box盒子信息完整再做调整
+                    return {
+                      classify: '',
+                      title: areanumber,
+                      lastWeek: last_click_freq_num,
+                      thisWeek: current_click_freq_num,
+                      chainIndex: chain_index + '%'
+                    }
+
+                    // 注：此处为2.0版本box盒子位置信息处理，等广电2.0版本box盒子信息完整再恢复使用
+                    // return {
+                    //   classify: '',
+                    //   title: areanumber,
+                    //   lastWeek: last_click_freq_num,
+                    //   thisWeek: current_click_freq_num,
+                    //   chainIndex: chain_index + '%',
+                    //   style: {
+                    //     position: 'absolute',
+                    //     width: value._source.w + 'px',
+                    //     left: value._source.x + 'px',
+                    //     height: value._source.h + 'px',
+                    //     top: value._source.y + 'px'
+                    //   }
+                    // }
+                    // console.log("----------------------------")
+                  })
+                )
+              })
               // promise_All处理异步函数顺序
               // 全部执行完之后再执行……
               Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
-                // console.log(`执行完所有才OK，${res}`);
-                // console.log(res)
-                if (vm.EPG_programa_type == 1) {
-                  vm.mobileProgramesListOne = res
-                  // console.log("2.0版本一级页面vm.mobileProgramesListOne~~~~~~~~~", vm.mobileProgramesListOne)
-                } else if (vm.EPG_programa_type == 2) {
-                  vm.mobileProgramesListTwo = res
-                  // console.log("2.0版本二级页面vm.mobileProgramesListTwo~~~~~~~~~", vm.mobileProgramesListTwo)
+                let result = []
+                res.forEach((item) => {
+                  if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
+                    result[Number(item.title.substring(3, item.title.indexOf('_')))] = []
+                  }
+                  result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
+                })
+                result.forEach((item) => {
+                  item.sort(function (a, b) {
+                    return Number(a.title.substring(a.title.indexOf('_') + 1, a.title.length)) - Number(b.title.substring(b.title.indexOf('_') + 1, b.title.length))
+                  })
+                })
+                if (vm.EPG_programa_type == 2) {
+                  vm.programesListTwo = result
+                  // console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
+                } else if (vm.EPG_programa_type == 1) {
+                  vm.programesListOne = result
+                  // console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
                 }
+
+                // 注：下面为2.0版本box盒子的信息代码，等2.0版本box位置信息数据调整好再恢复
+                // if (vm.EPG_programa_type == 1) {
+                //   vm.mobileProgramesListOne = res
+                //   console.log("2.0版本一级页面vm.mobileProgramesListOne~~~~~~~~~", vm.mobileProgramesListOne)
+                // } else if (vm.EPG_programa_type == 2) {
+                //   vm.mobileProgramesListTwo = res
+                // }
               });
             } catch (error) {
-              if (vm.EPG_programa_type == 1) {
-                vm.mobileProgramesListOne = []
-                // console.log("2.0版本一级页面vm.mobileProgramesListOne~~~~~~~~~", vm.mobileProgramesListOne)
-              } else if (vm.EPG_programa_type == 2) {
-                vm.mobileProgramesListTwo = []
-                // console.log("2.0版本二级页面vm.mobileProgramesListTwo~~~~~~~~~", vm.mobileProgramesListTwo)
+              // console.log("result--------", result)
+              if (vm.EPG_programa_type == 2) {
+                vm.programesListTwo = []
+                // console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
+              } else if (vm.EPG_programa_type == 1) {
+                vm.programesListOne = []
+                // console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
               }
+
+              // if (vm.EPG_programa_type == 1) {
+              //   vm.mobileProgramesListOne = []
+              //   // console.log("2.0版本一级页面vm.mobileProgramesListOne~~~~~~~~~", vm.mobileProgramesListOne)
+              // } else if (vm.EPG_programa_type == 2) {
+              //   vm.mobileProgramesListTwo = []
+              //   // console.log("2.0版本二级页面vm.mobileProgramesListTwo~~~~~~~~~", vm.mobileProgramesListTwo)
+              // }
               console.log(error)
             }
           }
