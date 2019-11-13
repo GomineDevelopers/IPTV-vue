@@ -68,8 +68,8 @@ store
     console.info(error);
   });
 
-// let ifTest = true;
-let ifTest = false;
+let ifTest = true;
+// let ifTest = false;
 
 
 // var routerform = [

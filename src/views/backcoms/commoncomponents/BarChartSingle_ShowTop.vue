@@ -263,6 +263,8 @@ export default {
             if (vm.UVB_programa == null || vm.UVB_programa.length == 0) {
               data = vm.chartData.data;
             } else {
+              console.log("●●●●●●●●●●");
+              console.log(vm.chartData.data);
               data.push(vm.chartData.data[0]);
               data = vm.chartData.data;
             }

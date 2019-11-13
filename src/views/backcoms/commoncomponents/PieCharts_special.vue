@@ -6,6 +6,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Vue from "vue";
+
 export default {
   name: "PieCharts_special", //饼图组件
   props: {
@@ -37,14 +39,10 @@ export default {
       setTimeout(function() {
         vm.drawLine();
       }, 2000);
-    },
+    }
   },
   computed: {
-    ...mapGetters([
-      "PR_operator",
-      "PR_picker",
-      "PR_value_specialName",
-    ]),
+    ...mapGetters(["PR_operator", "PR_picker", "PR_value_specialName"]),
     chartData_Change: {
       get: function() {
         let vm = this;
@@ -52,25 +50,54 @@ export default {
         let color = [];
         // ★由于该组件是复用组件-涉及不同筛选条件的渲染-用唯一值（id）做数据+渲染
         if (vm.chartData.id == "operatorProportionChart") {
+          // console.log("@@@@@@@@@@@@");
+          // console.log(vm.chartData.data);
+          // console.log(vm.chartData.data[0]);
+          // console.log(vm.chartData.data[1]);
+          // console.log(vm.chartData.data[2]);
+          // console.log(vm.chartData.data.length);
+          let temp_data = vm.chartData.data;
+          if (vm.chartData.data.length == 3) {
+            // 异常解决赋值为undefined问题
+            if (temp_data[0] == undefined) {
+              Vue.set(temp_data, 0, {
+                value: 0,
+                name: "移动"
+              });
+            }
+            if (temp_data[1] == undefined) {
+              Vue.set(temp_data, 1, {
+                value: 0,
+                name: "联通"
+              });
+            }
+            if (temp_data[2] == undefined) {
+              Vue.set(temp_data, 2, {
+                value: 0,
+                name: "电信"
+              });
+            }
+          }
+
           if (this.PR_operator == null || this.PR_operator.length == 0) {
-            data.push(vm.chartData.data[0]);
-            data.push(vm.chartData.data[1]);
-            data.push(vm.chartData.data[2]);
+            data.push(temp_data[0]);
+            data.push(temp_data[1]);
+            data.push(temp_data[2]);
             color.push(vm.chartData.color[0]);
             color.push(vm.chartData.color[1]);
             color.push(vm.chartData.color[2]);
           } else {
             if (this.PR_operator.indexOf("移动") > -1) {
-              data.push(vm.chartData.data[0]);
+              data.push(temp_data[0]);
               color.push(vm.chartData.color[0]);
             }
 
             if (this.PR_operator.indexOf("联通") > -1) {
-              data.push(vm.chartData.data[1]);
+              data.push(temp_data[1]);
               color.push(vm.chartData.color[1]);
             }
             if (this.PR_operator.indexOf("电信") > -1) {
-              data.push(vm.chartData.data[2]);
+              data.push(temp_data[2]);
               color.push(vm.chartData.color[2]);
             }
           }
@@ -85,7 +112,6 @@ export default {
             data: data
           };
         }
-
 
         setTimeout(function() {
           vm.drawLine();
@@ -104,6 +130,8 @@ export default {
   },
   methods: {
     drawLine() {
+      console.log(this.chartData_Change.data);
+
       var pieChart = this.$echarts.init(
         document.getElementById(this.chartData_Change.id)
       );

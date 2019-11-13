@@ -253,25 +253,34 @@ export default {
     },
     operatorChoose(newValue, oldValue) {
       let vm = this;
-      this.$store
-        .dispatch("set_PR_operator", newValue)
-        .then(function(response) {
-          // console.log(newValue);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      if (vm.ifOperatorShow == true && vm.ifOperatorShow2 == false) {
+        console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏");
+        console.log(newValue);
+
+        vm.$store
+          .dispatch("set_PR_operator", newValue)
+          .then(function(response) {
+            // console.log(newValue);
+          })
+          .catch(function(error) {
+            console.info(error);
+          });
+      }
     },
     operatorChoose2(newValue, oldValue) {
       let vm = this;
-      this.$store
-        .dispatch("set_PR_operator", newValue)
-        .then(function(response) {
-          // console.log(newValue);
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+      if (vm.ifOperatorShow == false && vm.ifOperatorShow2 == true) {
+        console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏");
+        console.log(newValue);
+        vm.$store
+          .dispatch("set_PR_operator", newValue)
+          .then(function(response) {
+            // console.log(newValue);
+          })
+          .catch(function(error) {
+            console.info(error);
+          });
+      }
     },
     value_specialName(newValue, oldValue) {
       let vm = this;
@@ -743,7 +752,7 @@ export default {
         reportName == "G+TV用户收视行为周报" ||
         reportName == "G+TV月度用户收视行为报告" ||
         reportName == "电信VIP增值业务专项分析" ||
-        reportName == "专题专区数据报告" 
+        reportName == "专题专区数据报告"
       ) {
         vm.operatorChoose = ["移动", "联通", "电信"];
         operatorChoose_new = []; // 多选框-初始化
@@ -755,17 +764,17 @@ export default {
             console.info(error);
           });
       }
-      if (reportName == "运营数据周报") {
-        vm.operatorChoose2 = ["移动"];
-        operatorChoose_new2 = ["移动"]; // 单选框-初始化
-        operatorChoose_old2 = ["移动"]; // 单选框-初始化
-        vm.$store
-          .dispatch("set_PR_operator", ["移动"])
-          .then(function(res) {})
-          .catch(function(error) {
-            console.info(error);
-          });
-      }
+      // if (reportName == "运营数据周报") {
+      //   vm.operatorChoose2 = ["移动"];
+      //   operatorChoose_new2 = ["移动"]; // 单选框-初始化
+      //   operatorChoose_old2 = ["移动"]; // 单选框-初始化
+      //   vm.$store
+      //     .dispatch("set_PR_operator", ["移动"])
+      //     .then(function(res) {})
+      //     .catch(function(error) {
+      //       console.info(error);
+      //     });
+      // }
 
       // 设置excel按钮下载状态 - 关
       vm.$store

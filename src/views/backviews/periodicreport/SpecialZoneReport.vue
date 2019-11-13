@@ -160,6 +160,7 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
+      console.log("※※※※※※※※※※※※※※※※※※");
       console.log("PR_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
@@ -581,8 +582,9 @@ export default {
               });
               setTimeout(function() {
                 for (i = 0; i < length; i++) {
-                  vm.clickNumData.data[2].push(buckets[i].click_freq.value);
+                  console.log(buckets[i].key);
 
+                  vm.clickNumData.data[2].push(buckets[i].click_freq.value);
                   Vue.set(vm.operatorProportionData.data, 1, {
                     value: buckets[i].click_freq.value,
                     name: "联通"

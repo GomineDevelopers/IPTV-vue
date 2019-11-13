@@ -509,7 +509,7 @@ export default {
             vm.regionData_data_arr = [];
             let aggregations_0;
             let buckets_0;
-            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
               console.log("非全选~~~programa")
               // 原-非全选
               aggregations_0 = response.data.responses[0].aggregations;
@@ -572,7 +572,7 @@ export default {
             vm.operatorData_arr = [];
 
             let buckets_0B;
-            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
               console.log("非全选~~~programa")
               // 原-非全选
               buckets_0B = response.data.responses[0].aggregations.ac1.buckets;
@@ -748,7 +748,7 @@ export default {
             vm.playData_arr = [];
 
             let aggregations_0BB;
-            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
               console.log("非全选~~~programa")
               // 原-非全选
               aggregations_0BB = response.data.responses[0].aggregations;
@@ -809,7 +809,7 @@ export default {
           try {
             vm.columnData_arr = [];
             let buckets_ti;
-            if(vm.ADD_VIP_programa.length > 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
               console.log("非全选~~~programa")
               // 原-非全选
               buckets_ti = response.data.responses[0].aggregations.ti.buckets;
@@ -911,7 +911,7 @@ export default {
           try {
             vm.orderViewingTopList_VIP.data = []; // 初始化
             let buckets_top;
-            if(vm.ADD_VIP_valueAddedPackage.length > 1 && vm.ADD_VIP_valueAddedPackage.length < vm.ADD_VIP_package_list.length){
+            if(vm.ADD_VIP_valueAddedPackage.length >= 1 && vm.ADD_VIP_valueAddedPackage.length < vm.ADD_VIP_package_list.length){
               console.log("非全选~~~package")
               // 原-非全选
               buckets_top = response.data.responses[1].aggregations.programname.buckets;

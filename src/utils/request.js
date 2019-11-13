@@ -3,10 +3,10 @@ import utils from "./formutils"
 
 // 创建axios实例
 const service = axios.create({
-    // baseURL: 'http://10.5.1.13/api', // 线下测试 - 常用
+    baseURL: 'http://10.5.1.13/api', // 线下测试 - 常用
     // baseURL: 'http://10.5.1.15/api', // 线下测试 - 临时
     // baseURL: 'http://172.17.103.213:8080/api', // 线上测试
-    baseURL: 'http://172.17.103.213:8087/api', // 线上测试 - 当前
+    // baseURL: 'http://172.17.103.213:8087/api', // 线上测试 - 当前
     // baseURL: 'http://backend.gomineshop.cn/api', // demo
     timeout: 15000 // 请求超时时间
 })

@@ -1023,8 +1023,8 @@ export default {
           try {
             vm.columnData_arr = [];
             let buckets_ti;
-            if (
-              vm.UVB_programa.length > 1 &&
+            if (   // 单选用 0 2 都对  所以这里可以用  >=1  替换 >1
+              vm.UVB_programa.length >= 1 &&
               vm.UVB_programa.length < vm.UVB_programa_list.length
             ) {
               console.log("非全选~~~programa");
@@ -1139,7 +1139,7 @@ export default {
             let buckets_top;
 
             if (
-              vm.UVB_contenttype.length > 1 &&
+              vm.UVB_contenttype.length >= 1 &&
               vm.UVB_contenttype.length < vm.UVB_contenttype_list.length
             ) {
               console.log("非全选~~~~contenttype");
