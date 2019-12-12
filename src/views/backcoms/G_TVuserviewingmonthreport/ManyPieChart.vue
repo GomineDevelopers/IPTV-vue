@@ -19,28 +19,32 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
+    // setTimeout(function() {
+    try {
       vm.setLineChart();
-    }, 2500);
+    } catch (error) {
+      console.log(error);
+    }
+    // }, 3000);
   },
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2500);
+      }, 3000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2500);
+      }, 3000);
     },
     pieData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2500);
+      }, 3000);
     }
   },
   computed: {
@@ -89,7 +93,7 @@ export default {
             // 视图更新
             setTimeout(function() {
               vm.setLineChart();
-            }, 2500);
+            }, 3000);
 
             let tempx = {
               title: vm.pieData.title,
@@ -101,7 +105,7 @@ export default {
           }
           setTimeout(function() {
             vm.setLineChart();
-          }, 2500);
+          }, 3000);
           return vm.pieData;
         } catch (error) {
           console.log(error);

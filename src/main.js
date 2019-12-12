@@ -35,58 +35,58 @@ store
   });
 
 // /////////// 实际截止范围
-// get_date()
-//   .then(function (response_date) {
-//     // console.log(response_date);
-//     let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
-//     let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
+get_date()
+  .then(function (response_date) {
+    // console.log(response_date);
+    let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
+    let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
 
-//     store
-//       .dispatch("set_BigScreenStartDate", start_date)
-//       .then(function (response) {
-//         // console.log(response);
-//       })
-//       .catch(function (error) {
-//         console.info(error);
+    store
+      .dispatch("set_BigScreenStartDate", start_date)
+      .then(function (response) {
+        // console.log(response);
+      })
+      .catch(function (error) {
+        console.info(error);
 
-//       });
+      });
 
-//     // 设置大屏/后台-数据总览 的 截止日期（end）
-//     store
-//       .dispatch("set_BigScreenExpirationDate", end_date) // 18号 数据审计没东西
-//       .then(function (response) {
-//         // console.log(response);
-//       })
-//       .catch(function (error) {
-//         console.info(error);
-//       });
+    // 设置大屏/后台-数据总览 的 截止日期（end）
+    store
+      .dispatch("set_BigScreenExpirationDate", end_date) // 18号 数据审计没东西
+      .then(function (response) {
+        // console.log(response);
+      })
+      .catch(function (error) {
+        console.info(error);
+      });
+  })
+  .catch(function (error) {
+    console.info(error);
+  });
+
+// /////////// 临时截止范围
+
+// store
+//   .dispatch("set_BigScreenStartDate", "2019-06-01")
+//   .then(function (response) {
+//     // console.log(response);
+//   })
+//   .catch(function (error) {
+//     console.info(error);
+
+//   });
+
+// // 设置大屏/后台-数据总览 的 截止日期（end）
+// store
+//   .dispatch("set_BigScreenExpirationDate", "2019-08-31") // 18号 数据审计没东西
+//   // .dispatch("set_BigScreenExpirationDate", "2019-11-08") 
+//   .then(function (response) {
+//     // console.log(response);
 //   })
 //   .catch(function (error) {
 //     console.info(error);
 //   });
-
-// /////////// 临时截止范围
-
-store
-  .dispatch("set_BigScreenStartDate", "2019-06-01")
-  .then(function (response) {
-    // console.log(response);
-  })
-  .catch(function (error) {
-    console.info(error);
-
-  });
-
-// 设置大屏/后台-数据总览 的 截止日期（end）
-store
-  .dispatch("set_BigScreenExpirationDate", "2019-08-31") // 18号 数据审计没东西
-  // .dispatch("set_BigScreenExpirationDate", "2019-11-08") 
-  .then(function (response) {
-    // console.log(response);
-  })
-  .catch(function (error) {
-    console.info(error);
-  });
 
 // /////////// 
 

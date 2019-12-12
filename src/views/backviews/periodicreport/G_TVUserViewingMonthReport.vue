@@ -1054,10 +1054,10 @@ export default {
         .then(response => {
           //////////////////////// 统一使用点
           let responses0;
-          let responses1;
+          let responses1;  
           let responses2;
           let responses3;
-          let responses4;
+          // let responses4;
           let responses5;
           let responses6;
           let responses7;
@@ -1073,31 +1073,41 @@ export default {
           let responses17;
           let responses18;
           let responses19;
+
           let responses20;
           let responses21;
+          let responses22;
+          let responses23;
+          let responses24;
+
           try {
             responses0 = response.data.responses[0];  // responses0 天维度
-            responses1 = response.data.responses[1];
-            responses2 = response.data.responses[2];
-            responses3 = response.data.responses[3];
-            responses4 = response.data.responses[4];
-            responses5 = response.data.responses[5];
-            responses6 = response.data.responses[6];
-            responses7 = response.data.responses[7];
-            responses8 = response.data.responses[8];
-            responses9 = response.data.responses[9];
-            responses10 = response.data.responses[10];
-            responses11 = response.data.responses[11];
-            responses12 = response.data.responses[12];
-            responses13 = response.data.responses[13];
-            responses14 = response.data.responses[14];
-            responses15 = response.data.responses[15];
-            responses16 = response.data.responses[16];
-            responses17 = response.data.responses[17];
-            responses18 = response.data.responses[18];
-            responses19 = response.data.responses[19];
+            responses1 = response.data.responses[1];  // responses1 周维度
+            responses2 = response.data.responses[2];  // responses2 周维度
+            responses3 = response.data.responses[3];  // 月维度
+            // responses4 = response.data.responses[4];  // 没用到
+            responses5 = response.data.responses[5];  // 月维度
+            responses6 = response.data.responses[6];  // 月维度
+            responses7 = response.data.responses[7];  // 月维度
+            responses8 = response.data.responses[8];  // 月维度
+            responses9 = response.data.responses[9];  // 月维度
+            responses10 = response.data.responses[10]; // 月维度
+            responses11 = response.data.responses[11]; // 月维度
+            responses12 = response.data.responses[12]; // 月维度
+            responses13 = response.data.responses[13]; // 月维度
+            responses14 = response.data.responses[14]; // 月维度
+            responses15 = response.data.responses[15]; // 月维度
+            responses16 = response.data.responses[16]; // 月维度
+            responses17 = response.data.responses[17]; // 月维度
+            responses18 = response.data.responses[18]; // responses18 周维度
+            responses19 = response.data.responses[19]; // 月维度
+
             responses20 = response.data.responses[20]; // responses0 周维度
             responses21 = response.data.responses[21]; // responses0 月维度
+            responses22 = response.data.responses[22]; // responses1 月维度
+            responses23 = response.data.responses[23]; // responses2 月维度
+            responses24 = response.data.responses[24]; // responses18 月维度
+
           } catch (error) {
             console.log(error);
           }
@@ -1259,7 +1269,7 @@ export default {
               Vue.set(vm.areaPowerActivityData.data, 0, ["name"]);
               Vue.set(vm.areaPowerActivityData.data, 4, ["总开机活跃率"]);
             }
-            // /////////////// 整体收视行为分析 responses1 2 3(注意顺序对应) row9 上+下
+            // /////////////// 整体收视行为分析 responses1(=》 responses22 月) responses2(=》 responses23 月) responses3（直接用月不变） (注意顺序对应) row9 上+下
             // /////////////// 直播收视行为分析 responses2  row10 下
 
             // vm.usingTheUser;
@@ -1273,11 +1283,17 @@ export default {
             // 用户user 次数freq 时长dur
             try {
               let buckets9_demand =
-                responses1.aggregations.statistical_granularity.buckets;
+                responses22.aggregations.statistical_granularity.buckets;
+              buckets9_demand = commonTools.bucketsSort_WM(buckets9_demand);  // 排序
               let buckets9_onlive =
-                responses2.aggregations.statistical_granularity.buckets;
+                responses23.aggregations.statistical_granularity.buckets;
+              buckets9_onlive = commonTools.bucketsSort_WM(buckets9_onlive);  // 排序
               let buckets9_watch =
                 responses3.aggregations.statistical_granularity.buckets;
+              buckets9_watch = commonTools.bucketsSort_WM(buckets9_watch);  // 排序
+              // console.log(buckets9_demand);
+              // console.log(buckets9_onlive);
+              // console.log(buckets9_watch);
 
               let length_9 = buckets9_demand.length; //月的长度
               let i_9;
@@ -1356,7 +1372,7 @@ export default {
                 ["直播观看时长数（百万小时）"],
                 ["直播观看用户数（百万户）"]
               ];
-              console.log(length_9); // 11  问题点(后台返回数据问题)：buckets9_demand length为11，buckets9_watch length为 6
+              // console.log(length_9); // 11  问题点(后台返回数据问题)：buckets9_demand length为11，buckets9_watch length为 6
               for (i_9 = 0; i_9 < length_9; i_9++) {
 
                 // console.log(i_9);
@@ -1460,9 +1476,8 @@ export default {
               vm.monthlyTotalViewingData2.data = [];
             }
 
-            // /////////////// responses9 over
 
-            // ////////////////// 直播收视行为分析 row12 left/middle/right responses5~7
+            // ////////////////// 直播收视行为分析 row12 left/middle/right responses5 （改月不变） responses6 （月） responses7  （月）
             // 直播频道观看用户数排名（万户）
             // mobileLiveViewerData
             // rw_olv responses2
@@ -1471,10 +1486,17 @@ export default {
             try {
               let buckets_12 =
                 responses5.aggregations.statistical_granularity.buckets; // 1 5 un
+              buckets_12 = commonTools.bucketsSort_WM(buckets_12);  // 排序
               let buckets_12_2 =
                 responses6.aggregations.statistical_granularity.buckets; // 2 6 dur
+              buckets_12_2 = commonTools.bucketsSort_WM(buckets_12_2);  // 排序
               let buckets_12_3 =
                 responses7.aggregations.statistical_granularity.buckets; // 3 7 freq
+              buckets_12_3 = commonTools.bucketsSort_WM(buckets_12_3);  // 排序
+              // console.log(buckets_12);
+              // console.log(buckets_12_2);
+              // console.log(buckets_12_3);
+
               let length_12 = buckets_12.length; // 默认两月 - 2
               let i_12;
               let temp_data_12_un = []; // 5
@@ -1556,15 +1578,15 @@ export default {
               if (length_12 > 1) {
                 // ////// 上月
                 let buckets_child_12_2 =
-                  responses5.aggregations.statistical_granularity.buckets[
+                  buckets_12[
                     length_12 - 2
                   ].channel.buckets;
                 let buckets_child_12_2_2 =
-                  responses6.aggregations.statistical_granularity.buckets[
+                  buckets_12_2[
                     length_12 - 2
                   ].channel.buckets;
                 let buckets_child_12_2_3 =
-                  responses7.aggregations.statistical_granularity.buckets[
+                  buckets_12_3[
                     length_12 - 2
                   ].channel.buckets;
                 let top20_length_12_week2_all = buckets_child_12_2.length; // n个
@@ -1702,11 +1724,12 @@ export default {
               vm.liveViewTimesData2.data = [];
             }
 
-            // /////////////// 整体点播收视行为分析 row14 responses1   left
+            // /////////////// 整体点播收视行为分析 row14 responses1 =》 responses22 月   left
             try {
               // month   rw_dm  responses1
               let buckets14_demand =
-                responses1.aggregations.statistical_granularity.buckets;
+                responses22.aggregations.statistical_granularity.buckets;
+              buckets14_demand = commonTools.bucketsSort_WM(buckets14_demand);  // 排序
               let length_14 = buckets14_demand.length; //月的长度
               let i_14;
               // 注： q1 -  直播 onlive
@@ -1749,8 +1772,8 @@ export default {
               console.log(error);
               vm.monthlyDemandViewingData.data = [];
             }
-            // //////////////// 各类型节目点播收视行为分析 row15  responses8 9 10   demand
-            // 结构类似：移动运营周报-主要栏目点击次数（万次） (row6 )   responses 14
+            // //////////////// 各类型节目点播收视行为分析 row15  responses8 （月） responses9 （月） responses10 （月）   demand
+            // 结构类似：移动运营周报-主要栏目点击次数（万次） (row6 )   responses14
             // 上月（显示先） 本月（显示后）
             // responses8  demand_user_num
             // responses9  demand_dur
@@ -1759,10 +1782,13 @@ export default {
             try {
               let buckets_15 =
                 responses8.aggregations.statistical_granularity.buckets;
+              buckets_15 = commonTools.bucketsSort_WM(buckets_15);  // 排序
               let buckets_15_dur =
                 responses9.aggregations.statistical_granularity.buckets;
+              buckets_15_dur = commonTools.bucketsSort_WM(buckets_15_dur);  // 排序
               let buckets_15_fr =
                 responses10.aggregations.statistical_granularity.buckets;
+              buckets_15_fr = commonTools.bucketsSort_WM(buckets_15_fr);  // 排序
               let length_15 = buckets_15.length; // 月的长度
               let i_15;
 
@@ -1828,15 +1854,15 @@ export default {
               // 上月
               if (length_15 > 1) {
                 let buckets_15_0 =
-                  responses8.aggregations.statistical_granularity.buckets[
+                  buckets_15[
                     length_15 - 2
                   ].program_type.buckets;
                 let buckets_15_0_dur =
-                  responses9.aggregations.statistical_granularity.buckets[
+                  buckets_15_dur[
                     length_15 - 2
                   ].program_type.buckets;
                 let buckets_15_0_fr =
-                  responses10.aggregations.statistical_granularity.buckets[
+                  buckets_15_fr[
                     length_15 - 2
                   ].program_type.buckets;
                 let length_15_0 = buckets_15_0.length; // length_15_0
@@ -1937,7 +1963,7 @@ export default {
               vm.demandTimesData.data = [];
             }
 
-            // //////////////// 各栏目热力数据概览 row16  responses11 12 demand
+            // //////////////// 各栏目热力数据概览 row16  responses11 （月） responses12 （月） demand
             // 结构类似：各栏目热力数据概览 row15
             // 上月（显示先） 本月（显示后）
             // programPageClickUserData  left  click_user_num responses12
@@ -1947,9 +1973,11 @@ export default {
               // programPageClickNumData right click_freq
               let buckets_16 =
                 responses11.aggregations.statistical_granularity.buckets;
+              buckets_16 = commonTools.bucketsSort_WM(buckets_16);  // 排序
               // programPageClickUserData  left  click_user_num
               let buckets_16_cun =
                 responses12.aggregations.statistical_granularity.buckets;
+              buckets_16_cun = commonTools.bucketsSort_WM(buckets_16_cun);  // 排序
               let length_16 = buckets_16.length; // 月的长度
               let i_16;
 
@@ -1990,11 +2018,11 @@ export default {
               // 上月
               if (length_16 > 1) {
                 let buckets_16_0 =
-                  responses11.aggregations.statistical_granularity.buckets[
+                  buckets_16[
                     length_16 - 2
                   ].ti.buckets;
                 let buckets_16_0_cun =
-                  responses12.aggregations.statistical_granularity.buckets[
+                  buckets_16_cun[
                     length_16 - 2
                   ].ti.buckets;
                 let length_16_0 = buckets_16_0.length; // length_16_0
@@ -2064,7 +2092,7 @@ export default {
               vm.programPageClickUserData.data = [];
             }
 
-            // ////////////////// 点播收视行为分析 row17 left/middle/right responses13~15
+            // ////////////////// 点播收视行为分析 row17 left/middle/right responses13 （月） responses14 （月） responses15 （月）
             // 结构类似： 直播收视行为分析 row12 left/middle/right responses5~7
             // 点播频道观看用户数排名（万户）
             // 本月（先） 上月（后）
@@ -2072,10 +2100,14 @@ export default {
             try {
               let buckets_17 =
                 responses13.aggregations.statistical_granularity.buckets; // 1 13 un
+              buckets_17 = commonTools.bucketsSort_WM(buckets_17);  // 排序
               let buckets_17_2 =
                 responses14.aggregations.statistical_granularity.buckets; // 2 14 freq
+              buckets_17_2 = commonTools.bucketsSort_WM(buckets_17_2);  // 排序
               let buckets_17_3 =
                 responses15.aggregations.statistical_granularity.buckets; // 3 15 dur
+              buckets_17_3 = commonTools.bucketsSort_WM(buckets_17_3);  // 排序
+
               let length_17 = buckets_17.length; // 默认两月 - 2
               let i_17;
               let temp_data_17_un = []; // 13
@@ -2154,15 +2186,15 @@ export default {
               if (length_17 > 1) {
                 // ////// 上月
                 let buckets_child_17_2 =
-                  responses13.aggregations.statistical_granularity.buckets[
+                  buckets_17[
                     length_17 - 2
                   ].program_type.buckets;
                 let buckets_child_17_2_2 =
-                  responses14.aggregations.statistical_granularity.buckets[
+                  buckets_17_2[
                     length_17 - 2
                   ].program_type.buckets;
                 let buckets_child_17_2_3 =
-                  responses15.aggregations.statistical_granularity.buckets[
+                  buckets_17_3[
                     length_17 - 2
                   ].program_type.buckets;
                 let top20_length_17_week2_all = buckets_child_17_2.length; // n个
@@ -2263,7 +2295,7 @@ export default {
               vm.demandDurationData2.data = [];
             }
 
-            // //////////////// 付费用户收视行为分析 row18 left  responses16
+            // //////////////// 付费用户收视行为分析 row18 left  responses16 （月）
             // 新增在册用户转化对比
             // 结构类似：各栏目热力数据概览 row16  responses11 12 demand
             // 上月（显示先） 本月（显示后）
@@ -2271,6 +2303,7 @@ export default {
             try {
               let buckets_18 =
                 responses16.aggregations.statistical_granularity.buckets;
+              buckets_18 = commonTools.bucketsSort_WM(buckets_18);  // 排序
               let length_18 = buckets_18.length; // 月的长度
               let i_18;
 
@@ -2308,7 +2341,7 @@ export default {
               vm.newAddUserData.data = [];
             }
 
-            // //////////////// 付费用户收视行为分析 row18 right  responses17
+            // //////////////// 付费用户收视行为分析 row18 right  responses17 （月）
             // 引导用户付费内容排名
             // 结构类似： row13 responses5 left yd
             try {
@@ -2316,6 +2349,7 @@ export default {
 
               let buckets_18b =
                 responses17.aggregations.statistical_granularity.buckets;
+              buckets_18b = commonTools.bucketsSort_WM(buckets_18b);  // 排序
               let length_18b = buckets_18b.length;
               let i_18b;
               let temp_data_18b_npn = [];
@@ -2351,10 +2385,7 @@ export default {
                     .new_paid_num.value
                 );
               }
-              // console.log("▲▲▲▲▲▲▲");
-              // console.log(temp_data_18b_npn);
-              // console.log(responses17);
-              // console.log(vm.PR_operator);
+     
 
               vm.payingUserData.data = temp_data_18b_npn;
             } catch (error) {
@@ -2363,12 +2394,13 @@ export default {
               vm.payingUserData.data = [["product", "本月"], ["-", "0"]];
             }
 
-            // //////////////// 本土原创节目收视行为分析 row19 left  responses18
+            // //////////////// 本土原创节目收视行为分析 row19 left  responses18 =》 responses24 月
             // 原创节目月点播数据 mixture month
             // 类似结构：  row14 responses1 left
             try {
               let buckets19_demand =
-                responses18.aggregations.statistical_granularity.buckets;
+                responses24.aggregations.statistical_granularity.buckets;
+              buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序
               let length_19 = buckets19_demand.length; //月的长度
               let i_19;
               // 注： q1 -  直播 onlive
@@ -2413,11 +2445,12 @@ export default {
           if (datatype == "mixture" && timetype == "week") {
             // console.log("■■■■■■■■■■混合 单月分周数据", response.data.responses);
 
-            // /////////////// 本月各周直播收视日数据 responses2  row11 下
+            // /////////////// 本月各周直播收视日数据 responses2 (周不变)  row11 下
             // 结构类似：直播收视行为分析 responses2  row10 下 （row9结构）
             try {
               let buckets9_onlive =
                 responses2.aggregations.statistical_granularity.buckets;
+              buckets9_onlive = commonTools.bucketsSort_WM(buckets9_onlive);  // 排序
 
               // 注： q1 -  直播 onlive
               // 注： q2 -  回看 watch
@@ -2467,11 +2500,12 @@ export default {
               vm.weekliveViewingData.data = [];
             }
 
-            // /////////////// 整体点播收视行为分析 row14 responses1   right
+            // /////////////// 整体点播收视行为分析 row14 responses1 (周不变)   right
             // week   rw_dm  responses1
             try {
               let buckets14_demand =
                 responses1.aggregations.statistical_granularity.buckets;
+              buckets14_demand = commonTools.bucketsSort_WM(buckets14_demand);  // 排序
               let length_14 = buckets14_demand.length; //月长度
               let i_14;
               // 注： q1 -  直播 onlive
@@ -2677,11 +2711,13 @@ export default {
                 Vue.set(vm.areaPowerActivityData.data, 1, ["移动"]);
               }
 
-              // /////////////// 直播收视行为分析 responses 2  row10 上  yd
+              // /////////////// 直播收视行为分析 responses2 =》 responses23 月  row10 上  yd
               // liveViewingDurationData liveViewingUserData liveViewingTimesData
               try {
                 let buckets_10 =
-                  responses2.aggregations.statistical_granularity.buckets;
+                  responses23.aggregations.statistical_granularity.buckets;
+                buckets_10 = commonTools.bucketsSort_WM(buckets_10);  // 排序
+                console.log(buckets_10);
                 let length_10 = buckets_10.length;
                 let i_10;
                 let onlive_dur_yd = [];
@@ -2762,11 +2798,12 @@ export default {
               // console.log(temp_liveViewingDurationData_content);
               // console.log(temp_liveViewingUserData_content);
               // console.log(temp_liveViewingTimesData_content);
-              // /////////////////// 本地直播及轮播频道用户收视行为分析 =》 分运营商直播收视行为分析 row13 responses5 left yd
+              // /////////////////// 本地直播及轮播频道用户收视行为分析 =》 分运营商直播收视行为分析 row13 responses5 （月） left yd
               // 结构类似 row12
               try {
                 let buckets_13 =
                   responses5.aggregations.statistical_granularity.buckets;
+                buckets_13 = commonTools.bucketsSort_WM(buckets_13);  // 排序
                 let length_13 = buckets_13.length; // 默认两月 - 2
                 let i_13;
                 let temp_data_13_un = [];
@@ -2805,7 +2842,7 @@ export default {
                 // ////// 上月
                 if (length_13 > 1) {
                   let buckets_child_13_2 =
-                    responses5.aggregations.statistical_granularity.buckets[
+                    buckets_13[
                       length_13 - 2
                     ].channel.buckets;
                   let top20_length_13_week2_all = buckets_child_13_2.length; // n个
@@ -2862,11 +2899,12 @@ export default {
 
               // 之后的联通 电信的数据要 慢一拍set！
 
-              // //////////////// 重点专题及活动数据概览 row20 right  responses19 yd
+              // //////////////// 重点专题及活动数据概览 row20 right  responses19 （月） yd
               // 类似结构：row18 right  responses17
               try {
                 let buckets_20zt =
                   responses19.aggregations.statistical_granularity.buckets;
+                buckets_20zt = commonTools.bucketsSort_WM(buckets_20zt);  // 排序
                 let length_20zt = buckets_20zt.length;
                 let i_20zt;
                 let temp_data_20zt_cf = [];
@@ -3043,12 +3081,13 @@ export default {
                   }
                 });
 
-                // /////////////////// 本地直播及轮播频道用户收视行为分析 =》 分运营商直播收视行为分析 row13 responses5 left lt
+                // /////////////////// 本地直播及轮播频道用户收视行为分析 =》 分运营商直播收视行为分析 row13 responses5 （月） left lt
                 // 结构类似 row12
 
                 try {
                   let buckets_13 =
                     responses5.aggregations.statistical_granularity.buckets;
+                  buckets_13 = commonTools.bucketsSort_WM(buckets_13);  // 排序  
                   let length_13 = buckets_13.length; // 默认两月 - 2
                   let i_13;
                   let temp_data_13_un = [];
@@ -3085,7 +3124,7 @@ export default {
                   // ////// 上月
                   if (length_13 > 1) {
                     let buckets_child_13_2 =
-                      responses5.aggregations.statistical_granularity.buckets[
+                      buckets_13[
                         length_13 - 2
                       ].channel.buckets;
                     let top20_length_13_week2_all = buckets_child_13_2.length; // n个
@@ -3146,11 +3185,14 @@ export default {
                 Vue.set(vm.areaPowerActivityData.data, 2, ["联通"]);
               }
 
-              // /////////////// 直播收视行为分析 responses 2  row10 上  lt
+              // /////////////// 直播收视行为分析 responses2 =》 responses23 月  row10 上  lt
               // liveViewingDurationData liveViewingUserData liveViewingTimesData
               try {
                 let buckets_10 =
-                  responses2.aggregations.statistical_granularity.buckets;
+                  responses23.aggregations.statistical_granularity.buckets;
+                buckets_10 = commonTools.bucketsSort_WM(buckets_10);  // 排序
+                console.log(buckets_10);
+
                 let length_10 = buckets_10.length;
                 let i_10;
                 let onlive_dur_yd = [];
@@ -3196,16 +3238,17 @@ export default {
                 }, 1000); // 联通延时 500ms 电信延时1000ms
               } catch (error) {
                 console.log(error);
-                vm.liveViewingDurationData.content = [];
-                vm.liveViewingUserData.content = [];
-                vm.liveViewingTimesData.content = [];
+                // vm.liveViewingDurationData.content = [];
+                // vm.liveViewingUserData.content = [];
+                // vm.liveViewingTimesData.content = [];
               }
 
-              // //////////////// 重点专题及活动数据概览 row20 right  responses19 lt
+              // //////////////// 重点专题及活动数据概览 row20 right  responses19 （月） lt
               // 类似结构：row18 right  responses17
               try {
                 let buckets_20zt =
                   responses19.aggregations.statistical_granularity.buckets;
+                buckets_20zt = commonTools.bucketsSort_WM(buckets_20zt);  // 排序
                 let length_20zt = buckets_20zt.length;
                 let i_20zt;
                 let temp_data_20zt_cf = [];
@@ -3374,11 +3417,12 @@ export default {
                 Vue.set(vm.areaPowerActivityData.data, 3, ["电信"]);
               }
 
-              // //////////////// 重点专题及活动数据概览 row20 right  responses19 dx
+              // //////////////// 重点专题及活动数据概览 row20 right  responses19 （月） dx
               // 类似结构：row18 right  responses17
               try {
                 let buckets_20zt =
                   responses19.aggregations.statistical_granularity.buckets;
+                buckets_20zt = commonTools.bucketsSort_WM(buckets_20zt);  // 排序
                 let length_20zt = buckets_20zt.length;
                 let i_20zt;
                 let temp_data_20zt_cf = [];
@@ -3437,11 +3481,14 @@ export default {
               }
             }
 
-            // /////////////// 直播收视行为分析 responses 2  row10 上  dx
+            // /////////////// 直播收视行为分析 responses2 =》 responses23 月  row10 上  dx
             // liveViewingDurationData liveViewingUserData liveViewingTimesData
             try {
               let buckets_10 =
-                responses2.aggregations.statistical_granularity.buckets;
+                responses23.aggregations.statistical_granularity.buckets;
+              buckets_10 = commonTools.bucketsSort_WM(buckets_10);  // 排序 
+              console.log(buckets_10);
+
               let length_10 = buckets_10.length;
               let i_10;
               let onlive_dur_yd = [];
@@ -3486,16 +3533,17 @@ export default {
               }, 1000); // 联通延时 500ms 电信延时1000ms
             } catch (error) {
               console.log(error);
-              vm.liveViewingDurationData.content = [];
-              vm.liveViewingUserData.content = [];
-              vm.liveViewingTimesData.content = [];
+              // vm.liveViewingDurationData.content = [];
+              // vm.liveViewingUserData.content = [];
+              // vm.liveViewingTimesData.content = [];
             }
 
-            // /////////////////// 本地直播及轮播频道用户收视行为分析 =》 分运营商直播收视行为分析 row13 left dx
+            // /////////////////// 本地直播及轮播频道用户收视行为分析 =》 分运营商直播收视行为分析 row13 responses5 （月） left dx
             // 结构类似 row12
             try {
               let buckets_13 =
                 responses5.aggregations.statistical_granularity.buckets;
+              buckets_13 = commonTools.bucketsSort_WM(buckets_13);  // 排序
               // console.log("buckets_13----------***********", buckets_13);
               let length_13 = buckets_13.length; // 默认两月 - 2
               let i_13;
@@ -3533,7 +3581,7 @@ export default {
               // ////// 上月
               if (length_13 > 1) {
                 let buckets_child_13_2 =
-                  responses5.aggregations.statistical_granularity.buckets[
+                  buckets_13[
                     length_13 - 2
                   ].channel.buckets;
                 let top20_length_13_week2_all = buckets_child_13_2.length; // n个
@@ -3608,7 +3656,7 @@ export default {
                 let week_user_develop =
                   responses20.aggregations.statistical_granularity
                     .buckets;
-                console.log(responses20);
+                // console.log(responses20);
                 week_user_develop = commonTools.bucketsSort_WM(week_user_develop);  // 排序
 
                 week_user_develop.forEach((value, index) => {
@@ -3661,7 +3709,7 @@ export default {
                 console.log(error);
               }
 
-              // /////////////// 本月各周直播收视日数据 responses 2  row11 上  yd
+              // /////////////// 本月各周直播收视日数据 responses2 （周不变）  row11 上  yd
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
@@ -3676,6 +3724,7 @@ export default {
               try {
                 buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
+                buckets_11 = commonTools.bucketsSort_WM(buckets_11);  // 排序  
                 length_11 = buckets_11.length;
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
@@ -3752,12 +3801,13 @@ export default {
                 vm.weekliveViewDurationData.content = [];
               }
 
-              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 yd
+              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 （周不变） yd
               // 原创节目月点播数据 single week
               // 类似结构：  row14 responses1 left
               try {
                 let buckets19_demand =
                   responses18.aggregations.statistical_granularity.buckets;
+                buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序
                 let length_19 = buckets19_demand.length; //月的长度
                 let i_19;
                 // 注： q1 -  直播 onlive
@@ -3853,12 +3903,13 @@ export default {
                 console.log(error);
               }
 
-              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 lt
+              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 （周不变） lt
               // 原创节目月点播数据 single week
               // 类似结构：  row14 responses1 left
               try {
                 let buckets19_demand =
                   responses18.aggregations.statistical_granularity.buckets;
+                buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序 
                 let length_19 = buckets19_demand.length; //月的长度
                 let i_19;
                 // 注： q1 -  直播 onlive
@@ -3945,12 +3996,13 @@ export default {
               } catch (error) {
                 console.log(error);
               }
-              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 dx
+              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 （周不变） dx
               // 原创节目月点播数据 single week
               // 类似结构：  row14 responses1 left
               try {
                 let buckets19_demand =
                   responses18.aggregations.statistical_granularity.buckets;
+                buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序 
                 let length_19 = buckets19_demand.length; //月的长度
                 let i_19;
                 // 注： q1 -  直播 onlive
@@ -4082,7 +4134,7 @@ export default {
                 console.log(error);
                 Vue.set(vm.everyPowerActivityData.data, 2, []);
               }
-              // /////////////// 本月各周直播收视日数据 responses 2  row11 上  lt
+              // /////////////// 本月各周直播收视日数据 responses2 （周不变）  row11 上  lt
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
@@ -4093,6 +4145,7 @@ export default {
               try {
                 buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
+                buckets_11 = commonTools.bucketsSort_WM(buckets_11);  // 排序  
                 length_11 = buckets_11.length;
                 let onlive_dur_yd = [];
                 let onlive_usernum_yd = [];
@@ -4180,7 +4233,7 @@ export default {
                 console.log(error);
               }
 
-              // /////////////// 本月各周直播收视日数据 responses 2  row11 上  dx
+              // /////////////// 本月各周直播收视日数据 responses2（周不变）  row11 上  dx
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
               // weekLiveViewTimesData  onlive_freq
@@ -4194,6 +4247,7 @@ export default {
               try {
                 buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
+                buckets_11 = commonTools.bucketsSort_WM(buckets_11);  // 排序
                 length_11 = buckets_11.length;
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
