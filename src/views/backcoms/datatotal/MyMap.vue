@@ -41,192 +41,196 @@ export default {
   },
   methods: {
     drawLine() {
-      let vm = this;
-      var selectProe = "贵州";
-      this.$echarts.registerMap(selectProe, myJson);
-      var myChartProe = this.$echarts.init(
-        document.getElementById("eMap_guizhou2")
-      );
-      myChartProe.off("click");
+      try {
+        let vm = this;
+        var selectProe = "贵州";
+        this.$echarts.registerMap(selectProe, myJson);
+        var myChartProe = this.$echarts.init(
+          document.getElementById("eMap_guizhou2")
+        );
+        myChartProe.off("click");
 
-      var optionE = {
-        title: {
-          x: "center",
-          y: "top",
-          textAlign: "left"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: function loadData(result) {
-            // return result.name + "<br />数据:" + result.value;
-            return result.name;
-          }
-        },
-        visualMap: {
-          show: false,
-          x: "left",
-          y: "center",
-          splitList: [
-            { start: 800, end: 1000 },
-            { start: 600, end: 800 },
-            { start: 400, end: 600 },
-            { start: 200, end: 400 },
-            { start: 0, end: 200 }
-          ],
-          color: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"]
-        },
-        series: [
-          {
-            name: "map",
-            type: "map",
-            // left: "15%",
-            left: "center",
-            top: "center",
-            mapType: selectProe,
-            roam: false,
-            zoom: 1.0, //这里是关键，一定要放在 series中
-            label: {
-              normal: {
-                show: true,
-                textStyle: {
-                  fontSize: 10,
-                  // fontWeight: "bold",
-                  color: "#333333"
-                }
-              },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                // borderColor: "#B7D6ED", //地图边界线颜色
-                borderColor: "rgba(0,0,0,0.4)", //地图边界线颜色
-                borderWidth: 1, //边界线宽度
-                areaStyle: {
-                  color: "white"
+        var optionE = {
+          title: {
+            x: "center",
+            y: "top",
+            textAlign: "left"
+          },
+          tooltip: {
+            trigger: "item",
+            formatter: function loadData(result) {
+              // return result.name + "<br />数据:" + result.value;
+              return result.name;
+            }
+          },
+          visualMap: {
+            show: false,
+            x: "left",
+            y: "center",
+            splitList: [
+              { start: 800, end: 1000 },
+              { start: 600, end: 800 },
+              { start: 400, end: 600 },
+              { start: 200, end: 400 },
+              { start: 0, end: 200 }
+            ],
+            color: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"]
+          },
+          series: [
+            {
+              name: "map",
+              type: "map",
+              // left: "15%",
+              left: "center",
+              top: "center",
+              mapType: selectProe,
+              roam: false,
+              zoom: 1.0, //这里是关键，一定要放在 series中
+              label: {
+                normal: {
+                  show: true,
+                  textStyle: {
+                    fontSize: 10,
+                    // fontWeight: "bold",
+                    color: "#333333"
+                  }
                 },
-                label: {
+                emphasis: {
                   show: true
                 }
               },
-              emphasis: {
-                // 选中样式
-                borderWidth: 1,
-                // borderColor:'#fff',
-                areaColor: "#F97E6F",
-                label: {
-                  show: true,
-                  textStyle: {
-                    color: "#fff"
+              itemStyle: {
+                normal: {
+                  // borderColor: "#B7D6ED", //地图边界线颜色
+                  borderColor: "rgba(0,0,0,0.4)", //地图边界线颜色
+                  borderWidth: 1, //边界线宽度
+                  areaStyle: {
+                    color: "white"
+                  },
+                  label: {
+                    show: true
+                  }
+                },
+                emphasis: {
+                  // 选中样式
+                  borderWidth: 1,
+                  // borderColor:'#fff',
+                  areaColor: "#F97E6F",
+                  label: {
+                    show: true,
+                    textStyle: {
+                      color: "#fff"
+                    }
                   }
                 }
-              }
-            },
-            data: [
-              {
-                name: "● 贵阳市",
-                value: this.myNums[0],
-                selected: this.selectedStatus[0]
               },
-              {
-                name: "● 遵义市",
-                value: this.myNums[1],
-                selected: this.selectedStatus[1]
-              },
-              {
-                name: "● 安顺市",
-                value: this.myNums[2],
-                selected: this.selectedStatus[2]
-              },
-              {
-                name: "● 黔南",
-                value: this.myNums[3],
-                selected: this.selectedStatus[3]
-              },
-              {
-                name: "● 黔东南",
-                value: this.myNums[4],
-                selected: this.selectedStatus[4]
-              },
-              {
-                name: "● 铜仁市",
-                value: this.myNums[5],
-                selected: this.selectedStatus[5]
-              },
-              {
-                name: "● 毕节市",
-                value: this.myNums[6],
-                selected: this.selectedStatus[6]
-              },
-              {
-                name: "● 六盘水市",
-                value: this.myNums[7],
-                selected: this.selectedStatus[7]
-              },
-              {
-                name: "● 黔西南",
-                value: this.myNums[8],
-                selected: this.selectedStatus[8]
-              }
-            ]
-          }
-        ]
-      };
+              data: [
+                {
+                  name: "● 贵阳市",
+                  value: this.myNums[0],
+                  selected: this.selectedStatus[0]
+                },
+                {
+                  name: "● 遵义市",
+                  value: this.myNums[1],
+                  selected: this.selectedStatus[1]
+                },
+                {
+                  name: "● 安顺市",
+                  value: this.myNums[2],
+                  selected: this.selectedStatus[2]
+                },
+                {
+                  name: "● 黔南",
+                  value: this.myNums[3],
+                  selected: this.selectedStatus[3]
+                },
+                {
+                  name: "● 黔东南",
+                  value: this.myNums[4],
+                  selected: this.selectedStatus[4]
+                },
+                {
+                  name: "● 铜仁市",
+                  value: this.myNums[5],
+                  selected: this.selectedStatus[5]
+                },
+                {
+                  name: "● 毕节市",
+                  value: this.myNums[6],
+                  selected: this.selectedStatus[6]
+                },
+                {
+                  name: "● 六盘水市",
+                  value: this.myNums[7],
+                  selected: this.selectedStatus[7]
+                },
+                {
+                  name: "● 黔西南",
+                  value: this.myNums[8],
+                  selected: this.selectedStatus[8]
+                }
+              ]
+            }
+          ]
+        };
 
-      myChartProe.on("click", function(t) {
-        // 通过t判断点击的省份，做不同的响应操作
-        // console.log(t.seriesIndex);
-        // @PS：echarts触发bug,从第二次存在第n次,触发(n-1) * 2,
-        let name = t.data.name;
-        let city = vm.cityManage(name);
-        let datashow = vm.datashowManage();
-        switch (name) {
-          case "● 贵阳市":
-            vm.dataManage(city, datashow, 0);
-            vm.selectedManage(0);
-            break;
-          case "● 遵义市":
-            vm.dataManage(city, datashow, 1);
-            vm.selectedManage(1);
-            break;
-          case "● 安顺市":
-            vm.dataManage(city, datashow, 2);
-            vm.selectedManage(2);
-            break;
-          case "● 黔南":
-            vm.dataManage(city, datashow, 3);
-            vm.selectedManage(3);
-            break;
-          case "● 黔东南":
-            vm.dataManage(city, datashow, 4);
-            vm.selectedManage(4);
-            break;
-          case "● 铜仁市":
-            vm.dataManage(city, datashow, 5);
-            vm.selectedManage(5);
-            break;
-          case "● 毕节市":
-            vm.dataManage(city, datashow, 6);
-            vm.selectedManage(6);
-            break;
-          case "● 六盘水市":
-            vm.dataManage(city, datashow, 7);
-            vm.selectedManage(7);
-            break;
-          case "● 黔西南":
-            vm.dataManage(city, datashow, 8);
-            vm.selectedManage(8);
-            break;
-          default:
-            console.log("none!");
-        }
-      });
-      myChartProe.clear();
-      myChartProe.setOption(optionE);
-      window.addEventListener("resize", () => {
-        myChartProe.resize();
-      });
+        myChartProe.on("click", function(t) {
+          // 通过t判断点击的省份，做不同的响应操作
+          // console.log(t.seriesIndex);
+          // @PS：echarts触发bug,从第二次存在第n次,触发(n-1) * 2,
+          let name = t.data.name;
+          let city = vm.cityManage(name);
+          let datashow = vm.datashowManage();
+          switch (name) {
+            case "● 贵阳市":
+              vm.dataManage(city, datashow, 0);
+              vm.selectedManage(0);
+              break;
+            case "● 遵义市":
+              vm.dataManage(city, datashow, 1);
+              vm.selectedManage(1);
+              break;
+            case "● 安顺市":
+              vm.dataManage(city, datashow, 2);
+              vm.selectedManage(2);
+              break;
+            case "● 黔南":
+              vm.dataManage(city, datashow, 3);
+              vm.selectedManage(3);
+              break;
+            case "● 黔东南":
+              vm.dataManage(city, datashow, 4);
+              vm.selectedManage(4);
+              break;
+            case "● 铜仁市":
+              vm.dataManage(city, datashow, 5);
+              vm.selectedManage(5);
+              break;
+            case "● 毕节市":
+              vm.dataManage(city, datashow, 6);
+              vm.selectedManage(6);
+              break;
+            case "● 六盘水市":
+              vm.dataManage(city, datashow, 7);
+              vm.selectedManage(7);
+              break;
+            case "● 黔西南":
+              vm.dataManage(city, datashow, 8);
+              vm.selectedManage(8);
+              break;
+            default:
+              console.log("none!");
+          }
+        });
+        myChartProe.clear();
+        myChartProe.setOption(optionE);
+        window.addEventListener("resize", () => {
+          myChartProe.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     // 选中处理
     selectedManage(selectedNum) {

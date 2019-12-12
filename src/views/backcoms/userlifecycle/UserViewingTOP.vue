@@ -41,11 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      "ULC_region",
-      "ULC_operator",
-      "ULC_month",
-    ])
+    ...mapGetters(["ULC_region", "ULC_operator", "ULC_month"])
   },
   data() {
     return {
@@ -61,63 +57,61 @@ export default {
     viewingTopList(newValue, oldValue) {
       let vm = this;
       if (vm.ULC_month && vm.ULC_operator && ULC_region) {
-
       }
-      console.log("收视收视收视————————————", newValue)
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawEcharts();
-      }, 1000)
+      }, 1000);
     },
     ULC_region(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawEcharts();
-      }, 1000)
+      }, 1000);
     },
     ULC_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawEcharts();
-      }, 1000)
+      }, 1000);
     },
     ULC_month(newValue, oldValue) {
-      console.log(" ULC_month更新------", newValue)
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.drawEcharts();
-      }, 1000)
-    },
+      }, 1000);
+    }
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.drawEcharts();
     }, 1000);
   },
   methods: {
     drawEcharts() {
-      console.log("~~~~~test");
-      console.log(this.viewingTopList);
-
-      if (this.viewingTopList.id == "viewingTimeTOP") {
-        this.TopTitleInfo = {
-          i1: "排名",
-          i2: "节目类型",
-          i3: "节目",
-          i4: "时长（千小时）"
-        };
+      try {
+        if (this.viewingTopList.id == "viewingTimeTOP") {
+          this.TopTitleInfo = {
+            i1: "排名",
+            i2: "节目类型",
+            i3: "节目",
+            i4: "时长（千小时）"
+          };
+        }
+        if (this.viewingTopList.id == "NumberOfViewersTop") {
+          this.TopTitleInfo = {
+            i1: "排名",
+            i2: "节目类型",
+            i3: "节目",
+            i4: "次数（万次）"
+          };
+        }
+        // this.scrollLoopUp(this.viewingTopList.id);
+      } catch (error) {
+        console.log(error);
       }
-      if (this.viewingTopList.id == "NumberOfViewersTop") {
-        this.TopTitleInfo = {
-          i1: "排名",
-          i2: "节目类型",
-          i3: "节目",
-          i4: "次数（万次）"
-        };
-      }
-      // this.scrollLoopUp(this.viewingTopList.id);
     },
-    scrollLoopUp: function (id) {
+    scrollLoopUp: function(id) {
       var scrollBox = document.getElementById(id);
       var lineHeight = 42.5;
       var time = 50;

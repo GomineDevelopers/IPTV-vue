@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 3 - m3");
+      // console.log("Excel_data_manage - 3 - m3");
       let vm = this;
       setTimeout(function() {
         if (vm.PR_Report_index == 3) {
@@ -158,11 +158,11 @@ export default {
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {
-              console.log(response_title);
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
-                  console.log(response_dataArr);
+                  // console.log(response_dataArr);
                 })
                 .catch(function(error) {
                   console.info(error);

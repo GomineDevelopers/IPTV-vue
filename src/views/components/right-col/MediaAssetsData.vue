@@ -1,7 +1,8 @@
 <template>
   <div class="MediaAssetsData height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>媒资数据 (近7天)
+      <!-- <span class="title_border_left"></span>媒资数据 (近7天) -->
+      <span class="title_border_left"></span>媒资数据 (上月)
     </el-row>
     <el-row v-show="ifgetdata" id="media_assets_data" :style="{width: '16vw',height: '16vh'}"></el-row>
     <el-row v-show="ifgetdata" class="MAD_bottom" :style="{width: '16vw',height: '16vh'}">
@@ -96,40 +97,10 @@ export default {
           console.info(error);
         });
     }, 100);
-    // setTimeout(function() {
-    //   vm.$store
-    //     .dispatch("get_BigScreenExpirationDate")
-    //     .then(function(response) {
-    //       // vm.media_content(response);
-    //       vm.media_watch_total(response);
-    //       vm.drawLine();
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // }, 100);
+
   },
   methods: {
-    // media_content(ExpirationDate) {
-    //   let vm = this;
-    //   let m_operator = commonTools.GetBigScreenOperator();
-    //   let data = {
-    //     start: ExpirationDate,
-    //     end: ExpirationDate
-    //     // operator: String(["移动", "联通", "电信"])
-    //   };
-    //   console.log("media_content");
-    //   console.log(data);
-    //   media_content(data)
-    //     .then(function(response) {
-    //       console.log(response);
-    //       vm.programNum =
-    //         response.data.responses[0].aggregations.program_content_num.value;
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
+
     // 环比
     returnLinkRelativeRatio_f(d_new, d_old) {
       this.returnLinkRelativeRatio =
@@ -156,15 +127,7 @@ export default {
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
       let data;
-      // if (time_type == "days_all") {
-      //   data = {
-      //     start: StartDate,
-      //     end: ExpirationDate,
-      //     // operator: String(["移动", "联通", "电信"])
-      //     operator: m_operator,
-      //     year: commonTools.get_ExpirationDate_year(ExpirationDate)
-      //   };
-      // }
+
       if (time_type == "month") {
         data = {
           start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1), // 上月
@@ -172,6 +135,8 @@ export default {
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
+        // console.log(data);
+
       }
       if (time_type == "months") {
         data = {
@@ -180,19 +145,17 @@ export default {
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
+        // console.log(data);
       }
 
-      // let vm = this;
-      // media_watch_total(data)
-      console.log("media_watch_total");
-      console.log(data);
+      // console.log(data);
       media_content(data)
         .then(function(response) {
           // if (time_type == "days_all") {
 
           // }
           if (time_type == "month") {
-            console.log(response);
+            // console.log(response);
             vm.programNum =
               response.data.responses[0].aggregations.program_content_num.value;
             vm.data_new = String(
@@ -240,14 +203,14 @@ export default {
                 Set_KeyValue("综艺", 7, i);
               }
             }
-            console.log(vm.echarts_data);
+            // console.log(vm.echarts_data);
 
             setTimeout(function() {
               vm.drawLine();
             }, 100);
           }
           if (time_type == "months") {
-            console.log(response);
+            // console.log(response);
             // 环比算法  （本期数值-上期数值）/上期数值
             // 总节目数量暂时没数据
             let buckets0 =
@@ -257,6 +220,10 @@ export default {
             let buckets1 =
               response.data.responses[1].aggregations.statistical_granularity
                 .buckets;
+
+            buckets0 = commonTools.bucketsSort_WM(buckets0);
+            buckets1 = commonTools.bucketsSort_WM(buckets1);
+
             let length = buckets0.length;
             let i;
             if (length == 0 || length == 1) {
@@ -287,36 +254,6 @@ export default {
           }
           vm.ifgetdata = true;
 
-          // vm.data_old_o =
-          //   response.data.responses[1].aggregations.watch_dur.value;
-
-          // /////第二天
-          // let data2 = {
-          //   start: ExpirationDate,
-          //   end: ExpirationDate,
-          //   // operator: String(["移动", "联通", "电信"])
-          //   operator: m_operator
-          // };
-          // setTimeout(function() {
-          //   media_watch_total(data2)
-          //     .then(function(response2) {
-          //       // console.log(response2);
-          //       // console.log(
-          //       //   response2.data.responses[0].aggregations.watch_dur.value
-          //       // );
-          //       vm.data_new = String(
-          //         vm.returnFloat(
-          //           parseFloat(
-          //             response2.data.responses[0].aggregations.watch_dur.value
-          //           )
-          //         ) // 保留两位小数
-          //       );
-          //       vm.returnLinkRelativeRatio_f(vm.data_new, vm.data_old_o);
-          //     })
-          //     .catch(function(error) {
-          //       console.info(error);
-          //     });
-          // }, 300);
         })
         .catch(function(error) {
           console.info(error);
@@ -375,6 +312,7 @@ export default {
           {
             name: "访问来源",
             type: "pie",
+            minAngle: 15,
             radius: ["50%", "75%"], // 大小
             center: ["33%", "55%"], // 位置
             color: [

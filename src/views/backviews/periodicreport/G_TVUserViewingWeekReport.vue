@@ -125,17 +125,15 @@ export default {
   watch: {
     PR_operator(newValue, oldValue) {
       this.api_data_set();
-
     },
     PR_week(newValue, oldValue) {
-      // console.log("当前选择时间为", newValue)
       this.api_data_set();
     }
   },
   computed: {
     ...mapGetters(["PR_operator", "PR_week", "PR_Report_index"]),
     ifModuleydShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -146,10 +144,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifModuleltShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -160,10 +158,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifModuledxShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -174,7 +172,7 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   data() {
@@ -196,7 +194,7 @@ export default {
   },
   mounted() {
     //监听滚动事件
-    $(".viewing_behavior_report_left").scroll(function (event) {
+    $(".viewing_behavior_report_left").scroll(function(event) {
       let scrollTopHeight = $(".viewing_behavior_report_left").scrollTop();
       // console.log(scrollTopHeight)
       if (0 <= scrollTopHeight) {
@@ -241,188 +239,195 @@ export default {
       }
     });
     // api 数据处理 - by 运营商
-    this.api_data_set();
 
+    let vm = this;
+    if (vm.PR_week == null || vm.PR_week == undefined || vm.PR_week == "") {
+      return;
+    } else {
+      // setTimeout(function() {
+        vm.api_data_set();
+      // }, 2000);
+    }
   },
   methods: {
-
     // api 数据处理 - by 运营商
     api_data_set() {
-      let vm = this;
-      if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-        let temp_operator = ["移动", "联通", "电信"];
-        vm.users_weekActiveReport("all", temp_operator, "weekRange");
-        vm.users_weekActiveReport("all", temp_operator, "week");
+      try {
+        let vm = this;
+        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+          let temp_operator = ["移动", "联通", "电信"];
+          vm.users_weekActiveReport("all", temp_operator, "weekRange");
+          vm.users_weekActiveReport("all", temp_operator, "week");
 
-        vm.users_weekActiveReport("yd", ["移动"], "week");
-        vm.users_weekActiveReport("yd", ["移动"], "weekRange");
-        vm.users_weekActiveReport("lt", ["联通"], "week");
-        vm.users_weekActiveReport("lt", ["联通"], "weekRange");
-        vm.users_weekActiveReport("dx", ["电信"], "week");
-        vm.users_weekActiveReport("dx", ["电信"], "weekRange");
-      } else {
-        let count = vm.PR_operator.length;
-        if (count == 3) {
-          // 执行 1+3个
-          vm.users_weekActiveReport("all", vm.PR_operator, "weekRange");
-          vm.users_weekActiveReport("all", vm.PR_operator, "week");
           vm.users_weekActiveReport("yd", ["移动"], "week");
           vm.users_weekActiveReport("yd", ["移动"], "weekRange");
           vm.users_weekActiveReport("lt", ["联通"], "week");
           vm.users_weekActiveReport("lt", ["联通"], "weekRange");
           vm.users_weekActiveReport("dx", ["电信"], "week");
           vm.users_weekActiveReport("dx", ["电信"], "weekRange");
-        }
-        if (count == 2) {
-          // 执行 1+2个
-          if (vm.PR_operator.indexOf("移动") > -1) {
+        } else {
+          let count = vm.PR_operator.length;
+          if (count == 3) {
+            // 执行 1+3个
+            vm.users_weekActiveReport("all", vm.PR_operator, "weekRange");
+            vm.users_weekActiveReport("all", vm.PR_operator, "week");
             vm.users_weekActiveReport("yd", ["移动"], "week");
             vm.users_weekActiveReport("yd", ["移动"], "weekRange");
-          }
-          if (vm.PR_operator.indexOf("联通") > -1) {
-            vm.users_weekActiveReport("lt", ["联通"], "week");
-            vm.users_weekActiveReport("yd", ["联通"], "weekRange");
-          }
-          if (vm.PR_operator.indexOf("电信") > -1) {
-            vm.users_weekActiveReport("dx", ["电信"], "week");
-            vm.users_weekActiveReport("yd", ["电信"], "weekRange");
-          }
-          vm.users_weekActiveReport("part", vm.PR_operator, "weekRange");
-          vm.users_weekActiveReport("part", vm.PR_operator, "week");
-        }
-        if (count == 1) {
-          // 执行 1个
-          if (vm.PR_operator.indexOf("移动") > -1) {
-            vm.users_weekActiveReport("yd", ["移动"], "week");
-            vm.users_weekActiveReport("yd", ["移动"], "weekRange");
-            vm.users_weekActiveReport("all", ["移动"], "weekRange");
-            vm.users_weekActiveReport("all", ["移动"], "week");
-          }
-          if (vm.PR_operator.indexOf("联通") > -1) {
             vm.users_weekActiveReport("lt", ["联通"], "week");
             vm.users_weekActiveReport("lt", ["联通"], "weekRange");
-            vm.users_weekActiveReport("all", ["联通"], "weekRange");
-            vm.users_weekActiveReport("all", ["联通"], "week");
-          }
-          if (vm.PR_operator.indexOf("电信") > -1) {
             vm.users_weekActiveReport("dx", ["电信"], "week");
             vm.users_weekActiveReport("dx", ["电信"], "weekRange");
-            vm.users_weekActiveReport("all", ["电信"], "weekRange");
-            vm.users_weekActiveReport("all", ["电信"], "week");
+          }
+          if (count == 2) {
+            // 执行 1+2个
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              vm.users_weekActiveReport("yd", ["移动"], "week");
+              vm.users_weekActiveReport("yd", ["移动"], "weekRange");
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              vm.users_weekActiveReport("lt", ["联通"], "week");
+              vm.users_weekActiveReport("yd", ["联通"], "weekRange");
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              vm.users_weekActiveReport("dx", ["电信"], "week");
+              vm.users_weekActiveReport("yd", ["电信"], "weekRange");
+            }
+            vm.users_weekActiveReport("part", vm.PR_operator, "weekRange");
+            vm.users_weekActiveReport("part", vm.PR_operator, "week");
+          }
+          if (count == 1) {
+            // 执行 1个
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              vm.users_weekActiveReport("yd", ["移动"], "week");
+              vm.users_weekActiveReport("yd", ["移动"], "weekRange");
+              vm.users_weekActiveReport("all", ["移动"], "weekRange");
+              vm.users_weekActiveReport("all", ["移动"], "week");
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              vm.users_weekActiveReport("lt", ["联通"], "week");
+              vm.users_weekActiveReport("lt", ["联通"], "weekRange");
+              vm.users_weekActiveReport("all", ["联通"], "weekRange");
+              vm.users_weekActiveReport("all", ["联通"], "week");
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              vm.users_weekActiveReport("dx", ["电信"], "week");
+              vm.users_weekActiveReport("dx", ["电信"], "weekRange");
+              vm.users_weekActiveReport("all", ["电信"], "weekRange");
+              vm.users_weekActiveReport("all", ["电信"], "week");
+            }
           }
         }
+      } catch (error) {
+        console.log(error);
       }
     },
     users_weekActiveReport(type, m_PR_operator, wee_type) {
-      let vm = this;
-      let tempOperatorArr = m_PR_operator;
-      // console.log("~~~~~");
-      // console.log(tempOperatorArr);
-      let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week); //本周时间
-      // console.log("本周时间temp_time：", temp_time)
-      // vm.WeekFormat = WeekFormat
-      let temp;
-      if (wee_type == "week") {
-        temp = {
-          operator: String([tempOperatorArr]),
-          start: temp_time.week_day_start,
-          end: temp_time.week_day_end
-          // start: "2019-06-10",
-          // end: "2019-06-16"    //暂定这一周
-        };
-      }
-      // console.log("temp!!!!!!!!!!!!!!!!!!!!!!!!!", temp)
-      let last_week = commonTools.currentDay_7daysAgoRange(
-        temp_time.week_day_start
-      ); //获取上周的时间
-      // console.log("last_week", last_week)
-      //上一周的数据
-      if (wee_type == "weekRange") {
-        temp = {
-          operator: String([tempOperatorArr]),
-          start: last_week.start,
-          end: last_week.end
-          // start: "2019-06-03",
-          // end: "2019-06-09"    //暂定这一周
-        };
-      }
-      var formData = new FormData();
-      var formData = new window.FormData();
-      formData.append("operator", temp.operator);
-      formData.append("start", temp.start);
-      formData.append("end", temp.end);
+      try {
+        let vm = this;
+        let tempOperatorArr = m_PR_operator;
+        let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week); //本周时间
 
-      users_weekActiveReport(formData)
-        .then(function (response) {
-          // console.log("users_weekActiveReport");
-          // console.log("~~~~~:" + type);
-          // console.log(response);
-          // ▲▲▲▲ 5个模块的数据传入类型
-          // 1 - single x 3 + all/part
-          // 2 - single yd
-          // 3 - single lt
-          // 4 - single dx
-          // 5 - all/part
-          if (wee_type == "week") {
-            switch (type) {
-              case "all":
-                vm.api_data_m1 = response;
-                vm.api_data_m5 = response;
-                break;
-              case "part":
-                vm.api_data_m1 = response;
-                vm.api_data_m5 = response;
-                break;
-              case "yd":
-                vm.api_data_m2 = response;
-                break;
-              case "lt":
-                vm.api_data_m3 = response;
-                break;
-              case "dx":
-                vm.api_data_m4 = response;
-                break;
-              default:
-                console.log("none!");
+        let temp;
+        if (wee_type == "week") {
+          temp = {
+            operator: String([tempOperatorArr]),
+            start: temp_time.week_day_start,
+            end: temp_time.week_day_end
+          };
+        }
+        // console.log(temp)
+        let last_week = commonTools.currentDay_7daysAgoRange(
+          temp_time.week_day_start
+        ); //获取上周的时间
+        // console.log(last_week)
+        //上一周的数据
+        if (wee_type == "weekRange") {
+          temp = {
+            operator: String([tempOperatorArr]),
+            start: last_week.start,
+            end: last_week.end
+          };
+        }
+        var formData = new FormData();
+        var formData = new window.FormData();
+        formData.append("operator", temp.operator);
+        formData.append("start", temp.start);
+        formData.append("end", temp.end);
+
+        users_weekActiveReport(formData)
+          .then(function(response) {
+            // console.log("users_weekActiveReport");
+            // console.log(response);
+
+            // ▲▲▲▲ 5个模块的数据传入类型
+            // 1 - single x 3 + all/part
+            // 2 - single yd
+            // 3 - single lt
+            // 4 - single dx
+            // 5 - all/part
+            if (wee_type == "week") {
+              switch (type) {
+                case "all":
+                  vm.api_data_m1 = response;
+                  vm.api_data_m5 = response;
+                  break;
+                case "part":
+                  vm.api_data_m1 = response;
+                  vm.api_data_m5 = response;
+                  break;
+                case "yd":
+                  vm.api_data_m2 = response;
+                  break;
+                case "lt":
+                  vm.api_data_m3 = response;
+                  break;
+                case "dx":
+                  vm.api_data_m4 = response;
+                  break;
+                default:
+                  console.log("none!");
+              }
             }
-          }
-          if (wee_type == "weekRange") {
-            switch (type) {
-              case "all":
-                vm.api_data_m1_range = response;
-                // vm.api_data_m5 = response;
-                break;
-              case "part":
-                vm.api_data_m1_range = response;
-                // vm.api_data_m5 = response;
-                break;
-              case "yd":
-                vm.api_data_m2_range = response;
-                // vm.api_data_m2 = response;
-                break;
-              case "lt":
-                vm.api_data_m3_range = response;
-                // vm.api_data_m3 = response;
-                break;
-              case "dx":
-                vm.api_data_m4_range = response;
-                // vm.api_data_m4 = response;
-                break;
-              default:
-                console.log("none!");
+            if (wee_type == "weekRange") {
+              switch (type) {
+                case "all":
+                  vm.api_data_m1_range = response;
+                  // vm.api_data_m5 = response;
+                  break;
+                case "part":
+                  vm.api_data_m1_range = response;
+                  // vm.api_data_m5 = response;
+                  break;
+                case "yd":
+                  vm.api_data_m2_range = response;
+                  // vm.api_data_m2 = response;
+                  break;
+                case "lt":
+                  vm.api_data_m3_range = response;
+                  // vm.api_data_m3 = response;
+                  break;
+                case "dx":
+                  vm.api_data_m4_range = response;
+                  // vm.api_data_m4 = response;
+                  break;
+                default:
+                  console.log("none!");
+              }
             }
-          }
-        })
-        .catch(function (error) {
-          console.info(error);
-        });
+          })
+          .catch(function(error) {
+            console.info(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
     //点击锚点实现左侧滚动
     goAnchor(selector) {
       let scrollDiv = document.querySelector(".viewing_behavior_report_left"); //外层滚动容器元素
       var anchor = document.querySelector(selector); // 参数为要跳转到的元素id
       scrollDiv.scrollTop = anchor.offsetTop;
-      $(".viewing_behavior_nav a").on("click", function () {
+      $(".viewing_behavior_nav a").on("click", function() {
         $(this)
           .addClass("avtive_link")
           .parent()

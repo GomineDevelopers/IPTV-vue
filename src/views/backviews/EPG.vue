@@ -61,78 +61,86 @@ export default {
   name: "EPG", //EPG
   components: {
     "com-optionselectEGB": OptionSelectEPG,
-    "epg-page-one": EpgPageOne,  // 1.0版本
-    "epg-page-two": EpgPageTwo,  // 1.0版本
-    "epg-page-one2": EpgPageOne2,  //移动2.0版本的一级页面
+    "epg-page-one": EpgPageOne, // 1.0版本
+    "epg-page-two": EpgPageTwo, // 1.0版本
+    "epg-page-one2": EpgPageOne2 //移动2.0版本的一级页面
   },
   computed: {
-    ...mapGetters(["EPG_operator", "EPG_programa", "EPG_value_others", "EPG_week", "EPG_month", "EPG_time_type", "EPG_programa_type"])
+    ...mapGetters([
+      "EPG_operator",
+      "EPG_programa",
+      "EPG_value_others",
+      "EPG_week",
+      "EPG_month",
+      "EPG_time_type",
+      "EPG_programa_type"
+    ])
   },
   watch: {
     EPG_operator(newValue, oldValue) {
       if (this.EPG_operator.length == 1) {
         let vm = this;
         setTimeout(() => {
-          vm.refresh_api_data()
-        }, 500)
+          vm.refresh_api_data();
+        }, 500);
       }
     },
     EPG_programa(newValue, oldValue) {
       if (this.EPG_programa.length == 1) {
         let vm = this;
         setTimeout(() => {
-          vm.refresh_api_data()
-        }, 500)
+          vm.refresh_api_data();
+        }, 500);
       }
     },
     EPG_value_others(newValue, oldValue) {
       if (this.EPG_value_others != null) {
         let vm = this;
         setTimeout(() => {
-          vm.refresh_api_data()
-        }, 500)
+          vm.refresh_api_data();
+        }, 500);
       }
     },
     EPG_week(newValue, oldValue) {
       if (this.EPG_week != null) {
         let vm = this;
         setTimeout(() => {
-          vm.refresh_api_data()
-        }, 500)
+          vm.refresh_api_data();
+        }, 500);
       }
     },
     EPG_month(newValue, oldValue) {
       if (this.EPG_month != null) {
         let vm = this;
         setTimeout(() => {
-          vm.refresh_api_data()
-        }, 500)
+          vm.refresh_api_data();
+        }, 500);
       }
     },
     EPG_time_type(newValue, oldValue) {
       let vm = this;
       setTimeout(() => {
-        vm.refresh_api_data()
-      }, 500)
+        vm.refresh_api_data();
+      }, 500);
     },
     EPG_programa_type(newValue, oldValue) {
-      console.log("节目类型更新", newValue)
+      console.log("节目类型更新", newValue);
       //根据节目类型来判断显示一级页面还是二级页面
-      this.changePage()
+      this.changePage();
       // setTimeout(() => {
       //   this.refresh_api_data()
       // }, 500)
     }
   },
   mounted() {
-    this.refresh_api_data()
+    this.refresh_api_data();
   },
   data() {
     return {
-      pageOneShow: false,  //大的一级页面
-      pageTwoShow: false,  //大的二级页面
+      pageOneShow: false, //大的一级页面
+      pageTwoShow: false, //大的二级页面
 
-      oneShow: false,  //1.0 页面
+      oneShow: false, //1.0 页面
       // twoShow: false,  //2.0页面
 
       //一级页面数据
@@ -196,9 +204,9 @@ export default {
       //移动2.0版本数据 一级页面
       mobileProgramesListOne: [
         // {
-        //   // classify: '搜索', 
+        //   // classify: '搜索',
         //   title: 'box0_0',
-        //   // lastWeek: '361018', 
+        //   // lastWeek: '361018',
         //   // thisWeek: '336859',
         //   // chainIndex: '-6.09%',
         //   style: {
@@ -206,7 +214,7 @@ export default {
         //   }
         // },
         // {
-        //   // classify: '个人中心', 
+        //   // classify: '个人中心',
         //   title: 'box0_1',
         //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
         //   style: {
@@ -214,7 +222,7 @@ export default {
         //   }
         // },
         // {
-        //   // classify: '帮助', 
+        //   // classify: '帮助',
         //   title: 'box0_2',
         //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
         //   style: {
@@ -253,9 +261,9 @@ export default {
       //移动2.0版本数据  二级页面
       mobileProgramesListTwo: [
         // {
-        //   // classify: '搜索', 
+        //   // classify: '搜索',
         //   title: 'box0_0',
-        //   // lastWeek: '361018', 
+        //   // lastWeek: '361018',
         //   // thisWeek: '336859',
         //   // chainIndex: '-6.09%',
         //   style: {
@@ -263,7 +271,7 @@ export default {
         //   }
         // },
         // {
-        //   // classify: '个人中心', 
+        //   // classify: '个人中心',
         //   title: 'box0_1',
         //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
         //   style: {
@@ -271,7 +279,7 @@ export default {
         //   }
         // },
         // {
-        //   // classify: '帮助', 
+        //   // classify: '帮助',
         //   title: 'box0_2',
         //   // lastWeek: '361018', thisWeek: '336859', chainIndex: '-6.09%',
         //   style: {
@@ -306,22 +314,26 @@ export default {
         //     position: 'absolute', width: '90px', left: '220px', height: '35px', top: '68px'
         //   }
         // },
-      ],
+      ]
     };
   },
   methods: {
     refresh_api_data() {
-      this.getEpgBoxData(this.EPG_time_type, this.EPG_programa_type);
+      try {
+        this.getEpgBoxData(this.EPG_time_type, this.EPG_programa_type);
+      } catch (error) {
+        console.log(error);
+      }
     },
     //获取当前选项的页面数据
     getEpgBoxData(time_type, programa_type) {
-      console.log("time_type", time_type)
-      console.log("programa_type", programa_type)
+      console.log("time_type", time_type);
+      console.log("programa_type", programa_type);
       // let temp_operator  //运营商选项
       // let temp_programa  //栏目选择
-      let vm = this
-      let temp_week = this.EPG_week
-      let temp_month = this.EPG_month
+      let vm = this;
+      let temp_week = this.EPG_week;
+      let temp_month = this.EPG_month;
       let temp = {
         operator: null,
         list: null,
@@ -330,50 +342,63 @@ export default {
       };
       //运营商
       if (this.EPG_operator.length == 1) {
-        if (this.EPG_operator[0] == '移动1.0' || this.EPG_operator[0] == '移动2.0') {
-          temp.operator = '移动'
+        if (
+          this.EPG_operator[0] == "移动1.0" ||
+          this.EPG_operator[0] == "移动2.0"
+        ) {
+          temp.operator = "移动";
         } else {
-          temp.operator = this.EPG_operator[0]
+          temp.operator = this.EPG_operator[0];
         }
       }
       //栏目类型
       if (programa_type == 1) {
-        temp.list = this.EPG_programa[0]
+        temp.list = this.EPG_programa[0];
       } else if (programa_type == 2) {
-        temp.list = this.EPG_value_others
+        temp.list = this.EPG_value_others;
       } else {
-        console.log("请选择栏目")
+        console.log("请选择栏目");
       }
 
       //时间类型
       if (time_type == 1) {
         // console.log('temp_week', temp_week)
         // temp.date = temp_week
-        let date1 = commonTools.split_yearAtime(temp_week)
-        temp.date = date1.time
-        temp.year = date1.year
+        let date1 = commonTools.split_yearAtime(temp_week);
+        temp.date = date1.time;
+        temp.year = date1.year;
       } else if (time_type == 2) {
         // console.log('temp_month', temp_month)
         // temp.date = temp_month
-        let date2 = commonTools.split_yearAtime(temp_month)
-        temp.date = date2.time
-        temp.year = date2.year
+        let date2 = commonTools.split_yearAtime(temp_month);
+        temp.date = date2.time;
+        temp.year = date2.year;
       } else {
-        console.log("请选择时间！")
+        // console.log("请选择时间！")
       }
       // console.log("temp_operator", temp_operator, typeof (temp_operator))
       // console.log("temp_programa", temp_programa, typeof (temp_programa))
       // console.log("temp_week", temp_week, typeof (temp_week))
       // console.log("temp_month", temp_month, typeof (temp_month))
 
-      if (temp.operator == null || temp.list == null || temp.date == null || temp.year == null) {
-        console.log("请输入完整的查询条件")
-        return
-      } else if (temp.operator == '' || temp.list == '' || temp.date == '' || temp.year == '') {
-        console.log("请输入完整的查询条件")
-        return
+      if (
+        temp.operator == null ||
+        temp.list == null ||
+        temp.date == null ||
+        temp.year == null
+      ) {
+        console.log("请输入完整的查询条件");
+        return;
+      } else if (
+        temp.operator == "" ||
+        temp.list == "" ||
+        temp.date == "" ||
+        temp.year == ""
+      ) {
+        console.log("请输入完整的查询条件");
+        return;
       }
-      console.log('temp', temp)
+      console.log("temp", temp);
       // console.log("上周last_temp", last_temp)
 
       var formData = new FormData();
@@ -382,7 +407,6 @@ export default {
       formData.append("list", temp.list);
       formData.append("date", temp.date);
       formData.append("year", temp.year);
-
 
       //设置二次请求的temp
       let last_temp = {
@@ -394,161 +418,209 @@ export default {
         year: temp.year
       };
       //设置上周或者上月的时间选项
-      let last_date
+      let last_date;
       if (time_type == 1) {
-        last_date = temp.date.replace(/[^0-9]/ig, "") - 1
-        last_temp.start = last_date + 'week'
+        last_date = temp.date.replace(/[^0-9]/gi, "") - 1;
+        last_temp.start = last_date + "week";
       } else if (time_type == 2) {
-        last_date = temp.date.replace(/[^0-9]/ig, "") - 1
-        last_temp.start = last_date + 'month'
+        last_date = temp.date.replace(/[^0-9]/gi, "") - 1;
+        last_temp.start = last_date + "month";
       }
       epg(formData)
-        .then((response) => {
+        .then(response => {
           if (this.EPG_operator[0] != "移动2.0") {
-            vm.oneShow = true,  //1.0 页面显示
-              console.log("1.0版本选择0")
-            let box_data = response.data.responses[0].hits.hits
-            console.log(box_data)
+            (vm.oneShow = true), //1.0 页面显示
+              console.log("1.0版本选择0");
+            let box_data = response.data.responses[0].hits.hits;
+            console.log(box_data);
             try {
               /*  */
-              if (box_data[0]._source.areanumber) { }   //若为空，进入catch
-              let promise_list = []   //存放所有的请求
+              if (box_data[0]._source.areanumber) {
+              } //若为空，进入catch
+              let promise_list = []; //存放所有的请求
               box_data.forEach((value, index) => {
                 // console.log("box", value._source.areanumber)
-                let res_index = index
-                let areanumber = value._source.areanumber
-                last_temp.areanumber = areanumber
+                let res_index = index;
+                let areanumber = value._source.areanumber;
+                last_temp.areanumber = areanumber;
                 var last_formData = new FormData();
                 var last_formData = new window.FormData();
                 last_formData.append("operator", String(last_temp.operator));
                 last_formData.append("list", String(last_temp.list));
                 last_formData.append("start", String(last_temp.start));
                 last_formData.append("end", String(last_temp.end));
-                last_formData.append("areanumber", String(last_temp.areanumber));
+                last_formData.append(
+                  "areanumber",
+                  String(last_temp.areanumber)
+                );
                 last_formData.append("year", String(last_temp.year));
-                promise_list.push(epg_box_content(last_formData)
-                  .then((response) => {
+                promise_list.push(
+                  epg_box_content(last_formData).then(response => {
                     //此处是1.0版本 的box信息
                     // console.log("1.0版本的box信息", response.data.responses)
-                    let click_freq_num = response.data.responses[0].aggregations.statistical_granularity.buckets
+                    let click_freq_num =
+                      response.data.responses[0].aggregations
+                        .statistical_granularity.buckets;
                     // console.log("box详细信息", click_freq_num)
                     // console.log("box名称：", areanumber)
                     //此处需要判断是否有上期数据
-                    let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : ''    //上期点击数
-                    let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
-                    let chain_index
+                    let last_click_freq_num = click_freq_num[1]
+                      ? click_freq_num[0].click_freq.value
+                      : ""; //上期点击数
+                    let current_click_freq_num = click_freq_num[1]
+                      ? click_freq_num[1].click_freq.value
+                      : click_freq_num[0].click_freq.value; //本周点击数
+                    let chain_index;
                     if (last_click_freq_num != 0) {
                       //若上期数据不为 0，求环比
-                      chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(1)  //����
+                      chain_index = (
+                        ((current_click_freq_num - last_click_freq_num) /
+                          last_click_freq_num) *
+                        100
+                      ).toFixed(1); //����
                     } else {
-                      chain_index = '-'
+                      chain_index = "-";
                     }
                     return {
-                      classify: '',
+                      classify: "",
                       title: areanumber,
                       lastWeek: last_click_freq_num,
                       thisWeek: current_click_freq_num,
-                      chainIndex: chain_index + '%'
-                    }
+                      chainIndex: chain_index + "%"
+                    };
                     // console.log("----------------------------")
                   })
-                )
-              })
+                );
+              });
               // promise_All处理异步函数顺序
               // 全部执行完之后再执行……
-              Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
+              Promise.all(promise_list).then(res => {
+                //拿到的为18行return 出来的结果
                 // console.log(`执行完所有才OK，${res}`);
                 // console.log(res)
-                let result = []
-                res.forEach((item) => {
-                  if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
-                    result[Number(item.title.substring(3, item.title.indexOf('_')))] = []
+                let result = [];
+                res.forEach(item => {
+                  if (
+                    !result[
+                      Number(item.title.substring(3, item.title.indexOf("_")))
+                    ]
+                  ) {
+                    result[
+                      Number(item.title.substring(3, item.title.indexOf("_")))
+                    ] = [];
                   }
-                  result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
-                })
-                result.forEach((item) => {
-                  item.sort(function (a, b) {
-                    return Number(a.title.substring(a.title.indexOf('_') + 1, a.title.length)) - Number(b.title.substring(b.title.indexOf('_') + 1, b.title.length))
-                  })
-                })
+                  result[
+                    Number(item.title.substring(3, item.title.indexOf("_")))
+                  ].push(item);
+                });
+                result.forEach(item => {
+                  item.sort(function(a, b) {
+                    return (
+                      Number(
+                        a.title.substring(
+                          a.title.indexOf("_") + 1,
+                          a.title.length
+                        )
+                      ) -
+                      Number(
+                        b.title.substring(
+                          b.title.indexOf("_") + 1,
+                          b.title.length
+                        )
+                      )
+                    );
+                  });
+                });
                 // console.log("result--------", result)
                 if (vm.EPG_programa_type == 2) {
-                  vm.programesListTwo = result
+                  vm.programesListTwo = result;
                   // console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
                 } else if (vm.EPG_programa_type == 1) {
-                  vm.programesListOne = result
+                  vm.programesListOne = result;
                   // console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
                 }
-
               });
               // 执行完一个后就执行……
               // Promise.race(list_pro).then(res=>{
               //     console.log(`执行完第一个就OK，${res}`);     //返回值为第一个执行的数据
               // });
-
             } catch (error) {
               //若数据为空，初始化
               if (vm.EPG_programa_type == 2) {
-                vm.programesListTwo = []
+                vm.programesListTwo = [];
                 // console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
               } else if (vm.EPG_programa_type == 1) {
-                vm.programesListOne = []
+                vm.programesListOne = [];
                 // console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
               }
               // vm.programesListOne = []  //若数据为空，初始化
-              console.log(error)
+              console.log(error);
             }
           } else {
-            vm.programesListOne = []   //初始化
-            vm.programesListTwo = []  //初始化
+            vm.programesListOne = []; //初始化
+            vm.programesListTwo = []; //初始化
 
             // vm.oneShow = false,  //1.0 页面显示
-            console.log("2.0版本选择1")
+            console.log("2.0版本选择1");
             // console.log("2.0版本box", response.data.responses[0])
-            let box_data = response.data.responses[1].hits.hits
-            console.log("2.0,2.0,2.0------", box_data)
+            let box_data = response.data.responses[1].hits.hits;
+            console.log("2.0,2.0,2.0------", box_data);
             try {
               /*  */
-              let promise_list = []   //存放所有的请求
+              let promise_list = []; //存放所有的请求
               // if (box_data[0]._source.areanumber)  //若为空，则进入catch初始化数据
               box_data.forEach((value, index) => {
-                console.log("2.0box名称", value._source.areanumber)
-                let res_index = index
-                let areanumber = value._source.areanumber
-                last_temp.areanumber = areanumber
+                console.log("2.0box名称", value._source.areanumber);
+                let res_index = index;
+                let areanumber = value._source.areanumber;
+                last_temp.areanumber = areanumber;
                 var last_formData = new FormData();
                 var last_formData = new window.FormData();
                 last_formData.append("operator", String(last_temp.operator));
                 last_formData.append("list", String(last_temp.list));
                 last_formData.append("start", String(last_temp.start));
                 last_formData.append("end", String(last_temp.end));
-                last_formData.append("areanumber", String(last_temp.areanumber));
+                last_formData.append(
+                  "areanumber",
+                  String(last_temp.areanumber)
+                );
                 last_formData.append("year", String(last_temp.year));
-                promise_list.push(epg_box_content(last_formData)
-                  .then((response) => {
+                console.log(last_formData);
+                promise_list.push(
+                  epg_box_content(last_formData).then(response => {
                     //此处是2.0版本 的box信息
-                    console.log("box名称：", areanumber)
-                    console.log("2.0版本box详细信息", response.data.responses)
-                    let click_freq_num = response.data.responses[1].aggregations.statistical_granularity.buckets
+                    console.log("box名称：", areanumber);
+                    console.log("2.0版本box详细信息", response.data.responses);
+                    let click_freq_num =
+                      response.data.responses[1].aggregations
+                        .statistical_granularity.buckets;
                     // console.log("box详细信息", click_freq_num)
                     //此处需要判断是否有上期数据
-                    let last_click_freq_num = click_freq_num[1] ? click_freq_num[0].click_freq.value : ''    //上期点击数
-                    let current_click_freq_num = click_freq_num[1] ? click_freq_num[1].click_freq.value : click_freq_num[0].click_freq.value  //本周点击数
-                    let chain_index
+                    let last_click_freq_num = click_freq_num[1]
+                      ? click_freq_num[0].click_freq.value
+                      : ""; //上期点击数
+                    let current_click_freq_num = click_freq_num[1]
+                      ? click_freq_num[1].click_freq.value
+                      : click_freq_num[0].click_freq.value; //本周点击数
+                    let chain_index;
                     if (last_click_freq_num != 0) {
                       //若上期数据不为 0，求环比
-                      chain_index = (((current_click_freq_num - last_click_freq_num) / last_click_freq_num) * 100).toFixed(1)  //����
+                      chain_index = (
+                        ((current_click_freq_num - last_click_freq_num) /
+                          last_click_freq_num) *
+                        100
+                      ).toFixed(1); //����
                     } else {
-                      chain_index = '-'
+                      chain_index = "-";
                     }
                     //注：此处2.0版本盒子设置与1.0版本盒子显示一样，不涉及位置信息，等广电2.0版本box盒子信息完整再做调整
                     return {
-                      classify: '',
+                      classify: "",
                       title: areanumber,
                       lastWeek: last_click_freq_num,
                       thisWeek: current_click_freq_num,
-                      chainIndex: chain_index + '%'
-                    }
+                      chainIndex: chain_index + "%"
+                    };
 
                     // 注：此处为2.0版本box盒子位置信息处理，等广电2.0版本box盒子信息完整再恢复使用
                     // return {
@@ -567,28 +639,50 @@ export default {
                     // }
                     // console.log("----------------------------")
                   })
-                )
-              })
+                );
+              });
               // promise_All处理异步函数顺序
               // 全部执行完之后再执行……
-              Promise.all(promise_list).then(res => {       //拿到的为18行return 出来的结果
-                let result = []
-                res.forEach((item) => {
-                  if (!result[Number(item.title.substring(3, item.title.indexOf('_')))]) {
-                    result[Number(item.title.substring(3, item.title.indexOf('_')))] = []
+              Promise.all(promise_list).then(res => {
+                //拿到的为18行return 出来的结果
+                let result = [];
+                res.forEach(item => {
+                  if (
+                    !result[
+                      Number(item.title.substring(3, item.title.indexOf("_")))
+                    ]
+                  ) {
+                    result[
+                      Number(item.title.substring(3, item.title.indexOf("_")))
+                    ] = [];
                   }
-                  result[Number(item.title.substring(3, item.title.indexOf('_')))].push(item)
-                })
-                result.forEach((item) => {
-                  item.sort(function (a, b) {
-                    return Number(a.title.substring(a.title.indexOf('_') + 1, a.title.length)) - Number(b.title.substring(b.title.indexOf('_') + 1, b.title.length))
-                  })
-                })
+                  result[
+                    Number(item.title.substring(3, item.title.indexOf("_")))
+                  ].push(item);
+                });
+                result.forEach(item => {
+                  item.sort(function(a, b) {
+                    return (
+                      Number(
+                        a.title.substring(
+                          a.title.indexOf("_") + 1,
+                          a.title.length
+                        )
+                      ) -
+                      Number(
+                        b.title.substring(
+                          b.title.indexOf("_") + 1,
+                          b.title.length
+                        )
+                      )
+                    );
+                  });
+                });
                 if (vm.EPG_programa_type == 2) {
-                  vm.programesListTwo = result
+                  vm.programesListTwo = result;
                   // console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
                 } else if (vm.EPG_programa_type == 1) {
-                  vm.programesListOne = result
+                  vm.programesListOne = result;
                   // console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
                 }
 
@@ -603,10 +697,10 @@ export default {
             } catch (error) {
               // console.log("result--------", result)
               if (vm.EPG_programa_type == 2) {
-                vm.programesListTwo = []
+                vm.programesListTwo = [];
                 // console.log("vm.programesListTwo~~~~~~~~~", vm.programesListTwo)
               } else if (vm.EPG_programa_type == 1) {
-                vm.programesListOne = []
+                vm.programesListOne = [];
                 // console.log("vm.programesListOne~~~~~~~~~", vm.programesListOne)
               }
 
@@ -617,13 +711,13 @@ export default {
               //   vm.mobileProgramesListTwo = []
               //   // console.log("2.0版本二级页面vm.mobileProgramesListTwo~~~~~~~~~", vm.mobileProgramesListTwo)
               // }
-              console.log(error)
+              console.log(error);
             }
           }
         })
-        .catch((error) => {
-          console.log("EPG", error)
-        })
+        .catch(error => {
+          console.log("EPG", error);
+        });
     },
 
     //一级页面与二级页面切换选项卡

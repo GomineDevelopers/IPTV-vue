@@ -199,27 +199,31 @@ export default {
     let vm = this;
     if (vm.PR_day == null || vm.PR_day == undefined || vm.PR_day == "") {
       return;
+    }else{
+      // setTimeout(function() {
+        vm.liveUsers_daliyReport("yd"); //移动数据
+        vm.liveUsers_daliyReport("lt"); //联通数据
+        vm.liveUsers_daliyReport("dx"); //电信数据
+        vm.api_data_set(); //混合数据
+        // excel 处理
+        vm.Excel_data_manage();
+      // }, 2000);
     }
-    vm.liveUsers_daliyReport("yd"); //移动数据
-    vm.liveUsers_daliyReport("lt"); //联通数据
-    vm.liveUsers_daliyReport("dx"); //电信数据
-    vm.api_data_set(); //混合数据
-    // excel 处理
-    vm.Excel_data_manage();
+    
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 1");
+      // console.log("Excel_data_manage - 1");
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function (response_dataArr) {
-          console.log("下载关");
+        .then(function(response_dataArr) {
+          // console.log("下载关");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
-      setTimeout(function () {
+      setTimeout(function() {
         if (vm.PR_Report_index == 1) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -281,7 +285,7 @@ export default {
               vm.typeLooktime.data[1]
             );
             // }, 3000);
-            console.log("日报excel下载数据~~~~~", title_arr, data_arr);
+            // console.log("日报excel下载数据~~~~~", title_arr, data_arr);
           } catch (error) {
             console.log(error);
           }
@@ -289,34 +293,33 @@ export default {
           temp_titleArr = title_arr;
           temp_DataArr = data_arr;
 
-
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
-            console.log("请选择时间！");
+            // console.log("请选择时间！");
             return;
           }
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function (response_title) {
-              console.log(response_title);
+            .then(function(response_title) {
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function (response_dataArr) {
-                  console.log(response_dataArr);
+                .then(function(response_dataArr) {
+                  // console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function (response_dataArr) {
-                      console.log("下载开");
+                    .then(function(response_dataArr) {
+                      // console.log("下载开");
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                       console.info(error);
                     });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.info(error);
                 });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         }
@@ -338,16 +341,10 @@ export default {
       if (type == "dx") {
         ttt = "电信";
       }
-      // console.log("~~~~~~!!vm.PR_day");
-      // console.log(vm.PR_day);
-      // let start = "2019-06-03";
-      // let end = "2019-06-03";
+
       let start = vm.PR_day.start;
       let end = vm.PR_day.end;
-      // if (vm.PR_day != null) {
-      //   start = vm.PR_day.start;
-      //   end = vm.PR_day.end;
-      // }
+
       let temp = {
         operator: String([ttt]),
         start: start,
@@ -360,9 +357,6 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
 
-      // let average_data_date = '2019-06-08'
-      // let average_data_start = vm.$commonTools.getBeforeDate(7); //获取当前日期的前7天的日期
-      // let average_data_end = vm.$commonTools.getBeforeDate(1); //获取当前日期的前1天的日期
       let temp_b7d = commonTools.currentDay_7daysAgoRange(start);
       let average_data_start = temp_b7d.start;
       let average_data_end = temp_b7d.end;
@@ -372,34 +366,36 @@ export default {
         start: average_data_start,
         end: average_data_end
       };
-      // console.log(average_temp)
       var average_data_formData = new FormData();
       var average_data_formData = new window.FormData();
       average_data_formData.append("operator", average_temp.operator);
       average_data_formData.append("start", average_temp.start);
       average_data_formData.append("end", average_temp.end);
 
-      // console.log("今日temp", temp)
-      // console.log("平均average_temp----", average_temp)
-
       //G+TV用户活跃发展日报表api对接(单个运营商数据)  今日
       liveUsers_daliyReport(formData)
         .then(response => {
-          console.log("今日数据~~~~~~~", ttt);
-          console.log(response.data);
+          // console.log("今日数据~~~~~~~", ttt);
+          // console.log(response.data);
           try {
             // let register_num = response.data.responses[0].aggregations.register_num.value; //在册用户数
-            let register_num_n = ""
-            let register_num = ""
-            let new_num = ''
-            let open_num = ''
-            let open_rate = ''
-            let watch_dur = ''
-            let watch_user_num = ''
-            let watch_freq_family = ''
+            let register_num_n = "";
+            let register_num = "";
+            let new_num = "";
+            let open_num = "";
+            let open_rate = "";
+            let watch_dur = "";
+            let watch_user_num = "";
+            let watch_freq_family = "";
             try {
-              register_num_n = (Number(response.data.responses[0].aggregations.register_num.value) / 10000).toFixed(2); //在册用户数
-              register_num = (Number(response.data.responses[0].aggregations.register_num.value)).toFixed(2); //在册用户数
+              register_num_n = (
+                Number(
+                  response.data.responses[0].aggregations.register_num.value
+                ) / 10000
+              ).toFixed(2); //在册用户数
+              register_num = Number(
+                response.data.responses[0].aggregations.register_num.value
+              ).toFixed(2); //在册用户数
               new_num = response.data.responses[0].aggregations.new_num.value; //新增在册用户数（今日）
               open_num = response.data.responses[0].aggregations.open_num.value; //开机用户
               open_rate = this.returnFloat((open_num / register_num) * 100); //开机率
@@ -407,8 +403,10 @@ export default {
               console.log(error);
             }
             try {
-              watch_dur = response.data.responses[2].aggregations.watch_dur.value / 60;
-              watch_user_num = response.data.responses[2].aggregations.watch_user_num.value;
+              watch_dur =
+                response.data.responses[2].aggregations.watch_dur.value / 60;
+              watch_user_num =
+                response.data.responses[2].aggregations.watch_user_num.value;
               watch_freq_family = (watch_dur / watch_user_num).toFixed(2);
             } catch (error) {
               console.log(error);
@@ -456,33 +454,44 @@ export default {
       //平均数据的获取 （当前日期前7天）
       liveUsers_daliyReport(average_data_formData)
         .then(response => {
-          console.log("前7天平均数据为", ttt, response.data);
+          // console.log("前7天平均数据为", ttt, response.data);
           try {
-            let average_new_num = 0
-            let open_rate
-            let average_open_rate = 0
-            let average_watch_freq_family = 0   //总的户均观看时长
-            let watch_freq_family
+            let average_new_num = 0;
+            let open_rate;
+            let average_open_rate = 0;
+            let average_watch_freq_family = 0; //总的户均观看时长
+            let watch_freq_family;
 
             try {
-              let average_open_data = response.data.responses[1].aggregations.statistical_granularity.buckets
-              average_open_data.forEach((value) => {
-                average_new_num += value.new_num.value
-                open_rate = (value.open_num.value / value.register_num.buckets[0].register_num.value) * 100
-                average_open_rate += open_rate
-              })
+              let average_open_data =
+                response.data.responses[1].aggregations.statistical_granularity
+                  .buckets;
+              average_open_data.forEach(value => {
+                average_new_num += value.new_num.value;
+                open_rate =
+                  (value.open_num.value /
+                    value.register_num.buckets[0].register_num.value) *
+                  100;
+                average_open_rate += open_rate;
+              });
             } catch (error) {
               console.log(error);
             }
 
             try {
               //let average_watch_freq_family = this.returnFloat(response.data.responses[3].aggregations.watch_freq_family.value / 7); //户均观看时长
-              let average_watch_data = response.data.responses[3].aggregations.statistical_granularity.buckets
-              average_watch_data.forEach((value) => {
-                watch_freq_family = value.watch_dur.value / 60 / value.watch_user_num.value
-                average_watch_freq_family += watch_freq_family
-              })
-              console.log("average_watch_freq_family", average_watch_freq_family)
+              let average_watch_data =
+                response.data.responses[3].aggregations.statistical_granularity
+                  .buckets;
+              average_watch_data.forEach(value => {
+                watch_freq_family =
+                  value.watch_dur.value / 60 / value.watch_user_num.value;
+                average_watch_freq_family += watch_freq_family;
+              });
+              // console.log(
+              //   "average_watch_freq_family",
+              //   average_watch_freq_family
+              // );
             } catch (error) {
               console.log(error);
             }
@@ -496,23 +505,59 @@ export default {
 
             //移动
             if (type == "yd") {
-              Vue.set(vm.newAddUserNumber.data[0][1], 1, (average_new_num / 7).toFixed(2)); //移动新增在册用户数（平均）
-              Vue.set(vm.turnOnRate.data[0][1], 1, (average_open_rate / 7).toFixed(2)); //移动开机率（平均）
-              Vue.set(vm.outLookTime.data[0][1], 1, (average_watch_freq_family / 7).toFixed(2)); //移动户均观看时长（平均）
+              Vue.set(
+                vm.newAddUserNumber.data[0][1],
+                1,
+                (average_new_num / 7).toFixed(2)
+              ); //移动新增在册用户数（平均）
+              Vue.set(
+                vm.turnOnRate.data[0][1],
+                1,
+                (average_open_rate / 7).toFixed(2)
+              ); //移动开机率（平均）
+              Vue.set(
+                vm.outLookTime.data[0][1],
+                1,
+                (average_watch_freq_family / 7).toFixed(2)
+              ); //移动户均观看时长（平均）
             }
 
             //联通
             if (type == "lt") {
-              Vue.set(vm.newAddUserNumber.data[0][1], 2, (average_new_num / 7).toFixed(2)); //联通新增在册用户数（平均）
-              Vue.set(vm.turnOnRate.data[0][1], 2, (average_open_rate / 7).toFixed(2)); //联通开机率（平均）
-              Vue.set(vm.outLookTime.data[0][1], 2, (average_watch_freq_family / 7).toFixed(2)); //联通户均观看时长（平均）
+              Vue.set(
+                vm.newAddUserNumber.data[0][1],
+                2,
+                (average_new_num / 7).toFixed(2)
+              ); //联通新增在册用户数（平均）
+              Vue.set(
+                vm.turnOnRate.data[0][1],
+                2,
+                (average_open_rate / 7).toFixed(2)
+              ); //联通开机率（平均）
+              Vue.set(
+                vm.outLookTime.data[0][1],
+                2,
+                (average_watch_freq_family / 7).toFixed(2)
+              ); //联通户均观看时长（平均）
             }
 
             //电信
             if (type == "dx") {
-              Vue.set(vm.newAddUserNumber.data[0][1], 3, (average_new_num / 7).toFixed(2)); //电信新增在册用户数（平均）
-              Vue.set(vm.turnOnRate.data[0][1], 3, (average_open_rate / 7).toFixed(2)); //电信开机率（平均）
-              Vue.set(vm.outLookTime.data[0][1], 3, (average_watch_freq_family / 7).toFixed(2)); //电信户均观看时长（平均）
+              Vue.set(
+                vm.newAddUserNumber.data[0][1],
+                3,
+                (average_new_num / 7).toFixed(2)
+              ); //电信新增在册用户数（平均）
+              Vue.set(
+                vm.turnOnRate.data[0][1],
+                3,
+                (average_open_rate / 7).toFixed(2)
+              ); //电信开机率（平均）
+              Vue.set(
+                vm.outLookTime.data[0][1],
+                3,
+                (average_watch_freq_family / 7).toFixed(2)
+              ); //电信户均观看时长（平均）
             }
           } catch (error) {
             console.log(error);
@@ -536,16 +581,9 @@ export default {
       } else {
         ttt = this.PR_operator; //运营商
       }
-      // let start = "2019-06-03";
-      // let end = "2019-06-03";
+
       let start = vm.PR_day.start;
       let end = vm.PR_day.end;
-
-      // if (vm.PR_day != null) {
-      //   start = vm.PR_day.start;
-      //   end = vm.PR_day.end;
-      // }
-
       let temp = {
         operator: String([ttt]),
         start: start,
@@ -557,9 +595,6 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
 
-      // let average_data_date = '2019-06-08'
-      // let average_data_start = vm.$commonTools.getBeforeDate(7); //获取当前日期的前7天的日期
-      // let average_data_end = vm.$commonTools.getBeforeDate(1); //获取当前日期的前1天的日期
       let temp_b7d = commonTools.currentDay_7daysAgoRange(start);
       let average_data_start = temp_b7d.start;
       let average_data_end = temp_b7d.end;
@@ -569,26 +604,24 @@ export default {
         start: average_data_start,
         end: average_data_end
       };
-
-      // console.log(average_temp)
       var average_data_formData = new FormData();
       var average_data_formData = new window.FormData();
       average_data_formData.append("operator", average_temp.operator);
       average_data_formData.append("start", average_temp.start);
       average_data_formData.append("end", average_temp.end);
 
-      // console.log("选择运营商为：", ttt)
-
       //基础功能单日观看时长,各类型节目点播时长数据（今日）
       liveUsers_daliyReport(formData)
         .then(response => {
           // console.log("基础功能单日观看时长,各类型节目点播时长数据（今日）")
-          console.log(response.data)
+          // console.log(response.data);
           // console.log("program_type_dur_order", program_type_dur_order)
           try {
-            let play_mode_buckets = response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+            let play_mode_buckets =
+              response.data.responses[4].aggregations.play_mode.buckets; //基础功能观看时长（今日）
             //循环遍历播放数据，取出回看，点播，直播数据
-            if (play_mode_buckets[0].watch_dur.value) { };  //若数据为空，则设置这一步进入catch部分，初始化数据
+            if (play_mode_buckets[0].watch_dur.value) {
+            } //若数据为空，则设置这一步进入catch部分，初始化数据
             play_mode_buckets.forEach((value, index) => {
               // console.log("~~~~~~~~~~~~~~");
               if (value.key == "回看") {
@@ -610,18 +643,18 @@ export default {
                   vm.returnFloat(value.watch_dur.value / 10000 / 60)
                 ); //直播数据
               }
-
             });
-
           } catch (error) {
-            Vue.set(vm.dayLooktime.data[1], 1, ["今日"])
+            Vue.set(vm.dayLooktime.data[1], 1, ["今日"]);
             console.log(error);
           }
 
           try {
-            let program_type_dur_order = response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+            let program_type_dur_order =
+              response.data.responses[6].aggregations.program_type.buckets; //各类型节目点播时长（今日）
             //循环遍历各类型节目点播时长，取出相应数据
-            if (program_type_dur_order[0].demand_dur.value) { };  //若数据为空，则设置这一步进入catch部分，初始化数据
+            if (program_type_dur_order[0].demand_dur.value) {
+            } //若数据为空，则设置这一步进入catch部分，初始化数据
             program_type_dur_order.forEach((value, index) => {
               // console.log(index, value)
               switch (value.key) {
@@ -700,7 +733,7 @@ export default {
               }
             });
           } catch (error) {
-            Vue.set(vm.typeLooktime.data[1], 1, ["今日"])
+            Vue.set(vm.typeLooktime.data[1], 1, ["今日"]);
             // vm.typeLooktime.data[1][1] = ["今日"]
             console.log(error);
           }
@@ -709,16 +742,17 @@ export default {
           console.log("G+TV用户活跃发展日报表", error);
         });
 
-
       //基础功能单日观看时长,各类型节目点播时长数据（平均）
       liveUsers_daliyReport(average_data_formData)
         .then(response => {
           // console.log("基础功能单日观看时长,各类型节目点播时长数据（平均）", ttt)
           // console.log(response.data)
           try {
-            let average_play_mode_buckets = response.data.responses[5].aggregations.play_mode.buckets; //基础功能观看时长（今日）
+            let average_play_mode_buckets =
+              response.data.responses[5].aggregations.play_mode.buckets; //基础功能观看时长（今日）
             //循环遍历播放数据，取出回看，点播，直播数据
-            if (average_play_mode_buckets[0].watch_dur.value) { };  //若数据为空，则设置这一步进入catch部分，初始化数据
+            if (average_play_mode_buckets[0].watch_dur.value) {
+            } //若数据为空，则设置这一步进入catch部分，初始化数据
             average_play_mode_buckets.forEach((value, index) => {
               // console.log(index, value)
               if (value.key == "回看") {
@@ -742,14 +776,16 @@ export default {
               }
             });
           } catch (error) {
-            Vue.set(vm.dayLooktime.data[0], 1, ["平均"])
+            Vue.set(vm.dayLooktime.data[0], 1, ["平均"]);
             console.log(error);
           }
 
           try {
-            let average_program_type_dur_order = response.data.responses[7].aggregations.program_type.buckets; //各类型节目点播时长（今日）
+            let average_program_type_dur_order =
+              response.data.responses[7].aggregations.program_type.buckets; //各类型节目点播时长（今日）
             //循环遍历各类型节目点播时长，取出相应数据
-            if (average_program_type_dur_order[0].demand_dur.value) { };  //若数据为空，则设置这一步进入catch部分，初始化数据
+            if (average_program_type_dur_order[0].demand_dur.value) {
+            } //若数据为空，则设置这一步进入catch部分，初始化数据
             average_program_type_dur_order.forEach((value, index) => {
               // console.log(index, value)
               switch (value.key) {
@@ -828,7 +864,7 @@ export default {
               }
             });
           } catch (error) {
-            Vue.set(vm.typeLooktime.data[0], 1, ["平均"])
+            Vue.set(vm.typeLooktime.data[0], 1, ["平均"]);
             console.log(error);
           }
         })

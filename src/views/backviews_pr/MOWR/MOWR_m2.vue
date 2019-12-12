@@ -134,109 +134,117 @@ export default {
     },
     form_Change: {
       get: function() {
-        let sumArr = [];
-        let sum = 0;
-        let length;
-        let i;
-        let rowD;
-        if (this.PR_operator == null || this.PR_operator.length == 0) {
-          sumArr.push(this.form.rowA[8]);
-          sumArr.push(this.form.rowB[8]);
-          sumArr.push(this.form.rowC[8]);
-          length = sumArr.length;
-          for (i = 0; i < length; i++) {
-            sum += parseInt(sumArr[i]);
-          }
-          rowD = this.form.rowD;
-          // rowD[8] = String(sum);
-          return {
-            title: this.form.title,
-            rowA: this.form.rowA,
-            rowB: this.form.rowB,
-            rowC: this.form.rowC,
-            rowD: this.form.rowD
-          };
-        } else {
-          if (this.PR_operator.indexOf("移动") > -1) {
+        try {
+          let sumArr = [];
+          let sum = 0;
+          let length;
+          let i;
+          let rowD;
+          if (this.PR_operator == null || this.PR_operator.length == 0) {
             sumArr.push(this.form.rowA[8]);
-          }
-          if (this.PR_operator.indexOf("联通") > -1) {
             sumArr.push(this.form.rowB[8]);
-          }
-          if (this.PR_operator.indexOf("电信") > -1) {
             sumArr.push(this.form.rowC[8]);
-          }
-          length = sumArr.length;
-          for (i = 0; i < length; i++) {
-            sum += parseInt(sumArr[i]);
-          }
-          rowD = this.form.rowD;
-          // rowD[8] = String(sum);
+            length = sumArr.length;
+            for (i = 0; i < length; i++) {
+              sum += parseInt(sumArr[i]);
+            }
+            rowD = this.form.rowD;
+            // rowD[8] = String(sum);
+            return {
+              title: this.form.title,
+              rowA: this.form.rowA,
+              rowB: this.form.rowB,
+              rowC: this.form.rowC,
+              rowD: this.form.rowD
+            };
+          } else {
+            if (this.PR_operator.indexOf("移动") > -1) {
+              sumArr.push(this.form.rowA[8]);
+            }
+            if (this.PR_operator.indexOf("联通") > -1) {
+              sumArr.push(this.form.rowB[8]);
+            }
+            if (this.PR_operator.indexOf("电信") > -1) {
+              sumArr.push(this.form.rowC[8]);
+            }
+            length = sumArr.length;
+            for (i = 0; i < length; i++) {
+              sum += parseInt(sumArr[i]);
+            }
+            rowD = this.form.rowD;
+            // rowD[8] = String(sum);
 
-          return {
-            title: this.form.title,
-            rowA: this.form.rowA,
-            rowB: this.form.rowB,
-            rowC: this.form.rowC,
-            rowD: this.form.rowD
-          };
+            return {
+              title: this.form.title,
+              rowA: this.form.rowA,
+              rowB: this.form.rowB,
+              rowC: this.form.rowC,
+              rowD: this.form.rowD
+            };
+          }
+
+          return this.form;
+        } catch (error) {
+          console.log(error);
         }
-
-        return this.form;
       },
       set: function(newValue) {}
     },
     form_Change2: {
       get: function() {
-        let sumArr = [];
-        let sum = 0;
-        let length;
-        let i;
-        let rowD;
-        if (this.PR_operator == null || this.PR_operator.length == 0) {
-          sumArr.push(this.form2.rowA[8]);
-          sumArr.push(this.form2.rowB[8]);
-          sumArr.push(this.form2.rowC[8]);
-          length = sumArr.length;
-          for (i = 0; i < length; i++) {
-            sum += parseInt(sumArr[i]);
-          }
-          rowD = this.form2.rowD;
-          // rowD[8] = String(sum);
-          return {
-            title: this.form2.title,
-            rowA: this.form2.rowA,
-            rowB: this.form2.rowB,
-            rowC: this.form2.rowC,
-            rowD: this.form2.rowD
-          };
-        } else {
-          if (this.PR_operator.indexOf("移动") > -1) {
+        try {
+          let sumArr = [];
+          let sum = 0;
+          let length;
+          let i;
+          let rowD;
+          if (this.PR_operator == null || this.PR_operator.length == 0) {
             sumArr.push(this.form2.rowA[8]);
-          }
-          if (this.PR_operator.indexOf("联通") > -1) {
             sumArr.push(this.form2.rowB[8]);
-          }
-          if (this.PR_operator.indexOf("电信") > -1) {
             sumArr.push(this.form2.rowC[8]);
-          }
-          length = sumArr.length;
-          for (i = 0; i < length; i++) {
-            sum += parseInt(sumArr[i]);
-          }
-          rowD = this.form2.rowD;
-          // rowD[8] = String(sum);
+            length = sumArr.length;
+            for (i = 0; i < length; i++) {
+              sum += parseInt(sumArr[i]);
+            }
+            rowD = this.form2.rowD;
+            // rowD[8] = String(sum);
+            return {
+              title: this.form2.title,
+              rowA: this.form2.rowA,
+              rowB: this.form2.rowB,
+              rowC: this.form2.rowC,
+              rowD: this.form2.rowD
+            };
+          } else {
+            if (this.PR_operator.indexOf("移动") > -1) {
+              sumArr.push(this.form2.rowA[8]);
+            }
+            if (this.PR_operator.indexOf("联通") > -1) {
+              sumArr.push(this.form2.rowB[8]);
+            }
+            if (this.PR_operator.indexOf("电信") > -1) {
+              sumArr.push(this.form2.rowC[8]);
+            }
+            length = sumArr.length;
+            for (i = 0; i < length; i++) {
+              sum += parseInt(sumArr[i]);
+            }
+            rowD = this.form2.rowD;
+            // rowD[8] = String(sum);
 
-          return {
-            title: this.form2.title,
-            rowA: this.form2.rowA,
-            rowB: this.form2.rowB,
-            rowC: this.form2.rowC,
-            rowD: this.form2.rowD
-          };
+            return {
+              title: this.form2.title,
+              rowA: this.form2.rowA,
+              rowB: this.form2.rowB,
+              rowC: this.form2.rowC,
+              rowD: this.form2.rowD
+            };
+          }
+
+          return this.form2;
+        } catch (error) {
+          console.log(error);
         }
-
-        return this.form2;
       },
       set: function(newValue) {}
     }
@@ -321,7 +329,7 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 3 - m2");
+      // console.log("Excel_data_manage - 3 - m2");
       let vm = this;
       setTimeout(function() {
         if (vm.PR_Report_index == 3) {
@@ -388,11 +396,11 @@ export default {
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {
-              console.log(response_title);
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
-                  console.log(response_dataArr);
+                  // console.log(response_dataArr);
                 })
                 .catch(function(error) {
                   console.info(error);

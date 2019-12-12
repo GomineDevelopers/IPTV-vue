@@ -76,8 +76,6 @@
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
-
-    <!-- <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
     <div class="programa" v-show="ifPlaymodeShow_db">
       <span class="font_title">栏目（点播-收视行为专属）：</span>
       <!-- <el-checkbox-group
@@ -107,8 +105,6 @@
         <el-checkbox class="font_choose" :disabled="false" :label="item"></el-checkbox>
       </el-checkbox-group>
     </div>
-
-    <!-- <div class="contenttype" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
     <div class="contenttype" v-show="ifPlaymodeShow_db">
       <span class="font_title">内容类型（点播-收视Top专属）：</span>
       <el-checkbox v-model="contenttype_checkAll" @change="contenttypeChoose_all">总体</el-checkbox>
@@ -188,7 +184,6 @@
     <div class="submitP">
       <el-button class="submit">确定</el-button>
     </div>
-    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 
@@ -248,19 +243,6 @@ export default {
       },
       set: function(newValue) {}
     }
-    // if_playmode_is_single_db: {
-    //   get: function() {
-    //     if (
-    //       this.UVB_playmode.indexOf("点播") > -1 &&
-    //       this.UVB_playmode.length == 1
-    //     ) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
-    //   set: function(newValue) {}
-    // }
   },
   watch: {
     regionChoose(newValue, oldValue) {
@@ -268,7 +250,6 @@ export default {
       this.$store
         .dispatch("set_UVB_region", newValue)
         .then(function(response) {
-          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -279,7 +260,6 @@ export default {
       this.$store
         .dispatch("set_UVB_operator", newValue)
         .then(function(response) {
-          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -290,7 +270,6 @@ export default {
       this.$store
         .dispatch("set_UVB_playmode", newValue)
         .then(function(response) {
-          // console.log(response);
           vm.$store
             .dispatch("set_UVB_target_type", "")
             .then(function(response) {})
@@ -307,7 +286,6 @@ export default {
       this.$store
         .dispatch("set_UVB_programa", newValue)
         .then(function(response) {
-          // console.log(response);
           vm.$store
           .dispatch("set_UVB_target_type", "")
           .then(function(response) {})
@@ -324,7 +302,6 @@ export default {
       this.$store
         .dispatch("set_UVB_contenttype", newValue)
         .then(function(response) {
-          // console.log(response);
           vm.$store
             .dispatch("set_UVB_target_type", "")
             .then(function(response) {})
@@ -336,39 +313,7 @@ export default {
           console.info(error);
         });
     }
-    // "time.dayValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_UVB_day", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.weekValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_UVB_week", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.pickerValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_UVB_picker", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // }
+    
   },
   data() {
     return {
@@ -538,9 +483,6 @@ export default {
     // 初始化周
     let arr_temp = [];
     setTimeout(function() {
-      // arr_temp = commonTools.weekDate(2018);
-      // arr_temp = commonTools.weekDate_add(2019, arr_temp);
-
       vm.time.week = commonTools.weekDate_ED();
     }, 100);
 
@@ -549,8 +491,9 @@ export default {
       vm.$store
         .dispatch("get_UVB_region")
         .then(function(response) {
-          // console.log(response);
           vm.regionChoose = response;
+          vm.region_checkAll = response.length === vm.region.length;
+
         })
         .catch(function(error) {
           console.info(error);
@@ -558,8 +501,9 @@ export default {
       vm.$store
         .dispatch("get_UVB_operator")
         .then(function(response) {
-          // console.log(response);
           vm.operatorChoose = response;
+          vm.operator_checkAll = response.length === vm.operator.length;
+
         })
         .catch(function(error) {
           console.info(error);
@@ -567,8 +511,8 @@ export default {
       vm.$store
         .dispatch("get_UVB_playmode")
         .then(function(response) {
-          // console.log(response);
           vm.playmodeChoose = response;
+          vm.playmode_checkAll = response.length === vm.playmode.length;
         })
         .catch(function(error) {
           console.info(error);
@@ -576,8 +520,9 @@ export default {
       vm.$store
         .dispatch("get_UVB_programa")
         .then(function(response) {
-          // console.log(response);
           vm.programaChoose = response;
+          // vm.programa_checkAll = response.length === vm.programa.length; // 无效-获取值是从api获取
+
         })
         .catch(function(error) {
           console.info(error);
@@ -585,8 +530,9 @@ export default {
       vm.$store
         .dispatch("get_UVB_contenttype")
         .then(function(response) {
-          // console.log(response);
           vm.contenttypeChoose = response;
+          // vm.contenttype_checkAll = response.length === vm.contenttype.length; // 无效-获取值是从api获取
+
         })
         .catch(function(error) {
           console.info(error);
@@ -597,10 +543,8 @@ export default {
           vm.$store
             .dispatch("get_UVB_time_type")
             .then(function(response) {
-              // console.log("~~~get_UVB_time_type:");
-              // console.log(response);
               if (response == 1) {
-                console.log("history：" + response);
+                // console.log("history：" + response);
                 vm.time.dayValue = res;
               }
             })
@@ -617,10 +561,8 @@ export default {
           vm.$store
             .dispatch("get_UVB_time_type")
             .then(function(response) {
-              // console.log("~~~get_UVB_time_type:");
-              // console.log(response);
               if (response == 2) {
-                console.log("history：" + response);
+                // console.log("history：" + response);
                 let length = vm.time.week.length;
                 let i;
                 let temp_label;
@@ -646,15 +588,7 @@ export default {
           vm.$store
             .dispatch("get_UVB_time_type")
             .then(function(response) {
-              // console.log("~~~get_ULC_time_type:");
-              // console.log(response);
               if (response == 3) {
-                console.log("history：" + response);
-                console.log("res" + res);
-                console.log("Object(res)");
-                // console.log( Object(res));
-                // vm.time.pickerValue = Object(res); // 反转成Object的格式是零零碎碎的字符串-pass
-                // vm.time.pickerValue = JSON.parse(res);
                 let temp = [];
                 let t_arr = res.split(",");
                 temp.push(t_arr[0]);
@@ -676,7 +610,7 @@ export default {
       let vm = this;
       userAction_programs()
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let buckets = response.data.responses[0].aggregations.ti.buckets;
           let length = buckets.length;
           let i;
@@ -690,7 +624,6 @@ export default {
           vm.$store
             .dispatch("set_UVB_programa", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -699,7 +632,6 @@ export default {
           vm.$store
             .dispatch("set_UVB_programa_list", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -713,7 +645,7 @@ export default {
       let vm = this;
       userAction_program_type()
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let buckets =
             response.data.responses[0].aggregations.program_type.buckets;
           let length = buckets.length;
@@ -728,7 +660,6 @@ export default {
           vm.$store
             .dispatch("set_UVB_contenttype", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -737,7 +668,6 @@ export default {
           vm.$store
             .dispatch("set_UVB_contenttype_list", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -757,11 +687,11 @@ export default {
       this.time.pickerValue = "";
       let newValue = String(event);
       newValue = commonTools.dayChange(newValue); // store 传入 2019-09-20 格式
-      console.log("~~~~set_UVB_day:" + newValue);
+      // console.log("~~~~set_UVB_day:" + newValue);
       vm.$store
         .dispatch("set_UVB_day", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           vm.$store
             .dispatch("set_UVB_time_type", 1)
             .then(function(response) {
@@ -789,7 +719,7 @@ export default {
       vm.$store
         .dispatch("set_UVB_week", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           vm.$store
             .dispatch("set_UVB_time_type", 2)
             .then(function(response) {
@@ -809,7 +739,7 @@ export default {
         });
     },
     pickerValue_change(event) {
-      console.log(event);
+      // console.log(event);
       let vm = this;
       this.time.dayValue = "";
       this.time.weekValue = "";
@@ -818,7 +748,7 @@ export default {
       vm.$store
         .dispatch("set_UVB_picker", newValue)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           vm.$store
             .dispatch("set_UVB_time_type", 3)
             .then(function(response) {

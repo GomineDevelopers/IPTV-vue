@@ -201,114 +201,126 @@ export default {
     },
     MOWR_m7_A1_Change: {
       get: function() {
-        // console.log("~~~MOWR_m7_A1_Change");
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
-          // console.log("~~~MOWR_m7_A1_Change2");
+        try {
+          // console.log("~~~MOWR_m7_A1_Change");
+          let vm = this;
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            // console.log("~~~MOWR_m7_A1_Change2");
 
+            return vm.MOWR_m7_A1;
+          } else {
+            // console.log("~~~MOWR_m7_A1_Change3");
+
+            let color = [];
+            let data = [];
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.MOWR_m7_A1.color[0]);
+              data.push(vm.MOWR_m7_A1.data[0]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.MOWR_m7_A1.color[1]);
+              data.push(vm.MOWR_m7_A1.data[1]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.MOWR_m7_A1.color[2]);
+              data.push(vm.MOWR_m7_A1.data[2]);
+            }
+            // console.log("~~~MOWR_m7_A1_Change4");
+
+            setTimeout(function() {
+              vm.drawLine();
+            }, 300);
+            // console.log("~~~MOWR_m7_A1_Change5");
+
+            let temp = {
+              id: vm.MOWR_m7_A1.id,
+              title: vm.MOWR_m7_A1.title,
+              color: color,
+              data: data
+            };
+            // console.log(temp);
+            return temp;
+          }
           return vm.MOWR_m7_A1;
-        } else {
-          // console.log("~~~MOWR_m7_A1_Change3");
-
-          let color = [];
-          let data = [];
-          if (vm.PR_operator.indexOf("移动") > -1) {
-            color.push(vm.MOWR_m7_A1.color[0]);
-            data.push(vm.MOWR_m7_A1.data[0]);
-          }
-          if (vm.PR_operator.indexOf("联通") > -1) {
-            color.push(vm.MOWR_m7_A1.color[1]);
-            data.push(vm.MOWR_m7_A1.data[1]);
-          }
-          if (vm.PR_operator.indexOf("电信") > -1) {
-            color.push(vm.MOWR_m7_A1.color[2]);
-            data.push(vm.MOWR_m7_A1.data[2]);
-          }
-          // console.log("~~~MOWR_m7_A1_Change4");
-
-          setTimeout(function() {
-            vm.drawLine();
-          }, 300);
-          // console.log("~~~MOWR_m7_A1_Change5");
-
-          let temp = {
-            id: vm.MOWR_m7_A1.id,
-            title: vm.MOWR_m7_A1.title,
-            color: color,
-            data: data
-          };
-          // console.log(temp);
-          return temp;
+        } catch (error) {
+          console.log(error);
         }
-        return vm.MOWR_m7_A1;
       },
       set: function(newValue) {}
     },
     MOWR_m7_A2_Change: {
       get: function() {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+        try {
+          let vm = this;
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            return vm.MOWR_m7_A2;
+          } else {
+            let color = [];
+            let data = [];
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.MOWR_m7_A2.color[0]);
+              data.push(vm.MOWR_m7_A2.data[0]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.MOWR_m7_A2.color[1]);
+              data.push(vm.MOWR_m7_A2.data[1]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.MOWR_m7_A2.color[2]);
+              data.push(vm.MOWR_m7_A2.data[2]);
+            }
+            setTimeout(function() {
+              vm.drawLine2();
+            }, 300);
+            return {
+              id: vm.MOWR_m7_A2.id,
+              title: vm.MOWR_m7_A2.title,
+              color: color,
+              data: data
+            };
+          }
           return vm.MOWR_m7_A2;
-        } else {
-          let color = [];
-          let data = [];
-          if (vm.PR_operator.indexOf("移动") > -1) {
-            color.push(vm.MOWR_m7_A2.color[0]);
-            data.push(vm.MOWR_m7_A2.data[0]);
-          }
-          if (vm.PR_operator.indexOf("联通") > -1) {
-            color.push(vm.MOWR_m7_A2.color[1]);
-            data.push(vm.MOWR_m7_A2.data[1]);
-          }
-          if (vm.PR_operator.indexOf("电信") > -1) {
-            color.push(vm.MOWR_m7_A2.color[2]);
-            data.push(vm.MOWR_m7_A2.data[2]);
-          }
-          setTimeout(function() {
-            vm.drawLine2();
-          }, 300);
-          return {
-            id: vm.MOWR_m7_A2.id,
-            title: vm.MOWR_m7_A2.title,
-            color: color,
-            data: data
-          };
+        } catch (error) {
+          console.log(error);
         }
-        return vm.MOWR_m7_A2;
       },
       set: function(newValue) {}
     },
     MOWR_m7_A3_Change: {
       get: function() {
-        let vm = this;
-        if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+        try {
+          let vm = this;
+          if (vm.PR_operator == null || vm.PR_operator.length == 0) {
+            return vm.MOWR_m7_A3;
+          } else {
+            let color = [];
+            let data = [];
+            if (vm.PR_operator.indexOf("移动") > -1) {
+              color.push(vm.MOWR_m7_A3.color[0]);
+              data.push(vm.MOWR_m7_A3.data[0]);
+            }
+            if (vm.PR_operator.indexOf("联通") > -1) {
+              color.push(vm.MOWR_m7_A3.color[1]);
+              data.push(vm.MOWR_m7_A3.data[1]);
+            }
+            if (vm.PR_operator.indexOf("电信") > -1) {
+              color.push(vm.MOWR_m7_A3.color[2]);
+              data.push(vm.MOWR_m7_A3.data[2]);
+            }
+            setTimeout(function() {
+              vm.drawLine3();
+            }, 300);
+            return {
+              id: vm.MOWR_m7_A3.id,
+              title: vm.MOWR_m7_A3.title,
+              color: color,
+              data: data
+            };
+          }
           return vm.MOWR_m7_A3;
-        } else {
-          let color = [];
-          let data = [];
-          if (vm.PR_operator.indexOf("移动") > -1) {
-            color.push(vm.MOWR_m7_A3.color[0]);
-            data.push(vm.MOWR_m7_A3.data[0]);
-          }
-          if (vm.PR_operator.indexOf("联通") > -1) {
-            color.push(vm.MOWR_m7_A3.color[1]);
-            data.push(vm.MOWR_m7_A3.data[1]);
-          }
-          if (vm.PR_operator.indexOf("电信") > -1) {
-            color.push(vm.MOWR_m7_A3.color[2]);
-            data.push(vm.MOWR_m7_A3.data[2]);
-          }
-          setTimeout(function() {
-            vm.drawLine3();
-          }, 300);
-          return {
-            id: vm.MOWR_m7_A3.id,
-            title: vm.MOWR_m7_A3.title,
-            color: color,
-            data: data
-          };
+        } catch (error) {
+          console.log(error);
         }
-        return vm.MOWR_m7_A3;
       },
       set: function(newValue) {}
     }
@@ -398,7 +410,7 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 3 - m7");
+      // console.log("Excel_data_manage - 3 - m7");
       let vm = this;
       setTimeout(function() {
         if (vm.PR_Report_index == 3) {
@@ -463,11 +475,11 @@ export default {
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {
-              console.log(response_title);
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
-                  console.log(response_dataArr);
+                  // console.log(response_dataArr);
                 })
                 .catch(function(error) {
                   console.info(error);
@@ -552,6 +564,7 @@ export default {
         series: [
           {
             type: "pie",
+            minAngle: 15,
             radius: "55%",
             center: ["45%", "50%"],
             selectedMode: "single",

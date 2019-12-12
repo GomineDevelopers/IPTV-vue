@@ -52,8 +52,8 @@ export default {
     login() {
       let name = this.name;
       let password = this.password;
-      console.log("用户名：", name);
-      console.log("密码：", password);
+      // console.log("用户名：", name);
+      // console.log("密码：", password);
       if (name == "" || password == "") {
         this.alertShow = true;
         this.alertTitle = "请填写正确的用户名和密码！";
@@ -70,7 +70,7 @@ export default {
         login(vm.data)
           .then(function (response) {
             if (response.status === 201) {
-              console.log("201");
+              // console.log("201");
               let access_token = response.data.access_token;
               vm.$commonTools.setCookie(
                 "user_token",
@@ -83,8 +83,8 @@ export default {
                 let newToken = token.replace('"', "").replace('"', "");
                 get_user_permissions(newToken)
                   .then(function (response) {
-                    console.log(response);
-                    console.log("~~~~获取权限成功！");
+                    // console.log(response);
+                    // console.log("~~~~获取权限成功！");
                     let m_res_data = response.data.data;
                     let length = m_res_data.length;
                     let i;
@@ -100,8 +100,8 @@ export default {
                         temp_authorizationChoose
                       )
                       .then(function (response) {
-                        console.log(response);
-                        console.log(temp_authorizationChoose);
+                        // console.log(response);
+                        // console.log(temp_authorizationChoose);
                         // 跳转-后台主页面
                         vm.$router.push({ path: "/backhome" });
                         // 路由处理：跳转到具有权限的第一个页面

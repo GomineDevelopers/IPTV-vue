@@ -100,8 +100,14 @@ export default {
     };
   },
   mounted() {
-    this.api_data_set();
     let vm = this;
+    if (vm.PR_week == null || vm.PR_week == undefined || vm.PR_week == "") {
+      return;
+    } else {
+      // setTimeout(function() {
+        vm.api_data_set();
+      // }, 2000);
+    }
   },
   watch: {
     PR_operator(newValue, oldValue) {
@@ -155,28 +161,39 @@ export default {
       // api_data_yd_wdl
       // api_data_lt_wdl
       // api_data_dx_wdl
-      console.log("~~~~~~~~~~modulesDataManage");
-      console.log(vm.api_data_yd_w);
-      console.log(vm.api_data_lt_w);
-      console.log(vm.api_data_dx_w);
-      console.log(vm.api_data_yd_wd);
-      console.log(vm.api_data_lt_wd);
-      console.log(vm.api_data_dx_wd);
-      console.log(vm.api_data_yd_wdl);
-      console.log(vm.api_data_lt_wdl);
-      console.log(vm.api_data_dx_wdl);
+      // console.log("~~~~~~~~~~modulesDataManage");
+      // console.log(vm.api_data_yd_w);
+      // console.log(vm.api_data_lt_w);
+      // console.log(vm.api_data_dx_w);
+      // console.log(vm.api_data_yd_wd);
+      // console.log(vm.api_data_lt_wd);
+      // console.log(vm.api_data_dx_wd);
+      // console.log(vm.api_data_yd_wdl);
+      // console.log(vm.api_data_lt_wdl);
+      // console.log(vm.api_data_dx_wdl);
 
-      let w_yd = vm.api_data_yd_w.data.responses;
-      let w_lt = vm.api_data_lt_w.data.responses;
-      let w_dx = vm.api_data_dx_w.data.responses;
-      let wd_yd = vm.api_data_yd_wd.data.responses;
-      let wd_lt = vm.api_data_lt_wd.data.responses;
-      let wd_dx = vm.api_data_dx_wd.data.responses;
-      let wdl_yd = vm.api_data_yd_wdl.data.responses;
-      let wdl_lt = vm.api_data_lt_wdl.data.responses;
-      let wdl_dx = vm.api_data_dx_wdl.data.responses;
-      // OK -  1 6 7 2 3 4 5
-      // ing -
+      let w_yd;
+      let w_lt;
+      let w_dx;
+      let wd_yd;
+      let wd_lt;
+      let wd_dx;
+      let wdl_yd;
+      let wdl_lt;
+      let wdl_dx;
+      try {
+        w_yd = vm.api_data_yd_w.data.responses;
+        w_lt = vm.api_data_lt_w.data.responses;
+        w_dx = vm.api_data_dx_w.data.responses;
+        wd_yd = vm.api_data_yd_wd.data.responses;
+        wd_lt = vm.api_data_lt_wd.data.responses;
+        wd_dx = vm.api_data_dx_wd.data.responses;
+        wdl_yd = vm.api_data_yd_wdl.data.responses;
+        wdl_lt = vm.api_data_lt_wdl.data.responses;
+        wdl_dx = vm.api_data_dx_wdl.data.responses;
+      } catch (error) {
+        console.log(error);
+      }
 
       // 暂时没有wd和w混合的 模块
 
@@ -224,17 +241,11 @@ export default {
         let i_1_0;
 
         // left
-
         let sum_1_0_yd = 0;
         let sum_1_0_lt = 0;
         let sum_1_0_dx = 0;
         let sum_1_0_all = 0;
         // right
-        // if (length_1_0 == 0) {
-        //   m1.push(m1_0);
-        //   m1.push(m1_1);
-        //   throw "length_1_0 == 0";
-        // }
 
         for (i_1_0 = 0; i_1_0 < length_1_0; i_1_0++) {
           // ▲ 1 - 7
@@ -256,10 +267,6 @@ export default {
         // left
         sum_1_0_all = sum_1_0_yd + sum_1_0_lt + sum_1_0_dx;
         //设置-单运营商-和 - ▲ 8
-        // Vue.set(m1_0.rowA, length_1_0 + 1, sum_1_0_yd);
-        // Vue.set(m1_0.rowB, length_1_0 + 1, sum_1_0_lt);
-        // Vue.set(m1_0.rowC, length_1_0 + 1, sum_1_0_dx);
-        // Vue.set(m1_0.rowD, length_1_0 + 1, sum_1_0_all);
         Vue.set(m1_0.rowA, 7 + 1, sum_1_0_yd);
         Vue.set(m1_0.rowB, 7 + 1, sum_1_0_lt);
         Vue.set(m1_0.rowC, 7 + 1, sum_1_0_dx);
@@ -267,15 +274,12 @@ export default {
 
         m1.push(m1_0);
         m1.push(m1_1);
-        // console.log("~~~~~~~~~~~~m1");
-        // console.log(m1);
       } catch (error) {
         console.log(error);
         m1 = [];
       }
 
       let m12 = [];
-
       try {
         let buckets_1_0_yd2 =
           wdl_yd[0].aggregations.statistical_granularity.buckets;
@@ -362,10 +366,6 @@ export default {
         // left
         sum_1_0_all2 = sum_1_0_yd2 + sum_1_0_lt2 + sum_1_0_dx2;
         //设置-单运营商-和 - ▲ 8
-        // Vue.set(m1_02.rowA, length_1_02 + 1, sum_1_0_yd2);
-        // Vue.set(m1_02.rowB, length_1_02 + 1, sum_1_0_lt2);
-        // Vue.set(m1_02.rowC, length_1_02 + 1, sum_1_0_dx2);
-        // Vue.set(m1_02.rowD, length_1_02 + 1, sum_1_0_all2);
         Vue.set(m1_02.rowA, 7 + 1, sum_1_0_yd2);
         Vue.set(m1_02.rowB, 7 + 1, sum_1_0_lt2);
         Vue.set(m1_02.rowC, 7 + 1, sum_1_0_dx2);
@@ -373,8 +373,6 @@ export default {
 
         m12.push(m1_02);
         m12.push(m1_12);
-        // console.log("~~~~~~~~~~~~m12");
-        // console.log(m12);
       } catch (error) {
         console.log(error);
         m12 = [];
@@ -540,10 +538,7 @@ export default {
             )
           ) + "%";
 
-        // Vue.set(m2_0.rowA, length_2_1 + 1, sum_2_1_yd);
-        // Vue.set(m2_0.rowB, length_2_1 + 1, sum_2_1_lt);
-        // Vue.set(m2_0.rowC, length_2_1 + 1, sum_2_1_dx);
-        // Vue.set(m2_0.rowD, length_2_1 + 1, sum_2_1_all);
+        // 固定位置7+1
         Vue.set(m2_0.rowA, 7 + 1, sum_2_1_yd);
         Vue.set(m2_0.rowB, 7 + 1, sum_2_1_lt);
         Vue.set(m2_0.rowC, 7 + 1, sum_2_1_dx);
@@ -551,8 +546,6 @@ export default {
 
         m2.push(m2_0);
         m2.push(m2_1);
-        // console.log("~~~~~~~~~~~~m2");
-        // console.log(m2);
       } catch (error) {
         console.log(error);
         m2 = [];
@@ -707,12 +700,7 @@ export default {
                 100
             )
           ) + "%";
-
-        // Vue.set(m2_0_2.rowA, length_2_1_2 + 1, sum_2_1_yd_2);
-        // Vue.set(m2_0_2.rowB, length_2_1_2 + 1, sum_2_1_lt_2);
-        // Vue.set(m2_0_2.rowC, length_2_1_2 + 1, sum_2_1_dx_2);
-        // Vue.set(m2_0_2.rowD, length_2_1_2 + 1, sum_2_1_all_2);
-        
+        // 固定位置7+1
         Vue.set(m2_0_2.rowA, 7 + 1, sum_2_1_yd_2);
         Vue.set(m2_0_2.rowB, 7 + 1, sum_2_1_lt_2);
         Vue.set(m2_0_2.rowC, 7 + 1, sum_2_1_dx_2);
@@ -720,8 +708,6 @@ export default {
 
         m2_2.push(m2_0_2);
         m2_2.push(m2_1_2);
-        // console.log("~~~~~~~~~~~~m2_2");
-        // console.log(m2_2);
       } catch (error) {
         console.log(error);
         m2_2 = [];
@@ -1000,8 +986,6 @@ export default {
         );
 
         m3.push(m3_0);
-        // console.log("~~~~~~~~~~~~m3");
-        // console.log(m3);
       } catch (error) {
         console.log(error);
         m3 = [];
@@ -1280,8 +1264,6 @@ export default {
         );
 
         m4.push(m4_0);
-        // console.log("~~~~~~~~~~~~m4");
-        // console.log(m4);
       } catch (error) {
         console.log(error);
         m4 = [];
@@ -1560,8 +1542,6 @@ export default {
         );
 
         m5.push(m5_0);
-        // console.log("~~~~~~~~~~~~m5");
-        // console.log(m5);
       } catch (error) {
         console.log(error);
         m5 = [];
@@ -1662,9 +1642,7 @@ export default {
           );
         }
         // m6_0
-        // Vue.set(m6_0.rowA, length_6_0 + 1, sum_6_0_yd);
-        // Vue.set(m6_0.rowB, length_6_0 + 1, sum_6_0_lt);
-        // Vue.set(m6_0.rowC, length_6_0 + 1, sum_6_0_dx);
+        // 固定位置7+1
         Vue.set(m6_0.rowA, 7 + 1, sum_6_0_yd);
         Vue.set(m6_0.rowB, 7 + 1, sum_6_0_lt);
         Vue.set(m6_0.rowC, 7 + 1, sum_6_0_dx);
@@ -1673,8 +1651,6 @@ export default {
         m6.push(m6_1);
         m6.push(m6_2);
         m6.push(m6_3);
-        // console.log("~~~~~~~~~~~~m6");
-        // console.log(m6);
       } catch (error) {
         console.log(error);
         m6 = [];
@@ -1767,9 +1743,7 @@ export default {
           );
         }
         // m6_02
-        // Vue.set(m6_02.rowA, length_6_02 + 1, sum_6_0_yd2);
-        // Vue.set(m6_02.rowB, length_6_02 + 1, sum_6_0_lt2);
-        // Vue.set(m6_02.rowC, length_6_02 + 1, sum_6_0_dx2);
+        // 固定位置7+1
         Vue.set(m6_02.rowA, 7 + 1, sum_6_0_yd2);
         Vue.set(m6_02.rowB, 7 + 1, sum_6_0_lt2);
         Vue.set(m6_02.rowC, 7 + 1, sum_6_0_dx2);
@@ -1778,8 +1752,6 @@ export default {
         m62.push(m6_12);
         m62.push(m6_22);
         m62.push(m6_32);
-        // console.log("~~~~~~~~~~~~m62");
-        // console.log(m62);
       } catch (error) {
         console.log(error);
       }
@@ -1797,9 +1769,6 @@ export default {
       let m7 = [];
 
       try {
-        // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-        // console.log(wd_yd);
-        // console.log(wdl_yd);
         let buckets_7_0_yd =
           wd_yd[0].aggregations.statistical_granularity.buckets;
         let buckets_7_0_lt =
@@ -1939,16 +1908,7 @@ export default {
           sum_7_0_dx_nin += add_value_dx;
         }
         //// m7_0
-        // Vue.set(m7_0.row1, length_7_0 + 2, sum_7_0_yd_nn);
-        // Vue.set(m7_0.row2, length_7_0 + 1, sum_7_0_yd_uun);
-        // Vue.set(m7_0.row3, length_7_0 + 1, sum_7_0_yd_nin);
-        // Vue.set(m7_0.row4, length_7_0 + 2, sum_7_0_lt_nn);
-        // Vue.set(m7_0.row5, length_7_0 + 1, sum_7_0_lt_uun);
-        // Vue.set(m7_0.row6, length_7_0 + 1, sum_7_0_lt_nin);
-        // Vue.set(m7_0.row7, length_7_0 + 2, sum_7_0_dx_nn);
-        // Vue.set(m7_0.row8, length_7_0 + 1, sum_7_0_dx_uun);
-        // Vue.set(m7_0.row9, length_7_0 + 1, sum_7_0_dx_nin);
-        // 总计固定位置
+        // 总计 固定位置7+1
         Vue.set(m7_0.row1, 7 + 2, sum_7_0_yd_nn);
         Vue.set(m7_0.row2, 7 + 1, sum_7_0_yd_uun);
         Vue.set(m7_0.row3, 7 + 1, sum_7_0_yd_nin);
@@ -1958,8 +1918,6 @@ export default {
         Vue.set(m7_0.row7, 7 + 2, sum_7_0_dx_nn);
         Vue.set(m7_0.row8, 7 + 1, sum_7_0_dx_uun);
         Vue.set(m7_0.row9, 7 + 1, sum_7_0_dx_nin);
-        // console.log("■■■■■■■■■■");
-        // console.log(sum_7_0_dx_nin);
 
         //// m7_1
         Vue.set(m7_1.data[1], 1, sum_7_0_yd_nn);
@@ -1978,8 +1936,6 @@ export default {
         m7.push(m7_1);
         m7.push(m7_2);
         m7.push(m7_3);
-        // console.log("~~~~~~~~~~~~m7");
-        // console.log(m7);
       } catch (error) {
         console.log(error);
         m7 = [];
@@ -2037,9 +1993,6 @@ export default {
         let length_8_2_package = buckets_8_2_package.length; // 包（个数）长度
         let i_8_2_package;
 
-        // console.log("■■■■■■■■■■■■■■■■■■■■■■");
-        // console.log(wd_dx[2]);
-
         // 存入日期
         Vue.set(m8_0.row1, 0, buckets_8_2[0].key);
         Vue.set(m8_0.row2, 0, buckets_8_2[1].key);
@@ -2061,7 +2014,6 @@ export default {
           i_8_2_package < 9; // 固定值 x9
           i_8_2_package++
         ) {
-          // m8_0.title1.push(buckets_8_2_package[i_8_2_package].key);
           m8_0.title2.push("订购数");
           m8_0.title2.push("收入");
         }
@@ -2102,11 +2054,6 @@ export default {
         function return_KeyValue(key, index_date) {
           let npn = 0;
           let ni = 0;
-          // console.log("~~~~~~~~~~~return_KeyValue");
-          // console.log("~~~~~~~~~~~" + key);
-          // console.log("~~~~~~~~~~~" + String(index_date));
-          // console.log("~~~~~~~~~~~");
-
           try {
             let i_temp_r = 0;
             for (
@@ -2333,8 +2280,6 @@ export default {
         m8_0.row_bottom.push(wd_dx[2].aggregations.new_income.value / 100);
 
         m8.push(m8_0);
-        // console.log("~~~~~~~~~~~~m8");
-        // console.log(m8);
       } catch (error) {
         console.log(error);
         m8 = [];
@@ -2343,10 +2288,13 @@ export default {
       vm.m8_data.push(m8);
     },
     refresh_api_data(operator_type, week_type) {
-      this.users_marketReport(operator_type, week_type);
+      try {
+        this.users_marketReport(operator_type, week_type);
+      } catch (error) {
+        console.log(error);
+      }
     },
     users_marketReport(operator_type, week_type) {
-      // console.log("users_marketReport");
       let vm = this;
       if (vm.PR_week == "" || vm.PR_week == null || vm.PR_week == undefined) {
         return;
@@ -2390,7 +2338,6 @@ export default {
       temp_manage("lt", "联通");
       temp_manage("dx", "电信");
 
-      // console.log("~~~~~~~~~~~~~~~~~~~ temp  users_marketReport");
       // console.log(temp);
       var formData = new FormData();
       var formData = new window.FormData();

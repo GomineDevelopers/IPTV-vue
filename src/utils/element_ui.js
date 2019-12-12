@@ -29,7 +29,8 @@ import {
   Loading,
   Notification,
   Tooltip,
-  MessageBox
+  MessageBox,
+  Pagination
 } from 'element-ui'
 
 Vue.use(Row)
@@ -62,10 +63,10 @@ Vue.use(Switch)
 Vue.use(Loading)
 // Vue.use(Notification)
 Vue.use(Tooltip)
-
-
 Vue.prototype.$notify = Notification   //消息提示
 Vue.prototype.$confirm = MessageBox.confirm   //弹框
+
+Vue.use(Pagination)
 
 
 

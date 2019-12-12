@@ -313,7 +313,7 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 3 - m8");
+      // console.log("Excel_data_manage - 3 - m8");
       let vm = this;
       setTimeout(function() {
         if (vm.PR_Report_index == 3) {
@@ -367,23 +367,23 @@ export default {
           temp_DataArr = data_arr;
 
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
-            console.log("请选择时间！");
+            // console.log("请选择时间！");
             return;
           }
 
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function(response_title) {
-              console.log(response_title);
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function(response_dataArr) {
-                  console.log(response_dataArr);
+                  // console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
                     .then(function(response_dataArr) {
-                      console.log("下载开");
+                      // console.log("下载开");
                     })
                     .catch(function(error) {
                       console.info(error);

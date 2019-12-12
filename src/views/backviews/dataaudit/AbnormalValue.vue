@@ -348,8 +348,6 @@ export default {
           // console.log(response);
           // 暂时为某日的
           try {
-              
-     
             let buckets =
               response.data.responses[0].aggregations.statistical_granularity
                 .buckets;
@@ -377,7 +375,8 @@ export default {
               return temp_pertitle_data;
             }
             function dataManage(index_0_child) {
-              let buckets_0_cc = buckets_0_child[index_0_child].fieldname.buckets;
+              let buckets_0_cc =
+                buckets_0_child[index_0_child].fieldname.buckets;
               let length_0_cc = buckets_0_cc.length;
               let i_0_cc;
               // 3个字段固定： uid operators durationOnlive
@@ -541,7 +540,7 @@ export default {
             vm.review = temp_all[5];
             vm.onlive = temp_all[6];
           } catch (error) {
-            console.log(error)
+            console.log(error);
             vm.usercount = [];
             vm.heartbeat = [];
             vm.basedata = [];
@@ -556,157 +555,161 @@ export default {
         });
     },
     echarts_manage() {
-      // 时间设置为 截止日期所在月1号~截止日期
-      // 基于准备好的dom，初始化echarts实例
-      let vm = this;
-      var abnormalValueChart = this.$echarts.init(
-        document.getElementById(vm.echart_data.id)
-      );
-      var dataTime = vm.echart_data.dataTime;
-      var nameArray = vm.echart_data.nameArray;
-      var stringArray = vm.echart_data.stringArray;
+      try {
+        // 时间设置为 截止日期所在月1号~截止日期
+        // 基于准备好的dom，初始化echarts实例
+        let vm = this;
+        var abnormalValueChart = this.$echarts.init(
+          document.getElementById(vm.echart_data.id)
+        );
+        var dataTime = vm.echart_data.dataTime;
+        var nameArray = vm.echart_data.nameArray;
+        var stringArray = vm.echart_data.stringArray;
 
-      var seriesData = [];
-      for (var i = 0; i < 9; i++) {
-        var tmpData = {};
-        tmpData.type = "line";
-        tmpData.symbol = "circle";
-        tmpData.data = stringArray[i].split("\t");
-        for (var j = 0; j < tmpData.data.length; j++) {
-          tmpData.data[j] = parseFloat(tmpData.data[j]).toFixed(2);
+        var seriesData = [];
+        for (var i = 0; i < 9; i++) {
+          var tmpData = {};
+          tmpData.type = "line";
+          tmpData.symbol = "circle";
+          tmpData.data = stringArray[i].split("\t");
+          for (var j = 0; j < tmpData.data.length; j++) {
+            tmpData.data[j] = parseFloat(tmpData.data[j]).toFixed(2);
+          }
+          tmpData.name = nameArray[i];
+          seriesData[i] = tmpData;
         }
-        tmpData.name = nameArray[i];
-        seriesData[i] = tmpData;
+        // console.log("seriesData", seriesData);
+        seriesData[5].markPoint = {
+          symbol: "Rect",
+          symbolSize: [80, 30],
+          label: {
+            show: true,
+            formatter: function(param) {
+              return "异常值";
+            }
+          },
+          data: [
+            {
+              coord: [10, "14.2"],
+              label: { show: true }
+            }
+          ]
+        };
+
+        // 指定图表的配置项和数据
+        var option = {
+          color: [
+            "#3BA0FF",
+            "#FF6123",
+            "#975FE4",
+            "#7ECDF4",
+            "#FCB84F",
+            "#4ADBC7",
+            "#5E70F1",
+            "#A9CCDC",
+            "#FC9D91"
+          ],
+          tooltip: {
+            trigger: "axis"
+          },
+          legend: {
+            data: nameArray,
+            icon: "circle",
+            itemWidth: 6, // 设置宽度
+            itemHeight: 6, // 设置高度
+            itemGap: 20, // 设置间距
+            textStyle: {
+              fontSize: 14,
+              color: "rgba(0, 0, 0, 0.65)"
+            }
+          },
+          //图表自带工具
+          toolbox: {
+            show: true,
+            feature: {
+              // dataView: { readOnly: false }, //切换数据视图查看数据
+              magicType: { type: ["line", "bar"] },
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            top: "10%",
+            left: "2%",
+            right: "2%",
+            bottom: "7%",
+            containLabel: true
+          },
+          dataZoom: [
+            {
+              show: true,
+              start: 0,
+              end: 100
+            },
+            {
+              type: "inside",
+              start: 0,
+              end: 100
+            }
+          ],
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: dataTime,
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            }
+          },
+          yAxis: {
+            type: "value",
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              }
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
+            }
+          },
+          series: seriesData
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        abnormalValueChart.clear();
+        abnormalValueChart.setOption(option);
+
+        window.addEventListener("resize", () => {
+          abnormalValueChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
       }
-      // console.log("seriesData", seriesData);
-      seriesData[5].markPoint = {
-        symbol: "Rect",
-        symbolSize: [80, 30],
-        label: {
-          show: true,
-          formatter: function(param) {
-            return "异常值";
-          }
-        },
-        data: [
-          {
-            coord: [10, "14.2"],
-            label: { show: true }
-          }
-        ]
-      };
-
-      // 指定图表的配置项和数据
-      var option = {
-        color: [
-          "#3BA0FF",
-          "#FF6123",
-          "#975FE4",
-          "#7ECDF4",
-          "#FCB84F",
-          "#4ADBC7",
-          "#5E70F1",
-          "#A9CCDC",
-          "#FC9D91"
-        ],
-        tooltip: {
-          trigger: "axis"
-        },
-        legend: {
-          data: nameArray,
-          icon: "circle",
-          itemWidth: 6, // 设置宽度
-          itemHeight: 6, // 设置高度
-          itemGap: 20, // 设置间距
-          textStyle: {
-            fontSize: 14,
-            color: "rgba(0, 0, 0, 0.65)"
-          }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          feature: {
-            // dataView: { readOnly: false }, //切换数据视图查看数据
-            magicType: { type: ["line", "bar"] },
-            restore: {},
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          top: "10%",
-          left: "2%",
-          right: "2%",
-          bottom: "7%",
-          containLabel: true
-        },
-        dataZoom: [
-          {
-            show: true,
-            start: 0,
-            end: 100
-          },
-          {
-            type: "inside",
-            start: 0,
-            end: 100
-          }
-        ],
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: dataTime,
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字颜大小
-            }
-          },
-          axisLine: {
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          }
-        },
-        yAxis: {
-          type: "value",
-          // 刻度线的设置
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              type: "dotted",
-              opacity: 0.2
-            }
-          },
-          axisLine: {
-            show: false, //Y轴不显示
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          },
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字颜大小
-            }
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
-          }
-        },
-        series: seriesData
-      };
-
-      // 使用刚指定的配置项和数据显示图表。
-      abnormalValueChart.clear();
-      abnormalValueChart.setOption(option);
-
-      window.addEventListener("resize", () => {
-        abnormalValueChart.resize();
-      });
     }
   }
 };

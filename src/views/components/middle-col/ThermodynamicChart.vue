@@ -65,12 +65,10 @@ export default {
   },
   methods: {
     users_basic(ExpirationDate) {
-      // console.log("~~~~~~users_basic");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
 
       let temp = {
-        // operator: String(["移动", "联通", "电信"]),
         operator: m_operator,
         start: ExpirationDate,
         end: ExpirationDate,
@@ -78,7 +76,6 @@ export default {
       };
       users_basic(temp)
         .then(function(response) {
-          // console.log(response);
           let buckets = response.data.responses[0].aggregations.ac.buckets;
           // let length = buckets.length;
           let length = 9; // 原长度为10-10位其他 这里只能用9
@@ -90,28 +87,21 @@ export default {
 
           //////// 嵌套留存率
           function m_users_retention(ExpirationDate) {
-            // console.log("users_retention");
             // 七天留存和三十天留存（0=7天，1=30天留存率）
-            // console.log("~~~~~~~!!!");
             let date_range = commonTools.currentDay_currenDayRange(
               ExpirationDate
             );
-            // console.log(date_range);
 
             // let vm = this;
             let temp_p = {
-              // operator: String(["移动", "联通", "电信"]),
               operator: m_operator,
               start: date_range.start,
               end: date_range.end
             };
-            // console.log("~~~~~~~!!!2");
 
             users_retention(temp_p)
               .then(function(response2) {
-                // console.log("~~~~~~~!!!3");
 
-                // console.log(response2);
                 let hits2 = response2.data.responses[0].hits.hits;
                 let aggregations2 =
                   response2.data.responses[0].aggregations.ac.buckets;
@@ -153,7 +143,6 @@ export default {
                 vm.myNumsArr.push(temp3);
                 vm.myNumsArr.push(temp4);
 
-                // console.log(vm.myNumsArr);
                 vm.ifgetdata = true;
               })
               .catch(function(error) {
@@ -277,8 +266,6 @@ export default {
     },
     // 根据两个值平分（max,min,份数） -- 返回数组长度等于需要分割的长度
     MaxAndMinManage(max, min, splitNum) {
-      // console.log(max);
-      // console.log(min);
       let splitArr = [];
       let maxDis = max - min;
       let perDis = maxDis / splitNum;
@@ -290,12 +277,6 @@ export default {
     },
     // 进一法 (不做负数处理)
     ceil_math(dividend, divisor) {
-      // console.log("~~~~~~~~xxxxx");
-      // console.log(this.ceil_math(1.5, 1));
-      // console.log(this.ceil_math(0.8, 1));
-      // console.log(this.ceil_math(2, 1));
-      // console.log(this.ceil_math(2.1, 1));
-      // console.log(this.ceil_math(0, 1));
       // 被除数 除数
       if (dividend / divisor == 0) {
         return 0;

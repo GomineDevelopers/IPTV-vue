@@ -250,7 +250,7 @@ export default {
     handlerClass() {
       let vm = this;
       setTimeout(function () {
-        console.log(vm.$route.path);
+        // console.log(vm.$route.path);
         let pathLink = vm.$route.path;
         let isTrue = pathLink.includes("backhome/periodicreport"); //判断路由是否是定期报告子路由
         if (isTrue) {

@@ -5,7 +5,7 @@
       <el-col class="height_auto_set" :span="24">
         <el-table :data="tableData" style="width: 100%" height="100%">
           <el-table-column prop="programName" label="节目名" width="80"></el-table-column>
-          <el-table-column prop="programType" label="类容类型" width="200"></el-table-column>
+          <el-table-column prop="programType" label="内容类型" width="200"></el-table-column>
           <el-table-column prop="userNum" label="点播用户数"></el-table-column>
           <el-table-column prop="times" label="点播次数"></el-table-column>
           <el-table-column prop="duration" label="点播时长"></el-table-column>

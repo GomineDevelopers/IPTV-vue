@@ -70,7 +70,6 @@
       </el-checkbox-group>
     </div>-->
 
-    <!-- <div class="programa" v-show="ifPlaymodeShow_db && if_playmode_is_single_db"> -->
     <div class="programa" v-show="ifPlaymodeShow_db">
       <!-- <span class="font_title">栏目（点播-收视行为专属）：</span> -->
       <span class="font_title">栏目：</span>
@@ -192,7 +191,6 @@
     <div class="submitP">
       <el-button class="submit">确定</el-button>
     </div>
-    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 
@@ -260,18 +258,7 @@ export default {
       },
       set: function(newValue) {}
     }
-    // if_playmode_is_single_db: {
-    //   get: function () {
-    //     if (
-    //       this.ADD_VIP_playmode.indexOf("点播") > -1
-    //     ) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
-    //   set: function (newValue) { }
-    // }
+
   },
   watch: {
     regionChoose(newValue, oldValue) {
@@ -279,7 +266,6 @@ export default {
       this.$store
         .dispatch("set_ADD_VIP_region", newValue)
         .then(function(response) {
-          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -290,7 +276,6 @@ export default {
       this.$store
         .dispatch("set_ADD_VIP_operator", newValue)
         .then(function(response) {
-          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -301,7 +286,6 @@ export default {
       this.$store
         .dispatch("set_ADD_VIP_playmode", newValue)
         .then(function(response) {
-          // console.log(response);
           vm.$store
             .dispatch("set_ADD_VIP_target_type", "")
             .then(function(response) {})
@@ -318,7 +302,6 @@ export default {
       this.$store
         .dispatch("set_ADD_VIP_programa", newValue)
         .then(function(response) {
-          // console.log(response);
           vm.$store
             .dispatch("set_ADD_VIP_target_type", "")
             .then(function(response) {})
@@ -335,7 +318,6 @@ export default {
       this.$store
         .dispatch("set_ADD_VIP_valueAddedPackage", newValue)
         .then(function(response) {
-          // console.log(response);
           vm.$store
             .dispatch("set_ADD_VIP_target_type", "")
             .then(function(response) {})
@@ -347,39 +329,7 @@ export default {
           console.info(error);
         });
     }
-    // "time.dayValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_ADD_VIP_day", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.weekValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_ADD_VIP_week", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.pickerValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_ADD_VIP_picker", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // }
+   
   },
   data() {
     return {
@@ -487,7 +437,6 @@ export default {
       valueAddedPackage_checkAll: true,
       valueAddedPackage_isIndeterminate: true,
 
-
       time: {
         day: [
           // {
@@ -551,8 +500,6 @@ export default {
     // 初始化周
     let arr_temp = [];
     setTimeout(function() {
-      // arr_temp = commonTools.weekDate(2018);
-      // arr_temp = commonTools.weekDate_add(2019, arr_temp);
       vm.time.week = commonTools.weekDate_ED();
     }, 100);
 
@@ -561,8 +508,8 @@ export default {
       vm.$store
         .dispatch("get_ADD_VIP_region")
         .then(function(response) {
-          // console.log(response);
           vm.regionChoose = response;
+          vm.region_checkAll = response.length === vm.region.length;
         })
         .catch(function(error) {
           console.info(error);
@@ -570,8 +517,8 @@ export default {
       vm.$store
         .dispatch("get_ADD_VIP_operator")
         .then(function(response) {
-          // console.log(response);
           vm.operatorChoose = response;
+          vm.operator_checkAll = response.length === vm.operator.length;
         })
         .catch(function(error) {
           console.info(error);
@@ -579,7 +526,6 @@ export default {
       // vm.$store
       //   .dispatch("get_ADD_VIP_playmode")
       //   .then(function(response) {
-      //     // console.log(response);
       //     vm.playmodeChoose = response;
       //   })
       //   .catch(function(error) {
@@ -588,8 +534,9 @@ export default {
       vm.$store
         .dispatch("get_ADD_VIP_programa")
         .then(function(response) {
-          // console.log(response);
           vm.programaChoose = response;
+          // vm.programa_checkAll = response.length === vm.programa.length; // 无效-获取值是从api获取
+
         })
         .catch(function(error) {
           console.info(error);
@@ -597,8 +544,9 @@ export default {
       vm.$store
         .dispatch("get_ADD_VIP_valueAddedPackage")
         .then(function(response) {
-          // console.log(response);
           vm.valueAddedPackageChoose = response;
+          // vm.valueAddedPackage_checkAll = response.length === vm.valueAddedPackage.length; // 无效-获取值是从api获取
+
         })
         .catch(function(error) {
           console.info(error);
@@ -609,10 +557,7 @@ export default {
           vm.$store
             .dispatch("get_ADD_VIP_time_type")
             .then(function(response) {
-              // console.log("~~~get_ADD_VIP_time_type:");
-              // console.log(response);
               if (response == 1) {
-                console.log("history：" + response);
                 vm.time.dayValue = res;
               }
             })
@@ -629,8 +574,6 @@ export default {
           vm.$store
             .dispatch("get_ADD_VIP_time_type")
             .then(function(response) {
-              // console.log("~~~get_ADD_VIP_time_type:");
-              // console.log(response);
               if (response == 2) {
                 console.log("history：" + response);
                 let length = vm.time.week.length;
@@ -658,15 +601,7 @@ export default {
           vm.$store
             .dispatch("get_ADD_VIP_time_type")
             .then(function(response) {
-              // console.log("~~~get_ULC_time_type:");
-              // console.log(response);
               if (response == 3) {
-                console.log("history：" + response);
-                console.log("res" + res);
-                console.log("Object(res)");
-                // console.log( Object(res));
-                // vm.time.pickerValue = Object(res); // 反转成Object的格式是零零碎碎的字符串-pass
-                // vm.time.pickerValue = JSON.parse(res);
                 let temp = [];
                 let t_arr = res.split(",");
                 temp.push(t_arr[0]);
@@ -688,7 +623,6 @@ export default {
       let vm = this;
       vip_programs_list()
         .then(function(response) {
-          // console.log(response);
           let buckets = response.data.responses[0].aggregations.ti.buckets;
           let length = buckets.length;
           let i;
@@ -702,7 +636,6 @@ export default {
           vm.$store
             .dispatch("set_ADD_VIP_programa", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -711,7 +644,6 @@ export default {
           vm.$store
             .dispatch("set_ADD_VIP_programa_list", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -725,7 +657,6 @@ export default {
       let vm = this;
       vip_increment_list()
         .then(function(response) {
-          // console.log(response);
           let buckets =
             response.data.responses[0].aggregations.package_classic.buckets;
           let length = buckets.length;
@@ -738,14 +669,12 @@ export default {
           //   temp2.push({ value: buckets[i].key, label: buckets[i].key });
           }
           // vm.options_valueAddedPackage = temp2;
-          // console.log(temp);
           vm.valueAddedPackage = temp;
           vm.valueAddedPackageChoose = temp;
 
           vm.$store
             .dispatch("set_ADD_VIP_package_list", temp)
             .then(function(response) {
-              // console.log(response);
             })
             .catch(function(error) {
               console.info(error);
@@ -765,11 +694,9 @@ export default {
       this.time.pickerValue = "";
       let newValue = String(event);
       newValue = commonTools.dayChange(newValue); // store 传入 2019-09-20 格式
-      console.log("~~~~set_ADD_VIP_day:" + newValue);
       vm.$store
         .dispatch("set_ADD_VIP_day", newValue)
         .then(function(response) {
-          console.log(response);
           vm.$store
             .dispatch("set_ADD_VIP_time_type", 1)
             .then(function(response) {
@@ -797,7 +724,6 @@ export default {
       vm.$store
         .dispatch("set_ADD_VIP_week", newValue)
         .then(function(response) {
-          console.log(response);
           vm.$store
             .dispatch("set_ADD_VIP_time_type", 2)
             .then(function(response) {
@@ -866,7 +792,6 @@ export default {
       }, 100);
     },
     regionChoose_all(val) {
-      // console.log(val);
       this.regionChoose = val ? this.region : [];
       this.region_isIndeterminate = !this.region_isIndeterminate;
     },

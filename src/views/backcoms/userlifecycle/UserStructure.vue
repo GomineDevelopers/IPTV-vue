@@ -23,8 +23,8 @@ export default {
   watch: {
     api_data4(newValue, oldValue) {
       let vm = this;
-      console.log("在网用户结构：ULC - api_data4:");
-      console.log(newValue);
+      // console.log("在网用户结构：ULC - api_data4:");
+      // console.log(newValue);
       let total_data = newValue.aggregations.flag_identity.buckets;
       let total_firsttime_num = 0; //总的firsttime_num
       let total_oncetime_num = 0; //总的oncetime_num
@@ -34,7 +34,6 @@ export default {
       let total_lapsed_num = 0; //总的lapsed_num
 
       total_data.forEach((value, index) => {
-        // console.log(value.key, value.firsttime_num.value, value.oncetime_num.value, value.loyal_user_num.value, value.unord_num.value)
         total_firsttime_num += value.firsttime_num.value;
         total_oncetime_num += value.oncetime_num.value;
         total_loyal_user_num += value.loyal_user_num.value;
@@ -42,11 +41,6 @@ export default {
         total_repurchase_num += value.repurchase_num.value;
         total_lapsed_num += value.lapsed_num.value;
       });
-
-      // console.log("total_firsttime_num", total_firsttime_num)
-      // console.log("total_oncetime_num", total_oncetime_num)
-      // console.log("total_loyal_user_num", total_loyal_user_num)
-      // console.log("total_unord_num", total_unord_num)
 
       //订购与未订购数据
       let order_data = [];
@@ -89,7 +83,6 @@ export default {
       });
       vm.US_data2.data1 = order_user_detail_data;
 
-      // 此处组件-刷新-drawline()
       setTimeout(function() {
         vm.drawLine();
         vm.drawLine2();
@@ -127,129 +120,143 @@ export default {
 
   methods: {
     drawLine() {
-      let vm = this;
-      var myChart = this.$echarts.init(document.getElementById(vm.US_data1.id));
+      try {
+        let vm = this;
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.US_data1.id)
+        );
 
-      var option = {
-        title: {
-          text: "",
-          subtext: "",
-          left: "center"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          right: "6%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        series: [
-          {
-            name: "用户",
-            type: "pie",
-            radius: "85%",
-            center: ["45%", "50%"],
-            selectedMode: "single",
-            color: ["#FCB84F", "#F97E6F"],
-            label: {
-              normal: {
-                formatter: "{b}:\n {d}%" // 只显示百分比
-              }
-            },
-            labelLine: {
-              show: false,
-              normal: {
-                smooth: 0.2,
-                length: 1
-              }
-            },
-            data: vm.US_data1.data1,
-            emphasis: false,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
+        var option = {
+          title: {
+            text: "",
+            subtext: "",
+            left: "center"
+          },
+          tooltip: {
+            trigger: "item",
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          //图表自带工具
+          toolbox: {
+            show: true,
+            right: "6%",
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          series: [
+            {
+              name: "用户",
+              type: "pie",
+              minAngle: 15,
+              radius: "85%",
+              center: ["45%", "50%"],
+              selectedMode: "single",
+              color: ["#FCB84F", "#F97E6F"],
+              label: {
+                normal: {
+                  formatter: "{b}:\n {d}%" // 只显示百分比
+                }
+              },
+              labelLine: {
+                show: false,
+                normal: {
+                  smooth: 0.2,
+                  length: 1
+                }
+              },
+              data: vm.US_data1.data1,
+              emphasis: false,
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)"
+                }
               }
             }
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     drawLine2() {
-      let vm = this;
-      var myChart = this.$echarts.init(document.getElementById(vm.US_data2.id));
+      try {
+        let vm = this;
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.US_data2.id)
+        );
 
-      var option = {
-        title: {
-          text: "",
-          subtext: "",
-          left: "center"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          right: "6%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        series: [
-          {
-            name: "用户",
-            type: "pie",
-            radius: "85%",
-            center: ["45%", "50%"],
-            selectedMode: "single",
-            color: ["#FCB84F", "#B37CF4", "#7ECDF4", "#F97E6F", "#7584F2"],
-            label: {
-              normal: {
-                position: "inner",
-                // color: "#666",
-                color: "#000",
-                fontSize: "10",
-                formatter: "{b}:\n {d}%" // 只显示百分比
-              }
-            },
-            labelLine: {
-              // show: false,
-              normal: {
-                smooth: 0.2,
-                length: 4,
-                length2: 5
-              }
-            },
-            emphasis: false,
-            data: vm.US_data2.data1,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
+        var option = {
+          title: {
+            text: "",
+            subtext: "",
+            left: "center"
+          },
+          tooltip: {
+            trigger: "item",
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          //图表自带工具
+          toolbox: {
+            show: true,
+            right: "6%",
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          series: [
+            {
+              name: "用户",
+              type: "pie",
+              minAngle: 15,
+              radius: "85%",
+              center: ["45%", "50%"],
+              selectedMode: "single",
+              color: ["#FCB84F", "#B37CF4", "#7ECDF4", "#F97E6F", "#7584F2"],
+              label: {
+                normal: {
+                  position: "inner",
+                  // color: "#666",
+                  color: "#000",
+                  fontSize: "10",
+                  formatter: "{b}:\n {d}%" // 只显示百分比
+                }
+              },
+              labelLine: {
+                // show: false,
+                normal: {
+                  smooth: 0.2,
+                  length: 4,
+                  length2: 5
+                }
+              },
+              emphasis: false,
+              data: vm.US_data2.data1,
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)"
+                }
               }
             }
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

@@ -82,13 +82,15 @@
       </el-row>
     </el-row>-->
     <!-- 收视TOP结束 -->
-    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 <script>
-import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 import OptionSelectVIP from "@/views/backcoms/vip/OptionSelectVIP"; // 条件筛选
+
+// import UserViewingBehaviorTOP from "@/views/backcoms/userviewingbehavior/UserViewingBehaviorTOP"; //收视TOP组件
 // import VIPBehaviorTOP from "@/views/backcoms/vip/VIPBehaviorTOP"; //收视TOP组件
+import UserViewingBehaviorTOP from "@/views/backcoms/vip/VIPBehaviorTOP"; //收视TOP组件
+
 import PieCharts from "@/views/backcoms/commoncomponents/PieCharts_sort"; //公用饼图
 import BarChartsStack from "@/views/backcoms/commoncomponents/BarChartsStack_ShowTop"; //公用柱状图堆叠
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle_ShowTop"; //公用柱状图单个
@@ -168,23 +170,8 @@ export default {
       },
       set: function(newValue) {}
     }
-    // if_playmode_is_single_db: {
-    //   get: function () {
-    //     if (
-    //       this.ADD_VIP_playmode.indexOf("点播") > -1 &&
-    //       this.ADD_VIP_playmode.length == 1
-    //     ) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
-    //   set: function (newValue) { }
-    // }
   },
   mounted() {
-    // console.log("~~~~~test");
-    // console.log(this.lookBackViewingTopList_VIP);
     let vm = this;
     setTimeout(function() {
       if (vm.ADD_VIP_time_type == 0) {
@@ -204,7 +191,6 @@ export default {
   watch: {
     ADD_VIP_region(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_region: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -214,7 +200,6 @@ export default {
     },
     ADD_VIP_operator(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -234,15 +219,16 @@ export default {
     // },
     ADD_VIP_programa(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_programa: " + newValue);
-      console.log(newValue.length);
-      console.log(vm.ADD_VIP_programa_list.length);
-      if(newValue.length == 0 || newValue.length == vm.ADD_VIP_programa_list.length){
-        console.log("true");
+      // if(newValue.length == 0 || newValue.length == vm.ADD_VIP_programa_list.length){
+      //   vm.ifPrograma_AllChoose = true;
+      // }
+      // else{
+      //   vm.ifPrograma_AllChoose = false;
+      // }
+      if (newValue.length == 0) {
+        // 全选
         vm.ifPrograma_AllChoose = true;
-      }
-      else{
-        console.log("false");
+      } else {
         vm.ifPrograma_AllChoose = false;
       }
       setTimeout(function() {
@@ -254,7 +240,6 @@ export default {
     },
     ADD_VIP_valueAddedPackage(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_valueAddedPackage: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -264,7 +249,6 @@ export default {
     },
     ADD_VIP_day(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_day: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -274,7 +258,6 @@ export default {
     },
     ADD_VIP_week(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -284,7 +267,6 @@ export default {
     },
     ADD_VIP_picker(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_picker: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -294,7 +276,6 @@ export default {
     },
     ADD_VIP_time_type(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_VIP_time_type: " + newValue);
       vm.ifInitShow = true;
       setTimeout(function() {
         vm.refresh_api_data();
@@ -306,10 +287,8 @@ export default {
     targetOption(newValue, oldValue) {
       let vm = this;
       // 监听指标选中
-      console.log("targetOption");
-      console.log(newValue);
       vm.$store
-        .dispatch("set_ADD_VIP_targetOption",newValue)
+        .dispatch("set_ADD_VIP_targetOption", newValue)
         .then(function(response) {})
         .catch(function(error) {
           console.info(error);
@@ -338,7 +317,6 @@ export default {
     refreshPerData() {
       let vm = this;
       let newValue = vm.targetOption;
-      console.log(newValue);
       if (newValue == "观看次数（次）") {
         vm.regionData.data = vm.regionData_data_arr[0];
         vm.operatorData.data = vm.operatorData_arr[0];
@@ -371,13 +349,14 @@ export default {
       }
     },
     refresh_api_data() {
-      // this.vip_increment(this.ADD_VIP_time_type, this.if_playmode_is_single_db);
-      this.vip_increment(this.ADD_VIP_time_type);
+      try {
+        this.vip_increment(this.ADD_VIP_time_type);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    // vip_increment(time_type, if_playmode_is_single_db) {
     vip_increment(time_type) {
       let vm = this;
-      console.log("vip_increment");
 
       let temp_region = commonTools.acConvert(vm.ADD_VIP_region); //地区
       let temp_operator = commonTools.operatorConvert(vm.ADD_VIP_operator); //运营商
@@ -397,15 +376,6 @@ export default {
         temp_valueAddedPackage = vm.ADD_VIP_valueAddedPackage;
       }
 
-      // if (
-      //   temp_valueAddedPackage == null ||
-      //   temp_valueAddedPackage == "" ||
-      //   temp_valueAddedPackage == []
-      // ) {
-      //   console.log("请选择包");
-      //   return;
-      // }
-
       let temp;
       temp = {
         ac: null,
@@ -417,8 +387,6 @@ export default {
         package: null,
         year: null
       };
-      console.log("~~~~~~~~~~~~~~");
-      console.log(time_type);
 
       if (time_type == 1) {
         // 时间类型-1-天
@@ -434,11 +402,9 @@ export default {
           package: String(temp_valueAddedPackage),
           year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
         };
-        console.log("~~~~~1:");
-        console.log(temp);
+        // console.log(temp);
       } else if (time_type == 2) {
         // 时间类型-2-周
-        console.log("~~~~~week: " + vm.ADD_VIP_week);
         let temp_time = commonTools.split_yearAtime(vm.ADD_VIP_week);
 
         temp = {
@@ -454,15 +420,10 @@ export default {
           // year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
         };
         // }
-        // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~2:");
-        console.log(temp);
+        // console.log(temp);
       } else if (time_type == 3) {
         // 时间类型-3-范围
-        // console.log("~~~~~picker:" + vm.ADD_VIP_picker);
-        // console.log(typeof vm.ADD_VIP_picker);
         let temp_time = commonTools.split_picker(vm.ADD_VIP_picker);
-        console.log(temp_time);
 
         //*****注意传参格式为这个 */
         temp = {
@@ -477,10 +438,9 @@ export default {
           // year: commonTools.get_ExpirationDate_year(vm.ADD_VIP_day)
           year: temp_time.year
         };
-        console.log("~~~~~3:");
-        console.log(temp);
+        // console.log(temp);
       } else {
-        console.log("请选择时间！");
+        // console.log("请选择时间！");
         return;
       }
 
@@ -496,7 +456,7 @@ export default {
       formData.append("year", temp.year);
       vip_increment(formData)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
 
           // /////////// 0 -
           // demand_freq
@@ -509,19 +469,16 @@ export default {
             vm.regionData_data_arr = [];
             let aggregations_0;
             let buckets_0;
-            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
-              console.log("非全选~~~programa")
+            // if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if (vm.ADD_VIP_programa.length != 0) {
               // 原-非全选
               aggregations_0 = response.data.responses[0].aggregations;
               buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
-            }
-            else{
-              console.log("全选~~~programa")
+            } else {
               // new-全选
               aggregations_0 = response.data.responses[2].aggregations;
               buckets_0 = response.data.responses[2].aggregations.ac.buckets; // x9
             }
-
             // let aggregations_0 = response.data.responses[0].aggregations;
             // let buckets_0 = response.data.responses[0].aggregations.ac.buckets; // x9
             let length_0 = buckets_0.length;
@@ -546,11 +503,18 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp4.push({
-                value: buckets_0[i_0].watch_freq_family.value.toFixed(2),
+                value: (
+                  buckets_0[i_0].demand_freq.value /
+                  buckets_0[i_0].demand_user_num.value
+                ).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
-                value: (buckets_0[i_0].watch_dur_mean.value / 60).toFixed(2),
+                value: (
+                  buckets_0[i_0].demand_dur.value /
+                  60 /
+                  buckets_0[i_0].demand_freq.value
+                ).toFixed(2),
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
             }
@@ -564,27 +528,22 @@ export default {
             console.log(error);
             vm.regionData_data_arr = [];
           }
-          // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
-          // console.log(vm.regionData_data_arr);
 
           // ////////////////////////////
           try {
             vm.operatorData_arr = [];
 
             let buckets_0B;
-            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
-              console.log("非全选~~~programa")
+            // if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if (vm.ADD_VIP_programa.length != 0) {
               // 原-非全选
               buckets_0B = response.data.responses[0].aggregations.ac1.buckets;
-            }
-            else{
-              console.log("全选~~~programa")
+            } else {
               // new-全选
               buckets_0B = response.data.responses[2].aggregations.ac1.buckets;
             }
             // let buckets_0B =
-              // response.data.responses[0].aggregations.ac1.buckets; // x3
-
+            // response.data.responses[0].aggregations.ac1.buckets; // x3
 
             let length_0B = buckets_0B.length;
             let i_0B;
@@ -676,16 +635,22 @@ export default {
                 Vue.set(
                   temp4_B[i_0B + 1],
                   index_sgin,
-                  buckets_0B[i_0B].operators.buckets[
-                    index_operator_i
-                  ].watch_freq_family.value.toFixed(2)
+                  (
+                    buckets_0B[i_0B].operators.buckets[index_operator_i]
+                      .demand_freq.value /
+                    buckets_0B[i_0B].operators.buckets[index_operator_i]
+                      .demand_user_num.value
+                  ).toFixed(2)
                 );
                 Vue.set(
                   temp5_B[i_0B + 1],
                   index_sgin,
                   (
                     buckets_0B[i_0B].operators.buckets[index_operator_i]
-                      .watch_dur_mean.value / 60
+                      .demand_dur.value /
+                    60 /
+                    buckets_0B[i_0B].operators.buckets[index_operator_i]
+                      .demand_freq.value
                   ).toFixed(2)
                 );
               }
@@ -736,8 +701,6 @@ export default {
             temp_all_B.push(temp3_B);
             temp_all_B.push(temp4_B);
             temp_all_B.push(temp5_B);
-            // console.log("~~~~~~~~temp_all_B");
-            // console.log(temp_all_B);
             vm.operatorData_arr = temp_all_B;
           } catch (error) {
             console.log(error);
@@ -748,15 +711,13 @@ export default {
             vm.playData_arr = [];
 
             let aggregations_0BB;
-            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
-              console.log("非全选~~~programa")
+            // if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if (vm.ADD_VIP_programa.length != 0) {
               // 原-非全选
               aggregations_0BB = response.data.responses[0].aggregations;
-            }
-            else{
-              console.log("全选~~~programa")
+            } else {
               // new-全选
-              aggregations_0BB = response.data.responses[2].aggregations;;
+              aggregations_0BB = response.data.responses[2].aggregations;
             }
             // let aggregations_0BB = response.data.responses[0].aggregations; // x3
             // let length_0BB = aggregations_0BB.length;
@@ -782,11 +743,19 @@ export default {
               name: "点播"
             });
             temp4_BB.push({
-              value: aggregations_0BB.watch_freq_family.value.toFixed(2),
+              value: (
+                aggregations_0BB.demand_freq.value /
+                aggregations_0BB.demand_user_num.value
+              ).toFixed(2),
+
               name: "点播"
             });
             temp5_BB.push({
-              value: (aggregations_0BB.watch_dur_mean.value / 60).toFixed(2),
+              value: (
+                aggregations_0BB.demand_dur.value /
+                60 /
+                aggregations_0BB.demand_freq.value
+              ).toFixed(2),
               name: "点播"
             });
             // }
@@ -796,8 +765,6 @@ export default {
             temp_all_BB.push(temp4_BB);
             temp_all_BB.push(temp5_BB);
             vm.playData_arr = temp_all_BB;
-            // console.log("~~~~~~~~~~~~~~~~~~~~~temp_all_BB");
-            // console.log(vm.playData_arr);
           } catch (error) {
             console.log(error);
             vm.playData_arr = [];
@@ -809,13 +776,11 @@ export default {
           try {
             vm.columnData_arr = [];
             let buckets_ti;
-            if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
-              console.log("非全选~~~programa")
+            // if(vm.ADD_VIP_programa.length >= 1 && vm.ADD_VIP_programa.length < vm.ADD_VIP_programa_list.length){
+            if (vm.ADD_VIP_programa.length != 0) {
               // 原-非全选
               buckets_ti = response.data.responses[0].aggregations.ti.buckets;
-            }
-            else{
-              console.log("全选~~~programa")
+            } else {
               // new-全选
               buckets_ti = response.data.responses[2].aggregations.ti.buckets;
             }
@@ -862,11 +827,18 @@ export default {
                     ]);
                     temp4.push([
                       ti_name,
-                      buckets_ti[i_ti].watch_freq_family.value.toFixed(2)
+                      (
+                        buckets_ti[i_ti].demand_freq.value /
+                        buckets_ti[i_ti].demand_user_num.value
+                      ).toFixed(2)
                     ]);
                     temp5.push([
                       ti_name,
-                      (buckets_ti[i_ti].watch_dur_mean.value / 60).toFixed(2)
+                      (
+                        buckets_ti[i_ti].demand_dur.value /
+                        60 /
+                        buckets_ti[i_ti].demand_freq.value
+                      ).toFixed(2)
                     ]);
                   }
                 } catch (error) {
@@ -883,26 +855,19 @@ export default {
             }
             let length_p = temp_programa_list.length;
             let i_p;
-            // console.log("★★★★★★★★★★★★★");
-            // console.log(vm.ADD_VIP_programa_list)
-            // console.log(vm.ADD_VIP_programa);
+
             for (i_p = 0; i_p < length_p; i_p++) {
               // 按照 ADD_VIP_programa_list 的顺序写入数据
               // dataManage(vm.ADD_VIP_programa_list[i_p]);
               // dataManage(vm.ADD_VIP_programa[i_p]);
               dataManage(temp_programa_list[i_p]);
             }
-            // console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-            // console.log(temp1);
-            // console.log(temp2);
 
             temp_all_C.push(temp1);
             temp_all_C.push(temp2);
             temp_all_C.push(temp3);
             temp_all_C.push(temp4);
             temp_all_C.push(temp5);
-            // console.log("~~~~~~~~temp_all_C");
-            // console.log(temp_all_C);
             vm.columnData_arr = temp_all_C;
           } catch (error) {
             console.log(error);
@@ -911,15 +876,15 @@ export default {
           try {
             vm.orderViewingTopList_VIP.data = []; // 初始化
             let buckets_top;
-            if(vm.ADD_VIP_valueAddedPackage.length >= 1 && vm.ADD_VIP_valueAddedPackage.length < vm.ADD_VIP_package_list.length){
-              console.log("非全选~~~package")
-              // 原-非全选
-              buckets_top = response.data.responses[1].aggregations.programname.buckets;
-            }
-            else{
-              console.log("全选~~~package")
+            // if(vm.ADD_VIP_valueAddedPackage.length >= 1 && vm.ADD_VIP_valueAddedPackage.length < vm.ADD_VIP_package_list.length){
+            if (vm.ADD_VIP_valueAddedPackage.length != 0) {
+              // 原-非全选`
+              buckets_top =
+                response.data.responses[1].aggregations.programname.buckets;
+            } else {
               // new-全选
-              buckets_top = response.data.responses[3].aggregations.programname.buckets;
+              buckets_top =
+                response.data.responses[3].aggregations.programname.buckets;
             }
 
             // let buckets_top =
@@ -1546,7 +1511,16 @@ export default {
   height: calc(100% - 40px);
 }
 /* 增值业务——VIP页面自适应开始 */
-@media (max-width: 1450px) {
+/* @media (max-width: 1450px) {
+  .vip_behavior .chart_height.el-col-12 {
+    width: 100%;
+    height: 360px;
+  }
+  .vip_behavior {
+    height: auto;
+  }
+} */
+@media (max-width: 3200px) {
   .vip_behavior .chart_height.el-col-12 {
     width: 100%;
     height: 360px;

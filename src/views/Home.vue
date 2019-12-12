@@ -157,7 +157,6 @@ export default {
       vm.$store
         .dispatch("get_BigScreenExpirationDate")
         .then(function(response) {
-          // console.log(response);
           // let str = response.replace("-","."); // 只替换第一个
           let str = response.replace(/\-/g, ".");
           vm.ExpirationDate = str;

@@ -215,6 +215,7 @@ export default {
       // visit_control
       // visit_screen
       // visit_lookscreen
+      // visit_upload
       authorizationChoose: [],
       dialogFormVisible3: false,
       dialogFormVisible5: false,
@@ -231,7 +232,7 @@ export default {
   },
   methods: {
     passwordinfo(event) {
-      console.log(event);
+      // console.log(event);
     },
     // 权限处理
     authorityManage(index) {
@@ -243,7 +244,7 @@ export default {
       let user = String(vm.m_data[index].id);
       get_user_permissions_byid(newToken, user)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           let m_res_data = response.data.data;
           let length = m_res_data.length;
           let i;
@@ -305,7 +306,7 @@ export default {
     },
     // 权限确定
     authoritySubmit(index) {
-      console.log("post_users_permissions");
+      // console.log("post_users_permissions");
       let vm = this;
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
@@ -364,7 +365,7 @@ export default {
       let user = String(vm.m_data[vm.current_choose_index].id);
       post_users_permissions(newToken, user, formData)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           // 获取所有用户信息
           // vm.get_allusersinfo();
           // window.location.href = "/backhome/authoritymanagement";
@@ -375,8 +376,8 @@ export default {
             let newToken = token.replace('"', "").replace('"', "");
             get_user_permissions(newToken)
               .then(function (response) {
-                console.log(response);
-                console.log("~~~~获取权限成功！2222");
+                // console.log(response);
+                // console.log("~~~~获取权限成功！2222");
                 let m_res_data = response.data.data;
                 let length = m_res_data.length;
                 let i;
@@ -389,8 +390,8 @@ export default {
                 vm.$store
                   .dispatch("set_current_authority", temp_authorizationChoose)
                   .then(function (response) {
-                    console.log(response);
-                    console.log(temp_authorizationChoose);
+                    // console.log(response);
+                    // console.log(temp_authorizationChoose);
                     // 跳转-后台主页面
                     // vm.$router.push({ path: "/backhome" });
                   })
@@ -410,15 +411,14 @@ export default {
     },
     // 获取所有用户信息
     get_allusersinfo() {
-      console.log("get_allusersinfo");
+      // console.log("get_allusersinfo");
       let vm = this;
       vm.form.row = [];
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_allusersinfo(newToken)
         .then(function (response) {
-          console.log(response);
-
+          // console.log(response);
           let m_data = response.data.data;
           vm.m_data = m_data;
           let length = m_data.length;
@@ -442,7 +442,7 @@ export default {
         });
     },
     authorizationChoose_change(event) {
-      console.log(event);
+      // console.log(event);
     },
     ifDeleteUser(index) {
       let vm = this;
@@ -450,7 +450,7 @@ export default {
       this.dialogFormVisible5 = true;
     },
     del_user() {
-      console.log("del_user");
+      // console.log("del_user");
       let vm = this;
       let index = vm.current_choose_index;
       let token = vm.$commonTools.getCookie("user_token");
@@ -459,7 +459,7 @@ export default {
       let user = String(vm.m_data[index].id);
       del_user(newToken, user)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           // 获取所有用户信息
           vm.get_allusersinfo();
           vm.dialogFormVisible5 = false;
@@ -495,7 +495,7 @@ export default {
     },
     userinfo_submit() {
       if (this.submitType == "add") {
-        console.log("add");
+        // console.log("add");
         let name = this.m_form.userName
         let email = this.m_form.email
         let department = this.m_form.department
@@ -520,12 +520,12 @@ export default {
         }
       }
       if (this.submitType == "change") {
-        console.log("change");
+        // console.log("change");
         this.update_users();
       }
     },
     update_users() {
-      console.log("update_users");
+      // console.log("update_users");
       let vm = this;
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
@@ -550,7 +550,7 @@ export default {
       } else {
         update_users(newToken, user, temp)
           .then(function (response) {
-            console.log(response);
+            // console.log(response);
             // 获取所有用户信息
             vm.get_allusersinfo();
             vm.dialogFormVisible = false;
@@ -573,7 +573,7 @@ export default {
       }
     },
     create_users() {
-      console.log("create_users");
+      // console.log("create_users");
       let vm = this;
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
@@ -624,7 +624,7 @@ export default {
 
       create_users(newToken, formData)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           // 获取所有用户信息
           vm.get_allusersinfo();
           vm.dialogFormVisible = false;

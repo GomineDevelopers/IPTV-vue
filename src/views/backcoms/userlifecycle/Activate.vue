@@ -9,23 +9,6 @@
       <div :style="{width: '100%',height: '100%'}" class="echarts2 Rtop">
         <line-chart-single-prop :lineData="activationRate"></line-chart-single-prop>
       </div>
-      <!-- <div id="echartsCC" class="Rbottom">
-        <p class="title">激活率预警</p>
-        <p class="content">
-          <span class="sTitle">遵义：</span>
-          <span class="percentage">60%</span>
-          <span>&nbsp;&nbsp;</span>
-          <span class="sTitle">环比下降：</span>
-          <span class="percentage2">2.1%</span>
-        </p>
-        <p class="content">
-          <span class="sTitle">铜仁：</span>
-          <span class="percentage">60%</span>
-          <span>&nbsp;&nbsp;</span>
-          <span class="sTitle">环比下降：</span>
-          <span class="percentage2">5.7%</span>
-        </p>
-      </div>-->
     </div>
   </div>
 </template>
@@ -44,39 +27,15 @@ export default {
     "activate-stack-chart": ActivateStackChart
   },
   watch: {
-    // activate_user_num(newValue, oldValue) {
-    //   let vm = this;
-    //   console.log("ULC - activate_user_num:");
-    //   console.log(newValue);
-    //   vm.activationNum = vm.activate_user_num
-    //   // vm.activationNum.title = "激活用户数-测试";
-    //   // vm.activationRate.title = "激活率-测试";
-
-    //   // 此处组件-刷新-drawline()
-    // },
     activate_rate_data(newValue, oldValue) {
       let vm = this;
       console.log("ULC - activate_user_num:");
       console.log(newValue);
-      vm.activationRate = vm.activate_rate_data
-
+      vm.activationRate = vm.activate_rate_data;
       // 此处组件-刷新-drawline()
     },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
-      // setTimeout(function () {
-      //   let str;
-      //   if (newValue == 1) {
-      //     str = "当日";
-      //   }
-      //   if (newValue == 2) {
-      //     str = "本周";
-      //   }
-      //   if (newValue == 3) {
-      //     str = "本月";
-      //   }
-      //   Vue.set(vm.activationRate.data[1], 0, str);
-      // }, 1000);
     }
   },
   computed: {
@@ -89,138 +48,93 @@ export default {
       "ULC_month"
     ]),
     activationNum_Change: {
-      get: function () {
-        let vm = this;
-        if (
-          vm.ULC_region &&
-          vm.ULC_operator &&
-          vm.ULC_day &&
-          vm.ULC_week &&
-          vm.ULC_month
-        ) {
-          // do nothing. -- 监听
-        }
-        let id = vm.activationNum.id;
-        let title = vm.activationNum.title;
-        let dataName = vm.activationNum.dataName;
-        let color = vm.activationNum.color;
-        let data_region = [];
-        let series_data = [];
+      get: function() {
+        try {
+          let vm = this;
+          if (
+            vm.ULC_region &&
+            vm.ULC_operator &&
+            vm.ULC_day &&
+            vm.ULC_week &&
+            vm.ULC_month
+          ) {
+            // do nothing. -- 监听
+          }
+          let id = vm.activationNum.id;
+          let title = vm.activationNum.title;
+          let dataName = vm.activationNum.dataName;
+          let color = vm.activationNum.color;
+          let data_region = [];
+          let series_data = [];
 
-        if (vm.ULC_region == null || vm.ULC_region.length == 0) {
-          data_region = vm.activationNum.data_region;
-          series_data = vm.activationNum.series_data;
-        } else {
-          for (let i_x = 0; i_x < vm.ULC_region.length; i_x++) {
-            if (vm.ULC_region.indexOf("贵阳") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("遵义") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("安顺") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("黔南") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("黔东南") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("铜仁") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("毕节") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("六盘水") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
-            }
-            if (vm.ULC_region.indexOf("黔西南") > -1) {
-              data_region.push(vm.activationNum.data_region[i_x]);
-              series_data.push(vm.activationNum.series_data[i_x]);
-              continue;
-
+          if (vm.ULC_region == null || vm.ULC_region.length == 0) {
+            data_region = vm.activationNum.data_region;
+            series_data = vm.activationNum.series_data;
+          } else {
+            for (let i_x = 0; i_x < vm.ULC_region.length; i_x++) {
+              if (vm.ULC_region.indexOf("贵阳") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("遵义") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("安顺") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("黔南") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("黔东南") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("铜仁") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("毕节") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("六盘水") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
+              if (vm.ULC_region.indexOf("黔西南") > -1) {
+                data_region.push(vm.activationNum.data_region[i_x]);
+                series_data.push(vm.activationNum.series_data[i_x]);
+                continue;
+              }
             }
           }
-
-          // if (vm.ULC_region.indexOf("贵阳") > -1) {
-          //   data_region.push(vm.activationNum.data_region[0]);
-          //   series_data.push(vm.activationNum.series_data[0]);
-          // }
-          // if (vm.ULC_region.indexOf("遵义") > -1) {
-          //   data_region.push(vm.activationNum.data_region[1]);
-          //   series_data.push(vm.activationNum.series_data[1]);
-          // }
-          // if (vm.ULC_region.indexOf("安顺") > -1) {
-          //   data_region.push(vm.activationNum.data_region[2]);
-          //   series_data.push(vm.activationNum.series_data[2]);
-          // }
-          // if (vm.ULC_region.indexOf("黔南") > -1) {
-          //   data_region.push(vm.activationNum.data_region[3]);
-          //   series_data.push(vm.activationNum.series_data[3]);
-          // }
-          // if (vm.ULC_region.indexOf("黔东南") > -1) {
-          //   data_region.push(vm.activationNum.data_region[4]);
-          //   series_data.push(vm.activationNum.series_data[4]);
-          // }
-          // if (vm.ULC_region.indexOf("铜仁") > -1) {
-          //   data_region.push(vm.activationNum.data_region[5]);
-          //   series_data.push(vm.activationNum.series_data[5]);
-          // }
-          // if (vm.ULC_region.indexOf("毕节") > -1) {
-          //   data_region.push(vm.activationNum.data_region[6]);
-          //   series_data.push(vm.activationNum.series_data[6]);
-          // }
-          // if (vm.ULC_region.indexOf("六盘水") > -1) {
-          //   data_region.push(vm.activationNum.data_region[7]);
-          //   series_data.push(vm.activationNum.series_data[7]);
-          // }
-          // if (vm.ULC_region.indexOf("黔西南") > -1) {
-          //   data_region.push(vm.activationNum.data_region[8]);
-          //   series_data.push(vm.activationNum.series_data[8]);
-          // }
-
+          setTimeout(function() {
+            vm.drawLine();
+          }, 2000);
+          return {
+            id: id,
+            title: title,
+            dataName: dataName,
+            color: color,
+            data_region: data_region,
+            series_data: series_data
+          };
+        } catch (error) {
+          console.log(error);
         }
-        // 视图更新
-        setTimeout(function () {
-          // console.log("Activate echartsAA 视图更新");
-          vm.drawLine();
-        }, 2000);
-        return {
-          id: id,
-          title: title,
-          dataName: dataName,
-          color: color,
-          data_region: data_region,
-          series_data: series_data
-        };
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
 
@@ -259,142 +173,144 @@ export default {
   },
   mounted() {
     // this.activationNum = this.activate_user_num
-    this.activationRate = this.activate_rate_data
-    console.log("this.activate_user_num~~~~~~~~~~~", this.activate_user_num)
-    // this.drawLine();
+    this.activationRate = this.activate_rate_data;
   },
   methods: {
     drawLine() {
-      var vm = this;
-      var color = vm.activationNum_Change.color;
-      var dataName = vm.activationNum_Change.dataName;
-      var title = vm.activationNum_Change.title;
-      var series_data = vm.activationNum_Change.series_data;
-      var data_region = vm.activationNum_Change.data_region;
-      var myChart2 = this.$echarts.init(
-        document.getElementById(vm.activationNum_Change.id)
-      );
+      try {
+        var vm = this;
+        var color = vm.activationNum_Change.color;
+        var dataName = vm.activationNum_Change.dataName;
+        var title = vm.activationNum_Change.title;
+        var series_data = vm.activationNum_Change.series_data;
+        var data_region = vm.activationNum_Change.data_region;
+        var myChart2 = this.$echarts.init(
+          document.getElementById(vm.activationNum_Change.id)
+        );
 
-      var option2 = {
-        title: {
-          text: title,
-          textStyle: {
-            //设置主标题风格
-            Color: "#333333", //设置主标题字体颜色
-            fontStyle: "", //主标题文字风格
-            fontSize: 12,
-            fontStyle: "normal",
-            fontWeight: "normal"
-          }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          top: "5%",
-          right: "5%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        legend: {
-          show: true,
-          top: "10%",
-          left: "40%",
-          data: dataName,
-          itemWidth: 6,
-          itemHeight: 6,
-          padding: [0, 5],
-          itemGap: 2,
-          textStyle: {
-            color: "#999999"
-          }
-        },
-
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: {
-          type: "category",
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
+        var option2 = {
+          title: {
+            text: title,
             textStyle: {
-              fontSize: "12" //设置横坐标轴文字大小
+              //设置主标题风格
+              Color: "#333333", //设置主标题字体颜色
+              fontStyle: "", //主标题文字风格
+              fontSize: 12,
+              fontStyle: "normal",
+              fontWeight: "normal"
+            }
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          //图表自带工具
+          toolbox: {
+            show: true,
+            top: "5%",
+            right: "5%",
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          legend: {
+            show: true,
+            top: "10%",
+            left: "40%",
+            data: dataName,
+            itemWidth: 6,
+            itemHeight: 6,
+            padding: [0, 5],
+            itemGap: 2,
+            textStyle: {
+              color: "#999999"
+            }
+          },
+
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true
+          },
+          xAxis: {
+            type: "category",
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字大小
+              },
+              interval: 0 // 坐标轴显示不全问题解决方案
             },
-            interval: 0 // 坐标轴显示不全问题解决方案
-          },
-          axisLine: {
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          },
-          axisTick: {
-            alignWithLabel: true
-          },
-          data: data_region
-        },
-        yAxis: {
-          type: "value",
-          // max: 16000,
-          // min: 0,
-          // 刻度线的设置
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#939393",
-              type: "dotted",
-              opacity: 0.2
-            }
-          },
-          axisLine: {
-            show: false, //Y轴不显示
-            lineStyle: {
-              color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-            }
-          },
-          axisLabel: {
-            //横坐标类目文字
-            show: true,
-            textStyle: {
-              fontSize: "12" //设置横坐标轴文字颜大小
-            }
-          },
-          axisTick: {
-            show: false //设置坐标轴刻度不显示
-          }
-        },
-        series: [
-          {
-            name: dataName[0],
-            type: "bar",
-            barWidth: "33%", //柱图宽度
-            stack: "总量",
-            label: {
-              normal: {
-                show: false,
-                position: "insideRight"
+            axisLine: {
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
               }
             },
-            data: series_data,
-            color: color[0]
-          }
-        ]
-      };
-      myChart2.clear();
-      myChart2.setOption(option2);
-      window.addEventListener("resize", () => {
-        myChart2.resize();
-      });
+            axisTick: {
+              alignWithLabel: true
+            },
+            data: data_region
+          },
+          yAxis: {
+            type: "value",
+            // max: 16000,
+            // min: 0,
+            // 刻度线的设置
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#939393",
+                type: "dotted",
+                opacity: 0.2
+              }
+            },
+            axisLine: {
+              show: false, //Y轴不显示
+              lineStyle: {
+                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+              }
+            },
+            axisLabel: {
+              //横坐标类目文字
+              show: true,
+              textStyle: {
+                fontSize: "12" //设置横坐标轴文字颜大小
+              }
+            },
+            axisTick: {
+              show: false //设置坐标轴刻度不显示
+            }
+          },
+          series: [
+            {
+              name: dataName[0],
+              type: "bar",
+              barWidth: "33%", //柱图宽度
+              stack: "总量",
+              label: {
+                normal: {
+                  show: false,
+                  position: "insideRight"
+                }
+              },
+              data: series_data,
+              color: color[0]
+            }
+          ]
+        };
+        myChart2.clear();
+        myChart2.setOption(option2);
+        window.addEventListener("resize", () => {
+          myChart2.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

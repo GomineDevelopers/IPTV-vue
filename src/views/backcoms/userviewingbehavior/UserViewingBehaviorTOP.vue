@@ -192,30 +192,33 @@ export default {
   },
   methods: {
     drawEcharts() {
-      console.log("~~~~~test");
-      console.log(this.viewingTopList);
-
-      if (
-        this.viewingTopList.type == "live" ||
-        this.viewingTopList.type == "review"
-      ) {
-        this.TopTitleInfo = {
-          i1: "排名",
-          i2: "频道",
-          i3: "节目",
-          i4: "次数（万）"
-        };
+      // console.log("~~~~~test");
+      // console.log(this.viewingTopList);
+      try {
+        if (
+          this.viewingTopList.type == "live" ||
+          this.viewingTopList.type == "review"
+        ) {
+          this.TopTitleInfo = {
+            i1: "排名",
+            i2: "频道",
+            i3: "节目",
+            i4: "次数（万）"
+          };
+        }
+        if (this.viewingTopList.type == "demand") {
+          this.TopTitleInfo = {
+            i1: "排名",
+            i2: "内容类型",
+            i3: "节目",
+            // i4: "次数（万）"
+            i4: "次数（万）"
+          };
+        }
+        // this.scrollLoopUp(this.viewingTopList.id); // 滚动暂时关掉
+      } catch (error) {
+        console.log(error);
       }
-      if (this.viewingTopList.type == "demand") {
-        this.TopTitleInfo = {
-          i1: "排名",
-          i2: "内容类型",
-          i3: "节目",
-          // i4: "次数（万）"
-          i4: "次数（万）"
-        };
-      }
-      // this.scrollLoopUp(this.viewingTopList.id); // 滚动暂时关掉
     },
     scrollLoopUp: function(id) {
       var scrollBox = document.getElementById(id);

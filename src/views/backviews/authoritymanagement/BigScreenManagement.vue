@@ -53,7 +53,8 @@
           <span class="current">{{currentStatus}}</span>
         </div>
         <div class="currentP2">
-          <a href="/" class="go_home">点击跳转大屏页面</a>
+          <!-- <a href="/" class="go_home">点击跳转大屏页面</a> -->
+          <p class="goHome" @click="goHome()">点击跳转大屏页面</p>
         </div>
       </el-row>
     </el-row>
@@ -74,84 +75,86 @@ export default {
   mounted() {
     //   初始化
     let temp_status = this.$commonTools.getCookieCry("bigscreenchoose");
-    console.log("页面显示初始值", temp_status)
-    if (temp_status == '综合') {
-      this.switch_value1 = true
-      this.switch_value2 = false
-      this.switch_value3 = false
-      this.switch_value4 = false
+    // console.log("页面显示初始值", temp_status)
+    if (temp_status == "综合") {
+      this.switch_value1 = true;
+      this.switch_value2 = false;
+      this.switch_value3 = false;
+      this.switch_value4 = false;
       this.currentStatus = temp_status;
-    } else if (temp_status == '移动') {
-      this.switch_value1 = false
-      this.switch_value2 = true
-      this.switch_value3 = false
-      this.switch_value4 = false
+    } else if (temp_status == "移动") {
+      this.switch_value1 = false;
+      this.switch_value2 = true;
+      this.switch_value3 = false;
+      this.switch_value4 = false;
       this.currentStatus = temp_status;
-    } else if (temp_status == '联通') {
-      this.switch_value1 = false
-      this.switch_value2 = false
-      this.switch_value3 = true
-      this.switch_value4 = false
+    } else if (temp_status == "联通") {
+      this.switch_value1 = false;
+      this.switch_value2 = false;
+      this.switch_value3 = true;
+      this.switch_value4 = false;
       this.currentStatus = temp_status;
-    } else if (temp_status == '电信') {
-      this.switch_value1 = false,
-        this.switch_value2 = false
-      this.switch_value3 = false
-      this.switch_value4 = true
-      this.currentStatus = temp_status
-    } else if (temp_status == ' ' || temp_status == undefined) {
-      this.switch_value1 = true
-      this.switch_value2 = false
-      this.switch_value3 = false
-      this.switch_value4 = false
-      this.currentStatus = '综合';
+    } else if (temp_status == "电信") {
+      (this.switch_value1 = false), (this.switch_value2 = false);
+      this.switch_value3 = false;
+      this.switch_value4 = true;
+      this.currentStatus = temp_status;
+    } else if (temp_status == " " || temp_status == undefined) {
+      this.switch_value1 = true;
+      this.switch_value2 = false;
+      this.switch_value3 = false;
+      this.switch_value4 = false;
+      this.currentStatus = "综合";
     }
   },
   methods: {
+    goHome() {
+      this.$router.push({ path: "/" }); //接受头部组件传的数据报表参数，切换对应路由
+    },
     BigScreenChoose($event, index) {
-      console.log($event);
+      // console.log($event);
       if (index == 0) {
         this.$commonTools.setCookieCry("bigscreenchoose", "综合", 100);
         if ($event) {
-          console.log("开启综合")
-          this.switch_value2 = false,
-            this.switch_value3 = false,
-            this.switch_value4 = false
+          // console.log("开启综合");
+          (this.switch_value2 = false),
+            (this.switch_value3 = false),
+            (this.switch_value4 = false);
         } else {
-          console.log("关闭综合")
+          // console.log("关闭综合");
         }
       }
       if (index == 1) {
         this.$commonTools.setCookieCry("bigscreenchoose", "移动", 100);
         if ($event) {
-          console.log("开启移动")
-          this.switch_value1 = false,
-            this.switch_value3 = false,
-            this.switch_value4 = false
+          // console.log("开启移动");
+          (this.switch_value1 = false),
+            (this.switch_value3 = false),
+            (this.switch_value4 = false);
         } else {
-          console.log("关闭移动")
+          // console.log("关闭移动");
         }
       }
       if (index == 2) {
         this.$commonTools.setCookieCry("bigscreenchoose", "联通", 100);
         if ($event) {
-          console.log("开启联通")
-          this.switch_value1 = false,
-            this.switch_value2 = false,
-            this.switch_value4 = false
+          // console.log("开启联通");
+          (this.switch_value1 = false),
+            (this.switch_value2 = false),
+            (this.switch_value4 = false);
         } else {
-          console.log("关闭联通")
+          // console.log("关闭联通");
         }
       }
       if (index == 3) {
         this.$commonTools.setCookieCry("bigscreenchoose", "电信", 100);
         if ($event) {
-          console.log("开启电信")
-          this.switch_value1 = false,
-            this.switch_value2 = false,
-            this.switch_value3 = false
+          // console.log("开启电信");
+          (this.switch_value1 = false),
+            (this.switch_value2 = false),
+            (this.switch_value3 = false);
         } else {
-          console.log("关闭电信")
+          // console.log("关闭电信");
         }
       }
       this.currentStatus = this.$commonTools.getCookieCry("bigscreenchoose");
@@ -240,5 +243,13 @@ export default {
 }
 .go_home {
   font-size: 15px;
+}
+.goHome {
+  text-decoration: underline;
+  color: #409eff;
+  display: inline-block;
+}
+.goHome:hover{
+  cursor: pointer;
 }
 </style>

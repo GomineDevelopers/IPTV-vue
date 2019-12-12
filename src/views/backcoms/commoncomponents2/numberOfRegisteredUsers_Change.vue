@@ -18,58 +18,61 @@ export default {
     ...mapGetters(["PR_operator"]),
     fillinData_Change: {
       get: function() {
-        let vm = this;
-        let data = [];
-        let color = [];
-        let d0 = [];
-        let d1 = [];
-        if (
-          vm.fillinData.id == "GT_UVWR1_A2" ||
-          // vm.fillinData.id == "GT_UVWR1_B1" ||
-          vm.fillinData.id == "GT_UVWR1_C1" ||
-          vm.fillinData.id == "GT_UVWR1_C2" ||
-          vm.fillinData.id == "GT_UVWR1_C3"
-        ) {
-          if (this.PR_operator == null || this.PR_operator.length == 0) {
-            data = vm.fillinData.data;
-            color = vm.fillinData.color;
-          } else {
-            // data.push(vm.fillinData.data[0]);
-            d0.push(vm.fillinData.data[0][0]);
-            d1.push(vm.fillinData.data[1][0]);
-            if (this.PR_operator.indexOf("移动") > -1) {
-              d0.push(vm.fillinData.data[0][1]);
-              d1.push(vm.fillinData.data[1][1]);
-              color.push(vm.fillinData.color[0]);
+        try {
+          let vm = this;
+          let data = [];
+          let color = [];
+          let d0 = [];
+          let d1 = [];
+          if (
+            vm.fillinData.id == "GT_UVWR1_A2" ||
+            // vm.fillinData.id == "GT_UVWR1_B1" ||
+            vm.fillinData.id == "GT_UVWR1_C1" ||
+            vm.fillinData.id == "GT_UVWR1_C2" ||
+            vm.fillinData.id == "GT_UVWR1_C3"
+          ) {
+            if (this.PR_operator == null || this.PR_operator.length == 0) {
+              data = vm.fillinData.data;
+              color = vm.fillinData.color;
+            } else {
+              // data.push(vm.fillinData.data[0]);
+              d0.push(vm.fillinData.data[0][0]);
+              d1.push(vm.fillinData.data[1][0]);
+              if (this.PR_operator.indexOf("移动") > -1) {
+                d0.push(vm.fillinData.data[0][1]);
+                d1.push(vm.fillinData.data[1][1]);
+                color.push(vm.fillinData.color[0]);
+              }
+              if (this.PR_operator.indexOf("联通") > -1) {
+                d0.push(vm.fillinData.data[0][2]);
+                d1.push(vm.fillinData.data[1][2]);
+                color.push(vm.fillinData.color[1]);
+              }
+              if (this.PR_operator.indexOf("电信") > -1) {
+                d0.push(vm.fillinData.data[0][3]);
+                d1.push(vm.fillinData.data[1][3]);
+                color.push(vm.fillinData.color[2]);
+              }
+              data.push(d0);
+              data.push(d1);
             }
-            if (this.PR_operator.indexOf("联通") > -1) {
-              d0.push(vm.fillinData.data[0][2]);
-              d1.push(vm.fillinData.data[1][2]);
-              color.push(vm.fillinData.color[1]);
-            }
-            if (this.PR_operator.indexOf("电信") > -1) {
-              d0.push(vm.fillinData.data[0][3]);
-              d1.push(vm.fillinData.data[1][3]);
-              color.push(vm.fillinData.color[2]);
-            }
-            data.push(d0);
-            data.push(d1);
+            // 视图更新
+            setTimeout(function() {
+              vm.setLineChart();
+            }, 1000);
+            return {
+              title: vm.fillinData.title,
+              id: vm.fillinData.id,
+              color: color,
+              data: data,
+              height: vm.fillinData.height,
+              label_formatter: vm.fillinData.label_formatter
+            };
           }
-          // 视图更新
-          setTimeout(function() {
-            vm.setLineChart();
-          }, 1000);
-          return {
-            title: vm.fillinData.title,
-            id: vm.fillinData.id,
-            color: color,
-            data: data,
-            height: vm.fillinData.height,
-            label_formatter: vm.fillinData.label_formatter
-          };
+          return vm.fillinData;
+        } catch (error) {
+          console.log(error);
         }
-
-        return vm.fillinData;
       },
       set: function(newValue) {}
     }
@@ -134,6 +137,7 @@ export default {
           {
             name: this.fillinData_Change.data[1][0],
             type: "pie",
+            minAngle: 15,
             // radius: "55%",
             radius: ["40%", "80%"],
             center: ["50%", "50%"],

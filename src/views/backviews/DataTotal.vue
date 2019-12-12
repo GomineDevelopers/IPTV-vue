@@ -103,8 +103,7 @@ import MyMap from "@/views/backcoms/datatotal/MyMap"; // 地图
 import DataOverview from "@/views/backcoms/datatotal/DataOverview"; // 数据总览
 import DataShow from "@/views/backcoms/datatotal/DataShow"; // 数据展示
 import UserPortrait from "@/views/backcoms/datatotal/UserPortrait"; // 用户画像
-import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2"; //单数据折线图组件(日活趋势组件)
-
+import LineChartSingle2 from "@/views/backcoms/commoncomponents/LineChartSingle2_datatotal"; //单数据折线图组件(日活趋势组件)
 import ManyPieChart_total from "@/views/backcoms/datatotal/ManyPieChart_total"; // 同心环x4
 
 import { users_total } from "@/api/api_main";
@@ -124,7 +123,6 @@ export default {
   },
   mounted() {
     let vm = this;
-
     setTimeout(function() {
       vm.$store
         .dispatch("get_BigScreenStartDate")
@@ -153,555 +151,554 @@ export default {
 
   methods: {
     users_total(StartDate, ExpirationDate, type) {
-      console.log("~~~~~~~~~users_total");
-      let vm = this;
-      let data = {
-        start: StartDate,
-        end: ExpirationDate
-      };
-      // vm.api_data.module2_numT = [
-      //   "851",
-      //   "852",
-      //   "853",
-      //   "854",
-      //   "855",
-      //   "856",
-      //   "857",
-      //   "858",
-      //   "859"
-      // ];
-      if (type == "lastmonth") {
-        // 用户画像 用上个月
-        data = {
-          start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1),
-          end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1)
-        };
-      }
-      if (type == "rangedays_n") {
-        // 用户画像 用上个月
-        data = {
-          start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 7),
+      try {
+        let vm = this;
+        let data = {
+          start: StartDate,
           end: ExpirationDate
         };
-      }
+        // vm.api_data.module2_numT = [
+        //   "851",
+        //   "852",
+        //   "853",
+        //   "854",
+        //   "855",
+        //   "856",
+        //   "857",
+        //   "858",
+        //   "859"
+        // ];
+        if (type == "lastmonth") {
+          // 用户画像 用上个月
+          data = {
+            start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1),
+            end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1)
+          };
+        }
+        if (type == "rangedays_n") {
+          // 用户画像 用上个月
+          data = {
+            start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 7),
+            end: ExpirationDate
+          };
+        }
 
-      users_total(data)
-        .then(function(response) {
-          console.log(response);
-          if (type == "lastmonth") {
-            // 用户画像 用上个月  -- responses3
-            console.log(data);
-            console.log(response);
-
-            // active_user 活跃用户
-            // silence_user 沉默用户
-            // downtime_user 停机用户
-
-            let buckets_flag =
-              response.data.responses[3].aggregations.flag_identity.buckets;
-            let length_flag = buckets_flag.length;
-            let i_flag;
-            // console.log("buckets_flag", buckets_flag)
-
-            // let temp_content = [
-            //   {
-            //     title: "第一次购买用户数占比", // firsttime_num
-            //     data: [
-            //       // { value: 535, name: "直播" },
-            //       // { value: 410, name: "回看" },
-            //       // { value: 348, name: "点播" }
-            //     ]
-            //   },
-            //   {
-            //     title: "一次性购买用户数占比", // oncetime_num
-            //     data: [
-            //       // { value: 535, name: "直播" },
-            //       // { value: 410, name: "回看" },
-            //       // { value: 348, name: "点播" }
-            //     ]
-            //   },
-            //   {
-            //     title: "忠诚用户数占比", // loyal_user_num
-
-            //     data: [
-            //       // { value: 535, name: "直播" },
-            //       // { value: 410, name: "回看" },
-            //       // { value: 348, name: "点播" }
-            //     ]
-            //   },
-            //   {
-            //     title: "从未订购用户数占比", // unord_num
-            //     data: [
-            //       // { value: 535, name: "直播" },
-            //       // { value: 410, name: "回看" },
-            //       // { value: 348, name: "点播" }
-            //     ]
-            //   },
-            //   {
-            //     title: "重新激活用户数占比", // repurchase_num
-            //     data: [
-            //       // { value: 535, name: "直播" },
-            //       // { value: 410, name: "回看" },
-            //       // { value: 348, name: "点播" }
-            //     ]
-            //   },
-            //   {
-            //     title: "睡眠用户数占比", // lapsed_num
-            //     data: [
-            //       // { value: 535, name: "直播" },
-            //       // { value: 410, name: "回看" },
-            //       // { value: 348, name: "点播" }
-            //     ]
-            //   }
-            // ];
-            // function returnKeyChinese(key) {
-            //   let value;
-            //   if (key == "active_user") {
-            //     value = "活跃用户";
-            //   }
-            //   if (key == "silence_user") {
-            //     value = "沉默用户";
-            //   }
-            //   if (key == "downtime_user") {
-            //     value = "停机用户";
-            //   }
-            //   return value;
-            // }
-            // function set_contentValue_fn(key, index_buckets_flag) {
-            //   temp_content[0].data.push({
-            //     value: buckets_flag[index_buckets_flag].firsttime_num.value,
-            //     name: returnKeyChinese(key)
-            //   });
-            // }
-            // function set_contentValue_on(key, index_buckets_flag) {
-            //   temp_content[1].data.push({
-            //     value: buckets_flag[index_buckets_flag].oncetime_num.value,
-            //     name: returnKeyChinese(key)
-            //   });
-            // }
-            // function set_contentValue_ln(key, index_buckets_flag) {
-            //   temp_content[2].data.push({
-            //     value: buckets_flag[index_buckets_flag].loyal_user_num.value,
-            //     name: returnKeyChinese(key)
-            //   });
-            // }
-            // function set_contentValue_un(key, index_buckets_flag) {
-            //   temp_content[3].data.push({
-            //     value: buckets_flag[index_buckets_flag].unord_num.value,
-            //     name: returnKeyChinese(key)
-            //   });
-            // }
-            // function set_contentValue_re(key, index_buckets_flag) {
-            //   temp_content[4].data.push({
-            //     value: buckets_flag[index_buckets_flag].repurchase_num.value,
-            //     name: returnKeyChinese(key)
-            //   });
-            // }
-            // function set_contentValue_lo(key, index_buckets_flag) {
-            //   temp_content[5].data.push({
-            //     value: buckets_flag[index_buckets_flag].lapsed_num.value,
-            //     name: returnKeyChinese(key)
-            //   });
-            // }
-            // for (i_flag = 0; i_flag < length_flag; i_flag++) {
-            //   if (buckets_flag[i_flag].key == "active_user") {
-            //     set_contentValue_fn("active_user", i_flag);
-            //     set_contentValue_on("active_user", i_flag);
-            //     set_contentValue_ln("active_user", i_flag);
-            //     set_contentValue_un("active_user", i_flag);
-            //     set_contentValue_re("active_user", i_flag);
-            //     set_contentValue_lo("active_user", i_flag);
-            //   }
-            //   if (buckets_flag[i_flag].key == "silence_user") {
-            //     set_contentValue_fn("silence_user", i_flag);
-            //     set_contentValue_on("silence_user", i_flag);
-            //     set_contentValue_ln("silence_user", i_flag);
-            //     set_contentValue_un("silence_user", i_flag);
-            //     set_contentValue_re("silence_user", i_flag);
-            //     set_contentValue_lo("silence_user", i_flag);
-            //   }
-            //   if (buckets_flag[i_flag].key == "downtime_user") {
-            //     set_contentValue_fn("downtime_user", i_flag);
-            //     set_contentValue_on("downtime_user", i_flag);
-            //     set_contentValue_ln("downtime_user", i_flag);
-            //     set_contentValue_un("downtime_user", i_flag);
-            //     set_contentValue_re("downtime_user", i_flag);
-            //     set_contentValue_lo("downtime_user", i_flag);
-            //   }
-            // }
-
-            // //////// new
-            let temp_content = [
-              {
-                title: "活跃用户", // active_user
-                data: [
-                  // { value: 535, name: "直播" },
-                  // { value: 410, name: "回看" },
-                  // { value: 348, name: "点播" }
-                ]
-              },
-              {
-                title: "沉默用户", // silence_user
-                data: [
-                  // { value: 535, name: "直播" },
-                  // { value: 410, name: "回看" },
-                  // { value: 348, name: "点播" }
-                ]
-              },
-              {
-                title: "停机用户", // downtime_user
-                data: [
-                  // { value: 535, name: "直播" },
-                  // { value: 410, name: "回看" },
-                  // { value: 348, name: "点播" }
-                ]
-              }
-            ];
-            function Manage_KeyValue(index_content_m, index_flag) {
-              temp_content[index_content_m].data.push({
-                value: buckets_flag[index_flag].firsttime_num.value,
-                name: "第一次购买用户数占比"
-              });
-              temp_content[index_content_m].data.push({
-                value: buckets_flag[index_flag].oncetime_num.value,
-                name: "一次性购买用户数占比"
-              });
-              temp_content[index_content_m].data.push({
-                value: buckets_flag[index_flag].loyal_user_num.value,
-                name: "忠诚用户数占比"
-              });
-              temp_content[index_content_m].data.push({ // 占比太大-关了
-                value: buckets_flag[index_flag].unord_num.value,
-                name: "从未订购用户数占比"
-              });
-              temp_content[index_content_m].data.push({
-                value: buckets_flag[index_flag].repurchase_num.value,
-                name: "重新激活用户数占比"
-              });
-              temp_content[index_content_m].data.push({
-                value: buckets_flag[index_flag].lapsed_num.value,
-                name: "睡眠用户数占比"
-              });
-            }
-            for (i_flag = 0; i_flag < length_flag; i_flag++) {
-              if (buckets_flag[i_flag].key == "active_user") {
-                Manage_KeyValue(0, i_flag);
-              }
-              if (buckets_flag[i_flag].key == "silence_user") {
-                Manage_KeyValue(1, i_flag);
-              }
-              if (buckets_flag[i_flag].key == "downtime_user") {
-                Manage_KeyValue(2, i_flag);
-              }
-            }
-
-            // ////////
-
-            // console.log("~~~~~~~~~~~~~~~~~temp_content");
-            // console.log(temp_content);
-            vm.UserPortraitData.content = temp_content;
-            return;
-          }
-          if (type == "rangedays_n") {
-            // 用户画像 用上个月  -- responses4
-            // console.log(data);
+        users_total(data)
+          .then(function(response) {
             // console.log(response);
-            let temp_dailyLivingTrendData = [["product"]];
-            let buckets_operator =
-              response.data.responses[0].aggregations.operators.buckets;
-            let length_operator = buckets_operator.length;
-            let i_operator;
-            // product yd lt dx
-            for (
-              let i_operator = 0;
-              i_operator < length_operator;
-              i_operator++
-            ) {
-              temp_dailyLivingTrendData.push([
-                buckets_operator[i_operator].key
-              ]);
+            if (type == "lastmonth") {
+              try {
+                // 用户画像 用上个月  -- responses3
+                // active_user 活跃用户
+                // silence_user 沉默用户
+                // downtime_user 停机用户
+
+                let buckets_flag =
+                  response.data.responses[3].aggregations.flag_identity.buckets;
+                let length_flag = buckets_flag.length;
+                let i_flag;
+
+                // let temp_content = [
+                //   {
+                //     title: "第一次购买用户数占比", // firsttime_num
+                //     data: [
+                //       // { value: 535, name: "直播" },
+                //       // { value: 410, name: "回看" },
+                //       // { value: 348, name: "点播" }
+                //     ]
+                //   },
+                //   {
+                //     title: "一次性购买用户数占比", // oncetime_num
+                //     data: [
+                //       // { value: 535, name: "直播" },
+                //       // { value: 410, name: "回看" },
+                //       // { value: 348, name: "点播" }
+                //     ]
+                //   },
+                //   {
+                //     title: "忠诚用户数占比", // loyal_user_num
+
+                //     data: [
+                //       // { value: 535, name: "直播" },
+                //       // { value: 410, name: "回看" },
+                //       // { value: 348, name: "点播" }
+                //     ]
+                //   },
+                //   {
+                //     title: "从未订购用户数占比", // unord_num
+                //     data: [
+                //       // { value: 535, name: "直播" },
+                //       // { value: 410, name: "回看" },
+                //       // { value: 348, name: "点播" }
+                //     ]
+                //   },
+                //   {
+                //     title: "重新激活用户数占比", // repurchase_num
+                //     data: [
+                //       // { value: 535, name: "直播" },
+                //       // { value: 410, name: "回看" },
+                //       // { value: 348, name: "点播" }
+                //     ]
+                //   },
+                //   {
+                //     title: "睡眠用户数占比", // lapsed_num
+                //     data: [
+                //       // { value: 535, name: "直播" },
+                //       // { value: 410, name: "回看" },
+                //       // { value: 348, name: "点播" }
+                //     ]
+                //   }
+                // ];
+                // function returnKeyChinese(key) {
+                //   let value;
+                //   if (key == "active_user") {
+                //     value = "活跃用户";
+                //   }
+                //   if (key == "silence_user") {
+                //     value = "沉默用户";
+                //   }
+                //   if (key == "downtime_user") {
+                //     value = "停机用户";
+                //   }
+                //   return value;
+                // }
+                // function set_contentValue_fn(key, index_buckets_flag) {
+                //   temp_content[0].data.push({
+                //     value: buckets_flag[index_buckets_flag].firsttime_num.value,
+                //     name: returnKeyChinese(key)
+                //   });
+                // }
+                // function set_contentValue_on(key, index_buckets_flag) {
+                //   temp_content[1].data.push({
+                //     value: buckets_flag[index_buckets_flag].oncetime_num.value,
+                //     name: returnKeyChinese(key)
+                //   });
+                // }
+                // function set_contentValue_ln(key, index_buckets_flag) {
+                //   temp_content[2].data.push({
+                //     value: buckets_flag[index_buckets_flag].loyal_user_num.value,
+                //     name: returnKeyChinese(key)
+                //   });
+                // }
+                // function set_contentValue_un(key, index_buckets_flag) {
+                //   temp_content[3].data.push({
+                //     value: buckets_flag[index_buckets_flag].unord_num.value,
+                //     name: returnKeyChinese(key)
+                //   });
+                // }
+                // function set_contentValue_re(key, index_buckets_flag) {
+                //   temp_content[4].data.push({
+                //     value: buckets_flag[index_buckets_flag].repurchase_num.value,
+                //     name: returnKeyChinese(key)
+                //   });
+                // }
+                // function set_contentValue_lo(key, index_buckets_flag) {
+                //   temp_content[5].data.push({
+                //     value: buckets_flag[index_buckets_flag].lapsed_num.value,
+                //     name: returnKeyChinese(key)
+                //   });
+                // }
+                // for (i_flag = 0; i_flag < length_flag; i_flag++) {
+                //   if (buckets_flag[i_flag].key == "active_user") {
+                //     set_contentValue_fn("active_user", i_flag);
+                //     set_contentValue_on("active_user", i_flag);
+                //     set_contentValue_ln("active_user", i_flag);
+                //     set_contentValue_un("active_user", i_flag);
+                //     set_contentValue_re("active_user", i_flag);
+                //     set_contentValue_lo("active_user", i_flag);
+                //   }
+                //   if (buckets_flag[i_flag].key == "silence_user") {
+                //     set_contentValue_fn("silence_user", i_flag);
+                //     set_contentValue_on("silence_user", i_flag);
+                //     set_contentValue_ln("silence_user", i_flag);
+                //     set_contentValue_un("silence_user", i_flag);
+                //     set_contentValue_re("silence_user", i_flag);
+                //     set_contentValue_lo("silence_user", i_flag);
+                //   }
+                //   if (buckets_flag[i_flag].key == "downtime_user") {
+                //     set_contentValue_fn("downtime_user", i_flag);
+                //     set_contentValue_on("downtime_user", i_flag);
+                //     set_contentValue_ln("downtime_user", i_flag);
+                //     set_contentValue_un("downtime_user", i_flag);
+                //     set_contentValue_re("downtime_user", i_flag);
+                //     set_contentValue_lo("downtime_user", i_flag);
+                //   }
+                // }
+
+                // //////// new
+                let temp_content = [
+                  {
+                    title: "活跃用户", // active_user
+                    data: [
+                      // { value: 535, name: "直播" },
+                      // { value: 410, name: "回看" },
+                      // { value: 348, name: "点播" }
+                    ]
+                  },
+                  {
+                    title: "沉默用户", // silence_user
+                    data: [
+                      // { value: 535, name: "直播" },
+                      // { value: 410, name: "回看" },
+                      // { value: 348, name: "点播" }
+                    ]
+                  },
+                  {
+                    title: "停机用户", // downtime_user
+                    data: [
+                      // { value: 535, name: "直播" },
+                      // { value: 410, name: "回看" },
+                      // { value: 348, name: "点播" }
+                    ]
+                  }
+                ];
+                function Manage_KeyValue(index_content_m, index_flag) {
+                  temp_content[index_content_m].data.push({
+                    value: buckets_flag[index_flag].firsttime_num.value,
+                    name: "第一次购买用户数占比"
+                  });
+                  temp_content[index_content_m].data.push({
+                    value: buckets_flag[index_flag].oncetime_num.value,
+                    name: "一次性购买用户数占比"
+                  });
+                  temp_content[index_content_m].data.push({
+                    value: buckets_flag[index_flag].loyal_user_num.value,
+                    name: "忠诚用户数占比"
+                  });
+                  temp_content[index_content_m].data.push({
+                    // 占比太大-关了
+                    value: buckets_flag[index_flag].unord_num.value,
+                    name: "从未订购用户数占比"
+                  });
+                  temp_content[index_content_m].data.push({
+                    value: buckets_flag[index_flag].repurchase_num.value,
+                    name: "重新激活用户数占比"
+                  });
+                  temp_content[index_content_m].data.push({
+                    value: buckets_flag[index_flag].lapsed_num.value,
+                    name: "睡眠用户数占比"
+                  });
+                }
+                for (i_flag = 0; i_flag < length_flag; i_flag++) {
+                  if (buckets_flag[i_flag].key == "active_user") {
+                    Manage_KeyValue(0, i_flag);
+                  }
+                  if (buckets_flag[i_flag].key == "silence_user") {
+                    Manage_KeyValue(1, i_flag);
+                  }
+                  if (buckets_flag[i_flag].key == "downtime_user") {
+                    Manage_KeyValue(2, i_flag);
+                  }
+                }
+
+                // ////////
+                vm.UserPortraitData.content = temp_content;
+              } catch (error) {
+                console.log(error);
+              }
+              return;
             }
-            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            // console.log(temp_dailyLivingTrendData);
+            if (type == "rangedays_n") {
+              try {
+                // 用户画像 用上个月  -- responses4
+                let temp_dailyLivingTrendData = [["product"]];
+                let buckets_operator =
+                  response.data.responses[0].aggregations.operators.buckets;
+                let length_operator = buckets_operator.length;
+                let i_operator;
+                // product yd lt dx
+                for (
+                  let i_operator = 0;
+                  i_operator < length_operator;
+                  i_operator++
+                ) {
+                  temp_dailyLivingTrendData.push([
+                    buckets_operator[i_operator].key
+                  ]);
+                }
 
-            let buckets_time =
-              buckets_operator[0].statistical_granularity.buckets;
-            let length_time = buckets_time.length;
-            let i_time;
+                let buckets_time =
+                  buckets_operator[0].statistical_granularity.buckets;
+                let length_time = buckets_time.length;
+                let i_time;
 
-            for (i_time = 0; i_time < length_time; i_time++) {
-              temp_dailyLivingTrendData[0].push(
-                commonTools.format_dayToChinese_2(buckets_time[i_time].key)
-              );
-            }
-            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            // console.log(temp_dailyLivingTrendData);
-
-            for (i_operator = 0; i_operator < length_operator; i_operator++) {
-              for (i_time = 0; i_time < length_time; i_time++) {
-                temp_dailyLivingTrendData[i_operator + 1].push(
-                  (
-                    buckets_operator[i_operator].statistical_granularity
-                      .buckets[i_time].active_num.value / 10000
-                  ).toFixed(2)
+                for (i_time = 0; i_time < length_time; i_time++) {
+                  temp_dailyLivingTrendData[0].push(
+                    commonTools.format_dayToChinese_2(buckets_time[i_time].key)
+                  );
+                }
+                for (
+                  i_operator = 0;
+                  i_operator < length_operator;
+                  i_operator++
+                ) {
+                  for (i_time = 0; i_time < length_time; i_time++) {
+                    temp_dailyLivingTrendData[i_operator + 1].push(
+                      (
+                        buckets_operator[i_operator].statistical_granularity
+                          .buckets[i_time].active_num.value / 10000
+                      ).toFixed(1)
+                    );
+                    // temp_dailyLivingTrendData[1].push(
+                    //   buckets_time[i_time].active_num.value
+                    // );
+                    // temp_dailyLivingTrendData[2].push(
+                    //   buckets_time[i_time].active_num.value
+                    // );
+                    // temp_dailyLivingTrendData[3].push(
+                    //   buckets_time[i_time].active_num.value
+                    // );
+                  }
+                }
+                vm.dailyLivingTrendData.data = temp_dailyLivingTrendData;
+                vm.dailyLivingTrendData.date_year =
+                  String(commonTools.get_ExpirationDate_year(ExpirationDate)) +
+                  "年";
+                vm.dailyLivingTrendData.date_month = String(
+                  commonTools.get_ExpirationDate_lastNMonth_toChinese(
+                    ExpirationDate,
+                    0
+                  )
                 );
+              } catch (error) {
+                console.log(error);
+              }
+              return;
+            }
+            let responses1;
+            let responses2;
+            let responses3;
+            try {
+              // let data = response.data.responses[0].aggregations.ac.buckets;
+              responses1 = response.data.responses[0];
+              // activate_user_num: {value: 949770}
+              // doc_count: 24
+              // key: "851"
+              // new_num: {value: 580520}
+              // open_num: {value: 2371}
+              // register_num: {value: 3572107}
+              responses2 = response.data.responses[1];
+              // doc_count: 38
+              // key: "851"
+              // watch_dur_family: {value: 1735929.4043456912}
+              // watch_user_num: {value: 584388}
+              responses3 = response.data.responses[2];
+              // doc_count: 24
+              // downtime_user_num: {value: 39}
+              // downtime_user_num_t: {value: 49960}
+              // key: "851"
+              // paid_num: {value: 0}
+              // unsub_user_num: {value: 155}
+              // unsub_user_num_t: {value: 51828}
 
-                // temp_dailyLivingTrendData[1].push(
-                //   buckets_time[i_time].active_num.value
-                // );
-                // temp_dailyLivingTrendData[2].push(
-                //   buckets_time[i_time].active_num.value
-                // );
-                // temp_dailyLivingTrendData[3].push(
-                //   buckets_time[i_time].active_num.value
-                // );
+              // singleday
+              // module1_numC - new_num
+              // module3_numT - open_num
+              // module3_numC - open_rate
+              // module4_numT - watch_user_num
+              // module4_numC - watch_dur_family
+              // module6_numC - downtime_user_num
+              // module7_numC - unsub_user_num
+
+              // rangeday
+              // module1_numT - register_num
+              // module2_numT - activate_user_num
+              // module2_numC - activate_rate
+              // module5_numT - paid_num
+              // module5_numC - paid_rate
+              // module6_numT - downtime_user_num_t
+              // module7_numT - unsub_user_num_t
+
+              // 1:
+              // aggregations:
+              // ac:
+              // buckets: Array(10)
+              // 0:
+              // doc_count: 38
+              // key: "851"
+              // watch_dur_family: {value: 1735929.4043456912}
+              // watch_user_num: {value: 584388}
+            } catch (error) {
+              console.log(error);
+            }
+            // let length = data.length;
+            let length = 9; // 1 -8  9 个 ，不要 10 others
+
+            let i;
+            function dataManage(i) {
+              try {
+                if (type == "singleday") {
+                  Vue.set(
+                    vm.api_data.module1_numC,
+                    i,
+                    responses1.aggregations.ac.buckets[i].new_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module3_numT,
+                    i,
+                    responses1.aggregations.ac.buckets[i].open_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module3_numC,
+                    i,
+                    responses1.aggregations.ac.buckets[i].open_num.value /
+                      responses1.aggregations.ac.buckets[i].register_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module4_numT,
+                    i,
+                    responses2.aggregations.ac.buckets[i].watch_user_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module4_numC,
+                    i,
+                    // responses2.aggregations.ac.buckets[i].watch_dur_family.value //  10/23 19:01修改
+                    responses2.aggregations.ac.buckets[i].watch_freq.value /
+                      responses2.aggregations.ac.buckets[i].watch_user_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module6_numC,
+                    i,
+                    responses3.aggregations.ac.buckets[i].downtime_user_num
+                      .value
+                  );
+                  Vue.set(
+                    vm.api_data.module7_numC,
+                    i,
+                    responses3.aggregations.ac.buckets[i].unsub_user_num.value
+                  );
+                }
+                if (type == "rangeday") {
+                  Vue.set(
+                    vm.api_data.module1_numT,
+                    i,
+                    responses1.aggregations.ac.buckets[i].register_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module2_numT,
+                    i,
+                    responses1.aggregations.ac.buckets[i].activate_user_num
+                      .value
+                  );
+                  Vue.set(
+                    vm.api_data.module2_numC,
+                    i,
+                    responses1.aggregations.ac.buckets[i].activate_user_num
+                      .value /
+                      responses1.aggregations.ac.buckets[i].register_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module5_numT,
+                    i,
+                    responses3.aggregations.ac.buckets[i].paid_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module5_numC,
+                    i,
+                    responses3.aggregations.ac.buckets[i].paid_num.value /
+                      responses1.aggregations.ac.buckets[i].active_num.value
+                  );
+                  Vue.set(
+                    vm.api_data.module6_numT,
+                    i,
+                    responses3.aggregations.ac.buckets[i].downtime_user_num_t
+                      .value
+                  );
+                  Vue.set(
+                    vm.api_data.module7_numT,
+                    i,
+                    responses3.aggregations.ac.buckets[i].unsub_user_num_t.value
+                  );
+                }
+              } catch (error) {
+                console.log(error);
               }
             }
-
-            vm.dailyLivingTrendData.data = temp_dailyLivingTrendData;
-            // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            // console.log(temp_dailyLivingTrendData);
-
-            vm.dailyLivingTrendData.date_year =
-              String(commonTools.get_ExpirationDate_year(ExpirationDate)) +
-              "年";
-            vm.dailyLivingTrendData.date_month = String(
-              commonTools.get_ExpirationDate_lastNMonth_toChinese(
-                ExpirationDate,
-                0
-              )
-            );
-
-            return;
-          }
-          // console.log(response.data.responses[0].aggregations.ac.buckets);
-          // console.log(
-          //   response.data.responses[0].aggregations.ac.buckets[0].key
-          // );
-          // let data = response.data.responses[0].aggregations.ac.buckets;
-          let responses1 = response.data.responses[0];
-          // activate_user_num: {value: 949770}
-          // doc_count: 24
-          // key: "851"
-          // new_num: {value: 580520}
-          // open_num: {value: 2371}
-          // register_num: {value: 3572107}
-          let responses2 = response.data.responses[1];
-          // doc_count: 38
-          // key: "851"
-          // watch_dur_family: {value: 1735929.4043456912}
-          // watch_user_num: {value: 584388}
-          let responses3 = response.data.responses[2];
-          // doc_count: 24
-          // downtime_user_num: {value: 39}
-          // downtime_user_num_t: {value: 49960}
-          // key: "851"
-          // paid_num: {value: 0}
-          // unsub_user_num: {value: 155}
-          // unsub_user_num_t: {value: 51828}
-
-          // singleday
-          // module1_numC - new_num
-          // module3_numT - open_num
-          // module3_numC - open_rate
-          // module4_numT - watch_user_num
-          // module4_numC - watch_dur_family
-          // module6_numC - downtime_user_num
-          // module7_numC - unsub_user_num
-
-          // rangeday
-          // module1_numT - register_num
-          // module2_numT - activate_user_num
-          // module2_numC - activate_rate
-          // module5_numT - paid_num
-          // module5_numC - paid_rate
-          // module6_numT - downtime_user_num_t
-          // module7_numT - unsub_user_num_t
-
-          // 1:
-          // aggregations:
-          // ac:
-          // buckets: Array(10)
-          // 0:
-          // doc_count: 38
-          // key: "851"
-          // watch_dur_family: {value: 1735929.4043456912}
-          // watch_user_num: {value: 584388}
-
-          // let length = data.length;
-          let length = 9; // 1 -8  9 个 ，不要 10 others
-
-          let i;
-          function dataManage(i) {
-            if (type == "singleday") {
-              Vue.set(
-                vm.api_data.module1_numC,
-                i,
-                responses1.aggregations.ac.buckets[i].new_num.value
-              );
-              Vue.set(
-                vm.api_data.module3_numT,
-                i,
-                responses1.aggregations.ac.buckets[i].open_num.value
-              );
-              Vue.set(
-                vm.api_data.module3_numC,
-                i,
-                responses1.aggregations.ac.buckets[i].open_num.value /
-                  responses1.aggregations.ac.buckets[i].register_num.value
-              );
-              Vue.set(
-                vm.api_data.module4_numT,
-                i,
-                responses2.aggregations.ac.buckets[i].watch_user_num.value
-              );
-              Vue.set(
-                vm.api_data.module4_numC,
-                i,
-                // responses2.aggregations.ac.buckets[i].watch_dur_family.value //  10/23 19:01修改
-                responses2.aggregations.ac.buckets[i].watch_freq.value /
-                  responses2.aggregations.ac.buckets[i].watch_user_num.value
-              );
-              Vue.set(
-                vm.api_data.module6_numC,
-                i,
-                responses3.aggregations.ac.buckets[i].downtime_user_num.value
-              );
-              Vue.set(
-                vm.api_data.module7_numC,
-                i,
-                responses3.aggregations.ac.buckets[i].unsub_user_num.value
-              );
+            // 开机用户
+            for (i = 0; i < length; i++) {
+              if (
+                responses1.aggregations.ac.buckets[i].key == "851" &&
+                responses2.aggregations.ac.buckets[i].key == "851" &&
+                responses3.aggregations.ac.buckets[i].key == "851"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "852" &&
+                responses2.aggregations.ac.buckets[i].key == "852" &&
+                responses3.aggregations.ac.buckets[i].key == "852"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "853" &&
+                responses2.aggregations.ac.buckets[i].key == "853" &&
+                responses3.aggregations.ac.buckets[i].key == "853"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "854" &&
+                responses2.aggregations.ac.buckets[i].key == "854" &&
+                responses3.aggregations.ac.buckets[i].key == "854"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "855" &&
+                responses2.aggregations.ac.buckets[i].key == "855" &&
+                responses3.aggregations.ac.buckets[i].key == "855"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "856" &&
+                responses2.aggregations.ac.buckets[i].key == "856" &&
+                responses3.aggregations.ac.buckets[i].key == "856"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "857" &&
+                responses2.aggregations.ac.buckets[i].key == "857" &&
+                responses3.aggregations.ac.buckets[i].key == "857"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "858" &&
+                responses2.aggregations.ac.buckets[i].key == "858" &&
+                responses3.aggregations.ac.buckets[i].key == "858"
+              ) {
+                dataManage(i);
+              }
+              if (
+                responses1.aggregations.ac.buckets[i].key == "859" &&
+                responses2.aggregations.ac.buckets[i].key == "859" &&
+                responses3.aggregations.ac.buckets[i].key == "859"
+              ) {
+                dataManage(i);
+              }
             }
-            if (type == "rangeday") {
-              Vue.set(
-                vm.api_data.module1_numT,
-                i,
-                responses1.aggregations.ac.buckets[i].register_num.value
-              );
-              Vue.set(
-                vm.api_data.module2_numT,
-                i,
-                responses1.aggregations.ac.buckets[i].activate_user_num.value
-              );
-              Vue.set(
-                vm.api_data.module2_numC,
-                i,
-                responses1.aggregations.ac.buckets[i].activate_user_num.value /
-                  responses1.aggregations.ac.buckets[i].register_num.value
-              );
-              Vue.set(
-                vm.api_data.module5_numT,
-                i,
-                responses3.aggregations.ac.buckets[i].paid_num.value
-              );
-              Vue.set(
-                vm.api_data.module5_numC,
-                i,
-                responses3.aggregations.ac.buckets[i].paid_num.value /
-                  responses1.aggregations.ac.buckets[i].active_num.value
-              );
-              Vue.set(
-                vm.api_data.module6_numT,
-                i,
-                responses3.aggregations.ac.buckets[i].downtime_user_num_t.value
-              );
-              Vue.set(
-                vm.api_data.module7_numT,
-                i,
-                responses3.aggregations.ac.buckets[i].unsub_user_num_t.value
-              );
-            }
-          }
-          // 开机用户
-          for (i = 0; i < length; i++) {
-            // console.log(responses1.aggregations.ac.buckets[i].key);
-            // console.log(responses2.aggregations.ac.buckets[i].key);
-            // console.log(responses3.aggregations.ac.buckets[i].key);
-
-            if (
-              responses1.aggregations.ac.buckets[i].key == "851" &&
-              responses2.aggregations.ac.buckets[i].key == "851" &&
-              responses3.aggregations.ac.buckets[i].key == "851"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "852" &&
-              responses2.aggregations.ac.buckets[i].key == "852" &&
-              responses3.aggregations.ac.buckets[i].key == "852"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "853" &&
-              responses2.aggregations.ac.buckets[i].key == "853" &&
-              responses3.aggregations.ac.buckets[i].key == "853"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "854" &&
-              responses2.aggregations.ac.buckets[i].key == "854" &&
-              responses3.aggregations.ac.buckets[i].key == "854"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "855" &&
-              responses2.aggregations.ac.buckets[i].key == "855" &&
-              responses3.aggregations.ac.buckets[i].key == "855"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "856" &&
-              responses2.aggregations.ac.buckets[i].key == "856" &&
-              responses3.aggregations.ac.buckets[i].key == "856"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "857" &&
-              responses2.aggregations.ac.buckets[i].key == "857" &&
-              responses3.aggregations.ac.buckets[i].key == "857"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "858" &&
-              responses2.aggregations.ac.buckets[i].key == "858" &&
-              responses3.aggregations.ac.buckets[i].key == "858"
-            ) {
-              dataManage(i);
-            }
-            if (
-              responses1.aggregations.ac.buckets[i].key == "859" &&
-              responses2.aggregations.ac.buckets[i].key == "859" &&
-              responses3.aggregations.ac.buckets[i].key == "859"
-            ) {
-              dataManage(i);
-            }
-          }
-
-          console.log("vm.api_data~~~~~~");
-          console.log(vm.api_data);
-          vm.updateDatashow(0); // 数据初始化 - 0 - 贵阳
-          vm.updateDatashow(1);
-          vm.updateDatashow(2);
-          vm.updateDatashow(3);
-          vm.updateDatashow(4);
-          vm.updateDatashow(5);
-          vm.updateDatashow(6);
-          vm.updateDatashow(7);
-          vm.updateDatashow(8);
-          vm.ifRequestSuccess = 1;
-        })
-        .catch(function(error) {
-          console.info(error);
-          vm.ifRequestSuccess = 0;
-          vm.setDatashow(vm.data.datashow2);
-        });
+            vm.updateDatashow(0); // 数据初始化 - 0 - 贵阳
+            // vm.updateDatashow(1);
+            // vm.updateDatashow(2);
+            // vm.updateDatashow(3);
+            // vm.updateDatashow(4);
+            // vm.updateDatashow(5);
+            // vm.updateDatashow(6);
+            // vm.updateDatashow(7);
+            // vm.updateDatashow(8);
+            vm.ifRequestSuccess = 1;
+          })
+          .catch(function(error) {
+            console.info(error);
+            vm.ifRequestSuccess = 0;
+            vm.setDatashow(vm.data.datashow2);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
     setcity(city) {
       this.data.city = city;
@@ -930,8 +927,7 @@ export default {
             content: "每日销户数（当日）",
             numC: "0"
           }
-        ],
-        
+        ]
       },
       // UserPortraitData: {
       //   title: "",

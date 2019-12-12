@@ -71,16 +71,15 @@ export default {
   methods: {
     users_subscribe(ExpirationDate, time_type) {
       let vm = this;
-      // console.log("~~~~~~users_subscribe");
 
       let m_operator = commonTools.GetBigScreenOperator();
       let data;
       if (time_type == "month_days") {
         data = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: commonTools.get_ExpirationDate_01(ExpirationDate),
-          end: ExpirationDate // 先 7-1 ，之后改成 7-31
+          end: ExpirationDate, // 先 7-1 ，之后改成 7-31
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
         // console.log(data);
       }
@@ -92,20 +91,15 @@ export default {
         data = {
           operator: m_operator,
           start: temp_ExpirationDate_n_months.start,
-          end: temp_ExpirationDate_n_months.end
+          end: temp_ExpirationDate_n_months.end,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
         // console.log(data);
       }
 
-      // console.log("~~~~~~~users_subscribe");
       users_subscribe(data)
         .then(function(response) {
-          // console.log(
-          //   response.data.responses[0].aggregations.value_added_service_package
-          //     .buckets.length
-          // );
           if (time_type == "month_days") {
-            // console.log(response);
             let buckets =
               response.data.responses[1].aggregations
                 .value_added_service_package.buckets;
@@ -144,9 +138,13 @@ export default {
           }
           if (time_type == "months") {
             // console.log(response);
+
             let buckets =
               response.data.responses[2].aggregations.statistical_granularity
                 .buckets;
+            buckets = commonTools.bucketsSort_WM(buckets);
+
+
             let length = buckets.length;
             let i;
             let temp_data = [];
@@ -158,11 +156,9 @@ export default {
               ]);
             }
             vm.paid_data.data = temp_data;
-
             setTimeout(function() {
               vm.drawLine2();
             }, 300);
-
             vm.ifgetdata = true;
           }
         })
@@ -211,6 +207,7 @@ export default {
           res.series.push({
             name: "订购类型",
             type: "pie",
+            minAngle: 15,
             clockWise: true, //顺时加载
             hoverAnimation: false, //鼠标移入变大
             radius: [65 - i * 15 + "%", 57 - i * 15 + "%"],
@@ -249,6 +246,7 @@ export default {
           res.series.push({
             name: "",
             type: "pie",
+            minAngle: 15,
             silent: true,
             z: 1,
             clockWise: false, //顺时加载

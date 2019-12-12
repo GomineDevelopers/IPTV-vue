@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "LineChartSingle2", //折线图
+  name: "LineChartSingle2_datatotal", //折线图
   props: {
     lineData: Object
   },
@@ -73,16 +73,57 @@ export default {
         let date_month = this.lineData.date_month;
 
         //设置series数据条数
-        for (let i = 1; i <= this.lineData.data.length - 1; i++) {
-          seriesData.push({
-            type: "line",
-            seriesLayoutBy: "row",
-            symbol: "circle",
-            /////
-            itemStyle: { normal: { label: { show: true } } }
-            /////
-          });
+        // ▲▲▲针对数据总览进行特殊处理：由于两条线重叠 所以联通不显示label
+        // console.log(vm.lineData.data);
+        // 根据n天的首天判断， 联通电信大者Top在上面
+        // 运营商数据：  电信1 移动2 联通3
+        let first_dx = this.lineData.data[1][1];
+        let first_lt = this.lineData.data[3][1];
+        let max_operator_num = 0;
+        if (first_dx > first_lt) {
+          max_operator_num = 1;
+        } else {
+          max_operator_num = 3;
         }
+
+        for (let i = 1; i <= this.lineData.data.length - 1; i++) {
+          if (i == 2) {
+            // 移动固定 默认 Top
+            seriesData.push({
+              type: "line",
+              seriesLayoutBy: "row",
+              symbol: "circle",
+              /////
+              itemStyle: { normal: { label: { show: true } } }
+              /////
+            });
+          } else {
+            if (max_operator_num == i) {
+              seriesData.push({
+                type: "line",
+                seriesLayoutBy: "row",
+                symbol: "circle",
+                /////
+                itemStyle: {
+                  normal: { label: { show: true, position: "top" } }
+                }
+                /////
+              });
+            } else {
+              seriesData.push({
+                type: "line",
+                seriesLayoutBy: "row",
+                symbol: "circle",
+                /////
+                itemStyle: {
+                  normal: { label: { show: true, position: "bottom" } }
+                }
+                /////
+              });
+            }
+          }
+        }
+
         var option = {
           color: this.lineData.color,
           textStyle: {

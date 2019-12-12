@@ -10,32 +10,17 @@
           <!-- 柱状图 -->
           <p class="m_common_sm_title_font">平台累计在册用户数总览（万户）</p>
           <div class="m_common_echarts_styleA" id="GT_UVWR1_A1"></div>
-          <!-- <p class="m_margin_0a m_common_content_font">
-            截至2019年6月3日凌晨，平台累计 在册用户数
-            <span class="font_color_r">2,133,546</span>户，较前一周增长
-            <span class="font_color_r">2.0%</span>，增速回落0.5个百分点。
-          </p>-->
         </el-col>
 
         <el-col :span="8">
           <!-- 饼图 -->
           <p class="m_common_sm_title_font">各大运营商在册用户数总览（万户）</p>
-          <!-- <pie-center-label :chartData="GT_UVWR1_A2"></pie-center-label> -->
           <numberOfRegisteredUsers :fillinData="GT_UVWR1_A2"></numberOfRegisteredUsers>
-          <!-- <p class="m_margin_0a m_common_content_font">
-            移动在册用户
-            <span class="font_color_r">1,162,381</span>户，较前一周增长 2.5%，增速提升0.1个百分点。 电信在册用户
-            <span class="font_color_r">594,456</span>户，较前一周增长3.9%， 增速提升0.1个百分点。 联通在册用户
-            <span class="font_color_r">376,709</span>户，较前一周减少9,533 户。
-          </p>-->
         </el-col>
         <el-col :span="8">
           <!-- 柱状图 -->
           <p class="m_common_sm_title_font">新增、停机、销户用户数总览（户）</p>
           <div class="m_common_echarts_styleA" id="GT_UVWR1_A3"></div>
-          <!-- <p
-            class="m_margin_0a m_common_content_font"
-          >周新增60,798户，较前一周增加8.6%。 周停机12,369户，较前一周增加969.1%， 较上月同期（0426-0502）增长108.9%。 周销户21,165户，较前一周增长247.5%， 较上月同期增长39.6%。</p>-->
         </el-col>
       </el-row>
       <div class="m_init_div m_width_25 m_padding_l_4"></div>
@@ -51,7 +36,6 @@
       <div class="m_init_div m_width_40">
         <p class="m_common_sm_title_font">各市州在册用户占比（万户）</p>
         <pie-center-label :chartData="GT_UVWR1_B1"></pie-center-label>
-        <!-- <numberOfRegisteredUsers :fillinData="GT_UVWR1_B1"></numberOfRegisteredUsers> -->
       </div>
 
       <!-- 柱状图 + 折线图 -->
@@ -59,10 +43,6 @@
         <p class="m_common_sm_title_font">各大运营商各市州一周新增在册用户数（万户）</p>
         <bar-charts-stack :chartData="GT_UVWR1_B2"></bar-charts-stack>
       </div>
-      <!-- <p class="m_margin_0a m_common_content_font">上周在册用户净增40,899户，增量下滑19.3%。</p> -->
-      <!-- <p
-        class="m_margin_0a m_common_content_font"
-      >各市州平均增速2.8%，环比提升0.2个百分点。毕节市增速3.7%最高，环比提升0.7个百分点；安顺市增速2.0%最低，环比提升0.4个百分点。</p>-->
     </el-row>
     <!-- ///////////////////////// C -->
     <el-row class="model_title">
@@ -73,17 +53,14 @@
       <el-row>
         <el-col :span="8">
           <p class="m_common_sm_title_font">新增用户占比（万户）</p>
-          <!-- <pie-center-label :chartData="GT_UVWR1_C1"></pie-center-label> -->
           <numberOfRegisteredUsers :fillinData="GT_UVWR1_C1"></numberOfRegisteredUsers>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">停机用户占比（户）</p>
-          <!-- <pie-center-label :chartData="GT_UVWR1_C2"></pie-center-label> -->
           <numberOfRegisteredUsers :fillinData="GT_UVWR1_C2"></numberOfRegisteredUsers>
         </el-col>
         <el-col :span="8">
           <p class="m_common_sm_title_font">销户用户占比（户）</p>
-          <!-- <pie-center-label :chartData="GT_UVWR1_C3"></pie-center-label> -->
           <numberOfRegisteredUsers :fillinData="GT_UVWR1_C3"></numberOfRegisteredUsers>
         </el-col>
       </el-row>
@@ -103,10 +80,6 @@
           <smooth-line-chart :smoothLineData="GT_UVWR1_C6"></smooth-line-chart>
         </el-col>
       </el-row>
-
-      <!-- <p
-        class="m_margin_0a m_common_content_font"
-      >*注：停机、销户数据统计时间为2019年6月3日24:00（不同时间点统计，停机数和销户数会有所区别）。</p>-->
     </el-row>
     <!-- ///////////////////////// D -->
     <el-row class="model_title">
@@ -174,19 +147,16 @@ import Vue from "vue";
 import { commonTools } from "@/utils/test";
 import pie_center_label from "@/views/backcoms/commoncomponents2/pie_center_label"; //（空心）饼图组件
 import numberOfRegisteredUsers from "@/views/backcoms/commoncomponents2/numberOfRegisteredUsers_Change"; //在册用户数
-
 import BarChartSingle from "@/views/backcoms/commoncomponents2/BarChartSingle_Change";
 import BarChartSingle2 from "@/views/backcoms/commoncomponents2/BarChartSingle_Change2";
-
 import BarChartsStack from "@/views/backcoms/commoncomponents2/BarChartsStack_Change"; //公用柱状图堆叠
 import SmoothLineChart from "@/views/backcoms/commoncomponents2/SmoothLineChart_Change"; //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents2/BarListChart_Change"; //排名柱状图
-
 import BarChartsStack3 from "@/views/backcoms/commoncomponents2/BarChartsStack_Change3"; // 公用柱状图堆叠3 - 左侧Y轴百分比
 
 import { mapGetters } from "vuex";
 import { debuglog } from "util";
-import { users_activeReportTop,users_weekActiveReport } from "@/api/api_main";
+import { users_activeReportTop, users_weekActiveReport } from "@/api/api_main";
 
 export default {
   name: "UVWR_m1",
@@ -213,7 +183,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_week", "PR_Report_index"]),
     ifModuleydShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -224,10 +194,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifModuleltShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -238,10 +208,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifModuledxShow: {
-      get: function () {
+      get: function() {
         let vm = this;
         if (vm.PR_operator == null || vm.PR_operator.length == 0) {
           return true;
@@ -252,12 +222,12 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   mounted() {
     let vm = this;
-    setTimeout(function () {
+    setTimeout(function() {
       vm.render();
       vm.render2();
     }, 300);
@@ -276,9 +246,8 @@ export default {
     //上周数据
     api_data_m1_range(newValue, oldValue) {
       // 在这里获取上期week的数据
-      // console.log("混合数据上周数据");
+      // 混合数据上周数据
       let last_week_data = newValue.data.responses; //上周总数据
-      // console.log("last_week_data", last_week_data);
 
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(this.PR_week);
@@ -292,20 +261,20 @@ export default {
       try {
         // let register_num = last_week_data[0].aggregations.register_num.value    //平台累计在册用户数总览
         try {
-          let register_num = last_week_data[0].aggregations.register_num.buckets[0].register_num.value; //平台累计在册用户数总览
+          let register_num =
+            last_week_data[0].aggregations.register_num.buckets[0].register_num
+              .value; //平台累计在册用户数总览
           Vue.set(this.GT_UVWR1_A1.date, 0, beforeWeekFormat);
           Vue.set(this.GT_UVWR1_A1.data, 0, (register_num / 10000).toFixed(2));
         } catch (error) {
-          Vue.set(this.GT_UVWR1_A1.date, 0, '');
-          Vue.set(this.GT_UVWR1_A1.data, 0, '');
+          Vue.set(this.GT_UVWR1_A1.date, 0, "");
+          Vue.set(this.GT_UVWR1_A1.data, 0, "");
         }
-
 
         //各大运营商各市州上周新增在册用户数
         let last_newadd_num_arr = []; //存放上周新增用户
         let last_newadd_num_total = last_week_data[0].aggregations.ac.buckets;
         last_newadd_num_total.forEach((value, index) => {
-          // console.log("各州市在册用户占比", value, index)
           if (index < 9) {
             last_newadd_num_arr.push({
               value: value.new_num.value,
@@ -314,7 +283,6 @@ export default {
           }
         });
         this.last_newadd_num_arr = last_newadd_num_arr; //存入上周新增用户数
-        // console.log("上周新增数据", last_newadd_num_arr)
       } catch (error) {
         console.log(error);
       }
@@ -322,9 +290,8 @@ export default {
     //本周数据
     api_data_m1(newValue, oldValue) {
       let vm = this;
-      // console.log("混合数据模块一api_data_m1 - newValue");
       let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据
-      console.log("模块一，G+tv用户发展数据（本周）", blendedDataModule);
+      // console.log("模块一，G+tv用户发展数据（本周）", blendedDataModule);
 
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
@@ -334,21 +301,25 @@ export default {
       );
       let beforeWeekFormat = WeekFormat.beforeWeekFormat; //上周时间
       let currentWeekFormat = WeekFormat.currentWeekFormat; // 本周时间
-
       try {
         // let register_num_total = blendedDataModule[0].aggregations.register_num.value  //平台累计在册用户数总览
         try {
-          let register_num_total = blendedDataModule[0].aggregations.register_num.buckets[0].register_num.value; //平台累计在册用户数总览
+          let register_num_total =
+            blendedDataModule[0].aggregations.register_num.buckets[0]
+              .register_num.value; //平台累计在册用户数总览
           Vue.set(this.GT_UVWR1_A1.date, 1, currentWeekFormat);
-          Vue.set(this.GT_UVWR1_A1.data, 1, (register_num_total / 10000).toFixed(2));
+          Vue.set(
+            this.GT_UVWR1_A1.data,
+            1,
+            (register_num_total / 10000).toFixed(2)
+          );
         } catch (error) {
-          Vue.set(this.GT_UVWR1_A1.date, 1, '');
-          Vue.set(this.GT_UVWR1_A1.data, 1, '');
-          console.log(error)
+          Vue.set(this.GT_UVWR1_A1.date, 1, "");
+          Vue.set(this.GT_UVWR1_A1.data, 1, "");
+          console.log(error);
         }
-
-        try { 
-          // ///// 各市州在册用户占比 
+        try {
+          // ///// 各市州在册用户占比
 
           //G+tv用户发展数据
           let dataMudule_1 = blendedDataModule[0].aggregations;
@@ -358,15 +329,14 @@ export default {
           temp.push(String(dataMudule_1.unsub_user_num.value));
           vm.GT_UVWR1_A3.data2 = temp; //新增，停机，销户用户数
           // console.log('新增，停机，销户', vm.GT_UVWR1_A3)
-          setTimeout(function () {
+          setTimeout(function() {
             vm.render();
             vm.render2();
           }, 300);
         } catch (error) {
-          vm.GT_UVWR1_A3.data2 = []
-          console.log(error)
+          vm.GT_UVWR1_A3.data2 = [];
+          console.log(error);
         }
-
         try {
           //各州市在册用户占比
           let temp_t;
@@ -388,34 +358,31 @@ export default {
           formData_t.append("start", temp_t.start);
           formData_t.append("end", temp_t.end);
           users_weekActiveReport(formData_t)
-            .then(function (response_t) {
+            .then(function(response_t) {
               // let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据
               // let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets;
-              let dataMudule_2_t = response_t.data.responses[0].aggregations.ac1.buckets;
-              console.log("■■■■■■■■■■■■■■■■■■■■■");
-              console.log(response_t);
-              console.log(dataMudule_2_t);
+              let dataMudule_2_t =
+                response_t.data.responses[0].aggregations.ac1.buckets;
+              // console.log("■■■■■■■■■■■■■■■■■■■■■");
+              // console.log(response_t);
+              // console.log(dataMudule_2_t);
 
               let temp2 = []; //各州市在册用户占比temp
               dataMudule_2_t.forEach((value, index) => {
-                // console.log("各州市在册用户占比", value, index)
-                if(value.key != "other"){
+                if (value.key != "other") {
                   // if (index < 9) {
-                    temp2.push({
-                      value: (
-                        value.register_num.value / 10000
-                      ).toFixed(2),
-                      name: commonTools.acConvert_Single(value.key)
-                    });
+                  temp2.push({
+                    value: (value.register_num.value / 10000).toFixed(2),
+                    name: commonTools.acConvert_Single(value.key)
+                  });
                   // }
                 }
               });
               vm.GT_UVWR1_B1.m_data2 = temp2; //各州市在册用户占比数据渲染
-              // console.log("各州市在册用户占比数据渲染", vm.GT_UVWR1_B1)
-          })
-          .catch(function (error) {
-            console.info(error);
-          });
+            })
+            .catch(function(error) {
+              console.info(error);
+            });
           try {
             let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据
             let dataMudule_2 = blendedDataModule[0].aggregations.ac.buckets;
@@ -429,49 +396,55 @@ export default {
                 });
               }
             });
+
+            vm.current_newadd_num_arr = current_newadd_num_arr; //存入本周新增用户数
+            setTimeout(() => {
+              // console.log("本周新增用户数", vm.current_newadd_num_arr)
+              // console.log("上周新增用户数", vm.last_newadd_num_arr)
+              try {
+                if (dataMudule_2[0].new_num.value) {
+                } //若无数据，进入catch
+                if (
+                  vm.current_newadd_num_arr == null ||
+                  vm.last_newadd_num_arr == null
+                ) {
+                  // console.log("数据异常！");
+                } else {
+                  // console.log("开始计算增速");
+                  // console.log("vm.current_newadd_num_arr", vm.current_newadd_num_arr)
+                  // console.log("vm.last_newadd_num_arr", vm.last_newadd_num_arr)
+                  //计算增速（本周新增用户 - 上周新增用户） / 上期新增用户
+                  vm.current_newadd_num_arr.forEach((value, index) => {
+                    // console.log(value.name, index)
+                    vm.last_newadd_num_arr.forEach((value2, index2) => {
+                      if (value.name == value2.name) {
+                        let newadd_rate =
+                          ((value.value - value2.value) / value2.value) * 100;
+                        Vue.set(
+                          vm.GT_UVWR1_B2.data[index + 1],
+                          4,
+                          newadd_rate.toFixed(2)
+                        );
+                      }
+                    });
+                  });
+                }
+              } catch (error) {
+                //设置各大运营商各市州一周新增在册用户数的增速为 0
+                vm.GT_UVWR1_B2.data.forEach((value, index) => {
+                  if (index > 0) {
+                    Vue.set(vm.GT_UVWR1_B2.data[index], 4, 0);
+                  }
+                  // console.log(value)
+                });
+                console.log(error);
+              }
+            }, 1000);
           } catch (error) {
             console.log(error);
           }
-          vm.current_newadd_num_arr = current_newadd_num_arr; //存入本周新增用户数
-          setTimeout(() => {
-            // console.log("本周新增用户数", vm.current_newadd_num_arr)
-            // console.log("上周新增用户数", vm.last_newadd_num_arr)
-            try {
-              if (dataMudule_2[0].new_num.value) { }  //若无数据，进入catch
-              if (
-                vm.current_newadd_num_arr == null ||
-                vm.last_newadd_num_arr == null
-              ) {
-                console.log("数据异常！");
-              } else {
-                console.log("开始计算增速");
-                // console.log("vm.current_newadd_num_arr", vm.current_newadd_num_arr)
-                // console.log("vm.last_newadd_num_arr", vm.last_newadd_num_arr)
-                //计算增速（本周新增用户 - 上周新增用户） / 上期新增用户
-                vm.current_newadd_num_arr.forEach((value, index) => {
-                  // console.log(value.name, index)
-                  vm.last_newadd_num_arr.forEach((value2, index2) => {
-                    if (value.name == value2.name) {
-                      let newadd_rate = ((value.value - value2.value) / value2.value) * 100
-                      Vue.set(vm.GT_UVWR1_B2.data[index + 1], 4, newadd_rate.toFixed(2));
-                    }
-                  })
-                });
-              }
-            } catch (error) {
-              //设置各大运营商各市州一周新增在册用户数的增速为 0 
-              vm.GT_UVWR1_B2.data.forEach((value, index) => {
-                if (index > 0) {
-                  Vue.set(vm.GT_UVWR1_B2.data[index], 4, 0)
-                }
-                // console.log(value)
-              })
-              console.log(error)
-            }
-          }, 1000);
-
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
         // console.log("vm.GT_UVWR1_B2.data--------------------------------", vm.GT_UVWR1_B2.data)
       } catch (error) {
@@ -480,8 +453,8 @@ export default {
     },
     //移动数据(本周)
     api_data_m2(newValue, oldValue) {
-      console.log("移动数据模块二api_data_m2 - newValue");
-      console.log(newValue);
+      // console.log("移动数据模块二api_data_m2 - newValue");
+      // console.log(newValue);
       //////////////////// E1
       let vm = this;
       let buckets = newValue.data.responses[1].aggregations.programname.buckets;
@@ -499,48 +472,91 @@ export default {
 
       //各大运营商在册用户数总览
       try {
-        Vue.set(vm.GT_UVWR1_A2.data[1], 1, (userBuckets.register_num.buckets[0].register_num.value / 10000).toFixed(2));
+        Vue.set(
+          vm.GT_UVWR1_A2.data[1],
+          1,
+          (
+            userBuckets.register_num.buckets[0].register_num.value / 10000
+          ).toFixed(2)
+        );
         // console.log("vm.GT_UVWR1_A2移动运营商", vm.GT_UVWR1_A2)
       } catch (error) {
-        Vue.set(vm.GT_UVWR1_A2.data[1], 1, '');
-        console.log(error)
+        Vue.set(vm.GT_UVWR1_A2.data[1], 1, "");
+        console.log(error);
       }
 
       try {
         //各大运营商各市州一周新增在册用户数（户）
         //各州市一周开机率
         let dataMudule_2 = data_yd[0].aggregations.ac.buckets;
-        if (dataMudule_2[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        if (dataMudule_2[0].new_num.value) {
+        } //设置若dataMudule_2为空，则进入catch
         dataMudule_2.forEach((value, index) => {
           if (index < 9) {
             // console.log("一周新增在册用户数temp", value, index)
             switch (value.key) {
               case "851":
-                Vue.set(vm.GT_UVWR1_B2.data[1], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[1],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "852":
-                Vue.set(vm.GT_UVWR1_B2.data[2], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[2],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "853":
-                Vue.set(vm.GT_UVWR1_B2.data[3], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[3],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "854":
-                Vue.set(vm.GT_UVWR1_B2.data[4], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[4],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "855":
-                Vue.set(vm.GT_UVWR1_B2.data[5], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[5],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "856":
-                Vue.set(vm.GT_UVWR1_B2.data[6], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[6],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "857":
-                Vue.set(vm.GT_UVWR1_B2.data[7], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[7],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "858":
-                Vue.set(vm.GT_UVWR1_B2.data[8], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[8],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               case "859":
-                Vue.set(vm.GT_UVWR1_B2.data[9], 1, (value.new_num.value / 10000).toFixed(2));
+                Vue.set(
+                  vm.GT_UVWR1_B2.data[9],
+                  1,
+                  (value.new_num.value / 10000).toFixed(2)
+                );
                 break;
               default:
                 break;
@@ -565,11 +581,11 @@ export default {
         console.log(error);
       }
 
-
       try {
         //各州市一周开机率
         let open_rate_data = data_yd[19].aggregations.ac.buckets;
-        if (open_rate_data[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        if (open_rate_data[0].new_num.value) {
+        } //设置若dataMudule_2为空，则进入catch
         open_rate_data.forEach((value, index) => {
           //（本期新增用户 - 上期新增用户） / 上期新增用户
           // let current_new_add_register_num = value.new_num.value  //本期新增
@@ -623,15 +639,20 @@ export default {
         Vue.set(vm.GT_UVWR1_D2.data[7], 1, 0);
         Vue.set(vm.GT_UVWR1_D2.data[8], 1, 0);
         Vue.set(vm.GT_UVWR1_D2.data[9], 1, 0);
-        console.log(error)
+        console.log(error);
       }
 
       try {
         //G+TV一周用户增减数据
         //新增用户占比(移动))
         // console.log("userBuckets----------", userBuckets)
-        if (userBuckets.new_num.value) { }   //userBuckets.new_num.value不存在，则进入catch
-        Vue.set(vm.GT_UVWR1_C1.data[1], 1, (userBuckets.new_num.value / 10000).toFixed(2));
+        if (userBuckets.new_num.value) {
+        } //userBuckets.new_num.value不存在，则进入catch
+        Vue.set(
+          vm.GT_UVWR1_C1.data[1],
+          1,
+          (userBuckets.new_num.value / 10000).toFixed(2)
+        );
         //停机用户占比
         Vue.set(vm.GT_UVWR1_C2.data[1], 1, userBuckets.downtime_user_num.value);
         //销户
@@ -640,7 +661,7 @@ export default {
         Vue.set(vm.GT_UVWR1_C1.data[1], 1, 0);
         Vue.set(vm.GT_UVWR1_C2.data[1], 1, 0);
         Vue.set(vm.GT_UVWR1_C3.data[1], 1, 0);
-        console.log(error)
+        console.log(error);
       }
 
       try {
@@ -672,7 +693,7 @@ export default {
             unsub_user_array_temp2.push(value.unsub_user_num.value);
           });
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
 
         //移动用户数走势
@@ -690,18 +711,22 @@ export default {
 
       try {
         //移动本周开机率
-        let open_num_data = newValue.data.responses[19].aggregations
+        let open_num_data = newValue.data.responses[19].aggregations;
         Vue.set(vm.GT_UVWR1_D1.data[0], 1, beforeWeekFormat);
         Vue.set(vm.GT_UVWR1_D1.data[0], 2, currentWeekFormat);
         try {
           let current_open_num = open_num_data.open_num.value;
-          let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
-          let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2);
+          let current_register_num =
+            open_num_data.register_num.buckets[0].register_num.value;
+          let current_open_rate = (
+            (current_open_num / current_register_num) *
+            100
+          ).toFixed(2);
           Vue.set(vm.GT_UVWR1_D1.data[1], 2, current_open_rate);
           // console.log("移动本周开机率", current_open_rate)
         } catch (error) {
           Vue.set(vm.GT_UVWR1_D1.data[1], 2, 0);
-          console.log(error)
+          console.log(error);
         }
 
         //上周的一周直播节目收视TOP15（万小时）开始
@@ -711,17 +736,18 @@ export default {
         ); //获取上周的时间
         //上一周的数据
         let temp = {
-          operator: '移动',
+          operator: "移动",
           start: last_week.start,
-          end: last_week.end,
-        }
+          end: last_week.end
+        };
 
         try {
           //移动一周直播节目TOP15
           Vue.set(vm.GT_UVWR1_E1.data[0], 1, currentWeekFormat);
           Vue.set(vm.GT_UVWR1_E1.data[0], 2, beforeWeekFormat);
           // console.log("移动buckets-------", buckets)
-          if (buckets[0].key) { }  //若错误，进入catch
+          if (buckets[0].key) {
+          } //若错误，进入catch
           // console.log("上周请求temp------------------", temp)
           buckets.forEach((value, index) => {
             let program = value.key;
@@ -746,13 +772,18 @@ export default {
               formData.append("end", temp.end);
               formData.append("programname", program);
               users_activeReportTop(formData)
-                .then((responses) => {
+                .then(responses => {
                   // console.log("---------------------------------")
                   // console.log("本周top", program, (value.onlive_dur.value / 10000 / 60).toFixed(2))
                   // console.log(responses.data.responses)
                   try {
-                    let last_top_value = responses.data.responses[0].aggregations.onlive_dur.value
-                    if (responses.data.responses[0].aggregations.programname.buckets[0].key) { }
+                    let last_top_value =
+                      responses.data.responses[0].aggregations.onlive_dur.value;
+                    if (
+                      responses.data.responses[0].aggregations.programname
+                        .buckets[0].key
+                    ) {
+                    }
                     //console.log("上周top", responses.data.responses[0].aggregations.programname.buckets[0].key, (last_top_value / 10000 / 60).toFixed(2))
                     Vue.set(
                       vm.GT_UVWR1_E1.data[15 - index],
@@ -760,36 +791,49 @@ export default {
                       (last_top_value / 10000 / 60).toFixed(2)
                     );
                   } catch (error) {
-                    Vue.set(
-                      vm.GT_UVWR1_E1.data[15 - index],
-                      2,
-                      ''
-                    );
-                    console.log(error)
+                    Vue.set(vm.GT_UVWR1_E1.data[15 - index], 2, "");
+                    console.log(error);
                   }
                 })
-                .catch((error) => {
-                  console.log(error)
-                })
+                .catch(error => {
+                  console.log(error);
+                });
             }
           });
           // console.log("移动一周直播节目TOP15", vm.GT_UVWR1_E1.data)
         } catch (error) {
-          console.log("移动排名错误")
+          console.log("移动排名错误");
           vm.GT_UVWR1_E1.data = [
-            ["product"], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
-          ]
-          console.log(error)
+            ["product"],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ];
+          console.log(error);
         }
 
         try {
           //移动一周点播节目TOP15
           // let order_paly_data = newValue.data.responses[2].aggregations.program_type.buckets;
-          let order_paly_data = newValue.data.responses[2].aggregations.programname.buckets;
+          let order_paly_data =
+            newValue.data.responses[2].aggregations.programname.buckets;
           Vue.set(vm.GT_UVWR1_F1.data[0], 1, currentWeekFormat);
           Vue.set(vm.GT_UVWR1_F1.data[0], 2, beforeWeekFormat);
           // console.log("order_paly_data", order_paly_data)
-          if (order_paly_data[0].key) { }
+          if (order_paly_data[0].key) {
+          }
           order_paly_data.forEach((value, index) => {
             let program = value.key;
             let program_name = value.program_type.buckets[0].key;
@@ -813,10 +857,16 @@ export default {
               formData.append("end", temp.end);
               formData.append("programname", program);
               users_activeReportTop(formData)
-                .then((responses) => {
+                .then(responses => {
                   try {
-                    let last_top_value = responses.data.responses[1].aggregations.demand_freq.value
-                    if (responses.data.responses[1].aggregations.programname.buckets[0].key) { }
+                    let last_top_value =
+                      responses.data.responses[1].aggregations.demand_freq
+                        .value;
+                    if (
+                      responses.data.responses[1].aggregations.programname
+                        .buckets[0].key
+                    ) {
+                    }
                     // console.log("上周top", responses.data.responses[1].aggregations.programname.buckets[0].key, last_top_value)
                     // console.log(responses.data.responses)
                     Vue.set(
@@ -825,27 +875,37 @@ export default {
                       (last_top_value / 10000).toFixed(2)
                     );
                   } catch (error) {
-                    Vue.set(
-                      vm.GT_UVWR1_F1.data[15 - index],
-                      2,
-                      ''
-                    );
-                    console.log(error)
+                    Vue.set(vm.GT_UVWR1_F1.data[15 - index], 2, "");
+                    console.log(error);
                   }
                 })
-                .catch((error) => {
-                  console.log(error)
-                })
+                .catch(error => {
+                  console.log(error);
+                });
             }
           });
           // console.log("移动一周点播vm.GT_UVWR1_F1.data-----", vm.GT_UVWR1_F1.data)
         } catch (error) {
           vm.GT_UVWR1_F1.data = [
-            ["product"], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
-          ]
-          console.log(error)
+            ["product"],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ];
+          console.log(error);
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -858,14 +918,15 @@ export default {
       let userBuckets = newValue.data.responses[0].aggregations;
       //移动上周开机率
       try {
-        let open_num_data = newValue.data.responses[19].aggregations
+        let open_num_data = newValue.data.responses[19].aggregations;
         let current_open_num = open_num_data.open_num.value;
-        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
+        let current_register_num =
+          open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = (current_open_num / current_register_num) * 100;
         Vue.set(vm.GT_UVWR1_D1.data[1], 1, current_open_rate.toFixed(2));
       } catch (error) {
         Vue.set(vm.GT_UVWR1_D1.data[1], 1, 0);
-        console.log(error)
+        console.log(error);
       }
     },
 
@@ -879,13 +940,18 @@ export default {
 
       let userBuckets = newValue.data.responses[0].aggregations; //联通在册用户数据总览
       try {
-        Vue.set(vm.GT_UVWR1_A2.data[1], 2, (userBuckets.register_num.buckets[0].register_num.value / 10000).toFixed(2));
+        Vue.set(
+          vm.GT_UVWR1_A2.data[1],
+          2,
+          (
+            userBuckets.register_num.buckets[0].register_num.value / 10000
+          ).toFixed(2)
+        );
         // console.log("vm.GT_UVWR1_A2联通", vm.GT_UVWR1_A2)
       } catch (error) {
-        Vue.set(vm.GT_UVWR1_A2.data[1], 2, '');
-        console.log(error)
+        Vue.set(vm.GT_UVWR1_A2.data[1], 2, "");
+        console.log(error);
       }
-
 
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(this.PR_week);
@@ -899,7 +965,8 @@ export default {
       try {
         //各大运营商各市州一周新增在册用户数（户）
         let dataMudule_2 = data_lt[0].aggregations.ac.buckets;
-        if (dataMudule_2[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        if (dataMudule_2[0].new_num.value) {
+        } //设置若dataMudule_2为空，则进入catch
         dataMudule_2.forEach((value, index) => {
           //（本期新增用户 - 上期新增用户） / 上期新增用户
           // let current_new_add_register_num = value.new_num.value  //本期新增
@@ -988,13 +1055,14 @@ export default {
         Vue.set(vm.GT_UVWR1_B2.data[7], 2, 0);
         Vue.set(vm.GT_UVWR1_B2.data[8], 2, 0);
         Vue.set(vm.GT_UVWR1_B2.data[9], 2, 0);
-        console.log(error)
+        console.log(error);
       }
 
       try {
         //各州市一周开机率
         let open_rate_data = data_lt[19].aggregations.ac.buckets;
-        if (open_rate_data[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        if (open_rate_data[0].new_num.value) {
+        } //设置若dataMudule_2为空，则进入catch
         open_rate_data.forEach((value, index) => {
           //（本期新增用户 - 上期新增用户） / 上期新增用户
           // let current_new_add_register_num = value.new_num.value  //本期新增
@@ -1048,14 +1116,19 @@ export default {
         Vue.set(vm.GT_UVWR1_D2.data[7], 2, 0);
         Vue.set(vm.GT_UVWR1_D2.data[8], 2, 0);
         Vue.set(vm.GT_UVWR1_D2.data[9], 2, 0);
-        console.log(error)
+        console.log(error);
       }
 
       try {
         //G+TV一周用户增减数据
         //新增用户占比(联通)
-        if (userBuckets.new_num.value) { }   //若错误，进入catch
-        Vue.set(vm.GT_UVWR1_C1.data[1], 2, (userBuckets.new_num.value / 10000).toFixed(2));
+        if (userBuckets.new_num.value) {
+        } //若错误，进入catch
+        Vue.set(
+          vm.GT_UVWR1_C1.data[1],
+          2,
+          (userBuckets.new_num.value / 10000).toFixed(2)
+        );
         //停机用户占比
         Vue.set(vm.GT_UVWR1_C2.data[1], 2, userBuckets.downtime_user_num.value);
         // console.log("联通停机用户", userBuckets.downtime_user_num.value)
@@ -1065,9 +1138,8 @@ export default {
         Vue.set(vm.GT_UVWR1_C1.data[1], 2, 0);
         Vue.set(vm.GT_UVWR1_C2.data[1], 2, 0);
         Vue.set(vm.GT_UVWR1_C3.data[1], 2, 0);
-        console.log(error)
+        console.log(error);
       }
-
 
       //联通用户数走势（户）
       let user_list_all = userBuckets.statistical_granularity.buckets;
@@ -1095,7 +1167,7 @@ export default {
           unsub_user_array_temp2.push(value.unsub_user_num.value);
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       //联通用户数走势
@@ -1110,15 +1182,19 @@ export default {
 
       try {
         //联通本周开机率
-        let open_num_data = newValue.data.responses[19].aggregations
+        let open_num_data = newValue.data.responses[19].aggregations;
         let current_open_num = open_num_data.open_num.value;
-        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
-        let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2);
+        let current_register_num =
+          open_num_data.register_num.buckets[0].register_num.value;
+        let current_open_rate = (
+          (current_open_num / current_register_num) *
+          100
+        ).toFixed(2);
         Vue.set(vm.GT_UVWR1_D1.data[2], 2, current_open_rate);
         // console.log("联通开机率", current_open_rate)
       } catch (error) {
         Vue.set(vm.GT_UVWR1_D1.data[2], 2, 0);
-        console.log(error)
+        console.log(error);
       }
 
       //上周的一周直播节目收视TOP15（万小时）开始
@@ -1127,15 +1203,16 @@ export default {
       ); //获取上周的时间
       //上一周的数据
       let temp = {
-        operator: '联通',
+        operator: "联通",
         start: last_week.start,
-        end: last_week.end,
-      }
+        end: last_week.end
+      };
       try {
         //联通用户本周直播节目收视TOP15
         Vue.set(vm.GT_UVWR1_E2.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_E2.data[0], 2, beforeWeekFormat);
-        if (buckets[0].key) { }  //若错误，进入catch
+        if (buckets[0].key) {
+        } //若错误，进入catch
         buckets.forEach((value, index) => {
           let program = value.key;
           let program_name = value.channel.buckets[0].key;
@@ -1159,10 +1236,15 @@ export default {
             formData.append("end", temp.end);
             formData.append("programname", program);
             users_activeReportTop(formData)
-              .then((responses) => {
+              .then(responses => {
                 try {
-                  let last_top_value = responses.data.responses[0].aggregations.onlive_dur.value
-                  if (responses.data.responses[0].aggregations.programname.buckets[0].key) { }
+                  let last_top_value =
+                    responses.data.responses[0].aggregations.onlive_dur.value;
+                  if (
+                    responses.data.responses[0].aggregations.programname
+                      .buckets[0].key
+                  ) {
+                  }
                   //console.log("上周top", responses.data.responses[0].aggregations.programname.buckets[0].key, (last_top_value / 10000 / 60).toFixed(2))
                   Vue.set(
                     vm.GT_UVWR1_E2.data[15 - index],
@@ -1170,35 +1252,48 @@ export default {
                     (last_top_value / 10000 / 60).toFixed(2)
                   );
                 } catch (error) {
-                  Vue.set(
-                    vm.GT_UVWR1_E2.data[15 - index],
-                    2,
-                    ''
-                  );
-                  console.log(error)
+                  Vue.set(vm.GT_UVWR1_E2.data[15 - index], 2, "");
+                  console.log(error);
                 }
               })
-              .catch((error) => {
-                console.log(error)
-              })
+              .catch(error => {
+                console.log(error);
+              });
           }
         });
         // console.log(vm.GT_UVWR1_E1.data)
       } catch (error) {
         vm.GT_UVWR1_E2.data = [
-          ["product"], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
-        ]
-        console.log(error)
+          ["product"],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ];
+        console.log(error);
       }
 
       try {
         //联通一周点播节目TOP15
-        let order_paly_data = newValue.data.responses[2].aggregations.programname.buckets;
-        console.log("联通点播order_paly_data~~~~~~~~~~~", order_paly_data)
+        let order_paly_data =
+          newValue.data.responses[2].aggregations.programname.buckets;
+        // console.log("联通点播order_paly_data~~~~~~~~~~~", order_paly_data)
         Vue.set(vm.GT_UVWR1_F2.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_F2.data[0], 2, beforeWeekFormat);
         // console.log("order_paly_data", order_paly_data)
-        if (order_paly_data[0].key) { }
+        if (order_paly_data[0].key) {
+        }
         order_paly_data.forEach((value, index) => {
           let program = value.key;
           let program_name = value.program_type.buckets[0].key;
@@ -1220,34 +1315,50 @@ export default {
             formData.append("end", temp.end);
             formData.append("programname", program);
             users_activeReportTop(formData)
-              .then((responses) => {
+              .then(responses => {
                 try {
-                  let last_top_value = responses.data.responses[1].aggregations.demand_freq.value
-                  if (responses.data.responses[1].aggregations.programname.buckets[0].key) { }
+                  let last_top_value =
+                    responses.data.responses[1].aggregations.demand_freq.value;
+                  if (
+                    responses.data.responses[1].aggregations.programname
+                      .buckets[0].key
+                  ) {
+                  }
                   Vue.set(
                     vm.GT_UVWR1_F2.data[15 - index],
                     2,
                     (last_top_value / 10000).toFixed(2)
                   );
                 } catch (error) {
-                  Vue.set(
-                    vm.GT_UVWR1_F2.data[15 - index],
-                    2,
-                    ''
-                  );
-                  console.log(error)
+                  Vue.set(vm.GT_UVWR1_F2.data[15 - index], 2, "");
+                  console.log(error);
                 }
               })
-              .catch((error) => {
-                console.log(error)
-              })
+              .catch(error => {
+                console.log(error);
+              });
           }
         });
       } catch (error) {
         vm.GT_UVWR1_F2.data = [
-          ["product"], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
-        ]
-        console.log(error)
+          ["product"],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ];
+        console.log(error);
       }
     },
     //联通数据（上周）
@@ -1259,16 +1370,16 @@ export default {
 
       try {
         //联通上周开机率
-        let open_num_data = newValue.data.responses[19].aggregations
+        let open_num_data = newValue.data.responses[19].aggregations;
         let current_open_num = open_num_data.open_num.value;
-        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
+        let current_register_num =
+          open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = (current_open_num / current_register_num) * 100;
         Vue.set(vm.GT_UVWR1_D1.data[2], 1, current_open_rate.toFixed(2));
       } catch (error) {
         Vue.set(vm.GT_UVWR1_D1.data[2], 1, 0);
-        console.log(error)
+        console.log(error);
       }
-
     },
 
     //电信数据（本周）
@@ -1281,11 +1392,17 @@ export default {
       let userBuckets = newValue.data.responses[0].aggregations; //电信在册用户数据总览
 
       try {
-        Vue.set(vm.GT_UVWR1_A2.data[1], 3, (userBuckets.register_num.buckets[0].register_num.value / 10000).toFixed(2));
+        Vue.set(
+          vm.GT_UVWR1_A2.data[1],
+          3,
+          (
+            userBuckets.register_num.buckets[0].register_num.value / 10000
+          ).toFixed(2)
+        );
         // console.log("电信", vm.GT_UVWR1_A2)
       } catch (error) {
-        Vue.set(vm.GT_UVWR1_A2.data[1], 3, '');
-        console.log(error)
+        Vue.set(vm.GT_UVWR1_A2.data[1], 3, "");
+        console.log(error);
       }
 
       //设置本周与上周时间（0603——0609  0610-0616）
@@ -1300,7 +1417,8 @@ export default {
       try {
         //各大运营商各市州一周新增在册用户数（户）
         let dataMudule_2 = data_dx[0].aggregations.ac.buckets;
-        if (dataMudule_2[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        if (dataMudule_2[0].new_num.value) {
+        } //设置若dataMudule_2为空，则进入catch
         dataMudule_2.forEach((value, index) => {
           //（本期新增用户 - 上期新增用户） / 上期新增用户
           // let current_new_add_register_num = value.new_num.value  //本期新增
@@ -1375,7 +1493,6 @@ export default {
             }
           }
         });
-
       } catch (error) {
         // vm.GT_UVWR1_B2.data.forEach((value, index) => {
         Vue.set(vm.GT_UVWR1_B2.data[1], 3, 0);
@@ -1388,13 +1505,14 @@ export default {
         Vue.set(vm.GT_UVWR1_B2.data[8], 3, 0);
         Vue.set(vm.GT_UVWR1_B2.data[9], 3, 0);
         // })
-        console.log(error)
+        console.log(error);
       }
 
       try {
         //各州市一周开机率
         let open_rate_data = data_dx[19].aggregations.ac.buckets;
-        if (open_rate_data[0].new_num.value) { }   //设置若dataMudule_2为空，则进入catch
+        if (open_rate_data[0].new_num.value) {
+        } //设置若dataMudule_2为空，则进入catch
         open_rate_data.forEach((value, index) => {
           //（本期新增用户 - 上期新增用户） / 上期新增用户
           // let current_new_add_register_num = value.new_num.value  //本期新增
@@ -1449,15 +1567,20 @@ export default {
         Vue.set(vm.GT_UVWR1_D2.data[7], 3, 0);
         Vue.set(vm.GT_UVWR1_D2.data[8], 3, 0);
         Vue.set(vm.GT_UVWR1_D2.data[9], 3, 0);
-        console.log(error)
+        console.log(error);
       }
 
       try {
         //G+TV一周用户增减数据
         //新增用户占比(电信))
         // console.log("userBuckets_______________________", userBuckets)
-        if (userBuckets.new_num.value) { }  //若new_num没有，进入catch
-        Vue.set(vm.GT_UVWR1_C1.data[1], 3, (userBuckets.new_num.value / 10000).toFixed(2));
+        if (userBuckets.new_num.value) {
+        } //若new_num没有，进入catch
+        Vue.set(
+          vm.GT_UVWR1_C1.data[1],
+          3,
+          (userBuckets.new_num.value / 10000).toFixed(2)
+        );
         //停机用户占比
         Vue.set(vm.GT_UVWR1_C2.data[1], 3, userBuckets.downtime_user_num.value);
         // console.log("电信停机用户", userBuckets.downtime_user_num.value)
@@ -1470,10 +1593,9 @@ export default {
         Vue.set(vm.GT_UVWR1_C1.data[1], 3, 0);
         Vue.set(vm.GT_UVWR1_C2.data[1], 3, 0);
         Vue.set(vm.GT_UVWR1_C3.data[1], 3, 0);
-        console.log("新增，停机，销户数据出错******************************")
-        console.log(error)
+        console.log("新增，停机，销户数据出错******************************");
+        console.log(error);
       }
-
 
       //电信用户数走势（户）
       let user_list_all = userBuckets.statistical_granularity.buckets;
@@ -1511,20 +1633,24 @@ export default {
         Vue.set(vm.GT_UVWR1_C6.data, 0, unsub_user_array_temp1);
         Vue.set(vm.GT_UVWR1_C6.data, 3, unsub_user_array_temp2);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       try {
         //电信本周开机率
-        let open_num_data = newValue.data.responses[19].aggregations
+        let open_num_data = newValue.data.responses[19].aggregations;
         let current_open_num = open_num_data.open_num.value;
-        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
-        let current_open_rate = ((current_open_num / current_register_num) * 100).toFixed(2);
+        let current_register_num =
+          open_num_data.register_num.buckets[0].register_num.value;
+        let current_open_rate = (
+          (current_open_num / current_register_num) *
+          100
+        ).toFixed(2);
         Vue.set(vm.GT_UVWR1_D1.data[3], 2, current_open_rate);
         // console.log("电信开机率", current_open_rate)
       } catch (error) {
         Vue.set(vm.GT_UVWR1_D1.data[3], 2, 0);
-        console.log(error)
+        console.log(error);
       }
 
       //上周的一周直播节目收视TOP15（万小时）开始
@@ -1533,15 +1659,16 @@ export default {
       ); //获取上周的时间
       //上一周的数据
       let temp = {
-        operator: '电信',
+        operator: "电信",
         start: last_week.start,
-        end: last_week.end,
-      }
+        end: last_week.end
+      };
       try {
         //电信用户本周直播节目收视TOP15
         Vue.set(vm.GT_UVWR1_E3.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_E3.data[0], 2, beforeWeekFormat);
-        if (buckets[0].key) { }
+        if (buckets[0].key) {
+        }
         buckets.forEach((value, index) => {
           let program = value.key;
           let program_name = value.channel.buckets[0].key;
@@ -1565,10 +1692,15 @@ export default {
             formData.append("end", temp.end);
             formData.append("programname", program);
             users_activeReportTop(formData)
-              .then((responses) => {
+              .then(responses => {
                 try {
-                  let last_top_value = responses.data.responses[0].aggregations.onlive_dur.value
-                  if (responses.data.responses[0].aggregations.programname.buckets[0].key) { }
+                  let last_top_value =
+                    responses.data.responses[0].aggregations.onlive_dur.value;
+                  if (
+                    responses.data.responses[0].aggregations.programname
+                      .buckets[0].key
+                  ) {
+                  }
                   //console.log("上周top", responses.data.responses[0].aggregations.programname.buckets[0].key, (last_top_value / 10000 / 60).toFixed(2))
                   Vue.set(
                     vm.GT_UVWR1_E3.data[15 - index],
@@ -1576,33 +1708,46 @@ export default {
                     (last_top_value / 10000 / 60).toFixed(2)
                   );
                 } catch (error) {
-                  Vue.set(
-                    vm.GT_UVWR1_E3.data[15 - index],
-                    2,
-                    ''
-                  );
-                  console.log(error)
+                  Vue.set(vm.GT_UVWR1_E3.data[15 - index], 2, "");
+                  console.log(error);
                 }
               })
-              .catch((error) => {
-                console.log(error)
-              })
+              .catch(error => {
+                console.log(error);
+              });
           }
         });
       } catch (error) {
         vm.GT_UVWR1_E3.data = [
-          ["product"], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
-        ]
-        console.log(error)
+          ["product"],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ];
+        console.log(error);
       }
 
       try {
         //电信一周点播节目TOP15
-        let order_paly_data = newValue.data.responses[2].aggregations.programname.buckets;
+        let order_paly_data =
+          newValue.data.responses[2].aggregations.programname.buckets;
         Vue.set(vm.GT_UVWR1_F3.data[0], 1, currentWeekFormat);
         Vue.set(vm.GT_UVWR1_F3.data[0], 2, beforeWeekFormat);
         // console.log("order_paly_data", order_paly_data)
-        if (order_paly_data[0].key) { }
+        if (order_paly_data[0].key) {
+        }
         order_paly_data.forEach((value, index) => {
           let program = value.key;
           let program_name = value.program_type.buckets[0].key;
@@ -1625,37 +1770,51 @@ export default {
             formData.append("end", temp.end);
             formData.append("programname", program);
             users_activeReportTop(formData)
-              .then((responses) => {
+              .then(responses => {
                 try {
-                  let last_top_value = responses.data.responses[1].aggregations.demand_freq.value
-                  if (responses.data.responses[1].aggregations.programname.buckets[0].key) { }
+                  let last_top_value =
+                    responses.data.responses[1].aggregations.demand_freq.value;
+                  if (
+                    responses.data.responses[1].aggregations.programname
+                      .buckets[0].key
+                  ) {
+                  }
                   Vue.set(
                     vm.GT_UVWR1_F3.data[15 - index],
                     2,
                     (last_top_value / 10000).toFixed(2)
                   );
                 } catch (error) {
-                  Vue.set(
-                    vm.GT_UVWR1_F3.data[15 - index],
-                    2,
-                    ''
-                  );
-                  console.log(error)
+                  Vue.set(vm.GT_UVWR1_F3.data[15 - index], 2, "");
+                  console.log(error);
                 }
               })
-              .catch((error) => {
-                console.log(error)
-              })
+              .catch(error => {
+                console.log(error);
+              });
           }
         });
-
       } catch (error) {
         vm.GT_UVWR1_F3.data = [
-          ["product"], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
-        ]
-        console.log(error)
+          ["product"],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ];
+        console.log(error);
       }
-
     },
     //电信数据（上周）
     api_data_m4_range(newValue, oldValue) {
@@ -1666,14 +1825,15 @@ export default {
 
       try {
         //电信上周开机率
-        let open_num_data = newValue.data.responses[19].aggregations
+        let open_num_data = newValue.data.responses[19].aggregations;
         let current_open_num = open_num_data.open_num.value;
-        let current_register_num = open_num_data.register_num.buckets[0].register_num.value;
+        let current_register_num =
+          open_num_data.register_num.buckets[0].register_num.value;
         let current_open_rate = (current_open_num / current_register_num) * 100;
         Vue.set(vm.GT_UVWR1_D1.data[3], 1, current_open_rate.toFixed(2));
       } catch (error) {
         Vue.set(vm.GT_UVWR1_D1.data[3], 1, 0);
-        console.log(error)
+        console.log(error);
       }
     }
   },
@@ -2123,17 +2283,17 @@ export default {
 
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 5 - m1");
+      // console.log("Excel_data_manage - 5 - m1");
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function (response_dataArr) {
-          console.log("下载关");
+        .then(function(response_dataArr) {
+          // console.log("下载关");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
-      setTimeout(function () {
+      setTimeout(function() {
         if (vm.PR_Report_index == 5) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -2225,18 +2385,18 @@ export default {
           temp_DataArr = data_arr;
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function (response_title) {
-              console.log(response_title);
+            .then(function(response_title) {
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function (response_dataArr) {
-                  console.log(response_dataArr);
+                .then(function(response_dataArr) {
+                  // console.log(response_dataArr);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.info(error);
                 });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         }
@@ -2302,233 +2462,241 @@ export default {
       return s;
     },
     api_data_set() {
-      console.log("~~~~~api_data_m1");
-      console.log(this.api_data_m1);
+      // console.log("~~~~~api_data_m1");
+      // console.log(this.api_data_m1);
     },
     render() {
-      let vm = this;
-      var myChart = this.$echarts.init(
-        document.getElementById(vm.GT_UVWR1_A1.id)
-      );
-      var option = {
-        title: {
-          text: "",
-          textStyle: {
-            //设置主标题风格
-            Color: "#333333", //设置主标题字体颜色
-            fontStyle: "", //主标题文字风格
-            fontSize: 12,
-            fontStyle: "normal",
-            fontWeight: "normal"
-          }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          top: "5%",
-          right: "6%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          left: "2%",
-          right: "2%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            data: vm.GT_UVWR1_A1.date,
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+      try {
+        let vm = this;
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.GT_UVWR1_A1.id)
+        );
+        var option = {
+          title: {
+            text: "",
+            textStyle: {
+              //设置主标题风格
+              Color: "#333333", //设置主标题字体颜色
+              fontStyle: "", //主标题文字风格
+              fontSize: 12,
+              fontStyle: "normal",
+              fontWeight: "normal"
+            }
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          //图表自带工具
+          toolbox: {
+            show: true,
+            top: "5%",
+            right: "6%",
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            left: "2%",
+            right: "2%",
+            bottom: "3%",
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: "category",
+              data: vm.GT_UVWR1_A1.date,
+              axisTick: {
+                alignWithLabel: true
+              },
+              axisLine: {
+                lineStyle: {
+                  color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+                }
               }
             }
-          }
-        ],
-        yAxis: [
-          {
-            axisLabel: {
-              formatter: function () {
-                return ""; // 隐藏Y左边数据
+          ],
+          yAxis: [
+            {
+              axisLabel: {
+                formatter: function() {
+                  return ""; // 隐藏Y左边数据
+                }
+              },
+              // 刻度线的设置
+              splitLine: {
+                show: false
+              },
+              axisLine: {
+                show: false, //Y轴不显示
+                lineStyle: {
+                  color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+                }
+              },
+              axisLabel: {
+                //横坐标类目文字
+                show: false
+              },
+              axisTick: {
+                show: false //设置坐标轴刻度不显示
               }
-            },
-            // 刻度线的设置
-            splitLine: {
-              show: false
-            },
-            axisLine: {
-              show: false, //Y轴不显示
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-              }
-            },
-            axisLabel: {
-              //横坐标类目文字
-              show: false
-            },
-            axisTick: {
-              show: false //设置坐标轴刻度不显示
             }
-          }
-        ],
-        series: [
-          {
-            name: "",
-            type: "bar",
-            barWidth: "40%",
-            data: vm.GT_UVWR1_A1.data,
-            itemStyle: {
-              normal: {
-                //每根柱子颜色设置
-                color: function (params) {
-                  let colorList = vm.GT_UVWR1_A1.color;
-                  return colorList[params.dataIndex];
-                },
-                label: {
-                  show: true, //开启显示
-                  position: "top", //在上方显示
-                  textStyle: {
-                    //数值样式
-                    color: "black",
-                    fontSize: 16
+          ],
+          series: [
+            {
+              name: "",
+              type: "bar",
+              barWidth: "40%",
+              data: vm.GT_UVWR1_A1.data,
+              itemStyle: {
+                normal: {
+                  //每根柱子颜色设置
+                  color: function(params) {
+                    let colorList = vm.GT_UVWR1_A1.color;
+                    return colorList[params.dataIndex];
+                  },
+                  label: {
+                    show: true, //开启显示
+                    position: "top", //在上方显示
+                    textStyle: {
+                      //数值样式
+                      color: "black",
+                      fontSize: 16
+                    }
                   }
                 }
               }
             }
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     render2() {
-      let vm = this;
-      var myChart = this.$echarts.init(
-        document.getElementById(vm.GT_UVWR1_A3.id)
-      );
-      var option = {
-        title: {
-          text: "",
-          textStyle: {
-            //设置主标题风格
-            Color: "#333333", //设置主标题字体颜色
-            fontStyle: "", //主标题文字风格
-            fontSize: 12,
-            fontStyle: "normal",
-            fontWeight: "normal"
-          }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        //图表自带工具
-        toolbox: {
-          show: true,
-          top: "5%",
-          right: "6%",
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          left: "2%",
-          right: "2%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            data: vm.GT_UVWR1_A3.data,
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+      try {
+        let vm = this;
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.GT_UVWR1_A3.id)
+        );
+        var option = {
+          title: {
+            text: "",
+            textStyle: {
+              //设置主标题风格
+              Color: "#333333", //设置主标题字体颜色
+              fontStyle: "", //主标题文字风格
+              fontSize: 12,
+              fontStyle: "normal",
+              fontWeight: "normal"
+            }
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          //图表自带工具
+          toolbox: {
+            show: true,
+            top: "5%",
+            right: "6%",
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            left: "2%",
+            right: "2%",
+            bottom: "3%",
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: "category",
+              data: vm.GT_UVWR1_A3.data,
+              axisTick: {
+                alignWithLabel: true
+              },
+              axisLine: {
+                lineStyle: {
+                  color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+                }
               }
             }
-          }
-        ],
-        yAxis: [
-          {
-            axisLabel: {
-              formatter: function () {
-                return ""; // 隐藏Y左边数据
+          ],
+          yAxis: [
+            {
+              axisLabel: {
+                formatter: function() {
+                  return ""; // 隐藏Y左边数据
+                }
+              },
+              // 刻度线的设置
+              splitLine: {
+                show: false
+              },
+              axisLine: {
+                show: false, //Y轴不显示
+                lineStyle: {
+                  color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
+                }
+              },
+              axisLabel: {
+                //横坐标类目文字
+                show: false
+              },
+              axisTick: {
+                show: false //设置坐标轴刻度不显示
               }
-            },
-            // 刻度线的设置
-            splitLine: {
-              show: false
-            },
-            axisLine: {
-              show: false, //Y轴不显示
-              lineStyle: {
-                color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
-              }
-            },
-            axisLabel: {
-              //横坐标类目文字
-              show: false
-            },
-            axisTick: {
-              show: false //设置坐标轴刻度不显示
             }
-          }
-        ],
-        series: [
-          {
-            name: "",
-            type: "bar",
-            barWidth: "40%",
-            // data: ["65453", "12356", "21235"],
-            data: vm.GT_UVWR1_A3.data2,
-            itemStyle: {
-              normal: {
-                //每根柱子颜色设置
-                color: function (params) {
-                  let colorList = vm.GT_UVWR1_A3.color;
-                  return colorList[params.dataIndex];
-                },
-                label: {
-                  show: true, //开启显示
-                  position: "top", //在上方显示
-                  textStyle: {
-                    //数值样式
-                    color: "black",
-                    fontSize: 16
+          ],
+          series: [
+            {
+              name: "",
+              type: "bar",
+              barWidth: "40%",
+              // data: ["65453", "12356", "21235"],
+              data: vm.GT_UVWR1_A3.data2,
+              itemStyle: {
+                normal: {
+                  //每根柱子颜色设置
+                  color: function(params) {
+                    let colorList = vm.GT_UVWR1_A3.color;
+                    return colorList[params.dataIndex];
+                  },
+                  label: {
+                    show: true, //开启显示
+                    position: "top", //在上方显示
+                    textStyle: {
+                      //数值样式
+                      color: "black",
+                      fontSize: 16
+                    }
                   }
                 }
               }
             }
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

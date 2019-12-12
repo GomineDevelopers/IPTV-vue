@@ -5,7 +5,6 @@ import router from './router'
 import $ from 'jquery'
 import '@/utils/page.js'
 import '@/utils/element_ui.js'
-
 Vue.prototype.$ = $
 
 import echarts from 'echarts'
@@ -18,20 +17,15 @@ Vue.config.productionTip = false
 
 import store from '@/store'
 
-// import { mapGetters } from "vuex";
-
 import { commonTools } from '@/utils/common'
 Vue.prototype.$commonTools = commonTools
-
 
 import { get_user_permissions, refreshToken, get_date } from "@/api/api_main";
 
 // 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
 
-// PR_operator 初始化不完全问题！？！
-
 store
-  .dispatch("set_PR_operator", ["移动","联通","电信"])
+  .dispatch("set_PR_operator", ["移动", "联通", "电信"])
   .then(function (response) {
     // console.log(response);
   })
@@ -40,13 +34,38 @@ store
 
   });
 
-get_date()
-  .then(function (response_date) {
-    console.log(response_date);
-  })
-  .catch(function (error) {
-    console.info(error);
-  });
+// /////////// 实际截止范围
+// get_date()
+//   .then(function (response_date) {
+//     // console.log(response_date);
+//     let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
+//     let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
+
+//     store
+//       .dispatch("set_BigScreenStartDate", start_date)
+//       .then(function (response) {
+//         // console.log(response);
+//       })
+//       .catch(function (error) {
+//         console.info(error);
+
+//       });
+
+//     // 设置大屏/后台-数据总览 的 截止日期（end）
+//     store
+//       .dispatch("set_BigScreenExpirationDate", end_date) // 18号 数据审计没东西
+//       .then(function (response) {
+//         // console.log(response);
+//       })
+//       .catch(function (error) {
+//         console.info(error);
+//       });
+//   })
+//   .catch(function (error) {
+//     console.info(error);
+//   });
+
+// /////////// 临时截止范围
 
 store
   .dispatch("set_BigScreenStartDate", "2019-06-01")
@@ -61,12 +80,15 @@ store
 // 设置大屏/后台-数据总览 的 截止日期（end）
 store
   .dispatch("set_BigScreenExpirationDate", "2019-08-31") // 18号 数据审计没东西
+  // .dispatch("set_BigScreenExpirationDate", "2019-11-08") 
   .then(function (response) {
     // console.log(response);
   })
   .catch(function (error) {
     console.info(error);
   });
+
+// /////////// 
 
 let ifTest = true;
 // let ifTest = false;
@@ -113,8 +135,6 @@ function jumpStatus(authority_arr, topath, frompath, next) {
   // console.log(topath)
   // console.log(frompath)
 
-
-
   if (frompath == '/login') {
     function ManageLoginToPath(id, path) {
       // console.log("~~~ManageLoginToPath");
@@ -138,7 +158,7 @@ function jumpStatus(authority_arr, topath, frompath, next) {
     // let length = 11;
     // let t_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     let length = 13;
-    let t_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13]; // 权限
+    let t_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; // 权限
 
     let t_path = [
       '/backhome',
@@ -194,8 +214,6 @@ function jumpStatus(authority_arr, topath, frompath, next) {
     else if (temp_type == type3) {
       return type3;
     }
-
-
   }
   else {
     if (authority_arr.indexOf(1) > -1) {
@@ -267,21 +285,17 @@ function jumpStatus(authority_arr, topath, frompath, next) {
       current_topath = topath;
       return type1;
     }
-    
+
     return type0;
   }
 }
 
-
-// ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 router.beforeEach((to, from, next) => {
   setTimeout(function () {
-
     // console.log("------------------ from :" + from.path)
     // console.log("------------------ to :" + to.path)
-
 
     // store
     //   .dispatch("init_all_option")
@@ -305,7 +319,6 @@ router.beforeEach((to, from, next) => {
 
     }
     else {
-
       let topath = to.path;
       let frompath = from.path;
       // console.log("~~~~to.path");
@@ -319,9 +332,8 @@ router.beforeEach((to, from, next) => {
         next()
       }
       if (topath == '/login' || topath == '/noauthority' || topath == '/404') {
-      // if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
+        // if (topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
         // if (topath == '/mytest' || topath == '/mytest2' || topath == '/' || topath == '/login' || topath == '/noauthority' || topath == '/404') {
-
         next()
       }
       else {
@@ -335,14 +347,10 @@ router.beforeEach((to, from, next) => {
           }
         } // if (!token)
         else if (token) {
-
-
-
-
           store.dispatch("get_current_authority")
             .then(function (response) {
               if (response.length == 0) {  // 刷新初始化为空情况
-                console.log("有 - current_authority");
+                // console.log("有 - current_authority");
                 let token = commonTools.getCookie("user_token");
                 let newToken = token.replace('"', "").replace('"', "");
 
@@ -402,14 +410,14 @@ router.beforeEach((to, from, next) => {
 
                       /////////////// 新增token刷新
                       // 当路由跳转到 非404 非权限 非login页 非大屏（/）页（上面已经做判断）
-                      console.log("refreshToken");
+                      // console.log("refreshToken");
                       let token_r = commonTools.getCookie("user_token");
                       let newToken_r = token_r.replace('"', "").replace('"', "");
                       // console.log("old token");
                       // console.log(newToken_r);
                       refreshToken(newToken_r)
                         .then(function (response) {
-                          console.log(response);
+                          // console.log(response);
                           let access_token_r = response.data.access_token;
                           // console.log("new token");
                           // console.log(access_token_r);
@@ -433,21 +441,13 @@ router.beforeEach((to, from, next) => {
                 }, 100)
               }
               next()
-
             });
-
-
-
           // next() 
-
         }
       }
     }
-
   }, 100)
-
 })
-
 
 new Vue({
   router,

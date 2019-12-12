@@ -44,13 +44,11 @@ export default {
   },
   methods: {
     get_myinfo() {
-      console.log("get_myinfo");
       let vm = this;
       let token = vm.$commonTools.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_myinfo(newToken)
         .then(function (response) {
-          console.log(response);
           vm.username = response.data.name;
         })
         .catch(function (error) {
@@ -67,7 +65,7 @@ export default {
         .then(function (response) {
           console.log(response);
           if (response.status === 204) {
-            console.log("204");
+            // console.log("204");
             vm.$router.push({ path: "/login" });
             // vm.$router.go(0);
           } else {
@@ -76,7 +74,7 @@ export default {
         })
         .catch(function (error) {
           console.log(error);
-          console.log("登出，请重试！");
+          // console.log("登出，请重试！");
           vm.$router.push({ path: "/login" });
         });
     }

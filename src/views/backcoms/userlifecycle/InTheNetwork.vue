@@ -131,9 +131,9 @@ export default {
   watch: {
     api_data3(newValue, oldValue) {
       let vm = this;
-      console.log("在网用户数据------------------------");
-      console.log("ULC - api_data3:");
-      console.log(newValue);
+      // console.log("在网用户数据------------------------");
+      // console.log("ULC - api_data3:");
+      // console.log(newValue);
       vm.total_user_data = [];
       vm.active_user = [];
       vm.silence_user = [];
@@ -369,269 +369,289 @@ export default {
   },
   methods: {
     drawLine1() {
-      let vm = this;
-      var myChart = this.$echarts.init(
-        document.getElementById(vm.Net_data1.id)
-      );
-      var option = {
-        tooltip: {
-          trigger: "item",
-          extraCssText: "height:60px",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        legend: [
-          {
-            show: true,
-            top: "0",
-            right: "0",
-            data: vm.Net_data1.data1,
-            itemWidth: 6,
-            itemHeight: 6,
-            width: 20,
-            itemGap: 2,
-            textStyle: {
-              color: "rgba(0,0,0,0.45)"
-            },
-            selected: {
-              "从未订购": false
+      try {
+        let vm = this;
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.Net_data1.id)
+        );
+        var option = {
+          tooltip: {
+            trigger: "item",
+            extraCssText: "height:60px",
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+          },
+          legend: [
+            {
+              show: true,
+              top: "0",
+              right: "0",
+              data: vm.Net_data1.data1,
+              itemWidth: 6,
+              itemHeight: 6,
+              width: 20,
+              itemGap: 2,
+              textStyle: {
+                color: "rgba(0,0,0,0.45)"
+              },
+              selected: {
+                从未订购: false
+              }
             }
-          }
-        ],
-        series: [
-          // 外环
-          {
-            name: "用户画像",
-            type: "pie",
-            center: ["40%", "50%"],
-            radius: ["80%", "60%"], // 大小
-            color: [
-              "#91D4F5",
-              "#BE8FF5",
-              "#FCC269",
-              "#64E0CF",
-              "#F99184",
-              "#7584F2"
-            ],
-            label: {
-              normal: {
-                show: false
-              }
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            hoverAnimation: false, //鼠标移入变大false
-            data: vm.Net_data1.data2
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ],
+          series: [
+            // 外环
+            {
+              name: "用户画像",
+              type: "pie",
+              minAngle: 15,
+              center: ["40%", "50%"],
+              radius: ["80%", "60%"], // 大小
+              color: [
+                "#91D4F5",
+                "#BE8FF5",
+                "#FCC269",
+                "#64E0CF",
+                "#F99184",
+                "#7584F2"
+              ],
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              hoverAnimation: false, //鼠标移入变大false
+              data: vm.Net_data1.data2
+            }
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     drawLine2() {
-      let vm = this;
+      try {
+        let vm = this;
 
-      var myChart = this.$echarts.init(
-        document.getElementById(vm.Net_data2.id)
-      );
-      var option = {
-        tooltip: {
-          trigger: "item",
-          extraCssText: "height:60px",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        legend: [
-          {
-            show: true,
-            top: "0",
-            right: "0",
-            data: vm.Net_data2.data1,
-            itemWidth: 6,
-            itemHeight: 6,
-            width: 20,
-            itemGap: 2,
-            textStyle: {
-              color: "rgba(0,0,0,0.45)"
-            },
-            selected: {
-              "从未订购": false
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.Net_data2.id)
+        );
+        var option = {
+          tooltip: {
+            trigger: "item",
+            extraCssText: "height:60px",
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+          },
+          legend: [
+            {
+              show: true,
+              top: "0",
+              right: "0",
+              data: vm.Net_data2.data1,
+              itemWidth: 6,
+              itemHeight: 6,
+              width: 20,
+              itemGap: 2,
+              textStyle: {
+                color: "rgba(0,0,0,0.45)"
+              },
+              selected: {
+                从未订购: false
+              }
             }
-          }
-        ],
-        series: [
-          // 外环
-          {
-            name: "用户画像",
-            type: "pie",
-            center: ["40%", "50%"],
-            radius: ["80%", "60%"], // 大小
-            color: [
-              "#91D4F5",
-              "#BE8FF5",
-              "#FCC269",
-              "#64E0CF",
-              "#F99184",
-              "#7584F2"
-            ],
-            label: {
-              normal: {
-                show: false
-              }
-            },
-            hoverAnimation: false, //鼠标移入变大false
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            data: vm.Net_data2.data2
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ],
+          series: [
+            // 外环
+            {
+              name: "用户画像",
+              type: "pie",
+              minAngle: 15,
+              center: ["40%", "50%"],
+              radius: ["80%", "60%"], // 大小
+              color: [
+                "#91D4F5",
+                "#BE8FF5",
+                "#FCC269",
+                "#64E0CF",
+                "#F99184",
+                "#7584F2"
+              ],
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              hoverAnimation: false, //鼠标移入变大false
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              data: vm.Net_data2.data2
+            }
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     drawLine3() {
-      let vm = this;
+      try {
+        let vm = this;
 
-      var myChart = this.$echarts.init(
-        document.getElementById(vm.Net_data3.id)
-      );
-      var option = {
-        tooltip: {
-          trigger: "item",
-          extraCssText: "height:60px",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        legend: [
-          {
-            show: true,
-            top: "0",
-            right: "0",
-            data: vm.Net_data3.data1,
-            itemWidth: 6,
-            itemHeight: 6,
-            width: 20,
-            itemGap: 2,
-            textStyle: {
-              color: "rgba(0,0,0,0.45)"
-            },
-            selected: {
-              "从未订购": false
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.Net_data3.id)
+        );
+        var option = {
+          tooltip: {
+            trigger: "item",
+            extraCssText: "height:60px",
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+          },
+          legend: [
+            {
+              show: true,
+              top: "0",
+              right: "0",
+              data: vm.Net_data3.data1,
+              itemWidth: 6,
+              itemHeight: 6,
+              width: 20,
+              itemGap: 2,
+              textStyle: {
+                color: "rgba(0,0,0,0.45)"
+              },
+              selected: {
+                从未订购: false
+              }
             }
-          }
-        ],
-        series: [
-          // 外环
-          {
-            name: "用户画像",
-            type: "pie",
-            center: ["40%", "50%"],
-            radius: ["80%", "60%"], // 大小
-            color: [
-              "#91D4F5",
-              "#BE8FF5",
-              "#FCC269",
-              "#64E0CF",
-              "#F99184",
-              "#7584F2"
-            ],
-            hoverAnimation: false, //鼠标移入变大false
-            label: {
-              normal: {
-                show: false
-              }
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            data: vm.Net_data3.data2
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ],
+          series: [
+            // 外环
+            {
+              name: "用户画像",
+              type: "pie",
+              minAngle: 15,
+              center: ["40%", "50%"],
+              radius: ["80%", "60%"], // 大小
+              color: [
+                "#91D4F5",
+                "#BE8FF5",
+                "#FCC269",
+                "#64E0CF",
+                "#F99184",
+                "#7584F2"
+              ],
+              hoverAnimation: false, //鼠标移入变大false
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              data: vm.Net_data3.data2
+            }
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     drawLine4() {
-      let vm = this;
-      var myChart = this.$echarts.init(
-        document.getElementById(vm.Net_data4.id)
-      );
-      var option = {
-        tooltip: {
-          trigger: "item",
-          extraCssText: "height:60px",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        legend: [
-          {
-            show: true,
-            top: "0",
-            right: "0",
-            data: vm.Net_data4.data1,
-            itemWidth: 6,
-            itemHeight: 6,
-            width: 20,
-            itemGap: 2,
-            textStyle: {
-              color: "rgba(0,0,0,0.45)"
-            },
-            selected: {
-              "从未订购": false
+      try {
+        let vm = this;
+        var myChart = this.$echarts.init(
+          document.getElementById(vm.Net_data4.id)
+        );
+        var option = {
+          tooltip: {
+            trigger: "item",
+            extraCssText: "height:60px",
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+          },
+          legend: [
+            {
+              show: true,
+              top: "0",
+              right: "0",
+              data: vm.Net_data4.data1,
+              itemWidth: 6,
+              itemHeight: 6,
+              width: 20,
+              itemGap: 2,
+              textStyle: {
+                color: "rgba(0,0,0,0.45)"
+              },
+              selected: {
+                从未订购: false
+              }
             }
-          }
-        ],
-        series: [
-          // 外环
-          {
-            name: "用户画像",
-            type: "pie",
-            center: ["40%", "50%"],
-            radius: ["80%", "60%"], // 大小
-            color: [
-              "#91D4F5",
-              "#BE8FF5",
-              "#FCC269",
-              "#64E0CF",
-              "#F99184",
-              "#7584F2"
-            ],
-            hoverAnimation: false, //鼠标移入变大false
-            label: {
-              normal: {
-                show: false
-              }
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            data: vm.Net_data4.data2
-          }
-        ]
-      };
-      myChart.clear();
-      myChart.setOption(option);
-      window.addEventListener("resize", () => {
-        myChart.resize();
-      });
+          ],
+          series: [
+            // 外环
+            {
+              name: "用户画像",
+              type: "pie",
+              minAngle: 15,
+              center: ["40%", "50%"],
+              radius: ["80%", "60%"], // 大小
+              color: [
+                "#91D4F5",
+                "#BE8FF5",
+                "#FCC269",
+                "#64E0CF",
+                "#F99184",
+                "#7584F2"
+              ],
+              hoverAnimation: false, //鼠标移入变大false
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              data: vm.Net_data4.data2
+            }
+          ]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

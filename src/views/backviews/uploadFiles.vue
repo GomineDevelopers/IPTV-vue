@@ -6,7 +6,7 @@
       </el-row>
       <el-row class="upload_row" type="flex" justify="space-around">
         <el-col :span="6" class="upload_col">
-          <el-row>转免节目单上传</el-row>
+          <el-row>VIP转免时间统计</el-row>
           <el-row class="upload_button">
             <span class="upload_click">+</span>
             <input type="file" class="file_input" @change="fileUpload($event)" />
@@ -20,7 +20,7 @@
           </el-row>
         </el-col>
         <el-col :span="6" class="upload_col">
-          <el-row>节目单上传</el-row>
+          <el-row>产品内容绑定关系表</el-row>
           <el-row class="upload_button">
             <span class="upload_click">+</span>
             <input type="file" class="file_input" @change="fileUpload2($event)" />
@@ -51,30 +51,42 @@
           <br />1、确保文件格式为.csv
           <br />2、文件里的字段名正确
           <br />3、数据上传前需要做好人工审查
+          <br />4、工作日18:00前完成上传
+          <br />5、上传文件不超过200mb
+
         </span>
       </el-row>
     </el-row>
-    <div class="alert_div">
-      <el-alert show-icon :title="alertTitle" :type="alertType" effect="dark" v-show="alertShow"></el-alert>
-    </div>
+    <uf-form-model :type="1" :m_title="m_title1" :refreshCount="refreshCount"></uf-form-model>
+    <uf-form-model :type="2" :m_title="m_title2" :refreshCount="refreshCount"></uf-form-model>
   </div>
 </template>
 <script>
 import { csv_program_free, csv_program, csv_weibo } from "@/api/api_main";
+import uf_form_model from "@/views/backviews/uf_form_model";
 
 export default {
   name: "uploadFiles",
   data() {
     return {
-      alertShow: false,  //文字提示
+      m_title1: "VIP转免时间统计（删除）",
+      m_title2: "产品内容绑定关系表（删除）",
+      alertShow: false, //文字提示
       alertTitle: "", //提示文字
       alertType: "", //提示类型
       dataMatchingFile1: null,
       dataMatchingFile2: null,
-      dataMatchingFile3: null
+      dataMatchingFile3: null,
+      refreshCount:0 // 添加上传(转免、非转免)时候 重新请求数据
     };
   },
+  components: {
+    "uf-form-model": uf_form_model
+  },
   methods: {
+    // ///////////////////////////
+
+    //////
     fileUpload(e) {
       let vm = this;
       let file = e.target.files[0];
@@ -82,30 +94,32 @@ export default {
       vm.dataMatchingFile1 = file.name;
       //注：上传成功后清空vm.dataMatchingFile1绑定的文件名称
       formData.append("csv", file);
-      console.log("file---", file)
+      // console.log("file---", file)
       if (file) {
-        vm.$confirm('确认上传文件?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          csv_program_free(formData)
-            .then(function (response) {
-              console.log(response);
-              vm.showAlert("上传成功！", 'success')
-              vm.dataMatchingFile1 = null
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-
-        }).catch(() => {
-          vm.showAlert("取消上传！", 'info')
-          vm.dataMatchingFile1 = null
-        });
+        vm.$confirm("确认上传文件?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            csv_program_free(formData)
+              .then(function(response) {
+                // console.log(response);
+                vm.showAlert("上传成功！", "success");
+                vm.dataMatchingFile1 = null;
+                vm.refreshCount++;
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          })
+          .catch(() => {
+            vm.showAlert("取消上传！", "info");
+            vm.dataMatchingFile1 = null;
+          });
         // console.log("可以上传文件了！")
       } else {
-        console.log("操作取消")
+        console.log("操作取消");
       }
     },
     fileUpload2(e) {
@@ -116,27 +130,30 @@ export default {
       //注：上传成功后清空vm.dataMatchingFile2绑定的文件名称
       formData.append("csv", file);
       if (file) {
-        vm.$confirm('确认上传文件?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          csv_program(formData)
-            .then(function (response) {
-              console.log(response);
-              vm.showAlert("上传成功！", 'success')
-              vm.dataMatchingFile2 = null
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }).catch(() => {
-          vm.showAlert("取消上传！", 'info')
-          vm.dataMatchingFile2 = null
-        });
+        vm.$confirm("确认上传文件?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            csv_program(formData)
+              .then(function(response) {
+                // console.log(response);
+                vm.showAlert("上传成功！", "success");
+                vm.dataMatchingFile2 = null;
+                vm.refreshCount++;
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          })
+          .catch(() => {
+            vm.showAlert("取消上传！", "info");
+            vm.dataMatchingFile2 = null;
+          });
         // console.log("可以上传文件了！")
       } else {
-        console.log("操作取消")
+        // console.log("操作取消")
       }
     },
     fileUpload3(e) {
@@ -147,32 +164,34 @@ export default {
       //注：上传成功后清空vm.dataMatchingFile3绑定的文件名称
       formData.append("csv", file);
       if (file) {
-        vm.$confirm('确认上传文件?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          csv_weibo(formData)
-            .then(function (response) {
-              console.log(response);
-              vm.showAlert("上传成功！", 'success')
-              vm.dataMatchingFile3 = null
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }).catch(() => {
-          vm.showAlert("取消上传！", 'info')
-          vm.dataMatchingFile3 = null
-        });
+        vm.$confirm("确认上传文件?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            csv_weibo(formData)
+              .then(function(response) {
+                // console.log(response);
+                vm.showAlert("上传成功！", "success");
+                vm.dataMatchingFile3 = null;
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          })
+          .catch(() => {
+            vm.showAlert("取消上传！", "info");
+            vm.dataMatchingFile3 = null;
+          });
         // console.log("可以上传文件了！")
       } else {
-        console.log("操作取消")
+        // console.log("操作取消")
       }
     },
 
     showAlert(info, type) {
-      let vm = this
+      let vm = this;
       vm.alertShow = true;
       vm.alertTitle = info;
       vm.alertType = type;
@@ -180,17 +199,18 @@ export default {
         vm.alertShow = false;
         vm.alertTitle = "";
         vm.alertType = "";
-      }, 2000)
+      }, 2000);
     }
   }
 };
 </script>
-<style scoped>
+<style >
 .upload_files {
   width: 100%;
   height: calc(100% - 60px);
   background: #fff;
   color: #333;
+  overflow-y: scroll;
 }
 .upload_files .upload_row {
   font-size: 16px;

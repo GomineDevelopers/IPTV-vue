@@ -76,13 +76,10 @@ export default {
       let data = {
         start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
       onlive_location(data)
         .then(function(response) {
-          // console.log("~~~~~~~▲▲▲");
-          // console.log(response);
           let buckets = response.data.responses[0].aggregations.channel.buckets;
           let length = buckets.length;
           let i;
@@ -103,15 +100,11 @@ export default {
               (buckets[i].onlive_dur.value ).toFixed(2)
             );
             temp.push((buckets[i].onlive_freq.value ).toFixed(2));
-
             // temp.push(buckets[i].onlive_dur.value /  60);
             // temp.push(buckets[i].onlive_freq.value);
-
             data.push(temp);
           }
           vm.GuizhouChannelData.data = data;
-          console.log("~~~~~~!!!");
-          console.log(vm.GuizhouChannelData);
 
           vm.ifgetdata = true;
         })

@@ -74,7 +74,7 @@ export default {
           // 0.4, 0.42, 0.43, 0.44, 0.45, 0.46, 0.5
         ]
       },
-      datum_line: 0.52
+      datum_line: 0.8  // 基准线默认值
     };
   },
   mounted() {
@@ -106,7 +106,6 @@ export default {
 
       if (time_type == "hours_24") {
         temp = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: ExpirationDate
@@ -115,7 +114,6 @@ export default {
       }
       if (time_type == "hours_48") {
         temp = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 1)
@@ -124,12 +122,10 @@ export default {
       }
       if (time_type == "days7") {
         temp = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 8)
         };
-        // console.log(temp);
       }
 
       users_retention(temp)
@@ -138,7 +134,6 @@ export default {
             .then(function(response2) {
               if (time_type == "hours_24") {
                 // 2
-                // console.log(response2);
                 let buckets2 =
                   response2.data.responses[0].aggregations.statistical_date
                     .buckets;
@@ -161,15 +156,11 @@ export default {
                       buckets2[i].new_num.value).toFixed(2)
                   );
                 }
-                // console.log("~~~~~~~");
-                // console.log(temp_h_24);
-                // console.log(temp_data_date);
                 vm.echarts_data.data_date = temp_data_date;
                 vm.echarts_data.h_24 = temp_h_24;
               }
               if (time_type == "hours_48") {
                 // 2
-                // console.log(response2);
                 let buckets2 =
                   response2.data.responses[1].aggregations.statistical_date
                     .buckets;
@@ -182,13 +173,10 @@ export default {
                       buckets2[i].new_num.value).toFixed(2)
                   );
                 }
-                // console.log("~~~~~~~");
-                // console.log(temp_h_48);
                 vm.echarts_data.h_48 = temp_h_48;
               }
               if (time_type == "days7") {
                 // 1
-                // console.log(response);
                 let buckets =
                   response.data.responses[0].aggregations.statistical_date
                     .buckets;

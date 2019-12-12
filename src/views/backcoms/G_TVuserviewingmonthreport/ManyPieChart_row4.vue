@@ -1,13 +1,15 @@
 <template>
   <div class="height_auto">
-    <el-row class="height_auto" :id="pieData.id"></el-row>
+    <!-- <el-row class="height_auto" :id="pieData.id"></el-row> -->
+    <el-row class="height_auto" :id="pieData_Change.id"></el-row>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 
+// ▲▲ 针对 用户收视月报的row11 多环 -- 最小角度 15=》25
 export default {
-  name: "ManyPieChart2", //饼图组件
+  name: "ManyPieChart_row4", //四环饼图组件
   props: {
     pieData: {
       type: Object
@@ -16,54 +18,116 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    ...mapGetters(["PR_month"])
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 2500);
   },
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 2500);
+    },
+    PR_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 2500);
     },
     pieData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 2500);
     }
   },
-  mounted() {
-    let vm = this;
-    setTimeout(function() {
-      vm.setLineChart();
-    }, 2000);
+  computed: {
+    ...mapGetters(["PR_operator", "PR_month"]),
+    pieData_Change: {
+      get: function() {
+        try {
+          let vm = this;
+
+          if (
+            vm.pieData.id == "liveViewingDuration" ||
+            vm.pieData.id == "liveViewingUser" ||
+            vm.pieData.id == "liveViewingTimes"
+          ) {
+            let content = [];
+            let temp;
+            let color = [];
+            let data = [];
+            if (this.PR_operator == null || this.PR_operator.length == 0) {
+              content = vm.pieData.content;
+              color = vm.pieData.color;
+            } else {
+              try {
+                if (this.PR_operator.indexOf("移动") > -1) {
+                  color.push(vm.pieData.color[0]);
+                  data.push(vm.pieData.content[0].data[0]);
+                }
+                if (this.PR_operator.indexOf("联通") > -1) {
+                  color.push(vm.pieData.color[1]);
+                  data.push(vm.pieData.content[0].data[1]);
+                }
+                if (this.PR_operator.indexOf("电信") > -1) {
+                  color.push(vm.pieData.color[2]);
+                  data.push(vm.pieData.content[0].data[2]);
+                }
+                temp = {
+                  title: vm.pieData.content[0].title,
+                  data: data
+                };
+                content.push(temp);
+              } catch (error) {
+                console.log(error);
+                return;
+              }
+            }
+            // 视图更新
+            setTimeout(function() {
+              vm.setLineChart();
+            }, 2500);
+
+            let tempx = {
+              title: vm.pieData.title,
+              id: vm.pieData.id,
+              color: color,
+              content: content
+            };
+            return tempx;
+          }
+          setTimeout(function() {
+            vm.setLineChart();
+          }, 1000);
+          return vm.pieData;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      set: function(newValue) {}
+    }
   },
   methods: {
     setLineChart() {
       try {
         // 基于准备好的dom，初始化echarts实例
         var pieChart = this.$echarts.init(
-          document.getElementById(this.pieData.id)
+          document.getElementById(this.pieData_Change.id)
         );
+        let series = [];
 
-        var temp_series_c1;
-        var temp_series_c2;
-        var temp_series_c3;
-        var temp_series_c4;
-        var temp_series_c5;
-        var temp_series_c6;
-
-        var temp_series_all = [];
-
-        try {
-          temp_series_c1 = {
-            name: this.pieData.content[0].title,
+        if (this.pieData_Change.content.length >= 1) {
+          let t1 = {
+            name: this.pieData_Change.content[0].title,
             type: "pie",
-            minAngle: 15,
-            radius: ["68%", "80%"],
+            minAngle: 25,
+            radius: ["60%", "75%"],
             center: ["50%", "56%"],
-            data: this.pieData.content[0].data,
+            data: this.pieData_Change.content[0].data,
             labelLine: {
               normal: {
                 show: true
@@ -89,16 +153,16 @@ export default {
               }
             }
           };
-        } catch (error) {}
-
-        try {
-          temp_series_c2 = {
-            name: this.pieData.content[1].title,
+          series.push(t1);
+        }
+        if (this.pieData_Change.content.length >= 2) {
+          let t2 = {
+            name: this.pieData_Change.content[1].title,
             type: "pie",
-            minAngle: 15,
-            radius: ["56%", "68%"],
+            minAngle: 25,
+            radius: ["45%", "60%"],
             center: ["50%", "56%"],
-            data: this.pieData.content[1].data,
+            data: this.pieData_Change.content[1].data,
             labelLine: {
               normal: {
                 show: false
@@ -124,16 +188,16 @@ export default {
               }
             }
           };
-        } catch (error) {}
-
-        try {
-          temp_series_c3 = {
-            name: this.pieData.content[2].title,
+          series.push(t2);
+        }
+        if (this.pieData_Change.content.length >= 3) {
+          let t3 = {
+            name: this.pieData_Change.content[2].title,
             type: "pie",
-            minAngle: 15,
-            radius: ["44%", "56%"],
+            minAngle: 25,
+            radius: ["30%", "45%"],
             center: ["50%", "56%"],
-            data: this.pieData.content[2].data,
+            data: this.pieData_Change.content[2].data,
             labelLine: {
               normal: {
                 show: false
@@ -159,16 +223,16 @@ export default {
               }
             }
           };
-        } catch (error) {}
-
-        try {
-          temp_series_c4 = {
-            name: this.pieData.content[3].title,
+          series.push(t3);
+        }
+        if (this.pieData_Change.content.length >= 4) {
+          let t4 = {
+            name: this.pieData_Change.content[3].title,
             type: "pie",
-            minAngle: 15,
-            radius: ["32%", "44%"],
+            minAngle: 25,
+            radius: ["15%", "30%"],
             center: ["50%", "56%"],
-            data: this.pieData.content[3].data,
+            data: this.pieData_Change.content[3].data,
             labelLine: {
               normal: {
                 show: false
@@ -194,16 +258,16 @@ export default {
               }
             }
           };
-        } catch (error) {}
-
-        try {
-          temp_series_c5 = {
-            name: this.pieData.content[4].title,
+          series.push(t4);
+        }
+        if (this.pieData_Change.content.length >= 5) {
+          let t5 = {
+            name: this.pieData_Change.content[4].title,
             type: "pie",
-            minAngle: 15,
-            radius: ["20%", "32%"],
+            minAngle: 25,
+            radius: ["2%", "15%"],
             center: ["50%", "56%"],
-            data: this.pieData.content[4].data,
+            data: this.pieData_Change.content[4].data,
             labelLine: {
               normal: {
                 show: false
@@ -229,62 +293,13 @@ export default {
               }
             }
           };
-        } catch (error) {}
-
-        try {
-          temp_series_c6 = {
-            name: this.pieData.content[5].title,
-            type: "pie",
-            minAngle: 15,
-            radius: ["8%", "20%"],
-            center: ["50%", "56%"],
-            data: this.pieData.content[5].data,
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            label: {
-              show: true,
-              position: "inside",
-              formatter: "{d}%",
-              color: "#333"
-            },
-            itemStyle: {
-              normal: {
-                borderWidth: 3, //设置border的宽度有多大
-                borderColor: "#fff"
-              },
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-                borderWidth: 1, //设置border的宽度有多大
-                borderColor: "#fff"
-              }
-            }
-          };
-        } catch (error) {}
-
-        temp_series_all.push(temp_series_c1);
-        temp_series_all.push(temp_series_c2);
-        temp_series_all.push(temp_series_c3);
-        temp_series_all.push(temp_series_c4);
-        temp_series_all.push(temp_series_c5);
-        temp_series_all.push(temp_series_c6);
-
-        var length_x = this.pieData.content.length;
-        var i_x;
-        var m_series = [];
-
-        for (i_x = 0; i_x < length_x; i_x++) {
-          m_series.push(temp_series_all[i_x]);
+          series.push(t5);
         }
 
         var option = {
-          color: this.pieData.color,
+          color: this.pieData_Change.color,
           title: {
-            text: this.pieData.title,
+            text: this.pieData_Change.title,
             x: "center",
             y: "7%",
             textStyle: {
@@ -295,7 +310,7 @@ export default {
           },
           legend: {
             icon: "re",
-            bottom: "30",
+            bottom: "1%",
             left: "3%",
             itemWidth: 12, // 设置宽度
             itemHeight: 7, // 设置高度
@@ -320,13 +335,12 @@ export default {
               saveAsImage: {}
             }
           },
-          series: m_series
+          series: series
         };
 
         // 使用刚指定的配置项和数据显示图表。
         pieChart.clear();
         pieChart.setOption(option);
-
         window.addEventListener("resize", () => {
           pieChart.resize();
         });

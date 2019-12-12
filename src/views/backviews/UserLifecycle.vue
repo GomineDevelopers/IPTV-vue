@@ -122,42 +122,36 @@ export default {
   watch: {
     ULC_region(newValue, oldValue) {
       let vm = this;
-      console.log("ULC_region: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_operator(newValue, oldValue) {
       let vm = this;
-      console.log("ULC_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_day(newValue, oldValue) {
       let vm = this;
-      console.log("~~~-watch - ULC_day: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
-      console.log("ULC_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
-      console.log("ULC_month: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
-      console.log("ULC_time_type: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
@@ -165,8 +159,12 @@ export default {
   },
   methods: {
     refresh_api_data() {
-      this.api_data_set("mixture");
-      this.api_data_set("single");
+      try {
+        this.api_data_set("mixture");
+        this.api_data_set("single");
+      } catch (error) {
+        console.log(error);
+      }
     },
     api_data_set(datatype) {
       let vm = this;
@@ -200,19 +198,10 @@ export default {
       }
     },
     userLives(type, ULC_operator, dataType) {
-      // console.log("type", type)
-      // console.log("ULC_operator", ULC_operator)
-      // console.log("dataType", dataType)
       let vm = this;
       let dataTypeName = dataType;
-      // console.log("userLives");
-
-      // console.log("~~~~~ ULC_region:" + vm.ULC_region);
       let temp_region = commonTools.acConvert(vm.ULC_region);
       let time_type = vm.ULC_time_type;
-      // console.log("~~~~~ temp_region:" + temp_region);
-      // console.log("~~~~~time_type: " + time_type);
-      // console.log(typeof time_type);
       let temp_operator = commonTools.operatorConvert(ULC_operator);
 
       //本期
@@ -233,7 +222,6 @@ export default {
       };
       if (time_type == 1) {
         // 时间类型-1-天
-        // console.log("~~~~~day:" + vm.ULC_day);
         vm.moduleShow = true;
         let temp_time = commonTools.split_yearAtime2(vm.ULC_day);
         temp = {
@@ -243,12 +231,9 @@ export default {
           end: vm.ULC_day,
           year: temp_time.year
         };
-        // console.log("~~~~time_type:" + time_type);
-        // console.log("~~~~~1:");
         // console.log(temp);
 
         let prevDay = vm.$commonTools.getBeforeDate(vm.ULC_day, 1); //获取当前的前一天
-        // console.log("prevDay", prevDay)
         prev_temp = {
           area: String(temp_region),
           operator: String(temp_operator),
@@ -256,10 +241,8 @@ export default {
           end: prevDay,
           year: temp_time.year
         };
-        // console.log("前一天", prevDay)
       } else if (time_type == 2) {
         // 时间类型-2-周
-        // console.log("~~~~~week:" + vm.ULC_week);
         vm.moduleShow = true;
         let temp_time = commonTools.split_yearAtime(vm.ULC_week);
         temp = {
@@ -269,14 +252,11 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~2:");
-        console.log(temp);
+        // console.log(temp);
 
         let prev_week_str = temp_time.time.replace(/[^0-9]/gi, ""); //获取本周的数字
         let prev_week_time = prev_week_str - 1;
         if (prev_week_time != 0) {
-          // console.log("本周时间", prev_week_time + 'week')
           prev_temp = {
             area: String(temp_region),
             operator: String(temp_operator),
@@ -285,7 +265,7 @@ export default {
             year: temp_time.year
           };
         } else {
-          console.log("无上周数据");
+          // console.log("无上周数据");
         }
       } else if (time_type == 3) {
         // 时间类型-3-月
@@ -301,14 +281,11 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        // console.log("~~~~time_type:" + time_type);
-        // console.log("~~~~~3:");
         // console.log(temp);
 
         let prev_month_str = temp_time.time.replace(/[^0-9]/gi, ""); //获取本周的数字
         let prev_month_time = prev_month_str - 1;
         if (prev_month_time != 0) {
-          // console.log("本周时间", prev_week_time + 'week')
           prev_temp = {
             area: String(temp_region),
             operator: String(temp_operator),
@@ -316,13 +293,12 @@ export default {
             end: prev_month_time + "month",
             year: temp_time.year
           };
-          // console.log("上月", prev_temp)
         } else {
           console.log("无上月数据");
         }
       } else {
         // 未选择时间情况
-        console.log("请选择时间！");
+        // console.log("请选择时间！");
         vm.moduleShow = false;
         return;
       }
@@ -334,14 +310,6 @@ export default {
       //   console.log("请输入完整的查询条件")
       //   return
       // }
-
-      // 测试开启
-      // vm.api_data1 = [1];
-      // vm.api_data2 = [1];
-      // vm.api_data3 = [1];
-      // vm.api_data4 = [1];
-      // vm.api_data5 = [1];
-      //return; // 测试开启
 
       // console.log("用户选择", temp)
 
@@ -364,9 +332,9 @@ export default {
       userLives(formData)
         .then(function(response) {
           if (dataTypeName == "mixture") {
-            console.log("----------------------------------------");
-            console.log("混合数据 本期", ULC_operator);
-            console.log(response.data.responses);
+            // console.log("----------------------------------------");
+            // console.log("混合数据 本期", ULC_operator);
+            // console.log(response.data.responses);
             let total_data = response.data.responses;
             try {
               //在网
@@ -429,7 +397,6 @@ export default {
               }
               activate_array.forEach((value, index) => {
                 if (value.key != "other") {
-                  // console.log(commonTools.acConvert_Single(value.key), value.activate_user_num.value, value.register_num.value)
                   city_temp.push(commonTools.acConvert_Single(value.key));
                   let activate_rate = (
                     (value.activate_user_num.value / value.register_num.value) *
@@ -440,7 +407,6 @@ export default {
               });
               Vue.set(vm.activate_rate_data.data, 0, city_temp);
               Vue.set(vm.activate_rate_data.data, 2, current_temp);
-              // console.log("this.activate_rate_data.data", vm.activate_rate_data.data)
             } catch (error) {
               console.log(error);
             }
@@ -461,9 +427,6 @@ export default {
 
           if (dataTypeName == "single") {
             if (type == "yd") {
-              // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              // console.log("运营商", ULC_operator);
-              // console.log(response.data.responses);
               let total_data = response.data.responses;
 
               //新增在网用户
@@ -480,9 +443,7 @@ export default {
                   }
                 });
                 vm.api_data2.region = new_num_region;
-                // vm.api_data2.showData[0] = new_num_data
                 Vue.set(vm.api_data2.showData, 0, new_num_data);
-                // console.log("vm.api_data2", vm.api_data2)
               } catch (error) {
                 console.log(error);
               }
@@ -507,9 +468,6 @@ export default {
                 console.log(error);
               }
             } else if (type == "lt") {
-              // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              // console.log("运营商", ULC_operator);
-              // console.log(response.data.responses);
               let total_data = response.data.responses;
 
               //新增在网用户
@@ -526,7 +484,6 @@ export default {
                   }
                 });
                 vm.api_data2.region = new_num_region;
-                // vm.api_data2.showData[1] = new_num_data
                 Vue.set(vm.api_data2.showData, 1, new_num_data);
               } catch (error) {
                 console.log(error);
@@ -552,9 +509,6 @@ export default {
                 console.log(error);
               }
             } else if (type == "dx") {
-              // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-              // console.log("运营商", ULC_operator);
-              // console.log(response.data.responses);
               let total_data = response.data.responses;
 
               //新增在网用户
@@ -571,9 +525,7 @@ export default {
                   }
                 });
                 vm.api_data2.region = new_num_region;
-                // vm.api_data2.showData[2] = new_num_data
                 Vue.set(vm.api_data2.showData, 2, new_num_data);
-                // console.log(vm.api_data2)
               } catch (error) {
                 console.log(error);
               }
@@ -609,10 +561,7 @@ export default {
         userLives(formDataPrev)
           .then(function(response) {
             if (dataTypeName == "mixture") {
-              // console.log("----------------------------------------");
-              // console.log("prev_temp", prev_temp)
-              console.log("混合数据(上期)", ULC_operator);
-              console.log(response.data.responses);
+              // 混合数据(上期)
               let total_data = response.data.responses;
 
               //在网

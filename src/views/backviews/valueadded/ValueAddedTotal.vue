@@ -81,35 +81,30 @@ export default {
   watch: {
     ADD_ALL_operator(newValue, oldValue) {
       let vm = this;
-      // console.log("ADD_ALL_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     // ADD_ALL_programa(newValue, oldValue) {
     //   let vm = this;
-    //   console.log("ADD_ALL_programa: " + newValue);
     //   setTimeout(function() {
     //     vm.refresh_api_data();
     //   }, 1000);
     // },
     ADD_ALL_week(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_ALL_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ADD_ALL_month(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_ALL_month: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ADD_ALL_time_type(newValue, oldValue) {
       let vm = this;
-      console.log("ADD_ALL_time_type: " + newValue);
       vm.ifInitShow = true;
       setTimeout(function() {
         vm.refresh_api_data();
@@ -135,7 +130,6 @@ export default {
       this.increment(this.ADD_ALL_time_type);
     },
     increment(time_type) {
-      console.log("increment");
       let vm = this;
       if (vm.ADD_ALL_operator.length == 0) {
         return;
@@ -151,11 +145,8 @@ export default {
         year: null
       };
 
-      console.log();
-
       if (time_type == 1) {
         // 时间类型-1-周
-        // console.log("~~~~~week:" + vm.ADD_ALL_week);
         let temp_time = commonTools.split_yearAtime_byweekOrDay(
           vm.ADD_ALL_week
         );
@@ -166,16 +157,14 @@ export default {
           end: temp_time.time2,
           year: temp_time.year
         };
-        // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~1:");
-        console.log(temp);
+        // console.log("~~~~~1:");
+        // console.log(temp);
       } else if (time_type == 2) {
         // 时间类型-2-月
-        // console.log("~~~~~month:" + vm.ADD_ALL_month);
         let temp_time = commonTools.split_yearAtime_byweekOrDay(
           vm.ADD_ALL_month
         );
-        console.log(temp_time);
+        // console.log(temp_time);
 
         temp = {
           operator: String(temp_operator),
@@ -184,8 +173,7 @@ export default {
           end: temp_time.time2,
           year: temp_time.year
         };
-        // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~2:");
+        // console.log("~~~~~2:");
         console.log(temp);
       } else {
         return;
@@ -198,12 +186,10 @@ export default {
       formData.append("start", temp.start);
       formData.append("end", temp.end);
       formData.append("year", temp.year);
-
       increment(formData)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           // ///////// 1 2 3
-
           try {
             vm.newUserTotal.data = [];
             vm.newPayingUsersProportion.data = [];
@@ -213,20 +199,19 @@ export default {
             //   response.data.responses[0].aggregations.statistical_granularity
             //     .buckets; //新增用户概览
             if (time_type == 1) {
-              console.log("~~~~~1111");
               buckets_0 =
                 response.data.responses[0].aggregations.statistical_granularity
                   .buckets;
             } else if (time_type == 2) {
-              console.log("~~~~~2222");
+              console.log(response);
               buckets_0 =
                 response.data.responses[2].aggregations.statistical_granularity
                   .buckets;
-              // buckets_0 = response.data.responses[0].aggregations.statistical_granularity.buckets;
 
-              console.log(buckets_0.length);
+              buckets_0 = commonTools.bucketsSort_WM(buckets_0); // 排序
+
+              // buckets_0 = response.data.responses[0].aggregations.statistical_granularity.buckets;
             }
-            console.log(buckets_0.length);
 
             let length_0 = buckets_0.length;
             if (length_0 == 0) {
@@ -353,8 +338,6 @@ export default {
             vm.newUserTotal.data = temp_newUserTotal;
             vm.newPayingUsersProportion.data = temp_newPayingUsersProportion;
             vm.subscribersData.data = temp_subscribersData;
-            // console.log("~~~~~~temp_newPayingUsersProportion");
-            // console.log(temp_newPayingUsersProportion);
           } catch (error) {
             console.log(error);
             vm.newUserTotal.data = [];
@@ -375,6 +358,8 @@ export default {
               buckets_1 =
                 response.data.responses[3].aggregations.statistical_granularity
                   .buckets;
+              buckets_1 = commonTools.bucketsSort_WM(buckets_1); // 排序
+
               // buckets_1 = response.data.responses[1].aggregations.statistical_granularity.buckets;
             }
             let length_1 = buckets_1.length;
@@ -537,8 +522,9 @@ export default {
 
             vm.subcontractUserData.data = temp_subcontractUserData;
             vm.subcontractIncomeData.data = temp_subcontractIncomeData;
-            // console.log("~~~~~~temp_newPayingUsersProportion");
-            // console.log(temp_newPayingUsersProportion);
+            // console.log(temp_subcontractUserData);
+            // console.log(temp_subcontractIncomeData);
+            
           } catch (error) {
             console.log(error);
             vm.subcontractUserData.data = [];

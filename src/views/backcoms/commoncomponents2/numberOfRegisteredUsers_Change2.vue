@@ -17,55 +17,59 @@ export default {
     ...mapGetters(["PR_operator"]),
     fillinData_Change: {
       get: function() {
-        let vm = this;
-        let data = [];
-        let color = [];
-        let d0 = [];
-        let d1 = [];
-        if (
-          vm.fillinData.id == "MOWR_m7_A1" ||
-          vm.fillinData.id == "MOWR_m7_A2" ||
-          vm.fillinData.id == "MOWR_m7_A3" ||
-          vm.fillinData.id == "GT_UVWR1_Y3"
-        ) {
-          if (this.PR_operator == null || this.PR_operator.length == 0) {
-            data = vm.fillinData.data;
-            color = vm.fillinData.color;
-          } else {
-            // data.push(vm.fillinData.data[0]);
-            d0.push(vm.fillinData.data[0][0]);
-            d1.push(vm.fillinData.data[1][0]);
-            if (this.PR_operator.indexOf("移动") > -1) {
-              d0.push(vm.fillinData.data[0][1]);
-              d1.push(vm.fillinData.data[1][1]);
-              color.push(vm.fillinData.color[0]);
+        try {
+          let vm = this;
+          let data = [];
+          let color = [];
+          let d0 = [];
+          let d1 = [];
+          if (
+            vm.fillinData.id == "MOWR_m7_A1" ||
+            vm.fillinData.id == "MOWR_m7_A2" ||
+            vm.fillinData.id == "MOWR_m7_A3" ||
+            vm.fillinData.id == "GT_UVWR1_Y3"
+          ) {
+            if (this.PR_operator == null || this.PR_operator.length == 0) {
+              data = vm.fillinData.data;
+              color = vm.fillinData.color;
+            } else {
+              // data.push(vm.fillinData.data[0]);
+              d0.push(vm.fillinData.data[0][0]);
+              d1.push(vm.fillinData.data[1][0]);
+              if (this.PR_operator.indexOf("移动") > -1) {
+                d0.push(vm.fillinData.data[0][1]);
+                d1.push(vm.fillinData.data[1][1]);
+                color.push(vm.fillinData.color[0]);
+              }
+              if (this.PR_operator.indexOf("联通") > -1) {
+                d0.push(vm.fillinData.data[0][2]);
+                d1.push(vm.fillinData.data[1][2]);
+                color.push(vm.fillinData.color[1]);
+              }
+              if (this.PR_operator.indexOf("电信") > -1) {
+                d0.push(vm.fillinData.data[0][3]);
+                d1.push(vm.fillinData.data[1][3]);
+                color.push(vm.fillinData.color[2]);
+              }
+              data.push(d0);
+              data.push(d1);
             }
-            if (this.PR_operator.indexOf("联通") > -1) {
-              d0.push(vm.fillinData.data[0][2]);
-              d1.push(vm.fillinData.data[1][2]);
-              color.push(vm.fillinData.color[1]);
-            }
-            if (this.PR_operator.indexOf("电信") > -1) {
-              d0.push(vm.fillinData.data[0][3]);
-              d1.push(vm.fillinData.data[1][3]);
-              color.push(vm.fillinData.color[2]);
-            }
-            data.push(d0);
-            data.push(d1);
+            // 视图更新
+            setTimeout(function() {
+              vm.setLineChart();
+            }, 1000);
+            return {
+              title: vm.fillinData.title,
+              id: vm.fillinData.id,
+              color: color,
+              data: data
+            };
           }
-          // 视图更新
-          setTimeout(function() {
-            vm.setLineChart();
-          }, 1000);
-          return {
-            title: vm.fillinData.title,
-            id: vm.fillinData.id,
-            color: color,
-            data: data
-          };
-        }
 
-        return vm.fillinData;
+          return vm.fillinData;
+        } catch (error) {
+          console.log(error);
+        }
       },
       set: function(newValue) {}
     }
@@ -124,6 +128,7 @@ export default {
           {
             name: this.fillinData_Change.data[1][0],
             type: "pie",
+            minAngle: 15,
             radius: "55%",
             center: ["50%", "50%"],
             data: seriesData,

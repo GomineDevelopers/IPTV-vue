@@ -75,23 +75,18 @@ export default {
   },
   methods: {
     users_basic(ExpirationDate) {
-      // console.log("~~~~~~users_basic");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
 
       let temp = {
-        // operator: String(["移动", "联通", "电信"]),
         operator: m_operator,
         start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
         end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
         year:commonTools.get_ExpirationDate_year(ExpirationDate)
       };
-      // console.log("~~~~~~!!!!");
-      // console.log(temp);
 
       users_basic(temp)
         .then(function(response) {
-          // console.log(response);
           let aggregations = response.data.responses[2].aggregations;
           // loyal_user_num  -- 忠诚用户数
           // 忠诚用户户均停留时长 = 忠诚用户停留时长/访问忠诚用户

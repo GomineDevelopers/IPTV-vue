@@ -47,61 +47,7 @@ export default {
         //   programName: "疯狂的外星人",
         //   programSource: "电影",
         //   hot: "80%"
-        // },
-        // {
-        //   topNum: 2,
-        //   programName: "熊出没.原始",
-        //   programSource: "少儿",
-        //   hot: "70%"
-        // },
-        // {
-        //   topNum: 3,
-        //   programName: "疯狂的外星人",
-        //   programSource: "电影",
-        //   hot: "80%"
-        // },
-        // {
-        //   topNum: 4,
-        //   programName: "熊出没.原始",
-        //   programSource: "少儿",
-        //   hot: "70%"
-        // },
-        // {
-        //   topNum: 5,
-        //   programName: "疯狂的外星人",
-        //   programSource: "电影",
-        //   hot: "80%"
-        // },
-        // {
-        //   topNum: 6,
-        //   programName: "熊出没.原始",
-        //   programSource: "少儿",
-        //   hot: "70%"
-        // },
-        // {
-        //   topNum: 7,
-        //   programName: "疯狂的外星人",
-        //   programSource: "电影",
-        //   hot: "80%"
-        // },
-        // {
-        //   topNum: 8,
-        //   programName: "熊出没.原始",
-        //   programSource: "少儿",
-        //   hot: "70%"
-        // },
-        // {
-        //   topNum: 9,
-        //   programName: "疯狂的外星人",
-        //   programSource: "电影",
-        //   hot: "80%"
-        // },
-        // {
-        //   topNum: 10,
-        //   programName: "熊出没.原始",
-        //   programSource: "少儿",
-        //   hot: "70%"
-        // },
+        // }
       ]
     };
   },
@@ -124,21 +70,16 @@ export default {
   },
   methods: {
     demandProgramTop(ExpirationDate) {
-      // console.log("demandProgramTop");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
 
       let data = {
         start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
-      // console.log("~~~~~demandProgramTop");
       demandProgramTop(data)
         .then(function (response) {
-          // console.log(response);
-
           let m_data =
             response.data.responses[0].aggregations.programname.buckets;
           let length = m_data.length;
@@ -156,7 +97,6 @@ export default {
             };
             vm.viewingTopList.push(temp);
           }
-          // console.log('收视TOP')
           vm.ifgetdata = true;
         })
         .catch(function (error) {

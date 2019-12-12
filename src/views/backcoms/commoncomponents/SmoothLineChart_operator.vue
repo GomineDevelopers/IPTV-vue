@@ -1,92 +1,111 @@
 <template>
   <div class="height_auto">
-    <!-- <el-row class="height_auto" :id="lineData.id"></el-row> -->
-    <el-row class="height_auto" :id="lineData_Change.id"></el-row>
+    <!-- <div class="height_auto" :id="smoothLineData.id"></div> -->
+    <div class="height_auto" :id="smoothLineData_Change.id"></div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-
 export default {
-  name: "EveryPowerActivity", //折线图Y轴显示百分比
+  name: "SmoothLineChart_operator", //专题专区数据报告
   props: {
-    lineData: Object
+    smoothLineData: {
+      type: Object
+    }
   },
   data() {
     return {};
   },
-  mounted() {
-    let vm = this;
-    setTimeout(function() {
-      vm.setLineChart();
-    }, 2000);
-  },
   watch: {
-    PR_month(newValue, oldValue) {
+    smoothLineData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 4000);
+    },
+    PR_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 4000);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 4000);
     },
-    lineData(newValue, oldValue) {
+    PR_picker(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 2000);
+      }, 4000);
+    },
+    PR_value_specialName(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.setLineChart();
+      }, 4000);
     }
   },
   computed: {
-    ...mapGetters(["PR_operator", "PR_month"]),
-    lineData_Change: {
+    ...mapGetters([
+      "PR_operator",
+      "PR_week",
+      "PR_picker",
+      "PR_value_specialName"
+    ]),
+
+    smoothLineData_Change: {
       get: function() {
         try {
           let vm = this;
           let data = [];
           let color = [];
-          if (vm.lineData.id == "everyPowerActivity") {
-            if (vm.PR_month) {
-              // do nothing. --监听
-            }
+          if (
+            vm.smoothLineData.id == "recommendPage" ||
+            vm.smoothLineData.id == "childrenPage" ||
+            vm.smoothLineData.id == "classifyPage" ||
+            vm.smoothLineData.id == "originalProgramsDemand"
+          ) {
             if (this.PR_operator == null || this.PR_operator.length == 0) {
-              data = vm.lineData.data;
-              color = vm.lineData.color;
+              data = vm.smoothLineData.data;
+              color = vm.smoothLineData.color;
             } else {
-              data.push(vm.lineData.data[0]);
+              data.push(vm.smoothLineData.data[0]);
               if (this.PR_operator.indexOf("移动") > -1) {
-                color.push(vm.lineData.color[0]);
-                data.push(vm.lineData.data[1]);
+                data.push(vm.smoothLineData.data[1]);
+                color.push(vm.smoothLineData.color[0]);
               }
               if (this.PR_operator.indexOf("联通") > -1) {
-                color.push(vm.lineData.color[1]);
-                data.push(vm.lineData.data[2]);
+                data.push(vm.smoothLineData.data[2]);
+                color.push(vm.smoothLineData.color[1]);
               }
               if (this.PR_operator.indexOf("电信") > -1) {
-                color.push(vm.lineData.color[2]);
-                data.push(vm.lineData.data[3]);
+                data.push(vm.smoothLineData.data[3]);
+                color.push(vm.smoothLineData.color[2]);
               }
-              data.push(vm.lineData.data[4]);
             }
             // 视图更新
             setTimeout(function() {
               vm.setLineChart();
-            }, 2000);
+            }, 4000);
             return {
-              title: vm.lineData.title,
-              id: vm.lineData.id,
+              title: vm.smoothLineData.title,
+              id: vm.smoothLineData.id,
               color: color,
               data: data
             };
           }
+          if (vm.smoothLineData.id == "originalProgramsDemand_owr") {
+            if (vm.PR_week && vm.PR_operator) {
+              // do nothing. --监听
+            }
+          }
           setTimeout(function() {
             vm.setLineChart();
-          }, 2000);
-          return vm.lineData;
+          }, 4000);
+          return vm.smoothLineData;
         } catch (error) {
           console.log(error);
         }
@@ -94,28 +113,35 @@ export default {
       set: function(newValue) {}
     }
   },
+  mounted() {
+    let vm = this;
+    setTimeout(function() {
+      vm.setLineChart();
+    }, 4000);
+  },
   methods: {
     setLineChart() {
       try {
-        var lineChart = this.$echarts.init(
-          document.getElementById(this.lineData_Change.id)
+        var smoothLineChart = this.$echarts.init(
+          document.getElementById(this.smoothLineData_Change.id)
         );
         let seriesData = [];
         //设置series数据条数
-        for (let i = 1; i <= this.lineData_Change.data.length - 1; i++) {
+        for (let i = 1; i <= this.smoothLineData_Change.data.length - 1; i++) {
           seriesData.push({
             type: "line",
             seriesLayoutBy: "row",
-            symbol: "circle"
+            symbol: "none",
+            smooth: true
           });
         }
         var option = {
-          color: this.lineData_Change.color,
+          color: this.smoothLineData_Change.color,
           textStyle: {
             color: "rgba(0, 0, 0, 0.65)"
           },
           title: {
-            text: this.lineData_Change.title,
+            text: this.smoothLineData_Change.title,
             x: "2%",
             y: "0%",
             textStyle: {
@@ -125,15 +151,21 @@ export default {
             }
           },
           legend: {
-            icon: "circle",
+            icon: "re",
             top: "10%",
-            itemWidth: 6, // 设置宽度
-            itemHeight: 6, // 设置高度
+            itemWidth: 12, // 设置宽度
+            itemHeight: 7, // 设置高度
             itemGap: 20, // 设置间距
             textStyle: {
               fontSize: 14,
               color: "rgba(0, 0, 0, 0.65)"
             }
+          },
+          grid: {
+            top: "25%",
+            left: "12%",
+            right: "5%",
+            bottom: "15%"
           },
           tooltip: {
             trigger: "axis",
@@ -144,14 +176,14 @@ export default {
           //图表自带工具
           toolbox: {
             show: true,
-            top: "10%",
+            top: "9%",
             right: "6%",
             feature: {
               saveAsImage: {}
             }
           },
           dataset: {
-            source: this.lineData_Change.data
+            source: this.smoothLineData_Change.data
           },
           xAxis: {
             type: "category",
@@ -161,26 +193,16 @@ export default {
                 color: "rgba(0,0,0,0.65)" //设置横坐标轴线颜色
               }
             },
+            axisLabel: {
+              interval: 0,
+              rotate: 40
+            },
             axisTick: {
               alignWithLabel: true //设置坐标轴刻度与坐标对齐
-            },
-            axisLabel: {
-              //横坐标类目文字
-              show: true,
-              interval: 0, // 坐标轴显示不全问题解决方案
-              rotate: 40,
-              textStyle: {
-                fontSize: "12" //设置横坐标轴文字大小
-              }
             }
           },
           yAxis: {
             gridIndex: 0,
-            axisLabel: {
-              show: true,
-              interval: "auto",
-              formatter: "{value}%"
-            },
             axisTick: {
               show: false //设置坐标轴刻度不显示
             },
@@ -197,18 +219,12 @@ export default {
               }
             }
           },
-          grid: {
-            top: "30%",
-            left: "5%",
-            right: "5%",
-            bottom: "10%"
-          },
           series: seriesData
         };
-        lineChart.clear();
-        lineChart.setOption(option);
+        smoothLineChart.clear();
+        smoothLineChart.setOption(option);
         window.addEventListener("resize", () => {
-          lineChart.resize();
+          smoothLineChart.resize();
         });
       } catch (error) {
         console.log(error);
@@ -217,3 +233,5 @@ export default {
   }
 };
 </script>
+<style scoped>
+</style>

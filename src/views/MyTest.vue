@@ -242,31 +242,39 @@ export default {
   },
   mounted() {
     this.drawLine();
+    console.log(this);
+    try {
+      console.log(this);
+    } catch (error) {
+      console.log(error);
+    }
+    setTimeout(function() {
+      console.log(this);
+    }, 1000);
 
     // api 测试
   },
   methods: {
     // //////////////////////// G+TV用户收视日报表
     test_login() {
-      let arr = ["1","2"];
+      let arr = ["1", "2"];
       console.log(arr);
-      let arr2 = ["1","2"];
-      console.log(...(arr)); // 对象展开符
-      let temp_data = {a:1};
+      let arr2 = ["1", "2"];
+      console.log(...arr); // 对象展开符
+      let temp_data = { a: 1 };
       console.log(String(temp_data));
       console.log(JSON.stringify(temp_data));
 
-      if (typeof (temp_data) == "object" ){
+      if (typeof temp_data == "object") {
         console.log("1");
       }
-      if(typeof (temp_data) == "Object"){
+      if (typeof temp_data == "Object") {
         console.log("2");
       }
       let temp = {
-        "status":1
-      }
+        status: 1
+      };
       console.log(temp["status"]);
-
 
       // console.log("test_login");
       // test_login()
@@ -1829,7 +1837,6 @@ export default {
         let temp_DataArr = DataArr;
         // exportExcel(temp_titleArr, temp_DataArr, "测试2");
         export_json_to_excel_new(temp_titleArr, temp_DataArr, "测试2");
-
       });
     },
     drawLine() {
@@ -1869,6 +1876,7 @@ export default {
         series: [
           {
             type: "pie",
+            minAngle: 15,
             radius: "55%",
             center: ["45%", "50%"],
             selectedMode: "single",

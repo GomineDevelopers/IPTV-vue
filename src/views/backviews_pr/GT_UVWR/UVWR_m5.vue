@@ -132,7 +132,7 @@ export default {
     },
     //本周数据
     api_data_m1(newValue, oldValue) {
-      console.log("api_data_m1模块5（本周）", newValue);
+      // console.log("api_data_m1模块5（本周）", newValue);
       let vm = this;
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
@@ -183,7 +183,7 @@ export default {
           setTimeout(function () {
             vm.drawLine();
           }, 300);
-          console.log("vm.GT_UVWR1_Y2.data", vm.GT_UVWR1_Y2.data)
+          // console.log("vm.GT_UVWR1_Y2.data", vm.GT_UVWR1_Y2.data)
           console.log(error)
         }
 
@@ -193,7 +193,7 @@ export default {
     },
     //上周数据
     api_data_m1_range(newValue, oldValue) {
-      console.log("api_data_m1模块5（上周）", newValue);
+      // console.log("api_data_m1模块5（上周）", newValue);
       let vm = this;
       try {
         //本土原创节目点播数据
@@ -210,7 +210,7 @@ export default {
     },
     //移动本周数据
     api_data_m2(newValue, oldValue) {
-      console.log("移动本周数据", newValue);
+      // console.log("移动本周数据", newValue);
       let vm = this;
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
@@ -286,7 +286,7 @@ export default {
     },
     //联通本周数据
     api_data_m3(newValue, oldValue) {
-      console.log("联通本周数据", newValue);
+      // console.log("联通本周数据", newValue);
       let vm = this;
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
@@ -362,7 +362,7 @@ export default {
     },
     //电信本周数据
     api_data_m4(newValue, oldValue) {
-      console.log("电信本周数据", newValue);
+      // console.log("电信本周数据", newValue);
       let vm = this;
       //设置本周与上周时间（0603——0609  0610-0616）
       let temp_time = commonTools.split_WeeksDays_byDWwr(vm.PR_week);
@@ -644,23 +644,23 @@ export default {
           temp_DataArr = data_arr;
 
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
-            console.log("请选择时间！");
+            // console.log("请选择时间！");
             return;
           }
 
           vm.$store
             .dispatch("set_PR_Excel_titleArr", temp_titleArr)
             .then(function (response_title) {
-              console.log(response_title);
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr", temp_DataArr)
                 .then(function (response_dataArr) {
-                  console.log(response_dataArr);
+                  // console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
                     .then(function (response_dataArr) {
-                      console.log("下载开");
+                      // console.log("下载开");
                     })
                     .catch(function (error) {
                       console.info(error);
@@ -752,6 +752,7 @@ export default {
         series: [
           {
             type: "pie",
+            minAngle: 15,
             radius: "55%",
             center: ["45%", "50%"],
             selectedMode: "single",

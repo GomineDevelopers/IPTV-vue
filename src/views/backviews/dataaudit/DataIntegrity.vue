@@ -424,7 +424,6 @@ export default {
           // console.log(response);
           // 暂时为某日的
           try {
-
             let buckets =
               response.data.responses[0].aggregations.statistical_granularity
                 .buckets;
@@ -452,7 +451,8 @@ export default {
               return temp_pertitle_data;
             }
             function dataManage(index_0_child) {
-              let buckets_0_cc = buckets_0_child[index_0_child].fieldname.buckets;
+              let buckets_0_cc =
+                buckets_0_child[index_0_child].fieldname.buckets;
               let length_0_cc = buckets_0_cc.length;
               let i_0_cc;
               // 8个字段固定： uid sid ac uip en gid epf operators
@@ -630,9 +630,8 @@ export default {
             vm.demand = temp_all[4];
             vm.review = temp_all[5];
             vm.onlive = temp_all[6];
-
           } catch (error) {
-            console.log(error)
+            console.log(error);
             vm.usercount = [];
             vm.heartbeat = [];
             vm.basedata = [];
@@ -641,7 +640,6 @@ export default {
             vm.review = [];
             vm.onlive = [];
           }
-
         })
         .catch(function(error) {
           console.info(error);

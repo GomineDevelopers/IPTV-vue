@@ -40,12 +40,10 @@ export default {
   },
   methods: {
     users_basic(ExpirationDate) {
-      // console.log("~~~~~~users_basic");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
 
       let temp = {
-        // operator: String(["移动", "联通", "电信"]),
         operator: m_operator,
         start: commonTools.get_ExpirationDate_01(ExpirationDate),
         end: ExpirationDate,
@@ -54,7 +52,7 @@ export default {
       };
       users_basic(temp)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let buckets = response.data.responses[1].aggregations.ac.buckets;
           let length = buckets.length;
           // let length = 9; // 原长度为10-10位其他 这里只能用9
@@ -66,15 +64,10 @@ export default {
             temp2.push(buckets[i].new_num.value);
           }
           
-          // temp1 = temp1.reverse();
-          // temp2 = temp2.reverse();
-
-          // console.log(temp1);
           // vm.echarts_data.name = commonTools.acConvert_R_reverse(temp1); // 反序（后台返回是851-859，这里反序成859-851）
           vm.echarts_data.name = temp1.reverse();
           // vm.echarts_data.name = temp1;
           vm.echarts_data.value = temp2.reverse(); // 反序
-          console.log(vm.echarts_data);
           vm.setNewUserChart();
           vm.ifgetdata = true;
         })

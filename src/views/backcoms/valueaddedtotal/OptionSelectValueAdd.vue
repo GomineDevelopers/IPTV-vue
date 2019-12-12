@@ -120,7 +120,6 @@ export default {
       this.$store
         .dispatch("set_ADD_ALL_operator", newValue)
         .then(function(response) {
-          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
@@ -131,34 +130,12 @@ export default {
       this.$store
         .dispatch("set_ADD_ALL_programa", newValue)
         .then(function(response) {
-          // console.log(response);
         })
         .catch(function(error) {
           console.info(error);
         });
     }
-    // "time.weekValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_ADD_ALL_week", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // },
-    // "time.monthValue"(newValue, oldValue) {
-    //   let vm = this;
-    //   this.$store
-    //     .dispatch("set_ADD_ALL_month", newValue)
-    //     .then(function(response) {
-    //       // console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // }
+    
   },
   data() {
     return {
@@ -221,26 +198,15 @@ export default {
   mounted() {
     let vm = this;
 
-    // 测试
-    // commonTools.get_YweeksRange_InMonth(2018, 6);
-
     // 初始化周
     let arr_temp = [];
     setTimeout(function() {
-      // arr_temp = commonTools.weekDate_byday(2018);
-      // arr_temp = commonTools.weekDate_add_byday(2019, arr_temp);
       vm.time.week = commonTools.weekDate_byday_ED();
-      // console.log("~~~~~test vm.time.week");
-      // console.log(vm.time.week);
     }, 100);
 
     // 初始化月
     setTimeout(function() {
-      // let arr_temp2 = commonTools.format_MonthDays_byweek(2018);
-      // arr_temp2 = commonTools.format_MonthDays_add_byweek(2019, arr_temp2);
       vm.time.month = commonTools.format_MonthDays_byweek_ED();
-      // console.log("~~~~~test vm.time.month");
-      // console.log(vm.time.month);
     }, 100);
 
     // ▲历史条件获取
@@ -248,7 +214,6 @@ export default {
       vm.$store
         .dispatch("get_ADD_ALL_operator")
         .then(function(response) {
-          // console.log(response);
           vm.operatorChoose = response;
         })
         .catch(function(error) {
@@ -257,7 +222,6 @@ export default {
       vm.$store
         .dispatch("get_ADD_ALL_programa")
         .then(function(response) {
-          // console.log(response);
           vm.programaChoose = response;
         })
         .catch(function(error) {
@@ -269,10 +233,7 @@ export default {
           vm.$store
             .dispatch("get_ADD_ALL_time_type")
             .then(function(response) {
-              // console.log("~~~get_ADD_ALL_time_type:");
-              // console.log(response);
               if (response == 1) {
-                console.log("history：" + response);
                 let length = vm.time.week.length;
                 let i;
                 let temp_label;
@@ -298,10 +259,7 @@ export default {
           vm.$store
             .dispatch("get_ADD_ALL_time_type")
             .then(function(response) {
-              // console.log("~~~get_ADD_ALL_time_type:");
-              // console.log(response);
               if (response == 2) {
-                console.log("history：" + response);
                 let length = vm.time.month.length;
                 let i;
                 let temp_label;
@@ -333,7 +291,6 @@ export default {
       vm.$store
         .dispatch("set_ADD_ALL_week", newValue)
         .then(function(response) {
-          console.log(response);
           vm.$store
             .dispatch("set_ADD_ALL_time_type", 1)
             .then(function(response) {})
@@ -354,7 +311,6 @@ export default {
       vm.$store
         .dispatch("set_ADD_ALL_month", newValue)
         .then(function(response) {
-          console.log(response);
           vm.$store
             .dispatch("set_ADD_ALL_time_type", 2)
             .then(function(response) {})

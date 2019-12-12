@@ -99,8 +99,6 @@ export default {
     this.drawLine(); // 测试
     this.drawLineB();
 
-    // this.drawLine2(); // 测试
-
     let vm = this;
     setTimeout(function () {
       vm.$store
@@ -116,48 +114,41 @@ export default {
   },
   methods: {
     demands_location(ExpirationDate, date_type) {
-      // console.log("demands_location");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
       let data;
       let data2; // 用于本周的上一周请求
-      if (date_type == "week_days") {
+      if (date_type == "week_days") { // 两个饼图
         data = {
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
           end: ExpirationDate,
-          // operator: String(["移动", "联通", "电信"])
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
-        console.log(data);
+        // console.log(data);
       }
-      if (date_type == "weeks") {
-        // getweekDays_y: [2019, 32, "2019-08-09", "2019-08-15"]
+      if (date_type == "weeks") {  // 当前视图没用到该时间周期
         data = {
           start: commonTools.getweekDays_y(ExpirationDate, 0)[2],
           end: commonTools.getweekDays_y(ExpirationDate, 0)[3],
-          // operator: String(["移动", "联通", "电信"])
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
         data2 = {
           start: commonTools.getweekDays_y(ExpirationDate, 1)[2],
           end: commonTools.getweekDays_y(ExpirationDate, 1)[3],
-          // operator: String(["移动", "联通", "电信"])
           operator: m_operator,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
-        console.log(data);
-        console.log(data2);
+        // console.log(data);
+        // console.log(data2);
       }
 
       demands_location(data)
         .then(function (response) {
           if (date_type == "week_days") {
             // console.log(response);
-
-            // console.log(response);
-            //           data:
+            // data:
             // responses: Array(1)
             // 0:
             // aggregations:
@@ -191,13 +182,9 @@ export default {
             vm.drawLine();
             vm.drawLineB();
 
-            console.log("==========");
-            console.log(vm.pie_data);
-            console.log(vm.pie_dataB);
-
             vm.ifgetdata = true;
           }
-          if (date_type == "weeks") {
+          if (date_type == "weeks") {  // 当前视图没用到该时间周期
             // console.log(response);
             let aggregations1_current = response.data.responses[1].aggregations;
             vm.ifgetdata = true;
@@ -366,6 +353,7 @@ export default {
         series: [
           {
             type: "pie",
+            minAngle: 15,
             radius: "80%",
             center: ["30%", "50%"],
             avoidLabelOverlap: false,
@@ -494,6 +482,7 @@ export default {
         series: [
           {
             type: "pie",
+            minAngle: 15,
             radius: "80%",
             center: ["30%", "50%"],
             avoidLabelOverlap: false,

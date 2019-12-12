@@ -81,17 +81,13 @@ export default {
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
 
-      // console.log("~~~~~~~demands_VipProgramTop");
       let data = {
         start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
       demands_VipProgramTop(data)
         .then(function(response) {
-          // console.log(response);
-
           let m_data =
             response.data.responses[0].aggregations.programname.buckets;
           let length = m_data.length;
@@ -117,7 +113,9 @@ export default {
     },
     scrollLoopUp: function(id) {
       var scrollBox = document.getElementById(id);
-      var lineHeight = scrollBox.clientHeight / 6;
+      // var lineHeight = scrollBox.clientHeight / 6; // 移动卡顿
+      var lineHeight = scrollBox.clientHeight / 5; // 解决卡顿
+
       //var lineHeight = 35
       var time = 100;
       scrollBox.innerHTML += scrollBox.innerHTML;

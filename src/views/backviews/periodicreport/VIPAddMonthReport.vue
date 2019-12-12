@@ -215,25 +215,25 @@ export default {
 
   mounted() {
     let vm = this;
-    // console.log("*************");
-    // console.log(vm.PR_month)
-    setTimeout(function () {
+    if (vm.PR_month == null || vm.PR_month == undefined || vm.PR_month == "") {
+      return;
+    } else {
+      console.log(vm.PR_month);
+      // setTimeout(function() {
       vm.set_api_data();
       // excel 处理
-        vm.Excel_data_manage();
-    }, 1000);
+      vm.Excel_data_manage();
+      // }, 1000);
+      // }, 2000);
+    }
   },
   computed: {
-    // ...this.$mapGetters(["PR_operator"])
     ...mapGetters(["PR_operator", "PR_month", "PR_Report_index"])
   },
   watch: {
     PR_operator(newValue, oldValue) {
-      console.log("~~~~!!!!!PR_operator");
-
       let vm = this;
-      console.log("PR_operator: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.set_api_data();
         // excel 处理
         vm.Excel_data_manage();
@@ -241,8 +241,7 @@ export default {
     },
     PR_month(newValue, oldValue) {
       let vm = this;
-      console.log("PR_month: " + newValue);
-      setTimeout(function () {
+      setTimeout(function() {
         vm.set_api_data();
         // excel 处理
         vm.Excel_data_manage();
@@ -251,17 +250,17 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 6");
+      // console.log("Excel_data_manage - 6");
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function (response_dataArr) {
-          console.log("下载关");
+        .then(function(response_dataArr) {
+          // console.log("下载关");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
-      setTimeout(function () {
+      setTimeout(function() {
         if (vm.PR_Report_index == 6) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -314,7 +313,7 @@ export default {
 
             //上月点播次数排名（TOP15）
             let tableData_dataArr = [
-              [["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"]],
+              [["节目名", "内容类型", "点播用户数", "点播次数", "点播时长"]],
               []
             ];
             vm.tableData.forEach((value, index) => {
@@ -329,7 +328,7 @@ export default {
 
             //本月点播次数排名（TOP15）
             let tableData2_dataArr = [
-              [["节目名", "类容类型", "点播用户数", "点播次数", "点播时长"]],
+              [["节目名", "内容类型", "点播用户数", "点播次数", "点播时长"]],
               []
             ];
             vm.tableData2.forEach((value, index) => {
@@ -409,32 +408,32 @@ export default {
           temp_DataArr = data_arr;
 
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
-            console.log("请选择时间！");
+            // console.log("请选择时间！");
             return;
           }
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function (response_title) {
-              console.log(response_title);
+            .then(function(response_title) {
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function (response_dataArr) {
-                  console.log(response_dataArr);
+                .then(function(response_dataArr) {
+                  // console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function (response_dataArr) {
-                      console.log("下载开");
+                    .then(function(response_dataArr) {
+                      // console.log("下载开");
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                       console.info(error);
                     });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.info(error);
                 });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         }
@@ -449,10 +448,14 @@ export default {
     },
     // 请求类型 RequestType - month_day(包括month)  month_week  monthsRange
     refresh_api_data(RequestType) {
-      this.users_vipReport(RequestType);
+      try {
+        this.users_vipReport(RequestType);
+      } catch (error) {
+        console.log(error);
+      }
     },
     users_vipReport(RequestType) {
-      console.log("~~~~~~users_vipReport");
+      // console.log("~~~~~~users_vipReport");
       let vm = this;
       if (
         vm.PR_month == null ||
@@ -489,7 +492,7 @@ export default {
           end: temp_time.monthsRange_end
         };
       }
-      console.log(temp);
+      // console.log(temp);
 
       var formData = new FormData();
       var formData = new window.FormData();
@@ -498,15 +501,15 @@ export default {
       formData.append("end", temp.end);
       formData.append("year", temp.year);
       users_vipReport(formData)
-        .then(function (response) {
+        .then(function(response) {
           // responses0 ru_ord            --普通用户的
           // responses1 ru_ord_prd        --VIP用户的
           // responses2 ru_guide_content  -- 订购内容来源  Top那个
           // responses3      -- 暂时没数据的
           // responses4      -- 最下面的表单
+          console.log(response);
 
           if (RequestType == "month_day") {
-            // console.log(response);
             try {
               vm.newRegisteredUsersData.data = [];
               vm.powerAddNewUsersData.data = [];
@@ -567,31 +570,38 @@ export default {
               vm.newRegisteredUsersData.data = temp_data1;
               vm.powerAddNewUsersData.data = temp_data2;
               vm.powerAddNewPayingUsersData.data = temp_data3;
-              // console.log("~~~~~~~~~~~~~~~~~~~~temp_data1~3");
-              // console.log(temp_data1);
-              // console.log(temp_data2);
-              // console.log(temp_data3);
             } catch (error) {
               console.log(error);
             }
           }
-          // //////////////////////////////////////////////////////////////////////////////////////////
-          // //////////////////////////////////////////////////////////////////////////////////////////
-          // //////////////////////////////////////////////////////////////////////////////////////////
+
+          // //////
           // if (RequestType == "month_week") {
           //   console.log(response);
           // }
-          // //////////////////////////////////////////////////////////////////////////////////////////
-          // //////////////////////////////////////////////////////////////////////////////////////////
-          // //////////////////////////////////////////////////////////////////////////////////////////
+          // //////
+          // //////
 
           if (RequestType == "monthsRange") {
-            console.log(response);
-            let responses0 = response.data.responses[0];
-            let responses1 = response.data.responses[1];
-            let responses2 = response.data.responses[2];
-            let responses3 = response.data.responses[3];
-            let responses4 = response.data.responses[4];
+            // console.log(response);
+
+            // let responses0;    // monthsRange中没用到
+            let responses1;
+            let responses2;
+            let responses3;
+            let responses4;
+            let responses5; // 代替 0 range排序
+            try {
+              // responses0 = response.data.responses[0];  // monthsRange中没用到
+              responses1 = response.data.responses[1];
+              responses2 = response.data.responses[2];
+              responses3 = response.data.responses[3];
+              responses4 = response.data.responses[4];
+              responses5 = response.data.responses[5];
+            } catch (error) {
+              console.log(error);
+            }
+
             try {
               vm.newAddUserPercentData.data = [];
               vm.newAddPayingUserData.data = [];
@@ -599,13 +609,13 @@ export default {
 
               // 订购-即付费
 
-              // //////////////// 新增用户转化情况 row1 left   responses0
+              // //////////////// 新增用户转化情况 row1 left   responses5
               // 新增在册用户数（万户） new_num
               // 开机行为用户数（万户）（开机用户数） open_num
               // 新增付费用户数（万户） new_paid_num
-              // //////////////// 新增用户转化情况 row1 right  responses0
+              // //////////////// 新增用户转化情况 row1 right  responses5
               // 新增付费用户占比 new_paid_num   = 新增用户中付费用户数/新增用户
-              // //////////////// 订购数据 row4 left responses0
+              // //////////////// 订购数据 row4 left responses5
               // 订购用户数（户） - 即新增订购用户数 new_paid_num
               // 收入-即新增收入 newincome  实际后台字段为：new_income
 
@@ -616,7 +626,8 @@ export default {
               let temp_data_0_3 = [];
 
               let buckets_0 =
-                responses0.aggregations.statistical_granularity.buckets;
+                responses5.aggregations.statistical_granularity.buckets; // ▲▲▲ 注意 ： 排序 responses5
+              buckets_0 = commonTools.bucketsSort_WM(buckets_0); // 排序
               let length_0 = buckets_0.length; // 月份的个数 - 后台返回的个数
               let i_0;
 
@@ -662,7 +673,7 @@ export default {
                   commonTools.returnFloat_2(
                     (buckets_0[i_0].new_paid_num.value /
                       buckets_0[i_0].new_num.value) *
-                    100
+                      100
                   )
                 );
                 // 第3个（结构b）
@@ -688,9 +699,9 @@ export default {
             // return;
 
             // //////////////// 订购数据 row4 middle responses1
-            // VIP包订购用户数(按包分):影视包 少儿包 欢乐家庭包 newpaid_user_num 实际：new_paid_num
+            // VIP包订购用户数(按包分):影视包 少儿包 欢乐家庭包 newpaid_user_num 实际：new_paid_num  =》 月 =》 月+季+年
             // //////////////// 订购数据 row4 right responses1
-            // VIP包收入(按包分)(万元):影视包 少儿包 欢乐家庭包 newincome 实际字段： new_income
+            // VIP包收入(按包分)(万元):影视包 少儿包 欢乐家庭包 newincome 实际字段： new_income  =》 月 =》 月+季+年
             // //////////////// 订购用户数数据分布对比 （vip的）row8 left responses1
             // （新增）订购用户（按包分-包分为月季年）  newpaid_user_num 实际：new_paid_num
             // //////////////// 订购用户数数据分布对比 （vip的）row8 right responses1
@@ -710,6 +721,7 @@ export default {
 
               let buckets_1 =
                 responses1.aggregations.statistical_granularity.buckets;
+              buckets_1 = commonTools.bucketsSort_WM(buckets_1); // 排序
               let length_1 = buckets_1.length; // 月份的个数 - 后台返回的个数
               let i_1;
 
@@ -722,8 +734,6 @@ export default {
                 "少儿包（户）",
                 "欢乐家庭包（户）"
               );
-              console.log("■■■■■■■■■■■■■■■■■■■■");
-              console.log(buckets_1);
 
               let buckets_1_child_1 =
                 buckets_1[0].value_added_service_package.buckets;
@@ -738,81 +748,138 @@ export default {
                 "少儿包（万元）",
                 "欢乐家庭包（万元）"
               );
-              // let buckets_1_child_2 = buckets_1[1].value_added_service_package.buckets;
-              // let length_1_child_2 = buckets_1_child_2.length;
-              // let i_1_child_2;
               // 第三个
               // 第四个
 
               // 第一、二个
+
+              // 月 =》 月+季+年  n月数组，数组下对应 指定包的 月+季+年的和
+              // 影视 少儿 欢乐家庭
+              // 订购数
+              let ys_all_months = [];
+              let se_all_months = [];
+              let hljt_all_months = [];
+              // 收入
+              let ys_i_all_months = [];
+              let se_i_all_months = [];
+              let hljt_i_all_months = [];
+              // 根据月的个数推入
+              for (let q1 = 0; q1 < length_1; q1++) {
+                // 初始化数组总和0
+                ys_all_months.push(0);
+                se_all_months.push(0);
+                hljt_all_months.push(0);
+                ys_i_all_months.push(0);
+                se_i_all_months.push(0);
+                hljt_i_all_months.push(0);
+              }
+
               function Retrun_KeyValue_1_1a(
                 key,
                 index_month,
                 index_month_child
               ) {
-                if (key == "影视VIP") {
+                if (
+                  key == "影视VIP" ||
+                  key == "影视VIP包季" ||
+                  key == "影视VIP包年"
+                ) {
                   // 处理 =》 重复的数据 这里不使用push了，直接固定位置set覆盖！
-                  Vue.set(
-                    // 第一个
-                    temp_data_1_1[index_month + 1],
-                    1,
-
+                  // 第一个
+                  let temp_ys = ys_all_months[index_month];
+                  let temp_ys_add =
+                    temp_ys +
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
-                    ].new_paid_num.value
-                  );
-                  Vue.set(
-                    // 第二个
-                    temp_data_1_2[index_month + 1],
-                    1,
-
+                    ].new_paid_num.value;
+                  Vue.set(ys_all_months, index_month, temp_ys_add);
+                  Vue.set(temp_data_1_1[index_month + 1], 1, temp_ys_add);
+                  // 第二个
+                  let temp_ys_i = ys_i_all_months[index_month];
+                  let temp_ys_i_add =
+                    temp_ys_i +
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
                     ].new_income.value /
-                    10000 /
-                    100
-                  );
+                      10000 /
+                      100;
+                  temp_ys_i_add = commonTools.returnFloat_2(temp_ys_i_add);
+
+                  Vue.set(ys_i_all_months, index_month, temp_ys_i_add);
+                  Vue.set(temp_data_1_2[index_month + 1], 1, temp_ys_i_add);
+                  // console.log("▲▲▲▲▲▲▲▲▲▲");
+                  // console.log(temp_ys_i_add);
                 }
-                if (key == "少儿VIP") {
+
+                if (
+                  key == "少儿VIP" ||
+                  key == "少儿VIP包季" ||
+                  key == "少儿VIP包年"
+                ) {
+                  let temp_se = se_all_months[index_month];
+                  let temp_se_add =
+                    temp_se +
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_paid_num.value;
+                  Vue.set(se_all_months, index_month, temp_se_add);
                   Vue.set(
                     // 第一个
                     temp_data_1_1[index_month + 1],
                     2,
-
+                    temp_se_add
+                  );
+                  let temp_se_i = se_i_all_months[index_month];
+                  let temp_se_i_add =
+                    temp_se_i +
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
-                    ].new_paid_num.value
-                  );
+                    ].new_income.value /
+                      10000 /
+                      100;
+                  temp_se_i_add = commonTools.returnFloat_2(temp_se_i_add);
+                  Vue.set(se_i_all_months, index_month, temp_se_i_add);
                   Vue.set(
                     // 第二个
                     temp_data_1_2[index_month + 1],
                     2,
-
-                    buckets_1[index_month].value_added_service_package.buckets[
-                      index_month_child
-                    ].new_income.value /
-                    10000 /
-                    100
+                    temp_se_i_add
                   );
                 }
-                if (key == "欢乐家庭VIP") {
+
+                if (
+                  key == "欢乐家庭VIP" ||
+                  key == "欢乐家庭VIP包季" ||
+                  key == "欢乐家庭VIP包年"
+                ) {
+                  let temp_hljt = hljt_all_months[index_month];
+                  let temp_hljt_add =
+                    temp_hljt +
+                    buckets_1[index_month].value_added_service_package.buckets[
+                      index_month_child
+                    ].new_paid_num.value;
+                  Vue.set(hljt_all_months, index_month, temp_hljt_add);
                   Vue.set(
                     // 第一个
                     temp_data_1_1[index_month + 1],
                     3,
+                    temp_hljt_add
+                  );
+                  let temp_hljt_i = hljt_i_all_months[index_month];
+                  let temp_hljt_i_add =
+                    temp_hljt_i +
                     buckets_1[index_month].value_added_service_package.buckets[
                       index_month_child
-                    ].new_paid_num.value
-                  );
+                    ].new_income.value /
+                      10000 /
+                      100;
+                  temp_hljt_i_add = commonTools.returnFloat_2(temp_hljt_i_add);
+                  Vue.set(hljt_i_all_months, index_month, temp_hljt_i_add);
                   Vue.set(
                     // 第二个
                     temp_data_1_2[index_month + 1],
                     3,
-                    buckets_1[index_month].value_added_service_package.buckets[
-                      index_month_child
-                    ].new_income.value /
-                    10000 /
-                    100
+                    temp_hljt_i_add
                   );
                 }
               } // function （尾巴）
@@ -952,12 +1019,6 @@ export default {
                 }
               }
 
-              // console.log("~~~~~~~~~~~~~~~~~~~~temp_data_1_1~4");
-              // console.log(temp_data_1_1);
-              // console.log(temp_data_1_2);
-              // console.log(temp_data_1_3);
-              // console.log(temp_data_1_4);
-
               vm.monthVIPOrderData.data = temp_data_1_1;
               vm.monthVIPOrderIncomeData.data = temp_data_1_2;
               vm.orderUserContrastData.content = temp_data_1_3;
@@ -976,6 +1037,8 @@ export default {
 
               let buckets_2 =
                 responses2.aggregations.statistical_granularity.buckets;
+              buckets_2 = commonTools.bucketsSort_WM(buckets_2); // 排序
+
               let length_2 = buckets_2.length;
               let i_2;
               // 本月 （index = length -1）
@@ -1027,9 +1090,6 @@ export default {
                   ]);
                 }
               }
-              // console.log("temp_data_2_current ~ last");
-              // console.log(temp_data_2_current);
-              // console.log(temp_data_2_last);
               vm.guideUserPayingContentData1.data = temp_data_2_last; // 上月 - guideUserPayingContentData1
               vm.guideUserPayingContentData2.data = temp_data_2_current; // 本月 - guideUserPayingContentData2
             } catch (error) {
@@ -1042,7 +1102,9 @@ export default {
             try {
               vm.orderUserRegionData.data = [];
               let buckets_6_3 =
-                responses3.aggregations.statistical_granularity.buckets; //  responses2
+                responses3.aggregations.statistical_granularity.buckets; //  responses3
+              buckets_6_3 = commonTools.bucketsSort_WM(buckets_6_3); // 排序
+
               let length_6_3 = buckets_6_3.length;
               let i_6_3;
               // 本月（先） 上月（后）
@@ -1060,33 +1122,24 @@ export default {
                 temp_data_6_3.push([]);
               }
               let month_index_current = length_6_3 - 1; // 倒数第一个
-              // if (length_6_3 == 1) {
-              // month_index_current = 0;
-              // }
               // 本月
               for (i_6_3 = 0; i_6_3 < top10_length_6_3; i_6_3++) {
                 // 一
                 Vue.set(
                   temp_data_6_3[top10_length_6_3 - i_6_3],
                   0,
-                  // commonTools.acConvert_Single(
                   buckets_6_3[month_index_current].ac.buckets[i_6_3].key
-                  // )
                 );
                 Vue.set(
                   temp_data_6_3[top10_length_6_3 - i_6_3],
                   1,
-
                   buckets_6_3[month_index_current].ac.buckets[i_6_3]
                     .new_paid_num.value
                 );
               }
               if (length_6_3 > 1) {
                 // ////// 上月
-                let buckets_child_6_3_2 =
-                  responses3.aggregations.statistical_granularity.buckets[
-                    length_6_3 - 2
-                  ].ac.buckets;
+                let buckets_child_6_3_2 = buckets_6_3[length_6_3 - 2].ac.buckets;
 
                 let top10_length_6_3_week2_all = buckets_child_6_3_2.length; // n个
                 let i_6_3_2;
@@ -1157,6 +1210,8 @@ export default {
 
               let buckets_6 =
                 responses2.aggregations.statistical_granularity.buckets; //  responses2
+              buckets_6 = commonTools.bucketsSort_WM(buckets_6); // 排序
+
               let length_6 = buckets_6.length;
               let i_6;
 
@@ -1194,6 +1249,8 @@ export default {
               if (length_6 != 0) {
                 let buckets_2 =
                   responses2.aggregations.statistical_granularity.buckets;
+                buckets_2 = commonTools.bucketsSort_WM(buckets_2); // 排序
+
                 let length_2 = buckets_2.length;
 
                 // 有month数据情况
@@ -1206,7 +1263,6 @@ export default {
                   let length_6_cc = 5; // 只要Top5
                   let buckets_6_cc =
                     buckets_6_child[i_6_child].programname.buckets;
-                  // console.log(buckets_6_child[i_6_child].key);
 
                   if (buckets_6_child[i_6_child].key == "851") {
                     for (i_6_cc = 0; i_6_cc < length_6_cc; i_6_cc++) {
@@ -1292,16 +1348,6 @@ export default {
                 }
               }
 
-              // console.log(temp_data_6_1);
-              // console.log(temp_data_6_2);
-              // console.log(temp_data_6_3);
-              // console.log(temp_data_6_4);
-              // console.log(temp_data_6_5);
-              // console.log(temp_data_6_6);
-              // console.log(temp_data_6_7);
-              // console.log(temp_data_6_8);
-              // console.log(temp_data_6_9);
-
               // 数据不按原视图的来，按照 851~859的顺序来，变量名称不管
 
               vm.GuiyangPayingUserData.data = temp_data_6_1;
@@ -1349,6 +1395,8 @@ export default {
               vm.tableData2 = [];
               let buckets_8 =
                 responses4.aggregations.statistical_granularity.buckets;
+              buckets_8 = commonTools.bucketsSort_WM(buckets_8); // 排序
+
               let length_8 = buckets_8.length;
               let i_8;
               // 本月 （index = length -1）
@@ -1380,8 +1428,9 @@ export default {
                     buckets_8_child[i_8_child].demand_user_num.value;
                   temp_data_8_current[i_8_child].times =
                     buckets_8_child[i_8_child].demand_freq.value;
-                  temp_data_8_current[i_8_child].duration =
-                    (buckets_8_child[i_8_child].demand_dur.value / 60).toFixed(2);
+                  temp_data_8_current[i_8_child].duration = (
+                    buckets_8_child[i_8_child].demand_dur.value / 60
+                  ).toFixed(2);
                 }
               }
 
@@ -1413,13 +1462,11 @@ export default {
                     buckets_8_child[i_8_child].demand_user_num.value;
                   temp_data_8_last[i_8_child].times =
                     buckets_8_child[i_8_child].demand_freq.value;
-                  temp_data_8_last[i_8_child].duration =
-                    (buckets_8_child[i_8_child].demand_dur.value / 60).toFixed(2);
+                  temp_data_8_last[i_8_child].duration = (
+                    buckets_8_child[i_8_child].demand_dur.value / 60
+                  ).toFixed(2);
                 }
               }
-              console.log("temp_data_8_current ~ last");
-              console.log(temp_data_8_current);
-              console.log(temp_data_8_last);
               vm.tableData = temp_data_8_last; // 上月 tableData
               vm.tableData2 = temp_data_8_current; // 当月  tableData2
             } catch (error) {
@@ -1427,7 +1474,7 @@ export default {
             }
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     }
@@ -2450,8 +2497,7 @@ export default {
         // }
       ]
     };
-  },
-
+  }
 };
 </script>
 <style scoped>

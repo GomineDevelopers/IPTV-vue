@@ -116,52 +116,22 @@ export default {
   mounted() {
     // singleday - 当天  rangeday - 前七天（不包括当天）
     let vm = this;
-    setTimeout(function () {
-      if (vm.PR_day == null || vm.PR_day == undefined || vm.PR_day == "") {
+    if (vm.PR_day == null || vm.PR_day == undefined || vm.PR_day == "") {
         return;
-      }
-      vm.users_daliyReport("yd", "rangeday");
-      vm.users_daliyReport("lt", "rangeday");
-      vm.users_daliyReport("dx", "rangeday");
-      vm.users_daliyReport("yd", "singleday");
-      vm.users_daliyReport("lt", "singleday");
-      vm.users_daliyReport("dx", "singleday");
-      // excel 处理
-      vm.Excel_data_manage();
-    }, 100);
-    // setTimeout(function() {
-    //   vm.$store
-    //     .dispatch("get_BigScreenStartDate")
-    //     .then(function(res1) {
-    //       setTimeout(function() {
-    //         vm.$store
-    //           .dispatch("get_BigScreenExpirationDate")
-    //           .then(function(res2) {
-    //             if (
-    //               vm.PR_day == null ||
-    //               vm.PR_day == undefined ||
-    //               vm.PR_day == ""
-    //             ) {
-    //               return;
-    //             }
-    //             vm.users_daliyReport("yd", "rangeday", res2, res2);
-    //             vm.users_daliyReport("lt", "rangeday", res2, res2);
-    //             vm.users_daliyReport("dx", "rangeday", res2, res2);
-    //             vm.users_daliyReport("yd", "singleday", res1, res2);
-    //             vm.users_daliyReport("lt", "singleday", res1, res2);
-    //             vm.users_daliyReport("dx", "singleday", res1, res2);
-    //             // excel 处理
-    //             vm.Excel_data_manage();
-    //           })
-    //           .catch(function(error) {
-    //             console.info(error);
-    //           });
-    //       }, 100);
-    //     })
-    //     .catch(function(error) {
-    //       console.info(error);
-    //     });
-    // }, 100);
+    }
+    else{
+      // setTimeout(function() {
+        vm.users_daliyReport("yd", "rangeday");
+        vm.users_daliyReport("lt", "rangeday");
+        vm.users_daliyReport("dx", "rangeday");
+        vm.users_daliyReport("yd", "singleday");
+        vm.users_daliyReport("lt", "singleday");
+        vm.users_daliyReport("dx", "singleday");
+        // excel 处理
+        vm.Excel_data_manage();
+      // }, 2000);
+    }
+   
   },
   watch: {
     PR_operator(newValue, oldValue) {
@@ -170,11 +140,8 @@ export default {
       vm.Excel_data_manage();
     },
     PR_day(newValue, oldValue) {
-      // console.log("~~~~~PR_day");
-      // console.log(newValue);
-
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         if (newValue == null || newValue == undefined || newValue == "") {
           return;
         }
@@ -193,7 +160,7 @@ export default {
   computed: {
     ...mapGetters(["PR_operator", "PR_day", "PR_Report_index"]),
     ifOperatorShow_yd: {
-      get: function () {
+      get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         }
@@ -202,10 +169,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifOperatorShow_lt: {
-      get: function () {
+      get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         }
@@ -214,10 +181,10 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     },
     ifOperatorShow_dx: {
-      get: function () {
+      get: function() {
         if (this.PR_operator == null || this.PR_operator.length == 0) {
           return true;
         }
@@ -226,7 +193,7 @@ export default {
         }
         return false;
       },
-      set: function (newValue) { }
+      set: function(newValue) {}
     }
   },
   methods: {
@@ -237,13 +204,13 @@ export default {
       // 设置excel按钮下载状态 - 关
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
-        .then(function (response_dataArr) {
-          console.log("下载关");
+        .then(function(response_dataArr) {
+          // console.log("下载关");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
-      setTimeout(function () {
+      setTimeout(function() {
         if (vm.PR_Report_index == 2) {
           let temp_titleArr = [];
           let temp_DataArr = [];
@@ -289,8 +256,7 @@ export default {
               [vm.dianxingLiveBroadcast.title],
               [vm.dianxingtypedayusernumber.title],
               [vm.dianxingtypedayclicknumber.title],
-              [vm.dianxingAsideClickUser.title],
-
+              [vm.dianxingAsideClickUser.title]
             );
             data_arr.push(
               vm.yidongTypeLooktime.data[0],
@@ -312,7 +278,7 @@ export default {
               vm.dianxingLiveBroadcast.data[0],
               vm.dianxingtypedayusernumber.data[0],
               vm.dianxingtypedayclicknumber.data[0],
-              vm.dianxingAsideClickUser.data[0],
+              vm.dianxingAsideClickUser.data[0]
             );
           } catch (error) {
             console.log(error);
@@ -322,40 +288,40 @@ export default {
           temp_titleArr = title_arr;
           temp_DataArr = data_arr;
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
-            console.log("请选择时间！");
+            // console.log("请选择时间！");
             return;
           }
 
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
-            .then(function (response_title) {
-              console.log(response_title);
+            .then(function(response_title) {
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
-                .then(function (response_dataArr) {
-                  console.log(response_dataArr);
+                .then(function(response_dataArr) {
+                  // console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
-                    .then(function (response_dataArr) {
-                      console.log("下载开");
+                    .then(function(response_dataArr) {
+                      // console.log("下载开");
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                       console.info(error);
                     });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.info(error);
                 });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.info(error);
             });
         }
       }, 3000);
     },
     users_daliyReport(operator_type, date_type) {
-      console.log("users_daliyReport");
+      // console.log("users_daliyReport");
       let vm = this;
       let temp_operator;
       if (operator_type == "yd") {
@@ -367,9 +333,6 @@ export default {
       if (operator_type == "dx") {
         temp_operator = "电信";
       }
-      console.log("~~~~~~!!vm.PR_day");
-      console.log(vm.PR_day);
-
       let start;
       let end;
       if (vm.PR_day != null) {
@@ -386,58 +349,54 @@ export default {
         }
       }
       let temp = {
-        // operator: String(["移动"]),
         operator: String([temp_operator]),
-        // start: "2019-07-01",
-        // end: "2019-07-01"
         start: start,
         end: end
       };
-
-      console.log("~~~~~~~!");
-      console.log(temp);
-
+      // console.log("~~~~~~~!");
+      // console.log(temp);
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("operator", temp.operator);
       formData.append("start", temp.start);
       formData.append("end", temp.end);
-
       users_daliyReport(formData)
-        .then(function (response) {
-          if (date_type == "rangeday") {
-            if (operator_type == "yd") {
-              console.log("~~~~yd rangeday");
-              console.log(response);
-            }
-            if (operator_type == "lt") {
-              console.log("~~~~lt rangeday");
-              console.log(response);
-            }
-            if (operator_type == "dx") {
-              console.log("~~~~dx rangeday");
-              console.log(response);
-            }
-          }
-          if (date_type == "singleday") {
-            if (operator_type == "yd") {
-              console.log("~~~~yd singleday");
-              console.log(response);
-            }
-            if (operator_type == "lt") {
-              console.log("~~~~lt singleday");
-              console.log(response);
-            }
-            if (operator_type == "dx") {
-              console.log("~~~~dx singleday");
-              console.log(response);
-            }
-          }
+        .then(function(response) {
+          // 测试：输出
+          // if (date_type == "rangeday") {
+          //   if (operator_type == "yd") {
+          //     console.log("~~~~yd rangeday");
+          //     console.log(response);
+          //   }
+          //   if (operator_type == "lt") {
+          //     console.log("~~~~lt rangeday");
+          //     console.log(response);
+          //   }
+          //   if (operator_type == "dx") {
+          //     console.log("~~~~dx rangeday");
+          //     console.log(response);
+          //   }
+          // }
+          // if (date_type == "singleday") {
+          //   if (operator_type == "yd") {
+          //     console.log("~~~~yd singleday");
+          //     console.log(response);
+          //   }
+          //   if (operator_type == "lt") {
+          //     console.log("~~~~lt singleday");
+          //     console.log(response);
+          //   }
+          //   if (operator_type == "dx") {
+          //     console.log("~~~~dx singleday");
+          //     console.log(response);
+          //   }
+          // }
 
           ///////////////// 移动侧各类型节目单日点播时长（千小时） - yidongTypeLooktime
           if (date_type == "rangeday") {
             try {
-              let buckets0 = response.data.responses[1].aggregations.program_type.buckets;
+              let buckets0 =
+                response.data.responses[1].aggregations.program_type.buckets;
               // ////// 平均  ( @PS:平均返回的值是所有（7）天的，需要(all_demand_dur)除以7 )
               // 注意，视图是 先平均 再今日  --- api是  先今日-0  后平均-1
               let temp_0 = [];
@@ -446,7 +405,6 @@ export default {
               // let top10Num = 10;
               // let length_0 = top10Num; // ▲指定10 - Top
               let length_0 = buckets0.length; // 由于固定了显示栏目--所以用全length
-
               let i_0;
               temp_0_C1.push("运营商");
               temp_0_C2.push("平均");
@@ -458,27 +416,15 @@ export default {
                   String(
                     commonTools.returnFloat_2(
                       parseFloat(buckets0[i_0].all_demand_dur.value) /
-                      1000 /
-                      60 /
-                      7
+                        1000 /
+                        60 /
+                        7
                     )
                   )
-                  // buckets0[i_0].all_demand_dur.value
                 );
               }
               //（固定排列！） 热剧 少儿 电影 动漫 综艺 游戏 纪实 音乐 体育 新闻资讯
               for (i_0 = 0; i_0 < length_0; i_0++) {
-                // temp_0_C1.push(buckets0[i_0].key);
-                // temp_0_C2.push(
-                // String(
-                //   parseInt(
-                //     parseFloat(buckets0[i_0].all_demand_dur.value) /
-                //       1000 /
-                //       60 /
-                //       7
-                //   )
-                // )
-                // ); //秒-》千小时 取整
                 if (buckets0[i_0].key == "电视剧") {
                   data_manage(i_0, 1);
                 }
@@ -524,20 +470,12 @@ export default {
                 vm.dianxingTypeLooktime.data = []; // 初始化
                 vm.dianxingTypeLooktime.data.push(temp_0);
               }
-
-              // console.log("~~~~~~~~Test！！！！");
-              // console.log(vm.yidongTypeLooktime);
-              // console.log(vm.liantongTypeLooktime);
-              // console.log(vm.dianxingTypeLooktime);
-            } catch (error) {
-
-            }
+            } catch (error) {}
           }
 
           // ////// 今日
           if (date_type == "singleday") {
             try {
-
               let buckets0 =
                 response.data.responses[0].aggregations.program_type.buckets;
               let temp_0 = [];
@@ -546,13 +484,9 @@ export default {
               // let top10Num = 10;
               // let length_0 = top10Num; // ▲指定10 - Top
               let length_0 = buckets0.length; // 由于固定了显示栏目--所以用全length
-
               let i_0;
               temp_0_C1.push("运营商");
               temp_0_C2.push("今日");
-              // Vue.set(temp_0_C1, 0, "运营商");
-              // Vue.set(temp_0_C2, 0, "今日");
-
               function data_manage(i_0, index) {
                 Vue.set(temp_0_C1, index, buckets0[i_0].key);
                 Vue.set(
@@ -563,7 +497,6 @@ export default {
                       parseFloat(buckets0[i_0].demand_dur.value) / 1000 / 60
                     )
                   )
-                  // buckets0[i_0].demand_dur.value
                 );
               }
               for (i_0 = 0; i_0 < length_0; i_0++) {
@@ -598,10 +531,6 @@ export default {
                   data_manage(i_0, 10);
                 }
               }
-              // console.log("~~~~");
-              // console.log(temp_0_C1);
-              // console.log(temp_0_C2);
-
               temp_0.push(temp_0_C1);
               temp_0.push(temp_0_C2);
               if (operator_type == "yd") {
@@ -616,35 +545,20 @@ export default {
                 // vm.dianxingTypeLooktime.data = []; // 初始化
                 vm.dianxingTypeLooktime.data.push(temp_0);
               }
-            } catch (error) {
-
-            }
-
-            // console.log("~~~~~~~~Test！！！！");
-            // console.log(vm.yidongTypeLooktime);
-            // console.log(vm.liantongTypeLooktime);
-            // console.log(vm.dianxingTypeLooktime);
+            } catch (error) {}
           }
 
           // //////////////////  移动侧直播频道单日收视率排行-TOP12 -  yidongLiveBroadcast
           if (date_type == "singleday") {
             try {
-              let buckets1 = response.data.responses[2].aggregations.channel.buckets;
-              console.log("buckets1-------", buckets1)
-              // if (buckets1[0].onlive_dur.value) { }  //若数组为空，则进入catch
+              let buckets1 =
+                response.data.responses[2].aggregations.channel.buckets;
               let temp_1 = [];
               let temp_1_C1 = [];
               let temp_1_C2 = [];
-              // let length_1 = buckets1.length;
               let length_1_all = buckets1.length;
-              // console.log("~~~~~~~： " + length_1_all);
               let length_1 = 12; // ▲▲▲ 固定Top12
-
               let i_1;
-              // temp_0_C1.push("运营商");
-              // temp_0_C2.push("今日");
-              // Vue.set(temp_0_C1, 0, "运营商");
-              // Vue.set(temp_0_C1, 0, "今日");
               temp_1_C1.push("运营商");
               temp_1_C2.push("今日");
               let all_count = 0.0;
@@ -653,26 +567,26 @@ export default {
               }
               let space_count = 0; // 空值统计
               for (i_1 = 0; i_1 < length_1; i_1++) {
-                if(buckets1[i_1].key != "" && buckets1[i_1].key != " "){
+                if (buckets1[i_1].key != "" && buckets1[i_1].key != " ") {
                   temp_1_C1.push(buckets1[i_1].key);
                   temp_1_C2.push(
-                    // String(
-                    //   parseInt(
-                    //     (parseFloat(buckets1[i_1].onlive_dur.value) * 100) /
-                    //     all_count
-                    //   )
-                    // )
-                    (((buckets1[i_1].onlive_dur.value) * 100) / all_count).toFixed(2)
+                    (
+                      (buckets1[i_1].onlive_dur.value * 100) /
+                      all_count
+                    ).toFixed(2)
                   );
-                }
-                else{
+                } else {
                   space_count++;
                 }
               }
               for (i_1 = 0; i_1 < space_count; i_1++) {
                 temp_1_C1.push(buckets1[i_1 + length_1 - space_count].key);
                 temp_1_C2.push(
-                  (((buckets1[i_1 + length_1 - space_count].onlive_dur.value) * 100) / all_count).toFixed(2)
+                  (
+                    (buckets1[i_1 + length_1 - space_count].onlive_dur.value *
+                      100) /
+                    all_count
+                  ).toFixed(2)
                 );
               }
 
@@ -681,9 +595,6 @@ export default {
               if (operator_type == "yd") {
                 vm.yidongLiveBroadcast.data = []; // 初始化
                 vm.yidongLiveBroadcast.data.push(temp_1);
-                // console.log("~~~~~!!!");
-                // console.log(buckets1);
-                // console.log(vm.yidongLiveBroadcast.data);
               }
               if (operator_type == "lt") {
                 vm.liantongLiveBroadcast.data = []; // 初始化
@@ -694,7 +605,7 @@ export default {
                 vm.dianxingLiveBroadcast.data.push(temp_1);
               }
             } catch (error) {
-              console.log("排名错误")
+              console.log("排名错误");
               if (operator_type == "yd") {
                 vm.yidongLiveBroadcast.data = []; // 初始化
               }
@@ -704,11 +615,9 @@ export default {
               if (operator_type == "dx") {
                 vm.dianxingLiveBroadcast.data = []; // 初始化
               }
-              console.log(error)
+              console.log(error);
             }
           }
-
-          // console.log(vm.yidongLiveBroadcast);
 
           // ////////////////// 移动侧各栏目单日点击用户数（户） yidongtypedayusernumber
           // ////////////////// 移动侧各栏目单日点击次数（次）   yidongtypedayclicknumber
@@ -759,11 +668,6 @@ export default {
               let buckets2 = response.data.responses[3].aggregations.ti.buckets;
               let length_3_all = buckets2.length;
               let length_3_top;
-              // if (length_3_all >= 12) {
-              //   length_3_top = 12;
-              // } else {
-              //   length_3_top = length_3_all;
-              // }
               length_3_top = length_3_all;
               let temp_3 = [];
               let temp_3_C1 = [];
@@ -773,15 +677,12 @@ export default {
               let temp_3_C2B = [];
               let i_0;
               temp_3_C1.push("运营商");
-              // temp_3_C2.push("平均");
               temp_3_C2.push("今日");
               temp_3_C1B.push("运营商");
-              // temp_3_C2B.push("平均");
               temp_3_C2B.push("今日");
               function data_manage(i_0) {
                 let t_leng2;
                 let t_i2;
-
                 if (operator_type == "yd") {
                   t_leng2 = yd_channnel_order.length;
                   for (t_i2 = 0; t_i2 < t_leng2; t_i2++) {
@@ -791,7 +692,9 @@ export default {
                         temp_3_C2,
                         t_i2 + 1,
                         String(
-                          parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                          parseInt(
+                            parseFloat(buckets2[i_0].click_user_num.value)
+                          )
                         )
                       );
                       Vue.set(temp_3_C1B, t_i2 + 1, buckets2[i_0].key);
@@ -814,7 +717,9 @@ export default {
                         temp_3_C2,
                         t_i2 + 1,
                         String(
-                          parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                          parseInt(
+                            parseFloat(buckets2[i_0].click_user_num.value)
+                          )
                         )
                       );
                       Vue.set(temp_3_C1B, t_i2 + 1, buckets2[i_0].key);
@@ -837,7 +742,9 @@ export default {
                         temp_3_C2,
                         t_i2 + 1,
                         String(
-                          parseInt(parseFloat(buckets2[i_0].click_user_num.value))
+                          parseInt(
+                            parseFloat(buckets2[i_0].click_user_num.value)
+                          )
                         )
                       );
                       Vue.set(temp_3_C1B, t_i2 + 1, buckets2[i_0].key);
@@ -854,15 +761,6 @@ export default {
               }
               for (i_0 = 0; i_0 < length_3_top; i_0++) {
                 data_manage(i_0);
-
-                // temp_3_C1.push(buckets2[i_0].key);
-                // temp_3_C2.push(
-                //   String(parseInt(parseFloat(buckets2[i_0].click_user_num.value)))
-                // );
-                // temp_3_C1B.push(buckets2[i_0].key);
-                // temp_3_C2B.push(
-                //   String(parseInt(parseFloat(buckets2[i_0].click_freq.value)))
-                // );
               }
               temp_3.push(temp_3_C1);
               temp_3.push(temp_3_C2);
@@ -890,9 +788,7 @@ export default {
                 vm.dianxingtypedayusernumber.data.push(temp_3);
                 vm.dianxingtypedayclicknumber.data.push(temp_3B);
               }
-            } catch (error) {
-
-            }
+            } catch (error) {}
           }
 
           // ///////////////// yd lt dx 侧首页各推荐位/按钮单日点击次数
@@ -900,11 +796,12 @@ export default {
           // liantongAsideClickUser
           // dianxingAsideClickUser
           if (date_type == "singleday") {
-            console.log("~~~~~~~~~~~~~~~~~~▲▲▲▲▲▲▲▲▲▲▲▲ 1111");
-            console.log(response);
+            // console.log("~~~~~~~~~~~~~~~~~~▲▲▲▲▲▲▲▲▲▲▲▲ 1111");
+            // console.log(response);
             try {
               if (operator_type == "yd") {
-                let buckets_4 = response.data.responses[4].aggregations.areaname.buckets;
+                let buckets_4 =
+                  response.data.responses[4].aggregations.areaname.buckets;
                 let length_4 = buckets_4.length;
                 let i_4;
                 let temp_data = [[["运营商"], ["今日"]]];
@@ -913,8 +810,6 @@ export default {
                   temp_data[0][1].push(buckets_4[i_4].click_freq.value);
                 }
                 vm.yidongAsideClickUser.data = temp_data;
-                console.log("~~~~~~~~~~~~~~~~");
-                console.log(temp_data);
               }
               if (operator_type == "lt") {
                 let buckets_4 =
@@ -927,8 +822,6 @@ export default {
                   temp_data[0][1].push(buckets_4[i_4].click_freq.value);
                 }
                 vm.liantongAsideClickUser.data = temp_data;
-                console.log("~~~~~~~~~~~~~~~~");
-                console.log(temp_data);
               }
               if (operator_type == "dx") {
                 let buckets_4 =
@@ -941,15 +834,13 @@ export default {
                   temp_data[0][1].push(buckets_4[i_4].click_freq.value);
                 }
                 vm.dianxingAsideClickUser.data = temp_data;
-                console.log("~~~~~~~~~~~~~~~~");
-                console.log(temp_data);
               }
             } catch (error) {
               console.log(error);
             }
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
     },

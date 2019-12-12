@@ -44,7 +44,7 @@ export async function users_activeReportTop(postData) {
     return responseData
 }
 
-// //////////////////////// 上传文件
+// //////////////////////// 上传文件 uploadfile
 
 // 转免节目单上传
 // POST http://{{host}}/api/csv/program/free
@@ -76,8 +76,76 @@ export function csv_weibo(data) {
     })
 }
 
-// //////////////////////// 时间日期
 
+// 节目单目录
+// get http://{{iptv}}/api/program/list
+// 参数 from
+// export function uf_program_list(from) {
+export function uf_program_list(from) {
+    return request({
+        method: 'get',
+        url: '/program/list',
+        // params: {
+        //     from: from
+        // }
+    })
+}
+
+// 节目单单个id删除
+// delete http://{{iptv}}/api/program/:id  
+// export function uf_del_program(id) {  // id 为 字符串类型
+//     return request({
+//         method: 'delete',
+//         url: '/program/' + id,
+//     })
+// }
+// 节目单单个id删除 - 改
+// post http://{{iptv}}/api/program/delete
+export function uf_del_program(postData) {
+    return request({
+        method: 'post',
+        url: '/program/delete',
+        data: postData
+    })
+}
+
+
+// 转免节目单目录
+// get http://{{iptv}}/api/freeProgram/list
+// 参数 from
+// export function uf_freeprogram_list(from) {
+export function uf_freeprogram_list() {
+    return request({
+        method: 'get',
+        url: '/freeProgram/list',
+        // params: {
+        //     from: from
+        // }
+    })
+}
+
+// 转免节目单单个id删除
+// delete http://{{iptv}}/api/freeProgram/:id
+// export function uf_del_freeprogram(id) {  // id 为 字符串类型
+//     return request({
+//         method: 'delete',
+//         url: '/freeProgram/' + id,
+//     })
+// }
+// 转免节目单单个id删除 - 改
+// post http://{{iptv}}/api/freeProgram/delete
+export function uf_del_freeprogram(postData) {
+    return request({
+        method: 'post',
+        url: '/freeProgram/delete',
+        data: postData
+    })
+}
+
+
+
+
+// //////////////////////// 时间日期
 // get http://{{iptv}}/api/date
 export function get_date(user) {
     return request({
@@ -775,10 +843,14 @@ export function users_subscribe(data) {
     return request({
         method: 'get',
         url: '/users/subscribe',
+        // params: {
+        //     start: data.start,
+        //     end: data.end,
+        //     operator: data.operator,
+        //     year: data.year
+        // }
         params: {
-            start: data.start,
-            end: data.end,
-            operator: data.operator
+            ...(data)
         }
     })
 }

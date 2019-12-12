@@ -121,7 +121,6 @@ export default {
       this.$store
         .dispatch("set_PS_time", newValue)
         .then(function (response) {
-          // console.log(response);
         })
         .catch(function (error) {
           console.info(error);
@@ -132,7 +131,6 @@ export default {
       this.$store
         .dispatch("set_PS_name", newValue)
         .then(function (response) {
-          // console.log(response);
         })
         .catch(function (error) {
           console.info(error);
@@ -193,10 +191,10 @@ export default {
       }
 
       let operatorChoose = this.operatorChoose[0]
-      console.log("运营商", operatorChoose)
-      console.log("时间", startTime)
-      console.log("日期", this.date)
-      console.log("节目名称", this.programInput)
+      // console.log("运营商", operatorChoose)
+      // console.log("时间", startTime)
+      // console.log("日期", this.date)
+      // console.log("节目名称", this.programInput)
 
       let formData = new FormData()   //operator
       formData.append("operator", this.operatorChoose)
@@ -214,10 +212,10 @@ export default {
         let data_temp = []
         //若选择了时间段
         if (startTime) {
-          console.log("查询节目时间段内的数据！")
+          // console.log("查询节目时间段内的数据！")
           program_search(formData)
             .then((response) => {
-              console.log("查询结果", response.data.responses)
+              // console.log("查询结果", response.data.responses)
               let responseData = response.data.responses[0].hits.hits
               if (responseData) {
                 let programData = responseData[0]._source
@@ -249,7 +247,7 @@ export default {
           console.log("当前查询为节目一天的数据")
           program_search_day(dayFormData)
             .then((response) => {
-              console.log(response)
+              // console.log(response)
               let responseData = response.data.responses[0].hits.hits
               if (responseData) {
                 let programData = responseData[0]._source

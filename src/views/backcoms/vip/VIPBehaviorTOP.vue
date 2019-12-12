@@ -1,13 +1,13 @@
 <template>
-  <div class="vip_behavior_top height_auto">
+  <div class="user_viewing_behavior_top height_auto">
     <!-- 收视行为开始 -->
     <el-row class="height_auto">
       <el-row class="viewing_top15_detail">
         <el-row class="viewing_top_title">
-          <el-col :span="3" :offset="2">排名</el-col>
-          <el-col :span="7">卫视</el-col>
-          <el-col :span="6">节目</el-col>
-          <el-col :span="6">次数（万）</el-col>
+          <el-col :span="3" :offset="2">{{TopTitleInfo.i1}}</el-col>
+          <el-col :span="7">{{TopTitleInfo.i2}}</el-col>
+          <el-col :span="6">{{TopTitleInfo.i3}}</el-col>
+          <el-col :span="6">{{TopTitleInfo.i4}}</el-col>
         </el-row>
         <el-row class="programsTOP_list" :id="viewingTopList.id">
           <el-row class="viewing_top_list" v-for="(item,index) in viewingTopList.data" :key="index">
@@ -21,7 +21,7 @@
               <span>{{item.programSource}}</span>
             </el-col>
             <el-col :span="6" class="hotWidth">
-              <span :style="{width:item.hot}">{{item.playNum}}</span>
+              <span :style="{width:item.hot,paddingRight:'5%',paddingLeft:'5%'}">{{item.playNum}}</span>
             </el-col>
           </el-row>
         </el-row>
@@ -31,25 +31,198 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: 'UserViewingBehaviorTOP', //用户收视行为
+  name: "UserViewingBehaviorTOP", //用户收视行为
   props: {
     viewingTopList: {
-      type: Object,
+      type: Object
     }
+  },
+  computed: {
+    ...mapGetters([
+      "UVB_region",
+      "UVB_operator",
+      "UVB_playmode",
+      "UVB_programa",
+      "UVB_contenttype",
+      "UVB_day",
+      "UVB_week",
+      "UVB_picker",
+      "UVB_time_type",
+
+      "ADD_VIP_region",
+      "ADD_VIP_operator",
+      "ADD_VIP_programa",
+      "ADD_VIP_valueAddedPackage",
+      "ADD_VIP_day",
+      "ADD_VIP_week",
+      "ADD_VIP_picker",
+      "ADD_VIP_time_type"
+    ])
   },
   data() {
     return {
+      TopTitleInfo: {
+        i1: "",
+        i2: "",
+        i3: "",
+        i4: ""
+      }
+    };
+  },
+  watch: {
+    viewingTopList(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
 
+    UVB_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_playmode(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_contenttype(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    UVB_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+
+    ADD_VIP_region(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_operator(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_programa(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_valueAddedPackage(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_day(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_week(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_picker(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
+    },
+    ADD_VIP_time_type(newValue, oldValue) {
+      let vm = this;
+      setTimeout(function() {
+        vm.drawEcharts();
+      }, 2000);
     }
   },
   mounted() {
-    this.scrollLoopUp(this.viewingTopList.id)
+    let vm = this;
+    setTimeout(function() {
+      vm.drawEcharts();
+    }, 2000);
   },
   methods: {
-    scrollLoopUp: function (id) {
-      var scrollBox = document.getElementById(id)
-      var lineHeight = 42.5
+    drawEcharts() {
+      try {
+        // console.log("~~~~~test");
+        // console.log(this.viewingTopList);
+        if (
+          this.viewingTopList.type == "live" ||
+          this.viewingTopList.type == "review"
+        ) {
+          this.TopTitleInfo = {
+            i1: "排名",
+            i2: "频道",
+            i3: "节目",
+            i4: "次数"
+          };
+        }
+        if (this.viewingTopList.type == "demand") {
+          this.TopTitleInfo = {
+            i1: "排名",
+            i2: "内容类型",
+            i3: "节目",
+            // i4: "次数（万）"
+            i4: "次数"
+          };
+        }
+        // this.scrollLoopUp(this.viewingTopList.id); // 滚动暂时关掉
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    scrollLoopUp: function(id) {
+      var scrollBox = document.getElementById(id);
+      var lineHeight = 42.5;
       var time = 50;
       scrollBox.innerHTML += scrollBox.innerHTML;
       scrollBox.scrollTop = 0;
@@ -59,23 +232,25 @@ export default {
         timer = setInterval(scrollUp, time);
       }
       function scrollUp() {
-        if (scrollBox.scrollTop % lineHeight == 0) {//滚动一行后，延时2秒
-          clearInterval(timer)
-          setTimeout(scrollMove, 2000)
+        if (scrollBox.scrollTop % lineHeight == 0) {
+          //滚动一行后，延时2秒
+          clearInterval(timer);
+          setTimeout(scrollMove, 2000);
         } else {
-          scrollBox.scrollTop++
-          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) { //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动 
-            scrollBox.scrollTop = 0
+          scrollBox.scrollTop++;
+          if (scrollBox.scrollTop >= scrollBox.scrollHeight / 2) {
+            //判断滚动高度,当滚动高度大于scrollBox本身的高度时，使其回到原点重新滚动
+            scrollBox.scrollTop = 0;
           }
         }
       }
-      setTimeout(scrollMove, 2000)
+      setTimeout(scrollMove, 2000);
     }
   }
-}
+};
 </script>
 <style scoped>
-.vip_behavior_top {
+.user_viewing_behavior_top {
   height: 100%;
   overflow: hidden;
 }

@@ -72,14 +72,10 @@ export default {
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
-      // console.log("~~~~~~broadcast_demand");
       broadcast_demand(data)
         .then(function(response) {
-          // console.log(response);
-
           let m_data = response.data.responses[0].aggregations;
 
           // 用户数 收视数 户均收视数
@@ -94,21 +90,15 @@ export default {
         });
     },
     broadcast_review(ExpirationDate) {
-      // console.log("~~~~~~!!!!!ExpirationDate");
-      // console.log(ExpirationDate);
-
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
       broadcast_review(data)
         .then(function(response) {
-          // console.log("~~~~~~broadcast_review");
-          // console.log(response);
 
           let m_data = response.data.responses[0].aggregations;
           // 用户数 收视数 户均收视数
@@ -128,13 +118,10 @@ export default {
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
       media_watch_total(data)
         .then(function(response) {
-          // console.log("~~~~~~media_watch_total");
-          // console.log(response);
 
           let m_data = response.data.responses[0].aggregations;
           // 用户数 收视数 户均收视数
@@ -149,19 +136,15 @@ export default {
         });
     },
     broadcast_onlive(ExpirationDate) {
-      // console.log("broadcast_onlive");
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
       let data = {
         start: ExpirationDate,
         end: ExpirationDate,
-        // operator: String(["移动", "联通", "电信"])
         operator: m_operator
       };
       broadcast_onlive(data)
         .then(function(response) {
-          // console.log("~~~~~~broadcast_onlive");
-          // console.log(response);
           let m_data = response.data.responses[0].aggregations;
           vm.broadcast_onlive_1 = m_data.onlive_user_num.value;
           vm.broadcast_onlive_2 = m_data.onlive_freq.value;
@@ -259,8 +242,6 @@ export default {
           },
           formatter: function(params) {
             let length = params.length;
-            // console.log(params);
-            // console.log(length);
             return (
               params[0].name +
               "<br/>" +
@@ -337,42 +318,6 @@ export default {
               // formatter:'{value}(万)'
               formatter: function(value) {
                 // return String(value / 10000 / 1000) + "（千万）";
-
-                // if (value == 0) {
-                //   return 0;
-                // }
-                // if (vm.media_watch_total_2 > 100000000) {
-                //   vm.m_Unit = "亿";
-                //   // return String(value / 10000 / 10000) + "亿";
-                //   vm.current_value = 100000000;
-                //   return String(value / 10000 / 10000);
-                // }
-                // if (
-                //   vm.media_watch_total_2 > 10000000 &&
-                //   vm.media_watch_total_2 <= 100000000
-                // ) {
-                //   vm.m_Unit = "千万";
-                //   vm.current_value = 10000000;
-                //   return String(value / 10000 / 1000);
-                // }
-                // if (
-                //   vm.media_watch_total_2 > 1000000 &&
-                //   vm.media_watch_total_2 <= 10000000
-                // ) {
-                //   vm.m_Unit = "百万";
-                //   vm.current_value = 1000000;
-                //   return String(value / 10000 / 100);
-                // }
-                // if (
-                //   vm.media_watch_total_2 > 10000 &&
-                //   vm.media_watch_total_2 <= 1000000
-                // ) {
-                //   vm.m_Unit = "万";
-                //   vm.current_value = 10000;
-                //   return String(value / 10000);
-                // }
-                // return String(value);
-
                 // 固定
                 vm.current_value = 10000;
                 return String(value / vm.current_value);

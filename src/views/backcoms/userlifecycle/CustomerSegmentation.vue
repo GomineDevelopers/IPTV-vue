@@ -156,8 +156,8 @@ export default {
   watch: {
     //用户细分
     api_data5(newValue, oldValue) {
-      console.log("用户细分ULC - api_data5:");
-      console.log(newValue);
+      // console.log("用户细分ULC - api_data5:");
+      // console.log(newValue);
       let vm = this
       vm.customerSegmentation.categoryData[0].data = []
       vm.customerSegmentation.categoryData[1].data = []
@@ -175,7 +175,7 @@ export default {
         let customerLapsed_temp = []  //睡眠用户
         let customerNone_temp = []  //未订购用户
         customerSegmentation.forEach((value, index) => {
-          console.log(value.key, value)
+          // console.log(value.key, value)
           value.productname.buckets.forEach((value2, index2) => {
             // console.log(value2.key)
             if (value.key == 'firsttime') {
@@ -347,8 +347,8 @@ export default {
     },
     //收视次数
     api_data6(newValue, oldValue) {
-      console.log("用户生命周期收视次数TOP", newValue)
-      console.log("用户生命周期收视次数------", newValue)
+      // console.log("用户生命周期收视次数TOP", newValue)
+      // console.log("用户生命周期收视次数------", newValue)
       let vm = this
       vm.NumberOfViewersTopList.data = []
       vm.viewing_num_firsttime_temp = []
@@ -674,7 +674,7 @@ export default {
         let viewing_time_repurchase_bottom_temp = []   //重新激活
         let viewing_time_lapsed_bottom_temp = []   //重新激活
         user_viewing_time_data.forEach((value, index) => {
-          console.log(value.key, value)
+          // console.log(value.key, value)
           if (value.key == 'firsttime') {
             // console.log(value.key, value)
             let hot_num_fm  ////将top1的节目观看时长作为百分比分母(万小时)
@@ -1272,7 +1272,7 @@ export default {
   methods: {
     //点击用户群体下拉框切换收视TOP
     handleViewingTop(val) {
-      console.log(val)
+      // console.log(val)
       let vm = this
       vm.viewingTopList.data = []
       vm.NumberOfViewersTopList.data = []
@@ -1312,8 +1312,8 @@ export default {
         vm.viewingTopList.data = vm.viewing_time_lapsed_temp
         vm.NumberOfViewersTopList.data = vm.viewing_num_lapsed_temp
       }
-      console.log("select更新时长viewingTopList------", vm.viewingTopList.data)
-      console.log("select更新次数NumberOfViewersTopList------", vm.NumberOfViewersTopList.data)
+      // console.log("select更新时长viewingTopList------", vm.viewingTopList.data)
+      // console.log("select更新次数NumberOfViewersTopList------", vm.NumberOfViewersTopList.data)
     },
 
     //收视时长 正序反序排列

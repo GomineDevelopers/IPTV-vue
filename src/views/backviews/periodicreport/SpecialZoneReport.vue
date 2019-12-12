@@ -116,7 +116,7 @@
 import BarChartSingle from "@/views/backcoms/commoncomponents/BarChartSingle"; //单坐标柱状图组件
 import PieCharts_special from "@/views/backcoms/commoncomponents/PieCharts_special"; //公用饼图
 import SpecialZoneChart from "@/views/backcoms/commoncomponents/SpecialZoneChart"; //专区数据总览圆形图
-import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart"; //平滑曲线折线图组件
+import SmoothLineChart from "@/views/backcoms/commoncomponents/SmoothLineChart_special"; //平滑曲线折线图组件
 import BarListChart from "@/views/backcoms/commoncomponents/BarListChart"; //排名柱状图
 import DayRankTop5 from "@/views/backcoms/commoncomponents/DayRankTop5"; //每日排名走势TOP5组件
 
@@ -146,22 +146,24 @@ export default {
     // ...mapGetters(["PR_operator", "PR_day"])
   },
   mounted() {
-    // this.users_subReport();
     let vm = this;
-    console.log("@@@@@@@@@@@");
-    console.log(vm.PR_operator);
-
-    setTimeout(function() {
-      vm.refresh_api_data();
-      // excel 处理
-      vm.Excel_data_manage();
-    }, 1000);
+    if (vm.PR_picker == null || vm.PR_picker == undefined || vm.PR_picker == "" || vm.PR_value_specialName == null || vm.PR_value_specialName == "" || vm.PR_value_specialName == undefined) {
+      return;
+    } else {
+      // setTimeout(function() {
+        vm.refresh_api_data();
+        // excel 处理
+        vm.Excel_data_manage();
+      // }, 1000);
+      // }, 2000);
+    }
+    
   },
   watch: {
     PR_operator(newValue, oldValue) {
       let vm = this;
-      console.log("※※※※※※※※※※※※※※※※※※");
-      console.log("PR_operator: " + newValue);
+      // console.log("※※※※※※※※※※※※※※※※※※");
+      // console.log("PR_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         // excel 处理
@@ -170,7 +172,7 @@ export default {
     },
     PR_picker(newValue, oldValue) {
       let vm = this;
-      console.log("PR_picker: " + newValue);
+      // console.log("PR_picker: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         // excel 处理
@@ -179,7 +181,7 @@ export default {
     },
     PR_value_specialName(newValue, oldValue) {
       let vm = this;
-      console.log("PR_value_specialName: " + newValue);
+      // console.log("PR_value_specialName: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         // excel 处理
@@ -189,12 +191,12 @@ export default {
   },
   methods: {
     Excel_data_manage() {
-      console.log("Excel_data_manage - 8");
+      // console.log("Excel_data_manage - 8");
       let vm = this;
       vm.$store
         .dispatch("set_PR_excel_ifCanDownload", false)
         .then(function(response_dataArr) {
-          console.log("下载关");
+          // console.log("下载关");
         })
         .catch(function(error) {
           console.info(error);
@@ -265,22 +267,22 @@ export default {
           temp_titleArr = title_arr;
           temp_DataArr = data_arr;
           if (temp_titleArr.length == 0 || temp_DataArr.length == 0) {
-            console.log("请选择时间！");
+            // console.log("请选择时间！");
             return;
           }
           vm.$store
             .dispatch("set_PR_Excel_titleArr_firstM1", temp_titleArr)
             .then(function(response_title) {
-              console.log(response_title);
+              // console.log(response_title);
               vm.$store
                 .dispatch("set_PR_Excel_dataArr_firstM1", temp_DataArr)
                 .then(function(response_dataArr) {
-                  console.log(response_dataArr);
+                  // console.log(response_dataArr);
                   // 设置excel按钮下载状态 - 开
                   vm.$store
                     .dispatch("set_PR_excel_ifCanDownload", true)
                     .then(function(response_dataArr) {
-                      console.log("下载开");
+                      // console.log("下载开");
                     })
                     .catch(function(error) {
                       console.info(error);
@@ -298,46 +300,50 @@ export default {
     },
     refresh_api_data() {
       let vm = this;
-      // ▲初始化前移
-      console.log("▲▲▲▲");
-      console.log(vm.PR_operator);
+      try {
+        // ▲初始化前移
+        // console.log("▲▲▲▲");
+        // console.log(vm.PR_operator);
 
-      vm.clickNumData.data = [
-        ["product", "-"],
-        ["移动", "-"],
-        ["联通", "-"],
-        ["电信", "-"]
-      ];
-      vm.pageProportionData.data = [];
+        vm.clickNumData.data = [
+          ["product", "-"],
+          ["移动", "-"],
+          ["联通", "-"],
+          ["电信", "-"]
+        ];
+        vm.pageProportionData.data = [];
 
-      vm.operatorProportionData.data = [];
+        vm.operatorProportionData.data = [];
 
-      vm.recommendPageData.data = [
-        ["product", "-"],
-        ["移动", "-"],
-        ["联通", "-"],
-        ["电信", "-"]
-      ];
-      vm.childrenPageData.data = [
-        ["product", "-"],
-        ["移动", "-"],
-        ["联通", "-"],
-        ["电信", "-"]
-      ];
-      vm.classifyPageData.data = [
-        ["product", "-"],
-        ["移动", "-"],
-        ["联通", "-"],
-        ["电信", "-"]
-      ];
+        vm.recommendPageData.data = [
+          ["product", "-"],
+          ["移动", "-"],
+          ["联通", "-"],
+          ["电信", "-"]
+        ];
+        vm.childrenPageData.data = [
+          ["product", "-"],
+          ["移动", "-"],
+          ["联通", "-"],
+          ["电信", "-"]
+        ];
+        vm.classifyPageData.data = [
+          ["product", "-"],
+          ["移动", "-"],
+          ["联通", "-"],
+          ["电信", "-"]
+        ];
 
-      this.users_subReport("mixture");
-      this.users_subReport("yd");
-      this.users_subReport("lt");
-      this.users_subReport("dx");
+        this.users_subReport("mixture");
+        this.users_subReport("yd");
+        this.users_subReport("lt");
+        this.users_subReport("dx");
+      } catch (error) {
+        console.log(error);
+      }
     },
     users_subReport(operator_type) {
-      console.log("~~~~~users_subReport");
+      // console.log("~~~~~users_subReport");
       let vm = this;
 
       if (vm.PR_picker.length == 0) {
@@ -354,9 +360,9 @@ export default {
         return;
       }
 
-      console.log("PR_value_specialName: ");
-      console.log(this.PR_value_specialName);
-      console.log(typeof this.PR_value_specialName);
+      // console.log("PR_value_specialName: ");
+      // console.log(this.PR_value_specialName);
+      // console.log(typeof this.PR_value_specialName);
       let temp;
       if (operator_type == "mixture") {
         temp = {
@@ -366,7 +372,7 @@ export default {
           end: temp_time.end,
           name: temp_specialName
         };
-        console.log(temp);
+        // console.log(temp);
       }
       if (operator_type == "yd") {
         temp = {
@@ -375,7 +381,7 @@ export default {
           end: temp_time.end,
           name: temp_specialName
         };
-        console.log(temp);
+        // console.log(temp);
       }
       if (operator_type == "lt") {
         temp = {
@@ -384,7 +390,7 @@ export default {
           end: temp_time.end,
           name: temp_specialName
         };
-        console.log(temp);
+        // console.log(temp);
       }
       if (operator_type == "dx") {
         temp = {
@@ -393,7 +399,7 @@ export default {
           end: temp_time.end,
           name: temp_specialName
         };
-        console.log(temp);
+        // console.log(temp);
       }
 
       var formData = new FormData();
@@ -408,7 +414,7 @@ export default {
           // 70周年有 有数据
 
           if (operator_type == "mixture") {
-            console.log(response);
+            // console.log(response);
 
             ///////////
             try {
@@ -427,7 +433,6 @@ export default {
             }
             ///////////
             try {
-              console.log(response);
               vm.pageProportionData.data = [];
               let buckets =
                 response.data.responses[1].aggregations.special_or_activity_name
@@ -446,8 +451,6 @@ export default {
             }
           }
           if (operator_type == "yd") {
-            console.log(response);
-
             try {
               vm.clickNumData.data = [
                 ["product"],
@@ -470,7 +473,7 @@ export default {
               setTimeout(function() {
                 for (i = 0; i < length; i++) {
                   vm.clickNumData.data[0].push(buckets[i].key);
-                  console.log(buckets[i].key);
+                  // console.log(buckets[i].key);
                   vm.clickNumData.data[1].push(buckets[i].click_freq.value);
                   Vue.set(vm.operatorProportionData.data, 0, {
                     value: buckets[i].click_freq.value,
@@ -490,73 +493,75 @@ export default {
             }
             // ///////
             try {
-              vm.recommendPageData.data = [
-                ["product"],
-                ["移动"],
-                ["联通"],
-                ["电信"]
-              ]; // 只在移动初始化
-              let buckets_days =
-                response.data.responses[1].aggregations.statistical_granularity
-                  .buckets;
-              let length_days = buckets_days.length;
-              let i_days;
-              Vue.set(vm.recommendPageData.data, 0, ["product"]); // 推荐 --70周年专区  --小小福星专区
-              // Vue.set(vm.childrenPageData.data, 0, ["product"]); // 少儿  --小小福星专区
-              // Vue.set(vm.classifyPageData.data, 0, ["product"]); // 分类
+              setTimeout(function() {
+                vm.recommendPageData.data = [
+                  ["product"],
+                  ["移动"],
+                  ["联通"],
+                  ["电信"]
+                ]; // 只在移动初始化
+                let buckets_days =
+                  response.data.responses[1].aggregations
+                    .statistical_granularity.buckets;
+                let length_days = buckets_days.length;
+                let i_days;
+                Vue.set(vm.recommendPageData.data, 0, ["product"]); // 推荐 --70周年专区  --小小福星专区
+                // Vue.set(vm.childrenPageData.data, 0, ["product"]); // 少儿  --小小福星专区
+                // Vue.set(vm.classifyPageData.data, 0, ["product"]); // 分类
 
-              Vue.set(vm.recommendPageData.data, 1, ["移动"]); // 推荐  --70周年专区  --小小福星专区
-              // Vue.set(vm.childrenPageData.data, 1, ["移动"]); // 少儿
-              // Vue.set(vm.classifyPageData.data, 1, ["移动"]); // 分类
+                Vue.set(vm.recommendPageData.data, 1, ["移动"]); // 推荐  --70周年专区  --小小福星专区
+                // Vue.set(vm.childrenPageData.data, 1, ["移动"]); // 少儿
+                // Vue.set(vm.classifyPageData.data, 1, ["移动"]); // 分类
 
-              for (i_days = 0; i_days < length_days; i_days++) {
-                Vue.set(
-                  vm.recommendPageData.data[0],
-                  i_days + 1,
-                  buckets_days[i_days].key
-                );
-                // vm.childrenPageData.data[0].push(buckets_days[i_days].key);
-                // vm.classifyPageData.data[0].push(buckets_days[i_days].key);
-                if (
-                  buckets_days[i_days].special_or_activity_name.buckets
-                    .length != 0
-                ) {
+                for (i_days = 0; i_days < length_days; i_days++) {
+                  Vue.set(
+                    vm.recommendPageData.data[0],
+                    i_days + 1,
+                    buckets_days[i_days].key
+                  );
+                  // vm.childrenPageData.data[0].push(buckets_days[i_days].key);
+                  // vm.classifyPageData.data[0].push(buckets_days[i_days].key);
                   if (
-                    buckets_days[i_days].special_or_activity_name.buckets[0]
-                      .key == "70周年专区"
+                    buckets_days[i_days].special_or_activity_name.buckets
+                      .length != 0
                   ) {
-                    // console.log(buckets_days[i_days].key);
-                    // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
-                    try {
-                      Vue.set(
-                        vm.recommendPageData.data[1],
-                        i_days + 1,
-                        buckets_days[i_days].special_or_activity_name.buckets[0]
-                          .click_freq.value
-                      );
-                    } catch (error) {
-                      console.log(error);
+                    if (
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .key == "70周年专区"
+                    ) {
+                      // console.log(buckets_days[i_days].key);
+                      // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
+                      try {
+                        Vue.set(
+                          vm.recommendPageData.data[1],
+                          i_days + 1,
+                          buckets_days[i_days].special_or_activity_name
+                            .buckets[0].click_freq.value
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }
-                  }
-                  if (
-                    buckets_days[i_days].special_or_activity_name.buckets[0]
-                      .key == "小小福星专区"
-                  ) {
-                    // console.log(buckets_days[i_days].key);
-                    // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
-                    try {
-                      Vue.set(
-                        vm.recommendPageData.data[1],
-                        i_days + 1,
-                        buckets_days[i_days].special_or_activity_name.buckets[0]
-                          .click_freq.value
-                      );
-                    } catch (error) {
-                      console.log(error);
+                    if (
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .key == "小小福星专区"
+                    ) {
+                      // console.log(buckets_days[i_days].key);
+                      // console.log(buckets_days[i_days].special_or_activity_name.buckets[0].key);
+                      try {
+                        Vue.set(
+                          vm.recommendPageData.data[1],
+                          i_days + 1,
+                          buckets_days[i_days].special_or_activity_name
+                            .buckets[0].click_freq.value
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }
                   }
                 }
-              }
+              }, 500);
             } catch (error) {
               console.log(error);
               vm.recommendPageData.data = [
@@ -568,7 +573,6 @@ export default {
             }
           }
           if (operator_type == "lt") {
-            console.log(response);
             try {
               let buckets =
                 response.data.responses[1].aggregations.special_or_activity_name
@@ -582,8 +586,6 @@ export default {
               });
               setTimeout(function() {
                 for (i = 0; i < length; i++) {
-                  console.log(buckets[i].key);
-
                   vm.clickNumData.data[2].push(buckets[i].click_freq.value);
                   Vue.set(vm.operatorProportionData.data, 1, {
                     value: buckets[i].click_freq.value,
@@ -596,58 +598,59 @@ export default {
             }
             // ///////
             try {
-              let buckets_days =
-                response.data.responses[1].aggregations.statistical_granularity
-                  .buckets;
-              let length_days = buckets_days.length;
-              let i_days;
+              setTimeout(function() {
+                let buckets_days =
+                  response.data.responses[1].aggregations
+                    .statistical_granularity.buckets;
+                let length_days = buckets_days.length;
+                let i_days;
 
-              Vue.set(vm.recommendPageData.data, 2, ["联通"]); // 推荐  --70周年专区  --小小福星专区
+                Vue.set(vm.recommendPageData.data, 2, ["联通"]); // 推荐  --70周年专区  --小小福星专区
 
-              for (i_days = 0; i_days < length_days; i_days++) {
-                if (
-                  buckets_days[i_days].special_or_activity_name.buckets
-                    .length != 0
-                ) {
+                for (i_days = 0; i_days < length_days; i_days++) {
                   if (
-                    buckets_days[i_days].special_or_activity_name.buckets[0]
-                      .key == "70周年专区"
+                    buckets_days[i_days].special_or_activity_name.buckets
+                      .length != 0
                   ) {
-                    try {
-                      Vue.set(
-                        vm.recommendPageData.data[2],
-                        i_days + 1,
-                        buckets_days[i_days].special_or_activity_name.buckets[0]
-                          .click_freq.value
-                      );
-                    } catch (error) {
-                      console.log(error);
+                    if (
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .key == "70周年专区"
+                    ) {
+                      try {
+                        Vue.set(
+                          vm.recommendPageData.data[2],
+                          i_days + 1,
+                          buckets_days[i_days].special_or_activity_name
+                            .buckets[0].click_freq.value
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }
-                  }
-                  if (
-                    buckets_days[i_days].special_or_activity_name.buckets[0]
-                      .key == "小小福星专区"
-                  ) {
-                    try {
-                      Vue.set(
-                        vm.recommendPageData.data[2],
-                        i_days + 1,
-                        buckets_days[i_days].special_or_activity_name.buckets[0]
-                          .click_freq.value
-                      );
-                    } catch (error) {
-                      console.log(error);
+                    if (
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .key == "小小福星专区"
+                    ) {
+                      try {
+                        Vue.set(
+                          vm.recommendPageData.data[2],
+                          i_days + 1,
+                          buckets_days[i_days].special_or_activity_name
+                            .buckets[0].click_freq.value
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }
                   }
                 }
-              }
+              }, 1000);
             } catch (error) {
               console.log(error);
             }
           }
           if (operator_type == "dx") {
             try {
-              console.log(response);
               let buckets =
                 response.data.responses[1].aggregations.special_or_activity_name
                   .buckets;
@@ -661,8 +664,6 @@ export default {
               setTimeout(function() {
                 for (i = 0; i < length; i++) {
                   vm.clickNumData.data[3].push(buckets[i].click_freq.value);
-                  console.log(buckets[i].key);
-
                   Vue.set(vm.operatorProportionData.data, 2, {
                     value: buckets[i].click_freq.value,
                     name: "电信"
@@ -674,83 +675,57 @@ export default {
             }
             // ///////
             try {
-              let buckets_days =
-                response.data.responses[1].aggregations.statistical_granularity
-                  .buckets;
-              let length_days = buckets_days.length;
-              let i_days;
+              setTimeout(function() {
+                let buckets_days =
+                  response.data.responses[1].aggregations
+                    .statistical_granularity.buckets;
+                let length_days = buckets_days.length;
+                let i_days;
 
-              Vue.set(vm.recommendPageData.data, 3, ["电信"]); // 推荐  --70周年专区  --小小福星专区
+                Vue.set(vm.recommendPageData.data, 3, ["电信"]); // 推荐  --70周年专区  --小小福星专区
 
-              for (i_days = 0; i_days < length_days; i_days++) {
-                if (
-                  buckets_days[i_days].special_or_activity_name.buckets
-                    .length != 0
-                ) {
+                for (i_days = 0; i_days < length_days; i_days++) {
                   if (
-                    buckets_days[i_days].special_or_activity_name.buckets[0]
-                      .key == "70周年专区"
+                    buckets_days[i_days].special_or_activity_name.buckets
+                      .length != 0
                   ) {
-                    try {
-                      Vue.set(
-                        vm.recommendPageData.data[3],
-                        i_days + 1,
-                        buckets_days[i_days].special_or_activity_name.buckets[0]
-                          .click_freq.value
-                      );
-                    } catch (error) {
-                      console.log(error);
+                    if (
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .key == "70周年专区"
+                    ) {
+                      try {
+                        Vue.set(
+                          vm.recommendPageData.data[3],
+                          i_days + 1,
+                          buckets_days[i_days].special_or_activity_name
+                            .buckets[0].click_freq.value
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }
-                  }
-                  if (
-                    buckets_days[i_days].special_or_activity_name.buckets[0]
-                      .key == "小小福星专区"
-                  ) {
-                    try {
-                      Vue.set(
-                        vm.recommendPageData.data[3],
-                        i_days + 1,
-                        buckets_days[i_days].special_or_activity_name.buckets[0]
-                          .click_freq.value
-                      );
-                    } catch (error) {
-                      console.log(error);
+                    if (
+                      buckets_days[i_days].special_or_activity_name.buckets[0]
+                        .key == "小小福星专区"
+                    ) {
+                      try {
+                        Vue.set(
+                          vm.recommendPageData.data[3],
+                          i_days + 1,
+                          buckets_days[i_days].special_or_activity_name
+                            .buckets[0].click_freq.value
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }
                   }
                 }
-              }
+              }, 1000);
             } catch (error) {
               console.log(error);
             }
           }
-
-          // console.log(response);
-          // console.log(response.data.responses[0].aggregations.ti.buckets);
-          // let data = response.data.responses[0].aggregations.ti.buckets;
-          // let length = data.length;
-          // let i;
-          // let d1 = null,
-          //   d2 = null,
-          //   d3 = null;
-          // for (i = 0; i < length; i++) {
-          //   // console.log(data[i].key);
-          //   if (data[i].key == "推荐") {
-          //     d1 = data[i];
-          //     // console.log("~~~~i: " + i);
-          //   }
-          //   if (data[i].key == "少儿") {
-          //     d2 = data[i];
-          //     // console.log("~~~~i: " + i);
-          //   }
-          //   if (data[i].key == "分类") {
-          //     d3 = data[i];
-          //     // console.log("~~~~i: " + i);
-          //   }
-          //   if (d1 != null && d2 != null && d3 != null) {
-          //     break;
-          //   }
-          //   // console.log("~~~~i: " + i);
-          // }
         })
         .catch(function(error) {
           console.info(error);

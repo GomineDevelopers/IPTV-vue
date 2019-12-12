@@ -254,8 +254,8 @@ export default {
     operatorChoose(newValue, oldValue) {
       let vm = this;
       if (vm.ifOperatorShow == true && vm.ifOperatorShow2 == false) {
-        console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏");
-        console.log(newValue);
+        // console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏");
+        // console.log(newValue);
 
         vm.$store
           .dispatch("set_PR_operator", newValue)
@@ -270,8 +270,8 @@ export default {
     operatorChoose2(newValue, oldValue) {
       let vm = this;
       if (vm.ifOperatorShow == false && vm.ifOperatorShow2 == true) {
-        console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏");
-        console.log(newValue);
+        // console.log("∏∏∏∏∏∏∏∏∏∏∏∏∏∏∏");
+        // console.log(newValue);
         vm.$store
           .dispatch("set_PR_operator", newValue)
           .then(function(response) {
@@ -284,12 +284,13 @@ export default {
     },
     value_specialName(newValue, oldValue) {
       let vm = this;
+      console.log(newValue);
       this.$store
         .dispatch("set_PR_value_specialName", newValue)
         .then(function(response) {
           // console.log(response);
-          console.log("专题报告-专题名称：");
-          console.log(newValue);
+          // console.log("专题报告-专题名称：");
+          // console.log(newValue);
         })
         .catch(function(error) {
           console.info(error);
@@ -389,7 +390,8 @@ export default {
         //   label: "70周年"
         // }
       ],
-      value_specialName: [],
+      // value_specialName: [],
+      value_specialName: "",
       time: {
         day: [
           // {
@@ -509,7 +511,7 @@ export default {
       vm.time.month = commonTools.format_MonthDays_byDWMMr_ED();
     }, 500);
 
-    // ▲历史条件获取
+    // ▲历史条件获取  
     setTimeout(function() {
       // 历史选中的定期报告
       vm.$store
@@ -553,12 +555,16 @@ export default {
         .catch(function(error) {
           console.info(error);
         });
+      
+      // 下面的主要用于组件显示值（api请求中使用已存在store值）
 
       // 运营商
       vm.$store
         .dispatch("get_PR_operator")
         .then(function(response) {
           vm.operatorChoose = response;
+          vm.operator_checkAll = response.length === vm.operator.length;
+
           // vm.operatorChoose2 = response;
           vm.operatorChoose2 = ["移动"]; // 固定
         })
@@ -580,6 +586,45 @@ export default {
         .catch(function(error) {
           console.info(error);
         });
+
+      // 专题
+      vm.$store
+        .dispatch("get_PR_value_specialName")
+        .then(function(response) {
+          console.log(response);
+          vm.value_specialName = response;
+        })
+        .catch(function(error) {
+          console.info(error);
+        });
+      // // 天
+      // vm.$store
+      //   .dispatch("get_PR_day")
+      //   .then(function(res) {
+      //     vm.time.dayValue = res;
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+      // // 周
+      // vm.$store
+      //   .dispatch("get_PR_week")
+      //   .then(function(res) {
+      //     let length = vm.time.week.length;
+      //     let i;
+      //     let temp_label;
+      //     for (i = 0; i < length; i++) {
+      //       if (vm.time.week[i].value == res) {
+      //         temp_label = vm.time.week[i].label;
+      //         break;
+      //       }
+      //     }
+      //     vm.time.weekValue = temp_label;
+      //   })
+      //   .catch(function(error) {
+      //     console.info(error);
+      //   });
+
     }, 200);
   },
   methods: {
@@ -723,7 +768,7 @@ export default {
     },
     //点击报表对应切换
     setReportOption(reportName, routerLink, num, index) {
-      console.log("※※※※※※※※※※※※※※※");
+      // console.log("※※※※※※※※※※※※※※※");
       let vm = this;
 
       let value1;
@@ -921,7 +966,7 @@ export default {
                   vm.$store
                     .dispatch("get_PR_Excel_dataArr")
                     .then(function(response_dataArr) {
-                      console.log(response_dataArr);
+                      // console.log(response_dataArr);
                       let temp_titleArr = new Array();
                       temp_titleArr = [];
                       let temp_DataArr = new Array();
@@ -932,10 +977,10 @@ export default {
                         response_title.length == 0 ||
                         response_dataArr.length == 0
                       ) {
-                        console.log("请选择时间！");
+                        // console.log("请选择时间！");
                         return;
                       } else {
-                        console.log("excel下载中...");
+                        // console.log("excel下载中...");
                         vm.$store
                           .dispatch("set_PR_excel_DownloadingStatus", 2)
                           .then(function(response_dataArr) {})

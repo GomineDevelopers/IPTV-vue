@@ -76,7 +76,6 @@
       </el-row>
     </el-row>
     <!-- 收视TOP结束 -->
-    <!-- <span v-show="false">热更新用-不显示：{{if_playmode_is_single_db}}</span> -->
   </div>
 </template>
 <script>
@@ -155,25 +154,11 @@ export default {
       },
       set: function(newValue) {}
     }
-    // if_playmode_is_single_db: {
-    //   get: function() {
-    //     if (
-    //       this.UVB_playmode.indexOf("点播") > -1 &&
-    //       this.UVB_playmode.length == 1
-    //     ) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
-    //   set: function(newValue) {}
-    // }
   },
 
   watch: {
     UVB_region(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_region: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -183,7 +168,6 @@ export default {
     },
     UVB_operator(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_operator: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -193,7 +177,6 @@ export default {
     },
     UVB_playmode(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_playmode: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -203,16 +186,19 @@ export default {
     },
     UVB_programa(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_programa: " + newValue);
       // 当栏目全选或者不选时候--不显示视图4-栏目
-      if (
-        newValue.length == 0 ||
-        newValue.length == vm.UVB_programa_list.length
-      ) {
-        console.log("~~~~~~~~~ifPrograma_AllChoose true");
+      // if (
+      //   newValue.length == 0 ||
+      //   newValue.length == vm.UVB_programa_list.length
+      // ) {
+      //   vm.ifPrograma_AllChoose = true;
+      // } else {
+      //   vm.ifPrograma_AllChoose = false;
+      // }
+      if (newValue.length == 0) {
+        // ▲新修改：当全选的时候显示
         vm.ifPrograma_AllChoose = true;
       } else {
-        console.log("~~~~~~~~~ifPrograma_AllChoose false");
         vm.ifPrograma_AllChoose = false;
       }
       setTimeout(function() {
@@ -224,7 +210,6 @@ export default {
     },
     UVB_contenttype(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_contenttype: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -234,7 +219,6 @@ export default {
     },
     UVB_day(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_day: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -244,7 +228,6 @@ export default {
     },
     UVB_week(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_week: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -254,7 +237,6 @@ export default {
     },
     UVB_picker(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_picker: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -264,7 +246,6 @@ export default {
     },
     UVB_time_type(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_time_type: " + newValue);
       vm.ifInitShow = true;
       setTimeout(function() {
         vm.refresh_api_data();
@@ -276,8 +257,6 @@ export default {
     targetOption(newValue, oldValue) {
       let vm = this;
       // 监听指标选中
-      console.log("targetOption");
-      console.log(newValue);
       vm.$store
         .dispatch("set_UVB_targetOption", newValue)
         .then(function(response) {})
@@ -289,7 +268,6 @@ export default {
       }, 200);
     },
     UVB_target_type(newValue, oldValue) {
-      console.log("~~~~~~~UVB_target_type");
       let vm = this;
       if (newValue == 1) {
         vm.target = [
@@ -306,7 +284,6 @@ export default {
     },
     UVB_programa_list(newValue, oldValue) {
       let vm = this;
-      console.log("UVB_programa_list: " + newValue);
       setTimeout(function() {
         vm.refresh_api_data();
         setTimeout(function() {
@@ -318,8 +295,6 @@ export default {
   methods: {
     refreshPerData() {
       let vm = this;
-      console.log("▲▲▲▲▲▲▲");
-      console.log(vm.targetOption);
 
       let newValue = vm.targetOption;
       if (newValue == "观看次数（次）") {
@@ -354,14 +329,15 @@ export default {
       }
     },
     refresh_api_data() {
-      // this.userAction(this.UVB_time_type, this.if_playmode_is_single_db);
-      this.userAction(this.UVB_time_type);
-      this.userAction_demand(this.UVB_time_type);
+      try {
+        this.userAction(this.UVB_time_type);
+        this.userAction_demand(this.UVB_time_type);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    // userAction(time_type, if_playmode_is_single_db) {
     userAction(time_type) {
       let vm = this;
-      console.log("userAction");
 
       let temp_region = commonTools.acConvert(vm.UVB_region);
       let temp_operator = commonTools.operatorConvert(vm.UVB_operator);
@@ -369,58 +345,18 @@ export default {
       let temp_programa;
       let temp_contenttype;
 
-      // if (if_playmode_is_single_db) {
-      //   temp_programa = commonTools.programaConvert(vm.UVB_programa);
-      //   temp_contenttype = commonTools.contenttypeConvert(vm.UVB_contenttype);
-      // }
-      // console.log("temp_contenttype:" + temp_contenttype);
-      // ▲▲▲ 接口再增加 program_type  ---暂定  program_type  --alex
-
-      // let temp = {
-      //   ac: null,
-      //   operator: null,
-      //   mode: null,
-      //   ti: null,
-      //   start: null,
-      //   end: null
-      // };
       let temp;
-      // if (if_playmode_is_single_db) {
-      //   temp = {
-      //     ac: null,
-      //     operator: null,
-      //     mode: null,
-      //     ti: null,
-      //     program_type: null,
-      //     start: null,
-      //     end: null
-      //   };
-      // } else {
+
       temp = {
         ac: null,
         operator: null,
         mode: null,
-        // ti: null,
-        // program_type: null,
         start: null,
         end: null
       };
-      // }
 
       if (time_type == 1) {
         // 时间类型-1-天
-        // console.log("~~~~~day:" + vm.UVB_day);
-        // if (if_playmode_is_single_db) {
-        //   temp = {
-        //     ac: String(temp_region),
-        //     operator: String(temp_operator),
-        //     mode: String(temp_playmode), // 没有mode
-        ////     ti: String(temp_programa),
-        ////     program_type: String(temp_contenttype),
-        //     start: vm.UVB_day,
-        //     end: vm.UVB_day
-        //   };
-        // } else {
         temp = {
           ac: String(temp_region),
           operator: String(temp_operator),
@@ -428,27 +364,11 @@ export default {
           start: vm.UVB_day,
           end: vm.UVB_day
         };
-        // }
-
-        // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~1:");
-        console.log(temp);
+        // console.log(temp);
       } else if (time_type == 2) {
         // 时间类型-2-周
-        // console.log("~~~~~week:" + vm.UVB_week);
         let temp_time = commonTools.split_yearAtime(vm.UVB_week);
-        // if (if_playmode_is_single_db) {
-        //   temp = {
-        //     ac: String(temp_region),
-        //     operator: String(temp_operator),
-        //     mode: String(temp_playmode),
-        //     ti: String(temp_programa),
-        //     program_type: String(temp_contenttype),
-        //     start: temp_time.time,
-        //     end: temp_time.time,
-        //     year: temp_time.year
-        //   };
-        // } else {
+
         temp = {
           ac: String(temp_region),
           operator: String(temp_operator),
@@ -457,28 +377,10 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        // }
-
-        // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~2:");
-        console.log(temp);
+        // console.log(temp);
       } else if (time_type == 3) {
         // 时间类型-3-范围
-        // console.log("~~~~~picker:" + vm.UVB_picker);
-        // console.log(typeof vm.UVB_picker);
         let temp_time = commonTools.split_picker(vm.UVB_picker);
-        // console.log(temp_time);
-        // if (if_playmode_is_single_db) {
-        //   temp = {
-        //     ac: String(temp_region),
-        //     operator: String(temp_operator),
-        //     mode: String(temp_playmode),
-        //     ti: String(temp_programa),
-        //     program_type: String(temp_contenttype),
-        //     start: temp_time.start,
-        //     end: temp_time.end
-        //   };
-        // } else {
         temp = {
           ac: String(temp_region),
           operator: String(temp_operator),
@@ -486,20 +388,11 @@ export default {
           start: temp_time.start,
           end: temp_time.end
         };
-        // }
-
-        // console.log("~~~~time_type:" + time_type);
-        console.log("~~~~~3:");
-        console.log(temp);
+        // console.log(temp);
       } else {
-        console.log("请选择时间！");
+        // console.log("请选择时间！");
         return;
       }
-
-      // if (if_playmode_is_single_db) {
-      //   // api 2
-      // } else {
-      // api 1
 
       // userAction/demand post
 
@@ -512,7 +405,7 @@ export default {
       formData.append("end", temp.end);
       userAction(formData)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           // /////////// 0 -
           try {
             vm.regionData_data_arr = []; // 初始化
@@ -540,7 +433,6 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp4.push({
-                // value: buckets_0[i_0].watch_freq_family.value,
                 value: (
                   buckets_0[i_0].watch_freq.value /
                   buckets_0[i_0].watch_user_num.value
@@ -549,7 +441,6 @@ export default {
                 name: commonTools.acConvert_Single(buckets_0[i_0].key)
               });
               temp5.push({
-                // value: buckets_0[i_0].watch_dur_mean.value,
                 value: (
                   buckets_0[i_0].watch_dur.value /
                   60 /
@@ -568,8 +459,6 @@ export default {
             console.log(error);
             vm.regionData_data_arr = [];
           }
-          // console.log("~~~~~~~~~~~~~~~regionData_data_arr");
-          // console.log(vm.regionData_data_arr);
           // ////////////////////////////
           try {
             vm.operatorData_arr = [];
@@ -790,8 +679,6 @@ export default {
             temp_all_B.push(temp3_B);
             temp_all_B.push(temp4_B);
             temp_all_B.push(temp5_B);
-            // console.log("~~~~~~~~temp_all_B");
-            // console.log(temp_all_B);
             vm.operatorData_arr = temp_all_B;
           } catch (error) {
             console.log(error);
@@ -825,7 +712,6 @@ export default {
                 name: buckets_0BB[i_0BB].key
               });
               temp4_BB.push({
-                // value: buckets_0BB[i_0BB].watch_freq_family.value,
                 value: (
                   buckets_0BB[i_0BB].watch_freq.value /
                   buckets_0BB[i_0BB].watch_user_num.value
@@ -833,7 +719,6 @@ export default {
                 name: buckets_0BB[i_0BB].key
               });
               temp5_BB.push({
-                // value: buckets_0BB[i_0BB].watch_dur_mean.value,
                 value: (
                   buckets_0BB[i_0BB].watch_dur.value /
                   60 /
@@ -930,7 +815,6 @@ export default {
     },
     userAction_demand(time_type) {
       let vm = this;
-      console.log("~~~~~~~~~~~~~~~~~~userAction_demand");
       let temp_region = commonTools.acConvert(vm.UVB_region);
       let temp_operator = commonTools.operatorConvert(vm.UVB_operator);
       let temp_programa;
@@ -946,8 +830,6 @@ export default {
       } else {
         temp_contenttype = vm.UVB_contenttype;
       }
-      console.log(temp_programa);
-      console.log(temp_contenttype);
 
       let temp = {
         ac: null,
@@ -969,12 +851,9 @@ export default {
           start: vm.UVB_day,
           end: vm.UVB_day
         };
-
-        console.log("~~~~~1:");
-        console.log(temp);
+        // console.log(temp);
       } else if (time_type == 2) {
         let temp_time = commonTools.split_yearAtime(vm.UVB_week);
-
         temp = {
           ac: String(temp_region),
           operator: String(temp_operator),
@@ -985,9 +864,7 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-
-        console.log("~~~~~2:");
-        console.log(temp);
+        // console.log(temp);
       } else if (time_type == 3) {
         let temp_time = commonTools.split_picker(vm.UVB_picker);
 
@@ -1000,10 +877,9 @@ export default {
           start: temp_time.start,
           end: temp_time.end
         };
-        console.log("~~~~~3:");
-        console.log(temp);
+        // console.log(temp);
       } else {
-        console.log("请选择时间！");
+        // console.log("请选择时间！");
         return;
       }
 
@@ -1018,19 +894,19 @@ export default {
       formData.append("end", temp.end);
       userAction_demand(formData)
         .then(function(response) {
-          console.log(response);
-
+          // console.log(response);
           try {
             vm.columnData_arr = [];
             let buckets_ti;
-            if (   // 单选用 0 2 都对  所以这里可以用  >=1  替换 >1
-              vm.UVB_programa.length >= 1 &&
-              vm.UVB_programa.length < vm.UVB_programa_list.length
+            if (
+              // 单选用 0 2 都对  所以这里可以用  >=1  替换 >1
+              // ▲改：只要选了就显示 视图4
+              // vm.UVB_programa.length >= 1 &&
+              // vm.UVB_programa.length < vm.UVB_programa_list.length
+              vm.UVB_programa.length != 0
             ) {
-              console.log("非全选~~~programa");
               buckets_ti = response.data.responses[0].aggregations.ti.buckets; // 原-非全选
             } else {
-              console.log("全选~~~programa");
               buckets_ti = response.data.responses[2].aggregations.ti.buckets; // new-全选
             }
 
@@ -1076,13 +952,11 @@ export default {
                     ]);
                     temp4.push([
                       ti_name,
-                      // buckets_ti[i_ti].watch_freq_family.value
                       (
                         buckets_ti[i_ti].demand_freq.value /
                         buckets_ti[i_ti].demand_user_num.value
                       ).toFixed(2)
                     ]);
-                    // temp5.push([ti_name, buckets_ti[i_ti].watch_dur_mean.value]);
                     temp5.push([
                       ti_name,
                       (
@@ -1106,26 +980,18 @@ export default {
             }
             let length_p = temp_programa_list.length;
             let i_p;
-            // console.log("★★★★★★★★★★★★★");
-            // console.log(vm.UVB_programa_list)
-            // console.log(vm.UVB_programa);
             for (i_p = 0; i_p < length_p; i_p++) {
               // 按照 UVB_programa_list 的顺序写入数据
               // dataManage(vm.UVB_programa_list[i_p]);
               // dataManage(vm.UVB_programa[i_p]);
               dataManage(temp_programa_list[i_p]);
             }
-            console.log("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
-            console.log(temp1);
-            console.log(temp2);
 
             temp_all_C.push(temp1);
             temp_all_C.push(temp2);
             temp_all_C.push(temp3);
             temp_all_C.push(temp4);
             temp_all_C.push(temp5);
-            // console.log("~~~~~~~~temp_all_C");
-            // console.log(temp_all_C);
             vm.columnData_arr = temp_all_C;
           } catch (error) {
             console.log(error);
@@ -1135,18 +1001,15 @@ export default {
           // /////////// orderViewingTopList - 2 - 点播Top15
           try {
             vm.orderViewingTopList.data = []; // 初始化
-
             let buckets_top;
-
             if (
-              vm.UVB_contenttype.length >= 1 &&
-              vm.UVB_contenttype.length < vm.UVB_contenttype_list.length
+              // vm.UVB_contenttype.length >= 1 &&
+              // vm.UVB_contenttype.length < vm.UVB_contenttype_list.length
+              vm.UVB_contenttype.length != 0
             ) {
-              console.log("非全选~~~~contenttype");
               buckets_top =
                 response.data.responses[1].aggregations.programname.buckets; // 非全选
             } else {
-              console.log("全选~~~~contenttype");
               buckets_top =
                 response.data.responses[3].aggregations.programname.buckets; // 全选
             }
@@ -1173,7 +1036,6 @@ export default {
                     buckets_top[i_top].demand_freq.value / 10000
                   )
                 ) // 次数（万）
-                // playNum: String(buckets_top[i_top].demand_freq.value) // 次数 （单次）
               };
               vm.orderViewingTopList.data.push(temp_data_top);
             }
@@ -1203,7 +1065,6 @@ export default {
       vm.$store
         .dispatch("get_UVB_programa_list")
         .then(function(response) {
-          console.log(response);
           let length = response.length;
           let i;
           let temp = [];
@@ -1212,8 +1073,7 @@ export default {
             temp.push([response[i], 0]);
           }
           vm.columnData.data = temp;
-          // console.log(vm.columnData.data);
-          //       columnData: {
+          // columnData: {
           // title: "栏目（点播专属）",
           // id: "columnChart",
           // color: ["#FF6123"],
@@ -1704,7 +1564,16 @@ export default {
 }
 
 /* 用户收视行为页自适应开始 */
-@media (max-width: 1450px) {
+/* @media (max-width: 1450px) {
+  .viewing_behavior .chart_height.el-col-12 {
+    width: 100%;
+    height: 360px;
+  }
+  .viewing_behavior {
+    height: auto;
+  }
+} */
+@media (max-width: 3200px) {
   .viewing_behavior .chart_height.el-col-12 {
     width: 100%;
     height: 360px;

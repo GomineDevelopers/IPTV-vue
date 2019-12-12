@@ -64,8 +64,6 @@ export default {
       // console.log(temp);
       users_basic(temp)
         .then(function(response) {
-          // console.log("~~~~~~users_basic");
-          // console.log(response);
           let buckets =
             response.data.responses[1].aggregations.statistical_granularity
               .buckets;

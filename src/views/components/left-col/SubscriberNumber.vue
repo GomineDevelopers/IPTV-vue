@@ -99,20 +99,18 @@ export default {
   methods: {
     users_subscribe(ExpirationDate, date_time) {
       let vm = this;
-      // console.log("~~~~~~users_subscribe");
       let data;
       let data_ub;
       let m_operator = commonTools.GetBigScreenOperator();
 
       if (date_time == "day") {
         data = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: ExpirationDate,
-          end: ExpirationDate
+          end: ExpirationDate,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
         data_ub = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: ExpirationDate,
           end: ExpirationDate,
@@ -121,21 +119,18 @@ export default {
       }
       if (date_time == "7days") {
         data = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
-          end: ExpirationDate
+          end: ExpirationDate,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
         data_ub = {
-          // operator: String(["移动", "联通", "电信"]),
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 6),
           end: ExpirationDate,
           year: commonTools.get_ExpirationDate_year(ExpirationDate)
         };
       }
-      // console.log("~~~~~~~time data");
-      // console.log(data);
       users_subscribe(data)
         .then(function(response) {
           if (date_time == "day") {
@@ -147,7 +142,6 @@ export default {
 
           users_basic(data_ub)
             .then(function(response2) {
-              // console.log("~~~~users_basic");
               if (date_time == "day") {
                 // console.log(response2);
               }
@@ -172,7 +166,6 @@ export default {
                       aggregations2.all_unsub_user_num.value)) *
                     100
                 );
-                // console.log(aggregations.cum_income.value);
                 // if (aggregations.cum_income.value == 0) {
                 //   vm.subscriber_proportion = "";
                 // } else {
@@ -185,11 +178,6 @@ export default {
                 // }
               }
 
-              // console.log("~~~!!subscriber_proportion");
-              // console.log(vm.subscriber_proportion);
-              // console.log(aggregations.cum_paid_num.value);
-              // console.log(aggregations2.all_register_num.value);
-              // console.log(aggregations2.all_unsub_user_num.value);
               if (date_time == "7days") {
                 vm.new_paid_num = aggregations.new_paid_num.value;
                 vm.new_income = (
@@ -197,7 +185,6 @@ export default {
                   100 /
                   10000
                 ).toFixed(0);
-                console.log(aggregations);
                 if (aggregations.new_num.value == 0) {
                   vm.New_order_conversion_rate = commonTools.returnFloat_2(0);
                 } else {
@@ -208,7 +195,6 @@ export default {
                   );
                 }
               }
-
               vm.ifgetdata = true;
               setTimeout(function() {
                 vm.drawLine();
@@ -250,6 +236,7 @@ export default {
           {
             name: "Line 1",
             type: "pie",
+            minAngle: 15,
             clockWise: true,
             // radius: ["50%", "73%"],
             radius: ["60%", "93%"],
@@ -331,6 +318,7 @@ export default {
           {
             name: "Line 1",
             type: "pie",
+            minAngle: 15,
             clockWise: true,
             // radius: ["50%", "73%"],
             radius: ["60%", "93%"],
