@@ -122,37 +122,37 @@ export default {
   watch: {
     ULC_region(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.refresh_api_data();
       }, 1000);
     }
@@ -330,7 +330,7 @@ export default {
       formDataPrev.append("year", prev_temp.year);
 
       userLives(formData)
-        .then(function(response) {
+        .then(function (response) {
           if (dataTypeName == "mixture") {
             // console.log("----------------------------------------");
             // console.log("混合数据 本期", ULC_operator);
@@ -552,14 +552,14 @@ export default {
             }
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.info(error);
         });
 
       //判断上周或上月的时间不为空（比如当前时间为 1month  || 1week,那么无上期数据）
       if (prev_temp.start != null) {
         userLives(formDataPrev)
-          .then(function(response) {
+          .then(function (response) {
             if (dataTypeName == "mixture") {
               // 混合数据(上期)
               let total_data = response.data.responses;
@@ -626,7 +626,7 @@ export default {
               }
             }
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.info(error);
           });
       }
@@ -745,8 +745,7 @@ export default {
   margin-bottom: 14px;
 }
 .user_segment {
-  /* height: 780px; */
-  height: 1100px;
+  min-height: 1000px;
   margin-bottom: 50px;
 }
 
