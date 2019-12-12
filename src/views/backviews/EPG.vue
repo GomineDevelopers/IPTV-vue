@@ -388,6 +388,8 @@ export default {
         temp.year == null
       ) {
         console.log("请输入完整的查询条件");
+        vm.programesListOne = []; //初始化
+        vm.programesListTwo = []; //初始化
         return;
       } else if (
         temp.operator == "" ||
@@ -396,6 +398,7 @@ export default {
         temp.year == ""
       ) {
         console.log("请输入完整的查询条件");
+
         return;
       }
       console.log("temp", temp);
@@ -428,11 +431,13 @@ export default {
       }
       epg(formData)
         .then(response => {
+          // **注：此处要先判断时间维度，后台返回的responses[0]，responses[1]为周维度的数据，responses[0]是1.0的数据，responses[1]是2.0的数据
+          //后台返回的responses[2]，responses[3]为月维度的数据，responses[2]是1.0的数据，responses[3]是2.0的数据
           if (this.EPG_operator[0] != "移动2.0") {
             (vm.oneShow = true), //1.0 页面显示
               console.log("1.0版本选择0");
             let box_data = response.data.responses[0].hits.hits;
-            console.log(box_data);
+            console.log("response.data", response.data);
             try {
               /*  */
               if (box_data[0]._source.areanumber) {
@@ -457,12 +462,18 @@ export default {
                 promise_list.push(
                   epg_box_content(last_formData).then(response => {
                     //此处是1.0版本 的box信息
-                    // console.log("1.0版本的box信息", response.data.responses)
-                    let click_freq_num =
-                      response.data.responses[0].aggregations
-                        .statistical_granularity.buckets;
-                    // console.log("box详细信息", click_freq_num)
-                    // console.log("box名称：", areanumber)
+                    let responseVer1
+                    if (time_type == 1) {
+                      //此处时间格式为周维度 responses[0]是周维度1.0版本的数据
+                      responseVer1 = response.data.responses[0]
+                      console.log("周1.0版本的box信息", response.data.responses)
+                    } else if (time_type == 2) {
+                      //此处时间格式为月维度   responses[2]是月维度1.0版本的数据
+                      responseVer1 = response.data.responses[2]
+                      console.log("月1.0版本的box信息", response.data.responses)
+                    }
+                    let click_freq_num = responseVer1.aggregations.statistical_granularity.buckets;
+                    console.log("box名称：", areanumber)
                     //此处需要判断是否有上期数据
                     let last_click_freq_num = click_freq_num[1]
                       ? click_freq_num[0].click_freq.value
@@ -502,7 +513,7 @@ export default {
                 res.forEach(item => {
                   if (
                     !result[
-                      Number(item.title.substring(3, item.title.indexOf("_")))
+                    Number(item.title.substring(3, item.title.indexOf("_")))
                     ]
                   ) {
                     result[
@@ -514,7 +525,7 @@ export default {
                   ].push(item);
                 });
                 result.forEach(item => {
-                  item.sort(function(a, b) {
+                  item.sort(function (a, b) {
                     return (
                       Number(
                         a.title.substring(
@@ -585,15 +596,21 @@ export default {
                   String(last_temp.areanumber)
                 );
                 last_formData.append("year", String(last_temp.year));
-                console.log(last_formData);
                 promise_list.push(
                   epg_box_content(last_formData).then(response => {
+                    let responseVer2
+                    if (time_type == 1) {
+                      //此处时间格式为周维度 responses[1]是周维度2.0版本的数据
+                      responseVer2 = response.data.responses[1]
+                      console.log("周2.0版本的box信息", response.data.responses)
+                    } else if (time_type == 2) {
+                      //此处时间格式为月维度   responses[3]是月维度2.0版本的数据
+                      responseVer2 = response.data.responses[3]
+                      console.log("月2.0版本的box信息", response.data.responses)
+                    }
                     //此处是2.0版本 的box信息
                     console.log("box名称：", areanumber);
-                    console.log("2.0版本box详细信息", response.data.responses);
-                    let click_freq_num =
-                      response.data.responses[1].aggregations
-                        .statistical_granularity.buckets;
+                    let click_freq_num = responseVer2.aggregations.statistical_granularity.buckets;
                     // console.log("box详细信息", click_freq_num)
                     //此处需要判断是否有上期数据
                     let last_click_freq_num = click_freq_num[1]
@@ -649,7 +666,7 @@ export default {
                 res.forEach(item => {
                   if (
                     !result[
-                      Number(item.title.substring(3, item.title.indexOf("_")))
+                    Number(item.title.substring(3, item.title.indexOf("_")))
                     ]
                   ) {
                     result[
@@ -661,7 +678,7 @@ export default {
                   ].push(item);
                 });
                 result.forEach(item => {
-                  item.sort(function(a, b) {
+                  item.sort(function (a, b) {
                     return (
                       Number(
                         a.title.substring(
@@ -714,6 +731,8 @@ export default {
               console.log(error);
             }
           }
+
+
         })
         .catch(error => {
           console.log("EPG", error);
