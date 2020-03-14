@@ -2,9 +2,50 @@ import CryptoJS from 'crypto-js' //加密js
 import { get_date } from "@/api/api_main";
 
 // import { commonTools } from "@/utils/test";
-// import { commonTools } from "@/utils/common";
 
 const commonTools = {}
+
+
+// 跨年问题：每年最后一周最大周数（month的pass，直接12-1即可）
+commonTools.return_AssignYear_FinalWeekNum = function (year) { // 分视图调用
+    for (let i = 0; i < commonTools.AssignYear_FinalWeekNum_Arr.length; i++) {
+        if (commonTools.AssignYear_FinalWeekNum_Arr[i].year == year) {
+            return commonTools.AssignYear_FinalWeekNum_Arr[i].FinalWeekNum;
+        }
+    }
+    return 0; // 没有当前年情况
+}
+commonTools.AssignYear_FinalWeekNum_Arr = []; // 内部处理
+commonTools.Manage_EveryYear_FinalWeekNum = function () { // 主函数调用
+    let temp_year = commonTools.date.start_year
+    for (temp_year; temp_year < commonTools.date.end_year;) {
+        let temp = commonTools.get_AssignYear_FinalWeekNum(temp_year);
+        commonTools.AssignYear_FinalWeekNum_Arr.push(temp);
+        temp_year++;
+    }
+}
+commonTools.get_AssignYear_FinalWeekNum = function (year) { // 内部处理
+    // ManageType: 'CrossYear'
+    let ManageType = 'CrossYear';
+    let FinalWeekNum = commonTools.weekDate(year, ManageType);
+    // console.log(FinalWeekNum);
+    return {
+        year: year,
+        FinalWeekNum: FinalWeekNum
+    };
+}
+
+function Setting_Manage_EveryYear_FinalWeekNum() {
+    // 跨年问题处理：设置每年最后一周最大周数
+    // setTimeout(function () {
+    commonTools.Manage_EveryYear_FinalWeekNum();
+    // console.log(commonTools.AssignYear_FinalWeekNum_Arr);
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2017));
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2018));
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2019));
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2020));
+    // }, 100);
+}
 
 // commonTools.date = { // 测试
 //     start_year: 2018,
@@ -30,6 +71,8 @@ get_date()
     .then(function (response_date) {
         let start_date = response_date.data.responses[0].aggregations.begin_date.buckets[0].key;
         let end_date = response_date.data.responses[0].aggregations.end_date.buckets[0].key;
+        // let end_date = "2019-12-30";
+
         commonTools.date.start_year = commonTools.date_format_DWMY(start_date).year;
         // commonTools.date.start_year = 2017;  // 临时
         commonTools.date.start_month = commonTools.date_format_DWMY(start_date).month;
@@ -43,7 +86,8 @@ get_date()
         commonTools.date.end_week = commonTools.date_format_DWMY(end_date).week;
         commonTools.date.end_day = commonTools.date_format_DWMY(end_date).day;
 
-
+        console.log('※※※※※※※※※※※※※※');
+        console.log(commonTools.date);
         // console.log(commonTools.date.start_month);
         // console.log(commonTools.date.end_month);
 
@@ -55,16 +99,29 @@ get_date()
         let day = parseInt(split_arr[2]);
         let month = parseInt(split_arr[1]);
         let year = parseInt(split_arr[0]);
+        // console.log(day);
+        // console.log(end_date);
+        // console.log(commonTools.getMonthDays(2019, 12));
+        // console.log(year);
+        // console.log(month);
         if (day != commonTools.getMonthDays(year, month)) { // 非月末
             if (commonTools.date.end_month > 0) {
                 commonTools.date.end_month -= 1;
             }
         }
+
         let weekNum = commonTools.getWeek_y(end_date);
+        // weekNum += 1;
+        // console.log(end_date);
+        // console.log(weekNum);
         let dateArr = commonTools.getDayEveryDay(year, weekNum);
+        // console.log(dateArr);
         if (end_date != dateArr[6]) {
             commonTools.date.end_week -= 1;
         }
+
+        // 获取年周Max-Arr
+        Setting_Manage_EveryYear_FinalWeekNum();
     })
     .catch(function (error) {
         console.info(error);
@@ -213,6 +270,7 @@ function M_ValueRange(arr, str_type) {
 }
 
 // /////////// 判定-by year+week范围
+// ManageType： 'CrossYear'
 commonTools.weekDate_ED = function () {
     let temp_year = commonTools.date.start_year
     let arr = commonTools.weekDate(temp_year);
@@ -278,25 +336,70 @@ commonTools.format_MonthDays_byweek_ED = function () {
 
 ///////////////////////////////////////////////
 
-// buckets - 周月排序(按key)
-commonTools.bucketsSort_WM = function (buckets) {
-    let buckets_sort = [];
-    for (let z = 0; z < buckets.length; z++) {
-        buckets_sort.push(buckets[z]);
+// 时间大小对比 
+// -- date1 在 date2 时间前 返回 0
+// -- date1 date2  时间相同 返回 1
+// -- date1 在 date2 时间后 返回 2
+// ▲▲注: 两天相等返回true （为配合下面的 commonTools.ifIndateRange 是否在时间范围内）
+commonTools.dateCompare = function (date1, date2) {
+    let arr_date1 = date1.split("-");
+    let arr_date2 = date2.split("-");
+
+    if (Number(arr_date1[0]) < Number(arr_date2[0])) {
+        return 0;
     }
-    // 排序
-    for (let i = 0; i < buckets_sort.length - 1; i++) {
-        for (let j = 0; j < buckets_sort.length - i - 1; j++) {
-            if (commonTools.Return_WM_Num(buckets_sort[j].key) > commonTools.Return_WM_Num(buckets_sort[j + 1].key)) {
-                // 判断第二位
-                let tmp = buckets_sort[j];
-                buckets_sort[j] = buckets_sort[j + 1];
-                buckets_sort[j + 1] = tmp;
+    else if (Number(arr_date1[0]) > Number(arr_date2[0])) {
+        return 2;
+    }
+    else if (Number(arr_date1[0]) == Number(arr_date2[0])) {
+        if (Number(arr_date1[1]) < Number(arr_date2[1])) {
+            return 0;
+        }
+        if (Number(arr_date1[1]) > Number(arr_date2[1])) {
+            return 2;
+        } else {
+            if (Number(arr_date1[2]) < Number(arr_date2[2])) { // ▲▲
+                return 0;
+            }
+            else if (Number(arr_date1[2]) == Number(arr_date2[2])) { // ▲▲
+                return 1;
+            }
+            else {
+                return 2;
             }
         }
     }
-    return buckets_sort;
 }
+// console.log(commonTools.dateCompare("2018-12-17", "2019-12-17"));
+// console.log(commonTools.dateCompare("2020-12-17", "2019-12-17"));
+
+// console.log(commonTools.dateCompare("2019-11-17", "2019-12-17"));
+// console.log(commonTools.dateCompare("2019-12-17", "2019-11-17"));
+
+// console.log(commonTools.dateCompare("2019-12-17", "2019-12-17"));
+// console.log(commonTools.dateCompare("2019-12-16", "2019-12-17"));
+// console.log(commonTools.dateCompare("2019-12-18", "2019-12-17"));
+
+
+
+// 是否在时间范围内
+// ▲▲注：currentDate == date_start 或者 currentDate == date_end 都返回true
+commonTools.ifIndateRange = function (currentDate, date_start, date_end) {
+    if (commonTools.dateCompare(currentDate, date_start) == 0 || commonTools.dateCompare(currentDate, date_end) == 2) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+// console.log(commonTools.ifIndateRange("2019-12-18", "2019-12-17", "2019-12-19"));
+// console.log(commonTools.ifIndateRange("2019-12-18", "2019-12-18", "2019-12-19"));
+// console.log(commonTools.ifIndateRange("2019-12-18", "2019-12-17", "2019-12-18"));
+// console.log(commonTools.ifIndateRange("2019-12-16", "2019-12-17", "2019-12-19"));
+
+
+
+///////////////////////////////////////////////
 // 周月Number  ( "11week" => 11   "5month" => 5)
 commonTools.Return_WM_Num = function (STR) {
     let WM_Num = 0;
@@ -317,6 +420,100 @@ commonTools.Return_WM_Num = function (STR) {
 // commonTools.Return_WM_Num("5week");
 // commonTools.Return_WM_Num("5month");
 
+// buckets - 周月排序(按key)(跨年处理)
+// 8 9 10 11 12 1month
+// monthLenth 月份长度 --如半年（6个月）为6
+// 注意：不能处理=》如果是上年7~12月 到本年1~6月情况 =》结果 1~12月
+// ▲▲▲传入的buckets的length 需要 <= 6 （目前够用了）
+// 注释：@iptv-test
+// commonTools.bucketsSort_WM_CrossYear = function (buckets, monthLenth) {
+commonTools.bucketsSort_WM_CrossYear = function (buckets) {
+
+    // 新增错误操作传入非week 和 非 month情况 （如2020-01-01 或者 ac等情况）
+    if (buckets[0].key.indexOf("week") > -1 || buckets[0].key.indexOf("month") > -1){
+
+    }else{
+        return buckets;
+    }
+
+    let monthLenth = buckets.length;
+    let buckets_sort = [];
+    for (let z = 0; z < buckets.length; z++) {
+        buckets_sort.push(buckets[z]);
+    }
+    for (let i = 0; i < buckets_sort.length - 1; i++) {
+        for (let j = 0; j < buckets_sort.length - i - 1; j++) {
+            if (commonTools.Return_WM_Num(buckets_sort[j].key) > commonTools.Return_WM_Num(buckets_sort[j + 1].key)) {
+                let tmp = buckets_sort[j];
+                buckets_sort[j] = buckets_sort[j + 1];
+                buckets_sort[j + 1] = tmp;
+            } 
+        }
+    }
+    let currentIndexArr = [];
+    let spaceStart_index;
+    let spaceStart_index_exceptionManage = []; 
+    for (let k = 0; k < buckets_sort.length; k++) {
+        currentIndexArr.push(commonTools.Return_WM_Num(buckets_sort[k].key));
+        if (k != 0) {
+            let spaceValue = currentIndexArr[k] - currentIndexArr[k - 1]
+            if (spaceValue != 1) {
+                spaceStart_index_exceptionManage.push(
+                    {
+                        index: k - 1,
+                        spaceValue: spaceValue
+                    }
+                );
+            }
+        }
+    }
+    if (spaceStart_index_exceptionManage.length == 0) { 
+        return buckets_sort;
+    }
+    for (let n = 0; n < spaceStart_index_exceptionManage.length; n++) {
+        if (n == 0) {
+            spaceStart_index = spaceStart_index_exceptionManage[n].index;
+        }
+        if (n != 0) {
+            if (spaceStart_index_exceptionManage[n].spaceValue > spaceStart_index_exceptionManage[n - 1].spaceValue) {
+                spaceStart_index = spaceStart_index_exceptionManage[n].index;
+            }
+        }
+    }
+    let space_front_monthLenth = spaceStart_index + 1;   
+    let new_buckets_sort = [];
+    for (let m = 0; m < buckets_sort.length; m++) {
+        if (m <= spaceStart_index) { 
+            new_buckets_sort[m + (monthLenth - space_front_monthLenth)] = buckets_sort[m];
+        }
+        else { 
+            new_buckets_sort[m - space_front_monthLenth] = buckets_sort[m];
+        }
+    }
+    return new_buckets_sort;
+}
+
+
+// buckets - 周月排序(按key)
+// =>  1 2 3 4 5 6 7month
+commonTools.bucketsSort_WM = function (buckets) {
+    let buckets_sort = [];
+    for (let z = 0; z < buckets.length; z++) {
+        buckets_sort.push(buckets[z]);
+    }
+    // 排序
+    for (let i = 0; i < buckets_sort.length - 1; i++) {
+        for (let j = 0; j < buckets_sort.length - i - 1; j++) {
+            if (commonTools.Return_WM_Num(buckets_sort[j].key) > commonTools.Return_WM_Num(buckets_sort[j + 1].key)) {
+                // 判断第二位
+                let tmp = buckets_sort[j];
+                buckets_sort[j] = buckets_sort[j + 1];
+                buckets_sort[j + 1] = tmp;
+            }
+        }
+    }
+    return buckets_sort;
+}
 
 
 
@@ -330,6 +527,47 @@ commonTools.get_ExpirationDate_lastNMonth = function (date, n) {
     }
     return String(month_str) + "month";
 }
+// 传入日期，返回上月（如果是跨年，则返回12月以及上一年year --单月版）
+// yearType - 'single'  'range'
+// 当月n传入0 上月n传入1
+commonTools.get_ExpirationDate_lastNMonth_CrossYear = function (date, n, yearType) {
+    let arr = date.split("-");
+    let month_str = parseInt(arr[1]) - n;
+    let year = commonTools.get_ExpirationDate_year(date);
+    let ifYearRange = false;
+    if (month_str < 1) {
+        month_str += 12;
+        year -= 1;
+        ifYearRange = true;
+    }
+    let ReturnResult;
+    if (yearType == 'single') { // 单月情况，传入指定年即可
+        ReturnResult = {
+            month: String(month_str) + "month",
+            year: year
+        };
+    }
+    else if (yearType == 'range') {  // 多月情况，
+        if (ifYearRange == false) {  // year 未-1
+            ReturnResult = {
+                month: String(month_str) + "month",
+                // year: [year] 
+                // ▲范围处理由后台处理，此处传当前日期的年 - 传入end月所在的年即可
+                year: year
+            };
+        } else if (ifYearRange == true) {  // year 已-1
+            ReturnResult = {
+                month: String(month_str) + "month",
+                // year: [year, year + 1]
+                year: year
+            };
+        }
+    }
+    console.log(ReturnResult);
+    return ReturnResult;
+}
+
+
 commonTools.get_ExpirationDate_lastNMonth_toChinese = function (date, n) {
     let arr = date.split("-");
     let month_str = parseInt(arr[1]) - n;
@@ -405,8 +643,9 @@ commonTools.format_weekToChinese = function (str) {
     return str.replace("week", "周");
 }
 
-// 返回当前周前n周的week
+// 返回当前周前n周的week   
 // 传入：22week ，1   输出  21week
+// ▲▲限制： before_n 只能为 1
 commonTools.ReturnBeforeWeek = function (weekString, before_n) {
     let str_split = weekString.split("week");
     let reStr;
@@ -418,6 +657,42 @@ commonTools.ReturnBeforeWeek = function (weekString, before_n) {
     }
     return reStr;
 }
+// 返回当前周前n周的week - 跨年处理
+// 限制：保证 before_n 一般不会导致跨两年情况
+commonTools.ReturnBeforeWeek_CrossYear = function (weekString, before_n, currentYear) {
+    // console.log(weekString);
+    // console.log(before_n);
+    // console.log(currentYear);
+    let str_split = weekString.split("week");
+    let reStr;
+    let year;
+    let num = parseInt(str_split[0]) - before_n;
+    // console.log(num);
+    // console.log(typeof num);
+    if (num >= 1) {
+        reStr = String(num) + "week";
+        year = currentYear;
+    }
+    else {
+        // console.log(currentYear - 1);
+        let weekMax = commonTools.return_AssignYear_FinalWeekNum(currentYear - 1) ;
+        // console.log(weekMax);
+        num = weekMax + num;
+        reStr = String(num) + "week";
+        year = currentYear - 1;
+    }
+    // console.log(commonTools.AssignYear_FinalWeekNum_Arr);
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2017));
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2018));
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2019));
+    // console.log(commonTools.return_AssignYear_FinalWeekNum(2020));
+    return {
+        week: reStr,
+        year: year
+    };
+}
+
+
 
 // 周-天格式显示转换
 // 2019-09-01 ,2019-09-07 =》  0901-0907
@@ -1193,7 +1468,7 @@ commonTools.getSeconds = function (date) {
 }
 
 // ///////////////// 返回当前日期 是当年的第几周 哪周
-commonTools.getWeek_y = function (date) {
+commonTools.getWeek_y = function (date) {  // ▲▲▲ 注意！ 这个是以index 0 开始
     let d1 = new Date(date);
     let d2 = new Date(date);
     d2.setMonth(0);
@@ -1203,10 +1478,15 @@ commonTools.getWeek_y = function (date) {
     let num = Math.ceil(days / 7);
     // console.log(rq / (24 * 60 * 60 * 1000)); // 221  2019-08-10 是当年第221天
     // console.log(days / 7);   // 31.571428571428573   除以7  进一法 为32周
-    return num;
+    return num + 1;
 }
+// console.log(commonTools.getWeek_y("2019-12-16"));
+// console.log(commonTools.getWeek_y("2019-01-01"));
+
+
+
 // ///////////////// 返回当前日期 该周周几 （▲周日属于周末最后一天）
-commonTools.getWeek_y_dayn = function (date) {
+commonTools.getWeek_y_dayn = function (date) {   // ▲▲▲ 注意！ 这个是以index 0 开始
     let d1 = new Date(date);
     let d2 = new Date(date);
     d2.setMonth(0);
@@ -1216,9 +1496,9 @@ commonTools.getWeek_y_dayn = function (date) {
     let num = Math.ceil(days / 7);
     // console.log(rq / (24 * 60 * 60 * 1000)); // 221  2019-08-10 是当年第221天
     // console.log(days / 7);   // 31.571428571428573   除以7  进一法 为32周
-    return num;
+    return num + 1;
 }
-commonTools.getWeek_y_dayn("2019-12-03");
+// commonTools.getWeek_y_dayn("2019-12-03");
 
 
 
@@ -1592,12 +1872,15 @@ commonTools.weekDate_add_byday = function (year, arr_temp) {
 
 // ////////// 周处理（by week）
 // 传入年
-commonTools.weekDate = function (year) {
+commonTools.weekDate = function (year, ManageType) {
     let arr_temp = [];
     let temp;
     let start;
     let end;
     let index1 = 1;
+
+    let FinalWeekNum = 0;// 跨年处理
+
     for (let i of commonTools.createWeeks(year)) {
         start = i[0];
         end = i[1];
@@ -1614,8 +1897,14 @@ commonTools.weekDate = function (year) {
                 index1++
             )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
         };
+        // console.log(temp);
         arr_temp.push(temp);
+        FinalWeekNum = index1 - 1; // 跨年处理(index1++ 先用后加了！)
     }
+    if (ManageType == 'CrossYear') { // 跨年处理
+        return FinalWeekNum;
+    }
+
     return arr_temp
 }
 // 传入年 与 累加数据
@@ -1624,6 +1913,7 @@ commonTools.weekDate_add = function (year, arr_temp) {
     let start;
     let end;
     let index1 = 1;
+
     for (let i of commonTools.createWeeks(year)) {
         start = i[0];
         end = i[1];
@@ -1640,8 +1930,10 @@ commonTools.weekDate_add = function (year, arr_temp) {
                 index1++
             )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
         };
+        // console.log(temp);
         arr_temp.push(temp);
     }
+
     return arr_temp
 }
 
@@ -1751,7 +2043,7 @@ commonTools.getMonthDays_y = function (year) {
 // /////// ▲▲▲ 显示格式 - 月 up（by day by week by month）
 // 显示值： 4.1~4.30  xweek~(x+3)week 4month 1~4month  (特殊处理 1 2 3 )
 // format_MonthDays_byDayWeekMonthMonthrange
-// monthsRange 时间范围（用于处理月范围：eg：传入范围4 5-1234 4-1234 3-123）
+// monthsRange 时间范围（用于处理月范围：eg：传入范围4 5-2345 4-1234 3-123）
 commonTools.manageTIMEsRange = function (currentTIME, TIMEsRange) {
     let start;
     let differ = currentTIME - (TIMEsRange - 1);
@@ -1878,6 +2170,7 @@ commonTools.format_WeeksDays_byDWwr = function (year, weeksRange) {
                 index1++
             )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
         };
+        // console.log(temp);
         arr_temp.push(temp);
     }
     return arr_temp
@@ -1907,6 +2200,7 @@ commonTools.format_WeeksDays_byDWwr_add = function (year, weeksRange, arr_temp) 
                 index1++
             )}周 ${commonTools.formatDate3(start)}-${commonTools.formatDate3(end)}`
         };
+        // console.log(temp);
         arr_temp.push(temp);
     }
     return arr_temp

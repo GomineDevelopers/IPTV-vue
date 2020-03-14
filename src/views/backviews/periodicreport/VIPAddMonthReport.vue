@@ -485,14 +485,25 @@ export default {
       //   };
       // }
       if (RequestType == "monthsRange") {
+        // ▲跨年处理
+        let MonthRange = 4; // 跨度4个月  1月则： 10 11 12 1
+        let CrossYear_monthStart;
+        CrossYear_monthStart = temp_time.monthsRange_end.replace(/[^0-9]/gi, "") - MonthRange + 1;
+        if (CrossYear_monthStart <= 0) {
+           CrossYear_monthStart += 12;
+        }
+        CrossYear_monthStart += 'month';
         temp = {
           operator: String(["电信"]),
           year: temp_time.year,
-          start: temp_time.monthsRange_start,
+          // start: temp_time.monthsRange_start,
+          start: CrossYear_monthStart, // ▲跨年处理
           end: temp_time.monthsRange_end
         };
+        console.log('▲跨年处理');
+        console.log(temp);
       }
-      // console.log(temp);
+  
 
       var formData = new FormData();
       var formData = new window.FormData();
@@ -627,7 +638,9 @@ export default {
 
               let buckets_0 =
                 responses5.aggregations.statistical_granularity.buckets; // ▲▲▲ 注意 ： 排序 responses5
-              buckets_0 = commonTools.bucketsSort_WM(buckets_0); // 排序
+              console.log('▲跨年处理');
+              console.log(buckets_0);
+              buckets_0 = commonTools.bucketsSort_WM_CrossYear(buckets_0); // 排序
               let length_0 = buckets_0.length; // 月份的个数 - 后台返回的个数
               let i_0;
 
@@ -721,7 +734,7 @@ export default {
 
               let buckets_1 =
                 responses1.aggregations.statistical_granularity.buckets;
-              buckets_1 = commonTools.bucketsSort_WM(buckets_1); // 排序
+              buckets_1 = commonTools.bucketsSort_WM_CrossYear(buckets_1); // 排序
               let length_1 = buckets_1.length; // 月份的个数 - 后台返回的个数
               let i_1;
 
@@ -1037,7 +1050,7 @@ export default {
 
               let buckets_2 =
                 responses2.aggregations.statistical_granularity.buckets;
-              buckets_2 = commonTools.bucketsSort_WM(buckets_2); // 排序
+              buckets_2 = commonTools.bucketsSort_WM_CrossYear(buckets_2); // 排序
 
               let length_2 = buckets_2.length;
               let i_2;
@@ -1103,7 +1116,7 @@ export default {
               vm.orderUserRegionData.data = [];
               let buckets_6_3 =
                 responses3.aggregations.statistical_granularity.buckets; //  responses3
-              buckets_6_3 = commonTools.bucketsSort_WM(buckets_6_3); // 排序
+              buckets_6_3 = commonTools.bucketsSort_WM_CrossYear(buckets_6_3); // 排序
 
               let length_6_3 = buckets_6_3.length;
               let i_6_3;
@@ -1210,7 +1223,7 @@ export default {
 
               let buckets_6 =
                 responses2.aggregations.statistical_granularity.buckets; //  responses2
-              buckets_6 = commonTools.bucketsSort_WM(buckets_6); // 排序
+              buckets_6 = commonTools.bucketsSort_WM_CrossYear(buckets_6); // 排序
 
               let length_6 = buckets_6.length;
               let i_6;
@@ -1249,7 +1262,7 @@ export default {
               if (length_6 != 0) {
                 let buckets_2 =
                   responses2.aggregations.statistical_granularity.buckets;
-                buckets_2 = commonTools.bucketsSort_WM(buckets_2); // 排序
+                buckets_2 = commonTools.bucketsSort_WM_CrossYear(buckets_2); // 排序
 
                 let length_2 = buckets_2.length;
 
@@ -1395,7 +1408,7 @@ export default {
               vm.tableData2 = [];
               let buckets_8 =
                 responses4.aggregations.statistical_granularity.buckets;
-              buckets_8 = commonTools.bucketsSort_WM(buckets_8); // 排序
+              buckets_8 = commonTools.bucketsSort_WM_CrossYear(buckets_8); // 排序
 
               let length_8 = buckets_8.length;
               let i_8;

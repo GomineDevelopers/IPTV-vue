@@ -480,9 +480,12 @@ export function users_total(data) {
     return request({
         method: 'get',
         url: '/users/total',
+        // params: {
+        //     start: data.start,
+        //     end: data.end
+        // }
         params: {
-            start: data.start,
-            end: data.end
+            ...data
         }
     })
 }

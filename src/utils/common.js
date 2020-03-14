@@ -2,14 +2,14 @@ import store from '@/store'
 import { refreshToken, } from '@/api/api_main'
 import CryptoJS from 'crypto-js' //加密js
 
-const commonTools = {}
+const Utils = {}
 
-commonTools.setCookie = function (name, value, myDay) {
+Utils.setCookie = function (name, value, myDay) {
     var oDate = new Date()
     oDate.setTime(oDate.getTime() + (myDay * 60 * 1000))// 单位是毫秒
     document.cookie = name + '=' + value + '; expires=' + oDate.toUTCString()
 }
-commonTools.getCookie = function (name) {
+Utils.getCookie = function (name) {
     // document.cookie获取当前网站的所有cookie
     var arr = document.cookie.split('; ')
     for (var i = 0; i < arr.length; i++) {
@@ -20,16 +20,16 @@ commonTools.getCookie = function (name) {
     }
     return '' //getCookie：如果没有当前name的cookie则返回''
 }
-commonTools.delCookie = function (name) {
+Utils.delCookie = function (name) {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
-    var cval = commonTools.getCookie(name);
+    var cval = Utils.getCookie(name);
     if (cval != null)
         document.cookie = name + "=" + cval + ";expires=" + exp.toUTCString();
 }
 // ////////////////////
 // 加密Cookie
-commonTools.setCookieCry = function (name, value, days) {
+Utils.setCookieCry = function (name, value, days) {
     var text = CryptoJS.AES.encrypt(value, 'secret key 123');//使用CryptoJS方法加密
     var saveDays = new Date(); //获取时间
     saveDays.setTime(saveDays.getTime() + 24 * 60 * 60 * 1000 * days); //保存的天数
@@ -37,7 +37,7 @@ commonTools.setCookieCry = function (name, value, days) {
     window.document.cookie = name + "=" + text + ";path=/;saveDays=" + saveDays.toGMTString();
 }
 //读取cookie
-commonTools.getCookieCry = function (name) {
+Utils.getCookieCry = function (name) {
     if (document.cookie.length > 0) {
         var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
         for (var i = 0; i < arr.length; i++) {
@@ -55,19 +55,19 @@ commonTools.getCookieCry = function (name) {
     return ""
 }
 //清除cookie
-commonTools.delCookieCry = function (name) {
+Utils.delCookieCry = function (name) {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
-    var cval = commonTools.getCookieCry(name); //del（组合）： 删除cookies - 就是删除，别置空
+    var cval = Utils.getCookieCry(name); //del（组合）： 删除cookies - 就是删除，别置空
     if (cval != null) {
         document.cookie = name + "=" + cval + ";expires=" + exp.toUTCString();
     }
 
 }
 // ////////////////////
-commonTools.checkToken = function () {  // ---暂且没用到
+Utils.checkToken = function () {  // ---暂且没用到
     let vm = this;
-    let token = commonTools.getCookie('user_token')
+    let token = Utils.getCookie('user_token')
     let newToken = token.replace('"', '').replace('"', '')
     return new Promise((resolve, reject) => {
         store
@@ -87,7 +87,7 @@ commonTools.checkToken = function () {  // ---暂且没用到
                                     store
                                         .dispatch("set_ifCanCheckToken", ifCanCheckToken)
                                         .then(function (response) {
-                                            commonTools.setCookie('user_token', JSON.stringify(access_token), 60)// 存用户的新token(60分钟)
+                                            Utils.setCookie('user_token', JSON.stringify(access_token), 60)// 存用户的新token(60分钟)
                                             resolve(freshData)
                                         })
                                         .catch(function (error) {
@@ -120,7 +120,7 @@ commonTools.checkToken = function () {  // ---暂且没用到
 }
 
 //日期时间计算（获取到日期的前 n 天日期）
-commonTools.getBeforeDate = function (strTime, n) {
+Utils.getBeforeDate = function (strTime, n) {
     var n = n;
     var s;
     // var strTime = "2019-06-08"  //+++  此处为测试日期（去除测试后删）
@@ -146,5 +146,5 @@ commonTools.getBeforeDate = function (strTime, n) {
 }
 
 export {
-    commonTools
+    Utils
 }

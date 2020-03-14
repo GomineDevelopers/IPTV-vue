@@ -78,11 +78,18 @@ export default {
       let vm = this;
       let m_operator = commonTools.GetBigScreenOperator();
 
+      // let temp = {
+      //   operator: m_operator,
+      //   start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
+      //   end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
+      //   year:commonTools.get_ExpirationDate_year(ExpirationDate)
+      // };
+      let CrossYear_data = commonTools.get_ExpirationDate_lastNMonth_CrossYear(ExpirationDate,1,'single');
       let temp = {
         operator: m_operator,
-        start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
-        end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate,1),
-        year:commonTools.get_ExpirationDate_year(ExpirationDate)
+        start: CrossYear_data.month,
+        end: CrossYear_data.month,
+        year:CrossYear_data.year
       };
 
       users_basic(temp)

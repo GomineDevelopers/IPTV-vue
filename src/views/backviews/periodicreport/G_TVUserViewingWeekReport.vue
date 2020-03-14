@@ -332,7 +332,8 @@ export default {
           temp = {
             operator: String([tempOperatorArr]),
             start: temp_time.week_day_start,
-            end: temp_time.week_day_end
+            end: temp_time.week_day_end,
+            year:temp_time.year, // ▲跨年处理 =》 导致新增
           };
         }
         // console.log(temp)
@@ -345,7 +346,8 @@ export default {
           temp = {
             operator: String([tempOperatorArr]),
             start: last_week.start,
-            end: last_week.end
+            end: last_week.end,
+            year: commonTools.get_ExpirationDate_year(last_week.end), // ▲跨年处理 =》 导致新增
           };
         }
         var formData = new FormData();
@@ -353,6 +355,7 @@ export default {
         formData.append("operator", temp.operator);
         formData.append("start", temp.start);
         formData.append("end", temp.end);
+        formData.append("year", temp.year);
 
         users_weekActiveReport(formData)
           .then(function(response) {

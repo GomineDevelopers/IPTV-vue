@@ -39,13 +39,13 @@ export default {
     };
   },
   mounted() {
-    this.email = this.$commonTools.getCookieCry("email");
+    this.email = this.$Utils.getCookieCry("email");
     this.get_myinfo();
   },
   methods: {
     get_myinfo() {
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_myinfo(newToken)
         .then(function (response) {
@@ -57,9 +57,9 @@ export default {
     },
     logout() {
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
-      vm.$commonTools.delCookie("user_token");
+      vm.$Utils.delCookie("user_token");
 
       logout(newToken)
         .then(function (response) {

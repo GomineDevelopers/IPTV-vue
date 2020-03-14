@@ -51,7 +51,7 @@ export default {
     get_user_permissions() {
       console.log("get_user_permissions");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
 
       get_user_permissions(newToken)
@@ -66,9 +66,9 @@ export default {
     post_users_permissions() {
       console.log("post_users_permissions");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
-      // vm.$commonTools.delCookie("user_token");
+      // vm.$Utils.delCookie("user_token");
 
       let temp = {
         // permissions: String(["visit_data,visit_life"])
@@ -78,7 +78,7 @@ export default {
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("permissions", temp.permissions);
-      // let user = this.$commonTools.getCookieCry("user");
+      // let user = this.$Utils.getCookieCry("user");
       let user = "1";
       post_users_permissions(newToken, user, formData)
         .then(function(response) {
@@ -91,7 +91,7 @@ export default {
     get_permissions_list() {
       console.log("get_permissions_list");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
 
       get_permissions_list(newToken)
@@ -105,7 +105,7 @@ export default {
     del_user() {
       console.log("del_user");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       let user = "3";
       del_user(newToken, user)
@@ -119,7 +119,7 @@ export default {
     update_users() {
       console.log("update_users");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       let user = "2";
 
@@ -151,9 +151,9 @@ export default {
     get_userinfo_byid() {
       console.log("get_userinfo_byid");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
-      // let user = this.$commonTools.getCookieCry("user");
+      // let user = this.$Utils.getCookieCry("user");
       let user = "1";
       get_userinfo_byid(newToken, user)
         .then(function(response) {
@@ -166,7 +166,7 @@ export default {
     create_users() {
       console.log("create_users");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
 
       let temp = {
@@ -199,7 +199,7 @@ export default {
     get_allusersinfo() {
       console.log("get_allusersinfo");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_allusersinfo(newToken)
         .then(function(response) {
@@ -212,7 +212,7 @@ export default {
     get_myinfo() {
       console.log("get_myinfo");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_myinfo(newToken)
         .then(function(response) {
@@ -220,7 +220,7 @@ export default {
           let user = String(response.data.id);
           console.log("~~~user:" + user);
 
-          vm.$commonTools.setCookieCry("user", user, 1);
+          vm.$Utils.setCookieCry("user", user, 1);
         })
         .catch(function(error) {
           console.info(error);
@@ -229,14 +229,14 @@ export default {
     refreshToken() {
       console.log("refreshToken");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       refreshToken(newToken)
         .then(function(response) {
           console.log(response);
           let access_token = response.data.access_token;
           console.log(access_token);
-          vm.$commonTools.setCookie(
+          vm.$Utils.setCookie(
             "user_token",
             JSON.stringify(access_token),
             60

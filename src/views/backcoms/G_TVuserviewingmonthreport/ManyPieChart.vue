@@ -25,26 +25,26 @@ export default {
     } catch (error) {
       console.log(error);
     }
-    // }, 3000);
+    // }, 2500);
   },
   watch: {
     PR_month(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 3000);
+      }, 2500);
     },
     PR_operator(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 3000);
+      }, 2500);
     },
     pieData(newValue, oldValue) {
       let vm = this;
       setTimeout(function() {
         vm.setLineChart();
-      }, 3000);
+      }, 2500);
     }
   },
   computed: {
@@ -60,40 +60,47 @@ export default {
             vm.pieData.id == "liveViewingTimes"
           ) {
             let content = [];
-            let temp;
             let color = [];
             let data = [];
+            // if (vm.pieData.id == "liveViewingDuration") {
+            //   console.log(vm.pieData);
+            // }
+            color = vm.pieData.color;
+
             if (this.PR_operator == null || this.PR_operator.length == 0) {
               content = vm.pieData.content;
-              color = vm.pieData.color;
             } else {
               try {
-                if (this.PR_operator.indexOf("移动") > -1) {
-                  color.push(vm.pieData.color[0]);
-                  data.push(vm.pieData.content[0].data[0]);
+                if (vm.pieData.content[0].data == undefined) {
+                  return;
                 }
-                if (this.PR_operator.indexOf("联通") > -1) {
-                  color.push(vm.pieData.color[1]);
-                  data.push(vm.pieData.content[0].data[1]);
+                for (let i = 0; i < vm.pieData.content.length; i++) {
+                  let temp = {};
+                  data = [];
+                  if (this.PR_operator.indexOf("移动") > -1) {
+                    data.push(vm.pieData.content[i].data[0]);
+                  }
+                  if (this.PR_operator.indexOf("联通") > -1) {
+                    data.push(vm.pieData.content[i].data[1]);
+                  }
+                  if (this.PR_operator.indexOf("电信") > -1) {
+                    data.push(vm.pieData.content[i].data[2]);
+                  }
+                  temp = {
+                    title: vm.pieData.content[i].title,
+                    data: data
+                  };
+                  content.push(temp);
                 }
-                if (this.PR_operator.indexOf("电信") > -1) {
-                  color.push(vm.pieData.color[2]);
-                  data.push(vm.pieData.content[0].data[2]);
-                }
-                temp = {
-                  title: vm.pieData.content[0].title,
-                  data: data
-                };
-                content.push(temp);
               } catch (error) {
                 console.log(error);
-                return;
               }
             }
+
             // 视图更新
             setTimeout(function() {
               vm.setLineChart();
-            }, 3000);
+            }, 2500);
 
             let tempx = {
               title: vm.pieData.title,
@@ -101,11 +108,16 @@ export default {
               color: color,
               content: content
             };
+            // if (vm.pieData.id == "liveViewingDuration") {
+            //   console.log(tempx);
+            // }
             return tempx;
           }
+
           setTimeout(function() {
             vm.setLineChart();
-          }, 3000);
+          }, 1000);
+
           return vm.pieData;
         } catch (error) {
           console.log(error);
@@ -121,9 +133,13 @@ export default {
         var pieChart = this.$echarts.init(
           document.getElementById(this.pieData_Change.id)
         );
+        pieChart.clear();
+
         let series = [];
 
-        if (this.pieData_Change.content.length >= 1) {
+        // console.log(this.pieData.content.length); // 3
+        // console.log(this.pieData_Change.content.length); // 1  !?   ▲▲ 问题点！
+        if (this.pieData.content.length >= 1) {
           let t1 = {
             name: this.pieData_Change.content[0].title,
             type: "pie",
@@ -158,7 +174,7 @@ export default {
           };
           series.push(t1);
         }
-        if (this.pieData_Change.content.length >= 2) {
+        if (this.pieData.content.length >= 2) {
           let t2 = {
             name: this.pieData_Change.content[1].title,
             type: "pie",
@@ -193,7 +209,7 @@ export default {
           };
           series.push(t2);
         }
-        if (this.pieData_Change.content.length >= 3) {
+        if (this.pieData.content.length >= 3) {
           let t3 = {
             name: this.pieData_Change.content[2].title,
             type: "pie",
@@ -228,7 +244,7 @@ export default {
           };
           series.push(t3);
         }
-        if (this.pieData_Change.content.length >= 4) {
+        if (this.pieData.content.length >= 4) {
           let t4 = {
             name: this.pieData_Change.content[3].title,
             type: "pie",
@@ -263,7 +279,7 @@ export default {
           };
           series.push(t4);
         }
-        if (this.pieData_Change.content.length >= 5) {
+        if (this.pieData.content.length >= 5) {
           let t5 = {
             name: this.pieData_Change.content[4].title,
             type: "pie",

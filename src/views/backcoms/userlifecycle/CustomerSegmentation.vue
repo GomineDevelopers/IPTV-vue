@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 import UserViewingTOP from "@/views/backcoms/userlifecycle/UserViewingTOP"; //收视TOP组件
 export default {
   name: "CustomerSegmentation",
@@ -158,180 +158,337 @@ export default {
     api_data5(newValue, oldValue) {
       // console.log("用户细分ULC - api_data5:");
       // console.log(newValue);
-      let vm = this
-      vm.customerSegmentation.categoryData[0].data = []
-      vm.customerSegmentation.categoryData[1].data = []
-      vm.customerSegmentation.categoryData[2].data = []
-      vm.customerSegmentation.categoryData[3].data = []
-      vm.customerSegmentation.categoryData[4].data = []
-      vm.customerSegmentation.categoryData[5].data = []
+      let vm = this;
+      vm.customerSegmentation.categoryData[0].data = [];
+      vm.customerSegmentation.categoryData[1].data = [];
+      vm.customerSegmentation.categoryData[2].data = [];
+      vm.customerSegmentation.categoryData[3].data = [];
+      vm.customerSegmentation.categoryData[4].data = [];
+      vm.customerSegmentation.categoryData[5].data = [];
 
       try {
-        let customerSegmentation = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
-        let customerFirsttime_temp = []  //第一次购买
-        let customerOnectime_temp = []  //一次性购买
-        let customerLoyer_temp = []  //忠诚用户
-        let customerRepurchase_temp = []  //重新激活用户
-        let customerLapsed_temp = []  //睡眠用户
-        let customerNone_temp = []  //未订购用户
+        let customerSegmentation =
+          newValue.aggregations.statistical_granularity.buckets[0].flag_user
+            .buckets;
+        let customerFirsttime_temp = []; //第一次购买
+        let customerOnectime_temp = []; //一次性购买
+        let customerLoyer_temp = []; //忠诚用户
+        let customerRepurchase_temp = []; //重新激活用户
+        let customerLapsed_temp = []; //睡眠用户
+        let customerNone_temp = []; //未订购用户
+
+        let title1_arr = [
+          "欢乐家庭VIP包年",
+          "欢乐家庭VIP包季",
+          "欢乐家庭VIP",
+          "影视VIP包年",
+          "影视VIP包季",
+          "影视VIP",
+          "少儿VIP包年",
+          "少儿VIP包季",
+          "少儿VIP"
+        ];
+
         customerSegmentation.forEach((value, index) => {
           // console.log(value.key, value)
           value.productname.buckets.forEach((value2, index2) => {
             // console.log(value2.key)
-            if (value.key == 'firsttime') {
+            if (value.key == "firsttime") {
               // console.log(value2)
-              let play_full_rate
+              let play_full_rate;
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
-              let watch_dur_total = value2.watch_dur_children.value + value2.watch_dur_film.value + value2.watch_dur_oth.value
-              let watch_dur_children_rate = ((value2.watch_dur_children.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
-              let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2)  //用户细分的户均观看时长
-              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              let watch_dur_total =
+                value2.watch_dur_children.value +
+                value2.watch_dur_film.value +
+                value2.watch_dur_oth.value;
+              let watch_dur_children_rate = (
+                (value2.watch_dur_children.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_film_rate = (
+                (value2.watch_dur_film.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_oth_rate = (
+                (value2.watch_dur_oth.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let demand_dur_family = (
+                value2.demand_dur.value /
+                60 /
+                value2.demand_user_num.value
+              ).toFixed(2); //用户细分的户均观看时长
+              let programTime_t = value2.programTime_t.value / 60000; //节目时长（分钟）
               if (value2.demand_dur.value > programTime_t) {
-                play_full_rate = 100
+                play_full_rate = 100;
               } else {
-                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
+                play_full_rate = (
+                  (value2.demand_dur.value / programTime_t) *
+                  100
+                ).toFixed(2);
               }
-              if (value2.key != '贵州测试产品包') {
+              // if (value2.key != '贵州测试产品包') {
+              if (title1_arr.indexOf(value2.key) > -1) {
                 customerFirsttime_temp.push({
                   title: value2.key,
                   userNum: (value2.demand_user_num.value / 10000).toFixed(2),
                   familyWatchTime: demand_dur_family,
-                  theSeedingRate: play_full_rate + '%',
-                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-                })
+                  theSeedingRate: play_full_rate + "%",
+                  viewingBehaviorData: [
+                    watch_dur_children_rate,
+                    watch_dur_film_rate,
+                    watch_dur_oth_rate
+                  ]
+                });
               }
-            } else if (value.key == 'loyer') {
-              let play_full_rate
+            } else if (value.key == "loyer") {
+              let play_full_rate;
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
-              let watch_dur_total = value2.watch_dur_children.value + value2.watch_dur_film.value + value2.watch_dur_oth.value
-              let watch_dur_children_rate = ((value2.watch_dur_children.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
-              let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              let watch_dur_total =
+                value2.watch_dur_children.value +
+                value2.watch_dur_film.value +
+                value2.watch_dur_oth.value;
+              let watch_dur_children_rate = (
+                (value2.watch_dur_children.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_film_rate = (
+                (value2.watch_dur_film.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_oth_rate = (
+                (value2.watch_dur_oth.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let demand_dur_family = (
+                value2.demand_dur.value /
+                60 /
+                value2.demand_user_num.value
+              ).toFixed(2); //用户细分的户均观看时长
+              let programTime_t = value2.programTime_t.value / 60000; //节目时长（分钟）
               if (value2.demand_dur.value > programTime_t) {
-                play_full_rate = 100
+                play_full_rate = 100;
               } else {
-                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
+                play_full_rate = (
+                  (value2.demand_dur.value / programTime_t) *
+                  100
+                ).toFixed(2);
               }
-              if (value2.key != '贵州测试产品包') {
+              // if (value2.key != "贵州测试产品包") {
+              if (title1_arr.indexOf(value2.key) > -1) {
                 customerLoyer_temp.push({
                   title: value2.key,
                   userNum: (value2.demand_user_num.value / 10000).toFixed(2),
                   familyWatchTime: demand_dur_family,
-                  theSeedingRate: play_full_rate + '%',
-                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-                })
+                  theSeedingRate: play_full_rate + "%",
+                  viewingBehaviorData: [
+                    watch_dur_children_rate,
+                    watch_dur_film_rate,
+                    watch_dur_oth_rate
+                  ]
+                });
               }
-            } else if (value.key == 'onetime') {
-              let play_full_rate
+            } else if (value.key == "onetime") {
+              let play_full_rate;
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
-              let watch_dur_total = value2.watch_dur_children.value + value2.watch_dur_film.value + value2.watch_dur_oth.value
-              let watch_dur_children_rate = ((value2.watch_dur_children.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
-              let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              let watch_dur_total =
+                value2.watch_dur_children.value +
+                value2.watch_dur_film.value +
+                value2.watch_dur_oth.value;
+              let watch_dur_children_rate = (
+                (value2.watch_dur_children.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_film_rate = (
+                (value2.watch_dur_film.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_oth_rate = (
+                (value2.watch_dur_oth.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let demand_dur_family = (
+                value2.demand_dur.value /
+                60 /
+                value2.demand_user_num.value
+              ).toFixed(2); //用户细分的户均观看时长
+              let programTime_t = value2.programTime_t.value / 60000; //节目时长（分钟）
               if (value2.demand_dur.value > programTime_t) {
-                play_full_rate = 100
+                play_full_rate = 100;
               } else {
-                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
+                play_full_rate = (
+                  (value2.demand_dur.value / programTime_t) *
+                  100
+                ).toFixed(2);
               }
-              if (value2.key != '贵州测试产品包') {
+              // if (value2.key != "贵州测试产品包") {
+              if (title1_arr.indexOf(value2.key) > -1) {
                 customerOnectime_temp.push({
                   title: value2.key,
                   userNum: (value2.demand_user_num.value / 10000).toFixed(2),
                   familyWatchTime: demand_dur_family,
-                  theSeedingRate: play_full_rate + '%',
-                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-                })
+                  theSeedingRate: play_full_rate + "%",
+                  viewingBehaviorData: [
+                    watch_dur_children_rate,
+                    watch_dur_film_rate,
+                    watch_dur_oth_rate
+                  ]
+                });
               }
-
-            } else if (value.key == 'repurchase') {
-              let play_full_rate
+            } else if (value.key == "repurchase") {
+              let play_full_rate;
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
-              let watch_dur_total = value2.watch_dur_children.value + value2.watch_dur_film.value + value2.watch_dur_oth.value
-              let watch_dur_children_rate = ((value2.watch_dur_children.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
-              let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              let watch_dur_total =
+                value2.watch_dur_children.value +
+                value2.watch_dur_film.value +
+                value2.watch_dur_oth.value;
+              let watch_dur_children_rate = (
+                (value2.watch_dur_children.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_film_rate = (
+                (value2.watch_dur_film.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_oth_rate = (
+                (value2.watch_dur_oth.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let demand_dur_family = (
+                value2.demand_dur.value /
+                60 /
+                value2.demand_user_num.value
+              ).toFixed(2); //用户细分的户均观看时长
+              let programTime_t = value2.programTime_t.value / 60000; //节目时长（分钟）
               if (value2.demand_dur.value > programTime_t) {
-                play_full_rate = 100
+                play_full_rate = 100;
               } else {
-                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
+                play_full_rate = (
+                  (value2.demand_dur.value / programTime_t) *
+                  100
+                ).toFixed(2);
               }
-              if (value2.key != '贵州测试产品包') {
+              // if (value2.key != "贵州测试产品包") {
+              if (title1_arr.indexOf(value2.key) > -1) {
                 customerRepurchase_temp.push({
                   title: value2.key,
                   userNum: (value2.demand_user_num.value / 10000).toFixed(2),
                   familyWatchTime: demand_dur_family,
-                  theSeedingRate: play_full_rate + '%',
-                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-                })
+                  theSeedingRate: play_full_rate + "%",
+                  viewingBehaviorData: [
+                    watch_dur_children_rate,
+                    watch_dur_film_rate,
+                    watch_dur_oth_rate
+                  ]
+                });
               }
-            } else if (value.key == 'lapsed') {
+            } else if (value.key == "lapsed") {
               // console.log("睡眠用户------", value2)
-              let play_full_rate
+              let play_full_rate;
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
-              let watch_dur_total = value2.watch_dur_children.value + value2.watch_dur_film.value + value2.watch_dur_oth.value
-              let watch_dur_children_rate = ((value2.watch_dur_children.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
-              let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              let watch_dur_total =
+                value2.watch_dur_children.value +
+                value2.watch_dur_film.value +
+                value2.watch_dur_oth.value;
+              let watch_dur_children_rate = (
+                (value2.watch_dur_children.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_film_rate = (
+                (value2.watch_dur_film.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_oth_rate = (
+                (value2.watch_dur_oth.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let demand_dur_family = (
+                value2.demand_dur.value /
+                60 /
+                value2.demand_user_num.value
+              ).toFixed(2); //用户细分的户均观看时长
+              let programTime_t = value2.programTime_t.value / 60000; //节目时长（分钟）
               if (value2.demand_dur.value > programTime_t) {
-                play_full_rate = 100
+                play_full_rate = 100;
               } else {
-                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
+                play_full_rate = (
+                  (value2.demand_dur.value / programTime_t) *
+                  100
+                ).toFixed(2);
               }
-              if (value2.key != '贵州测试产品包') {
+              // if (value2.key != "贵州测试产品包") {
+              if (title1_arr.indexOf(value2.key) > -1) {
                 customerLapsed_temp.push({
                   title: value2.key,
                   userNum: (value2.demand_user_num.value / 10000).toFixed(2),
                   familyWatchTime: demand_dur_family,
-                  theSeedingRate: play_full_rate + '%',
-                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-                })
+                  theSeedingRate: play_full_rate + "%",
+                  viewingBehaviorData: [
+                    watch_dur_children_rate,
+                    watch_dur_film_rate,
+                    watch_dur_oth_rate
+                  ]
+                });
               }
-            } else if (value.key == 'none') {
-              let play_full_rate
+            } else if (value.key == "none") {
+              let play_full_rate;
               //将少儿，影视，非少儿非影视总和作为分母，求每一个的百分比
-              let watch_dur_total = value2.watch_dur_children.value + value2.watch_dur_film.value + value2.watch_dur_oth.value
-              let watch_dur_children_rate = ((value2.watch_dur_children.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_film_rate = ((value2.watch_dur_film.value / watch_dur_total) * 100).toFixed(1)
-              let watch_dur_oth_rate = ((value2.watch_dur_oth.value / watch_dur_total) * 100).toFixed(1)
-              let demand_dur_family = (value2.demand_dur.value / 60 / value2.demand_user_num.value).toFixed(2) //用户细分的户均观看时长
-              let programTime_t = value2.programTime_t.value / 60000   //节目时长（分钟）
+              let watch_dur_total =
+                value2.watch_dur_children.value +
+                value2.watch_dur_film.value +
+                value2.watch_dur_oth.value;
+              let watch_dur_children_rate = (
+                (value2.watch_dur_children.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_film_rate = (
+                (value2.watch_dur_film.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let watch_dur_oth_rate = (
+                (value2.watch_dur_oth.value / watch_dur_total) *
+                100
+              ).toFixed(1);
+              let demand_dur_family = (
+                value2.demand_dur.value /
+                60 /
+                value2.demand_user_num.value
+              ).toFixed(2); //用户细分的户均观看时长
+              let programTime_t = value2.programTime_t.value / 60000; //节目时长（分钟）
               if (value2.demand_dur.value > programTime_t) {
-                play_full_rate = 100
+                play_full_rate = 100;
               } else {
-                play_full_rate = ((value2.demand_dur.value / programTime_t) * 100).toFixed(2)
+                play_full_rate = (
+                  (value2.demand_dur.value / programTime_t) *
+                  100
+                ).toFixed(2);
               }
-              if (value2.key != '贵州测试产品包') {
+              // if (value2.key != "贵州测试产品包") {
+              if (title1_arr.indexOf(value2.key) > -1) {
                 customerNone_temp.push({
                   title: value2.key,
                   userNum: (value2.demand_user_num.value / 10000).toFixed(2),
                   familyWatchTime: demand_dur_family,
-                  theSeedingRate: play_full_rate + '%',
-                  viewingBehaviorData: [watch_dur_children_rate, watch_dur_film_rate, watch_dur_oth_rate]
-                })
+                  theSeedingRate: play_full_rate + "%",
+                  viewingBehaviorData: [
+                    watch_dur_children_rate,
+                    watch_dur_film_rate,
+                    watch_dur_oth_rate
+                  ]
+                });
               }
             }
-          })
-        })
+          });
+        });
 
         //此处要处理观看行为的viewingBehaviorData占比
         //["尝试购买", "一次性购买", "忠诚用户", "重新激活", "从未订购", "睡眠用户"],
-        vm.customerSegmentation.categoryData[0].data = customerFirsttime_temp
-        vm.customerSegmentation.categoryData[1].data = customerOnectime_temp
-        vm.customerSegmentation.categoryData[2].data = customerLoyer_temp
-        vm.customerSegmentation.categoryData[3].data = customerRepurchase_temp
-        vm.customerSegmentation.categoryData[4].data = customerLapsed_temp
-        vm.customerSegmentation.categoryData[5].data = customerNone_temp
-
+        vm.customerSegmentation.categoryData[0].data = customerFirsttime_temp;
+        vm.customerSegmentation.categoryData[1].data = customerOnectime_temp;
+        vm.customerSegmentation.categoryData[2].data = customerLoyer_temp;
+        vm.customerSegmentation.categoryData[3].data = customerRepurchase_temp;
+        vm.customerSegmentation.categoryData[4].data = customerLapsed_temp;
+        vm.customerSegmentation.categoryData[5].data = customerNone_temp;
       } catch (error) {
         console.log(error);
       }
@@ -349,66 +506,68 @@ export default {
     api_data6(newValue, oldValue) {
       // console.log("用户生命周期收视次数TOP", newValue)
       // console.log("用户生命周期收视次数------", newValue)
-      let vm = this
-      vm.NumberOfViewersTopList.data = []
-      vm.viewing_num_firsttime_temp = []
-      vm.viewing_num_oncetime_temp = []
-      vm.viewing_num_loyal_temp = []
-      vm.viewing_num_other_temp = []
-      vm.viewing_num_repurchase_temp = []
-      vm.viewing_num_lapsed_temp = []
+      let vm = this;
+      vm.NumberOfViewersTopList.data = [];
+      vm.viewing_num_firsttime_temp = [];
+      vm.viewing_num_oncetime_temp = [];
+      vm.viewing_num_loyal_temp = [];
+      vm.viewing_num_other_temp = [];
+      vm.viewing_num_repurchase_temp = [];
+      vm.viewing_num_lapsed_temp = [];
 
-      vm.viewing_num_firsttime_bottom_temp = []
-      vm.viewing_num_oncetime_bottom_temp = []
-      vm.viewing_num_loyal_bottom_temp = []
-      vm.viewing_num_other_bottom_temp = []
-      vm.viewing_num_repurchase_bottom_temp = []
-      vm.viewing_num_lapsed_bottom_temp = []
+      vm.viewing_num_firsttime_bottom_temp = [];
+      vm.viewing_num_oncetime_bottom_temp = [];
+      vm.viewing_num_loyal_bottom_temp = [];
+      vm.viewing_num_other_bottom_temp = [];
+      vm.viewing_num_repurchase_bottom_temp = [];
+      vm.viewing_num_lapsed_bottom_temp = [];
       try {
-        let user_viewing_num_data = newValue.aggregations.statistical_granularity.buckets[0].flag_user.buckets
-        let viewing_num_firsttime_temp = []
-        let viewing_num_oncetime_temp = []
-        let viewing_num_loyal_temp = []
-        let viewing_num_other_temp = []
-        let viewing_num_repurchase_temp = []
-        let viewing_num_lapsed_temp = []
+        let user_viewing_num_data =
+          newValue.aggregations.statistical_granularity.buckets[0].flag_user
+            .buckets;
+        let viewing_num_firsttime_temp = [];
+        let viewing_num_oncetime_temp = [];
+        let viewing_num_loyal_temp = [];
+        let viewing_num_other_temp = [];
+        let viewing_num_repurchase_temp = [];
+        let viewing_num_lapsed_temp = [];
 
-        let viewing_num_firsttime_bottom_temp = []    //收视bottom
-        let viewing_num_oncetime_bottom_temp = []   //收视bottom
-        let viewing_num_loyal_bottom_temp = []   //收视bottom
-        let viewing_num_other_bottom_temp = []   //收视bottom
-        let viewing_num_repurchase_bottom_temp = []   //收视bottom
-        let viewing_num_lapsed_bottom_temp = []   //收视bottom
+        let viewing_num_firsttime_bottom_temp = []; //收视bottom
+        let viewing_num_oncetime_bottom_temp = []; //收视bottom
+        let viewing_num_loyal_bottom_temp = []; //收视bottom
+        let viewing_num_other_bottom_temp = []; //收视bottom
+        let viewing_num_repurchase_bottom_temp = []; //收视bottom
+        let viewing_num_lapsed_bottom_temp = []; //收视bottom
         user_viewing_num_data.forEach((value, index) => {
           // console.log(value.key, value)
-          if (value.key == 'firsttime') {
+          if (value.key == "firsttime") {
             // console.log(value.key)
             // console.log(value)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_freq.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_freq.value / 10000   //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_freq.value / 10000; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_freq.value / 10000  //分子
+                let hot_num_fz = value2.demand_freq.value / 10000; //分子
                 viewing_num_firsttime_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(2)
-                })
+                });
               }
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_freq.value)
-                bottom_num_fm = value2.demand_freq.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_freq.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
                 // console.log("收视bottom第15名", bottom_num_fm)
-                let bottom_num_fz = value2.demand_freq.value //分子
+                let bottom_num_fz = value2.demand_freq.value; //分子
                 // console.log("bottom_num_fz----", bottom_num_fz)
                 // console.log("bottom_num_fm----", bottom_num_fm)
                 // console.log("百分比：", bottom_num_fz / bottom_num_fm)
@@ -416,218 +575,215 @@ export default {
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(3)
-                })
+                });
               }
-            })
-
-          } else if (value.key == 'onetime') {
+            });
+          } else if (value.key == "onetime") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_freq.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_freq.value / 10000  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_freq.value / 10000; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_freq.value / 10000 //分子
+                let hot_num_fz = value2.demand_freq.value / 10000; //分子
                 viewing_num_oncetime_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(2)
-                })
+                });
               }
 
               //收视bottom
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_freq.value)
-                bottom_num_fm = value2.demand_freq.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_freq.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_freq.value //分子
+                let bottom_num_fz = value2.demand_freq.value; //分子
                 viewing_num_oncetime_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(3)
-                })
+                });
               }
-            })
+            });
             // console.log("-----------------------------------")
-
-          } else if (value.key == 'loyer') {
+          } else if (value.key == "loyer") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_freq.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_freq.value / 10000  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_freq.value / 10000; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_freq.value / 10000  //分子
+                let hot_num_fz = value2.demand_freq.value / 10000; //分子
                 viewing_num_loyal_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(2)
-                })
+                });
               }
               //收视bottom
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_freq.value)
-                bottom_num_fm = value2.demand_freq.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_freq.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_freq.value //分子
+                let bottom_num_fz = value2.demand_freq.value; //分子
                 viewing_num_loyal_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(3)
-                })
+                });
               }
-            })
+            });
             // console.log("-----------------------------------")
-
-          } else if (value.key == 'none') {
+          } else if (value.key == "none") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_freq.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_freq.value / 10000  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_freq.value / 10000; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_freq.value / 10000 //分子
+                let hot_num_fz = value2.demand_freq.value / 10000; //分子
                 viewing_num_other_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(2)
-                })
+                });
               }
               //收视bottom
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_freq.value)
-                bottom_num_fm = value2.demand_freq.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_freq.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_freq.value //分子
+                let bottom_num_fz = value2.demand_freq.value; //分子
                 viewing_num_other_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(3)
-                })
+                });
               }
-            })
+            });
             // console.log("-----------------------------------")
-          } else if (value.key == 'repurchase') {
+          } else if (value.key == "repurchase") {
             // console.log(value.key)
             // console.log(value)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_freq.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_freq.value / 10000  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_freq.value / 10000; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_freq.value / 10000 //分子
+                let hot_num_fz = value2.demand_freq.value / 10000; //分子
                 viewing_num_repurchase_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(2)
-                })
+                });
               }
               //收视bottom
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_freq.value)
-                bottom_num_fm = value2.demand_freq.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_freq.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_freq.value //分子
+                let bottom_num_fz = value2.demand_freq.value; //分子
                 viewing_num_repurchase_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(3)
-                })
+                });
               }
-            })
-          } else if (value.key == 'lapsed') {
+            });
+          } else if (value.key == "lapsed") {
             // console.log(value.key)
             // console.log(value)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_freq.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_freq.value / 10000  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_freq.value / 10000; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_freq.value / 10000 //分子
+                let hot_num_fz = value2.demand_freq.value / 10000; //分子
                 viewing_num_lapsed_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(2)
-                })
+                });
               }
               //收视bottom
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_freq.value)
-                bottom_num_fm = value2.demand_freq.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_freq.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_freq.value //分子
+                let bottom_num_fz = value2.demand_freq.value; //分子
                 viewing_num_lapsed_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_freq.value / 10000).toFixed(3)
-                })
+                });
               }
-            })
+            });
           }
-        })
-        vm.NumberOfViewersTopList.data = []
-        vm.targetOption = "尝试购买"
-        vm.NumberOfViewersTopList.data = viewing_num_firsttime_temp
-        vm.viewing_num_firsttime_temp = viewing_num_firsttime_temp
-        vm.viewing_num_oncetime_temp = viewing_num_oncetime_temp
-        vm.viewing_num_loyal_temp = viewing_num_loyal_temp
-        vm.viewing_num_other_temp = viewing_num_other_temp
-        vm.viewing_num_repurchase_temp = viewing_num_repurchase_temp
-        vm.viewing_num_lapsed_temp = viewing_num_lapsed_temp
+        });
+        vm.NumberOfViewersTopList.data = [];
+        vm.targetOption = "尝试购买";
+        vm.NumberOfViewersTopList.data = viewing_num_firsttime_temp;
+        vm.viewing_num_firsttime_temp = viewing_num_firsttime_temp;
+        vm.viewing_num_oncetime_temp = viewing_num_oncetime_temp;
+        vm.viewing_num_loyal_temp = viewing_num_loyal_temp;
+        vm.viewing_num_other_temp = viewing_num_other_temp;
+        vm.viewing_num_repurchase_temp = viewing_num_repurchase_temp;
+        vm.viewing_num_lapsed_temp = viewing_num_lapsed_temp;
 
-        vm.viewing_num_firsttime_bottom_temp = viewing_num_firsttime_bottom_temp
-        vm.viewing_num_oncetime_bottom_temp = viewing_num_oncetime_bottom_temp
-        vm.viewing_num_loyal_bottom_temp = viewing_num_loyal_bottom_temp
-        vm.viewing_num_other_bottom_temp = viewing_num_other_bottom_temp
-        vm.viewing_num_repurchase_bottom_temp = viewing_num_repurchase_bottom_temp
-        vm.viewing_num_lapsed_bottom_temp = viewing_num_lapsed_bottom_temp
+        vm.viewing_num_firsttime_bottom_temp = viewing_num_firsttime_bottom_temp;
+        vm.viewing_num_oncetime_bottom_temp = viewing_num_oncetime_bottom_temp;
+        vm.viewing_num_loyal_bottom_temp = viewing_num_loyal_bottom_temp;
+        vm.viewing_num_other_bottom_temp = viewing_num_other_bottom_temp;
+        vm.viewing_num_repurchase_bottom_temp = viewing_num_repurchase_bottom_temp;
+        vm.viewing_num_lapsed_bottom_temp = viewing_num_lapsed_bottom_temp;
       } catch (error) {
         console.log(error);
       }
@@ -643,65 +799,65 @@ export default {
     //收视时长
     api_data7(newValue, oldValue) {
       // console.log("用户生命周期收视时长------", newValue)
-      let vm = this
-      vm.viewingTopList.data = []
-      vm.viewing_time_firsttime_temp = []
-      vm.viewing_time_oncetime_temp = []
-      vm.viewing_time_loyal_temp = []
-      vm.viewing_time_other_temp = []
-      vm.viewing_time_repurchase_temp = []
-      vm.viewing_time_lapsed_temp = []
+      let vm = this;
+      vm.viewingTopList.data = [];
+      vm.viewing_time_firsttime_temp = [];
+      vm.viewing_time_oncetime_temp = [];
+      vm.viewing_time_loyal_temp = [];
+      vm.viewing_time_other_temp = [];
+      vm.viewing_time_repurchase_temp = [];
+      vm.viewing_time_lapsed_temp = [];
 
-      vm.viewing_time_firsttime_bottom_temp = []
-      vm.viewing_time_oncetime_bottom_temp = []
-      vm.viewing_time_loyal_bottom_temp = []
-      vm.viewing_time_other_bottom_temp = []
-      vm.viewing_time_repurchase_bottom_temp = []
-      vm.viewing_time_lapsed_bottom_temp = []
+      vm.viewing_time_firsttime_bottom_temp = [];
+      vm.viewing_time_oncetime_bottom_temp = [];
+      vm.viewing_time_loyal_bottom_temp = [];
+      vm.viewing_time_other_bottom_temp = [];
+      vm.viewing_time_repurchase_bottom_temp = [];
+      vm.viewing_time_lapsed_bottom_temp = [];
       try {
-        let user_viewing_time_data = newValue.aggregations.flag_user.buckets
-        let viewing_time_firsttime_temp = []    //收视top
-        let viewing_time_oncetime_temp = []   //收视top
-        let viewing_time_loyal_temp = []   //收视top
-        let viewing_time_other_temp = []   //收视top
-        let viewing_time_repurchase_temp = []   //重新激活
-        let viewing_time_lapsed_temp = []   //重新激活
+        let user_viewing_time_data = newValue.aggregations.flag_user.buckets;
+        let viewing_time_firsttime_temp = []; //收视top
+        let viewing_time_oncetime_temp = []; //收视top
+        let viewing_time_loyal_temp = []; //收视top
+        let viewing_time_other_temp = []; //收视top
+        let viewing_time_repurchase_temp = []; //重新激活
+        let viewing_time_lapsed_temp = []; //重新激活
 
-        let viewing_time_firsttime_bottom_temp = []    //收视bottom
-        let viewing_time_oncetime_bottom_temp = []   //收视bottom
-        let viewing_time_loyal_bottom_temp = []   //收视bottom
-        let viewing_time_other_bottom_temp = []   //收视bottom
-        let viewing_time_repurchase_bottom_temp = []   //重新激活
-        let viewing_time_lapsed_bottom_temp = []   //重新激活
+        let viewing_time_firsttime_bottom_temp = []; //收视bottom
+        let viewing_time_oncetime_bottom_temp = []; //收视bottom
+        let viewing_time_loyal_bottom_temp = []; //收视bottom
+        let viewing_time_other_bottom_temp = []; //收视bottom
+        let viewing_time_repurchase_bottom_temp = []; //重新激活
+        let viewing_time_lapsed_bottom_temp = []; //重新激活
         user_viewing_time_data.forEach((value, index) => {
           // console.log(value.key, value)
-          if (value.key == 'firsttime') {
+          if (value.key == "firsttime") {
             // console.log(value.key, value)
-            let hot_num_fm  ////将top1的节目观看时长作为百分比分母(万小时)
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm; ////将top1的节目观看时长作为百分比分母(万小时)
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_dur.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_dur.value  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_dur.value//分子
+                let hot_num_fz = value2.demand_dur.value; //分子
                 viewing_time_firsttime_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(2)
-                })
+                });
               }
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_dur.value)
-                bottom_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
                 // console.log("收视bottom第15名", bottom_num_fm)
-                let bottom_num_fz = value2.demand_dur.value //分子
+                let bottom_num_fz = value2.demand_dur.value; //分子
                 // console.log("bottom_num_fz----", bottom_num_fz)
                 // console.log("bottom_num_fm----", bottom_num_fm)
                 // console.log("百分比：", bottom_num_fz / bottom_num_fm)
@@ -709,219 +865,217 @@ export default {
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(3)
-                })
+                });
               }
-            })
+            });
             // console.log("-----------------------------------")
-          } else if (value.key == 'onetime') {
+          } else if (value.key == "onetime") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_dur.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_dur.value //分子
+                let hot_num_fz = value2.demand_dur.value; //分子
                 viewing_time_oncetime_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(2)
-                })
+                });
               }
 
               //收视时长bottom 15
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_dur.value)
-                bottom_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_dur.value //分子
+                let bottom_num_fz = value2.demand_dur.value; //分子
                 viewing_time_oncetime_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(3)
-                })
+                });
               }
-            })
+            });
             // console.log("viewing_time_oncetime_bottom_temp", viewing_time_oncetime_bottom_temp)
-
-          } else if (value.key == 'loyer') {
+          } else if (value.key == "loyer") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_dur.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_dur.value  //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_dur.value //分子
+                let hot_num_fz = value2.demand_dur.value; //分子
                 viewing_time_loyal_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(2)
-                })
+                });
               }
 
               //收视时长bottom 15
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_dur.value)
-                bottom_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_dur.value //分子
+                let bottom_num_fz = value2.demand_dur.value; //分子
                 viewing_time_loyal_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(3)
-                })
+                });
               }
-            })
-
-          } else if (value.key == 'none') {
+            });
+          } else if (value.key == "none") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_dur.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_dur.value //分子
+                let hot_num_fz = value2.demand_dur.value; //分子
                 viewing_time_other_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(2)
-                })
+                });
               }
 
               //收视时长bottom 15
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_dur.value)
-                bottom_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_dur.value //分子
+                let bottom_num_fz = value2.demand_dur.value; //分子
                 viewing_time_other_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(3)
-                })
+                });
               }
-            })
-          } else if (value.key == 'repurchase') {
+            });
+          } else if (value.key == "repurchase") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_dur.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_dur.value //分子
+                let hot_num_fz = value2.demand_dur.value; //分子
                 viewing_time_repurchase_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(2)
-                })
+                });
               }
 
               //收视时长bottom 15
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_dur.value)
-                bottom_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_dur.value //分子
+                let bottom_num_fz = value2.demand_dur.value; //分子
                 viewing_time_repurchase_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(3)
-                })
+                });
               }
-            })
-          } else if (value.key == 'lapsed') {
+            });
+          } else if (value.key == "lapsed") {
             // console.log(value.key)
-            let hot_num_fm
-            let bottom_num_fm;   //将bottom15的节目观看时长作为百分比分母(万小时)
+            let hot_num_fm;
+            let bottom_num_fm; //将bottom15的节目观看时长作为百分比分母(万小时)
             value.programname.buckets.forEach((value2, index2) => {
               if (index2 < 15) {
                 // console.log(index2, value2.key, value2.demand_dur.value)
                 if (index2 == 0) {
-                  hot_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                  hot_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
                 }
-                let hot_num_fz = value2.demand_dur.value //分子
+                let hot_num_fz = value2.demand_dur.value; //分子
                 viewing_time_lapsed_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + '%',
+                  hot: parseInt((hot_num_fz / hot_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(2)
-                })
+                });
               }
 
               //收视时长bottom 15
               if (index2 == value.programname.buckets.length - 15) {
                 // console.log("收视第倒数15名", index2, value2.demand_dur.value)
-                bottom_num_fm = value2.demand_dur.value //将top1的节目观看时长作为百分比分母(万小时)
+                bottom_num_fm = value2.demand_dur.value; //将top1的节目观看时长作为百分比分母(万小时)
               }
               if (index2 >= value.programname.buckets.length - 15) {
                 // console.log("收视bottom 15名", index2, value2)
-                let bottom_num_fz = value2.demand_dur.value //分子
+                let bottom_num_fz = value2.demand_dur.value; //分子
                 viewing_time_lapsed_bottom_temp.push({
                   topNum: index2 + 1,
                   programName: value2.key,
                   programSource: value2.program_type.buckets[0].key,
-                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + '%',
+                  hot: parseInt((bottom_num_fz / bottom_num_fm) * 100) + "%",
                   playNum: (value2.demand_dur.value / 60 / 1000).toFixed(3)
-                })
+                });
               }
-            })
+            });
           }
-        })
-        vm.viewingTopList.data = []
+        });
+        vm.viewingTopList.data = [];
         // vm.targetOption = "订购-Firsttime"
-        vm.targetOption = "尝试购买"
-        vm.viewingTopList.data = viewing_time_firsttime_temp
-        vm.viewing_time_firsttime_temp = viewing_time_firsttime_temp
-        vm.viewing_time_oncetime_temp = viewing_time_oncetime_temp
-        vm.viewing_time_loyal_temp = viewing_time_loyal_temp
-        vm.viewing_time_other_temp = viewing_time_other_temp
-        vm.viewing_time_repurchase_temp = viewing_time_repurchase_temp
-        vm.viewing_time_lapsed_temp = viewing_time_lapsed_temp
+        vm.targetOption = "尝试购买";
+        vm.viewingTopList.data = viewing_time_firsttime_temp;
+        vm.viewing_time_firsttime_temp = viewing_time_firsttime_temp;
+        vm.viewing_time_oncetime_temp = viewing_time_oncetime_temp;
+        vm.viewing_time_loyal_temp = viewing_time_loyal_temp;
+        vm.viewing_time_other_temp = viewing_time_other_temp;
+        vm.viewing_time_repurchase_temp = viewing_time_repurchase_temp;
+        vm.viewing_time_lapsed_temp = viewing_time_lapsed_temp;
 
-        vm.viewing_time_firsttime_bottom_temp = viewing_time_firsttime_bottom_temp
-        vm.viewing_time_oncetime_bottom_temp = viewing_time_oncetime_bottom_temp
-        vm.viewing_time_loyal_bottom_temp = viewing_time_loyal_bottom_temp
-        vm.viewing_time_other_bottom_temp = viewing_time_other_bottom_temp
-        vm.viewing_time_repurchase_bottom_temp = viewing_time_repurchase_bottom_temp
-        vm.viewing_time_lapsed_bottom_temp = viewing_time_lapsed_bottom_temp
+        vm.viewing_time_firsttime_bottom_temp = viewing_time_firsttime_bottom_temp;
+        vm.viewing_time_oncetime_bottom_temp = viewing_time_oncetime_bottom_temp;
+        vm.viewing_time_loyal_bottom_temp = viewing_time_loyal_bottom_temp;
+        vm.viewing_time_other_bottom_temp = viewing_time_other_bottom_temp;
+        vm.viewing_time_repurchase_bottom_temp = viewing_time_repurchase_bottom_temp;
+        vm.viewing_time_lapsed_bottom_temp = viewing_time_lapsed_bottom_temp;
       } catch (error) {
         console.log(error);
       }
@@ -937,13 +1091,20 @@ export default {
       // console.log("viewing_time_oncetime_bottom_temp", viewing_time_oncetime_bottom_temp)
       // console.log("viewing_time_loyal_bottom_temp", viewing_time_loyal_bottom_temp)
       // console.log("viewing_time_other_bottom_temp", viewing_time_other_bottom_temp)
-    },
+    }
   },
   data() {
     return {
       targetOption: "尝试购买", //默认存放选择的指标
       //用户群体  下拉框选择数据
-      target: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "睡眠用户", "从未订购"],
+      target: [
+        "尝试购买",
+        "一次性购买",
+        "忠诚用户",
+        "重新激活",
+        "睡眠用户",
+        "从未订购"
+      ],
 
       viewing_time_positive: true, //收视时长 默认正序
       //收视时长TOP数据
@@ -955,14 +1116,14 @@ export default {
       viewing_time_lapsed_temp: [],
 
       //收视时长bottom数据
-      viewing_time_firsttime_bottom_temp: [],    //收视bottom
-      viewing_time_oncetime_bottom_temp: [],   //收视bottom
-      viewing_time_loyal_bottom_temp: [],   //收视bottom
-      viewing_time_other_bottom_temp: [],   //收视bottom
+      viewing_time_firsttime_bottom_temp: [], //收视bottom
+      viewing_time_oncetime_bottom_temp: [], //收视bottom
+      viewing_time_loyal_bottom_temp: [], //收视bottom
+      viewing_time_other_bottom_temp: [], //收视bottom
       viewing_time_repurchase_bottom_temp: [],
       viewing_time_lapsed_bottom_temp: [],
 
-      viewing_num_positive: true,  //收视次数 默认正序
+      viewing_num_positive: true, //收视次数 默认正序
       //收视次数TOP数据
       viewing_num_firsttime_temp: [],
       viewing_num_oncetime_temp: [],
@@ -972,10 +1133,10 @@ export default {
       viewing_num_lapsed_temp: [],
 
       //收视次数bottom数据
-      viewing_num_firsttime_bottom_temp: [],    //收视bottom
-      viewing_num_oncetime_bottom_temp: [],   //收视bottom
-      viewing_num_loyal_bottom_temp: [],   //收视bottom
-      viewing_num_other_bottom_temp: [],   //收视bottom
+      viewing_num_firsttime_bottom_temp: [], //收视bottom
+      viewing_num_oncetime_bottom_temp: [], //收视bottom
+      viewing_num_loyal_bottom_temp: [], //收视bottom
+      viewing_num_other_bottom_temp: [], //收视bottom
       viewing_num_repurchase_bottom_temp: [],
       viewing_num_lapsed_bottom_temp: [],
 
@@ -1204,10 +1365,23 @@ export default {
 
       //用户细分数据
       // title: ["订购-Firsttime", "订购-Oncetime", "订购-忠诚用户", "未订购用户"],
-      title: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "睡眠用户", "从未订购"],
+      title: [
+        "尝试购买",
+        "一次性购买",
+        "忠诚用户",
+        "重新激活",
+        "睡眠用户",
+        "从未订购"
+      ],
       customerSegmentation: {
         // 用户细分数据
-        title: ["VIP包", "用户数（万户）", "户均观看时长（小时）", "完播率", "观看行为"],
+        title: [
+          "VIP包",
+          "用户数（万户）",
+          "户均观看时长（小时）",
+          "完播率",
+          "观看行为"
+        ],
         viewingBehaviorCategory: ["少儿", "影视", "非少儿非影视"],
         categoryData: [
           {
@@ -1268,49 +1442,49 @@ export default {
       }
     };
   },
-  created() { },
+  created() {},
   methods: {
     //点击用户群体下拉框切换收视TOP
     handleViewingTop(val) {
       // console.log(val)
-      let vm = this
-      vm.viewingTopList.data = []
-      vm.NumberOfViewersTopList.data = []
-      if (val === '尝试购买') {
-        vm.viewing_time_positive = true
-        vm.viewing_num_positive = true
-        vm.viewingTopList.data = vm.viewing_time_firsttime_temp  //收视时长
-        vm.NumberOfViewersTopList.data = vm.viewing_num_firsttime_temp  //收视次数
+      let vm = this;
+      vm.viewingTopList.data = [];
+      vm.NumberOfViewersTopList.data = [];
+      if (val === "尝试购买") {
+        vm.viewing_time_positive = true;
+        vm.viewing_num_positive = true;
+        vm.viewingTopList.data = vm.viewing_time_firsttime_temp; //收视时长
+        vm.NumberOfViewersTopList.data = vm.viewing_num_firsttime_temp; //收视次数
       }
-      if (val === '一次性购买') {
-        vm.viewing_time_positive = true
-        vm.viewing_num_positive = true
-        vm.viewingTopList.data = vm.viewing_time_oncetime_temp
-        vm.NumberOfViewersTopList.data = vm.viewing_num_oncetime_temp
+      if (val === "一次性购买") {
+        vm.viewing_time_positive = true;
+        vm.viewing_num_positive = true;
+        vm.viewingTopList.data = vm.viewing_time_oncetime_temp;
+        vm.NumberOfViewersTopList.data = vm.viewing_num_oncetime_temp;
       }
-      if (val === '忠诚用户') {
-        vm.viewing_time_positive = true
-        vm.viewing_num_positive = true
-        vm.viewingTopList.data = vm.viewing_time_loyal_temp
-        vm.NumberOfViewersTopList.data = vm.viewing_num_loyal_temp
+      if (val === "忠诚用户") {
+        vm.viewing_time_positive = true;
+        vm.viewing_num_positive = true;
+        vm.viewingTopList.data = vm.viewing_time_loyal_temp;
+        vm.NumberOfViewersTopList.data = vm.viewing_num_loyal_temp;
       }
-      if (val === '从未订购') {
-        vm.viewing_time_positive = true
-        vm.viewing_num_positive = true
-        vm.viewingTopList.data = vm.viewing_time_other_temp
-        vm.NumberOfViewersTopList.data = vm.viewing_num_other_temp
+      if (val === "从未订购") {
+        vm.viewing_time_positive = true;
+        vm.viewing_num_positive = true;
+        vm.viewingTopList.data = vm.viewing_time_other_temp;
+        vm.NumberOfViewersTopList.data = vm.viewing_num_other_temp;
       }
-      if (val === '重新激活') {
-        vm.viewing_time_positive = true
-        vm.viewing_num_positive = true
-        vm.viewingTopList.data = vm.viewing_time_repurchase_temp
-        vm.NumberOfViewersTopList.data = vm.viewing_num_repurchase_temp
+      if (val === "重新激活") {
+        vm.viewing_time_positive = true;
+        vm.viewing_num_positive = true;
+        vm.viewingTopList.data = vm.viewing_time_repurchase_temp;
+        vm.NumberOfViewersTopList.data = vm.viewing_num_repurchase_temp;
       }
-      if (val === '睡眠用户') {
-        vm.viewing_time_positive = true
-        vm.viewing_num_positive = true
-        vm.viewingTopList.data = vm.viewing_time_lapsed_temp
-        vm.NumberOfViewersTopList.data = vm.viewing_num_lapsed_temp
+      if (val === "睡眠用户") {
+        vm.viewing_time_positive = true;
+        vm.viewing_num_positive = true;
+        vm.viewingTopList.data = vm.viewing_time_lapsed_temp;
+        vm.NumberOfViewersTopList.data = vm.viewing_num_lapsed_temp;
       }
       // console.log("select更新时长viewingTopList------", vm.viewingTopList.data)
       // console.log("select更新次数NumberOfViewersTopList------", vm.NumberOfViewersTopList.data)
@@ -1319,27 +1493,39 @@ export default {
     //收视时长 正序反序排列
     changeTimeTop() {
       // title: ["尝试购买", "一次性购买", "忠诚用户", "重新激活", "从未订购", "睡眠用户"],
-      let vm = this
-      vm.viewing_time_positive = !vm.viewing_time_positive
-      if (vm.targetOption == '尝试购买') {
-        vm.viewingTopList.data = vm.viewing_time_positive ? vm.viewing_time_firsttime_temp : vm.viewing_time_firsttime_bottom_temp
+      let vm = this;
+      vm.viewing_time_positive = !vm.viewing_time_positive;
+      if (vm.targetOption == "尝试购买") {
+        vm.viewingTopList.data = vm.viewing_time_positive
+          ? vm.viewing_time_firsttime_temp
+          : vm.viewing_time_firsttime_bottom_temp;
       }
 
-      if (vm.targetOption == '一次性购买') {
-        vm.viewingTopList.data = vm.viewing_time_positive ? vm.viewing_time_oncetime_temp : vm.viewing_time_oncetime_bottom_temp
+      if (vm.targetOption == "一次性购买") {
+        vm.viewingTopList.data = vm.viewing_time_positive
+          ? vm.viewing_time_oncetime_temp
+          : vm.viewing_time_oncetime_bottom_temp;
       }
-      if (vm.targetOption == '忠诚用户') {
-        vm.viewingTopList.data = vm.viewing_time_positive ? vm.viewing_time_loyal_temp : vm.viewing_time_loyal_bottom_temp
+      if (vm.targetOption == "忠诚用户") {
+        vm.viewingTopList.data = vm.viewing_time_positive
+          ? vm.viewing_time_loyal_temp
+          : vm.viewing_time_loyal_bottom_temp;
       }
 
-      if (vm.targetOption == '从未订购') {
-        vm.viewingTopList.data = vm.viewing_time_positive ? vm.viewing_time_other_temp : vm.viewing_time_other_bottom_temp
+      if (vm.targetOption == "从未订购") {
+        vm.viewingTopList.data = vm.viewing_time_positive
+          ? vm.viewing_time_other_temp
+          : vm.viewing_time_other_bottom_temp;
       }
-      if (vm.targetOption == '重新激活') {
-        vm.viewingTopList.data = vm.viewing_time_positive ? vm.viewing_time_repurchase_temp : vm.viewing_time_repurchase_bottom_temp
+      if (vm.targetOption == "重新激活") {
+        vm.viewingTopList.data = vm.viewing_time_positive
+          ? vm.viewing_time_repurchase_temp
+          : vm.viewing_time_repurchase_bottom_temp;
       }
-      if (vm.targetOption == '睡眠用户') {
-        vm.viewingTopList.data = vm.viewing_time_positive ? vm.viewing_time_lapsed_temp : vm.viewing_time_lapsed_bottom_temp
+      if (vm.targetOption == "睡眠用户") {
+        vm.viewingTopList.data = vm.viewing_time_positive
+          ? vm.viewing_time_lapsed_temp
+          : vm.viewing_time_lapsed_bottom_temp;
       }
       // console.log("当前用户群体：", vm.targetOption)
       // console.log("正序排序", vm.viewing_time_positive)
@@ -1347,32 +1533,43 @@ export default {
 
     //收视次数 正序反序排列
     changeNumTop() {
-      let vm = this
-      vm.viewing_num_positive = !vm.viewing_num_positive
-      if (vm.targetOption == '尝试购买') {
-        vm.NumberOfViewersTopList.data = vm.viewing_num_positive ? vm.viewing_num_firsttime_temp : vm.viewing_num_firsttime_bottom_temp
+      let vm = this;
+      vm.viewing_num_positive = !vm.viewing_num_positive;
+      if (vm.targetOption == "尝试购买") {
+        vm.NumberOfViewersTopList.data = vm.viewing_num_positive
+          ? vm.viewing_num_firsttime_temp
+          : vm.viewing_num_firsttime_bottom_temp;
       }
 
-      if (vm.targetOption == '一次性购买') {
-        vm.NumberOfViewersTopList.data = vm.viewing_num_positive ? vm.viewing_num_oncetime_temp : vm.viewing_num_oncetime_bottom_temp
+      if (vm.targetOption == "一次性购买") {
+        vm.NumberOfViewersTopList.data = vm.viewing_num_positive
+          ? vm.viewing_num_oncetime_temp
+          : vm.viewing_num_oncetime_bottom_temp;
       }
-      if (vm.targetOption == '忠诚用户') {
-        vm.NumberOfViewersTopList.data = vm.viewing_num_positive ? vm.viewing_num_loyal_temp : vm.viewing_num_loyal_bottom_temp
+      if (vm.targetOption == "忠诚用户") {
+        vm.NumberOfViewersTopList.data = vm.viewing_num_positive
+          ? vm.viewing_num_loyal_temp
+          : vm.viewing_num_loyal_bottom_temp;
       }
 
-      if (vm.targetOption == '从未订购') {
-        vm.NumberOfViewersTopList.data = vm.viewing_num_positive ? vm.viewing_num_other_temp : vm.viewing_num_other_bottom_temp
+      if (vm.targetOption == "从未订购") {
+        vm.NumberOfViewersTopList.data = vm.viewing_num_positive
+          ? vm.viewing_num_other_temp
+          : vm.viewing_num_other_bottom_temp;
       }
-      if (vm.targetOption == '重新激活') {
-        vm.NumberOfViewersTopList.data = vm.viewing_num_positive ? vm.viewing_num_repurchase_temp : vm.viewing_num_repurchase_bottom_temp
+      if (vm.targetOption == "重新激活") {
+        vm.NumberOfViewersTopList.data = vm.viewing_num_positive
+          ? vm.viewing_num_repurchase_temp
+          : vm.viewing_num_repurchase_bottom_temp;
       }
-      if (vm.targetOption == '睡眠用户') {
-        vm.NumberOfViewersTopList.data = vm.viewing_num_positive ? vm.viewing_num_lapsed_temp : vm.viewing_num_lapsed_bottom_temp
+      if (vm.targetOption == "睡眠用户") {
+        vm.NumberOfViewersTopList.data = vm.viewing_num_positive
+          ? vm.viewing_num_lapsed_temp
+          : vm.viewing_num_lapsed_bottom_temp;
       }
       // console.log("当前用户群体：", vm.targetOption)
       // console.log("正序排序", vm.viewing_time_positive)
-    },
-
+    }
   }
 };
 </script>

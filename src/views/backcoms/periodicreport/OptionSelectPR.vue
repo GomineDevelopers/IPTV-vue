@@ -500,6 +500,8 @@ export default {
   },
   mounted() {
     let vm = this;
+
+  
     this.specialName_init();
     // 初始化周
     setTimeout(function() {
@@ -511,121 +513,151 @@ export default {
       vm.time.month = commonTools.format_MonthDays_byDWMMr_ED();
     }, 500);
 
-    // ▲历史条件获取  
-    setTimeout(function() {
-      // 历史选中的定期报告
-      vm.$store
-        .dispatch("get_PR_Report_index")
-        .then(function(response) {
-          switch (response) {
-            case 1:
-              vm.routerLink =
-                "/backhome/periodicreport/G_TVUserActiveDayReport";
-              break;
-            case 2:
-              vm.routerLink =
-                "/backhome/periodicreport/G_TVUserViewingDayReport";
-              break;
-            case 3:
-              vm.routerLink =
-                "/backhome/periodicreport/MarketOperationalWeekReport";
-              break;
-            case 4:
-              vm.routerLink = "/backhome/periodicreport/OperationalWeekReport";
-              break;
-            case 5:
-              vm.routerLink =
-                "/backhome/periodicreport/G_TVUserViewingWeekReport";
-              break;
-            case 6:
-              vm.routerLink = "/backhome/periodicreport/VIPAddMonthReport";
-              break;
-            case 7:
-              vm.routerLink =
-                "/backhome/periodicreport/G_TVUserViewingMonthReport";
-              break;
-            case 8:
-              vm.routerLink = "/backhome/periodicreport/SpecialZoneReport";
-              break;
-            default:
-              break;
-          }
-          vm.$router.push({ path: vm.routerLink });
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+
+    // 历史条件关了 -- 防止视图初始化渲染bug
+    // // ▲历史条件获取  
+    // setTimeout(function() {
+    //   // 历史选中的定期报告
+    //   vm.$store
+    //     .dispatch("get_PR_Report_index")
+    //     .then(function(response) {
+    //       console.log(response);
+    //       let if_PR_Report_index = 0;
+    //       switch (response) {
+    //         case 1:
+    //           vm.routerLink =
+    //             "/backhome/periodicreport/G_TVUserActiveDayReport";
+    //           break;
+    //         case 2:
+    //           vm.routerLink =
+    //             "/backhome/periodicreport/G_TVUserViewingDayReport";
+    //           break;
+    //         case 3:
+    //           vm.routerLink =
+    //             "/backhome/periodicreport/MarketOperationalWeekReport";
+    //           break;
+    //         case 4:
+    //           if_PR_Report_index = 4;
+    //           vm.routerLink = "/backhome/periodicreport/OperationalWeekReport";
+    //           break;
+    //         case 5:
+    //           vm.routerLink =
+    //             "/backhome/periodicreport/G_TVUserViewingWeekReport";
+    //           break;
+    //         case 6:
+    //           if_PR_Report_index = 6;
+    //           vm.routerLink = "/backhome/periodicreport/VIPAddMonthReport";
+    //           break;
+    //         case 7:
+    //           vm.routerLink =
+    //             "/backhome/periodicreport/G_TVUserViewingMonthReport";
+    //           break;
+    //         case 8:
+    //           vm.routerLink = "/backhome/periodicreport/SpecialZoneReport";
+    //           break;
+    //         default:
+    //           break;
+    //       }
+
+    //       // 条件筛选-运营商-显示初始化(除了4)
+    //       if(if_PR_Report_index == 4){
+    //         console.log(if_PR_Report_index);
+    //         vm.ifOperatorShow == false;
+    //         vm.ifOperatorShow2 == true;
+    //       }
+    //       else if(if_PR_Report_index == 6) {
+    //         vm.ifOperatorShow == false;
+    //         vm.ifOperatorShow2 == false;
+    //       }
+    //       else{
+    //         console.log(if_PR_Report_index);
+    //         vm.ifOperatorShow == true;
+    //         vm.ifOperatorShow2 == false;
+    //       }
+    //       console.log(vm.operatorChoose_change);
+    //       console.log(vm.operatorChoose_change2);
+    //       console.log(vm.operatorChoose);
+    //       console.log(vm.operatorChoose2);
+
+    //       vm.$router.push({ path: vm.routerLink });
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
       
-      // 下面的主要用于组件显示值（api请求中使用已存在store值）
+    //   // 下面的主要用于组件显示值（api请求中使用已存在store值）
 
-      // 运营商
-      vm.$store
-        .dispatch("get_PR_operator")
-        .then(function(response) {
-          vm.operatorChoose = response;
-          vm.operator_checkAll = response.length === vm.operator.length;
+    //   // 运营商
+    //   vm.$store
+    //     .dispatch("get_PR_operator")
+    //     .then(function(response) {
+    //       vm.operatorChoose = response;
+    //       vm.operator_checkAll = response.length === vm.operator.length;
 
-          // vm.operatorChoose2 = response;
-          vm.operatorChoose2 = ["移动"]; // 固定
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-      // 范围
-      vm.$store
-        .dispatch("get_PR_picker")
-        .then(function(res) {
-          if (res.length != 0) {
-            let temp = [];
-            let t_arr = res.split(",");
-            temp.push(t_arr[0]);
-            temp.push(t_arr[1]);
-            vm.time.pickerValue = temp;
-          }
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
+    //       // vm.operatorChoose2 = response;
+    //       vm.operatorChoose2 = ["移动"]; // 固定
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    //   // 范围
+    //   vm.$store
+    //     .dispatch("get_PR_picker")
+    //     .then(function(res) {
+    //       if (res.length != 0) {
+    //         let temp = [];
+    //         let t_arr = res.split(",");
+    //         temp.push(t_arr[0]);
+    //         temp.push(t_arr[1]);
+    //         vm.time.pickerValue = temp;
+    //       }
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
 
-      // 专题
-      vm.$store
-        .dispatch("get_PR_value_specialName")
-        .then(function(response) {
-          console.log(response);
-          vm.value_specialName = response;
-        })
-        .catch(function(error) {
-          console.info(error);
-        });
-      // // 天
-      // vm.$store
-      //   .dispatch("get_PR_day")
-      //   .then(function(res) {
-      //     vm.time.dayValue = res;
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
-      // // 周
-      // vm.$store
-      //   .dispatch("get_PR_week")
-      //   .then(function(res) {
-      //     let length = vm.time.week.length;
-      //     let i;
-      //     let temp_label;
-      //     for (i = 0; i < length; i++) {
-      //       if (vm.time.week[i].value == res) {
-      //         temp_label = vm.time.week[i].label;
-      //         break;
-      //       }
-      //     }
-      //     vm.time.weekValue = temp_label;
-      //   })
-      //   .catch(function(error) {
-      //     console.info(error);
-      //   });
+    //   // 专题
+    //   vm.$store
+    //     .dispatch("get_PR_value_specialName")
+    //     .then(function(response) {
+    //       console.log(response);
+    //       vm.value_specialName = response;
+    //     })
+    //     .catch(function(error) {
+    //       console.info(error);
+    //     });
+    //   // // 天
+    //   // vm.$store
+    //   //   .dispatch("get_PR_day")
+    //   //   .then(function(res) {
+    //   //     vm.time.dayValue = res;
+    //   //   })
+    //   //   .catch(function(error) {
+    //   //     console.info(error);
+    //   //   });
+    //   // // 周
+    //   // vm.$store
+    //   //   .dispatch("get_PR_week")
+    //   //   .then(function(res) {
+    //   //     let length = vm.time.week.length;
+    //   //     let i;
+    //   //     let temp_label;
+    //   //     for (i = 0; i < length; i++) {
+    //   //       if (vm.time.week[i].value == res) {
+    //   //         temp_label = vm.time.week[i].label;
+    //   //         break;
+    //   //       }
+    //   //     }
+    //   //     vm.time.weekValue = temp_label;
+    //   //   })
+    //   //   .catch(function(error) {
+    //   //     console.info(error);
+    //   //   });
 
-    }, 200);
+    // }, 200);
+
+
+
   },
   methods: {
     specialName_init() {

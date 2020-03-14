@@ -216,7 +216,7 @@ export default {
     get_user_permissions() {
       // console.log("get_user_permissions");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       vm.authorityData = [];
       get_user_permissions(newToken)

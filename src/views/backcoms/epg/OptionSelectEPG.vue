@@ -421,7 +421,8 @@ export default {
         "体育",
         "纪实",
         "游戏",
-        "应用"
+        "应用",
+        "特色",
       ]; //移动1.0栏目分类
       let programs_yd_two = [
         "分类",
@@ -430,12 +431,15 @@ export default {
         "vip",
         "电影",
         "热剧",
+        "电视剧", // 热剧-电视剧
         "少儿",
         "动漫",
         "综艺",
         "体育",
         "游戏",
-        "纪实"
+        "纪实",
+        "纪录片", // 纪实-纪录片
+        "特色",
       ]; //移动2.0栏目分类
       let programs_lt = [
         "分类",
@@ -449,21 +453,26 @@ export default {
         "体育",
         "纪实",
         "游戏",
-        "应用"
+        "应用",
+        "特色",
       ]; //联通栏目分类
       let programs_dx = [
         "分类",
         "电视",
+        "看电视", // 电视-看电视
         "推荐",
         "电影",
         "热剧",
+        "电视剧", // 热剧-电视剧
         "少儿",
         "动漫",
         "综艺",
         "体育",
         "纪实",
+        "纪录片", // 纪实-纪录片
         "游戏",
-        "应用"
+        "应用",
+        "特色",
       ]; //电信栏目分类
       if (this.EPG_operator.length == 1) {
         let operatorName = this.EPG_operator[0];
@@ -496,13 +505,17 @@ export default {
         "vip",
         "电影",
         "热剧",
+        "电视剧", // 热剧-电视剧
         "少儿",
         "动漫",
         "综艺",
         "体育",
         "游戏",
-        "纪实"
+        "纪实",
+        "纪录片", // 纪实-纪录片
+        "特色",
       ]; //移动2.0栏目分类
+
       let programs_yd_one = [
         "分类",
         "电视",
@@ -515,8 +528,43 @@ export default {
         "体育",
         "纪实",
         "游戏",
-        "应用"
+        "应用",
+        "特色",
       ]; //1.0栏目分类
+      let programs_lt = [
+        "分类",
+        "电视",
+        "推荐",
+        "电影",
+        "热剧",
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "游戏",
+        "应用",
+        "特色",
+      ]; //联通栏目分类
+      let programs_dx = [
+        "分类",
+        "电视",
+        "看电视", // 电视-看电视
+        "推荐",
+        "电影",
+        "热剧",
+        "电视剧", // 热剧-电视剧
+        "少儿",
+        "动漫",
+        "综艺",
+        "体育",
+        "纪实",
+        "纪录片", // 纪实-纪录片
+        "游戏",
+        "应用",
+        "特色",
+      ];
+
       let operator;
       if (this.EPG_operator.length == 1) {
         // operator = this.EPG_operator[0]
@@ -554,7 +602,7 @@ export default {
                 }
               });
               this.options_others = otherProgramsList; //设置 ‘其他’ 节目类型下拉框的值
-            } else {
+            } else if(this.EPG_operator[0] == "移动1.0") {
               programs_total =
                 response.data.responses[0].aggregations.ti.buckets;
               // console.log("EPG栏目分类1.0", epg_programs_total)
@@ -564,6 +612,40 @@ export default {
               var otherProgramsList = []; //其他节目类型数组（下拉框的值）
               epg_programs_total.forEach((value, index) => {
                 if (programs_yd_one.indexOf(value) == -1) {
+                  otherProgramsList.push({
+                    value: value,
+                    lable: value
+                  });
+                }
+              });
+              this.options_others = otherProgramsList; //设置 ‘其他’ 节目类型下拉框的值
+            } else if(this.EPG_operator[0] == "电信") {
+              programs_total =
+                response.data.responses[0].aggregations.ti.buckets;
+              // console.log("EPG栏目分类1.0", epg_programs_total)
+              programs_total.forEach((value, index) => {
+                epg_programs_total.push(value.key);
+              });
+              var otherProgramsList = []; //其他节目类型数组（下拉框的值）
+              epg_programs_total.forEach((value, index) => {
+                if (programs_dx.indexOf(value) == -1) {
+                  otherProgramsList.push({
+                    value: value,
+                    lable: value
+                  });
+                }
+              });
+              this.options_others = otherProgramsList; //设置 ‘其他’ 节目类型下拉框的值
+            } else if(this.EPG_operator[0] == "联通") {
+              programs_total =
+                response.data.responses[0].aggregations.ti.buckets;
+              // console.log("EPG栏目分类1.0", epg_programs_total)
+              programs_total.forEach((value, index) => {
+                epg_programs_total.push(value.key);
+              });
+              var otherProgramsList = []; //其他节目类型数组（下拉框的值）
+              epg_programs_total.forEach((value, index) => {
+                if (programs_lt.indexOf(value) == -1) {
                   otherProgramsList.push({
                     value: value,
                     lable: value

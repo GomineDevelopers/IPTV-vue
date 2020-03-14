@@ -17,10 +17,15 @@ Vue.config.productionTip = false
 
 import store from '@/store'
 
-import { commonTools } from '@/utils/common'
-Vue.prototype.$commonTools = commonTools
+import { Utils } from '@/utils/common'
+Vue.prototype.$Utils = Utils
+import { commonTools } from "@/utils/test";
 
 import { get_user_permissions, refreshToken, get_date } from "@/api/api_main";
+
+
+
+
 
 // 设置大屏/后台-数据总览 的 开始日期（start） - 涉及"截止统计日"
 
@@ -79,7 +84,7 @@ get_date()
 
 // // 设置大屏/后台-数据总览 的 截止日期（end）
 // store
-//   .dispatch("set_BigScreenExpirationDate", "2019-08-31") // 18号 数据审计没东西
+//   .dispatch("set_BigScreenExpirationDate", "2019-12-31") // 18号 数据审计没东西
 //   // .dispatch("set_BigScreenExpirationDate", "2019-11-08") 
 //   .then(function (response) {
 //     // console.log(response);
@@ -90,8 +95,8 @@ get_date()
 
 // /////////// 
 
-let ifTest = true;
-// let ifTest = false;
+// let ifTest = true;
+let ifTest = false;
 
 
 // var routerform = [
@@ -326,7 +331,7 @@ router.beforeEach((to, from, next) => {
       // console.log("ifFirstLogin: " + ifFirstLogin);
       // 登录
       if (topath == '/login') {
-        commonTools.delCookie("user_token");
+        Utils.delCookie("user_token");
       }
       if (ifFirstLogin) {
         next()
@@ -337,7 +342,7 @@ router.beforeEach((to, from, next) => {
         next()
       }
       else {
-        let token = commonTools.getCookie('user_token')
+        let token = Utils.getCookie('user_token')
         if (!token) {        // 没有token
           // console.log("!token")
           if (topath === '/login') {
@@ -351,7 +356,7 @@ router.beforeEach((to, from, next) => {
             .then(function (response) {
               if (response.length == 0) {  // 刷新初始化为空情况
                 // console.log("有 - current_authority");
-                let token = commonTools.getCookie("user_token");
+                let token = Utils.getCookie("user_token");
                 let newToken = token.replace('"', "").replace('"', "");
 
                 get_user_permissions(newToken)
@@ -411,7 +416,7 @@ router.beforeEach((to, from, next) => {
                       /////////////// 新增token刷新
                       // 当路由跳转到 非404 非权限 非login页 非大屏（/）页（上面已经做判断）
                       // console.log("refreshToken");
-                      let token_r = commonTools.getCookie("user_token");
+                      let token_r = Utils.getCookie("user_token");
                       let newToken_r = token_r.replace('"', "").replace('"', "");
                       // console.log("old token");
                       // console.log(newToken_r);
@@ -421,7 +426,7 @@ router.beforeEach((to, from, next) => {
                           let access_token_r = response.data.access_token;
                           // console.log("new token");
                           // console.log(access_token_r);
-                          commonTools.setCookie(
+                          Utils.setCookie(
                             "user_token",
                             JSON.stringify(access_token_r),
                             60
@@ -451,7 +456,7 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
   router,
-  commonTools,
+  Utils,
   store,
   // mapGetters,
   render: h => h(App)

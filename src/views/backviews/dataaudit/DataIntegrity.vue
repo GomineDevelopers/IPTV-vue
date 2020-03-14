@@ -421,7 +421,7 @@ export default {
       formData.append("end", temp.end);
       missReport(formData)
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
           // 暂时为某日的
           try {
             let buckets =

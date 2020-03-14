@@ -65,21 +65,21 @@ export default {
         formData.append("email", vm.name);
         formData.append("password", vm.password);
         vm.data = formData;
-        vm.$commonTools.setCookieCry("email", vm.name, 1); // 邮箱名称
+        vm.$Utils.setCookieCry("email", vm.name, 1); // 邮箱名称
 
         login(vm.data)
           .then(function (response) {
             if (response.status === 201) {
               // console.log("201");
               let access_token = response.data.access_token;
-              vm.$commonTools.setCookie(
+              vm.$Utils.setCookie(
                 "user_token",
                 JSON.stringify(access_token),
                 60
               );
               setTimeout(function () {
                 // 权限判定
-                let token = vm.$commonTools.getCookie("user_token");
+                let token = vm.$Utils.getCookie("user_token");
                 let newToken = token.replace('"', "").replace('"', "");
                 get_user_permissions(newToken)
                   .then(function (response) {

@@ -364,7 +364,7 @@ export default {
           start: vm.UVB_day,
           end: vm.UVB_day
         };
-        // console.log(temp);
+        console.log(temp);
       } else if (time_type == 2) {
         // 时间类型-2-周
         let temp_time = commonTools.split_yearAtime(vm.UVB_week);
@@ -377,7 +377,7 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        // console.log(temp);
+        console.log(temp);
       } else if (time_type == 3) {
         // 时间类型-3-范围
         let temp_time = commonTools.split_picker(vm.UVB_picker);
@@ -388,7 +388,7 @@ export default {
           start: temp_time.start,
           end: temp_time.end
         };
-        // console.log(temp);
+        console.log(temp);
       } else {
         // console.log("请选择时间！");
         return;
@@ -406,6 +406,13 @@ export default {
       userAction(formData)
         .then(function(response) {
           // console.log(response);
+          if (time_type == 1) {
+            console.log(response);
+          } else if (time_type == 2) {
+            console.log(response);
+          } else if (time_type == 3) {
+            console.log(response);
+          }
           // /////////// 0 -
           try {
             vm.regionData_data_arr = []; // 初始化
@@ -742,8 +749,10 @@ export default {
             vm.liveViewingTopList.data = []; // 初始化
             // /////////// liveViewingTopList - 1 - 直播Top15
             // 获得最大值
+            // let buckets_1 = response.data.responses[1].aggregations.programname.buckets;
             let buckets_1 =
-              response.data.responses[1].aggregations.programname.buckets;
+              response.data.responses[1].aggregations.channel.buckets; // ▲change
+
             let length_1 = buckets_1.length;
             let i_1;
             let temp_max_value = buckets_1[0].onlive_freq.value; // 取第一个为最大值
@@ -753,8 +762,10 @@ export default {
               temp_data = {
                 // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
                 topNum: i_1 + 1,
-                programName: buckets_1[i_1].channel.buckets[0].key,
-                programSource: buckets_1[i_1].key,
+                // programName: buckets_1[i_1].channel.buckets[0].key,
+                // programSource: buckets_1[i_1].key,
+                programSource: buckets_1[i_1].programname.buckets[0].key, // ▲change
+                programName: buckets_1[i_1].key, // ▲change
                 hot:
                   String(
                     commonTools.returnFloat_2(
@@ -762,9 +773,9 @@ export default {
                     )
                   ) + "%",
                 playNum: String(
-                  commonTools.returnFloat_2(
+                  // commonTools.returnFloat_2(
                     buckets_1[i_1].onlive_freq.value / 10000
-                  )
+                  // )
                 ) // 次数（万）
               };
               vm.liveViewingTopList.data.push(temp_data);
@@ -776,8 +787,10 @@ export default {
           // /////////// lookBackViewingTopList - 2 - 回看Top15
           try {
             vm.lookBackViewingTopList.data = []; // 初始化
+            // let buckets_2 = response.data.responses[2].aggregations.programname.buckets;
             let buckets_2 =
-              response.data.responses[2].aggregations.programname.buckets;
+              response.data.responses[2].aggregations.channel.buckets; // ▲change
+
             let length_2 = buckets_2.length;
             let i_2;
             let temp_max_value2 = buckets_2[0].watch_freq.value; // 取第一个为最大值
@@ -787,8 +800,10 @@ export default {
               temp_data2 = {
                 // 分别为 排名 频道 节目 次数（万） --暂别管原先的变量命名
                 topNum: i_2 + 1,
-                programName: buckets_2[i_2].channel.buckets[0].key,
-                programSource: buckets_2[i_2].key,
+                // programName: buckets_2[i_2].channel.buckets[0].key,
+                // programSource: buckets_2[i_2].key,
+                programSource: buckets_2[i_2].programname.buckets[0].key, // ▲change
+                programName: buckets_2[i_2].key, // ▲change
                 hot:
                   String(
                     commonTools.returnFloat_2(
@@ -796,9 +811,9 @@ export default {
                     )
                   ) + "%",
                 playNum: String(
-                  commonTools.returnFloat_2(
+                  // commonTools.returnFloat_2(
                     buckets_2[i_2].watch_freq.value / 10000
-                  )
+                  // )
                 ) // 次数（万）
               };
               vm.lookBackViewingTopList.data.push(temp_data2);
@@ -851,7 +866,7 @@ export default {
           start: vm.UVB_day,
           end: vm.UVB_day
         };
-        // console.log(temp);
+        console.log(temp);
       } else if (time_type == 2) {
         let temp_time = commonTools.split_yearAtime(vm.UVB_week);
         temp = {
@@ -864,7 +879,7 @@ export default {
           end: temp_time.time,
           year: temp_time.year
         };
-        // console.log(temp);
+        console.log(temp);
       } else if (time_type == 3) {
         let temp_time = commonTools.split_picker(vm.UVB_picker);
 
@@ -877,7 +892,7 @@ export default {
           start: temp_time.start,
           end: temp_time.end
         };
-        // console.log(temp);
+        console.log(temp);
       } else {
         // console.log("请选择时间！");
         return;
@@ -894,7 +909,14 @@ export default {
       formData.append("end", temp.end);
       userAction_demand(formData)
         .then(function(response) {
-          // console.log(response);
+          if (time_type == 1) {
+            console.log(response);
+          } else if (time_type == 2) {
+            console.log(response);
+          } else if (time_type == 3) {
+            console.log(response);
+          }
+
           try {
             vm.columnData_arr = [];
             let buckets_ti;
@@ -1002,16 +1024,20 @@ export default {
           try {
             vm.orderViewingTopList.data = []; // 初始化
             let buckets_top;
+            // 不选的时候用 [1]  [3]
             if (
               // vm.UVB_contenttype.length >= 1 &&
               // vm.UVB_contenttype.length < vm.UVB_contenttype_list.length
-              vm.UVB_contenttype.length != 0
+              // vm.UVB_contenttype.length != 0
+              vm.UVB_contenttype.length != 0 && vm.UVB_contenttype.length != vm.UVB_contenttype_list.length // ▲change
             ) {
               buckets_top =
                 response.data.responses[1].aggregations.programname.buckets; // 非全选
+              // buckets_top = response.data.responses[1].aggregations.program_type.buckets; // 非全选  // ▲change
             } else {
               buckets_top =
                 response.data.responses[3].aggregations.programname.buckets; // 全选
+              // buckets_top = response.data.responses[3].aggregations.program_type.buckets; // 全选 // ▲change
             }
             let length_top = buckets_top.length;
             let i_top;
@@ -1023,6 +1049,8 @@ export default {
                 topNum: i_top + 1,
                 programName: buckets_top[i_top].program_type.buckets[0].key,
                 programSource: buckets_top[i_top].key,
+                // programSource: buckets_top[i_top].programname.buckets[0].key, // ▲change
+                // programName: buckets_top[i_top].key,  // ▲change
                 hot:
                   String(
                     commonTools.returnFloat_2(
@@ -1032,9 +1060,9 @@ export default {
                     )
                   ) + "%",
                 playNum: String(
-                  commonTools.returnFloat_2(
+                  // commonTools.returnFloat_2(
                     buckets_top[i_top].demand_freq.value / 10000
-                  )
+                  // )
                 ) // 次数（万）
               };
               vm.orderViewingTopList.data.push(temp_data_top);

@@ -110,6 +110,7 @@ export default {
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
           end: ExpirationDate
         };
+        console.log();
         // console.log(temp);
       }
       if (time_type == "hours_48") {
@@ -124,7 +125,8 @@ export default {
         temp = {
           operator: m_operator,
           start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 14),
-          end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 8)
+          // end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 8)
+          end: commonTools.currentDay_ndaysAgodate(ExpirationDate, 7)
         };
       }
 
@@ -132,6 +134,9 @@ export default {
         .then(function(response) {
           users_activationRate(temp)
             .then(function(response2) {
+              console.log(response);
+              console.log(response2);
+
               if (time_type == "hours_24") {
                 // 2
                 let buckets2 =

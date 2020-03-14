@@ -122,37 +122,37 @@ export default {
   watch: {
     ULC_region(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_operator(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_day(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_week(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_month(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     },
     ULC_time_type(newValue, oldValue) {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         vm.refresh_api_data();
       }, 1000);
     }
@@ -233,13 +233,15 @@ export default {
         };
         // console.log(temp);
 
-        let prevDay = vm.$commonTools.getBeforeDate(vm.ULC_day, 1); //获取当前的前一天
+        let prevDay = vm.$Utils.getBeforeDate(vm.ULC_day, 1); //获取当前的前一天
+        let currentYear = commonTools.get_ExpirationDate_year(prevDay);
         prev_temp = {
           area: String(temp_region),
           operator: String(temp_operator),
           start: prevDay,
           end: prevDay,
-          year: temp_time.year
+          // year: temp_time.year
+          year: currentYear
         };
       } else if (time_type == 2) {
         // 时间类型-2-周
@@ -263,6 +265,19 @@ export default {
             start: prev_week_time + "week",
             end: prev_week_time + "week",
             year: temp_time.year
+          };
+        } else if (prev_week_time == 0) {
+          // 跨年处理
+          prev_temp = {
+            area: String(temp_region),
+            operator: String(temp_operator),
+            start:
+              commonTools.return_AssignYear_FinalWeekNum(temp_time.year - 1) +
+              "week",
+            end:
+              commonTools.return_AssignYear_FinalWeekNum(temp_time.year - 1) +
+              "week",
+            year: temp_time.year - 1
           };
         } else {
           // console.log("无上周数据");
@@ -292,6 +307,15 @@ export default {
             start: prev_month_time + "month",
             end: prev_month_time + "month",
             year: temp_time.year
+          };
+        } else if (prev_month_time == 0) {
+          // 跨年处理  （需要2020年2月才能看到效果 --因为1月份时下拉框只有只到12月）
+          prev_temp = {
+            area: String(temp_region),
+            operator: String(temp_operator),
+            start: 12 + "month",
+            end: 12 + "month",
+            year: temp_time.year - 1
           };
         } else {
           console.log("无上月数据");
@@ -330,7 +354,7 @@ export default {
       formDataPrev.append("year", prev_temp.year);
 
       userLives(formData)
-        .then(function (response) {
+        .then(function(response) {
           if (dataTypeName == "mixture") {
             // console.log("----------------------------------------");
             // console.log("混合数据 本期", ULC_operator);
@@ -552,14 +576,14 @@ export default {
             }
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.info(error);
         });
 
       //判断上周或上月的时间不为空（比如当前时间为 1month  || 1week,那么无上期数据）
       if (prev_temp.start != null) {
         userLives(formDataPrev)
-          .then(function (response) {
+          .then(function(response) {
             if (dataTypeName == "mixture") {
               // 混合数据(上期)
               let total_data = response.data.responses;
@@ -626,7 +650,7 @@ export default {
               }
             }
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.info(error);
           });
       }

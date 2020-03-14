@@ -47,8 +47,7 @@ export default {
         operator: m_operator,
         start: commonTools.get_ExpirationDate_01(ExpirationDate),
         end: ExpirationDate,
-        year:commonTools.get_ExpirationDate_year(ExpirationDate)
-
+        year: commonTools.get_ExpirationDate_year(ExpirationDate)
       };
       users_basic(temp)
         .then(function(response) {
@@ -63,7 +62,7 @@ export default {
             temp1.push(commonTools.acConvert_Single(buckets[i].key));
             temp2.push(buckets[i].new_num.value);
           }
-          
+
           // vm.echarts_data.name = commonTools.acConvert_R_reverse(temp1); // 反序（后台返回是851-859，这里反序成859-851）
           vm.echarts_data.name = temp1.reverse();
           // vm.echarts_data.name = temp1;
@@ -167,6 +166,7 @@ export default {
         },
         yAxis: {
           type: "category",
+          boundaryGap: true, // new
           axisTick: {
             alignWithLabel: true
           },

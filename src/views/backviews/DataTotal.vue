@@ -153,9 +153,10 @@ export default {
     users_total(StartDate, ExpirationDate, type) {
       try {
         let vm = this;
-        let data = {
+        let data = { // type == "singleday" 
           start: StartDate,
-          end: ExpirationDate
+          end: ExpirationDate,
+          year: commonTools.get_ExpirationDate_year(ExpirationDate) // new
         };
         // vm.api_data.module2_numT = [
         //   "851",
@@ -170,16 +171,27 @@ export default {
         // ];
         if (type == "lastmonth") {
           // 用户画像 用上个月
+          // data = {
+          //   start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1),
+          //   end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1),
+          // };
+          let CrossYear_data = commonTools.get_ExpirationDate_lastNMonth_CrossYear(
+            ExpirationDate,
+            1,
+            "single"
+          );
           data = {
-            start: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1),
-            end: commonTools.get_ExpirationDate_lastNMonth(ExpirationDate, 1)
+            start: CrossYear_data.month,
+            end: CrossYear_data.month,
+            year: CrossYear_data.year
           };
         }
         if (type == "rangedays_n") {
           // 用户画像 用上个月
           data = {
             start: commonTools.currentDay_ndaysAgodate(ExpirationDate, 7),
-            end: ExpirationDate
+            end: ExpirationDate,
+            year: commonTools.get_ExpirationDate_year(ExpirationDate) // new
           };
         }
 
@@ -468,7 +480,7 @@ export default {
             let responses1;
             let responses2;
             let responses3;
-            try {
+            try {  // type == "singleday" 
               // let data = response.data.responses[0].aggregations.ac.buckets;
               responses1 = response.data.responses[0];
               // activate_user_num: {value: 949770}

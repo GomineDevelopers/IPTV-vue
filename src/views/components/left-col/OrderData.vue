@@ -1,10 +1,13 @@
 <template>
   <div class="height_auto">
     <el-row class="title_row">
-      <span class="title_border_left"></span>订购数据（当月）
+      <!-- <span class="title_border_left"></span>订购数据（当月） -->
+      <span class="title_border_left"></span>订购数据
     </el-row>
     <el-row v-show="ifgetdata" class="order_data_body">
+      <span class="m_time_title">新增收入（当月）：</span>
       <el-row class="order_data_row1" id="order_data_circular"></el-row>
+      <span class="m_time_title">新增订购用户数：</span>
       <el-row class="order_data_row2" id="paid_data"></el-row>
     </el-row>
     <el-row v-show="!ifgetdata" class="exception_p">
@@ -84,15 +87,31 @@ export default {
         // console.log(data);
       }
       if (time_type == "months") {
-        let temp_ExpirationDate_n_months = commonTools.get_ExpirationDate_n_months(
+        // let temp_ExpirationDate_n_months = commonTools.get_ExpirationDate_n_months(
+        //   ExpirationDate,
+        //   6
+        // );
+        // data = {
+        //   operator: m_operator,
+        //   start: temp_ExpirationDate_n_months.start,
+        //   end: temp_ExpirationDate_n_months.end,
+        //   year: commonTools.get_ExpirationDate_year(ExpirationDate)
+        // };
+        let CrossYear_data_start = commonTools.get_ExpirationDate_lastNMonth_CrossYear(
           ExpirationDate,
-          6
+          5,
+          "range"
+        );
+        let CrossYear_data_end = commonTools.get_ExpirationDate_lastNMonth_CrossYear(
+          ExpirationDate,
+          0,
+          "range"
         );
         data = {
           operator: m_operator,
-          start: temp_ExpirationDate_n_months.start,
-          end: temp_ExpirationDate_n_months.end,
-          year: commonTools.get_ExpirationDate_year(ExpirationDate)
+          start: CrossYear_data_start.month, // start
+          end: CrossYear_data_end.month, // end
+          year: CrossYear_data_end.year // end
         };
         // console.log(data);
       }
@@ -137,13 +156,18 @@ export default {
             }, 300);
           }
           if (time_type == "months") {
-            // console.log(response);
-
+            console.log("~~~~~months");
+            console.log(response);
             let buckets =
               response.data.responses[2].aggregations.statistical_granularity
                 .buckets;
-            buckets = commonTools.bucketsSort_WM(buckets);
-
+            try {
+              buckets = commonTools.bucketsSort_WM_CrossYear(buckets);
+            } catch (error) {
+              console.log(error);
+              buckets = commonTools.bucketsSort_WM(buckets);
+            }
+            console.log(buckets);
 
             let length = buckets.length;
             let i;
@@ -477,12 +501,17 @@ export default {
 <style scoped>
 .order_data_body {
   height: calc(100% - 0.3rem);
+  text-align: left;
 }
 .order_data_row1 {
-  height: 58%;
+  height: 43%;
 }
 .order_data_row2 {
-  height: 42%;
+  height: 34%;
+}
+.m_time_title {
+  margin-left: 0.1rem;
+  font-size: 0.1rem;
 }
 </style>
 

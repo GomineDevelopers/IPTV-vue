@@ -20,9 +20,9 @@ export default {
   },
   mounted() {
     let vm = this;
-    setTimeout(function() {
-      vm.setLineChart();
-    }, 2500);
+    // setTimeout(function() {
+    vm.setLineChart();
+    // }, 2500);
   },
   watch: {
     PR_month(newValue, oldValue) {
@@ -50,59 +50,10 @@ export default {
       get: function() {
         try {
           let vm = this;
-
-          if (
-            vm.pieData.id == "liveViewingDuration" ||
-            vm.pieData.id == "liveViewingUser" ||
-            vm.pieData.id == "liveViewingTimes"
-          ) {
-            let content = [];
-            let temp;
-            let color = [];
-            let data = [];
-            if (this.PR_operator == null || this.PR_operator.length == 0) {
-              content = vm.pieData.content;
-              color = vm.pieData.color;
-            } else {
-              try {
-                if (this.PR_operator.indexOf("移动") > -1) {
-                  color.push(vm.pieData.color[0]);
-                  data.push(vm.pieData.content[0].data[0]);
-                }
-                if (this.PR_operator.indexOf("联通") > -1) {
-                  color.push(vm.pieData.color[1]);
-                  data.push(vm.pieData.content[0].data[1]);
-                }
-                if (this.PR_operator.indexOf("电信") > -1) {
-                  color.push(vm.pieData.color[2]);
-                  data.push(vm.pieData.content[0].data[2]);
-                }
-                temp = {
-                  title: vm.pieData.content[0].title,
-                  data: data
-                };
-                content.push(temp);
-              } catch (error) {
-                console.log(error);
-                return;
-              }
-            }
-            // 视图更新
-            setTimeout(function() {
-              vm.setLineChart();
-            }, 2500);
-
-            let tempx = {
-              title: vm.pieData.title,
-              id: vm.pieData.id,
-              color: color,
-              content: content
-            };
-            return tempx;
-          }
           setTimeout(function() {
             vm.setLineChart();
-          }, 1000);
+            // }, 1000);
+          }, 2500);
           return vm.pieData;
         } catch (error) {
           console.log(error);
@@ -113,6 +64,7 @@ export default {
   },
   methods: {
     setLineChart() {
+      console.log(this.pieData_Change);
       try {
         // 基于准备好的dom，初始化echarts实例
         var pieChart = this.$echarts.init(

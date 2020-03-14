@@ -74,7 +74,7 @@ export default {
   },
   mounted() {
     //   初始化
-    let temp_status = this.$commonTools.getCookieCry("bigscreenchoose");
+    let temp_status = this.$Utils.getCookieCry("bigscreenchoose");
     // console.log("页面显示初始值", temp_status)
     if (temp_status == "综合") {
       this.switch_value1 = true;
@@ -114,7 +114,7 @@ export default {
     BigScreenChoose($event, index) {
       // console.log($event);
       if (index == 0) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "综合", 100);
+        this.$Utils.setCookieCry("bigscreenchoose", "综合", 100);
         if ($event) {
           // console.log("开启综合");
           (this.switch_value2 = false),
@@ -125,7 +125,7 @@ export default {
         }
       }
       if (index == 1) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "移动", 100);
+        this.$Utils.setCookieCry("bigscreenchoose", "移动", 100);
         if ($event) {
           // console.log("开启移动");
           (this.switch_value1 = false),
@@ -136,7 +136,7 @@ export default {
         }
       }
       if (index == 2) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "联通", 100);
+        this.$Utils.setCookieCry("bigscreenchoose", "联通", 100);
         if ($event) {
           // console.log("开启联通");
           (this.switch_value1 = false),
@@ -147,7 +147,7 @@ export default {
         }
       }
       if (index == 3) {
-        this.$commonTools.setCookieCry("bigscreenchoose", "电信", 100);
+        this.$Utils.setCookieCry("bigscreenchoose", "电信", 100);
         if ($event) {
           // console.log("开启电信");
           (this.switch_value1 = false),
@@ -157,7 +157,7 @@ export default {
           // console.log("关闭电信");
         }
       }
-      this.currentStatus = this.$commonTools.getCookieCry("bigscreenchoose");
+      this.currentStatus = this.$Utils.getCookieCry("bigscreenchoose");
     }
   }
 };

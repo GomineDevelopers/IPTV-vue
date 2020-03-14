@@ -101,7 +101,6 @@ export default {
 
             users_retention(temp_p)
               .then(function(response2) {
-
                 let hits2 = response2.data.responses[0].hits.hits;
                 let aggregations2 =
                   response2.data.responses[0].aggregations.ac.buckets;
@@ -114,12 +113,21 @@ export default {
                   //   buckets[i].activate_user_num.value /
                   //     buckets[i].register_num.value
                   // ); //显示百分比
+
+                  // temp3.push(
+                  //   (
+                  //     buckets[i].activate_user_num.value /
+                  //     buckets[i].register_num.value
+                  //   ).toFixed(2)
+                  // ); //显示百分比
                   temp3.push(
-                    (
-                      buckets[i].activate_user_num.value /
-                      buckets[i].register_num.value
-                    ).toFixed(2)
+                    commonTools.returnFloat_2(
+                      Number(buckets[i].activate_user_num.value) /
+                        Number(buckets[i].register_num.value)
+                    )
                   ); //显示百分比
+
+                  // console.log(temp3);
 
                   // temp4.push(
                   //   hits2[i]._source.remain_num /
@@ -131,11 +139,17 @@ export default {
                   //   aggregations2[i].remain_num.value /
                   //     aggregations2[i].new_activate_num.value
                   // );
+                  // temp4.push(
+                  //   (
+                  //     aggregations2[i].remain_num.value /
+                  //     aggregations2[i].new_activate_num.value
+                  //   ).toFixed(2)
+                  // );
                   temp4.push(
-                    (
-                      aggregations2[i].remain_num.value /
-                      aggregations2[i].new_activate_num.value
-                    ).toFixed(2)
+                    commonTools.returnFloat_2(
+                      Number(aggregations2[i].remain_num.value) /
+                        Number(aggregations2[i].new_activate_num.value)
+                    )
                   );
                 }
                 vm.myNumsArr.push(temp1);
@@ -457,7 +471,7 @@ export default {
       // console.log(value_max);
       // console.log(value_min);
       let splitList = [];
-      if (value_max == value_min && value_max == 1 ) {
+      if (value_max == value_min && value_max == 1) {
         // 处理激活率百分百情况
         splitList = [
           { start: 80, end: 100 },
@@ -466,8 +480,7 @@ export default {
           { start: 20, end: 40 },
           { start: 0, end: 20 }
         ];
-      }
-      else if (value_max == 1 && value_min < 1) {
+      } else if (value_max == 1 && value_min < 1) {
         splitList = [
           { start: 80, end: 100 },
           { start: 60, end: 80 },
@@ -489,13 +502,13 @@ export default {
           if (i < split_length - 1) {
             splitList.push({ start: splitArr[i], end: splitArr[i + 1] });
             dis = splitArr[i + 1] - splitArr[i];
-          }
-          else if (i == split_length - 1) {
+          } else if (i == split_length - 1) {
             splitList.push({ start: splitArr[i], end: splitArr[i] + dis });
           }
         }
         // console.log(splitList);
       }
+      // console.log(this.myNums);
 
       let data;
       if (value_max > 1) {
@@ -521,26 +534,27 @@ export default {
         ];
       } else {
         data = [
-          { name: "贵阳市", value: this.myNums[0] * 100 },
-          { name: "遵义市", value: this.myNums[1] * 100 },
-          { name: "六盘水市", value: this.myNums[2] * 100 },
-          { name: "安顺市", value: this.myNums[3] * 100 },
-          { name: "毕节市", value: this.myNums[4] * 100 },
-          { name: "铜仁市", value: this.myNums[5] * 100 },
+          { name: "贵阳市", value: (this.myNums[0] * 100).toFixed(0) },
+          { name: "遵义市", value: (this.myNums[1] * 100).toFixed(0) },
+          { name: "六盘水市", value: (this.myNums[2] * 100).toFixed(0) },
+          { name: "安顺市", value: (this.myNums[3] * 100).toFixed(0) },
+          { name: "毕节市", value: (this.myNums[4] * 100).toFixed(0) },
+          { name: "铜仁市", value: (this.myNums[5] * 100).toFixed(0) },
           {
             name: "黔东南",
-            value: this.myNums[6] * 100
+            value: (this.myNums[6] * 100).toFixed(0)
           },
           {
             name: "黔南",
-            value: this.myNums[7] * 100
+            value: (this.myNums[7] * 100).toFixed(0)
           },
           {
             name: "黔西南",
-            value: this.myNums[8] * 100
+            value: (this.myNums[8] * 100).toFixed(0)
           }
         ];
       }
+      // console.log(data);
       var option2 = {
         title: {
           x: "center",

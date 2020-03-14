@@ -4,7 +4,9 @@
       <span class="title_border_left"></span>订购用户数
     </el-row>
     <el-row class="title_row2">
-      <span class="m_time_title">当日：</span>
+      <!-- <span class="m_time_title">当日：</span> -->
+      <span class="m_time_title">累计：</span>
+
     </el-row>
     <el-row v-show="ifgetdata" class="paid_users_row proportion">
       <el-col :span="12" class="height_auto">
@@ -31,7 +33,16 @@
       </el-col>
     </el-row>
     <el-row class="title_row2">
-      <span class="m_time_title">近7天：</span>
+      <!-- <span class="m_time_title">近7天：</span> -->
+      <!-- <span class="m_time_title">当日：</span> -->
+      <el-col :span="12" class="m_time_title height_auto">
+        当日：
+      </el-col>
+
+      <el-col :span="12" class="m_time_title height_auto">
+        近7天：
+      </el-col>
+
     </el-row>
     <el-row v-show="ifgetdata" class="paid_users_row add_order">
       <el-col :span="12" class="height_auto">
@@ -176,24 +187,43 @@ export default {
                 //       100
                 //   );
                 // }
+                
+                if (aggregations.new_num.value == 0) {
+                  vm.New_order_conversion_rate = commonTools.returnFloat_2(0);
+                } else {
+                  // vm.New_order_conversion_rate = commonTools.returnFloat_2(
+                  //   (aggregations.new_paid_num.value /
+                  //     aggregations.new_num.value) *
+                  //     100
+                  // );
+                  vm.New_order_conversion_rate = commonTools.returnFloat_2(
+                    (aggregations.new_paid_num.value /
+                      aggregations.active_num.value) *
+                      100
+                  );
+                }
+
               }
 
               if (date_time == "7days") {
+                console.log(aggregations);
                 vm.new_paid_num = aggregations.new_paid_num.value;
                 vm.new_income = (
                   aggregations.new_income.value /
                   100 /
                   10000
                 ).toFixed(0);
-                if (aggregations.new_num.value == 0) {
-                  vm.New_order_conversion_rate = commonTools.returnFloat_2(0);
-                } else {
-                  vm.New_order_conversion_rate = commonTools.returnFloat_2(
-                    (aggregations.new_paid_num.value /
-                      aggregations.new_num.value) *
-                      100
-                  );
-                }
+
+                // if (aggregations.new_num.value == 0) {
+                //   vm.New_order_conversion_rate = commonTools.returnFloat_2(0);
+                // } else {
+                //   vm.New_order_conversion_rate = commonTools.returnFloat_2(
+                //     (aggregations.new_paid_num.value /
+                //       aggregations.new_num.value) *
+                //       100
+                //   );
+                // }
+
               }
               vm.ifgetdata = true;
               setTimeout(function() {

@@ -506,7 +506,7 @@ export default {
   },
   watch: {
     PR_operator(newValue, oldValue) {
-      console.log("~~~~!!!!!PR_operator");
+      // console.log("~~~~!!!!!PR_operator");
       let vm = this;
       setTimeout(function() {
         try {
@@ -556,6 +556,13 @@ export default {
         ["联通"],
         ["电信"],
         ["总开机活跃率"]
+      ];
+      vm.everyPowerActivityData.data = [
+        ["product"],
+        ["移动"],
+        ["联通"],
+        ["电信"],
+        ["总开机活跃"]
       ];
 
       setTimeout(function() {
@@ -608,22 +615,22 @@ export default {
     } else {
       // api 数据处理 - by 运营商
       // setTimeout(function() {
-        try {
-          // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型（单月）
-          vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（单月）
-          vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
+      try {
+        // vm.api_data_set("mixture", "month"); // mixture - 混合数据类型（单月）
+        vm.api_data_set("mixture", "month_range"); // mixture - 混合数据类型（单月）
+        vm.api_data_set("mixture", "week"); // mixture - 混合数据类型（单月分周）
+        vm.api_data_set("mixture", "day");
 
-          vm.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
-          vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
-          vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
-        } catch (error) {
-          console.log(error);
-        }
-        // excel 处理
-        vm.Excel_data_manage();
+        vm.api_data_set("single", "month_range"); // single - 单独运营商数据类型（by 运营商）多月
+        vm.api_data_set("single", "week"); // single - 单运营商数据类型（单月分周）
+        vm.api_data_set("single", "day"); // single - 单运营商数据类型（单月分天）
+      } catch (error) {
+        console.log(error);
+      }
+      // excel 处理
+      vm.Excel_data_manage();
       // }, 2000);
     }
-    
   },
   methods: {
     Excel_data_manage() {
@@ -1019,7 +1026,17 @@ export default {
       }
 
       if (timetype == "month_range") {
-        start = temp_time.monthsRange_start;
+        // ▲跨年处理
+        let MonthRange = 4; // 跨度4个月  1月则： 10 11 12 1
+        let CrossYear_monthStart;
+        CrossYear_monthStart =
+          temp_time.monthsRange_end.replace(/[^0-9]/gi, "") - MonthRange + 1;
+        if (CrossYear_monthStart <= 0) {
+          CrossYear_monthStart += 12;
+        }
+        CrossYear_monthStart += "month";
+        start = CrossYear_monthStart; // ▲跨年处理
+        // start = temp_time.monthsRange_start;
         end = temp_time.monthsRange_end;
       }
       if (timetype == "month") {
@@ -1054,7 +1071,7 @@ export default {
         .then(response => {
           //////////////////////// 统一使用点
           let responses0;
-          let responses1;  
+          let responses1;
           let responses2;
           let responses3;
           // let responses4;
@@ -1081,16 +1098,16 @@ export default {
           let responses24;
 
           try {
-            responses0 = response.data.responses[0];  // responses0 天维度
-            responses1 = response.data.responses[1];  // responses1 周维度
-            responses2 = response.data.responses[2];  // responses2 周维度
-            responses3 = response.data.responses[3];  // 月维度
+            responses0 = response.data.responses[0]; // responses0 天维度
+            responses1 = response.data.responses[1]; // responses1 周维度
+            responses2 = response.data.responses[2]; // responses2 周维度
+            responses3 = response.data.responses[3]; // 月维度
             // responses4 = response.data.responses[4];  // 没用到
-            responses5 = response.data.responses[5];  // 月维度
-            responses6 = response.data.responses[6];  // 月维度
-            responses7 = response.data.responses[7];  // 月维度
-            responses8 = response.data.responses[8];  // 月维度
-            responses9 = response.data.responses[9];  // 月维度
+            responses5 = response.data.responses[5]; // 月维度
+            responses6 = response.data.responses[6]; // 月维度
+            responses7 = response.data.responses[7]; // 月维度
+            responses8 = response.data.responses[8]; // 月维度
+            responses9 = response.data.responses[9]; // 月维度
             responses10 = response.data.responses[10]; // 月维度
             responses11 = response.data.responses[11]; // 月维度
             responses12 = response.data.responses[12]; // 月维度
@@ -1107,7 +1124,6 @@ export default {
             responses22 = response.data.responses[22]; // responses1 月维度
             responses23 = response.data.responses[23]; // responses2 月维度
             responses24 = response.data.responses[24]; // responses18 月维度
-
           } catch (error) {
             console.log(error);
           }
@@ -1123,7 +1139,6 @@ export default {
             // console.log("■■■■■■■■■■混合多月数据", response.data.responses);
             let vm = this;
 
-
             //G+TV用户发展数据概览  row1 left responses0 =》 responses21 月
             try {
               vm.G_TVUserData.data = [];
@@ -1131,9 +1146,10 @@ export default {
 
               //G+TV用户发展情况
               let registe_and_new_num =
-                responses21.aggregations.statistical_granularity
-                  .buckets;
-              registe_and_new_num = commonTools.bucketsSort_WM(registe_and_new_num);  // 排序
+                responses21.aggregations.statistical_granularity.buckets;
+              registe_and_new_num = commonTools.bucketsSort_WM_CrossYear(
+                registe_and_new_num
+              ); // 排序
               let registe_and_new_num_temp = [
                 ["用户"],
                 ["在册用户数(万户）"],
@@ -1160,9 +1176,8 @@ export default {
             try {
               vm.NewUserComparisonData.data = [];
               let mixture_month_range_data = response.data.responses;
-              let new_num_user_comparison =
-                responses21.aggregations.ac.buckets;
-              // new_num_user_comparison = commonTools.bucketsSort_WM(new_num_user_comparison);  // 排序 ac 不用排序
+              let new_num_user_comparison = responses21.aggregations.ac.buckets;
+              // new_num_user_comparison = commonTools.bucketsSort_WM_CrossYear(new_num_user_comparison);  // 排序 ac 不用排序
               let new_num_user_temp = [
                 ["地区"],
                 [],
@@ -1180,7 +1195,13 @@ export default {
                   new_num_user_temp[9 - index].push(
                     commonTools.acConvert_Single(value.key)
                   );
-                  value.statistical_granularity.buckets.forEach(
+                  // 排序！▲查缺补漏
+                  let value_buckets = value.statistical_granularity.buckets;
+                  value_buckets = commonTools.bucketsSort_WM_CrossYear(
+                    value_buckets
+                  ); // 排序
+                  value_buckets.forEach(
+                    // value.statistical_granularity.buckets.forEach(
                     (value2, index2) => {
                       //设置月份（只执行一次）
                       if (index == 0) {
@@ -1205,9 +1226,10 @@ export default {
               let mixture_month_range_data = response.data.responses; // 总的混合多月数据
 
               let open_num_data =
-                responses21.aggregations.statistical_granularity
-                  .buckets;
-              open_num_data = commonTools.bucketsSort_WM(open_num_data);  // 排序
+                responses21.aggregations.statistical_granularity.buckets;
+              open_num_data = commonTools.bucketsSort_WM_CrossYear(
+                open_num_data
+              ); // 排序
               open_num_data.forEach((value, index) => {
                 let open_rate = (
                   (value.open_num.value / value.register_num.value) *
@@ -1233,8 +1255,7 @@ export default {
             try {
               let mixture_month_range_data = response.data.responses; //总的混合多月数据
 
-              let ac_open_num_data =
-                responses21.aggregations.ac.buckets; // ac 不用排序
+              let ac_open_num_data = responses21.aggregations.ac.buckets; // ac 不用排序
               ac_open_num_data.forEach((value, index) => {
                 if (value.key != "other") {
                   Vue.set(
@@ -1243,6 +1264,9 @@ export default {
                     commonTools.acConvert_Single(value.key)
                   );
                   let ac_month_open_num = value.statistical_granularity.buckets;
+                  ac_month_open_num = commonTools.bucketsSort_WM_CrossYear(
+                    ac_month_open_num
+                  ); // 排序
                   let open_num_length =
                     value.statistical_granularity.buckets.length;
                   vm.areaPowerActivityData.title =
@@ -1284,13 +1308,19 @@ export default {
             try {
               let buckets9_demand =
                 responses22.aggregations.statistical_granularity.buckets;
-              buckets9_demand = commonTools.bucketsSort_WM(buckets9_demand);  // 排序
+              buckets9_demand = commonTools.bucketsSort_WM_CrossYear(
+                buckets9_demand
+              ); // 排序
               let buckets9_onlive =
                 responses23.aggregations.statistical_granularity.buckets;
-              buckets9_onlive = commonTools.bucketsSort_WM(buckets9_onlive);  // 排序
+              buckets9_onlive = commonTools.bucketsSort_WM_CrossYear(
+                buckets9_onlive
+              ); // 排序
               let buckets9_watch =
                 responses3.aggregations.statistical_granularity.buckets;
-              buckets9_watch = commonTools.bucketsSort_WM(buckets9_watch);  // 排序
+              buckets9_watch = commonTools.bucketsSort_WM_CrossYear(
+                buckets9_watch
+              ); // 排序
               // console.log(buckets9_demand);
               // console.log(buckets9_onlive);
               // console.log(buckets9_watch);
@@ -1372,20 +1402,17 @@ export default {
                 ["直播观看时长数（百万小时）"],
                 ["直播观看用户数（百万户）"]
               ];
+              // console.log(buckets9_onlive);
+              // console.log(buckets9_watch);
+              // console.log(buckets9_demand);
+
               // console.log(length_9); // 11  问题点(后台返回数据问题)：buckets9_demand length为11，buckets9_watch length为 6
               for (i_9 = 0; i_9 < length_9; i_9++) {
-
-                // console.log(i_9);
-                // console.log(buckets9_onlive);
-                // console.log(buckets9_onlive[i_9]);
                 // 月个数
                 q1_u.push(buckets9_onlive[i_9].onlive_user_num.value);
                 q1_f.push(buckets9_onlive[i_9].onlive_freq.value);
                 q1_d.push(buckets9_onlive[i_9].onlive_dur.value / 60); // 分 -》 时
 
-                // console.log(i_9);
-                // console.log(buckets9_watch);
-                // console.log(buckets9_watch[i_9]);
                 q2_u.push(buckets9_watch[i_9].watch_user_num.value); // ▲ 报错点
                 q2_f.push(buckets9_watch[i_9].watch_freq.value);
                 q2_d.push(buckets9_watch[i_9].watch_dur.value / 60); // 分 -》 时
@@ -1459,9 +1486,6 @@ export default {
                 );
               } // for
 
-
-
-
               vm.usingTheUser.content = temp_usingTheUser_content;
               vm.usingTheTime.content = temp_usingTheTime_content;
               vm.usingTheDuration.content = temp_usingTheDuration_content;
@@ -1476,7 +1500,6 @@ export default {
               vm.monthlyTotalViewingData2.data = [];
             }
 
-
             // ////////////////// 直播收视行为分析 row12 left/middle/right responses5 （改月不变） responses6 （月） responses7  （月）
             // 直播频道观看用户数排名（万户）
             // mobileLiveViewerData
@@ -1486,13 +1509,13 @@ export default {
             try {
               let buckets_12 =
                 responses5.aggregations.statistical_granularity.buckets; // 1 5 un
-              buckets_12 = commonTools.bucketsSort_WM(buckets_12);  // 排序
+              buckets_12 = commonTools.bucketsSort_WM_CrossYear(buckets_12); // 排序
               let buckets_12_2 =
                 responses6.aggregations.statistical_granularity.buckets; // 2 6 dur
-              buckets_12_2 = commonTools.bucketsSort_WM(buckets_12_2);  // 排序
+              buckets_12_2 = commonTools.bucketsSort_WM_CrossYear(buckets_12_2); // 排序
               let buckets_12_3 =
                 responses7.aggregations.statistical_granularity.buckets; // 3 7 freq
-              buckets_12_3 = commonTools.bucketsSort_WM(buckets_12_3);  // 排序
+              buckets_12_3 = commonTools.bucketsSort_WM_CrossYear(buckets_12_3); // 排序
               // console.log(buckets_12);
               // console.log(buckets_12_2);
               // console.log(buckets_12_3);
@@ -1578,17 +1601,11 @@ export default {
               if (length_12 > 1) {
                 // ////// 上月
                 let buckets_child_12_2 =
-                  buckets_12[
-                    length_12 - 2
-                  ].channel.buckets;
+                  buckets_12[length_12 - 2].channel.buckets;
                 let buckets_child_12_2_2 =
-                  buckets_12_2[
-                    length_12 - 2
-                  ].channel.buckets;
+                  buckets_12_2[length_12 - 2].channel.buckets;
                 let buckets_child_12_2_3 =
-                  buckets_12_3[
-                    length_12 - 2
-                  ].channel.buckets;
+                  buckets_12_3[length_12 - 2].channel.buckets;
                 let top20_length_12_week2_all = buckets_child_12_2.length; // n个
                 let i_12_2;
                 function Return_KeyValue_12_un(key) {
@@ -1729,7 +1746,9 @@ export default {
               // month   rw_dm  responses1
               let buckets14_demand =
                 responses22.aggregations.statistical_granularity.buckets;
-              buckets14_demand = commonTools.bucketsSort_WM(buckets14_demand);  // 排序
+              buckets14_demand = commonTools.bucketsSort_WM_CrossYear(
+                buckets14_demand
+              ); // 排序
               let length_14 = buckets14_demand.length; //月的长度
               let i_14;
               // 注： q1 -  直播 onlive
@@ -1782,13 +1801,17 @@ export default {
             try {
               let buckets_15 =
                 responses8.aggregations.statistical_granularity.buckets;
-              buckets_15 = commonTools.bucketsSort_WM(buckets_15);  // 排序
+              buckets_15 = commonTools.bucketsSort_WM_CrossYear(buckets_15); // 排序
               let buckets_15_dur =
                 responses9.aggregations.statistical_granularity.buckets;
-              buckets_15_dur = commonTools.bucketsSort_WM(buckets_15_dur);  // 排序
+              buckets_15_dur = commonTools.bucketsSort_WM_CrossYear(
+                buckets_15_dur
+              ); // 排序
               let buckets_15_fr =
                 responses10.aggregations.statistical_granularity.buckets;
-              buckets_15_fr = commonTools.bucketsSort_WM(buckets_15_fr);  // 排序
+              buckets_15_fr = commonTools.bucketsSort_WM_CrossYear(
+                buckets_15_fr
+              ); // 排序
               let length_15 = buckets_15.length; // 月的长度
               let i_15;
 
@@ -1854,17 +1877,11 @@ export default {
               // 上月
               if (length_15 > 1) {
                 let buckets_15_0 =
-                  buckets_15[
-                    length_15 - 2
-                  ].program_type.buckets;
+                  buckets_15[length_15 - 2].program_type.buckets;
                 let buckets_15_0_dur =
-                  buckets_15_dur[
-                    length_15 - 2
-                  ].program_type.buckets;
+                  buckets_15_dur[length_15 - 2].program_type.buckets;
                 let buckets_15_0_fr =
-                  buckets_15_fr[
-                    length_15 - 2
-                  ].program_type.buckets;
+                  buckets_15_fr[length_15 - 2].program_type.buckets;
                 let length_15_0 = buckets_15_0.length; // length_15_0
                 let i_15_2;
                 function Return_KeyValue_15(key) {
@@ -1973,11 +1990,13 @@ export default {
               // programPageClickNumData right click_freq
               let buckets_16 =
                 responses11.aggregations.statistical_granularity.buckets;
-              buckets_16 = commonTools.bucketsSort_WM(buckets_16);  // 排序
+              buckets_16 = commonTools.bucketsSort_WM_CrossYear(buckets_16); // 排序
               // programPageClickUserData  left  click_user_num
               let buckets_16_cun =
                 responses12.aggregations.statistical_granularity.buckets;
-              buckets_16_cun = commonTools.bucketsSort_WM(buckets_16_cun);  // 排序
+              buckets_16_cun = commonTools.bucketsSort_WM_CrossYear(
+                buckets_16_cun
+              ); // 排序
               let length_16 = buckets_16.length; // 月的长度
               let i_16;
 
@@ -2017,14 +2036,8 @@ export default {
 
               // 上月
               if (length_16 > 1) {
-                let buckets_16_0 =
-                  buckets_16[
-                    length_16 - 2
-                  ].ti.buckets;
-                let buckets_16_0_cun =
-                  buckets_16_cun[
-                    length_16 - 2
-                  ].ti.buckets;
+                let buckets_16_0 = buckets_16[length_16 - 2].ti.buckets;
+                let buckets_16_0_cun = buckets_16_cun[length_16 - 2].ti.buckets;
                 let length_16_0 = buckets_16_0.length; // length_16_0
                 let i_16_2;
                 function Return_KeyValue_16(key) {
@@ -2100,13 +2113,13 @@ export default {
             try {
               let buckets_17 =
                 responses13.aggregations.statistical_granularity.buckets; // 1 13 un
-              buckets_17 = commonTools.bucketsSort_WM(buckets_17);  // 排序
+              buckets_17 = commonTools.bucketsSort_WM_CrossYear(buckets_17); // 排序
               let buckets_17_2 =
                 responses14.aggregations.statistical_granularity.buckets; // 2 14 freq
-              buckets_17_2 = commonTools.bucketsSort_WM(buckets_17_2);  // 排序
+              buckets_17_2 = commonTools.bucketsSort_WM_CrossYear(buckets_17_2); // 排序
               let buckets_17_3 =
                 responses15.aggregations.statistical_granularity.buckets; // 3 15 dur
-              buckets_17_3 = commonTools.bucketsSort_WM(buckets_17_3);  // 排序
+              buckets_17_3 = commonTools.bucketsSort_WM_CrossYear(buckets_17_3); // 排序
 
               let length_17 = buckets_17.length; // 默认两月 - 2
               let i_17;
@@ -2186,17 +2199,11 @@ export default {
               if (length_17 > 1) {
                 // ////// 上月
                 let buckets_child_17_2 =
-                  buckets_17[
-                    length_17 - 2
-                  ].program_type.buckets;
+                  buckets_17[length_17 - 2].program_type.buckets;
                 let buckets_child_17_2_2 =
-                  buckets_17_2[
-                    length_17 - 2
-                  ].program_type.buckets;
+                  buckets_17_2[length_17 - 2].program_type.buckets;
                 let buckets_child_17_2_3 =
-                  buckets_17_3[
-                    length_17 - 2
-                  ].program_type.buckets;
+                  buckets_17_3[length_17 - 2].program_type.buckets;
                 let top20_length_17_week2_all = buckets_child_17_2.length; // n个
                 let i_17_2;
                 function Return_KeyValue_17_un(key) {
@@ -2303,7 +2310,7 @@ export default {
             try {
               let buckets_18 =
                 responses16.aggregations.statistical_granularity.buckets;
-              buckets_18 = commonTools.bucketsSort_WM(buckets_18);  // 排序
+              buckets_18 = commonTools.bucketsSort_WM_CrossYear(buckets_18); // 排序
               let length_18 = buckets_18.length; // 月的长度
               let i_18;
 
@@ -2349,7 +2356,7 @@ export default {
 
               let buckets_18b =
                 responses17.aggregations.statistical_granularity.buckets;
-              buckets_18b = commonTools.bucketsSort_WM(buckets_18b);  // 排序
+              buckets_18b = commonTools.bucketsSort_WM_CrossYear(buckets_18b); // 排序
               let length_18b = buckets_18b.length;
               let i_18b;
               let temp_data_18b_npn = [];
@@ -2385,13 +2392,15 @@ export default {
                     .new_paid_num.value
                 );
               }
-     
 
               vm.payingUserData.data = temp_data_18b_npn;
             } catch (error) {
               console.log(error);
               // vm.payingUserData.data = [];
-              vm.payingUserData.data = [["product", "本月"], ["-", "0"]];
+              vm.payingUserData.data = [
+                ["product", "本月"],
+                ["-", "0"]
+              ];
             }
 
             // //////////////// 本土原创节目收视行为分析 row19 left  responses18 =》 responses24 月
@@ -2400,7 +2409,9 @@ export default {
             try {
               let buckets19_demand =
                 responses24.aggregations.statistical_granularity.buckets;
-              buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序
+              buckets19_demand = commonTools.bucketsSort_WM_CrossYear(
+                buckets19_demand
+              ); // 排序
               let length_19 = buckets19_demand.length; //月的长度
               let i_19;
               // 注： q1 -  直播 onlive
@@ -2450,7 +2461,9 @@ export default {
             try {
               let buckets9_onlive =
                 responses2.aggregations.statistical_granularity.buckets;
-              buckets9_onlive = commonTools.bucketsSort_WM(buckets9_onlive);  // 排序
+              buckets9_onlive = commonTools.bucketsSort_WM_CrossYear(
+                buckets9_onlive
+              ); // 排序
 
               // 注： q1 -  直播 onlive
               // 注： q2 -  回看 watch
@@ -2505,7 +2518,9 @@ export default {
             try {
               let buckets14_demand =
                 responses1.aggregations.statistical_granularity.buckets;
-              buckets14_demand = commonTools.bucketsSort_WM(buckets14_demand);  // 排序
+              buckets14_demand = commonTools.bucketsSort_WM_CrossYear(
+                buckets14_demand
+              ); // 排序
               let length_14 = buckets14_demand.length; //月长度
               let i_14;
               // 注： q1 -  直播 onlive
@@ -2549,33 +2564,6 @@ export default {
               vm.weekDemandViewingData.data = [];
             }
           }
-          //混合单月多天数据
-          if (datatype == "mixture" && timetype == "day") {
-            // console.log("■■■■■■■■■■混合 单月多天数据", response.data.responses);
-
-            try {
-              // //////////////////// 日开机活跃数据  row8 responses0 (天不变) -- everyPowerActivityData 1
-              // ▲▲ 注意 总开机活跃(temp_8_4) 看  mixture_day
-              let temp_8_4 = [];
-              let buckets_8 =
-                responses0.aggregations.statistical_granularity.buckets;
-              let length_8 = buckets_8.length;
-              let i_8;
-              temp_8_4.push("总开机活跃");
-              for (i_8 = 0; i_8 < length_8; i_8++) {
-                temp_8_4.push(
-                  (
-                    buckets_8[i_8].open_num.value / buckets_8[i_8].new_num.value
-                  ).toFixed(2)
-                );
-              }
-
-              Vue.set(vm.everyPowerActivityData.data, 4, temp_8_4);
-            } catch (error) {
-              console.log(error);
-              Vue.set(vm.everyPowerActivityData.data, 4, []);
-            }
-          }
 
           //运营商 - 多月
           if (datatype == "single" && timetype == "month_range") {
@@ -2593,11 +2581,17 @@ export default {
                 totle_data = response.data.responses;
                 user_develop_data =
                   responses21.aggregations.statistical_granularity.buckets; //register_num
-                user_develop_data = commonTools.bucketsSort_WM(user_develop_data);  // 排序
+                user_develop_data = commonTools.bucketsSort_WM_CrossYear(
+                  user_develop_data
+                ); // 排序
                 //数据初始化 (注意：必须初始化)
                 user_develop_data.forEach((value, index) => {
                   let data_month = commonTools.format_monthToChinese(value.key);
-                  Vue.set(vm.registeredUsersData.data[0], index + 1, data_month);
+                  Vue.set(
+                    vm.registeredUsersData.data[0],
+                    index + 1,
+                    data_month
+                  );
                   Vue.set(
                     vm.registeredUsersData.data[1],
                     index + 1,
@@ -2605,7 +2599,11 @@ export default {
                   );
 
                   //月新增在册用户对比  monthNewRegUserData
-                  Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month);
+                  Vue.set(
+                    vm.monthNewRegUserData.data[0],
+                    index + 1,
+                    data_month
+                  );
                   Vue.set(
                     vm.monthNewRegUserData.data[1],
                     index + 1,
@@ -2632,7 +2630,7 @@ export default {
               //本月各州市新增在册用户数
               try {
                 let city_new_num_data = responses21.aggregations.ac.buckets;
-                // city_new_num_data = commonTools.bucketsSort_WM(city_new_num_data);  // 排序 --- 是ac 不是时间 不用排序
+                // city_new_num_data = commonTools.bucketsSort_WM_CrossYear(city_new_num_data);  // 排序 --- 是ac 不是时间 不用排序
                 city_new_num_data.forEach((value, index) => {
                   if (value.key != "other") {
                     Vue.set(
@@ -2642,6 +2640,10 @@ export default {
                     );
                     let length = value.statistical_granularity.buckets.length;
                     let new_num_arry = value.statistical_granularity.buckets;
+                    // ▲跨年处理
+                    new_num_arry = commonTools.bucketsSort_WM_CrossYear(
+                      new_num_arry
+                    );
                     Vue.set(
                       vm.G_TVRegionUserData.data[1],
                       index + 1,
@@ -2667,7 +2669,9 @@ export default {
               try {
                 let open_num_data =
                   responses21.aggregations.statistical_granularity.buckets;
-                open_num_data = commonTools.bucketsSort_WM(open_num_data); // 排序
+                open_num_data = commonTools.bucketsSort_WM_CrossYear(
+                  open_num_data
+                ); // 排序
                 open_num_data.forEach((value, index) => {
                   let open_rate = (
                     (value.open_num.value / value.register_num.value) *
@@ -2685,12 +2689,15 @@ export default {
               }
 
               // 各州市一个月开机活跃数据 row7 right yd responses0 => responses21
-              try { 
+              try {
                 let ac_open_num_data = responses21.aggregations.ac.buckets; // ac 不用排序
                 ac_open_num_data.forEach((value, index) => {
                   if (value.key != "other") {
                     let ac_month_open_num =
                       value.statistical_granularity.buckets;
+                    ac_month_open_num = commonTools.bucketsSort_WM_CrossYear(
+                      ac_month_open_num
+                    ); // 跨年排序
                     let open_num_length =
                       value.statistical_granularity.buckets.length;
                     let open_rate = (
@@ -2714,10 +2721,14 @@ export default {
               // /////////////// 直播收视行为分析 responses2 =》 responses23 月  row10 上  yd
               // liveViewingDurationData liveViewingUserData liveViewingTimesData
               try {
+                vm.liveViewingDurationData.content = []; // 在移动处初始化
+                vm.liveViewingUserData.content = []; // 在移动处初始化
+                vm.liveViewingTimesData.content = []; // 在移动处初始化
+
                 let buckets_10 =
                   responses23.aggregations.statistical_granularity.buckets;
-                buckets_10 = commonTools.bucketsSort_WM(buckets_10);  // 排序
-                console.log(buckets_10);
+                buckets_10 = commonTools.bucketsSort_WM_CrossYear(buckets_10); // 排序
+                // console.log(buckets_10);
                 let length_10 = buckets_10.length;
                 let i_10;
                 let onlive_dur_yd = [];
@@ -2727,27 +2738,36 @@ export default {
                 let temp_liveViewingUserData_content = [];
                 let temp_liveViewingTimesData_content = [];
 
-                // vm.liveViewingDurationData.content = []; // 在移动处初始化
-                // vm.liveViewingUserData.content = [];     // 在移动处初始化
-                // vm.liveViewingTimesData.content = [];    // 在移动处初始化
                 for (i_10 = 0; i_10 < length_10; i_10++) {
                   temp_liveViewingDurationData_content.push({
                     title:
                       commonTools.format_monthToChinese(buckets_10[i_10].key) +
                       "直播观看时长数据（万小时）",
-                    data: []
+                    data: [
+                      // { value: 0, name: "移动" },
+                      // { value: 0, name: "联通" },
+                      // { value: 0, name: "电信" }
+                    ]
                   });
                   temp_liveViewingUserData_content.push({
                     title:
                       commonTools.format_monthToChinese(buckets_10[i_10].key) +
                       "直播观看用户数据（万户）",
-                    data: []
+                    data: [
+                      // { value: 0, name: "移动" },
+                      // { value: 0, name: "联通" },
+                      // { value: 0, name: "电信" }
+                    ]
                   });
                   temp_liveViewingTimesData_content.push({
                     title:
                       commonTools.format_monthToChinese(buckets_10[i_10].key) +
                       "直播观看次数数据（万次）",
-                    data: []
+                    data: [
+                      // { value: 0, name: "移动" },
+                      // { value: 0, name: "联通" },
+                      // { value: 0, name: "电信" }
+                    ]
                   });
                 }
                 setTimeout(function() {
@@ -2803,7 +2823,7 @@ export default {
               try {
                 let buckets_13 =
                   responses5.aggregations.statistical_granularity.buckets;
-                buckets_13 = commonTools.bucketsSort_WM(buckets_13);  // 排序
+                buckets_13 = commonTools.bucketsSort_WM_CrossYear(buckets_13); // 排序
                 let length_13 = buckets_13.length; // 默认两月 - 2
                 let i_13;
                 let temp_data_13_un = [];
@@ -2842,9 +2862,7 @@ export default {
                 // ////// 上月
                 if (length_13 > 1) {
                   let buckets_child_13_2 =
-                    buckets_13[
-                      length_13 - 2
-                    ].channel.buckets;
+                    buckets_13[length_13 - 2].channel.buckets;
                   let top20_length_13_week2_all = buckets_child_13_2.length; // n个
                   let i_13_2;
                   function Return_KeyValue_13_un(key) {
@@ -2904,7 +2922,9 @@ export default {
               try {
                 let buckets_20zt =
                   responses19.aggregations.statistical_granularity.buckets;
-                buckets_20zt = commonTools.bucketsSort_WM(buckets_20zt);  // 排序
+                buckets_20zt = commonTools.bucketsSort_WM_CrossYear(
+                  buckets_20zt
+                ); // 排序
                 let length_20zt = buckets_20zt.length;
                 let i_20zt;
                 let temp_data_20zt_cf = [];
@@ -2912,11 +2932,12 @@ export default {
                 temp_data_20zt_cf.push(["product", "点击次数（万）"]);
 
                 let top20_length_20zt = 20;
-                if (
-                  buckets_20zt[0].special_or_activity_name.buckets.length < 20
-                ) {
-                  top20_length_20zt =
-                    buckets_20zt[0].special_or_activity_name.buckets.length;
+                let currentM_buckets_20zt = buckets_20zt[length_20zt - 1];
+                // if (buckets_20zt[0].special_or_activity_name.buckets.length < 20) {
+                //   top20_length_20zt = buckets_20zt[0].special_or_activity_name.buckets.length;
+                // }
+                if (currentM_buckets_20zt.special_or_activity_name.buckets.length < 20) {
+                  top20_length_20zt = currentM_buckets_20zt.special_or_activity_name.buckets.length;
                 }
                 for (i_20zt = 0; i_20zt < top20_length_20zt; i_20zt++) {
                   temp_data_20zt_cf.push([]);
@@ -2975,12 +2996,18 @@ export default {
                 totle_data = response.data.responses;
                 user_develop_data =
                   responses21.aggregations.statistical_granularity.buckets; //register_num
-                user_develop_data = commonTools.bucketsSort_WM(user_develop_data);  // 排序
+                user_develop_data = commonTools.bucketsSort_WM_CrossYear(
+                  user_develop_data
+                ); // 排序
 
                 user_develop_data.forEach((value, index) => {
                   // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
                   let data_month = commonTools.format_monthToChinese(value.key);
-                  Vue.set(vm.registeredUsersData.data[0], index + 1, data_month);
+                  Vue.set(
+                    vm.registeredUsersData.data[0],
+                    index + 1,
+                    data_month
+                  );
                   Vue.set(
                     vm.registeredUsersData.data[2],
                     index + 1,
@@ -2988,7 +3015,11 @@ export default {
                   );
 
                   //月新增在册用户对比  monthNewRegUserData
-                  Vue.set(vm.monthNewRegUserData.data[0], index + 1, data_month);
+                  Vue.set(
+                    vm.monthNewRegUserData.data[0],
+                    index + 1,
+                    data_month
+                  );
                   Vue.set(
                     vm.monthNewRegUserData.data[2],
                     index + 1,
@@ -3021,28 +3052,31 @@ export default {
                     );
                     let length = value.statistical_granularity.buckets.length;
                     let new_num_arry = value.statistical_granularity.buckets;
+                    new_num_arry = commonTools.bucketsSort_WM_CrossYear(
+                      new_num_arry
+                    ); // 排序
                     Vue.set(
                       vm.G_TVRegionUserData.data[2],
                       index + 1,
                       Number(
-                        (new_num_arry[length - 1].new_num.value / 10000).toFixed(
-                          2
-                        )
+                        (
+                          new_num_arry[length - 1].new_num.value / 10000
+                        ).toFixed(2)
                       )
                     );
                   }
                 });
-
               } catch (error) {
                 console.log(error);
               }
 
-
-              // 开机活跃数据 row7 lt responses0 =》 responses21 月 
+              // 开机活跃数据 row7 lt responses0 =》 responses21 月
               try {
                 let open_num_data =
                   responses21.aggregations.statistical_granularity.buckets;
-                open_num_data = commonTools.bucketsSort_WM(open_num_data);  // 排序
+                open_num_data = commonTools.bucketsSort_WM_CrossYear(
+                  open_num_data
+                ); // 排序
                 open_num_data.forEach((value, index) => {
                   let open_rate = (
                     (value.open_num.value / value.register_num.value) *
@@ -3065,6 +3099,9 @@ export default {
                   if (value.key != "other") {
                     let ac_month_open_num =
                       value.statistical_granularity.buckets;
+                    ac_month_open_num = commonTools.bucketsSort_WM_CrossYear(
+                      ac_month_open_num
+                    ); // 排序
                     let open_num_length =
                       value.statistical_granularity.buckets.length;
                     let open_rate = (
@@ -3087,7 +3124,7 @@ export default {
                 try {
                   let buckets_13 =
                     responses5.aggregations.statistical_granularity.buckets;
-                  buckets_13 = commonTools.bucketsSort_WM(buckets_13);  // 排序  
+                  buckets_13 = commonTools.bucketsSort_WM_CrossYear(buckets_13); // 排序
                   let length_13 = buckets_13.length; // 默认两月 - 2
                   let i_13;
                   let temp_data_13_un = [];
@@ -3124,9 +3161,7 @@ export default {
                   // ////// 上月
                   if (length_13 > 1) {
                     let buckets_child_13_2 =
-                      buckets_13[
-                        length_13 - 2
-                      ].channel.buckets;
+                      buckets_13[length_13 - 2].channel.buckets;
                     let top20_length_13_week2_all = buckets_child_13_2.length; // n个
                     let i_13_2;
                     function Return_KeyValue_13_un(key) {
@@ -3190,8 +3225,8 @@ export default {
               try {
                 let buckets_10 =
                   responses23.aggregations.statistical_granularity.buckets;
-                buckets_10 = commonTools.bucketsSort_WM(buckets_10);  // 排序
-                console.log(buckets_10);
+                buckets_10 = commonTools.bucketsSort_WM_CrossYear(buckets_10); // 排序
+                // console.log(buckets_10);
 
                 let length_10 = buckets_10.length;
                 let i_10;
@@ -3235,7 +3270,7 @@ export default {
                       name: "联通"
                     });
                   }
-                }, 1000); // 联通延时 500ms 电信延时1000ms
+                }, 1000); // 移动延时500ms // 联通延时 500ms 电信延时1000ms
               } catch (error) {
                 console.log(error);
                 // vm.liveViewingDurationData.content = [];
@@ -3248,7 +3283,9 @@ export default {
               try {
                 let buckets_20zt =
                   responses19.aggregations.statistical_granularity.buckets;
-                buckets_20zt = commonTools.bucketsSort_WM(buckets_20zt);  // 排序
+                buckets_20zt = commonTools.bucketsSort_WM_CrossYear(
+                  buckets_20zt
+                ); // 排序
                 let length_20zt = buckets_20zt.length;
                 let i_20zt;
                 let temp_data_20zt_cf = [];
@@ -3256,11 +3293,16 @@ export default {
                 temp_data_20zt_cf.push(["product", "点击次数（万）"]);
 
                 let top20_length_20zt = 20;
-                if (
-                  buckets_20zt[0].special_or_activity_name.buckets.length < 20
-                ) {
-                  top20_length_20zt =
-                    buckets_20zt[0].special_or_activity_name.buckets.length;
+                let currentM_buckets_20zt = buckets_20zt[length_20zt - 1];
+
+                // if (
+                //   buckets_20zt[0].special_or_activity_name.buckets.length < 20
+                // ) {
+                //   top20_length_20zt =
+                //     buckets_20zt[0].special_or_activity_name.buckets.length;
+                // }
+                if (currentM_buckets_20zt.special_or_activity_name.buckets.length < 20) {
+                  top20_length_20zt = currentM_buckets_20zt.special_or_activity_name.buckets.length;
                 }
                 for (i_20zt = 0; i_20zt < top20_length_20zt; i_20zt++) {
                   temp_data_20zt_cf.push([]);
@@ -3317,7 +3359,9 @@ export default {
                 totle_data = response.data.responses;
                 user_develop_data =
                   responses21.aggregations.statistical_granularity.buckets; //register_num
-                user_develop_data = commonTools.bucketsSort_WM(user_develop_data);  // 排序
+                user_develop_data = commonTools.bucketsSort_WM_CrossYear(
+                  user_develop_data
+                ); // 排序
                 user_develop_data.forEach((value, index) => {
                   // console.log(value.key, "在册" + value.register_num.value, "新增" + value.new_num.value, "销户" + value.unsub_user_num.value)
                   Vue.set(
@@ -3342,7 +3386,7 @@ export default {
 
                 //G+TV本月分地区用户发展数据概览 row3 dx responses0 =》 responses21 月
                 //本月各州市新增在册用户数
-                let city_new_num_data = responses21.aggregations.ac.buckets;  // ac 排序不管
+                let city_new_num_data = responses21.aggregations.ac.buckets; // ac 排序不管
                 city_new_num_data.forEach((value, index) => {
                   if (value.key != "other") {
                     Vue.set(
@@ -3352,18 +3396,20 @@ export default {
                     );
                     let length = value.statistical_granularity.buckets.length;
                     let new_num_arry = value.statistical_granularity.buckets;
+                    new_num_arry = commonTools.bucketsSort_WM_CrossYear(
+                      new_num_arry
+                    );
                     Vue.set(
                       vm.G_TVRegionUserData.data[3],
                       index + 1,
                       Number(
-                        (new_num_arry[length - 1].new_num.value / 10000).toFixed(
-                          2
-                        )
+                        (
+                          new_num_arry[length - 1].new_num.value / 10000
+                        ).toFixed(2)
                       )
                     );
                   }
                 });
-
               } catch (error) {
                 console.log(error);
               }
@@ -3372,7 +3418,9 @@ export default {
               try {
                 let open_num_data =
                   responses21.aggregations.statistical_granularity.buckets;
-                open_num_data = commonTools.bucketsSort_WM(open_num_data);  // 排序
+                open_num_data = commonTools.bucketsSort_WM_CrossYear(
+                  open_num_data
+                ); // 排序
 
                 open_num_data.forEach((value, index) => {
                   let open_rate = (
@@ -3397,6 +3445,9 @@ export default {
                   if (value.key != "other") {
                     let ac_month_open_num =
                       value.statistical_granularity.buckets;
+                    ac_month_open_num = commonTools.bucketsSort_WM_CrossYear(
+                      ac_month_open_num
+                    ); // 排序
                     let open_num_length =
                       value.statistical_granularity.buckets.length;
                     let open_rate = (
@@ -3422,7 +3473,9 @@ export default {
               try {
                 let buckets_20zt =
                   responses19.aggregations.statistical_granularity.buckets;
-                buckets_20zt = commonTools.bucketsSort_WM(buckets_20zt);  // 排序
+                buckets_20zt = commonTools.bucketsSort_WM_CrossYear(
+                  buckets_20zt
+                ); // 排序
                 let length_20zt = buckets_20zt.length;
                 let i_20zt;
                 let temp_data_20zt_cf = [];
@@ -3430,11 +3483,16 @@ export default {
                 temp_data_20zt_cf.push(["product", "点击次数（万）"]);
 
                 let top20_length_20zt = 20;
-                if (
-                  buckets_20zt[0].special_or_activity_name.buckets.length < 20
-                ) {
-                  top20_length_20zt =
-                    buckets_20zt[0].special_or_activity_name.buckets.length;
+                let currentM_buckets_20zt = buckets_20zt[length_20zt - 1];              
+
+                // if (
+                //   buckets_20zt[0].special_or_activity_name.buckets.length < 20
+                // ) {
+                //   top20_length_20zt =
+                //     buckets_20zt[0].special_or_activity_name.buckets.length;
+                // }
+                if (currentM_buckets_20zt.special_or_activity_name.buckets.length < 20) {
+                  top20_length_20zt = currentM_buckets_20zt.special_or_activity_name.buckets.length;
                 }
                 for (i_20zt = 0; i_20zt < top20_length_20zt; i_20zt++) {
                   temp_data_20zt_cf.push([]);
@@ -3486,8 +3544,8 @@ export default {
             try {
               let buckets_10 =
                 responses23.aggregations.statistical_granularity.buckets;
-              buckets_10 = commonTools.bucketsSort_WM(buckets_10);  // 排序 
-              console.log(buckets_10);
+              buckets_10 = commonTools.bucketsSort_WM_CrossYear(buckets_10); // 排序
+              // console.log(buckets_10);
 
               let length_10 = buckets_10.length;
               let i_10;
@@ -3530,7 +3588,7 @@ export default {
                     name: "电信"
                   });
                 }
-              }, 1000); // 联通延时 500ms 电信延时1000ms
+              }, 1000); // 移动延时500ms // 联通延时 500ms 电信延时1000ms
             } catch (error) {
               console.log(error);
               // vm.liveViewingDurationData.content = [];
@@ -3543,7 +3601,7 @@ export default {
             try {
               let buckets_13 =
                 responses5.aggregations.statistical_granularity.buckets;
-              buckets_13 = commonTools.bucketsSort_WM(buckets_13);  // 排序
+              buckets_13 = commonTools.bucketsSort_WM_CrossYear(buckets_13); // 排序
               // console.log("buckets_13----------***********", buckets_13);
               let length_13 = buckets_13.length; // 默认两月 - 2
               let i_13;
@@ -3581,9 +3639,7 @@ export default {
               // ////// 上月
               if (length_13 > 1) {
                 let buckets_child_13_2 =
-                  buckets_13[
-                    length_13 - 2
-                  ].channel.buckets;
+                  buckets_13[length_13 - 2].channel.buckets;
                 let top20_length_13_week2_all = buckets_child_13_2.length; // n个
                 let i_13_2;
                 function Return_KeyValue_13_un(key) {
@@ -3639,10 +3695,6 @@ export default {
 
           //运营商 - 一月分周
           if (datatype == "single" && timetype == "week") {
-
-
-
-
             if (type == "yd") {
               // console.log("■■■■■■■■■■移动 单运营商一月分周", tempOperatorArr);
               // console.log(response.data.responses);
@@ -3650,14 +3702,14 @@ export default {
               let vm = this;
 
               try {
-
                 // G+TV本月各周用户发展数据 row4 yd responses0 =》 responses20 周
                 let single_week_data = response.data.responses; //总数据
                 let week_user_develop =
-                  responses20.aggregations.statistical_granularity
-                    .buckets;
+                  responses20.aggregations.statistical_granularity.buckets;
                 // console.log(responses20);
-                week_user_develop = commonTools.bucketsSort_WM(week_user_develop);  // 排序
+                week_user_develop = commonTools.bucketsSort_WM_CrossYear(
+                  week_user_develop
+                ); // 排序
 
                 week_user_develop.forEach((value, index) => {
                   let week_data = commonTools.format_weekToChinese(value.key);
@@ -3688,7 +3740,13 @@ export default {
                     week_area_temp[9 - index].push(
                       commonTools.acConvert_Single(value.key)
                     );
-                    value.statistical_granularity.buckets.forEach(
+                    // 排序！▲查缺补漏
+                    let value_buckets = value.statistical_granularity.buckets;
+                    value_buckets = commonTools.bucketsSort_WM_CrossYear(
+                      value_buckets
+                    ); // 排序
+                    value_buckets.forEach(
+                      // value.statistical_granularity.buckets.forEach(
                       (value2, index2) => {
                         //设置月份（只执行一次）
                         if (index == 0) {
@@ -3724,7 +3782,8 @@ export default {
               try {
                 buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
-                buckets_11 = commonTools.bucketsSort_WM(buckets_11);  // 排序  
+                buckets_11 = commonTools.bucketsSort_WM_CrossYear(buckets_11); // 排序
+                console.log(buckets_11);
                 length_11 = buckets_11.length;
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
@@ -3741,19 +3800,31 @@ export default {
                     title:
                       commonTools.format_weekToChinese(buckets_11[i_11].key) +
                       "直播收视用户（万户）",
-                    data: []
+                    data: [
+                      { value: 0, name: "移动" },
+                      { value: 0, name: "联通" },
+                      { value: 0, name: "电信" }
+                    ]
                   });
                   temp_weekLiveViewTimesData_content.push({
                     title:
                       commonTools.format_weekToChinese(buckets_11[i_11].key) +
                       "直播收视次（万次）",
-                    data: []
+                    data: [
+                      { value: 0, name: "移动" },
+                      { value: 0, name: "联通" },
+                      { value: 0, name: "电信" }
+                    ]
                   });
                   temp_weekliveViewDurationData_content.push({
                     title:
                       commonTools.format_weekToChinese(buckets_11[i_11].key) +
                       "直播收视时（万小时）",
-                    data: []
+                    data: [
+                      { value: 0, name: "移动" },
+                      { value: 0, name: "联通" },
+                      { value: 0, name: "电信" }
+                    ]
                   });
                 }
                 setTimeout(function() {
@@ -3793,12 +3864,45 @@ export default {
                       name: "移动"
                     });
                   }
+                  console.log(vm.weekliveViewDurationData.content);
                 }, 500); // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
                 vm.weekLiveViewUserData.content = [];
                 vm.weekLiveViewTimesData.content = [];
                 vm.weekliveViewDurationData.content = [];
+
+                // setTimeout(function() {
+                //   vm.weekLiveViewUserData.content = [];
+                //   vm.weekLiveViewTimesData.content = [];
+                //   vm.weekliveViewDurationData.content = [];
+
+                //   let onlive_dur_yd = [];
+                //   let onlive_usernum_yd = [];
+                //   let onlive_freq_yd = [];
+                //   let length_11 = buckets_11.length;
+                //   let i_11;
+                //   for (i_11 = 0; i_11 < length_11; i_11++) {
+                //     onlive_usernum_yd.push(0);
+                //     onlive_freq_yd.push(0);
+                //     onlive_dur_yd.push(0);
+                //   }
+
+                //   for (i_11 = 0; i_11 < length_11; i_11++) {
+                //     Vue.set(vm.weekLiveViewUserData.content[i_11].data, 0, {
+                //       value: onlive_usernum_yd[i_11],
+                //       name: "移动"
+                //     });
+                //     Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 0, {
+                //       value: onlive_freq_yd[i_11],
+                //       name: "移动"
+                //     });
+                //     Vue.set(vm.weekliveViewDurationData.content[i_11].data, 0, {
+                //       value: onlive_dur_yd[i_11],
+                //       name: "移动"
+                //     });
+                //   }
+                // }, 500); // 移动延时 1 // 联通/电信延时 2
               }
 
               // //////////////// 本土原创节目收视行为分析 row19 right  responses18 （周不变） yd
@@ -3807,7 +3911,9 @@ export default {
               try {
                 let buckets19_demand =
                   responses18.aggregations.statistical_granularity.buckets;
-                buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序
+                buckets19_demand = commonTools.bucketsSort_WM_CrossYear(
+                  buckets19_demand
+                ); // 排序
                 let length_19 = buckets19_demand.length; //月的长度
                 let i_19;
                 // 注： q1 -  直播 onlive
@@ -3849,9 +3955,10 @@ export default {
               try {
                 // G+TV本月各周用户发展数据 row4 lt responses0 =》 responses20 周
                 let week_user_develop =
-                  responses20.aggregations.statistical_granularity
-                    .buckets;
-                week_user_develop = commonTools.bucketsSort_WM(week_user_develop);  // 排序
+                  responses20.aggregations.statistical_granularity.buckets;
+                week_user_develop = commonTools.bucketsSort_WM_CrossYear(
+                  week_user_develop
+                ); // 排序
                 week_user_develop.forEach((value, index) => {
                   let week_data = commonTools.format_weekToChinese(value.key);
                   Vue.set(vm.weekNewUserData.data[0], index + 1, week_data);
@@ -3863,8 +3970,7 @@ export default {
                 });
 
                 // G+TV各周分地区用户发展数据概览 row5 lt responses0 =》 responses20 周
-                let week_area_data =
-                  responses20.aggregations.ac.buckets; // ac 不用排序
+                let week_area_data = responses20.aggregations.ac.buckets; // ac 不用排序
                 let week_area_temp = [
                   ["时间"],
                   [],
@@ -3882,7 +3988,13 @@ export default {
                     week_area_temp[9 - index].push(
                       commonTools.acConvert_Single(value.key)
                     );
-                    value.statistical_granularity.buckets.forEach(
+                    // 排序！▲查缺补漏
+                    let value_buckets = value.statistical_granularity.buckets;
+                    value_buckets = commonTools.bucketsSort_WM_CrossYear(
+                      value_buckets
+                    ); // 排序
+                    value_buckets.forEach(
+                      // value.statistical_granularity.buckets.forEach(
                       (value2, index2) => {
                         //设置月份（只执行一次）
                         if (index == 0) {
@@ -3909,7 +4021,9 @@ export default {
               try {
                 let buckets19_demand =
                   responses18.aggregations.statistical_granularity.buckets;
-                buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序 
+                buckets19_demand = commonTools.bucketsSort_WM_CrossYear(
+                  buckets19_demand
+                ); // 排序
                 let length_19 = buckets19_demand.length; //月的长度
                 let i_19;
                 // 注： q1 -  直播 onlive
@@ -3932,208 +4046,6 @@ export default {
                 console.log(error);
                 Vue.set(vm.originalProgramsDemandData.data, 2, []);
               }
-            } else if (type == "dx") {
-              // console.log("■■■■■■■■■■电信 单运营商一月分周", tempOperatorArr);
-              // console.log(response.data.responses);
-
-              let vm = this;
-              let single_week_data = response.data.responses; //总数据
-
-              try {
-                // G+TV本月各周用户发展数据 row4 dx responses0 =》 responses20 周
-                let week_user_develop =
-                  responses20.aggregations.statistical_granularity
-                    .buckets;
-                week_user_develop = commonTools.bucketsSort_WM(week_user_develop);  // 排序
-                week_user_develop.forEach((value, index) => {
-                  let week_data = commonTools.format_weekToChinese(value.key);
-                  Vue.set(vm.weekNewUserData.data[0], index + 1, week_data);
-                  Vue.set(
-                    vm.weekNewUserData.data[3],
-                    index + 1,
-                    Number((value.new_num.value / 10000).toFixed(2))
-                  );
-                });
-
-                // G+TV各周分地区用户发展数据概览 row5 dx responses0 =》 responses20 周
-                let week_area_data =
-                  responses20.aggregations.ac.buckets;  // ac 不用排序
-
-                let week_area_temp = [
-                  ["时间"],
-                  [],
-                  [],
-                  [],
-                  [],
-                  [],
-                  [],
-                  [],
-                  [],
-                  []
-                ];
-                week_area_data.forEach((value, index) => {
-                  if (value.key != "other") {
-                    week_area_temp[9 - index].push(
-                      commonTools.acConvert_Single(value.key)
-                    );
-                    value.statistical_granularity.buckets.forEach(
-                      (value2, index2) => {
-                        //设置月份（只执行一次）
-                        if (index == 0) {
-                          let data_week = commonTools.format_weekToChinese(
-                            value2.key
-                          );
-                          week_area_temp[0].push(data_week);
-                        }
-                        week_area_temp[9 - index].push(
-                          Number((value2.new_num.value / 1000).toFixed(2))
-                        );
-                      }
-                    );
-                  }
-                });
-                vm.telecomNewUserData.data = week_area_temp;
-              } catch (error) {
-                console.log(error);
-              }
-              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 （周不变） dx
-              // 原创节目月点播数据 single week
-              // 类似结构：  row14 responses1 left
-              try {
-                let buckets19_demand =
-                  responses18.aggregations.statistical_granularity.buckets;
-                buckets19_demand = commonTools.bucketsSort_WM(buckets19_demand);  // 排序 
-                let length_19 = buckets19_demand.length; //月的长度
-                let i_19;
-                // 注： q1 -  直播 onlive
-                // 注： q2 -  回看 watch
-                // 注： q3 -  点播 demand
-                let q3_f_19 = [];
-                let temp_monthDemandData = [["电信"]];
-                for (i_19 = 0; i_19 < length_19; i_19++) {
-                  q3_f_19.push(buckets19_demand[i_19].demand_freq.value);
-                  temp_monthDemandData[0].push(
-                    vm.returnFloat(parseFloat(q3_f_19[i_19]))
-                  );
-                } // for
-                Vue.set(
-                  vm.originalProgramsDemandData.data,
-                  3,
-                  temp_monthDemandData[0]
-                );
-              } catch (error) {
-                console.log(error);
-                Vue.set(vm.originalProgramsDemandData.data, 3, []);
-              }
-            }
-          }
-
-          ////运营商 - 一月分天
-          if (datatype == "single" && timetype == "day") {
-            if (type == "yd") {
-              // console.log("■■■■■■■■■■移动 单运营商一月分天", tempOperatorArr);
-              // console.log(response.data.responses);
-              let vm = this;
-
-              // G+TV本月每日用户发展数据 -- 每月日新增在册用户数 row6 responses0 （天不变） yd
-              try {
-                let single_day_data = response.data.responses;
-                let day_new_num_data =
-                  single_day_data[0].aggregations.statistical_granularity.buckets;
-                day_new_num_data.forEach((value, index) => {
-                  let setDate = new Date(value.key);
-                  let setdateYear = setDate.getFullYear() + "年";
-                  let setDateMonth = setDate.getMonth() + 1 + "月";
-                  let setDateDay = setDate.getDate() + "日";
-                  let dayDate = setDateMonth + setDateDay;
-                  vm.everyDayUserData.title =
-                    setDateMonth + "每日新增在册用户数（千户）";
-                  Vue.set(vm.everyDayUserData.data[0], index + 1, dayDate);
-                  Vue.set(
-                    vm.everyDayUserData.data[1],
-                    index + 1,
-                    Number((value.new_num.value / 1000).toFixed(2))
-                  );
-                });
-              } catch (error) {
-                console.log(error);
-              }
-
-              // //////////////////// 日开机活跃数据  row8 responses0 （天不变） -- everyPowerActivityData 1
-              // ▲▲ 注意 总开机活跃(temp_8_4) 看  mixture_day
-              // 开机率 = 开机用户/新增用户  = open_num/new_num
-              try {
-                let temp_8_0 = [];
-                let temp_8_1 = [];
-                let buckets_8 =
-                  responses0.aggregations.statistical_granularity.buckets;
-                let length_8 = buckets_8.length;
-                let i_8;
-                temp_8_0.push("product");
-                temp_8_1.push("移动");
-                for (i_8 = 0; i_8 < length_8; i_8++) {
-                  temp_8_0.push(
-                    commonTools.format_dateToChineseMD(buckets_8[i_8].key)
-                  );
-                  temp_8_1.push(
-                    (
-                      buckets_8[i_8].open_num.value /
-                      buckets_8[i_8].new_num.value
-                    ).toFixed(2)
-                  );
-                }
-                Vue.set(vm.everyPowerActivityData.data, 0, temp_8_0);
-                Vue.set(vm.everyPowerActivityData.data, 1, temp_8_1);
-              } catch (error) {
-                console.log(error);
-                Vue.set(vm.everyPowerActivityData.data, 0, []);
-                Vue.set(vm.everyPowerActivityData.data, 1, []);
-              }
-            } // yd
-
-            if (type == "lt") {
-              // console.log("■■■■■■■■■■联通 单运营商一月分天", tempOperatorArr);
-              // console.log(response.data.responses);
-
-              let vm = this;
-              // G+TV本月每日用户发展数据 -- 每月日新增在册用户数 row6 responses0 （天不变） lt
-              try {
-                let single_day_data = response.data.responses;
-                
-                let day_new_num_data =
-                  single_day_data[0].aggregations.statistical_granularity.buckets;
-                day_new_num_data.forEach((value, index) => {
-                  Vue.set(
-                    vm.everyDayUserData.data[2],
-                    index + 1,
-                    Number((value.new_num.value / 1000).toFixed(2))
-                  );
-                });
-              } catch (error) {
-                console.log(error);
-              }
-
-              // //////////////////// 日开机活跃数据  row8 responses0 （天不变） -- everyPowerActivityData 2
-              try {
-                let temp_8_2 = [];
-                let buckets_8 =
-                  responses0.aggregations.statistical_granularity.buckets;
-                let length_8 = buckets_8.length;
-                let i_8;
-                temp_8_2.push("联通");
-                for (i_8 = 0; i_8 < length_8; i_8++) {
-                  temp_8_2.push(
-                    (
-                      buckets_8[i_8].open_num.value /
-                      buckets_8[i_8].new_num.value
-                    ).toFixed(2)
-                  );
-                }
-                Vue.set(vm.everyPowerActivityData.data, 2, temp_8_2);
-              } catch (error) {
-                console.log(error);
-                Vue.set(vm.everyPowerActivityData.data, 2, []);
-              }
               // /////////////// 本月各周直播收视日数据 responses2 （周不变）  row11 上  lt
               // 结构同 分month - single：yd lt dx
               // weekLiveViewUserData  onlive_user_num
@@ -4145,7 +4057,9 @@ export default {
               try {
                 buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
-                buckets_11 = commonTools.bucketsSort_WM(buckets_11);  // 排序  
+                buckets_11 = commonTools.bucketsSort_WM_CrossYear(buckets_11); // 排序
+                console.log(buckets_11);
+
                 length_11 = buckets_11.length;
                 let onlive_dur_yd = [];
                 let onlive_usernum_yd = [];
@@ -4185,52 +4099,138 @@ export default {
                       name: "联通"
                     });
                   }
+                  console.log(vm.weekliveViewDurationData.content);
                 }, 1000); // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
-                onlive_dur_yd = [];
-                onlive_usernum_yd = [];
-                onlive_freq_yd = [];
-                for (i_11 = 0; i_11 < length_11; i_11++) {
-                  onlive_usernum_yd.push(0);
-                  onlive_freq_yd.push(0);
-                  onlive_dur_yd.push(0);
-                }
-                for (i_11 = 0; i_11 < length_11; i_11++) {
-                  Vue.set(vm.weekLiveViewUserData.content[i_11].data, 1, {
-                    value: onlive_usernum_yd[i_11],
-                    name: "联通"
-                  });
-                  Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 1, {
-                    value: onlive_freq_yd[i_11],
-                    name: "联通"
-                  });
-                  Vue.set(vm.weekliveViewDurationData.content[i_11].data, 1, {
-                    value: onlive_dur_yd[i_11],
-                    name: "联通"
-                  });
-                }
+                // setTimeout(function() {
+                //   let onlive_dur_yd = [];
+                //   let onlive_usernum_yd = [];
+                //   let onlive_freq_yd = [];
+                //   let length_11 = buckets_11.length;
+                //   let i_11;
+
+                //   for (i_11 = 0; i_11 < length_11; i_11++) {
+                //     onlive_usernum_yd.push(0);
+                //     onlive_freq_yd.push(0);
+                //     onlive_dur_yd.push(0);
+                //   }
+                //   for (i_11 = 0; i_11 < length_11; i_11++) {
+                //     Vue.set(vm.weekLiveViewUserData.content[i_11].data, 1, {
+                //       value: onlive_usernum_yd[i_11],
+                //       name: "联通"
+                //     });
+                //     Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 1, {
+                //       value: onlive_freq_yd[i_11],
+                //       name: "联通"
+                //     });
+                //     Vue.set(vm.weekliveViewDurationData.content[i_11].data, 1, {
+                //       value: onlive_dur_yd[i_11],
+                //       name: "联通"
+                //     });
+                //   }
+                // }, 1000); // 移动延时 1 // 联通/电信延时 2
               }
-            }
-            if (type == "dx") {
-              // console.log("■■■■■■■■■■电信 单运营商一月分天", tempOperatorArr);
+            } else if (type == "dx") {
+              // console.log("■■■■■■■■■■电信 单运营商一月分周", tempOperatorArr);
               // console.log(response.data.responses);
 
               let vm = this;
-              // G+TV本月每日用户发展数据 -- 每月日新增在册用户数 row6 responses0 （天不变） dx
+              let single_week_data = response.data.responses; //总数据
+
               try {
-                let single_day_data = response.data.responses;
-                let day_new_num_data =
-                  single_day_data[0].aggregations.statistical_granularity.buckets;
-                day_new_num_data.forEach((value, index) => {
+                // G+TV本月各周用户发展数据 row4 dx responses0 =》 responses20 周
+                let week_user_develop =
+                  responses20.aggregations.statistical_granularity.buckets;
+                week_user_develop = commonTools.bucketsSort_WM_CrossYear(
+                  week_user_develop
+                ); // 排序
+                week_user_develop.forEach((value, index) => {
+                  let week_data = commonTools.format_weekToChinese(value.key);
+                  Vue.set(vm.weekNewUserData.data[0], index + 1, week_data);
                   Vue.set(
-                    vm.everyDayUserData.data[3],
+                    vm.weekNewUserData.data[3],
                     index + 1,
-                    Number((value.new_num.value / 1000).toFixed(2))
+                    Number((value.new_num.value / 10000).toFixed(2))
                   );
                 });
+
+                // G+TV各周分地区用户发展数据概览 row5 dx responses0 =》 responses20 周
+                let week_area_data = responses20.aggregations.ac.buckets; // ac 不用排序
+
+                let week_area_temp = [
+                  ["时间"],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  []
+                ];
+                week_area_data.forEach((value, index) => {
+                  if (value.key != "other") {
+                    week_area_temp[9 - index].push(
+                      commonTools.acConvert_Single(value.key)
+                    );
+                    // 排序！▲查缺补漏
+                    let value_buckets = value.statistical_granularity.buckets;
+                    value_buckets = commonTools.bucketsSort_WM_CrossYear(
+                      value_buckets
+                    ); // 排序
+                    value_buckets.forEach(
+                      // value.statistical_granularity.buckets.forEach(
+                      (value2, index2) => {
+                        //设置月份（只执行一次）
+                        if (index == 0) {
+                          let data_week = commonTools.format_weekToChinese(
+                            value2.key
+                          );
+                          week_area_temp[0].push(data_week);
+                        }
+                        week_area_temp[9 - index].push(
+                          Number((value2.new_num.value / 1000).toFixed(2))
+                        );
+                      }
+                    );
+                  }
+                });
+                vm.telecomNewUserData.data = week_area_temp;
               } catch (error) {
                 console.log(error);
+              }
+              // //////////////// 本土原创节目收视行为分析 row19 right  responses18 （周不变） dx
+              // 原创节目月点播数据 single week
+              // 类似结构：  row14 responses1 left
+              try {
+                let buckets19_demand =
+                  responses18.aggregations.statistical_granularity.buckets;
+                buckets19_demand = commonTools.bucketsSort_WM_CrossYear(
+                  buckets19_demand
+                ); // 排序
+                let length_19 = buckets19_demand.length; //月的长度
+                let i_19;
+                // 注： q1 -  直播 onlive
+                // 注： q2 -  回看 watch
+                // 注： q3 -  点播 demand
+                let q3_f_19 = [];
+                let temp_monthDemandData = [["电信"]];
+                for (i_19 = 0; i_19 < length_19; i_19++) {
+                  q3_f_19.push(buckets19_demand[i_19].demand_freq.value);
+                  temp_monthDemandData[0].push(
+                    vm.returnFloat(parseFloat(q3_f_19[i_19]))
+                  );
+                } // for
+                Vue.set(
+                  vm.originalProgramsDemandData.data,
+                  3,
+                  temp_monthDemandData[0]
+                );
+              } catch (error) {
+                console.log(error);
+                Vue.set(vm.originalProgramsDemandData.data, 3, []);
               }
 
               // /////////////// 本月各周直播收视日数据 responses2（周不变）  row11 上  dx
@@ -4247,7 +4247,9 @@ export default {
               try {
                 buckets_11 =
                   responses2.aggregations.statistical_granularity.buckets;
-                buckets_11 = commonTools.bucketsSort_WM(buckets_11);  // 排序
+                buckets_11 = commonTools.bucketsSort_WM_CrossYear(buckets_11); // 排序
+                console.log(buckets_11);
+
                 length_11 = buckets_11.length;
                 onlive_dur_yd = [];
                 onlive_usernum_yd = [];
@@ -4286,31 +4288,171 @@ export default {
                       name: "电信"
                     });
                   }
+                  console.log(vm.weekliveViewDurationData.content);
                 }, 1000); // 移动延时 1 // 联通/电信延时 2
               } catch (error) {
                 console.log(error);
-                onlive_dur_yd = [];
-                onlive_usernum_yd = [];
-                onlive_freq_yd = [];
-                for (i_11 = 0; i_11 < length_11; i_11++) {
-                  onlive_usernum_yd.push(0);
-                  onlive_freq_yd.push(0);
-                  onlive_dur_yd.push(0);
+                // setTimeout(function() {
+                //   let onlive_dur_yd = [];
+                //   let onlive_usernum_yd = [];
+                //   let onlive_freq_yd = [];
+                //   let length_11 = buckets_11.length;
+                //   let i_11;
+                //   for (i_11 = 0; i_11 < length_11; i_11++) {
+                //     onlive_usernum_yd.push(0);
+                //     onlive_freq_yd.push(0);
+                //     onlive_dur_yd.push(0);
+                //   }
+                //   for (i_11 = 0; i_11 < length_11; i_11++) {
+                //     Vue.set(vm.weekLiveViewUserData.content[i_11].data, 2, {
+                //       value: onlive_usernum_yd[i_11],
+                //       name: "电信"
+                //     });
+                //     Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 2, {
+                //       value: onlive_freq_yd[i_11],
+                //       name: "电信"
+                //     });
+                //     Vue.set(vm.weekliveViewDurationData.content[i_11].data, 2, {
+                //       value: onlive_dur_yd[i_11],
+                //       name: "电信"
+                //     });
+                //   }
+                // }, 1000); // 移动延时 1 // 联通/电信延时 2
+              }
+            }
+          }
+
+          ////运营商 - 一月分天
+          if (datatype == "single" && timetype == "day") {
+            if (type == "yd") {
+              // console.log("■■■■■■■■■■移动 单运营商一月分天", tempOperatorArr);
+              // console.log(response.data.responses);
+              let vm = this;
+
+              // G+TV本月每日用户发展数据 -- 每月日新增在册用户数 row6 responses0 （天不变） yd
+              try {
+                let single_day_data = response.data.responses;
+                let day_new_num_data =
+                  single_day_data[0].aggregations.statistical_granularity
+                    .buckets;
+                day_new_num_data.forEach((value, index) => {
+                  let setDate = new Date(value.key);
+                  let setdateYear = setDate.getFullYear() + "年";
+                  let setDateMonth = setDate.getMonth() + 1 + "月";
+                  let setDateDay = setDate.getDate() + "日";
+                  let dayDate = setDateMonth + setDateDay;
+                  vm.everyDayUserData.title =
+                    setDateMonth + "每日新增在册用户数（千户）";
+                  Vue.set(vm.everyDayUserData.data[0], index + 1, dayDate);
+                  Vue.set(
+                    vm.everyDayUserData.data[1],
+                    index + 1,
+                    Number((value.new_num.value / 1000).toFixed(2))
+                  );
+                });
+              } catch (error) {
+                console.log(error);
+              }
+
+              // //////////////////// 日开机活跃数据  row8 responses0 （天不变） -- everyPowerActivityData 1
+              // ▲▲ 注意 总开机活跃(temp_8_4) 看  mixture_day
+              // 开机率 = 开机用户/新增用户  = open_num/new_num
+              try {
+                let temp_8_0 = [];
+                let temp_8_1 = [];
+                let buckets_8 =
+                  responses0.aggregations.statistical_granularity.buckets;
+                let length_8 = buckets_8.length;
+                let i_8;
+                temp_8_0.push("product");
+                temp_8_1.push("移动");
+                for (i_8 = 0; i_8 < length_8; i_8++) {
+                  temp_8_0.push(
+                    commonTools.format_dateToChineseMD(buckets_8[i_8].key)
+                  );
+                  temp_8_1.push(
+                    // buckets_8[i_8].open_num.value / buckets_8[i_8].new_num.value
+                    (
+                      buckets_8[i_8].open_num.value /
+                      buckets_8[i_8].register_num.value * 100
+                    ).toFixed(2)
+                  );
                 }
-                for (i_11 = 0; i_11 < length_11; i_11++) {
-                  Vue.set(vm.weekLiveViewUserData.content[i_11].data, 2, {
-                    value: onlive_usernum_yd[i_11],
-                    name: "电信"
-                  });
-                  Vue.set(vm.weekLiveViewTimesData.content[i_11].data, 2, {
-                    value: onlive_freq_yd[i_11],
-                    name: "电信"
-                  });
-                  Vue.set(vm.weekliveViewDurationData.content[i_11].data, 2, {
-                    value: onlive_dur_yd[i_11],
-                    name: "电信"
-                  });
+                Vue.set(vm.everyPowerActivityData.data, 0, temp_8_0);
+                Vue.set(vm.everyPowerActivityData.data, 1, temp_8_1);
+              } catch (error) {
+                console.log(error);
+                Vue.set(vm.everyPowerActivityData.data, 0, []);
+                Vue.set(vm.everyPowerActivityData.data, 1, []);
+              }
+            } // yd
+
+            if (type == "lt") {
+              // console.log("■■■■■■■■■■联通 单运营商一月分天", tempOperatorArr);
+              // console.log(response.data.responses);
+
+              let vm = this;
+              // G+TV本月每日用户发展数据 -- 每月日新增在册用户数 row6 responses0 （天不变） lt
+              try {
+                let single_day_data = response.data.responses;
+
+                let day_new_num_data =
+                  single_day_data[0].aggregations.statistical_granularity
+                    .buckets;
+                day_new_num_data.forEach((value, index) => {
+                  Vue.set(
+                    vm.everyDayUserData.data[2],
+                    index + 1,
+                    Number((value.new_num.value / 1000).toFixed(2))
+                  );
+                });
+              } catch (error) {
+                console.log(error);
+              }
+
+              // //////////////////// 日开机活跃数据  row8 responses0 （天不变） -- everyPowerActivityData 2
+              try {
+                let temp_8_2 = [];
+                let buckets_8 =
+                  responses0.aggregations.statistical_granularity.buckets;
+                let length_8 = buckets_8.length;
+                let i_8;
+                temp_8_2.push("联通");
+                for (i_8 = 0; i_8 < length_8; i_8++) {
+                  temp_8_2.push(
+                    // buckets_8[i_8].open_num.value / buckets_8[i_8].new_num.value
+                    (
+                      buckets_8[i_8].open_num.value /
+                      buckets_8[i_8].register_num.value * 100
+                    ).toFixed(2)
+                  );
                 }
+                Vue.set(vm.everyPowerActivityData.data, 2, temp_8_2);
+              } catch (error) {
+                console.log(error);
+                Vue.set(vm.everyPowerActivityData.data, 2, []);
+              }
+            }
+            if (type == "dx") {
+              // console.log("■■■■■■■■■■电信 单运营商一月分天", tempOperatorArr);
+              // console.log(response.data.responses);
+
+              let vm = this;
+              // G+TV本月每日用户发展数据 -- 每月日新增在册用户数 row6 responses0 （天不变） dx
+              try {
+                let single_day_data = response.data.responses;
+                let day_new_num_data =
+                  single_day_data[0].aggregations.statistical_granularity
+                    .buckets;
+                day_new_num_data.forEach((value, index) => {
+                  Vue.set(
+                    vm.everyDayUserData.data[3],
+                    index + 1,
+                    Number((value.new_num.value / 1000).toFixed(2))
+                  );
+                });
+              } catch (error) {
+                console.log(error);
               }
 
               // //////////////////// 日开机活跃数据  row8 responses0 （天不变）-- everyPowerActivityData 3
@@ -4323,9 +4465,10 @@ export default {
                 temp_8_3.push("电信");
                 for (i_8 = 0; i_8 < length_8; i_8++) {
                   temp_8_3.push(
+                    // buckets_8[i_8].open_num.value / buckets_8[i_8].new_num.value
                     (
                       buckets_8[i_8].open_num.value /
-                      buckets_8[i_8].new_num.value
+                      buckets_8[i_8].register_num.value * 100
                     ).toFixed(2)
                   );
                 }
@@ -4335,6 +4478,39 @@ export default {
                 Vue.set(vm.everyPowerActivityData.data, 3, []);
               }
             } // dx
+          }
+          //混合单月多天数据
+          if (datatype == "mixture" && timetype == "day") {
+            // console.log("■■■■■■■■■■混合 单月多天数据", response.data.responses);
+
+            try {
+              // //////////////////// 日开机活跃数据  row8 responses0 (天不变) -- everyPowerActivityData 1
+              // ▲▲ 注意 总开机活跃(temp_8_4) 看  mixture_day
+              let temp_8_4 = [];
+              let buckets_8 =
+                responses0.aggregations.statistical_granularity.buckets;
+              let length_8 = buckets_8.length;
+              let i_8;
+              temp_8_4.push("总开机活跃");
+              for (i_8 = 0; i_8 < length_8; i_8++) {
+                // temp_8_4.push(
+                //   (
+                //     // buckets_8[i_8].open_num.value / buckets_8[i_8].new_num.value
+                //     buckets_8[i_8].open_num.value / buckets_8[i_8].register_num.value
+                //   ).toFixed(2)
+                // );
+                temp_8_4.push(
+                  (
+                    buckets_8[i_8].open_num.value /
+                    buckets_8[i_8].register_num.value * 100
+                  ).toFixed(2)
+                );
+              }
+              Vue.set(vm.everyPowerActivityData.data, 4, temp_8_4);
+            } catch (error) {
+              console.log(error);
+              Vue.set(vm.everyPowerActivityData.data, 4, []);
+            }
           }
         })
         .catch(error => {
@@ -4684,6 +4860,11 @@ export default {
         id: "everyPowerActivity",
         color: ["#5B9BD4", "#EC7C30", "#A4A4A4", "#FFC000"],
         data: [
+          ["name"],
+          ["移动"],
+          ["联通"],
+          ["电信"],
+          ["总开机率"]
           // [
           //   "product",
           //   "7月1日",

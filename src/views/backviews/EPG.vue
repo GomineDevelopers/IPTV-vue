@@ -412,7 +412,8 @@ export default {
       formData.append("year", temp.year);
 
       //设置二次请求的temp
-      let last_temp = {
+      // 一次请求用date，当前周月 // 二次请求end为当前周月，start上周月（年由后台判断，前端排序）
+      let last_temp = {  
         operator: temp.operator,
         list: temp.list,
         start: null,
@@ -422,12 +423,30 @@ export default {
       };
       //设置上周或者上月的时间选项
       let last_date;
-      if (time_type == 1) {
+      // if (time_type == 1) {
+      //   last_date = temp.date.replace(/[^0-9]/gi, "") - 1;
+      //   last_temp.start = last_date + "week";
+      // } else if (time_type == 2) {
+      //   last_date = temp.date.replace(/[^0-9]/gi, "") - 1;
+      //   last_temp.start = last_date + "month";
+      // }
+      // 跨年处理
+      if (time_type == 1) {     // 周
         last_date = temp.date.replace(/[^0-9]/gi, "") - 1;
-        last_temp.start = last_date + "week";
-      } else if (time_type == 2) {
+        if (last_date != 0) {
+          last_temp.start = last_date + "week";
+        } else if (last_date == 0) {
+          last_temp.start =
+            commonTools.return_AssignYear_FinalWeekNum(last_temp.year - 1) +
+            "week";
+        }
+      } else if (time_type == 2) { // 月
         last_date = temp.date.replace(/[^0-9]/gi, "") - 1;
-        last_temp.start = last_date + "month";
+        if (last_date != 0) {
+          last_temp.start = last_date + "month";
+        } else if (last_date == 0) {
+          last_temp.start = 12 + "month";
+        }
       }
       epg(formData)
         .then(response => {
@@ -437,7 +456,7 @@ export default {
             (vm.oneShow = true), //1.0 页面显示
               console.log("1.0版本选择0");
             let box_data = response.data.responses[0].hits.hits;
-            console.log("response.data", response.data);
+            // console.log("response.data", response.data);
             try {
               /*  */
               if (box_data[0]._source.areanumber) {
@@ -461,19 +480,29 @@ export default {
                 last_formData.append("year", String(last_temp.year));
                 promise_list.push(
                   epg_box_content(last_formData).then(response => {
+                    console.log("~~~~~~~~~~~~~~~~~~~~");
+                    console.log(response);
                     //此处是1.0版本 的box信息
-                    let responseVer1
+                    let responseVer1;
                     if (time_type == 1) {
                       //此处时间格式为周维度 responses[0]是周维度1.0版本的数据
-                      responseVer1 = response.data.responses[0]
-                      console.log("周1.0版本的box信息", response.data.responses)
+                      responseVer1 = response.data.responses[0];
+                      // console.log(
+                      //   "周1.0版本的box信息",
+                      //   response.data.responses
+                      // );
                     } else if (time_type == 2) {
                       //此处时间格式为月维度   responses[2]是月维度1.0版本的数据
-                      responseVer1 = response.data.responses[2]
-                      console.log("月1.0版本的box信息", response.data.responses)
+                      responseVer1 = response.data.responses[2];
+                      // console.log(
+                      //   "月1.0版本的box信息",
+                      //   response.data.responses
+                      // );
                     }
-                    let click_freq_num = responseVer1.aggregations.statistical_granularity.buckets;
-                    console.log("box名称：", areanumber)
+                    let click_freq_num =
+                      responseVer1.aggregations.statistical_granularity.buckets;
+                    click_freq_num = commonTools.bucketsSort_WM_CrossYear(click_freq_num); // 跨年处理
+                    // console.log("box名称：", areanumber);
                     //此处需要判断是否有上期数据
                     let last_click_freq_num = click_freq_num[1]
                       ? click_freq_num[0].click_freq.value
@@ -513,7 +542,7 @@ export default {
                 res.forEach(item => {
                   if (
                     !result[
-                    Number(item.title.substring(3, item.title.indexOf("_")))
+                      Number(item.title.substring(3, item.title.indexOf("_")))
                     ]
                   ) {
                     result[
@@ -525,7 +554,7 @@ export default {
                   ].push(item);
                 });
                 result.forEach(item => {
-                  item.sort(function (a, b) {
+                  item.sort(function(a, b) {
                     return (
                       Number(
                         a.title.substring(
@@ -572,16 +601,16 @@ export default {
             vm.programesListTwo = []; //初始化
 
             // vm.oneShow = false,  //1.0 页面显示
-            console.log("2.0版本选择1");
+            // console.log("2.0版本选择1");
             // console.log("2.0版本box", response.data.responses[0])
             let box_data = response.data.responses[1].hits.hits;
-            console.log("2.0,2.0,2.0------", box_data);
+            // console.log("2.0,2.0,2.0------", box_data);
             try {
               /*  */
               let promise_list = []; //存放所有的请求
               // if (box_data[0]._source.areanumber)  //若为空，则进入catch初始化数据
               box_data.forEach((value, index) => {
-                console.log("2.0box名称", value._source.areanumber);
+                // console.log("2.0box名称", value._source.areanumber);
                 let res_index = index;
                 let areanumber = value._source.areanumber;
                 last_temp.areanumber = areanumber;
@@ -598,19 +627,27 @@ export default {
                 last_formData.append("year", String(last_temp.year));
                 promise_list.push(
                   epg_box_content(last_formData).then(response => {
-                    let responseVer2
+                    let responseVer2;
                     if (time_type == 1) {
                       //此处时间格式为周维度 responses[1]是周维度2.0版本的数据
-                      responseVer2 = response.data.responses[1]
-                      console.log("周2.0版本的box信息", response.data.responses)
+                      responseVer2 = response.data.responses[1];
+                      // console.log(
+                      //   "周2.0版本的box信息",
+                      //   response.data.responses
+                      // );
                     } else if (time_type == 2) {
                       //此处时间格式为月维度   responses[3]是月维度2.0版本的数据
-                      responseVer2 = response.data.responses[3]
-                      console.log("月2.0版本的box信息", response.data.responses)
+                      responseVer2 = response.data.responses[3];
+                      // console.log(
+                      //   "月2.0版本的box信息",
+                      //   response.data.responses
+                      // );
                     }
                     //此处是2.0版本 的box信息
-                    console.log("box名称：", areanumber);
-                    let click_freq_num = responseVer2.aggregations.statistical_granularity.buckets;
+                    // console.log("box名称：", areanumber);
+                    let click_freq_num =
+                      responseVer2.aggregations.statistical_granularity.buckets;
+                    click_freq_num = commonTools.bucketsSort_WM_CrossYear(click_freq_num); // 跨年处理
                     // console.log("box详细信息", click_freq_num)
                     //此处需要判断是否有上期数据
                     let last_click_freq_num = click_freq_num[1]
@@ -666,7 +703,7 @@ export default {
                 res.forEach(item => {
                   if (
                     !result[
-                    Number(item.title.substring(3, item.title.indexOf("_")))
+                      Number(item.title.substring(3, item.title.indexOf("_")))
                     ]
                   ) {
                     result[
@@ -678,7 +715,7 @@ export default {
                   ].push(item);
                 });
                 result.forEach(item => {
-                  item.sort(function (a, b) {
+                  item.sort(function(a, b) {
                     return (
                       Number(
                         a.title.substring(
@@ -731,8 +768,6 @@ export default {
               console.log(error);
             }
           }
-
-
         })
         .catch(error => {
           console.log("EPG", error);

@@ -338,7 +338,7 @@ export default {
           console.log(error);
         }
         try {
-          //各州市在册用户占比
+          // 各州市在册用户占比    // ▲▲ 跨年处理
           let temp_t;
           let temp_time_t = commonTools.split_WeeksDays_byDWwr(vm.PR_week); //本周时间
           let temp_operator;
@@ -349,14 +349,18 @@ export default {
           }
           temp_t = {
             operator: String([temp_operator]),
-            start: temp_time_t.weeksRange_end,
-            end: temp_time_t.weeksRange_end
+            start: temp_time_t.weeksRange_end, // 传周 - 58w  --正确
+            end: temp_time_t.weeksRange_end,    // 传周 - 58w
+            // start: temp_time_t.week_day_start,    // 传日 - 407w  --错误
+            // end: temp_time_t.week_day_end         // 传日 - 407w
+            year: temp_time_t.year
           };
           let formData_t = new FormData();
           formData_t = new window.FormData();
           formData_t.append("operator", temp_t.operator);
           formData_t.append("start", temp_t.start);
           formData_t.append("end", temp_t.end);
+          formData_t.append("year", temp_t.year); // 新增
           users_weekActiveReport(formData_t)
             .then(function(response_t) {
               // let blendedDataModule = vm.api_data_m1.data.responses; //总的混合数据

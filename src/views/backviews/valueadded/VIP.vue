@@ -877,7 +877,8 @@ export default {
             vm.orderViewingTopList_VIP.data = []; // 初始化
             let buckets_top;
             // if(vm.ADD_VIP_valueAddedPackage.length >= 1 && vm.ADD_VIP_valueAddedPackage.length < vm.ADD_VIP_package_list.length){
-            if (vm.ADD_VIP_valueAddedPackage.length != 0) {
+            // if (vm.ADD_VIP_valueAddedPackage.length != 0) {
+            if (vm.ADD_VIP_valueAddedPackage.length != 0 && vm.ADD_VIP_valueAddedPackage.length != vm.ADD_VIP_package_list.length) { // ▲change
               // 原-非全选`
               buckets_top =
                 response.data.responses[1].aggregations.programname.buckets;

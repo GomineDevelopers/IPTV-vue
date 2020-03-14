@@ -239,7 +239,7 @@ export default {
       // 获取权限by_id
       let vm = this;
       vm.current_choose_index = index;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       let user = String(vm.m_data[index].id);
       get_user_permissions_byid(newToken, user)
@@ -308,7 +308,7 @@ export default {
     authoritySubmit(index) {
       // console.log("post_users_permissions");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       let temp_format_options = [];
       let temp_authorizationChoose = vm.authorizationChoose;
@@ -360,7 +360,7 @@ export default {
       var formData = new FormData();
       var formData = new window.FormData();
       formData.append("permissions", temp.permissions);
-      // let user = this.$commonTools.getCookieCry("user");
+      // let user = this.$Utils.getCookieCry("user");
       // let user = "1";
       let user = String(vm.m_data[vm.current_choose_index].id);
       post_users_permissions(newToken, user, formData)
@@ -372,7 +372,7 @@ export default {
           // 重新获取当前登录账户权限 - 使刷新
           setTimeout(function () {
             // 权限判定
-            let token = vm.$commonTools.getCookie("user_token");
+            let token = vm.$Utils.getCookie("user_token");
             let newToken = token.replace('"', "").replace('"', "");
             get_user_permissions(newToken)
               .then(function (response) {
@@ -414,7 +414,7 @@ export default {
       // console.log("get_allusersinfo");
       let vm = this;
       vm.form.row = [];
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       get_allusersinfo(newToken)
         .then(function (response) {
@@ -453,7 +453,7 @@ export default {
       // console.log("del_user");
       let vm = this;
       let index = vm.current_choose_index;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       // let user = "3";
       let user = String(vm.m_data[index].id);
@@ -527,7 +527,7 @@ export default {
     update_users() {
       // console.log("update_users");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
       // let user = "2";
       let user = String(vm.m_data[vm.current_choose_index].id);
@@ -575,7 +575,7 @@ export default {
     create_users() {
       // console.log("create_users");
       let vm = this;
-      let token = vm.$commonTools.getCookie("user_token");
+      let token = vm.$Utils.getCookie("user_token");
       let newToken = token.replace('"', "").replace('"', "");
 
       // let temp = {
@@ -639,7 +639,7 @@ export default {
 </script>
 <style scoped>
 .hot_topics_control {
-  height: 550px;
+  /* height: 550px; */
 }
 .hot_topics_list_date {
   font-size: 14px;

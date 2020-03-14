@@ -168,7 +168,7 @@ export default {
       setInterval(vm.get, 1000);
 
       vm.drawLine();
-      let temp_status = vm.$commonTools.getCookieCry("bigscreenchoose");
+      let temp_status = vm.$Utils.getCookieCry("bigscreenchoose");
       if (
         temp_status == null ||
         temp_status == undefined ||
